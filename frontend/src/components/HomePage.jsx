@@ -1,0 +1,260 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
+import { categories, products } from '../mockData';
+import '../styles/glassmorphism.css';
+
+const HomePage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const footerLinks = [
+    { name: 'BEST PRODUCTS', path: '/best-products' },
+    { name: 'BUILDS', path: '/builds' },
+    { name: 'TEAM', path: '/team' },
+    { name: 'JOIN GUILD', path: '/join-guild' },
+    { name: 'PERSONAL DEVELOPMENTS', path: '/developments' },
+    { name: 'CONTACT INFORMATION', path: '/contact' },
+    { name: 'SUPPORT', path: '/support' },
+    { name: 'SUGGEST AN IDEA', path: '/suggest' }
+  ];
+
+  // Get featured products (products with originalPrice - on sale)
+  const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
+
+  return (
+    <div className="dark-bg" style={{ minHeight: '100vh', paddingTop: '6rem' }}>
+      <div className="grain-overlay" />
+      
+      {/* Hero Section */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '70vh',
+        padding: '2rem',
+        textAlign: 'center'
+      }}>
+        {/* Main Hero Text with Pulsing */}
+        <h1 
+          className="pulse-glow"
+          style={{
+            color: 'white',
+            fontSize: '5rem',
+            fontWeight: '900',
+            marginBottom: '3rem',
+            letterSpacing: '2px',
+            lineHeight: '1.1'
+          }}
+        >
+          RUNNING TO UPGRADE...
+        </h1>
+
+        {/* Search Dialog */}
+        <div className="search-dialog" style={{ maxWidth: '600px', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Search size={20} color="rgba(255, 255, 255, 0.6)" />
+            <input
+              type="text"
+              placeholder="Search for gaming gear, components, or builds..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div style={{
+        width: '100%',
+        height: '1px',
+        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+        margin: '3rem 0'
+      }} />
+
+      {/* Category Section */}
+      <div style={{ padding: '2rem 3rem' }}>
+        <h2 style={{
+          color: 'white',
+          fontSize: '1.5rem',
+          fontWeight: '700',
+          marginBottom: '2rem',
+          textAlign: 'center',
+          letterSpacing: '1px'
+        }}>
+          Explore the most popular products
+        </h2>
+
+        {/* Category Links */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+          marginBottom: '4rem'
+        }}>
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              to={`/category/${category.slug}`}
+              className="text-link"
+            >
+              {category.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Featured Products */}
+        <div style={{ marginTop: '4rem' }}>
+          <h3 style={{
+            color: 'white',
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            marginBottom: '2rem',
+            textAlign: 'center',
+            letterSpacing: '0.5px'
+          }}>
+            Featured Deals
+          </h3>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+            maxWidth: '1200px',
+            margin: '0 auto'
+          }}>
+            {featuredProducts.map((product) => (
+              <Link
+                key={product.id}
+                to={`/product/${product.id}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="product-card" style={{ padding: '1.5rem' }}>
+                  {/* Product Image */}
+                  <div style={{
+                    width: '100%',
+                    height: '200px',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    marginBottom: '1rem',
+                    background: 'rgba(0, 0, 0, 0.3)'
+                  }}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="no-transform-transition"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </div>
+
+                  {/* Product Info */}
+                  <div style={{ marginBottom: '0.75rem' }}>
+                    <div style={{
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      letterSpacing: '1px',
+                      marginBottom: '0.5rem',
+                      textTransform: 'uppercase'
+                    }}>
+                      {product.category}
+                    </div>
+                    <h4 style={{
+                      color: 'white',
+                      fontSize: '1.125rem',
+                      fontWeight: '600',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {product.name}
+                    </h4>
+                    <p style={{
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      fontSize: '0.875rem',
+                      lineHeight: '1.4'
+                    }}>
+                      {product.description}
+                    </p>
+                  </div>
+
+                  {/* Price and Status */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div>
+                      <div style={{
+                        color: 'white',
+                        fontSize: '1.5rem',
+                        fontWeight: '700'
+                      }}>
+                        ${product.price}
+                      </div>
+                      {product.originalPrice && (
+                        <div style={{
+                          color: 'rgba(255, 255, 255, 0.4)',
+                          fontSize: '0.875rem',
+                          textDecoration: 'line-through'
+                        }}>
+                          ${product.originalPrice}
+                        </div>
+                      )}
+                    </div>
+                    <div className="status-badge status-approved">
+                      {product.status.replace('_', ' ')}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div style={{
+        marginTop: '6rem',
+        padding: '3rem',
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)'
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          {footerLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="text-link"
+              style={{ textAlign: 'center' }}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Copyright */}
+        <div style={{
+          textAlign: 'center',
+          color: 'rgba(255, 255, 255, 0.3)',
+          fontSize: '0.875rem',
+          marginTop: '3rem',
+          letterSpacing: '0.5px'
+        }}>
+          © 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
