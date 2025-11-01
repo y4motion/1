@@ -144,7 +144,7 @@
 }
 
 /* LVL button special styling */
-.lvl-button {
+[data-theme='dark'] .lvl-button {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -161,11 +161,35 @@
   overflow: hidden;
 }
 
-.lvl-button:hover {
+[data-theme='light'] .lvl-button {
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #1a1a1a;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .lvl-button:hover {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .lvl-button:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Search dialog styling */
