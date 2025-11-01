@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { categories, products } from '../mockData';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { t } = useLanguage();
+  const { theme } = useTheme();
 
   const footerLinks = [
-    { name: 'BEST PRODUCTS', path: '/best-products' },
-    { name: 'BUILDS', path: '/builds' },
-    { name: 'TEAM', path: '/team' },
-    { name: 'JOIN GUILD', path: '/join-guild' },
-    { name: 'PERSONAL DEVELOPMENTS', path: '/developments' },
-    { name: 'CONTACT INFORMATION', path: '/contact' },
-    { name: 'SUPPORT', path: '/support' },
-    { name: 'SUGGEST AN IDEA', path: '/suggest' }
+    { name: t('footer.bestProducts'), path: '/best-products' },
+    { name: t('footer.builds'), path: '/builds' },
+    { name: t('footer.team'), path: '/team' },
+    { name: t('footer.joinGuild'), path: '/join-guild' },
+    { name: t('footer.personalDevelopments'), path: '/developments' },
+    { name: t('footer.contactInformation'), path: '/contact' },
+    { name: t('footer.support'), path: '/support' },
+    { name: t('footer.suggestIdea'), path: '/suggest' }
   ];
 
   // Get featured products (products with originalPrice - on sale)
@@ -39,7 +43,6 @@ const HomePage = () => {
         <h1 
           className="pulse-glow"
           style={{
-            color: 'white',
             fontSize: '5rem',
             fontWeight: '900',
             marginBottom: '3rem',
@@ -47,16 +50,16 @@ const HomePage = () => {
             lineHeight: '1.1'
           }}
         >
-          RUNNING TO UPGRADE...
+          {t('hero.title')}
         </h1>
 
         {/* Search Dialog */}
         <div className="search-dialog" style={{ maxWidth: '600px', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Search size={20} color="rgba(255, 255, 255, 0.6)" />
+            <Search size={20} style={{ color: theme === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)' }} />
             <input
               type="text"
-              placeholder="Search for gaming gear, components, or builds..."
+              placeholder={t('hero.searchPlaceholder')}
               className="search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -69,21 +72,22 @@ const HomePage = () => {
       <div style={{
         width: '100%',
         height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+        background: theme === 'dark' 
+          ? 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)'
+          : 'linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent)',
         margin: '3rem 0'
       }} />
 
       {/* Category Section */}
       <div style={{ padding: '2rem 3rem' }}>
         <h2 style={{
-          color: 'white',
           fontSize: '1.5rem',
           fontWeight: '700',
           marginBottom: '2rem',
           textAlign: 'center',
           letterSpacing: '1px'
         }}>
-          Explore the most popular products
+          {t('home.exploreTitle')}
         </h2>
 
         {/* Category Links */}
@@ -100,7 +104,7 @@ const HomePage = () => {
               to={`/category/${category.slug}`}
               className="text-link"
             >
-              {category.name}
+              {t(`categories.${category.slug}`)}
             </Link>
           ))}
         </div>
@@ -108,14 +112,13 @@ const HomePage = () => {
         {/* Featured Products */}
         <div style={{ marginTop: '4rem' }}>
           <h3 style={{
-            color: 'white',
             fontSize: '1.25rem',
             fontWeight: '600',
             marginBottom: '2rem',
             textAlign: 'center',
             letterSpacing: '0.5px'
           }}>
-            Featured Deals
+            {t('home.featuredDeals')}
           </h3>
           
           <div style={{
@@ -139,7 +142,7 @@ const HomePage = () => {
                     borderRadius: '8px',
                     overflow: 'hidden',
                     marginBottom: '1rem',
-                    background: 'rgba(0, 0, 0, 0.3)'
+                    background: theme === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.05)'
                   }}>
                     <img
                       src={product.image}
@@ -156,7 +159,7 @@ const HomePage = () => {
                   {/* Product Info */}
                   <div style={{ marginBottom: '0.75rem' }}>
                     <div style={{
-                      color: 'rgba(255, 255, 255, 0.5)',
+                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
                       fontSize: '0.75rem',
                       fontWeight: '600',
                       letterSpacing: '1px',
@@ -166,7 +169,6 @@ const HomePage = () => {
                       {product.category}
                     </div>
                     <h4 style={{
-                      color: 'white',
                       fontSize: '1.125rem',
                       fontWeight: '600',
                       marginBottom: '0.5rem'
@@ -174,7 +176,7 @@ const HomePage = () => {
                       {product.name}
                     </h4>
                     <p style={{
-                      color: 'rgba(255, 255, 255, 0.6)',
+                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                       fontSize: '0.875rem',
                       lineHeight: '1.4'
                     }}>
@@ -190,7 +192,6 @@ const HomePage = () => {
                   }}>
                     <div>
                       <div style={{
-                        color: 'white',
                         fontSize: '1.5rem',
                         fontWeight: '700'
                       }}>
@@ -198,7 +199,7 @@ const HomePage = () => {
                       </div>
                       {product.originalPrice && (
                         <div style={{
-                          color: 'rgba(255, 255, 255, 0.4)',
+                          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
                           fontSize: '0.875rem',
                           textDecoration: 'line-through'
                         }}>
@@ -207,13 +208,12 @@ const HomePage = () => {
                       )}
                     </div>
                     <div className="status-badge status-approved">
-                      {product.status.replace('_', ' ')}
+                      {t('product.approved')}
                     </div>
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            ))}</div>
         </div>
       </div>
 
@@ -221,7 +221,7 @@ const HomePage = () => {
       <div style={{
         marginTop: '6rem',
         padding: '3rem',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)'
+        borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.05)'
       }}>
         <div style={{
           display: 'grid',
@@ -245,12 +245,12 @@ const HomePage = () => {
         {/* Copyright */}
         <div style={{
           textAlign: 'center',
-          color: 'rgba(255, 255, 255, 0.3)',
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
           fontSize: '0.875rem',
           marginTop: '3rem',
           letterSpacing: '0.5px'
         }}>
-          © 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED
+          {t('home.copyright')}
         </div>
       </div>
     </div>
