@@ -1,0 +1,71 @@
+/* Mouse Follower Light/Blur Effect */
+.mouse-follower {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+}
+
+/* Dark theme - white light effect */
+.mouse-follower.dark {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.01) 60%,
+    transparent 100%
+  );
+  filter: blur(40px);
+}
+
+/* Light theme - subtle dark shadow effect */
+.mouse-follower.light {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.03) 0%,
+    rgba(0, 0, 0, 0.015) 30%,
+    rgba(0, 0, 0, 0.005) 60%,
+    transparent 100%
+  );
+  filter: blur(30px);
+}
+
+/* Enhanced effect on glass elements */
+.glass:hover,
+.product-card:hover,
+.text-link:hover,
+.lvl-button:hover {
+  position: relative;
+}
+
+.glass:hover::before,
+.product-card:hover::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme='dark'] .glass:hover::before,
+[data-theme='dark'] .product-card:hover::before {
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 70%
+  );
+}
+
+[data-theme='light'] .glass:hover::before,
+[data-theme='light'] .product-card:hover::before {
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 70%
+  );
+}

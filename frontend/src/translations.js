@@ -1,0 +1,162 @@
+export const translations = {
+  en: {
+    nav: {
+      catalog: 'CATALOG',
+      proGamer: 'PRO GAMER',
+      creator: 'CREATOR',
+      user: 'USER',
+      marketplace: 'MARKETPLACE',
+      restock: 'RESTOCK'
+    },
+    hero: {
+      title: 'RUNNING TO UPGRADE...',
+      searchPlaceholder: 'Search for gaming gear, components, or builds...'
+    },
+    home: {
+      exploreTitle: 'Explore the most popular products',
+      featuredDeals: 'Featured Deals',
+      copyright: '© 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED'
+    },
+    categories: {
+      mouse: 'MOUSE',
+      mousepad: 'MOUSEPAD',
+      keyboard: 'KEYBOARD',
+      pc: 'PC',
+      components: 'COMPONENTS',
+      monitor: 'MONITOR',
+      audio: 'AUDIO',
+      ergonomics: 'ERGONOMICS',
+      custom: 'CUSTOM'
+    },
+    footer: {
+      bestProducts: 'BEST PRODUCTS',
+      builds: 'BUILDS',
+      team: 'TEAM',
+      joinGuild: 'JOIN GUILD',
+      personalDevelopments: 'PERSONAL DEVELOPMENTS',
+      contactInformation: 'CONTACT INFORMATION',
+      support: 'SUPPORT',
+      suggestIdea: 'SUGGEST AN IDEA'
+    },
+    user: {
+      level: 'LVL',
+      cart: 'Cart',
+      messages: 'Messages',
+      accountSettings: 'Account Settings',
+      xpToNextLevel: 'XP to next level'
+    },
+    product: {
+      backTo: 'Back to',
+      backToHome: 'Back to Home',
+      productsAvailable: 'products available',
+      reviews: 'reviews',
+      sale: 'SALE',
+      inStock: 'IN STOCK',
+      outOfStock: 'OUT OF STOCK',
+      addToCart: 'Add to Cart',
+      addedToCart: 'Added to Cart!',
+      specifications: 'Specifications',
+      save: 'Save',
+      off: 'OFF',
+      approved: 'APPROVED',
+      pending: 'PENDING REVIEW',
+      rejected: 'REJECTED',
+      draft: 'DRAFT'
+    },
+    placeholder: {
+      underDevelopment: 'This section is under development. Check back soon for amazing features!',
+      returnHome: 'Return to Home',
+      notFound: 'not found',
+      noProducts: 'No products available yet',
+      categoryBeingStocked: 'This category is being stocked. Check back soon!',
+      exploreOther: 'Explore Other Categories'
+    },
+    moderation: {
+      title: 'Content Management Info (Demo)',
+      status: 'Status',
+      submittedBy: 'Submitted by',
+      moderatedBy: 'Moderated by',
+      created: 'Created'
+    }
+  },
+  ru: {
+    nav: {
+      catalog: 'КАТАЛОГ',
+      proGamer: 'ПРО ГЕЙМЕР',
+      creator: 'СОЗДАТЕЛЬ',
+      user: 'ПОЛЬЗОВАТЕЛЬ',
+      marketplace: 'МАРКЕТПЛЕЙС',
+      restock: 'ОБНОВЛЕНИЕ'
+    },
+    hero: {
+      title: 'БЕЖИМ АПГРЕЙДИТЬСЯ...',
+      searchPlaceholder: 'Поиск игрового оборудования, компонентов или сборок...'
+    },
+    home: {
+      exploreTitle: 'Ознакомьтесь с самыми популярными продуктами',
+      featuredDeals: 'Избранные предложения',
+      copyright: '© 2024 GAMING MARKETPLACE • ВСЕ ПРАВА ЗАЩИЩЕНЫ'
+    },
+    categories: {
+      mouse: 'МЫШЬ',
+      mousepad: 'КОВРИК',
+      keyboard: 'КЛАВИАТУРА',
+      pc: 'ПК',
+      components: 'КОМПОНЕНТЫ',
+      monitor: 'МОНИТОР',
+      audio: 'АУДИО',
+      ergonomics: 'ЭРГОНОМИКА',
+      custom: 'КАСТОМ'
+    },
+    footer: {
+      bestProducts: 'ЛУЧШИЕ ПРОДУКТЫ',
+      builds: 'СБОРКИ',
+      team: 'КОМАНДА',
+      joinGuild: 'ПРИСОЕДИНИТЬСЯ К ГИЛЬДИИ',
+      personalDevelopments: 'ЛИЧНОЕ РАЗВИТИЕ',
+      contactInformation: 'КОНТАКТНАЯ ИНФОРМАЦИЯ',
+      support: 'ПОДДЕРЖКА',
+      suggestIdea: 'ПРЕДЛОЖИТЬ ИДЕЮ'
+    },
+    user: {
+      level: 'УРВ',
+      cart: 'Корзина',
+      messages: 'Сообщения',
+      accountSettings: 'Настройки аккаунта',
+      xpToNextLevel: 'опыта до следующего уровня'
+    },
+    product: {
+      backTo: 'Назад к',
+      backToHome: 'На главную',
+      productsAvailable: 'доступно товаров',
+      reviews: 'отзывов',
+      sale: 'СКИДКА',
+      inStock: 'В НАЛИЧИИ',
+      outOfStock: 'НЕТ В НАЛИЧИИ',
+      addToCart: 'В корзину',
+      addedToCart: 'Добавлено в корзину!',
+      specifications: 'Характеристики',
+      save: 'Экономия',
+      off: 'СКИДКА',
+      approved: 'ОДОБРЕНО',
+      pending: 'НА ПРОВЕРКЕ',
+      rejected: 'ОТКЛОНЕНО',
+      draft: 'ЧЕРНОВИК'
+    },
+    placeholder: {
+      underDevelopment: 'Этот раздел находится в разработке. Заходите позже за потрясающими функциями!',
+      returnHome: 'Вернуться на главную',
+      notFound: 'не найден',
+      noProducts: 'Товары пока недоступны',
+      categoryBeingStocked: 'Эта категория пополняется. Загляните позже!',
+      exploreOther: 'Изучить другие категории'
+    },
+    moderation: {
+      title: 'Информация об управлении контентом (Демо)',
+      status: 'Статус',
+      submittedBy: 'Отправлено',
+      moderatedBy: 'Модерировано',
+      created: 'Создано'
+    }
+  }
+};
