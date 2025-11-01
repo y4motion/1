@@ -14,9 +14,17 @@
 }
 
 /* Dark textured background */
-.dark-bg {
+[data-theme='dark'] .dark-bg {
   background: linear-gradient(135deg, #0a0a0b 0%, #151518 100%);
   min-height: 100vh;
+  color: white;
+}
+
+/* Light textured background */
+[data-theme='light'] .dark-bg {
+  background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+  min-height: 100vh;
+  color: #1a1a1a;
 }
 
 /* Acrylic/Glassmorphism base style */
