@@ -192,6 +192,93 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
+
+
+/* Search dialog styling - Theme aware */
+[data-theme='dark'] .search-input {
+  color: white;
+}
+
+[data-theme='light'] .search-input {
+  color: #1a1a1a;
+}
+
+[data-theme='dark'] .search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme='light'] .search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Product card hover effect - Theme aware */
+[data-theme='dark'] .product-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+[data-theme='light'] .product-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+[data-theme='dark'] .product-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='light'] .product-card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon colors for theme switching */
+[data-theme='dark'] .icon-color {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme='light'] .icon-color {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Theme toggle button */
+.theme-toggle,
+.lang-toggle {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+[data-theme='dark'] .theme-toggle:hover,
+[data-theme='dark'] .lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] .theme-toggle:hover,
+[data-theme='light'] .lang-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 /* Search dialog styling */
 .search-dialog {
   background: rgba(255, 255, 255, 0.04);
