@@ -80,6 +80,8 @@ api_router.include_router(category_router)
 api_router.include_router(review_router)
 api_router.include_router(question_router)
 api_router.include_router(cart_router)
+api_router.include_router(order_router)
+api_router.include_router(payment_settings_router)
 
 # Include the router in the main app
 app.include_router(api_router)
