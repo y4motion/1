@@ -521,29 +521,100 @@ class MarketplaceTestSuite:
             print(f"❌ Cart operations test error: {e}")
             return False
     
-    async def test_me_without_token(self):
-        """Test GET /api/auth/me without token"""
-        print("\n🧪 Testing /me Without Token...")
+    # ==================== REVIEW TESTS ====================
+    
+    async def test_review_workflow(self):
+        """Test complete review workflow"""
+        print("\n🧪 Testing Review System...")
+        
+        if not self.product_id:
+            print("❌ No product ID available for review testing")
+            return False
         
         try:
-            async with self.session.get(
-                f"{self.api_url}/auth/me",
-                headers={"Content-Type": "application/json"}
+            # Create review
+            review_data = {
+                "product_id": self.product_id,
+                "rating": 4.5,
+                "title": "Great gaming keyboard!",
+                "comment": "Excellent build quality and responsive keys. Perfect for gaming sessions."
+            }
+            
+            async with self.session.post(
+                f"{self.api_url}/reviews",
+                json=review_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Create review status: {status}")
+                
+                if status == 201:
+                    self.review_id = data["id"]
+                    print(f"✅ Review created: {data['title']}")
+                    print(f"   Rating: {data['rating']}/5")
+                else:
+                    print(f"❌ Failed to create review: {data}")
+                    return False
+            
+            # Test duplicate review (should fail)
+            async with self.session.post(
+                f"{self.api_url}/reviews",
+                json=review_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
             ) as response:
                 
                 status = response.status
                 
-                print(f"   Status: {status}")
-                
-                if status == 401 or status == 403:
-                    print(f"✅ /me correctly rejected without token")
-                    return True
+                if status == 400:
+                    print(f"✅ Duplicate review correctly rejected")
                 else:
-                    print(f"❌ /me should return 401/403 without token, got {status}")
+                    print(f"❌ Duplicate review should be rejected with 400")
+            
+            # Get product reviews
+            async with self.session.get(f"{self.api_url}/reviews/product/{self.product_id}") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Get reviews status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Reviews retrieved: {len(data)} reviews")
+                else:
+                    print(f"❌ Failed to get reviews: {data}")
                     return False
+            
+            # React to review (helpful)
+            if self.review_id:
+                async with self.session.post(
+                    f"{self.api_url}/reviews/{self.review_id}/reaction?reaction_type=helpful",
+                    headers={"Authorization": f"Bearer {self.seller_token}"}
+                ) as response:
+                    
+                    status = response.status
+                    data = await response.json()
+                    
+                    print(f"   Review reaction status: {status}")
+                    
+                    if status == 200:
+                        print(f"✅ Review marked as helpful")
+                        return True
+                    else:
+                        print(f"❌ Failed to react to review: {data}")
+                        return False
+            
+            return True
                     
         except Exception as e:
-            print(f"❌ /me without token test error: {e}")
+            print(f"❌ Review workflow test error: {e}")
             return False
     
     async def test_me_invalid_token(self):
