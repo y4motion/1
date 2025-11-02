@@ -489,6 +489,13 @@ const Header = () => {
           </div>
         </>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)}
+        initialMode={authMode}
+      />
     </>
   );
 };
