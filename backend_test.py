@@ -440,7 +440,7 @@ class MarketplaceTestSuite:
         try:
             # Get empty cart
             async with self.session.get(
-                f"{self.api_url}/cart",
+                f"{self.api_url}/cart/",
                 headers={"Authorization": f"Bearer {self.normal_token}"}
             ) as response:
                 
