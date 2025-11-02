@@ -31,7 +31,7 @@ const MarketplacePage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/categories`);
+      const response = await fetch(`${API_URL}/api/categories/`);  // Added trailing slash
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
