@@ -166,7 +166,7 @@ const Header = () => {
             </button>
 
             {/* LVL Button with Permanent Glass Background */}
-            <div style={{ position: 'relative' }}>
+            <div>
               <button
                 className="lvl-button-permanent"
                 onClick={() => setShowUserMenu(!showUserMenu)}
@@ -186,9 +186,7 @@ const Header = () => {
                   <User size={16} className="icon-color" />
                 </div>
               </button>
-
-              {/* Enhanced User Dropdown Menu with Tabs */}
-              {showUserMenu && (
+            </div>
                 <div 
                   className="glass-strong"
                   style={{
