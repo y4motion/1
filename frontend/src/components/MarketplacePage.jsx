@@ -44,7 +44,7 @@ const MarketplacePage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      let url = `${API_URL}/api/products?limit=50&sort_by=${sortBy}&sort_order=desc`;
+      let url = `${API_URL}/api/products/?limit=50&sort_by=${sortBy}&sort_order=desc`;  // Added trailing slash
       
       if (selectedCategory !== 'all') {
         url += `&category_id=${selectedCategory}`;
