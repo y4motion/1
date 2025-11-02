@@ -207,7 +207,10 @@ const Header = () => {
             animation: 'slideDown 0.3s ease-out'
           }}
         >
-          {/* USER MENU CONTENT WILL BE HERE */}
+          <div style={{ padding: '2rem', textAlign: 'center' }}>
+            <p>User Menu (temporary)</p>
+            <p>LVL {mockUser.level}</p>
+          </div>
         </div>
       )}
 
