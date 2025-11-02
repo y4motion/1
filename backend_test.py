@@ -580,7 +580,7 @@ class MarketplaceTestSuite:
                     print(f"❌ Duplicate review should be rejected with 400")
             
             # Get product reviews
-            async with self.session.get(f"{self.api_url}/reviews/product/{self.product_id}") as response:
+            async with self.session.get(f"{self.api_url}/reviews/product/{self.product_id}/") as response:
                 status = response.status
                 data = await response.json()
                 
