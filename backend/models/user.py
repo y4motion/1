@@ -50,6 +50,8 @@ class UserResponse(UserBase):
     created_at: datetime
     is_active: bool
     is_admin: bool
+    is_seller: bool
+    is_moderator: bool
     level: int
     experience: int
     coins: int
