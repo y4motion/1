@@ -152,16 +152,27 @@ class MarketplaceTestSuite:
         print(f"   🔧 Setting user {user_id} as seller (simulated admin action)")
         return True
     
-    async def test_duplicate_registration(self):
-        """Test duplicate email/username registration"""
-        print("\n🧪 Testing Duplicate Registration...")
+    # ==================== CATEGORY TESTS ====================
+    
+    async def test_create_category_as_normal_user(self):
+        """Test creating category as normal user (should fail)"""
+        print("\n🧪 Testing Category Creation (Normal User - Should Fail)...")
+        
+        category_data = {
+            "name": "Gaming Laptops",
+            "slug": "gaming-laptops",
+            "description": "High-performance gaming laptops",
+            "icon": "💻"
+        }
         
         try:
-            # Try to register same email again
             async with self.session.post(
-                f"{self.api_url}/auth/register",
-                json=self.test_user_data,
-                headers={"Content-Type": "application/json"}
+                f"{self.api_url}/categories",
+                json=category_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
             ) as response:
                 
                 status = response.status
@@ -169,15 +180,37 @@ class MarketplaceTestSuite:
                 
                 print(f"   Status: {status}")
                 
-                if status == 400:
-                    print(f"✅ Duplicate registration correctly rejected: {data.get('detail', 'No detail')}")
+                if status == 403:
+                    print(f"✅ Category creation correctly rejected for normal user")
                     return True
                 else:
-                    print(f"❌ Duplicate registration should return 400, got {status}")
+                    print(f"❌ Should return 403 for normal user, got {status}")
                     return False
                     
         except Exception as e:
-            print(f"❌ Duplicate registration test error: {e}")
+            print(f"❌ Category creation test error: {e}")
+            return False
+    
+    async def test_get_categories(self):
+        """Test getting all categories"""
+        print("\n🧪 Testing Get Categories...")
+        
+        try:
+            async with self.session.get(f"{self.api_url}/categories") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Categories retrieved: {len(data)} categories")
+                    return True
+                else:
+                    print(f"❌ Failed to get categories: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Get categories test error: {e}")
             return False
     
     async def test_login_endpoint(self):
