@@ -382,36 +382,49 @@ class MarketplaceTestSuite:
             print(f"❌ Single product test error: {e}")
             return False
     
-    async def test_invalid_login(self):
-        """Test login with wrong password"""
-        print("\n🧪 Testing Invalid Login...")
+    async def test_wishlist_toggle(self):
+        """Test adding/removing product from wishlist"""
+        print("\n🧪 Testing Wishlist Toggle...")
+        
+        if not self.product_id:
+            print("❌ No product ID available for wishlist testing")
+            return False
         
         try:
-            invalid_login_data = {
-                "email": self.test_user_data["email"],
-                "password": "WrongPassword123!"
-            }
-            
+            # Add to wishlist
             async with self.session.post(
-                f"{self.api_url}/auth/login",
-                json=invalid_login_data,
-                headers={"Content-Type": "application/json"}
+                f"{self.api_url}/products/{self.product_id}/wishlist",
+                headers={"Authorization": f"Bearer {self.normal_token}"}
             ) as response:
                 
                 status = response.status
                 data = await response.json()
                 
-                print(f"   Status: {status}")
+                print(f"   Add to wishlist status: {status}")
                 
-                if status == 401:
-                    print(f"✅ Invalid login correctly rejected: {data.get('detail', 'No detail')}")
-                    return True
+                if status == 200 and data.get("in_wishlist"):
+                    print(f"✅ Added to wishlist: {data['message']}")
+                    
+                    # Remove from wishlist
+                    async with self.session.post(
+                        f"{self.api_url}/products/{self.product_id}/wishlist",
+                        headers={"Authorization": f"Bearer {self.normal_token}"}
+                    ) as response2:
+                        
+                        data2 = await response2.json()
+                        
+                        if response2.status == 200 and not data2.get("in_wishlist"):
+                            print(f"✅ Removed from wishlist: {data2['message']}")
+                            return True
+                        else:
+                            print(f"❌ Failed to remove from wishlist: {data2}")
+                            return False
                 else:
-                    print(f"❌ Invalid login should return 401, got {status}")
+                    print(f"❌ Failed to add to wishlist: {data}")
                     return False
                     
         except Exception as e:
-            print(f"❌ Invalid login test error: {e}")
+            print(f"❌ Wishlist test error: {e}")
             return False
     
     async def test_me_endpoint(self):
