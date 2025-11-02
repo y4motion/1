@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from datetime import datetime, timezone
-from ..database import db_client
-from ..models.payment_method import (
+from database import db as db_client
+from models.payment_method import (
     PaymentMethodCreate,
     PaymentMethod,
     PaymentMethodResponse,
     AdminSettings,
     AdminSettingsUpdate
 )
-from ..utils.auth_utils import get_current_user
+from utils.auth_utils import get_current_user
 import logging
 
 router = APIRouter(prefix="/api/payment-settings", tags=["payment_settings"])
