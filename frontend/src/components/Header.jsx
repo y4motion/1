@@ -192,9 +192,9 @@ const Header = () => {
                 <div 
                   className="glass-strong"
                   style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 0.5rem)',
-                    right: 0,
+                    position: 'fixed',
+                    top: '5.5rem',
+                    right: '3rem',
                     width: '480px',
                     maxHeight: '600px',
                     borderRadius: '16px',
