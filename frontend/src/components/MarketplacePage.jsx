@@ -281,6 +281,86 @@ const MarketplacePage = () => {
             />
           </div>
 
+          {/* View Mode Toggles */}
+          <div style={{
+            display: 'flex',
+            gap: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.05)',
+            padding: '0.375rem',
+            borderRadius: '50px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <button
+              onClick={() => setViewMode('grid')}
+              style={{
+                padding: '0.625rem 1rem',
+                borderRadius: '50px',
+                border: 'none',
+                background: viewMode === 'grid' 
+                  ? 'rgba(255, 255, 255, 0.15)' 
+                  : 'transparent',
+                color: '#fff',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              <Grid size={18} />
+              Grid
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              style={{
+                padding: '0.625rem 1rem',
+                borderRadius: '50px',
+                border: 'none',
+                background: viewMode === 'list' 
+                  ? 'rgba(255, 255, 255, 0.15)' 
+                  : 'transparent',
+                color: '#fff',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              <List size={18} />
+              List
+            </button>
+          </div>
+
+          {/* Items Per Page Selector */}
+          <select
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            style={{
+              padding: '0.75rem 1rem',
+              borderRadius: '50px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              color: '#fff',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              outline: 'none',
+              minWidth: '100px'
+            }}
+          >
+            <option value={20} style={{ background: '#1a1a1a' }}>20 items</option>
+            <option value={40} style={{ background: '#1a1a1a' }}>40 items</option>
+            <option value={60} style={{ background: '#1a1a1a' }}>60 items</option>
+            <option value={100} style={{ background: '#1a1a1a' }}>100 items</option>
+          </select>
+
           {/* Filter Button - Independent Island */}
           <button
             onClick={() => setShowFilters(!showFilters)}
