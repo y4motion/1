@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Power, ShoppingCart, MessageCircle, User, Sun, Moon, Globe, X, 
   Trophy, Target, Gift, Wallet, Clock, Users, TrendingUp, Package, 
-  Heart, Copy, Check
+  Heart, Copy, Check, LogIn
 } from 'lucide-react';
 import { 
   mockUser, categories, achievements, dailyQuests, inventoryItems, 
@@ -11,6 +11,8 @@ import {
 } from '../mockData';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
 import SpinWheel from './SpinWheel';
 import '../styles/glassmorphism.css';
 
@@ -20,10 +22,13 @@ const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCatalogPopup, setShowCatalogPopup] = useState(false);
   const [showSpinWheel, setShowSpinWheel] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
   const [activeTab, setActiveTab] = useState('overview');
   const [copiedCode, setCopiedCode] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navLinks = [
     { name: 'HOME', path: '/', key: 'home' },
@@ -42,7 +47,7 @@ const Header = () => {
   };
 
   const handleCopyReferralCode = () => {
-    navigator.clipboard.writeText(mockUser.referralCode);
+    navigator.clipboard.writeText(user?.referralCode || mockUser.referralCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 2000);
   };
@@ -52,7 +57,8 @@ const Header = () => {
     // Here you would update user's inventory/balance
   };
 
-  const currentLevel = userLevels[mockUser.level];
+  const displayUser = user || mockUser; // Use real user or mock for demo
+  const currentLevel = userLevels[displayUser.level];
   const unlockedAchievements = achievements.filter(a => a.unlocked);
   const completedQuests = dailyQuests.filter(q => q.completed);
   
