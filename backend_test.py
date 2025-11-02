@@ -656,7 +656,7 @@ class MarketplaceTestSuite:
                     return False
             
             # Get product questions
-            async with self.session.get(f"{self.api_url}/questions/product/{self.product_id}") as response:
+            async with self.session.get(f"{self.api_url}/questions/product/{self.product_id}/") as response:
                 status = response.status
                 data = await response.json()
                 
