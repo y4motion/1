@@ -25,7 +25,7 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(redirect_slashes=False)  # Disable trailing slash redirects
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
