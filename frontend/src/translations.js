@@ -73,7 +73,16 @@ export const translations = {
       copied: 'Copied!',
       spinAvailable: 'Spin available!',
       nextSpin: 'Next spin in',
-      hours: 'hours'
+      hours: 'hours',
+      login: 'LOGIN',
+      register: 'REGISTER',
+      logout: 'LOGOUT',
+      email: 'Email',
+      username: 'Username',
+      password: 'Password',
+      loading: 'Loading...',
+      needAccount: 'Need an account? Register',
+      haveAccount: 'Already have an account? Login'
     },
     product: {
       backTo: 'Back to',
