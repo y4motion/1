@@ -55,7 +55,24 @@ const Header = () => {
   const currentLevel = userLevels[mockUser.level];
   const unlockedAchievements = achievements.filter(a => a.unlocked);
   const completedQuests = dailyQuests.filter(q => q.completed);
-  const canSpin = mockUser.lastSpinDate === null; // Simplified check
+  
+  // Check if weekly spin is available (7 days passed)
+  const canSpinWeekly = () => {
+    if (!mockUser.lastSpinDate) return true;
+    const lastSpin = new Date(mockUser.lastSpinDate);
+    const now = new Date();
+    const daysPassed = Math.floor((now - lastSpin) / (1000 * 60 * 60 * 24));
+    return daysPassed >= 7;
+  };
+  
+  const canSpin = canSpinWeekly() || mockUser.bonusSpinAvailable;
+  const daysUntilSpin = () => {
+    if (!mockUser.lastSpinDate) return 0;
+    const lastSpin = new Date(mockUser.lastSpinDate);
+    const now = new Date();
+    const daysPassed = Math.floor((now - lastSpin) / (1000 * 60 * 60 * 24));
+    return Math.max(0, 7 - daysPassed);
+  };
 
   // Get wishlist products
   const wishlistProducts = products.filter(p => wishlist.includes(p.id));
