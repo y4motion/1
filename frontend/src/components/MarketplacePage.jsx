@@ -29,7 +29,7 @@ const MarketplacePage = () => {
   useEffect(() => {
     fetchCategories();
     fetchProducts();
-  }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice]);
+  }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
 
   const fetchCategories = async () => {
     try {
