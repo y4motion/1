@@ -765,7 +765,7 @@ class MarketplaceTestSuite:
 async def main():
     """Main test runner"""
     try:
-        test_suite = AuthTestSuite()
+        test_suite = MarketplaceTestSuite()
         success = await test_suite.run_all_tests()
         return success
     except Exception as e:
