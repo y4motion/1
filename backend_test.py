@@ -595,7 +595,7 @@ class MarketplaceTestSuite:
             # React to review (helpful)
             if self.review_id:
                 async with self.session.post(
-                    f"{self.api_url}/reviews/{self.review_id}/reaction?reaction_type=helpful",
+                    f"{self.api_url}/reviews/{self.review_id}/reaction/?reaction_type=helpful",
                     headers={"Authorization": f"Bearer {self.seller_token}"}
                 ) as response:
                     
