@@ -955,4 +955,273 @@ const ProductCard = ({ product, onToggleWishlist }) => {
   );
 };
 
+// Product Card List Component (Horizontal Layout)
+const ProductCardList = ({ product, onToggleWishlist }) => {
+  const [imageError, setImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const primaryImage = product.images?.find(img => img.is_primary) || product.images?.[0];
+  const imageUrl = !imageError && primaryImage?.url || 'https://via.placeholder.com/300x300?text=No+Image';
+
+  return (
+    <Link 
+      to={`/product/${product.id}`}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div 
+        className="glass-strong product-card"
+        style={{
+          borderRadius: '16px',
+          border: isHovered 
+            ? '1px solid rgba(255, 255, 255, 0.3)' 
+            : '1px solid rgba(255, 255, 255, 0.08)',
+          transition: 'all 0.3s ease',
+          cursor: 'pointer',
+          display: 'grid',
+          gridTemplateColumns: '240px 1fr auto',
+          gap: '2rem',
+          padding: '1.5rem',
+          transform: isHovered ? 'translateX(8px)' : 'translateX(0)',
+          backdropFilter: isHovered ? 'blur(20px)' : 'blur(10px)',
+          background: isHovered 
+            ? 'rgba(255, 255, 255, 0.12)' 
+            : 'rgba(255, 255, 255, 0.05)',
+          boxShadow: isHovered 
+            ? '0 8px 32px rgba(0, 0, 0, 0.4)' 
+            : '0 4px 20px rgba(0, 0, 0, 0.2)',
+          alignItems: 'center'
+        }}
+      >
+        {/* Image */}
+        <div style={{ 
+          position: 'relative', 
+          paddingTop: '100%',
+          background: 'rgba(0, 0, 0, 0.2)',
+          overflow: 'hidden',
+          borderRadius: '12px'
+        }}>
+          <img 
+            src={imageUrl}
+            alt={product.title}
+            onError={() => setImageError(true)}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.4s ease',
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+            }}
+          />
+
+          {/* Rating Badge */}
+          {product.average_rating > 0 && (
+            <div style={{
+              position: 'absolute',
+              bottom: '0.75rem',
+              left: '0.75rem',
+              background: 'rgba(0, 0, 0, 0.7)',
+              backdropFilter: 'blur(10px)',
+              padding: '0.375rem 0.625rem',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <Star size={14} fill="#FFD700" color="#FFD700" />
+              <span style={{ fontSize: '0.8125rem', fontWeight: '700' }}>
+                {product.average_rating.toFixed(1)}
+              </span>
+            </div>
+          )}
+
+          {/* Stock Badge */}
+          {product.stock === 0 && (
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'rgba(255, 59, 48, 0.95)',
+              backdropFilter: 'blur(10px)',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              fontSize: '0.75rem',
+              fontWeight: '700',
+              letterSpacing: '0.5px',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              OUT OF STOCK
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {/* Title */}
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            lineHeight: '1.3',
+            marginBottom: '0.5rem'
+          }}>
+            {product.title}
+          </h3>
+
+          {/* Description */}
+          <p style={{
+            fontSize: '0.9375rem',
+            lineHeight: '1.6',
+            opacity: 0.8,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical'
+          }}>
+            {product.description}
+          </p>
+
+          {/* Stats Row */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '1.5rem',
+            fontSize: '0.875rem',
+            opacity: 0.75,
+            marginTop: '0.5rem'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Eye size={16} />
+              <span>{product.views || 0} views</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Heart size={16} />
+              <span>{product.wishlist_count || 0} wishlist</span>
+            </div>
+            {product.total_reviews > 0 && (
+              <span style={{ fontWeight: '600' }}>
+                {product.total_reviews} {product.total_reviews === 1 ? 'review' : 'reviews'}
+              </span>
+            )}
+          </div>
+
+          {/* Quick Specs */}
+          {product.specifications && product.specifications.length > 0 && (
+            <div style={{
+              display: 'flex',
+              gap: '0.5rem',
+              flexWrap: 'wrap',
+              marginTop: '0.5rem'
+            }}>
+              {product.specifications.slice(0, 4).map((spec, idx) => (
+                <div 
+                  key={idx}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    padding: '0.375rem 0.75rem',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  {spec.name}: {spec.value}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Price & Actions */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '1rem',
+          minWidth: '200px'
+        }}>
+          {/* Price */}
+          <div style={{ textAlign: 'right' }}>
+            <div style={{
+              fontSize: '2.25rem',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              marginBottom: '0.5rem'
+            }}>
+              ${product.price}
+            </div>
+            {product.stock > 0 && (
+              <div style={{ 
+                fontSize: '0.8125rem', 
+                color: '#4CAF50', 
+                fontWeight: '600'
+              }}>
+                IN STOCK ({product.stock})
+              </div>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                console.log('Add to cart:', product.id);
+              }}
+              disabled={product.stock === 0}
+              className="glass-strong"
+              style={{
+                padding: '0.875rem 1.5rem',
+                borderRadius: '10px',
+                border: 'none',
+                background: product.stock > 0
+                  ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)'
+                  : 'rgba(255, 255, 255, 0.05)',
+                color: '#fff',
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                cursor: product.stock > 0 ? 'pointer' : 'not-allowed',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                opacity: product.stock > 0 ? 1 : 0.5,
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <ShoppingCart size={16} />
+              ADD TO CART
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                onToggleWishlist(product.id);
+              }}
+              className="glass-subtle"
+              style={{
+                padding: '0.875rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <Heart size={20} color="#fff" fill={product.wishlist_count > 0 ? '#ff3b30' : 'transparent'} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
 export default MarketplacePage;
