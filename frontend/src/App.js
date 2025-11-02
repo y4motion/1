@@ -26,6 +26,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/category/:slug" element={<CategoryPage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/marketplace" element={<MarketplacePage />} />
                 
                 {/* Placeholder routes for navigation links */}
                 <Route path="/catalog" element={<PlaceholderPage title="CATALOG" />} />
