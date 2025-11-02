@@ -407,7 +407,7 @@ class MarketplaceTestSuite:
                     
                     # Remove from wishlist
                     async with self.session.post(
-                        f"{self.api_url}/products/{self.product_id}/wishlist",
+                        f"{self.api_url}/products/{self.product_id}/wishlist/",
                         headers={"Authorization": f"Bearer {self.normal_token}"}
                     ) as response2:
                         
