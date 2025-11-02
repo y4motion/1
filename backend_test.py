@@ -40,7 +40,7 @@ def get_backend_url():
     print("❌ REACT_APP_BACKEND_URL not found in frontend .env")
     return None
 
-class AuthTestSuite:
+class MarketplaceTestSuite:
     def __init__(self):
         self.base_url = get_backend_url()
         if not self.base_url:
@@ -48,15 +48,32 @@ class AuthTestSuite:
         
         self.api_url = f"{self.base_url}/api"
         self.session = None
-        self.test_user_data = {
-            "email": f"testuser_{uuid.uuid4().hex[:8]}@gamemarket.com",
-            "username": f"gamer_{uuid.uuid4().hex[:8]}",
+        
+        # Test users
+        self.normal_user_data = {
+            "email": f"buyer_{uuid.uuid4().hex[:8]}@gamemarket.com",
+            "username": f"buyer_{uuid.uuid4().hex[:8]}",
             "password": "SecurePass123!"
         }
-        self.access_token = None
+        self.seller_user_data = {
+            "email": f"seller_{uuid.uuid4().hex[:8]}@gamemarket.com",
+            "username": f"seller_{uuid.uuid4().hex[:8]}",
+            "password": "SecurePass123!"
+        }
+        
+        # Tokens
+        self.normal_token = None
+        self.seller_token = None
+        
+        # Test data IDs
+        self.category_id = None
+        self.product_id = None
+        self.review_id = None
+        self.question_id = None
         
         print(f"🔧 Testing backend at: {self.api_url}")
-        print(f"👤 Test user: {self.test_user_data['email']}")
+        print(f"👤 Normal user: {self.normal_user_data['email']}")
+        print(f"🛒 Seller user: {self.seller_user_data['email']}")
     
     async def setup(self):
         """Initialize HTTP session"""
