@@ -324,13 +324,48 @@ const Header = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontSize: '0.75rem', opacity: 0.6, marginBottom: '0.25rem' }}>{t('user.referralCode')}</div>
-                      <div style={{ fontSize: '1.125rem', fontWeight: '700', fontFamily: 'monospace' }}>{mockUser.referralCode}</div>
+                      <div style={{ fontSize: '1.125rem', fontWeight: '700', fontFamily: 'monospace' }}>{displayUser.referralCode}</div>
                     </div>
                     <button onClick={handleCopyReferralCode} className="theme-toggle" style={{ padding: '0.5rem' }}>
                       {copiedCode ? <Check size={18} color="#4CAF50" /> : <Copy size={18} />}
                     </button>
                   </div>
                 </div>
+
+                {/* Logout Button */}
+                {isAuthenticated && (
+                  <button
+                    onClick={() => {
+                      logout();
+                      setShowUserMenu(false);
+                    }}
+                    className="glass-subtle"
+                    style={{
+                      padding: '1rem',
+                      borderRadius: '8px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '600',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 59, 48, 0.1)',
+                      color: '#ff3b30'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 59, 48, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 59, 48, 0.1)';
+                    }}
+                  >
+                    <X size={18} />
+                    {t('user.logout')}
+                  </button>
+                )}
               </div>
             )}
             
