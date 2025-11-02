@@ -14,6 +14,11 @@ from database import db, close_mongo_connection, client
 
 # Import auth routes
 from routes.auth_routes import router as auth_router
+from routes.product_routes import router as product_router
+from routes.category_routes import router as category_router
+from routes.review_routes import router as review_router
+from routes.question_routes import router as question_router
+from routes.cart_routes import router as cart_router
 
 
 ROOT_DIR = Path(__file__).parent
