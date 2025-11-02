@@ -481,41 +481,59 @@ const Header = () => {
                             className="glass-subtle" 
                             style={{ 
                               padding: '1rem', 
-                              borderRadius: '8px',
+                              borderRadius: '12px',
                               opacity: achievement.unlocked ? 1 : 0.5,
                               position: 'relative',
-                              overflow: 'hidden'
+                              border: theme === 'dark' 
+                                ? '1px solid rgba(255, 255, 255, 0.08)' 
+                                : '1px solid rgba(200, 230, 255, 0.2)',
+                              background: achievement.unlocked 
+                                ? (theme === 'dark' 
+                                    ? 'rgba(255, 255, 255, 0.04)' 
+                                    : 'rgba(255, 255, 255, 0.6)')
+                                : (theme === 'dark' 
+                                    ? 'rgba(255, 255, 255, 0.02)' 
+                                    : 'rgba(255, 255, 255, 0.3)')
                             }}
                           >
-                            {achievement.unlocked && (
-                              <div style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                padding: '0.25rem 0.5rem',
-                                background: '#4CAF50',
-                                color: 'white',
-                                fontSize: '0.625rem',
-                                fontWeight: '700',
-                                borderBottomLeftRadius: '8px'
+                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                              <div style={{ 
+                                fontSize: '1.75rem',
+                                filter: achievement.unlocked ? 'none' : 'grayscale(100%)'
                               }}>
-                                {t('user.unlocked')}
+                                {achievement.icon}
                               </div>
-                            )}
-                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
-                              <div style={{ fontSize: '2rem' }}>{achievement.icon}</div>
                               <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
-                                  {language === 'en' ? achievement.name : achievement.nameRu}
+                                <div style={{ 
+                                  fontSize: '0.875rem', 
+                                  fontWeight: '600', 
+                                  marginBottom: '0.25rem',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between'
+                                }}>
+                                  <span>{language === 'en' ? achievement.name : achievement.nameRu}</span>
+                                  {achievement.unlocked && (
+                                    <span style={{
+                                      fontSize: '0.7rem',
+                                      padding: '0.125rem 0.5rem',
+                                      borderRadius: '6px',
+                                      background: 'rgba(76, 175, 80, 0.15)',
+                                      color: '#4CAF50',
+                                      border: '1px solid rgba(76, 175, 80, 0.3)'
+                                    }}>
+                                      ✓
+                                    </span>
+                                  )}
                                 </div>
-                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
+                                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginBottom: '0.5rem' }}>
                                   {language === 'en' ? achievement.description : achievement.descriptionRu}
                                 </div>
                                 {!achievement.unlocked && achievement.progress !== undefined && (
                                   <div>
                                     <div style={{
                                       height: '4px',
-                                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)',
                                       borderRadius: '2px',
                                       overflow: 'hidden',
                                       marginBottom: '0.25rem'
@@ -523,23 +541,15 @@ const Header = () => {
                                       <div style={{
                                         height: '100%',
                                         width: `${(achievement.progress / achievement.total * 100)}%`,
-                                        background: currentLevel.color,
+                                        background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`,
                                         transition: 'width 0.3s ease'
                                       }} />
                                     </div>
-                                    <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>
+                                    <div style={{ fontSize: '0.65rem', opacity: 0.5 }}>
                                       {achievement.progress}/{achievement.total}
                                     </div>
                                   </div>
                                 )}
-                                <div style={{ 
-                                  fontSize: '0.75rem', 
-                                  fontWeight: '600',
-                                  color: '#FFD700',
-                                  marginTop: '0.5rem'
-                                }}>
-                                  +{achievement.xpReward} XP
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -556,62 +566,69 @@ const Header = () => {
                             className="glass-subtle" 
                             style={{ 
                               padding: '1rem', 
-                              borderRadius: '8px',
-                              opacity: quest.completed ? 0.6 : 1
+                              borderRadius: '12px',
+                              border: theme === 'dark' 
+                                ? '1px solid rgba(255, 255, 255, 0.08)' 
+                                : '1px solid rgba(200, 230, 255, 0.2)',
+                              background: quest.completed
+                                ? (theme === 'dark' 
+                                    ? 'rgba(76, 175, 80, 0.08)' 
+                                    : 'rgba(76, 175, 80, 0.1)')
+                                : (theme === 'dark' 
+                                    ? 'rgba(255, 255, 255, 0.03)' 
+                                    : 'rgba(255, 255, 255, 0.5)')
                             }}
                           >
-                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                               <div style={{ fontSize: '1.5rem' }}>{quest.icon}</div>
                               <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                <div style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.25rem' }}>
                                   {language === 'en' ? quest.name : quest.nameRu}
                                 </div>
-                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
+                                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginBottom: '0.5rem' }}>
                                   {language === 'en' ? quest.description : quest.descriptionRu}
                                 </div>
-                                <div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                   <div style={{
+                                    flex: 1,
                                     height: '6px',
-                                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)',
                                     borderRadius: '3px',
-                                    overflow: 'hidden',
-                                    marginBottom: '0.25rem'
+                                    overflow: 'hidden'
                                   }}>
                                     <div style={{
                                       height: '100%',
                                       width: `${(quest.progress / quest.total * 100)}%`,
-                                      background: quest.completed ? '#4CAF50' : currentLevel.color,
+                                      background: quest.completed 
+                                        ? 'linear-gradient(90deg, #4CAF50, #45a049)' 
+                                        : `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`,
                                       transition: 'width 0.3s ease'
                                     }} />
                                   </div>
-                                  <div style={{ 
-                                    display: 'flex', 
-                                    justifyContent: 'space-between', 
-                                    alignItems: 'center'
-                                  }}>
-                                    <span style={{ fontSize: '0.7rem', opacity: 0.6 }}>
-                                      {quest.progress}/{quest.total}
-                                    </span>
-                                    {quest.completed ? (
-                                      <span style={{ 
-                                        fontSize: '0.75rem', 
-                                        fontWeight: '600',
-                                        color: '#4CAF50'
-                                      }}>
-                                        ✓ {t('user.completed')}
-                                      </span>
-                                    ) : (
-                                      <span style={{ 
-                                        fontSize: '0.75rem', 
-                                        fontWeight: '600',
-                                        color: '#FFD700'
-                                      }}>
-                                        +{quest.xpReward} XP
-                                      </span>
-                                    )}
-                                  </div>
+                                  <span style={{ fontSize: '0.65rem', opacity: 0.5, minWidth: '40px' }}>
+                                    {quest.progress}/{quest.total}
+                                  </span>
                                 </div>
                               </div>
+                              {quest.completed ? (
+                                <span style={{ 
+                                  fontSize: '1.25rem',
+                                  color: '#4CAF50'
+                                }}>
+                                  ✓
+                                </span>
+                              ) : (
+                                <span style={{ 
+                                  fontSize: '0.7rem', 
+                                  fontWeight: '600',
+                                  color: '#FFD700',
+                                  padding: '0.25rem 0.5rem',
+                                  borderRadius: '6px',
+                                  background: theme === 'dark' ? 'rgba(255, 215, 0, 0.1)' : 'rgba(255, 215, 0, 0.15)'
+                                }}>
+                                  +{quest.xpReward}
+                                </span>
+                              )}
                             </div>
                           </div>
                         ))}
@@ -627,42 +644,56 @@ const Header = () => {
                             className="glass-subtle" 
                             style={{ 
                               padding: '1rem', 
-                              borderRadius: '8px'
+                              borderRadius: '12px',
+                              border: theme === 'dark' 
+                                ? '1px solid rgba(255, 255, 255, 0.08)' 
+                                : '1px solid rgba(200, 230, 255, 0.2)',
+                              background: theme === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.03)' 
+                                : 'rgba(255, 255, 255, 0.5)'
                             }}
                           >
-                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
-                              <div style={{ fontSize: '2rem' }}>{item.icon}</div>
+                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                              <div style={{ fontSize: '1.75rem' }}>{item.icon}</div>
                               <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                <div style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.25rem' }}>
                                   {language === 'en' ? item.name : item.nameRu}
                                 </div>
-                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
-                                  {item.code && `Code: ${item.code}`}
-                                  {item.duration && `Duration: ${item.duration}`}
-                                </div>
-                                <div style={{ 
-                                  display: 'flex', 
-                                  justifyContent: 'space-between', 
-                                  alignItems: 'center'
-                                }}>
-                                  {item.expiresAt && (
-                                    <span style={{ fontSize: '0.7rem', opacity: 0.6 }}>
-                                      {t('user.expiresIn')} {Math.ceil((new Date(item.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))} {t('user.days')}
-                                    </span>
-                                  )}
-                                  {item.usable && (
-                                    <button 
-                                      className="text-link" 
-                                      style={{ 
-                                        padding: '0.375rem 0.75rem',
-                                        fontSize: '0.75rem'
-                                      }}
-                                    >
-                                      {t('user.useNow')}
-                                    </button>
-                                  )}
-                                </div>
+                                {item.code && (
+                                  <div style={{ 
+                                    fontSize: '0.7rem', 
+                                    fontFamily: 'monospace',
+                                    padding: '0.25rem 0.5rem',
+                                    borderRadius: '4px',
+                                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+                                    display: 'inline-block',
+                                    marginBottom: '0.25rem'
+                                  }}>
+                                    {item.code}
+                                  </div>
+                                )}
+                                {item.expiresAt && (
+                                  <div style={{ fontSize: '0.65rem', opacity: 0.5 }}>
+                                    {t('user.expiresIn')} {Math.ceil((new Date(item.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))} {t('user.days')}
+                                  </div>
+                                )}
                               </div>
+                              {item.usable && (
+                                <button 
+                                  className="glass" 
+                                  style={{ 
+                                    padding: '0.5rem 0.75rem',
+                                    fontSize: '0.7rem',
+                                    borderRadius: '6px',
+                                    border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(200, 230, 255, 0.3)',
+                                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.6)',
+                                    fontWeight: '600',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {t('user.useNow')}
+                                </button>
+                              )}
                             </div>
                           </div>
                         ))}
