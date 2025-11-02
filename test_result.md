@@ -178,17 +178,20 @@ backend:
 
   - task: "Question & Answer System"
     implemented: true
-    working: "pending_test"
+    working: true
     files:
       - "/app/backend/models/question.py"
       - "/app/backend/routes/question_routes.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "pending_test"
         agent: "main"
         comment: "Implemented Q&A system: POST /api/questions (ask question), GET /api/questions/product/{product_id} (get questions), POST /api/questions/{id}/answers (answer question), DELETE /api/questions/{id}. Marks if answer from seller. Nested answers structure."
+      - working: true
+        agent: "testing"
+        comment: "Q&A SYSTEM TESTING COMPLETED - Question and Answer functionality tested successfully: ✅ Question creation (POST /api/questions) with proper product validation. ✅ Question listing by product ID with pagination support. ✅ Answer creation (POST /api/questions/{id}/answers) with seller identification. ✅ Seller flag correctly set when product seller answers questions. ✅ Nested answer structure working properly. ✅ User information caching (username, avatar) for both questions and answers. ✅ Proper authentication requirements for all Q&A operations. Q&A system is fully functional and production-ready."
 
   - task: "Shopping Cart API"
     implemented: true
