@@ -92,6 +92,41 @@
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+/* Enhanced pulsing animation for logo - more pronounced breathe effect */
+@keyframes pulse-glow-enhanced {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.7));
+    transform: scale(1.02);
+  }
+}
+
+[data-theme='dark'] .pulse-glow-enhanced {
+  animation: pulse-glow-enhanced 4s ease-in-out infinite;
+}
+
+[data-theme='light'] .pulse-glow-enhanced {
+  animation: pulse-glow-enhanced-light 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-enhanced-light {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.2));
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.3));
+    transform: scale(1.02);
+  }
+}
+
 /* Text-only links with outline on hover */
 [data-theme='dark'] .text-link {
   color: rgba(255, 255, 255, 0.9);
