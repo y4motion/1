@@ -707,70 +707,60 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Catalog Popup */}
+      {/* Catalog Dropdown - Vertical List */}
       {showCatalogPopup && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: theme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(8px)',
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '2rem'
-          }}
-          onClick={() => setShowCatalogPopup(false)}
-        >
+        <>
+          {/* Backdrop */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 9998
+            }}
+            onClick={() => setShowCatalogPopup(false)}
+          />
+          
+          {/* Vertical Catalog List */}
           <div
             className="glass-strong"
             style={{
-              maxWidth: '800px',
-              width: '100%',
+              position: 'fixed',
+              top: '5rem',
+              left: '3rem',
+              width: '280px',
               borderRadius: '16px',
-              padding: '2.5rem',
-              position: 'relative'
+              padding: '1rem',
+              zIndex: 9999,
+              animation: 'slideDown 0.3s ease-out',
+              border: theme === 'dark' 
+                ? '1px solid rgba(255, 255, 255, 0.1)' 
+                : '1px solid rgba(200, 230, 255, 0.3)',
+              boxShadow: theme === 'dark'
+                ? '0 8px 32px rgba(0, 0, 0, 0.4)'
+                : '0 8px 32px rgba(200, 230, 255, 0.3)'
             }}
-            onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setShowCatalogPopup(false)}
-              style={{
-                position: 'absolute',
-                top: '1.5rem',
-                right: '1.5rem',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '0.5rem',
-                borderRadius: '6px',
-                transition: 'all 0.3s ease'
-              }}
-              className="theme-toggle"
-            >
-              <X size={24} className="icon-color" />
-            </button>
-
-            {/* Catalog Title */}
-            <h2 style={{
-              fontSize: '2rem',
-              fontWeight: '800',
-              marginBottom: '2rem',
-              letterSpacing: '1px'
+            {/* Title */}
+            <div style={{
+              fontSize: '0.875rem',
+              fontWeight: '700',
+              marginBottom: '0.75rem',
+              padding: '0.5rem 0',
+              opacity: 0.6,
+              letterSpacing: '0.5px',
+              textTransform: 'uppercase'
             }}>
               {t('nav.catalog')}
-            </h2>
+            </div>
 
-            {/* Categories Grid */}
+            {/* Categories List */}
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-              gap: '1rem'
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.25rem'
             }}>
               {categories.map((category) => (
                 <button
@@ -778,12 +768,22 @@ const Header = () => {
                   onClick={() => handleCategoryClick(category.slug)}
                   className="text-link"
                   style={{
-                    padding: '1rem',
-                    textAlign: 'center',
+                    padding: '0.75rem 1rem',
+                    textAlign: 'left',
                     width: '100%',
                     fontSize: '0.875rem',
-                    fontWeight: '600',
-                    letterSpacing: '0.5px'
+                    fontWeight: '500',
+                    borderRadius: '8px',
+                    background: 'transparent',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : 'rgba(200, 230, 255, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
                   }}
                 >
                   {t(`categories.${category.slug}`)}
@@ -791,7 +791,7 @@ const Header = () => {
               ))}
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
