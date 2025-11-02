@@ -281,7 +281,7 @@ class MarketplaceTestSuite:
         
         try:
             async with self.session.post(
-                f"{self.api_url}/products",
+                f"{self.api_url}/products/",
                 json=product_data,
                 headers={
                     "Authorization": f"Bearer {self.seller_token}",
