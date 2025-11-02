@@ -735,7 +735,8 @@ const Header = () => {
               borderRadius: '16px',
               padding: '1rem',
               zIndex: 9999,
-              animation: 'slideDown 0.3s ease-out'
+              animation: 'slideDown 0.3s ease-out',
+              overflow: 'hidden'
             }}
           >
             {/* Title */}
