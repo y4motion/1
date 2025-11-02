@@ -66,26 +66,27 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    return {"user_id": user_id, "email": payload.get("email")}
+    return {"id": user_id, "email": payload.get("email"), "is_admin": payload.get("is_admin", False), "is_seller": payload.get("is_seller", False)}
 
 
-async def get_current_user_optional(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+async def get_current_user_optional(request: Request) -> Optional[dict]:
     """
     Dependency to get current authenticated user from token, but returns None if not authenticated.
     This is useful for endpoints that work for both authenticated and unauthenticated users.
     """
-    if not credentials:
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
         return None
     
     try:
-        token = credentials.credentials
+        token = auth_header.split(" ")[1]
         payload = decode_access_token(token)
         
         user_id = payload.get("sub")
         if user_id is None:
             return None
         
-        return {"user_id": user_id, "email": payload.get("email")}
+        return {"id": user_id, "email": payload.get("email"), "is_admin": payload.get("is_admin", False), "is_seller": payload.get("is_seller", False)}
     except:
         return None
 
