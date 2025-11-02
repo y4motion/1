@@ -171,27 +171,41 @@ const Header = () => {
               )}
             </button>
 
-            {/* LVL Button with Permanent Glass Background */}
+            {/* LVL Button with Permanent Glass Background or Login Button */}
             <div>
-              <button
-                className="lvl-button-permanent"
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
-              >
-                <span style={{ fontSize: '0.875rem' }}>{t('user.level')} {mockUser.level}</span>
-                <div style={{
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '50%',
-                  background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.2)' : '2px solid rgba(0, 0, 0, 0.2)'
-                }}>
-                  <User size={16} className="icon-color" />
-                </div>
-              </button>
+              {isAuthenticated ? (
+                <button
+                  className="lvl-button-permanent"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+                >
+                  <span style={{ fontSize: '0.875rem' }}>{t('user.level')} {displayUser.level}</span>
+                  <div style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '50%',
+                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.2)' : '2px solid rgba(0, 0, 0, 0.2)'
+                  }}>
+                    <User size={16} className="icon-color" />
+                  </div>
+                </button>
+              ) : (
+                <button
+                  className="lvl-button-permanent"
+                  onClick={() => {
+                    setAuthMode('login');
+                    setShowAuthModal(true);
+                  }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+                >
+                  <LogIn size={18} className="icon-color" />
+                  <span style={{ fontSize: '0.875rem' }}>{t('user.login')}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
