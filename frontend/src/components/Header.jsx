@@ -291,7 +291,8 @@ const Header = () => {
                   <div style={{ 
                     display: 'flex', 
                     borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-                    padding: '0 0.5rem'
+                    padding: '0 0.5rem',
+                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'
                   }}>
                     {[
                       { id: 'overview', icon: User, label: 'Overview' },
