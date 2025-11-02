@@ -207,9 +207,57 @@ const Header = () => {
             animation: 'slideDown 0.3s ease-out'
           }}
         >
-          <div style={{ padding: '2rem', textAlign: 'center' }}>
-            <p>User Menu (temporary)</p>
-            <p>LVL {mockUser.level}</p>
+          {/* User Header */}
+          <div style={{ padding: '1.5rem', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
+              <div>
+                <div style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem' }}>
+                  {mockUser.username}
+                </div>
+                <div style={{ opacity: 0.6, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ padding: '0.125rem 0.5rem', borderRadius: '12px', background: currentLevel.color, color: 'white', fontSize: '0.75rem', fontWeight: '600' }}>
+                    {currentLevel.name}
+                  </span>
+                  <span>{mockUser.xp} XP</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.5rem 0.75rem', borderRadius: '8px', background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)', border: '1px solid rgba(255, 152, 0, 0.3)' }}>
+                <span style={{ fontSize: '1.25rem' }}>🔥</span>
+                <span style={{ fontSize: '0.875rem', fontWeight: '700' }}>{mockUser.loginStreak}</span>
+              </div>
+            </div>
+            <div>
+              <div style={{ height: '8px', background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.5rem' }}>
+                <div style={{ height: '100%', width: `${((mockUser.xp / mockUser.nextLevelXP) * 100).toFixed(0)}%`, background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`, transition: 'width 0.3s ease' }} />
+              </div>
+              <div style={{ opacity: 0.5, fontSize: '0.75rem', display: 'flex', justifyContent: 'space-between' }}>
+                <span>{mockUser.nextLevelXP - mockUser.xp} {t('user.xpToNextLevel')}</span>
+                <span>{mockUser.level + 1}</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Tabs */}
+          <div style={{ display: 'flex', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)', padding: '0 0.5rem' }}>
+            {[
+              { id: 'overview', icon: User, label: 'Overview' },
+              { id: 'achievements', icon: Trophy, label: t('user.achievements') },
+              { id: 'quests', icon: Target, label: t('user.dailyQuests') },
+              { id: 'rewards', icon: Gift, label: t('user.inventory') }
+            ].map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, padding: '0.75rem 0.5rem', border: 'none', background: 'none', cursor: 'pointer', borderBottom: activeTab === tab.id ? `2px solid ${currentLevel.color}` : '2px solid transparent', opacity: activeTab === tab.id ? 1 : 0.5, transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+                <tab.icon size={18} />
+                <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+          
+          {/* Compact content - just show current user info */}
+          <div style={{ padding: '1rem' }}>
+            <div style={{ textAlign: 'center', padding: '2rem' }}>
+              <p style={{ fontSize: '0.875rem', opacity: 0.7 }}>User menu content</p>
+              <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '0.5rem' }}>Full menu in Phase 2</p>
+            </div>
           </div>
         </div>
       )}
