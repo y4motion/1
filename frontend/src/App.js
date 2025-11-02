@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import HomePage from "./components/HomePage";
 import CategoryPage from "./components/CategoryPage";
 import ProductPage from "./components/ProductPage";
+import MarketplacePage from "./components/MarketplacePage";
 import MouseFollower from "./components/MouseFollower";
 
 function App() {
