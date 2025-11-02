@@ -72,7 +72,7 @@ const Header = () => {
                 <Link
                   key={link.key}
                   to={link.path}
-                  className={`text-link ${location.pathname === link.path ? 'active' : ''}`}
+                  className="text-link"
                   style={{ padding: '0.5rem 1rem' }}
                 >
                   {link.name}
