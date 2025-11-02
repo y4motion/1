@@ -754,7 +754,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   position: 'absolute',
                   bottom: '1rem',
                   right: '1rem',
-                  background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(56, 142, 60, 0.9) 100%)',
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(107, 70, 193, 0.95) 100%)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(255, 255, 255, 0.3)',
                   borderRadius: '12px',
@@ -769,15 +769,15 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   gap: '0.5rem',
                   opacity: isHovered ? 1 : 0,
                   transform: isHovered ? 'scale(1)' : 'scale(0.8)',
-                  boxShadow: '0 4px 20px rgba(76, 175, 80, 0.4)'
+                  boxShadow: '0 4px 20px rgba(139, 92, 246, 0.5)'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 6px 30px rgba(76, 175, 80, 0.6)';
+                  e.currentTarget.style.boxShadow = '0 6px 30px rgba(139, 92, 246, 0.7)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(76, 175, 80, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.5)';
                 }}
               >
                 <Zap size={16} />
