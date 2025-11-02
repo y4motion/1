@@ -243,7 +243,7 @@ async def run_marketplace_tests():
         if product_id and normal_token:
             try:
                 async with session.post(
-                    f"{api_url}/products/{product_id}/wishlist/",
+                    f"{api_url}/products/{product_id}/wishlist",
                     headers={"Authorization": f"Bearer {normal_token}"}
                 ) as response:
                     
