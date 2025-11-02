@@ -37,7 +37,7 @@ const ProductDetailPage = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/products/${id}/`);
+      const response = await fetch(`${API_URL}/api/products/${id}/`);  // Added trailing slash
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
