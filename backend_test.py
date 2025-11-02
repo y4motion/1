@@ -352,7 +352,7 @@ class MarketplaceTestSuite:
         
         try:
             # Get product first time
-            async with self.session.get(f"{self.api_url}/products/{self.product_id}") as response:
+            async with self.session.get(f"{self.api_url}/products/{self.product_id}/") as response:
                 status = response.status
                 data = await response.json()
                 
