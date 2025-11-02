@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional
 from datetime import datetime, timezone
-from ..database import db_client
-from ..models.order import OrderCreate, Order, OrderResponse, OrderUpdate
-from ..utils.auth_utils import get_current_user_optional
+from database import db as db_client
+from models.order import OrderCreate, Order, OrderResponse, OrderUpdate
+from utils.auth_utils import get_current_user_optional
 import logging
 
 router = APIRouter(prefix="/api/orders", tags=["orders"])
