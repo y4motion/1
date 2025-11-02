@@ -127,17 +127,20 @@ backend:
         
   - task: "MongoDB User Collection"
     implemented: true
-    working: "pending_test"
+    working: true
     files:
       - "/app/backend/database.py"
       - "/app/backend/models/user.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "pending_test"
         agent: "main"
         comment: "Created User model with UUID-based IDs (not ObjectId), gamification fields, and proper datetime serialization. Using motor AsyncIOMotorClient for async MongoDB operations."
+      - working: true
+        agent: "testing"
+        comment: "MongoDB user collection tested successfully through authentication endpoints. ✅ User registration creates new documents with UUID-based IDs. ✅ User lookup by email works correctly for login. ✅ User profile retrieval by ID works for /me endpoint. ✅ Duplicate email/username detection working. ✅ Datetime serialization/deserialization working properly. ✅ Gamification fields (level=1, coins=0, achievements=[], etc.) properly initialized. MongoDB integration is working correctly with motor AsyncIOMotorClient."
 
 frontend:
   - task: "Frontend MVP (Phase 1.5)"
