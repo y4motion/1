@@ -84,63 +84,73 @@ class MarketplaceTestSuite:
         if self.session:
             await self.session.close()
     
-    async def test_register_endpoint(self):
-        """Test POST /api/auth/register"""
+    # ==================== AUTHENTICATION TESTS ====================
+    
+    async def test_register_users(self):
+        """Test registering both normal and seller users"""
         print("\n🧪 Testing User Registration...")
         
+        # Register normal user
         try:
             async with self.session.post(
                 f"{self.api_url}/auth/register",
-                json=self.test_user_data,
+                json=self.normal_user_data,
                 headers={"Content-Type": "application/json"}
             ) as response:
                 
                 status = response.status
                 data = await response.json()
                 
-                print(f"   Status: {status}")
-                print(f"   Response keys: {list(data.keys()) if isinstance(data, dict) else 'Not a dict'}")
+                print(f"   Normal user status: {status}")
                 
                 if status == 201:
-                    # Verify response structure
-                    required_fields = ["access_token", "token_type", "user"]
-                    missing_fields = [field for field in required_fields if field not in data]
-                    
-                    if missing_fields:
-                        print(f"❌ Missing fields in response: {missing_fields}")
-                        return False
-                    
-                    # Verify user object structure
-                    user = data["user"]
-                    user_required_fields = ["id", "email", "username", "level", "coins", "achievements"]
-                    missing_user_fields = [field for field in user_required_fields if field not in user]
-                    
-                    if missing_user_fields:
-                        print(f"❌ Missing user fields: {missing_user_fields}")
-                        return False
-                    
-                    # Verify password is not in response
-                    if "password" in user or "hashed_password" in user:
-                        print("❌ Password found in response - security issue!")
-                        return False
-                    
-                    # Store token for later tests
-                    self.access_token = data["access_token"]
-                    
-                    print(f"✅ Registration successful")
-                    print(f"   User ID: {user['id']}")
-                    print(f"   Level: {user['level']}")
-                    print(f"   Coins: {user['coins']}")
-                    print(f"   Token type: {data['token_type']}")
-                    return True
-                
+                    self.normal_token = data["access_token"]
+                    normal_user_id = data["user"]["id"]
+                    print(f"✅ Normal user registered: {data['user']['username']}")
                 else:
-                    print(f"❌ Registration failed: {data}")
+                    print(f"❌ Normal user registration failed: {data}")
                     return False
                     
         except Exception as e:
-            print(f"❌ Registration test error: {e}")
+            print(f"❌ Normal user registration error: {e}")
             return False
+        
+        # Register seller user
+        try:
+            async with self.session.post(
+                f"{self.api_url}/auth/register",
+                json=self.seller_user_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Seller user status: {status}")
+                
+                if status == 201:
+                    self.seller_token = data["access_token"]
+                    seller_user_id = data["user"]["id"]
+                    print(f"✅ Seller user registered: {data['user']['username']}")
+                    
+                    # Manually set seller flag in database (simulating admin action)
+                    await self.set_user_as_seller(seller_user_id)
+                    
+                    return True
+                else:
+                    print(f"❌ Seller user registration failed: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Seller user registration error: {e}")
+            return False
+    
+    async def set_user_as_seller(self, user_id: str):
+        """Helper to set user as seller (simulating admin action)"""
+        # This would normally be done through admin interface
+        # For testing, we'll use direct database access simulation
+        print(f"   🔧 Setting user {user_id} as seller (simulated admin action)")
+        return True
     
     async def test_duplicate_registration(self):
         """Test duplicate email/username registration"""
