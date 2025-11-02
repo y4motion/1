@@ -574,7 +574,7 @@ const MarketplacePage = () => {
           </div>
         )}
 
-        {/* Products Grid */}
+        {/* Products Grid/List */}
         {loading ? (
           <div style={{ textAlign: 'center', padding: '4rem', fontSize: '1.125rem', opacity: 0.7 }}>
             Loading products...
@@ -585,19 +585,37 @@ const MarketplacePage = () => {
             <p style={{ opacity: 0.7 }}>Try adjusting your filters</p>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1.5rem'
-          }}>
-            {products.map(product => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                onToggleWishlist={handleToggleWishlist}
-              />
-            ))}
-          </div>
+          viewMode === 'grid' ? (
+            // Grid View - 4 columns
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '1.75rem'
+            }}>
+              {products.map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  onToggleWishlist={handleToggleWishlist}
+                />
+              ))}
+            </div>
+          ) : (
+            // List View
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem'
+            }}>
+              {products.map(product => (
+                <ProductCardList 
+                  key={product.id} 
+                  product={product} 
+                  onToggleWishlist={handleToggleWishlist}
+                />
+              ))}
+            </div>
+          )
         )}
       </div>
     </div>
