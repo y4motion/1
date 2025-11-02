@@ -10,7 +10,7 @@ import uuid
 from datetime import datetime, timezone
 
 # Import database connection
-from database import db, close_mongo_connection
+from database import db, close_mongo_connection, client
 
 # Import auth routes
 from routes.auth_routes import router as auth_router
