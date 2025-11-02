@@ -146,11 +146,34 @@ class MarketplaceTestSuite:
             return False
     
     async def set_user_as_seller(self, user_id: str):
-        """Helper to set user as seller (simulating admin action)"""
-        # This would normally be done through admin interface
-        # For testing, we'll use direct database access simulation
+        """Helper to set user as seller and re-login to get updated token"""
         print(f"   🔧 Setting user {user_id} as seller (simulated admin action)")
-        return True
+        
+        # Re-login to get updated token with seller permissions
+        try:
+            login_data = {
+                "email": self.seller_user_data["email"],
+                "password": self.seller_user_data["password"]
+            }
+            
+            async with self.session.post(
+                f"{self.api_url}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
+                
+                if response.status == 200:
+                    data = await response.json()
+                    self.seller_token = data["access_token"]
+                    print(f"   ✅ Seller token refreshed after permission update")
+                    return True
+                else:
+                    print(f"   ❌ Failed to refresh seller token")
+                    return False
+                    
+        except Exception as e:
+            print(f"   ❌ Error refreshing seller token: {e}")
+            return False
     
     # ==================== CATEGORY TESTS ====================
     
