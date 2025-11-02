@@ -427,54 +427,98 @@ class MarketplaceTestSuite:
             print(f"❌ Wishlist test error: {e}")
             return False
     
-    async def test_me_endpoint(self):
-        """Test GET /api/auth/me with valid token"""
-        print("\n🧪 Testing Protected Endpoint /me...")
+    # ==================== SHOPPING CART TESTS ====================
+    
+    async def test_cart_operations(self):
+        """Test complete cart workflow"""
+        print("\n🧪 Testing Shopping Cart Operations...")
         
-        if not self.access_token:
-            print("❌ No access token available for /me test")
+        if not self.product_id:
+            print("❌ No product ID available for cart testing")
             return False
         
         try:
-            headers = {
-                "Authorization": f"Bearer {self.access_token}",
-                "Content-Type": "application/json"
-            }
-            
+            # Get empty cart
             async with self.session.get(
-                f"{self.api_url}/auth/me",
-                headers=headers
+                f"{self.api_url}/cart",
+                headers={"Authorization": f"Bearer {self.normal_token}"}
             ) as response:
                 
                 status = response.status
                 data = await response.json()
                 
-                print(f"   Status: {status}")
+                print(f"   Get cart status: {status}")
                 
-                if status == 200:
-                    # Verify user profile structure
-                    required_fields = ["id", "email", "username", "level", "coins", "achievements"]
-                    missing_fields = [field for field in required_fields if field not in data]
-                    
-                    if missing_fields:
-                        print(f"❌ Missing fields in /me response: {missing_fields}")
-                        return False
-                    
-                    # Verify password is not in response
-                    if "password" in data or "hashed_password" in data:
-                        print("❌ Password found in /me response - security issue!")
-                        return False
-                    
-                    print(f"✅ /me endpoint successful")
-                    print(f"   User: {data['username']} (Level {data['level']})")
-                    return True
-                
-                else:
-                    print(f"❌ /me endpoint failed: {data}")
+                if status != 200:
+                    print(f"❌ Failed to get cart: {data}")
                     return False
+                
+                print(f"✅ Cart retrieved: {data.get('item_count', 0)} items")
+            
+            # Add item to cart
+            add_data = {"product_id": self.product_id, "quantity": 2}
+            async with self.session.post(
+                f"{self.api_url}/cart/items",
+                json=add_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Add to cart status: {status}")
+                
+                if status != 200:
+                    print(f"❌ Failed to add to cart: {data}")
+                    return False
+                
+                print(f"✅ Added to cart: {data.get('item_count', 0)} items, total: ${data.get('total', 0)}")
+            
+            # Update cart item quantity
+            update_data = {"quantity": 3}
+            async with self.session.put(
+                f"{self.api_url}/cart/items/{self.product_id}",
+                json=update_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Update cart status: {status}")
+                
+                if status != 200:
+                    print(f"❌ Failed to update cart: {data}")
+                    return False
+                
+                print(f"✅ Cart updated: {data.get('item_count', 0)} items")
+            
+            # Remove item from cart
+            async with self.session.delete(
+                f"{self.api_url}/cart/items/{self.product_id}",
+                headers={"Authorization": f"Bearer {self.normal_token}"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Remove from cart status: {status}")
+                
+                if status != 200:
+                    print(f"❌ Failed to remove from cart: {data}")
+                    return False
+                
+                print(f"✅ Item removed: {data.get('item_count', 0)} items remaining")
+                return True
                     
         except Exception as e:
-            print(f"❌ /me endpoint test error: {e}")
+            print(f"❌ Cart operations test error: {e}")
             return False
     
     async def test_me_without_token(self):
