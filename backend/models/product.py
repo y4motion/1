@@ -26,6 +26,10 @@ class ProductBase(BaseModel):
     tags: List[str] = Field(default_factory=list)
     stock: int = 0
     is_active: bool = True
+    # Stock management
+    is_available: bool = True  # Overall availability
+    allow_preorder: bool = True  # Allow pre-orders when out of stock
+    preorder_delivery_days: int = 14  # Estimated delivery days for pre-orders
 
 
 class ProductCreate(ProductBase):
