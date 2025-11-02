@@ -31,10 +31,6 @@ const Header = () => {
     { name: t('nav.restock'), path: '/restock', key: 'restock' }
   ];
 
-  const getLevelProgress = () => {
-    return ((mockUser.xp / mockUser.nextLevelXP) * 100).toFixed(0);
-  };
-
   const handleLogoClick = (e) => {
     e.preventDefault();
     setShowCatalogPopup(true);
@@ -45,8 +41,34 @@ const Header = () => {
     navigate(`/category/${slug}`);
   };
 
+  const handleCopyReferralCode = () => {
+    navigator.clipboard.writeText(mockUser.referralCode);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  const handleSpinWin = (prize) => {
+    console.log('Won prize:', prize);
+    // Here you would update user's inventory/balance
+  };
+
+  const currentLevel = userLevels[mockUser.level];
+  const unlockedAchievements = achievements.filter(a => a.unlocked);
+  const completedQuests = dailyQuests.filter(q => q.completed);
+  const canSpin = mockUser.lastSpinDate === null; // Simplified check
+
+  // Get wishlist products
+  const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+
   return (
     <>
+      {/* Spin Wheel Modal */}
+      {showSpinWheel && (
+        <SpinWheel 
+          onClose={() => setShowSpinWheel(false)}
+          onWin={handleSpinWin}
+        />
+      )}
       <header className="fixed top-0 left-0 right-0 z-50" style={{ padding: '1rem 3rem' }}>
         <div className="glass" style={{ 
           borderRadius: '16px', 
