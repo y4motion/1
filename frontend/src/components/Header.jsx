@@ -200,16 +200,7 @@ const Header = () => {
                     borderRadius: '16px',
                     overflow: 'hidden',
                     zIndex: 1000,
-                    border: theme === 'dark' 
-                      ? '1px solid rgba(255, 255, 255, 0.1)' 
-                      : '1px solid rgba(200, 230, 255, 0.3)',
-                    background: theme === 'dark'
-                      ? 'rgba(10, 10, 11, 0.85)'
-                      : 'rgba(255, 255, 255, 0.85)',
-                    backdropFilter: 'blur(30px) saturate(180%)',
-                    boxShadow: theme === 'dark'
-                      ? '0 8px 32px rgba(0, 0, 0, 0.4)'
-                      : '0 8px 32px rgba(200, 230, 255, 0.3)'
+                    animation: 'slideDown 0.3s ease-out'
                   }}
                 >
                   {/* User Header */}
