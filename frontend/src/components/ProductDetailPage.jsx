@@ -37,7 +37,7 @@ const ProductDetailPage = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/products/${id}/`);  // Added trailing slash
+      const response = await fetch(`${API_URL}/api/products/${id}`);  // No trailing slash for path params
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
@@ -51,7 +51,7 @@ const ProductDetailPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/reviews/product/${id}/`);
+      const response = await fetch(`${API_URL}/api/reviews/product/${id}/`);  // With trailing slash
       if (response.ok) {
         const data = await response.json();
         setReviews(data);
@@ -63,7 +63,7 @@ const ProductDetailPage = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/questions/product/${id}/`);
+      const response = await fetch(`${API_URL}/api/questions/product/${id}/`);  // With trailing slash
       if (response.ok) {
         const data = await response.json();
         setQuestions(data);
