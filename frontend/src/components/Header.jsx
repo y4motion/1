@@ -44,39 +44,42 @@ const Header = () => {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          {/* Logo - Left with Enhanced Pulsing */}
-          <button
-            onClick={handleLogoClick}
-            className="pulse-glow-enhanced"
-            style={{ 
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '0.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '6px',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
-          >
-            <Power size={24} className="icon-color" strokeWidth={2} />
-          </button>
+          {/* Left Group: Logo + Navigation Links (tightly grouped) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {/* Logo - Left with Enhanced Pulsing */}
+            <button
+              onClick={handleLogoClick}
+              className="pulse-glow-enhanced"
+              style={{ 
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '6px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+            >
+              <Power size={24} className="icon-color" strokeWidth={2} />
+            </button>
 
-          {/* Navigation Links - Center */}
-          <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
-            {navLinks.map((link) => (
-              <Link
-                key={link.key}
-                to={link.path}
-                className={`text-link ${location.pathname === link.path ? 'active' : ''}`}
-                style={{ padding: '0.5rem 1rem' }}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
+            {/* Navigation Links - Left-aligned, adjacent to logo */}
+            <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.key}
+                  to={link.path}
+                  className={`text-link ${location.pathname === link.path ? 'active' : ''}`}
+                  style={{ padding: '0.5rem 1rem' }}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
           {/* Right Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
