@@ -213,20 +213,35 @@ class MarketplaceTestSuite:
             print(f"❌ Get categories test error: {e}")
             return False
     
-    async def test_login_endpoint(self):
-        """Test POST /api/auth/login"""
-        print("\n🧪 Testing User Login...")
+    # ==================== PRODUCT TESTS ====================
+    
+    async def test_create_product_as_normal_user(self):
+        """Test creating product as normal user (should fail)"""
+        print("\n🧪 Testing Product Creation (Normal User - Should Fail)...")
+        
+        product_data = {
+            "title": "Gaming Laptop RTX 4090",
+            "description": "High-end gaming laptop with RTX 4090",
+            "category_id": "test-category-id",
+            "price": 2999.99,
+            "currency": "USD",
+            "stock": 5,
+            "images": [{"url": "https://example.com/laptop.jpg", "is_primary": True}],
+            "specifications": [
+                {"name": "GPU", "value": "RTX 4090"},
+                {"name": "RAM", "value": "32GB DDR5"}
+            ],
+            "tags": ["gaming", "laptop", "rtx"]
+        }
         
         try:
-            login_data = {
-                "email": self.test_user_data["email"],
-                "password": self.test_user_data["password"]
-            }
-            
             async with self.session.post(
-                f"{self.api_url}/auth/login",
-                json=login_data,
-                headers={"Content-Type": "application/json"}
+                f"{self.api_url}/products",
+                json=product_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
             ) as response:
                 
                 status = response.status
@@ -234,28 +249,137 @@ class MarketplaceTestSuite:
                 
                 print(f"   Status: {status}")
                 
-                if status == 200:
-                    # Verify response structure (same as register)
-                    required_fields = ["access_token", "token_type", "user"]
-                    missing_fields = [field for field in required_fields if field not in data]
-                    
-                    if missing_fields:
-                        print(f"❌ Missing fields in login response: {missing_fields}")
-                        return False
-                    
-                    # Update token
-                    self.access_token = data["access_token"]
-                    
-                    print(f"✅ Login successful")
-                    print(f"   User: {data['user']['username']}")
+                if status == 403:
+                    print(f"✅ Product creation correctly rejected for normal user")
                     return True
-                
                 else:
-                    print(f"❌ Login failed: {data}")
+                    print(f"❌ Should return 403 for normal user, got {status}")
                     return False
                     
         except Exception as e:
-            print(f"❌ Login test error: {e}")
+            print(f"❌ Product creation test error: {e}")
+            return False
+    
+    async def test_create_product_as_seller(self):
+        """Test creating product as seller user"""
+        print("\n🧪 Testing Product Creation (Seller User)...")
+        
+        product_data = {
+            "title": "Gaming Mechanical Keyboard",
+            "description": "RGB mechanical keyboard perfect for gaming",
+            "category_id": "gaming-peripherals",
+            "price": 149.99,
+            "currency": "USD",
+            "stock": 25,
+            "images": [{"url": "https://example.com/keyboard.jpg", "is_primary": True}],
+            "specifications": [
+                {"name": "Switch Type", "value": "Cherry MX Blue"},
+                {"name": "Backlight", "value": "RGB"}
+            ],
+            "tags": ["gaming", "keyboard", "mechanical", "rgb"]
+        }
+        
+        try:
+            async with self.session.post(
+                f"{self.api_url}/products",
+                json=product_data,
+                headers={
+                    "Authorization": f"Bearer {self.seller_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Status: {status}")
+                
+                if status == 201:
+                    self.product_id = data["id"]
+                    print(f"✅ Product created successfully: {data['title']}")
+                    print(f"   Product ID: {self.product_id}")
+                    return True
+                else:
+                    print(f"❌ Product creation failed: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Product creation test error: {e}")
+            return False
+    
+    async def test_get_products_with_filters(self):
+        """Test getting products with various filters"""
+        print("\n🧪 Testing Product Listing with Filters...")
+        
+        test_cases = [
+            ("Basic listing", {}),
+            ("Pagination", {"skip": 0, "limit": 10}),
+            ("Search", {"search": "gaming"}),
+            ("Price range", {"min_price": 100, "max_price": 200}),
+            ("Sort by price", {"sort_by": "price", "sort_order": "asc"})
+        ]
+        
+        success_count = 0
+        
+        for test_name, params in test_cases:
+            try:
+                async with self.session.get(
+                    f"{self.api_url}/products",
+                    params=params
+                ) as response:
+                    
+                    status = response.status
+                    data = await response.json()
+                    
+                    if status == 200:
+                        print(f"   ✅ {test_name}: {len(data)} products")
+                        success_count += 1
+                    else:
+                        print(f"   ❌ {test_name} failed: {status}")
+                        
+            except Exception as e:
+                print(f"   ❌ {test_name} error: {e}")
+        
+        return success_count == len(test_cases)
+    
+    async def test_get_single_product(self):
+        """Test getting single product and view increment"""
+        print("\n🧪 Testing Single Product Retrieval...")
+        
+        if not self.product_id:
+            print("❌ No product ID available for testing")
+            return False
+        
+        try:
+            # Get product first time
+            async with self.session.get(f"{self.api_url}/products/{self.product_id}") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Status: {status}")
+                
+                if status == 200:
+                    initial_views = data.get("views", 0)
+                    print(f"✅ Product retrieved: {data['title']}")
+                    print(f"   Initial views: {initial_views}")
+                    
+                    # Get product second time to test view increment
+                    async with self.session.get(f"{self.api_url}/products/{self.product_id}") as response2:
+                        data2 = await response2.json()
+                        new_views = data2.get("views", 0)
+                        
+                        if new_views > initial_views:
+                            print(f"✅ View count incremented: {initial_views} → {new_views}")
+                            return True
+                        else:
+                            print(f"❌ View count not incremented: {initial_views} → {new_views}")
+                            return False
+                else:
+                    print(f"❌ Failed to get product: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Single product test error: {e}")
             return False
     
     async def test_invalid_login(self):
