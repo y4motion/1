@@ -364,7 +364,7 @@ class MarketplaceTestSuite:
                     print(f"   Initial views: {initial_views}")
                     
                     # Get product second time to test view increment
-                    async with self.session.get(f"{self.api_url}/products/{self.product_id}") as response2:
+                    async with self.session.get(f"{self.api_url}/products/{self.product_id}/") as response2:
                         data2 = await response2.json()
                         new_views = data2.get("views", 0)
                         
