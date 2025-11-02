@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/glassmorphism.css';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const { login, register } = useAuth();
   const [mode, setMode] = useState(initialMode);
   const [formData, setFormData] = useState({
