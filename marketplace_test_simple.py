@@ -265,7 +265,7 @@ async def run_marketplace_tests():
                 # Add to cart
                 add_data = {"product_id": product_id, "quantity": 2}
                 async with session.post(
-                    f"{api_url}/cart/items/",
+                    f"{api_url}/cart/items",
                     json=add_data,
                     headers={"Authorization": f"Bearer {normal_token}"}
                 ) as response:
