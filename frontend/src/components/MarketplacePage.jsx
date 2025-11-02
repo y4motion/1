@@ -1221,4 +1221,330 @@ const ProductCardList = ({ product, onToggleWishlist }) => {
   );
 };
 
+// Quick Buy Modal Component
+const QuickBuyModal = ({ product, onClose }) => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    address: '',
+    paymentMethod: 'sbp' // 'sbp', 'qr', 'card'
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    // TODO: Implement actual payment processing
+    setTimeout(() => {
+      alert('Заказ оформлен! Мы свяжемся с вами для подтверждения.');
+      setLoading(false);
+      onClose();
+    }, 1500);
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+      style={{
+        background: 'rgba(0, 0, 0, 0.7)',
+        backdropFilter: 'blur(10px)'
+      }}
+    >
+      <div 
+        className="glass-strong"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          maxWidth: '500px',
+          width: '100%',
+          borderRadius: '16px',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          padding: '2rem',
+          position: 'relative'
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <X size={20} />
+        </button>
+
+        {/* Header */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h2 style={{ 
+            fontSize: '1.75rem', 
+            fontWeight: '800', 
+            marginBottom: '0.5rem',
+            background: 'linear-gradient(135deg, #76ff03 0%, #4caf50 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>
+            ⚡ Быстрая Покупка
+          </h2>
+          <p style={{ opacity: 0.7, fontSize: '0.875rem' }}>
+            Оформите заказ без регистрации
+          </p>
+        </div>
+
+        {/* Product Info */}
+        <div 
+          className="glass-subtle"
+          style={{
+            padding: '1rem',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            gap: '1rem',
+            alignItems: 'center'
+          }}
+        >
+          <div style={{
+            width: '60px',
+            height: '60px',
+            borderRadius: '8px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            overflow: 'hidden'
+          }}>
+            {product.images && product.images[0] && (
+              <img 
+                src={product.images[0].url} 
+                alt={product.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            )}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>
+              {product.title}
+            </div>
+            <div style={{
+              fontSize: '1.25rem',
+              fontWeight: '800',
+              background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              ${product.price}
+            </div>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          {/* Payment Method */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.75rem', 
+              fontSize: '0.875rem', 
+              fontWeight: '600' 
+            }}>
+              Способ оплаты
+            </label>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.5rem'
+            }}>
+              {[
+                { id: 'sbp', label: 'СБП', icon: <Zap size={18} /> },
+                { id: 'qr', label: 'QR-код', icon: <CreditCard size={18} /> },
+                { id: 'card', label: 'Карта', icon: <CreditCard size={18} /> }
+              ].map(method => (
+                <button
+                  key={method.id}
+                  type="button"
+                  onClick={() => setFormData({ ...formData, paymentMethod: method.id })}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.75rem',
+                    borderRadius: '10px',
+                    border: formData.paymentMethod === method.id 
+                      ? '2px solid rgba(76, 175, 80, 0.5)'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: formData.paymentMethod === method.id
+                      ? 'rgba(76, 175, 80, 0.2)'
+                      : 'rgba(255, 255, 255, 0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    fontSize: '0.8125rem',
+                    fontWeight: '600'
+                  }}
+                >
+                  {method.icon}
+                  {method.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Full Name */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontSize: '0.875rem', 
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <UserIcon size={16} />
+              ФИО
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.fullName}
+              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              placeholder="Иванов Иван Иванович"
+              style={{
+                width: '100%',
+                padding: '0.875rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#fff',
+                fontSize: '1rem',
+                outline: 'none'
+              }}
+            />
+          </div>
+
+          {/* Phone */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontSize: '0.875rem', 
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <CreditCard size={16} />
+              Телефон
+            </label>
+            <input
+              type="tel"
+              required
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              placeholder="+7 (999) 123-45-67"
+              style={{
+                width: '100%',
+                padding: '0.875rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#fff',
+                fontSize: '1rem',
+                outline: 'none'
+              }}
+            />
+          </div>
+
+          {/* Address */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontSize: '0.875rem', 
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <MapPin size={16} />
+              Адрес доставки
+            </label>
+            <textarea
+              required
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              placeholder="Город, улица, дом, квартира..."
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '0.875rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#fff',
+                fontSize: '1rem',
+                outline: 'none',
+                resize: 'vertical'
+              }}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '1rem',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #76ff03 0%, #4caf50 100%)',
+              color: '#000',
+              fontSize: '1rem',
+              fontWeight: '800',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.75rem',
+              boxShadow: '0 4px 20px rgba(76, 175, 80, 0.4)',
+              opacity: loading ? 0.7 : 1
+            }}
+          >
+            <Zap size={20} />
+            {loading ? 'Оформление...' : 'Оформить заказ'}
+          </button>
+
+          {/* Info Text */}
+          <div style={{
+            marginTop: '1rem',
+            fontSize: '0.75rem',
+            opacity: 0.6,
+            textAlign: 'center',
+            lineHeight: '1.5'
+          }}>
+            После оформления с вами свяжется менеджер для подтверждения заказа
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default MarketplacePage;
