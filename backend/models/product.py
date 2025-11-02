@@ -75,3 +75,6 @@ class ProductUpdate(BaseModel):
     tags: Optional[List[str]] = None
     stock: Optional[int] = None
     is_active: Optional[bool] = None
+    is_available: Optional[bool] = None
+    allow_preorder: Optional[bool] = None
+    preorder_delivery_days: Optional[int] = None
