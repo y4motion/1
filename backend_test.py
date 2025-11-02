@@ -324,7 +324,7 @@ class MarketplaceTestSuite:
         for test_name, params in test_cases:
             try:
                 async with self.session.get(
-                    f"{self.api_url}/products",
+                    f"{self.api_url}/products/",
                     params=params
                 ) as response:
                     
