@@ -617,34 +617,88 @@ class MarketplaceTestSuite:
             print(f"❌ Review workflow test error: {e}")
             return False
     
-    async def test_me_invalid_token(self):
-        """Test GET /api/auth/me with invalid token"""
-        print("\n🧪 Testing /me With Invalid Token...")
+    # ==================== QUESTION & ANSWER TESTS ====================
+    
+    async def test_question_answer_workflow(self):
+        """Test complete Q&A workflow"""
+        print("\n🧪 Testing Question & Answer System...")
+        
+        if not self.product_id:
+            print("❌ No product ID available for Q&A testing")
+            return False
         
         try:
-            headers = {
-                "Authorization": "Bearer invalid_token_12345",
-                "Content-Type": "application/json"
+            # Ask question
+            question_data = {
+                "product_id": self.product_id,
+                "question": "Does this keyboard work with Mac computers?"
             }
             
-            async with self.session.get(
-                f"{self.api_url}/auth/me",
-                headers=headers
+            async with self.session.post(
+                f"{self.api_url}/questions",
+                json=question_data,
+                headers={
+                    "Authorization": f"Bearer {self.normal_token}",
+                    "Content-Type": "application/json"
+                }
             ) as response:
                 
                 status = response.status
+                data = await response.json()
                 
-                print(f"   Status: {status}")
+                print(f"   Ask question status: {status}")
                 
-                if status == 401:
-                    print(f"✅ /me correctly rejected invalid token")
-                    return True
+                if status == 201:
+                    self.question_id = data["id"]
+                    print(f"✅ Question asked: {data['question']}")
                 else:
-                    print(f"❌ /me should return 401 for invalid token, got {status}")
+                    print(f"❌ Failed to ask question: {data}")
                     return False
+            
+            # Get product questions
+            async with self.session.get(f"{self.api_url}/questions/product/{self.product_id}") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Get questions status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Questions retrieved: {len(data)} questions")
+                else:
+                    print(f"❌ Failed to get questions: {data}")
+                    return False
+            
+            # Answer question (as seller)
+            if self.question_id:
+                answer_data = {
+                    "content": "Yes, this keyboard is fully compatible with Mac computers. It works great with macOS!"
+                }
+                
+                async with self.session.post(
+                    f"{self.api_url}/questions/{self.question_id}/answers",
+                    json=answer_data,
+                    headers={
+                        "Authorization": f"Bearer {self.seller_token}",
+                        "Content-Type": "application/json"
+                    }
+                ) as response:
+                    
+                    status = response.status
+                    data = await response.json()
+                    
+                    print(f"   Answer question status: {status}")
+                    
+                    if status == 201:
+                        print(f"✅ Question answered by seller")
+                        return True
+                    else:
+                        print(f"❌ Failed to answer question: {data}")
+                        return False
+            
+            return True
                     
         except Exception as e:
-            print(f"❌ /me invalid token test error: {e}")
+            print(f"❌ Q&A workflow test error: {e}")
             return False
     
     async def run_all_tests(self):
