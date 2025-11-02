@@ -706,6 +706,23 @@ const Header = () => {
         </div>
       </header>
 
+      {/* Enhanced User Dropdown Menu with Tabs - Outside header for proper backdrop-filter */}
+      {showUserMenu && (
+        <div 
+          className="glass-strong"
+          style={{
+            position: 'fixed',
+            top: '5.5rem',
+            right: '3rem',
+            width: '480px',
+            maxHeight: '600px',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            zIndex: 1000,
+            animation: 'slideDown 0.3s ease-out'
+          }}
+        >
+
       {/* Catalog Dropdown - Vertical List */}
       {showCatalogPopup && (
         <>
