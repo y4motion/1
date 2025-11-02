@@ -28,6 +28,8 @@ class User(UserBase):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
     is_admin: bool = False
+    is_seller: bool = False  # Can create/sell products
+    is_moderator: bool = False  # Can moderate content
     
     # Gamification fields
     level: int = 1
