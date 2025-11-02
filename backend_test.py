@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """
-Backend Authentication System Test Suite
-Tests JWT authentication endpoints for gaming/tech marketplace
+Backend Marketplace API Test Suite
+Tests all backend APIs for gaming/tech marketplace including:
+- Authentication (JWT)
+- Product Management
+- Categories
+- Reviews & Ratings
+- Questions & Answers
+- Shopping Cart
 """
 
 import asyncio
