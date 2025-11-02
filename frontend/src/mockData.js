@@ -299,7 +299,8 @@ export const mockUser = {
   bonusBalance: 2500,
   currency: 'coins',
   loginStreak: 7,
-  lastSpinDate: null, // Can spin today
+  lastSpinDate: '2024-01-15', // Last weekly spin
+  bonusSpinAvailable: false, // Bonus spin after purchase
   referralCode: 'PROGAMER24'
 };
 
