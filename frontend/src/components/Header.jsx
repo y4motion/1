@@ -337,32 +337,51 @@ const Header = () => {
 
                         {/* Spin Wheel Button */}
                         <button
-                          onClick={() => setShowSpinWheel(true)}
-                          className="lvl-button-permanent"
+                          onClick={() => canSpin && setShowSpinWheel(true)}
+                          className="glass"
                           style={{
                             width: '100%',
                             padding: '1rem',
                             display: 'flex',
+                            flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: '0.5rem',
                             position: 'relative',
-                            overflow: 'visible'
+                            borderRadius: '12px',
+                            border: canSpin 
+                              ? (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(200, 230, 255, 0.4)')
+                              : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                            background: canSpin
+                              ? (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.5)')
+                              : (theme === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(255, 255, 255, 0.2)'),
+                            cursor: canSpin ? 'pointer' : 'not-allowed',
+                            opacity: canSpin ? 1 : 0.5,
+                            transition: 'all 0.3s ease'
                           }}
+                          disabled={!canSpin}
                         >
-                          <Gift size={20} />
-                          <span>{t('user.spinWheel')}</span>
-                          {canSpin && (
-                            <span style={{
-                              position: 'absolute',
-                              top: '-5px',
-                              right: '-5px',
-                              width: '12px',
-                              height: '12px',
-                              borderRadius: '50%',
-                              background: '#4CAF50',
-                              animation: 'pulse 2s infinite'
-                            }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <Gift size={20} />
+                            <span style={{ fontWeight: '600' }}>{t('user.spinWheel')}</span>
+                            {canSpin && (
+                              <span style={{
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                background: '#4CAF50',
+                                boxShadow: '0 0 8px rgba(76, 175, 80, 0.6)',
+                                animation: 'pulse 2s infinite'
+                              }} />
+                            )}
+                          </div>
+                          {!canSpin && (
+                            <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+                              {mockUser.bonusSpinAvailable 
+                                ? (language === 'en' ? 'Bonus spin after purchase!' : 'Бонусное вращение после покупки!')
+                                : (language === 'en' ? `Next spin in ${daysUntilSpin()} days` : `Следующее вращение через ${daysUntilSpin()} дней`)
+                              }
+                            </span>
                           )}
                         </button>
 
