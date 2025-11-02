@@ -1,15 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
 from datetime import datetime, timezone
 
 from models.user import UserCreate, UserLogin, User, UserResponse, TokenResponse
 from utils.auth_utils import hash_password, verify_password, create_access_token, get_current_user
-
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+from database import db
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
