@@ -458,7 +458,7 @@ class MarketplaceTestSuite:
             # Add item to cart
             add_data = {"product_id": self.product_id, "quantity": 2}
             async with self.session.post(
-                f"{self.api_url}/cart/items",
+                f"{self.api_url}/cart/items/",
                 json=add_data,
                 headers={
                     "Authorization": f"Bearer {self.normal_token}",
