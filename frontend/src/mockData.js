@@ -279,11 +279,11 @@ export const categories = [
 ];
 
 export const userLevels = {
-  1: { name: 'Novice', minXP: 0, color: '#888' },
-  2: { name: 'Gamer', minXP: 100, color: '#4CAF50' },
-  3: { name: 'Pro', minXP: 500, color: '#2196F3' },
-  4: { name: 'Elite', minXP: 1500, color: '#9C27B0' },
-  5: { name: 'Legend', minXP: 5000, color: '#FF9800' }
+  1: { name: 'Novice', minXP: 0, color: '#888', perks: ['Basic Support'] },
+  2: { name: 'Gamer', minXP: 100, color: '#4CAF50', perks: ['5% Discount', 'Free Shipping'] },
+  3: { name: 'Pro', minXP: 500, color: '#2196F3', perks: ['10% Discount', 'Priority Support', 'Exclusive Deals'] },
+  4: { name: 'Elite', minXP: 1500, color: '#9C27B0', perks: ['15% Discount', 'VIP Support', 'Early Access'] },
+  5: { name: 'Legend', minXP: 5000, color: '#FF9800', perks: ['20% Discount', 'Dedicated Manager', 'Beta Features'] }
 };
 
 export const mockUser = {
@@ -295,5 +295,202 @@ export const mockUser = {
   avatar: null,
   joinedDate: '2024-01-01',
   cartItems: 2,
-  messages: 5
+  messages: 5,
+  bonusBalance: 2500,
+  currency: 'coins',
+  loginStreak: 7,
+  lastSpinDate: null, // Can spin today
+  referralCode: 'PROGAMER24'
 };
+
+// Achievements System
+export const achievements = [
+  {
+    id: 'ach-001',
+    name: 'First Steps',
+    nameRu: 'Первые шаги',
+    description: 'Complete your first purchase',
+    descriptionRu: 'Совершите первую покупку',
+    icon: '🎯',
+    unlocked: true,
+    unlockedDate: '2024-01-15',
+    xpReward: 100,
+    category: 'purchase'
+  },
+  {
+    id: 'ach-002',
+    name: 'Review Master',
+    nameRu: 'Мастер отзывов',
+    description: 'Write 5 product reviews',
+    descriptionRu: 'Напишите 5 отзывов',
+    icon: '⭐',
+    unlocked: true,
+    unlockedDate: '2024-01-20',
+    xpReward: 150,
+    category: 'social'
+  },
+  {
+    id: 'ach-003',
+    name: 'Weekly Warrior',
+    nameRu: 'Еженедельный воин',
+    description: 'Login 7 days in a row',
+    descriptionRu: 'Входите 7 дней подряд',
+    icon: '🔥',
+    unlocked: true,
+    unlockedDate: '2024-01-22',
+    xpReward: 200,
+    category: 'streak'
+  },
+  {
+    id: 'ach-004',
+    name: 'Big Spender',
+    nameRu: 'Крупный покупатель',
+    description: 'Spend over $1000',
+    descriptionRu: 'Потратьте более $1000',
+    icon: '💎',
+    unlocked: false,
+    progress: 650,
+    total: 1000,
+    xpReward: 500,
+    category: 'purchase'
+  },
+  {
+    id: 'ach-005',
+    name: 'Social Butterfly',
+    nameRu: 'Социальная бабочка',
+    description: 'Refer 3 friends',
+    descriptionRu: 'Пригласите 3 друзей',
+    icon: '👥',
+    unlocked: false,
+    progress: 1,
+    total: 3,
+    xpReward: 300,
+    category: 'social'
+  }
+];
+
+// Daily Quests
+export const dailyQuests = [
+  {
+    id: 'quest-001',
+    name: 'Browse Products',
+    nameRu: 'Просмотрите товары',
+    description: 'View 5 different products',
+    descriptionRu: 'Просмотрите 5 различных товаров',
+    icon: '👀',
+    progress: 3,
+    total: 5,
+    xpReward: 50,
+    completed: false
+  },
+  {
+    id: 'quest-002',
+    name: 'Daily Login',
+    nameRu: 'Ежедневный вход',
+    description: 'Login today',
+    descriptionRu: 'Войдите сегодня',
+    icon: '✅',
+    progress: 1,
+    total: 1,
+    xpReward: 25,
+    completed: true
+  },
+  {
+    id: 'quest-003',
+    name: 'Add to Cart',
+    nameRu: 'Добавьте в корзину',
+    description: 'Add 3 items to your cart',
+    descriptionRu: 'Добавьте 3 товара в корзину',
+    icon: '🛒',
+    progress: 2,
+    total: 3,
+    xpReward: 75,
+    completed: false
+  }
+];
+
+// Inventory Items
+export const inventoryItems = [
+  {
+    id: 'item-001',
+    name: '10% Discount Coupon',
+    nameRu: 'Купон на скидку 10%',
+    type: 'coupon',
+    icon: '🎟️',
+    value: '10%',
+    code: 'SAVE10',
+    expiresAt: '2024-02-15',
+    usable: true
+  },
+  {
+    id: 'item-002',
+    name: 'Free Shipping',
+    nameRu: 'Бесплатная доставка',
+    type: 'shipping',
+    icon: '📦',
+    value: 'Free',
+    code: 'FREESHIP',
+    expiresAt: '2024-02-10',
+    usable: true
+  },
+  {
+    id: 'item-003',
+    name: 'Bonus XP Booster',
+    nameRu: 'Усилитель бонусного опыта',
+    type: 'booster',
+    icon: '⚡',
+    value: '2x XP',
+    duration: '24h',
+    usable: true
+  }
+];
+
+// Spin Wheel Prizes
+export const spinPrizes = [
+  { id: 1, name: '50 Coins', nameRu: '50 монет', type: 'coins', value: 50, color: '#FFD700', probability: 0.3 },
+  { id: 2, name: '100 XP', nameRu: '100 опыта', type: 'xp', value: 100, color: '#4CAF50', probability: 0.25 },
+  { id: 3, name: '5% Discount', nameRu: 'Скидка 5%', type: 'discount', value: 5, color: '#2196F3', probability: 0.2 },
+  { id: 4, name: 'Free Shipping', nameRu: 'Бесплатная доставка', type: 'shipping', value: 1, color: '#9C27B0', probability: 0.15 },
+  { id: 5, name: '200 Coins', nameRu: '200 монет', type: 'coins', value: 200, color: '#FF9800', probability: 0.08 },
+  { id: 6, name: '10% Discount', nameRu: 'Скидка 10%', type: 'discount', value: 10, color: '#F44336', probability: 0.02 }
+];
+
+// Recent Orders (Quick Actions)
+export const recentOrders = [
+  {
+    id: 'order-001',
+    product: 'Razer DeathAdder V3 Pro',
+    date: '2024-01-20',
+    status: 'delivered',
+    total: 149.99
+  },
+  {
+    id: 'order-002',
+    product: 'Corsair K100 RGB',
+    date: '2024-01-18',
+    status: 'shipped',
+    total: 229.99
+  },
+  {
+    id: 'order-003',
+    product: 'Samsung Odyssey G9',
+    date: '2024-01-15',
+    status: 'delivered',
+    total: 1299.99
+  }
+];
+
+// Wishlist
+export const wishlist = [
+  'keyboard-002',
+  'monitor-002'
+];
+
+// Leaderboard
+export const leaderboard = [
+  { rank: 1, username: 'GamerKing_Pro', level: 5, xp: 8500 },
+  { rank: 2, username: 'EliteShooter', level: 4, xp: 3200 },
+  { rank: 3, username: 'ProGamer_2024', level: 3, xp: 1250 }, // Current user
+  { rank: 4, username: 'TechMaster99', level: 3, xp: 1100 },
+  { rank: 5, username: 'SpeedRunner', level: 3, xp: 950 }
+];
