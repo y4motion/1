@@ -207,6 +207,9 @@ const Header = () => {
             animation: 'slideDown 0.3s ease-out'
           }}
         >
+          {/* USER MENU CONTENT WILL BE HERE */}
+        </div>
+      )}
 
       {/* Catalog Dropdown - Vertical List */}
       {showCatalogPopup && (
