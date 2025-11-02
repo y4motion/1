@@ -328,7 +328,8 @@ const Header = () => {
                   <div style={{ 
                     padding: '1rem', 
                     maxHeight: '400px', 
-                    overflowY: 'auto'
+                    overflowY: 'auto',
+                    background: theme === 'dark' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.3)'
                   }}>
                     {/* Overview Tab */}
                     {activeTab === 'overview' && (
