@@ -702,23 +702,27 @@ class MarketplaceTestSuite:
             return False
     
     async def run_all_tests(self):
-        """Run complete authentication test suite"""
-        print("🚀 Starting Authentication System Tests")
-        print("=" * 50)
+        """Run complete marketplace API test suite"""
+        print("🚀 Starting Marketplace Backend API Tests")
+        print("=" * 60)
         
         await self.setup()
         
         test_results = []
         
-        # Test sequence
+        # Test sequence - following the workflow from review request
         tests = [
-            ("User Registration", self.test_register_endpoint),
-            ("Duplicate Registration", self.test_duplicate_registration),
-            ("User Login", self.test_login_endpoint),
-            ("Invalid Login", self.test_invalid_login),
-            ("Protected Endpoint /me", self.test_me_endpoint),
-            ("/me Without Token", self.test_me_without_token),
-            ("/me Invalid Token", self.test_me_invalid_token),
+            ("User Registration (Normal + Seller)", self.test_register_users),
+            ("Category Creation (Normal User - Should Fail)", self.test_create_category_as_normal_user),
+            ("Get Categories", self.test_get_categories),
+            ("Product Creation (Normal User - Should Fail)", self.test_create_product_as_normal_user),
+            ("Product Creation (Seller User)", self.test_create_product_as_seller),
+            ("Product Listing with Filters", self.test_get_products_with_filters),
+            ("Single Product Retrieval & View Increment", self.test_get_single_product),
+            ("Wishlist Toggle", self.test_wishlist_toggle),
+            ("Shopping Cart Operations", self.test_cart_operations),
+            ("Review System Workflow", self.test_review_workflow),
+            ("Question & Answer Workflow", self.test_question_answer_workflow),
         ]
         
         for test_name, test_func in tests:
@@ -732,9 +736,9 @@ class MarketplaceTestSuite:
         await self.cleanup()
         
         # Summary
-        print("\n" + "=" * 50)
-        print("📊 TEST RESULTS SUMMARY")
-        print("=" * 50)
+        print("\n" + "=" * 60)
+        print("📊 MARKETPLACE API TEST RESULTS SUMMARY")
+        print("=" * 60)
         
         passed = 0
         failed = 0
@@ -752,10 +756,10 @@ class MarketplaceTestSuite:
         print(f"❌ Failed: {failed}")
         
         if failed == 0:
-            print("\n🎉 All authentication tests passed!")
+            print("\n🎉 All marketplace API tests passed!")
             return True
         else:
-            print(f"\n⚠️  {failed} test(s) failed - authentication system needs attention")
+            print(f"\n⚠️  {failed} test(s) failed - marketplace APIs need attention")
             return False
 
 async def main():
