@@ -170,7 +170,7 @@ const Header = () => {
                 </div>
               </button>
 
-              {/* User Dropdown Menu */}
+              {/* Enhanced User Dropdown Menu with Tabs */}
               {showUserMenu && (
                 <div 
                   className="glass-strong"
@@ -178,107 +178,460 @@ const Header = () => {
                     position: 'absolute',
                     top: 'calc(100% + 0.5rem)',
                     right: 0,
-                    minWidth: '280px',
-                    borderRadius: '12px',
-                    padding: '1.5rem',
+                    width: '480px',
+                    maxHeight: '600px',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
                     zIndex: 1000
                   }}
                 >
-                  <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ 
-                      color: theme === 'dark' ? 'white' : '#1a1a1a', 
-                      fontSize: '1.25rem', 
-                      fontWeight: '700',
-                      marginBottom: '0.25rem' 
-                    }}>
-                      {mockUser.username}
-                    </div>
-                    <div style={{ 
-                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)', 
-                      fontSize: '0.875rem' 
-                    }}>
-                      {t('user.level')} {mockUser.level} • {mockUser.xp} XP
-                    </div>
-                  </div>
-
-                  {/* XP Progress Bar */}
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <div style={{
-                      height: '8px',
-                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
+                  {/* User Header */}
+                  <div style={{ padding: '1.5rem', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
+                      <div>
+                        <div style={{ 
+                          fontSize: '1.25rem', 
+                          fontWeight: '700',
+                          marginBottom: '0.25rem' 
+                        }}>
+                          {mockUser.username}
+                        </div>
+                        <div style={{ 
+                          opacity: 0.6,
+                          fontSize: '0.875rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}>
+                          <span style={{ 
+                            padding: '0.125rem 0.5rem',
+                            borderRadius: '12px',
+                            background: currentLevel.color,
+                            color: 'white',
+                            fontSize: '0.75rem',
+                            fontWeight: '600'
+                          }}>
+                            {currentLevel.name}
+                          </span>
+                          <span>{mockUser.xp} XP</span>
+                        </div>
+                      </div>
+                      
+                      {/* Streak Badge */}
                       <div style={{
-                        height: '100%',
-                        width: `${getLevelProgress()}%`,
-                        background: 'linear-gradient(90deg, #2196F3, #21CBF3)',
-                        transition: 'width 0.3s ease'
-                      }} />
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                        padding: '0.5rem 0.75rem',
+                        borderRadius: '8px',
+                        background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
+                        border: '1px solid rgba(255, 152, 0, 0.3)'
+                      }}>
+                        <span style={{ fontSize: '1.25rem' }}>🔥</span>
+                        <span style={{ fontSize: '0.875rem', fontWeight: '700' }}>{mockUser.loginStreak}</span>
+                      </div>
                     </div>
-                    <div style={{ 
-                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)', 
-                      fontSize: '0.75rem',
-                      marginTop: '0.25rem' 
-                    }}>
-                      {mockUser.nextLevelXP - mockUser.xp} {t('user.xpToNextLevel')}
+
+                    {/* XP Progress Bar */}
+                    <div>
+                      <div style={{
+                        height: '8px',
+                        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                        marginBottom: '0.5rem'
+                      }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${((mockUser.xp / mockUser.nextLevelXP) * 100).toFixed(0)}%`,
+                          background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`,
+                          transition: 'width 0.3s ease'
+                        }} />
+                      </div>
+                      <div style={{ 
+                        opacity: 0.5,
+                        fontSize: '0.75rem',
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}>
+                        <span>{mockUser.nextLevelXP - mockUser.xp} {t('user.xpToNextLevel')}</span>
+                        <span>{mockUser.level + 1}</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Quick Actions */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <button className="text-link" style={{ 
-                      justifyContent: 'space-between',
-                      display: 'flex',
-                      width: '100%',
-                      textAlign: 'left'
-                    }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <ShoppingCart size={16} />
-                        {t('user.cart')}
-                      </span>
-                      {mockUser.cartItems > 0 && (
-                        <span style={{
-                          background: '#F44336',
-                          color: 'white',
-                          padding: '0.125rem 0.5rem',
-                          borderRadius: '12px',
-                          fontSize: '0.75rem',
-                          fontWeight: '700'
-                        }}>
-                          {mockUser.cartItems}
-                        </span>
-                      )}
-                    </button>
-                    <button className="text-link" style={{ 
-                      justifyContent: 'space-between',
-                      display: 'flex',
-                      width: '100%',
-                      textAlign: 'left'
-                    }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <MessageCircle size={16} />
-                        {t('user.messages')}
-                      </span>
-                      {mockUser.messages > 0 && (
-                        <span style={{
-                          background: '#4CAF50',
-                          color: 'white',
-                          padding: '0.125rem 0.5rem',
-                          borderRadius: '12px',
-                          fontSize: '0.75rem',
-                          fontWeight: '700'
-                        }}>
-                          {mockUser.messages}
-                        </span>
-                      )}
-                    </button>
-                    <button className="text-link" style={{ width: '100%', textAlign: 'left' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <User size={16} />
-                        {t('user.accountSettings')}
-                      </span>
-                    </button>
+                  {/* Tabs */}
+                  <div style={{ 
+                    display: 'flex', 
+                    borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                    padding: '0 0.5rem'
+                  }}>
+                    {[
+                      { id: 'overview', icon: User, label: 'Overview' },
+                      { id: 'achievements', icon: Trophy, label: t('user.achievements') },
+                      { id: 'quests', icon: Target, label: t('user.dailyQuests') },
+                      { id: 'rewards', icon: Gift, label: t('user.inventory') }
+                    ].map(tab => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        style={{
+                          flex: 1,
+                          padding: '0.75rem 0.5rem',
+                          border: 'none',
+                          background: 'none',
+                          cursor: 'pointer',
+                          borderBottom: activeTab === tab.id ? `2px solid ${currentLevel.color}` : '2px solid transparent',
+                          opacity: activeTab === tab.id ? 1 : 0.5,
+                          transition: 'all 0.3s ease',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          gap: '0.25rem'
+                        }}
+                      >
+                        <tab.icon size={18} />
+                        <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>{tab.label}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Tab Content */}
+                  <div style={{ 
+                    padding: '1rem', 
+                    maxHeight: '400px', 
+                    overflowY: 'auto'
+                  }}>
+                    {/* Overview Tab */}
+                    {activeTab === 'overview' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {/* Wallet */}
+                        <div className="glass-subtle" style={{ padding: '1rem', borderRadius: '8px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <Wallet size={16} />
+                              <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>{t('user.bonusBalance')}</span>
+                            </div>
+                            <span style={{ fontSize: '1.25rem', fontWeight: '700', color: '#FFD700' }}>
+                              {mockUser.bonusBalance} 🪙
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Spin Wheel Button */}
+                        <button
+                          onClick={() => setShowSpinWheel(true)}
+                          className="lvl-button-permanent"
+                          style={{
+                            width: '100%',
+                            padding: '1rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            position: 'relative',
+                            overflow: 'visible'
+                          }}
+                        >
+                          <Gift size={20} />
+                          <span>{t('user.spinWheel')}</span>
+                          {canSpin && (
+                            <span style={{
+                              position: 'absolute',
+                              top: '-5px',
+                              right: '-5px',
+                              width: '12px',
+                              height: '12px',
+                              borderRadius: '50%',
+                              background: '#4CAF50',
+                              animation: 'pulse 2s infinite'
+                            }} />
+                          )}
+                        </button>
+
+                        {/* Quick Stats */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                          <div className="glass-subtle" style={{ padding: '0.75rem', borderRadius: '8px', textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>🏆</div>
+                            <div style={{ fontSize: '1.25rem', fontWeight: '700' }}>{unlockedAchievements.length}/{achievements.length}</div>
+                            <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>{t('user.achievements')}</div>
+                          </div>
+                          <div className="glass-subtle" style={{ padding: '0.75rem', borderRadius: '8px', textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>✅</div>
+                            <div style={{ fontSize: '1.25rem', fontWeight: '700' }}>{completedQuests.length}/{dailyQuests.length}</div>
+                            <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>{t('user.dailyQuests')}</div>
+                          </div>
+                        </div>
+
+                        {/* Quick Actions */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                          <button className="text-link" style={{ 
+                            justifyContent: 'space-between',
+                            display: 'flex',
+                            width: '100%',
+                            padding: '0.75rem 1rem'
+                          }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <ShoppingCart size={16} />
+                              {t('user.cart')}
+                            </span>
+                            {mockUser.cartItems > 0 && (
+                              <span style={{
+                                background: '#F44336',
+                                color: 'white',
+                                padding: '0.125rem 0.5rem',
+                                borderRadius: '12px',
+                                fontSize: '0.75rem',
+                                fontWeight: '700'
+                              }}>
+                                {mockUser.cartItems}
+                              </span>
+                            )}
+                          </button>
+                          <button className="text-link" style={{ 
+                            justifyContent: 'space-between',
+                            display: 'flex',
+                            width: '100%',
+                            padding: '0.75rem 1rem'
+                          }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <MessageCircle size={16} />
+                              {t('user.messages')}
+                            </span>
+                            {mockUser.messages > 0 && (
+                              <span style={{
+                                background: '#4CAF50',
+                                color: 'white',
+                                padding: '0.125rem 0.5rem',
+                                borderRadius: '12px',
+                                fontSize: '0.75rem',
+                                fontWeight: '700'
+                              }}>
+                                {mockUser.messages}
+                              </span>
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Referral Code */}
+                        <div className="glass-subtle" style={{ padding: '1rem', borderRadius: '8px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginBottom: '0.25rem' }}>
+                                {t('user.referralCode')}
+                              </div>
+                              <div style={{ fontSize: '1.125rem', fontWeight: '700', fontFamily: 'monospace' }}>
+                                {mockUser.referralCode}
+                              </div>
+                            </div>
+                            <button
+                              onClick={handleCopyReferralCode}
+                              className="theme-toggle"
+                              style={{ padding: '0.5rem' }}
+                            >
+                              {copiedCode ? <Check size={18} color="#4CAF50" /> : <Copy size={18} />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Achievements Tab */}
+                    {activeTab === 'achievements' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {achievements.map(achievement => (
+                          <div 
+                            key={achievement.id}
+                            className="glass-subtle" 
+                            style={{ 
+                              padding: '1rem', 
+                              borderRadius: '8px',
+                              opacity: achievement.unlocked ? 1 : 0.5,
+                              position: 'relative',
+                              overflow: 'hidden'
+                            }}
+                          >
+                            {achievement.unlocked && (
+                              <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                padding: '0.25rem 0.5rem',
+                                background: '#4CAF50',
+                                color: 'white',
+                                fontSize: '0.625rem',
+                                fontWeight: '700',
+                                borderBottomLeftRadius: '8px'
+                              }}>
+                                {t('user.unlocked')}
+                              </div>
+                            )}
+                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+                              <div style={{ fontSize: '2rem' }}>{achievement.icon}</div>
+                              <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                  {language === 'en' ? achievement.name : achievement.nameRu}
+                                </div>
+                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
+                                  {language === 'en' ? achievement.description : achievement.descriptionRu}
+                                </div>
+                                {!achievement.unlocked && achievement.progress !== undefined && (
+                                  <div>
+                                    <div style={{
+                                      height: '4px',
+                                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                                      borderRadius: '2px',
+                                      overflow: 'hidden',
+                                      marginBottom: '0.25rem'
+                                    }}>
+                                      <div style={{
+                                        height: '100%',
+                                        width: `${(achievement.progress / achievement.total * 100)}%`,
+                                        background: currentLevel.color,
+                                        transition: 'width 0.3s ease'
+                                      }} />
+                                    </div>
+                                    <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>
+                                      {achievement.progress}/{achievement.total}
+                                    </div>
+                                  </div>
+                                )}
+                                <div style={{ 
+                                  fontSize: '0.75rem', 
+                                  fontWeight: '600',
+                                  color: '#FFD700',
+                                  marginTop: '0.5rem'
+                                }}>
+                                  +{achievement.xpReward} XP
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Daily Quests Tab */}
+                    {activeTab === 'quests' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {dailyQuests.map(quest => (
+                          <div 
+                            key={quest.id}
+                            className="glass-subtle" 
+                            style={{ 
+                              padding: '1rem', 
+                              borderRadius: '8px',
+                              opacity: quest.completed ? 0.6 : 1
+                            }}
+                          >
+                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+                              <div style={{ fontSize: '1.5rem' }}>{quest.icon}</div>
+                              <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                  {language === 'en' ? quest.name : quest.nameRu}
+                                </div>
+                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
+                                  {language === 'en' ? quest.description : quest.descriptionRu}
+                                </div>
+                                <div>
+                                  <div style={{
+                                    height: '6px',
+                                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '3px',
+                                    overflow: 'hidden',
+                                    marginBottom: '0.25rem'
+                                  }}>
+                                    <div style={{
+                                      height: '100%',
+                                      width: `${(quest.progress / quest.total * 100)}%`,
+                                      background: quest.completed ? '#4CAF50' : currentLevel.color,
+                                      transition: 'width 0.3s ease'
+                                    }} />
+                                  </div>
+                                  <div style={{ 
+                                    display: 'flex', 
+                                    justifyContent: 'space-between', 
+                                    alignItems: 'center'
+                                  }}>
+                                    <span style={{ fontSize: '0.7rem', opacity: 0.6 }}>
+                                      {quest.progress}/{quest.total}
+                                    </span>
+                                    {quest.completed ? (
+                                      <span style={{ 
+                                        fontSize: '0.75rem', 
+                                        fontWeight: '600',
+                                        color: '#4CAF50'
+                                      }}>
+                                        ✓ {t('user.completed')}
+                                      </span>
+                                    ) : (
+                                      <span style={{ 
+                                        fontSize: '0.75rem', 
+                                        fontWeight: '600',
+                                        color: '#FFD700'
+                                      }}>
+                                        +{quest.xpReward} XP
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Inventory/Rewards Tab */}
+                    {activeTab === 'rewards' && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {inventoryItems.map(item => (
+                          <div 
+                            key={item.id}
+                            className="glass-subtle" 
+                            style={{ 
+                              padding: '1rem', 
+                              borderRadius: '8px'
+                            }}
+                          >
+                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+                              <div style={{ fontSize: '2rem' }}>{item.icon}</div>
+                              <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                  {language === 'en' ? item.name : item.nameRu}
+                                </div>
+                                <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>
+                                  {item.code && `Code: ${item.code}`}
+                                  {item.duration && `Duration: ${item.duration}`}
+                                </div>
+                                <div style={{ 
+                                  display: 'flex', 
+                                  justifyContent: 'space-between', 
+                                  alignItems: 'center'
+                                }}>
+                                  {item.expiresAt && (
+                                    <span style={{ fontSize: '0.7rem', opacity: 0.6 }}>
+                                      {t('user.expiresIn')} {Math.ceil((new Date(item.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))} {t('user.days')}
+                                    </span>
+                                  )}
+                                  {item.usable && (
+                                    <button 
+                                      className="text-link" 
+                                      style={{ 
+                                        padding: '0.375rem 0.75rem',
+                                        fontSize: '0.75rem'
+                                      }}
+                                    >
+                                      {t('user.useNow')}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
