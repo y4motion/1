@@ -522,7 +522,7 @@ const MarketplacePage = () => {
   );
 };
 
-// Product Card Component
+// Product Card Component with Hover Expansion
 const ProductCard = ({ product, onToggleWishlist }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -540,25 +540,34 @@ const ProductCard = ({ product, onToggleWishlist }) => {
         className="glass-strong product-card"
         style={{
           borderRadius: '16px',
-          overflow: 'hidden',
+          overflow: 'visible',
           border: isHovered 
-            ? '1px solid rgba(255, 255, 255, 0.2)' 
-            : '1px solid rgba(255, 255, 255, 0.05)',
-          transition: 'all 0.3s ease',
+            ? '1px solid rgba(255, 255, 255, 0.3)' 
+            : '1px solid rgba(255, 255, 255, 0.08)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           cursor: 'pointer',
-          height: '100%',
+          height: isHovered ? 'auto' : '420px',
           display: 'flex',
           flexDirection: 'column',
-          transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-          backdropFilter: 'blur(10px)'
+          transform: isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+          backdropFilter: isHovered ? 'blur(20px)' : 'blur(10px)',
+          background: isHovered 
+            ? 'rgba(255, 255, 255, 0.12)' 
+            : 'rgba(255, 255, 255, 0.05)',
+          boxShadow: isHovered 
+            ? '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)' 
+            : '0 4px 20px rgba(0, 0, 0, 0.2)',
+          position: 'relative',
+          zIndex: isHovered ? 10 : 1
         }}
       >
         {/* Image */}
         <div style={{ 
           position: 'relative', 
           paddingTop: '100%',
-          background: 'rgba(255, 255, 255, 0.03)',
-          overflow: 'hidden'
+          background: 'rgba(0, 0, 0, 0.2)',
+          overflow: 'hidden',
+          borderRadius: '16px 16px 0 0'
         }}>
           <img 
             src={imageUrl}
@@ -571,11 +580,23 @@ const ProductCard = ({ product, onToggleWishlist }) => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              transition: 'transform 0.3s ease',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+              transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+              filter: isHovered ? 'brightness(1.1)' : 'brightness(1)'
             }}
           />
           
+          {/* Gradient Overlay on hover */}
+          {isHovered && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 100%)',
+              transition: 'opacity 0.4s ease',
+              opacity: 0.7
+            }} />
+          )}
+
           {/* Wishlist Button */}
           <button
             onClick={(e) => {
@@ -586,21 +607,30 @@ const ProductCard = ({ product, onToggleWishlist }) => {
               position: 'absolute',
               top: '1rem',
               right: '1rem',
-              background: 'rgba(0, 0, 0, 0.6)',
+              background: isHovered ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.4)',
               backdropFilter: 'blur(10px)',
-              border: 'none',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '50%',
-              width: '40px',
-              height: '40px',
+              width: '44px',
+              height: '44px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              opacity: isHovered ? 1 : 0
+              opacity: isHovered ? 1 : 0.7,
+              transform: isHovered ? 'scale(1.1)' : 'scale(1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+              e.currentTarget.style.transform = 'scale(1.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = isHovered ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.4)';
+              e.currentTarget.style.transform = isHovered ? 'scale(1.1)' : 'scale(1)';
             }}
           >
-            <Heart size={20} color="#fff" />
+            <Heart size={20} color="#fff" fill={product.wishlist_count > 0 ? '#ff3b30' : 'transparent'} />
           </button>
 
           {/* Rating Badge */}
@@ -609,76 +639,213 @@ const ProductCard = ({ product, onToggleWishlist }) => {
               position: 'absolute',
               bottom: '1rem',
               left: '1rem',
-              background: 'rgba(0, 0, 0, 0.6)',
+              background: 'rgba(0, 0, 0, 0.7)',
               backdropFilter: 'blur(10px)',
-              padding: '0.5rem 0.75rem',
-              borderRadius: '8px',
+              padding: '0.5rem 0.875rem',
+              borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem'
+              gap: '0.375rem',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              transition: 'all 0.3s ease',
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
             }}>
-              <Star size={14} fill="#FFD700" color="#FFD700" />
-              <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+              <Star size={16} fill="#FFD700" color="#FFD700" />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '700', color: '#fff' }}>
                 {product.average_rating.toFixed(1)}
               </span>
+            </div>
+          )}
+
+          {/* Stock Badge */}
+          {product.stock === 0 && (
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'rgba(255, 59, 48, 0.95)',
+              backdropFilter: 'blur(10px)',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '8px',
+              fontSize: '0.875rem',
+              fontWeight: '700',
+              letterSpacing: '0.5px',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              OUT OF STOCK
             </div>
           )}
         </div>
 
         {/* Content */}
-        <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ 
+          padding: '1.25rem', 
+          flex: 1, 
+          display: 'flex', 
+          flexDirection: 'column',
+          transition: 'all 0.4s ease'
+        }}>
+          {/* Title */}
           <h3 style={{
             fontSize: '1.125rem',
             fontWeight: '700',
-            marginBottom: '0.5rem',
+            marginBottom: '0.75rem',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             display: '-webkit-box',
             WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
+            WebkitBoxOrient: 'vertical',
+            lineHeight: '1.4',
+            minHeight: '3rem'
           }}>
             {product.title}
           </h3>
 
+          {/* Stats Row */}
           <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
             gap: '1rem',
-            marginBottom: '0.75rem',
-            fontSize: '0.875rem',
-            opacity: 0.7
+            marginBottom: '0.875rem',
+            fontSize: '0.8125rem',
+            opacity: 0.75,
+            flexWrap: 'wrap'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
               <Eye size={14} />
               <span>{product.views || 0}</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
               <Heart size={14} />
               <span>{product.wishlist_count || 0}</span>
             </div>
             {product.total_reviews > 0 && (
-              <span>{product.total_reviews} reviews</span>
+              <span style={{ fontWeight: '600' }}>
+                {product.total_reviews} {product.total_reviews === 1 ? 'review' : 'reviews'}
+              </span>
             )}
           </div>
 
-          {/* Price */}
-          <div style={{ marginTop: 'auto' }}>
+          {/* Expanded Content - Shows on Hover */}
+          {isHovered && (
             <div style={{
-              fontSize: '1.75rem',
+              marginBottom: '1rem',
+              opacity: isHovered ? 1 : 0,
+              maxHeight: isHovered ? '200px' : '0',
+              overflow: 'hidden',
+              transition: 'all 0.4s ease',
+              animation: 'slideDown 0.4s ease-out'
+            }}>
+              {/* Short Description */}
+              <p style={{
+                fontSize: '0.875rem',
+                lineHeight: '1.5',
+                opacity: 0.8,
+                marginBottom: '0.75rem',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical'
+              }}>
+                {product.description}
+              </p>
+
+              {/* Quick Specs */}
+              {product.specifications && product.specifications.length > 0 && (
+                <div style={{
+                  display: 'flex',
+                  gap: '0.5rem',
+                  flexWrap: 'wrap',
+                  marginBottom: '0.75rem'
+                }}>
+                  {product.specifications.slice(0, 3).map((spec, idx) => (
+                    <div 
+                      key={idx}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        padding: '0.375rem 0.75rem',
+                        borderRadius: '6px',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        border: '1px solid rgba(255, 255, 255, 0.1)'
+                      }}
+                    >
+                      {spec.name}: {spec.value}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Add to Cart Button */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log('Add to cart:', product.id);
+                }}
+                disabled={product.stock === 0}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: product.stock > 0
+                    ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#fff',
+                  fontSize: '0.875rem',
+                  fontWeight: '700',
+                  cursor: product.stock > 0 ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  opacity: product.stock > 0 ? 1 : 0.5
+                }}
+                onMouseEnter={(e) => {
+                  if (product.stock > 0) {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (product.stock > 0) {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
+                }}
+              >
+                <ShoppingCart size={16} />
+                {product.stock > 0 ? 'ADD TO CART' : 'OUT OF STOCK'}
+              </button>
+            </div>
+          )}
+
+          {/* Price - Always Visible */}
+          <div style={{ marginTop: 'auto', paddingTop: '0.5rem' }}>
+            <div style={{
+              fontSize: isHovered ? '2rem' : '1.875rem',
               fontWeight: '800',
               background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
               WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              WebkitTextFillColor: 'transparent',
+              transition: 'font-size 0.3s ease',
+              marginBottom: '0.375rem'
             }}>
               ${product.price}
             </div>
-            {product.stock > 0 ? (
-              <div style={{ fontSize: '0.75rem', color: '#4CAF50', marginTop: '0.25rem' }}>
+            {!isHovered && product.stock > 0 && (
+              <div style={{ 
+                fontSize: '0.8125rem', 
+                color: '#4CAF50', 
+                fontWeight: '600',
+                letterSpacing: '0.3px'
+              }}>
                 IN STOCK ({product.stock} available)
-              </div>
-            ) : (
-              <div style={{ fontSize: '0.75rem', color: '#ff3b30', marginTop: '0.25rem' }}>
-                OUT OF STOCK
               </div>
             )}
           </div>
