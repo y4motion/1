@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Power, ShoppingCart, MessageCircle, User, Sun, Moon, Globe, X } from 'lucide-react';
-import { mockUser, categories } from '../mockData';
+import { 
+  Power, ShoppingCart, MessageCircle, User, Sun, Moon, Globe, X, 
+  Trophy, Target, Gift, Wallet, Clock, Users, TrendingUp, Package, 
+  Heart, Copy, Check
+} from 'lucide-react';
+import { 
+  mockUser, categories, achievements, dailyQuests, inventoryItems, 
+  recentOrders, wishlist, products, leaderboard, userLevels 
+} from '../mockData';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import SpinWheel from './SpinWheel';
 import '../styles/glassmorphism.css';
 
 const Header = () => {
@@ -11,6 +19,9 @@ const Header = () => {
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCatalogPopup, setShowCatalogPopup] = useState(false);
+  const [showSpinWheel, setShowSpinWheel] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [copiedCode, setCopiedCode] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
 
