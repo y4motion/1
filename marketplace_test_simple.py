@@ -335,7 +335,7 @@ async def run_marketplace_tests():
                         # Answer question (as seller)
                         answer_data = {"content": "Yes, fully compatible with Mac!"}
                         async with session.post(
-                            f"{api_url}/questions/{question_id}/answers/",
+                            f"{api_url}/questions/{question_id}/answers",
                             json=answer_data,
                             headers={"Authorization": f"Bearer {seller_token}"}
                         ) as answer_response:
