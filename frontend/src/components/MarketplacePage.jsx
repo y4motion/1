@@ -1221,26 +1221,44 @@ const ProductCardList = ({ product, onToggleWishlist }) => {
   );
 };
 
-// Quick Buy Modal Component
+// Quick Buy Modal Component - Redesigned with wide layout
 const QuickBuyModal = ({ product, onClose }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
     address: '',
-    paymentMethod: 'sbp' // 'sbp', 'qr', 'card'
+    paymentMethod: 'tinkoff_card' // 'tinkoff_card', 'tinkoff_sbp', 'crypto_usdt', etc.
   });
   const [loading, setLoading] = useState(false);
+  const [isPreorder, setIsPreorder] = useState(product.stock === 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     
-    // TODO: Implement actual payment processing
-    setTimeout(() => {
-      alert('Заказ оформлен! Мы свяжемся с вами для подтверждения.');
+    // TODO: Implement actual order creation via API
+    try {
+      // Call /api/orders endpoint to create order
+      console.log('Creating order:', {
+        product_id: product.id,
+        customer_full_name: formData.fullName,
+        customer_phone: formData.phone,
+        delivery_address: formData.address,
+        payment_method: formData.paymentMethod,
+        preorder: isPreorder
+      });
+      
+      setTimeout(() => {
+        alert(isPreorder 
+          ? `Предзаказ оформлен! Ожидаемая доставка: ${product.preorder_delivery_days || 14} дней. Мы свяжемся с вами для подтверждения.`
+          : 'Заказ оформлен! Мы свяжемся с вами для подтверждения.');
+        setLoading(false);
+        onClose();
+      }, 1500);
+    } catch (error) {
+      alert('Ошибка при оформлении заказа. Попробуйте еще раз.');
       setLoading(false);
-      onClose();
-    }, 1500);
+    }
   };
 
   return (
@@ -1248,20 +1266,23 @@ const QuickBuyModal = ({ product, onClose }) => {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
       style={{
-        background: 'rgba(0, 0, 0, 0.7)',
-        backdropFilter: 'blur(10px)'
+        background: 'rgba(0, 0, 0, 0.8)',
+        backdropFilter: 'blur(12px)'
       }}
     >
       <div 
         className="glass-strong"
         onClick={(e) => e.stopPropagation()}
         style={{
-          maxWidth: '500px',
+          maxWidth: '1100px',
           width: '100%',
-          borderRadius: '16px',
+          borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.15)',
           padding: '2rem',
-          position: 'relative'
+          position: 'relative',
+          display: 'grid',
+          gridTemplateColumns: '300px 1fr 280px',
+          gap: '2rem'
         }}
       >
         {/* Close Button */}
@@ -1269,59 +1290,46 @@ const QuickBuyModal = ({ product, onClose }) => {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            background: 'rgba(255, 255, 255, 0.1)',
+            top: '1.5rem',
+            right: '1.5rem',
+            background: 'rgba(255, 255, 255, 0.08)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '50%',
-            width: '36px',
-            height: '36px',
+            width: '40px',
+            height: '40px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            zIndex: 10
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+            e.currentTarget.style.transform = 'scale(1.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+            e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <X size={20} />
+          <X size={22} />
         </button>
 
-        {/* Header */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ 
-            fontSize: '1.75rem', 
-            fontWeight: '800', 
-            marginBottom: '0.5rem',
-            background: 'linear-gradient(135deg, #76ff03 0%, #4caf50 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            ⚡ Быстрая Покупка
-          </h2>
-          <p style={{ opacity: 0.7, fontSize: '0.875rem' }}>
-            Оформите заказ без регистрации
-          </p>
-        </div>
-
-        {/* Product Info */}
-        <div 
-          className="glass-subtle"
-          style={{
-            padding: '1rem',
-            borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            marginBottom: '1.5rem',
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center'
-          }}
-        >
+        {/* LEFT SECTION: Product Image & Info */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem'
+        }}>
+          {/* Product Image */}
           <div style={{
-            width: '60px',
-            height: '60px',
-            borderRadius: '8px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            overflow: 'hidden'
+            width: '100%',
+            height: '280px',
+            borderRadius: '14px',
+            background: 'rgba(255, 255, 255, 0.03)',
+            overflow: 'hidden',
+            border: '1px solid rgba(255, 255, 255, 0.08)'
           }}>
             {product.images && product.images[0] && (
               <img 
@@ -1335,213 +1343,407 @@ const QuickBuyModal = ({ product, onClose }) => {
               />
             )}
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>
+
+          {/* Product Details */}
+          <div>
+            <h3 style={{
+              fontSize: '1.125rem',
+              fontWeight: '700',
+              marginBottom: '0.5rem',
+              lineHeight: '1.4'
+            }}>
               {product.title}
-            </div>
+            </h3>
+            
+            {/* Price */}
             <div style={{
-              fontSize: '1.25rem',
-              fontWeight: '800',
-              background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+              fontSize: '2rem',
+              fontWeight: '900',
+              marginBottom: '0.75rem',
+              background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
               ${product.price}
             </div>
+
+            {/* Stock Status */}
+            {isPreorder ? (
+              <div style={{
+                padding: '0.625rem 1rem',
+                borderRadius: '8px',
+                background: 'rgba(251, 146, 60, 0.15)',
+                border: '1px solid rgba(251, 146, 60, 0.3)',
+                fontSize: '0.8125rem',
+                fontWeight: '600',
+                color: '#fb923c'
+              }}>
+                ⚠ Под заказ (доставка {product.preorder_delivery_days || 14} дней)
+              </div>
+            ) : (
+              <div style={{
+                padding: '0.625rem 1rem',
+                borderRadius: '8px',
+                background: 'rgba(139, 92, 246, 0.15)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                fontSize: '0.8125rem',
+                fontWeight: '600',
+                color: '#a78bfa'
+              }}>
+                ✓ В наличии ({product.stock} шт)
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
-          {/* Payment Method */}
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '0.75rem', 
-              fontSize: '0.875rem', 
-              fontWeight: '600' 
-            }}>
-              Способ оплаты
-            </label>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '0.5rem'
-            }}>
-              {[
-                { id: 'sbp', label: 'СБП', icon: <Zap size={18} /> },
-                { id: 'qr', label: 'QR-код', icon: <CreditCard size={18} /> },
-                { id: 'card', label: 'Карта', icon: <CreditCard size={18} /> }
-              ].map(method => (
-                <button
-                  key={method.id}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, paymentMethod: method.id })}
-                  className="glass-subtle"
-                  style={{
-                    padding: '0.75rem',
-                    borderRadius: '10px',
-                    border: formData.paymentMethod === method.id 
-                      ? '2px solid rgba(76, 175, 80, 0.5)'
-                      : '1px solid rgba(255, 255, 255, 0.1)',
-                    background: formData.paymentMethod === method.id
-                      ? 'rgba(76, 175, 80, 0.2)'
-                      : 'rgba(255, 255, 255, 0.05)',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    fontSize: '0.8125rem',
-                    fontWeight: '600'
-                  }}
-                >
-                  {method.icon}
-                  {method.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Full Name */}
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '0.5rem', 
-              fontSize: '0.875rem', 
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <UserIcon size={16} />
-              ФИО
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              placeholder="Иванов Иван Иванович"
-              style={{
-                width: '100%',
-                padding: '0.875rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: '#fff',
-                fontSize: '1rem',
-                outline: 'none'
-              }}
-            />
-          </div>
-
-          {/* Phone */}
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '0.5rem', 
-              fontSize: '0.875rem', 
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <CreditCard size={16} />
-              Телефон
-            </label>
-            <input
-              type="tel"
-              required
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+7 (999) 123-45-67"
-              style={{
-                width: '100%',
-                padding: '0.875rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: '#fff',
-                fontSize: '1rem',
-                outline: 'none'
-              }}
-            />
-          </div>
-
-          {/* Address */}
+        {/* CENTER SECTION: Form */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          {/* Header */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '0.5rem', 
-              fontSize: '0.875rem', 
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
+            <h2 style={{ 
+              fontSize: '1.875rem', 
+              fontWeight: '900', 
+              marginBottom: '0.5rem',
+              background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              letterSpacing: '-0.5px'
             }}>
-              <MapPin size={16} />
-              Адрес доставки
-            </label>
-            <textarea
-              required
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              placeholder="Город, улица, дом, квартира..."
-              rows={3}
-              style={{
-                width: '100%',
-                padding: '0.875rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: '#fff',
-                fontSize: '1rem',
-                outline: 'none',
-                resize: 'vertical'
-              }}
-            />
+              ⚡ Быстрая Покупка
+            </h2>
+            <p style={{ opacity: 0.65, fontSize: '0.9375rem' }}>
+              Оформите заказ без регистрации
+            </p>
           </div>
 
-          {/* Submit Button */}
+          {/* Form */}
+          <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            {/* Full Name */}
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ 
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginBottom: '0.5rem', 
+                fontSize: '0.875rem', 
+                fontWeight: '600',
+                opacity: 0.85
+              }}>
+                <UserIcon size={16} />
+                ФИО
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                placeholder="Иванов Иван Иванович"
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '0.9375rem',
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
+                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.08)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                }}
+              />
+            </div>
+
+            {/* Phone */}
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ 
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginBottom: '0.5rem', 
+                fontSize: '0.875rem', 
+                fontWeight: '600',
+                opacity: 0.85
+              }}>
+                <CreditCard size={16} />
+                Телефон
+              </label>
+              <input
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                placeholder="+7 (999) 123-45-67"
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '0.9375rem',
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
+                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.08)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                }}
+              />
+            </div>
+
+            {/* Address */}
+            <div style={{ marginBottom: '1.5rem', flex: 1 }}>
+              <label style={{ 
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginBottom: '0.5rem', 
+                fontSize: '0.875rem', 
+                fontWeight: '600',
+                opacity: 0.85
+              }}>
+                <MapPin size={16} />
+                Адрес доставки
+              </label>
+              <textarea
+                required
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                placeholder="Город, улица, дом, квартира..."
+                rows={4}
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '0.9375rem',
+                  outline: 'none',
+                  resize: 'vertical',
+                  transition: 'all 0.2s ease'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
+                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.08)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                }}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '1rem 1.5rem',
+                borderRadius: '12px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                color: '#fff',
+                fontSize: '1rem',
+                fontWeight: '800',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.75rem',
+                boxShadow: '0 4px 24px rgba(139, 92, 246, 0.4)',
+                opacity: loading ? 0.7 : 1,
+                transform: 'translateY(0)'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 32px rgba(139, 92, 246, 0.6)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 24px rgba(139, 92, 246, 0.4)';
+              }}
+            >
+              <Zap size={20} />
+              {loading ? 'Оформление...' : 'Оформить заказ'}
+            </button>
+
+            {/* Info Text */}
+            <div style={{
+              marginTop: '0.875rem',
+              fontSize: '0.75rem',
+              opacity: 0.55,
+              textAlign: 'center',
+              lineHeight: '1.5'
+            }}>
+              После оформления с вами свяжется менеджер для подтверждения заказа
+            </div>
+          </form>
+        </div>
+
+        {/* RIGHT SECTION: Payment Methods */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem'
+        }}>
+          <h3 style={{
+            fontSize: '1rem',
+            fontWeight: '700',
+            marginBottom: '0.5rem',
+            opacity: 0.9
+          }}>
+            Способ оплаты
+          </h3>
+
+          {/* Tinkoff Card */}
           <button
-            type="submit"
-            disabled={loading}
+            type="button"
+            onClick={() => setFormData({ ...formData, paymentMethod: 'tinkoff_card' })}
+            className="glass-subtle"
             style={{
-              width: '100%',
               padding: '1rem',
               borderRadius: '12px',
-              border: 'none',
-              background: 'linear-gradient(135deg, #76ff03 0%, #4caf50 100%)',
-              color: '#000',
-              fontSize: '1rem',
-              fontWeight: '800',
-              cursor: loading ? 'not-allowed' : 'pointer',
+              border: formData.paymentMethod === 'tinkoff_card' 
+                ? '2px solid rgba(139, 92, 246, 0.6)'
+                : '1px solid rgba(255, 255, 255, 0.1)',
+              background: formData.paymentMethod === 'tinkoff_card'
+                ? 'rgba(139, 92, 246, 0.15)'
+                : 'rgba(255, 255, 255, 0.05)',
+              cursor: 'pointer',
               transition: 'all 0.3s ease',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              boxShadow: '0 4px 20px rgba(76, 175, 80, 0.4)',
-              opacity: loading ? 0.7 : 1
+              textAlign: 'left'
+            }}
+            onMouseEnter={(e) => {
+              if (formData.paymentMethod !== 'tinkoff_card') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (formData.paymentMethod !== 'tinkoff_card') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              }
             }}
           >
-            <Zap size={20} />
-            {loading ? 'Оформление...' : 'Оформить заказ'}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+              <CreditCard size={18} color="#8B5CF6" />
+              <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>Банковская карта</span>
+            </div>
+            <p style={{ fontSize: '0.75rem', opacity: 0.6, marginLeft: '1.875rem' }}>
+              Visa, Mastercard, МИР
+            </p>
           </button>
 
-          {/* Info Text */}
+          {/* Tinkoff SBP */}
+          <button
+            type="button"
+            onClick={() => setFormData({ ...formData, paymentMethod: 'tinkoff_sbp' })}
+            className="glass-subtle"
+            style={{
+              padding: '1rem',
+              borderRadius: '12px',
+              border: formData.paymentMethod === 'tinkoff_sbp' 
+                ? '2px solid rgba(139, 92, 246, 0.6)'
+                : '1px solid rgba(255, 255, 255, 0.1)',
+              background: formData.paymentMethod === 'tinkoff_sbp'
+                ? 'rgba(139, 92, 246, 0.15)'
+                : 'rgba(255, 255, 255, 0.05)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              textAlign: 'left'
+            }}
+            onMouseEnter={(e) => {
+              if (formData.paymentMethod !== 'tinkoff_sbp') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (formData.paymentMethod !== 'tinkoff_sbp') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              }
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+              <Zap size={18} color="#8B5CF6" />
+              <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>СБП (SBP)</span>
+            </div>
+            <p style={{ fontSize: '0.75rem', opacity: 0.6, marginLeft: '1.875rem' }}>
+              Система быстрых платежей
+            </p>
+          </button>
+
+          {/* QR Code */}
+          <button
+            type="button"
+            onClick={() => setFormData({ ...formData, paymentMethod: 'qr_code' })}
+            className="glass-subtle"
+            style={{
+              padding: '1rem',
+              borderRadius: '12px',
+              border: formData.paymentMethod === 'qr_code' 
+                ? '2px solid rgba(139, 92, 246, 0.6)'
+                : '1px solid rgba(255, 255, 255, 0.1)',
+              background: formData.paymentMethod === 'qr_code'
+                ? 'rgba(139, 92, 246, 0.15)'
+                : 'rgba(255, 255, 255, 0.05)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              textAlign: 'left'
+            }}
+            onMouseEnter={(e) => {
+              if (formData.paymentMethod !== 'qr_code') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (formData.paymentMethod !== 'qr_code') {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              }
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+              <CreditCard size={18} color="#8B5CF6" />
+              <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>QR-код</span>
+            </div>
+            <p style={{ fontSize: '0.75rem', opacity: 0.6, marginLeft: '1.875rem' }}>
+              Сканирование кода
+            </p>
+          </button>
+
+          {/* Crypto */}
           <div style={{
-            marginTop: '1rem',
-            fontSize: '0.75rem',
-            opacity: 0.6,
-            textAlign: 'center',
-            lineHeight: '1.5'
+            marginTop: '0.5rem',
+            padding: '0.875rem 1rem',
+            borderRadius: '10px',
+            background: 'rgba(139, 92, 246, 0.08)',
+            border: '1px solid rgba(139, 92, 246, 0.2)'
           }}>
-            После оформления с вами свяжется менеджер для подтверждения заказа
+            <div style={{ fontSize: '0.8125rem', fontWeight: '600', marginBottom: '0.5rem', opacity: 0.9 }}>
+              💎 Криптовалюта
+            </div>
+            <div style={{ fontSize: '0.75rem', opacity: 0.65, lineHeight: '1.4' }}>
+              USDT, USDC, DAI на Ethereum, BSC, Polygon, Tron, Solana
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
