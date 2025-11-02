@@ -196,7 +196,7 @@ class MarketplaceTestSuite:
         print("\n🧪 Testing Get Categories...")
         
         try:
-            async with self.session.get(f"{self.api_url}/categories") as response:
+            async with self.session.get(f"{self.api_url}/categories/") as response:
                 status = response.status
                 data = await response.json()
                 
