@@ -1334,7 +1334,30 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                 }}
               />
 
-              {/* Action Icons Row - Top of Card (appears on hover) */}
+              {/* Rating Badge - Top Left Corner (наезжает на карточку) */}
+              {product.average_rating > 0 && (
+                <div 
+                  style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    left: '0.75rem',
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '6px',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    fontSize: '0.6875rem',
+                    fontWeight: '700',
+                    color: '#fff',
+                    zIndex: 10,
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                  }}
+                >
+                  {product.average_rating.toFixed(1)}
+                </div>
+              )}
+
+              {/* Action Icons Row - Top of Card (appears on hover) - только сердечко */}
               <div style={{
                 position: 'absolute',
                 top: '1rem',
@@ -1348,29 +1371,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                 transition: 'all 0.3s ease',
                 pointerEvents: isHovered ? 'auto' : 'none'
               }}>
-                {/* Fire (Rating) */}
-                {product.average_rating > 0 && (
-                  <div 
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      padding: '0.375rem 0.625rem',
-                      borderRadius: '6px',
-                      background: 'rgba(0, 0, 0, 0.4)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      fontSize: '0.75rem',
-                      fontWeight: '600'
-                    }}
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span style={{ fontSize: '0.875rem' }}>🔥</span>
-                    <span>{product.average_rating.toFixed(1)}</span>
-                  </div>
-                )}
-
-                {/* Wishlist */}
+                {/* Wishlist - Красный акрил при наведении */}
                 <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -1382,9 +1383,13 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     gap: '0.25rem',
                     padding: '0.375rem 0.625rem',
                     borderRadius: '6px',
-                    background: 'rgba(0, 0, 0, 0.4)',
+                    background: product.is_wishlisted 
+                      ? 'rgba(255, 59, 48, 0.4)' 
+                      : 'rgba(0, 0, 0, 0.4)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: product.is_wishlisted 
+                      ? '1px solid rgba(255, 59, 48, 0.3)' 
+                      : '1px solid rgba(255, 255, 255, 0.1)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     fontSize: '0.75rem',
@@ -1392,76 +1397,26 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     color: '#fff'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
+                    e.currentTarget.style.background = 'rgba(255, 59, 48, 0.6)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 59, 48, 0.5)';
                     e.currentTarget.style.transform = 'scale(1.05)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.background = product.is_wishlisted 
+                      ? 'rgba(255, 59, 48, 0.4)' 
+                      : 'rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.border = product.is_wishlisted 
+                      ? '1px solid rgba(255, 59, 48, 0.3)' 
+                      : '1px solid rgba(255, 255, 255, 0.1)';
                     e.currentTarget.style.transform = 'scale(1)';
                   }}
                 >
-                  <Heart size={12} fill={product.is_wishlisted ? '#ff3b30' : 'none'} color={product.is_wishlisted ? '#ff3b30' : '#fff'} />
+                  <Heart 
+                    size={12} 
+                    fill={product.is_wishlisted ? '#ff3b30' : 'none'} 
+                    color={product.is_wishlisted ? '#ff3b30' : '#fff'} 
+                  />
                   <span>{product.wishlist_count || 0}</span>
-                </button>
-
-                {/* Cart/Purchases */}
-                <div 
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.25rem',
-                    padding: '0.375rem 0.625rem',
-                    borderRadius: '6px',
-                    background: 'rgba(0, 0, 0, 0.4)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    fontSize: '0.75rem',
-                    fontWeight: '600'
-                  }}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <ShoppingCart size={12} />
-                  <span>{product.purchases_count || 0}</span>
-                </div>
-
-                {/* Spacer */}
-                <div style={{ flex: 1 }} />
-
-                {/* Share Icon */}
-                <button
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.375rem',
-                    borderRadius: '6px',
-                    background: 'rgba(0, 0, 0, 0.4)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    color: '#fff'
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log('Share product:', product.id);
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="18" cy="5" r="3"></circle>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="19" r="3"></circle>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                  </svg>
                 </button>
               </div>
 
