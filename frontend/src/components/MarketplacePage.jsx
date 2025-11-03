@@ -118,10 +118,21 @@ const MarketplacePage = () => {
   ];
 
   return (
-    <div className="dark-bg" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '4rem' }}>
+    <div className="dark-bg" style={{ 
+      minHeight: '100vh', 
+      paddingTop: '6rem', 
+      paddingBottom: '4rem',
+      marginLeft: showFilterPanel ? '360px' : '0', // Pushes content when panel opens
+      transition: 'margin-left 0.3s ease'
+    }}>
       <div className="grain-overlay" />
       
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ 
+        maxWidth: showFilterPanel ? '1200px' : '1400px', // Narrows when panel is open
+        margin: '0 auto', 
+        padding: '0 2rem',
+        transition: 'max-width 0.3s ease'
+      }}>
         {/* Header - MINIMAL MARKET */}
         <div style={{ 
           marginBottom: '3rem',
