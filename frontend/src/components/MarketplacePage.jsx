@@ -388,23 +388,176 @@ const MarketplacePage = () => {
           </div>
         )}
 
-          {/* View Mode Toggles */}
+        {/* Featured Chips + View Controls Row (above product cards) */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '2rem',
+          gap: '1rem',
+          flexWrap: 'wrap'
+        }}>
+          {/* Featured Chips - Left Side */}
           <div style={{
             display: 'flex',
-            gap: '0.5rem',
-            background: 'rgba(255, 255, 255, 0.05)',
-            padding: '0.375rem',
-            borderRadius: '50px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)'
+            gap: '0.75rem',
+            flexWrap: 'wrap'
           }}>
-            <button
-              onClick={() => setViewMode('grid')}
+            {featuredChips.map(chip => (
+              <button
+                key={chip.id}
+                onClick={() => handleFeaturedChipClick(chip.tag)}
+                className="glass-subtle featured-chip"
+                style={{
+                  padding: '0.625rem 1.25rem',
+                  borderRadius: '50px',
+                  border: selectedTag === chip.tag 
+                    ? '2px solid rgba(139, 92, 246, 0.5)'
+                    : '1px solid rgba(255, 255, 255, 0.1)',
+                  background: selectedTag === chip.tag
+                    ? 'rgba(139, 92, 246, 0.15)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: '#fff'
+                }}
+                onMouseEnter={(e) => {
+                  if (selectedTag !== chip.tag) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedTag !== chip.tag) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
+                }}
+              >
+                <span style={{ fontSize: '1rem' }}>{chip.icon}</span>
+                {chip.label}
+              </button>
+            ))}
+            
+            {/* Clear Filters Chip */}
+            {selectedTag !== 'all' && (
+              <button
+                onClick={() => setSelectedTag('all')}
+                className="glass-subtle"
+                style={{
+                  padding: '0.625rem 1rem',
+                  borderRadius: '50px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 59, 48, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: '#ff3b30'
+                }}
+              >
+                <X size={14} />
+                Clear
+              </button>
+            )}
+          </div>
+
+          {/* View Controls - Right Side */}
+          <div style={{
+            display: 'flex',
+            gap: '0.75rem',
+            alignItems: 'center'
+          }}>
+            {/* Items Per Page Selector */}
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
               style={{
                 padding: '0.625rem 1rem',
                 borderRadius: '50px',
-                border: 'none',
-                background: viewMode === 'grid' 
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                color: '#fff',
+                fontSize: '0.8125rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                outline: 'none',
+                minWidth: '90px'
+              }}
+            >
+              <option value={20} style={{ background: '#1a1a1a' }}>20</option>
+              <option value={40} style={{ background: '#1a1a1a' }}>40</option>
+              <option value={60} style={{ background: '#1a1a1a' }}>60</option>
+              <option value={100} style={{ background: '#1a1a1a' }}>100</option>
+            </select>
+
+            {/* View Mode Toggles */}
+            <div style={{
+              display: 'flex',
+              gap: '0.375rem',
+              background: 'rgba(255, 255, 255, 0.05)',
+              padding: '0.375rem',
+              borderRadius: '50px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <button
+                onClick={() => setViewMode('grid')}
+                style={{
+                  padding: '0.5rem 0.875rem',
+                  borderRadius: '50px',
+                  border: 'none',
+                  background: viewMode === 'grid' 
+                    ? 'rgba(139, 92, 246, 0.3)'
+                    : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  color: '#fff'
+                }}
+              >
+                <Grid size={16} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                style={{
+                  padding: '0.5rem 0.875rem',
+                  borderRadius: '50px',
+                  border: 'none',
+                  background: viewMode === 'list' 
+                    ? 'rgba(139, 92, 246, 0.3)'
+                    : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  color: '#fff'
+                }}
+              >
+                <List size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
                   ? 'rgba(255, 255, 255, 0.15)' 
                   : 'transparent',
                 color: '#fff',
