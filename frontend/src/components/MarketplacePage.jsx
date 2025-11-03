@@ -1183,26 +1183,25 @@ const MarketplacePage = () => {
               }}
               style={{
                 width: '100%',
-                padding: '1rem',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                padding: '0.5rem 1rem',
+                borderRadius: '6px',
+                border: '1px solid transparent',
+                background: 'rgba(255, 255, 255, 0.05)',
                 color: '#fff',
-                fontSize: '1rem',
-                fontWeight: '800',
+                fontSize: '0.875rem',
+                fontWeight: '500',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 4px 20px rgba(139, 92, 246, 0.4)',
                 letterSpacing: '0.5px',
                 marginTop: '1.5rem'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 30px rgba(139, 92, 246, 0.6)';
+                e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.4)';
+                e.currentTarget.style.border = '1px solid transparent';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
               }}
             >
               APPLY FILTERS
@@ -1213,7 +1212,7 @@ const MarketplacePage = () => {
   );
 };
 
-// Collapsible Filter Component
+// Collapsible Filter Component - Unified with Header Style
 const CollapsibleFilter = ({ title, id, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -1226,18 +1225,18 @@ const CollapsibleFilter = ({ title, id, children }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '0.875rem 0',
+          padding: '0.5rem 0',
           background: 'none',
           border: 'none',
           borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           color: '#fff',
           cursor: 'pointer',
           fontSize: '0.875rem',
-          fontWeight: '700',
+          fontWeight: '500',
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
           opacity: 0.7,
-          transition: 'opacity 0.2s ease'
+          transition: 'opacity 0.3s ease'
         }}
         onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
         onMouseLeave={(e) => e.currentTarget.style.opacity = 0.7}
