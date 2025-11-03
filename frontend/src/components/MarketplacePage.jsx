@@ -836,7 +836,7 @@ const MarketplacePage = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '2rem',
+              marginBottom: '1.5rem',
               paddingBottom: '1rem',
               borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
@@ -873,6 +873,44 @@ const MarketplacePage = () => {
               >
                 <X size={20} />
               </button>
+            </div>
+
+            {/* Search Inside Filters */}
+            <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
+              <Search 
+                size={16} 
+                style={{ 
+                  position: 'absolute', 
+                  left: '1rem', 
+                  top: '50%', 
+                  transform: 'translateY(-50%)',
+                  opacity: 0.4,
+                  pointerEvents: 'none'
+                }} 
+              />
+              <input
+                type="text"
+                placeholder="Search filters..."
+                style={{
+                  width: '100%',
+                  padding: '0.5rem 1rem 0.5rem 2.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid transparent',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '0.875rem',
+                  outline: 'none',
+                  transition: 'all 0.3s ease'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid transparent';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                }}
+              />
             </div>
 
             {/* Categories */}
