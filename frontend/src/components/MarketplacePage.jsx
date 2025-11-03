@@ -759,11 +759,11 @@ const MarketplacePage = () => {
           </div>
         ) : (
           viewMode === 'grid' ? (
-            // Grid View - 4 columns
+            // Grid View - 4 columns with Pinterest-style compact spacing
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '1.75rem'
+              gap: '1rem' // Pinterest-style: 16px between cards
             }}>
               {products.map(product => (
                 <ProductCard 
