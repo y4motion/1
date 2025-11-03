@@ -1184,100 +1184,12 @@ const ProductCard = ({ product, onToggleWishlist }) => {
 
 // Product Card List Component (Horizontal Layout)
 const ProductCardList = ({ product, onToggleWishlist }) => {
-            }}>
-              {product.title}
-            </h3>
+  const [imageError, setImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const primaryImage = product.images?.find(img => img.is_primary) || product.images?.[0];
+  const imageUrl = !imageError && primaryImage?.url || 'https://via.placeholder.com/300x300?text=No+Image';
 
-            {/* Expanded Content - Shows on Hover (COMPACT) */}
-            {isHovered && (
-              <div style={{
-                marginBottom: '0.75rem',
-                opacity: isHovered ? 1 : 0,
-                maxHeight: isHovered ? '120px' : '0',
-                overflow: 'hidden',
-                transition: 'all 0.4s ease'
-              }}>
-                {/* Short Description */}
-                <p style={{
-                  fontSize: '0.8125rem',
-                  lineHeight: '1.4',
-                  opacity: 0.8,
-                  marginBottom: '0.5rem',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical'
-                }}>
-                  {product.description}
-                </p>
-
-                {/* Quick Specs - COMPACT */}
-                {product.specifications && product.specifications.length > 0 && (
-                  <div style={{
-                    display: 'flex',
-                    gap: '0.375rem',
-                    flexWrap: 'wrap'
-                  }}>
-                    {product.specifications.slice(0, 2).map((spec, idx) => (
-                      <div 
-                        key={idx}
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          padding: '0.25rem 0.5rem',
-                          borderRadius: '4px',
-                          fontSize: '0.6875rem',
-                          fontWeight: '600',
-                          border: '1px solid rgba(255, 255, 255, 0.1)'
-                        }}
-                      >
-                        {spec.value}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Stats Row with Wishlist */}
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '1rem',
-              marginBottom: '0.75rem',
-              fontSize: '0.8125rem',
-              opacity: 0.75,
-              flexWrap: 'wrap'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                <Eye size={14} />
-                <span>{product.views || 0}</span>
-              </div>
-              {/* Wishlist with Heart Icon + Counter */}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onToggleWishlist(product.id);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                  color: 'inherit',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-              >
-                <Heart 
+  return (
                   size={14} 
                   fill={product.wishlist_count > 0 ? '#ff3b30' : 'none'}
                   color={product.wishlist_count > 0 ? '#ff3b30' : 'currentColor'}
