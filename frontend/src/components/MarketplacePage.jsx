@@ -2056,7 +2056,8 @@ const QuickBuyModal = ({ product, onClose }) => {
                 border: '1px solid rgba(251, 146, 60, 0.3)',
                 fontSize: '0.8125rem',
                 fontWeight: '600',
-                color: '#fb923c'
+                color: '#fb923c',
+                marginBottom: '0.75rem'
               }}>
                 ⚠ Под заказ (доставка {product.preorder_delivery_days || 14} дней)
               </div>
@@ -2068,11 +2069,55 @@ const QuickBuyModal = ({ product, onClose }) => {
                 border: '1px solid rgba(139, 92, 246, 0.3)',
                 fontSize: '0.8125rem',
                 fontWeight: '600',
-                color: '#a78bfa'
+                color: '#a78bfa',
+                marginBottom: '0.75rem'
               }}>
                 ✓ В наличии ({product.stock} шт)
               </div>
             )}
+
+            {/* Share Button */}
+            <button
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({
+                    title: product.title,
+                    text: product.description,
+                    url: `${window.location.origin}/product/${product.id}`,
+                  }).catch(err => console.log('Error sharing:', err));
+                } else {
+                  navigator.clipboard.writeText(`${window.location.origin}/product/${product.id}`);
+                  alert('Ссылка скопирована в буфер обмена!');
+                }
+              }}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '8px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#fff',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <Share2 size={16} />
+              Поделиться товаром
+            </button>
           </div>
         </div>
 
