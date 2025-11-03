@@ -1315,7 +1315,8 @@ const ProductCard = ({ product, onToggleWishlist }) => {
               position: 'relative', 
               paddingTop: '133%',
               background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
-              overflow: 'visible' // Изменено на visible чтобы элементы могли выходить за границы
+              overflow: 'hidden',
+              borderRadius: '20px'
             }}>
               {/* Carousel Image */}
               <img 
@@ -1330,9 +1331,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   height: '100%',
                   objectFit: 'cover',
                   transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                  borderRadius: '20px',
-                  overflow: 'hidden'
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)'
                 }}
               />
 
