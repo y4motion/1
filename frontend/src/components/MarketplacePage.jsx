@@ -1510,34 +1510,34 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                 </div>
               )}
 
-              {/* Mini Rating & Wishlist - Bottom Right (частично выходят за карточку) */}
+              {/* Mini Rating & Wishlist - Bottom Right (наполовину выходят за карточку) */}
               <div style={{
                 position: 'absolute',
-                bottom: '-12px',
-                right: '-8px',
+                bottom: '-10px',
+                right: '-10px',
                 display: 'flex',
                 gap: '0.375rem',
                 zIndex: 15
               }}>
-                {/* Mini Rating Badge - Статичный */}
+                {/* Mini Rating Badge - Минималистичный, статичный */}
                 {product.average_rating > 0 && (
                   <div 
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.25rem',
-                      padding: '0.25rem 0.5rem',
+                      padding: '0.3rem 0.55rem',
                       borderRadius: '8px',
                       background: 'rgba(0, 0, 0, 0.75)',
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.15)',
                       fontSize: '0.6875rem',
                       fontWeight: '700',
-                      color: '#fbbf24',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)'
+                      color: '#fff', // Белый минималистичный
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
                     }}
                   >
-                    <Star size={10} fill="#fbbf24" color="#fbbf24" />
+                    <Star size={10} fill="none" color="#fff" strokeWidth={2.5} />
                     {product.average_rating.toFixed(1)}
                   </div>
                 )}
@@ -1552,7 +1552,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.25rem',
-                    padding: '0.25rem 0.5rem',
+                    padding: '0.3rem 0.55rem',
                     borderRadius: '8px',
                     background: product.is_wishlisted 
                       ? 'rgba(255, 59, 48, 0.75)' 
@@ -1566,10 +1566,10 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     fontSize: '0.6875rem',
                     fontWeight: '700',
                     color: '#fff',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)'
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 59, 48, 0.85)';
+                    e.currentTarget.style.background = 'rgba(255, 59, 48, 0.9)';
                     e.currentTarget.style.border = '1px solid rgba(255, 59, 48, 0.6)';
                     e.currentTarget.style.transform = 'scale(1.1)';
                   }}
@@ -1586,7 +1586,8 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   <Heart 
                     size={10} 
                     fill={product.is_wishlisted ? '#ff3b30' : 'none'} 
-                    color={product.is_wishlisted ? '#ff3b30' : '#fff'} 
+                    color={product.is_wishlisted ? '#ff3b30' : '#fff'}
+                    strokeWidth={2.5}
                   />
                   {/* Счетчик показывается при наведении или если товар в избранном */}
                   {(isHovered || product.is_wishlisted) && (
