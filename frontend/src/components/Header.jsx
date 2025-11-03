@@ -210,14 +210,14 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Enhanced User Dropdown Menu with Tabs - Outside header for proper backdrop-filter */}
-      {showUserMenu && (
+      {/* Enhanced LVL Menu with Tabs - Now opens from logo button (left side) */}
+      {showLVLMenu && (
         <div 
           className="glass-strong"
           style={{
             position: 'fixed',
             top: '5.5rem',
-            right: '3rem',
+            left: '3rem',
             width: '480px',
             maxHeight: '600px',
             borderRadius: '16px',
@@ -231,27 +231,27 @@ const Header = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
               <div>
                 <div style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem' }}>
-                  {mockUser.username}
+                  {user?.username || mockUser.username}
                 </div>
                 <div style={{ opacity: 0.6, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ padding: '0.125rem 0.5rem', borderRadius: '12px', background: currentLevel.color, color: 'white', fontSize: '0.75rem', fontWeight: '600' }}>
                     {currentLevel.name}
                   </span>
-                  <span>{mockUser.xp} XP</span>
+                  <span>{displayUser.xp} XP</span>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.5rem 0.75rem', borderRadius: '8px', background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)', border: '1px solid rgba(255, 152, 0, 0.3)' }}>
                 <span style={{ fontSize: '1.25rem' }}>🔥</span>
-                <span style={{ fontSize: '0.875rem', fontWeight: '700' }}>{mockUser.loginStreak}</span>
+                <span style={{ fontSize: '0.875rem', fontWeight: '700' }}>{displayUser.loginStreak}</span>
               </div>
             </div>
             <div>
               <div style={{ height: '8px', background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.5rem' }}>
-                <div style={{ height: '100%', width: `${((mockUser.xp / mockUser.nextLevelXP) * 100).toFixed(0)}%`, background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`, transition: 'width 0.3s ease' }} />
+                <div style={{ height: '100%', width: `${((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%`, background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`, transition: 'width 0.3s ease' }} />
               </div>
               <div style={{ opacity: 0.5, fontSize: '0.75rem', display: 'flex', justifyContent: 'space-between' }}>
-                <span>{mockUser.nextLevelXP - mockUser.xp} {t('user.xpToNextLevel')}</span>
-                <span>{mockUser.level + 1}</span>
+                <span>{displayUser.nextLevelXP - displayUser.xp} {t('user.xpToNextLevel')}</span>
+                <span>{displayUser.level + 1}</span>
               </div>
             </div>
           </div>
