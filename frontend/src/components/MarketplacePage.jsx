@@ -793,18 +793,18 @@ const MarketplacePage = () => {
         )}
       </div>
 
-      {/* Floating Filter Button - Follows Scroll (Left Side) */}
+      {/* Floating Filter Button - Thinner, Left Side */}
       <button
         onClick={() => setShowFilterPanel(!showFilterPanel)}
         className="glass-strong"
         style={{
           position: 'fixed',
-          left: '2rem',
+          left: showFilterPanel ? '380px' : '1rem', // Moves with panel
           top: '40%',
           transform: 'translateY(-50%)',
-          width: '48px',
-          height: '120px',
-          borderRadius: '12px',
+          width: '32px', // Thinner: 32px instead of 48px
+          height: '100px',
+          borderRadius: '10px',
           border: '1px solid rgba(139, 92, 246, 0.4)',
           background: 'rgba(139, 92, 246, 0.15)',
           backdropFilter: 'blur(16px)',
@@ -816,7 +816,7 @@ const MarketplacePage = () => {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem',
-          padding: '1rem 0',
+          padding: '0.75rem 0',
           boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
           animation: 'pulseSoft 2s ease-in-out infinite'
         }}
@@ -829,11 +829,11 @@ const MarketplacePage = () => {
           e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.3)';
         }}
       >
-        <SlidersHorizontal size={20} color="#fff" />
+        <SlidersHorizontal size={16} color="#fff" />
         <div style={{
           writingMode: 'vertical-rl',
           textOrientation: 'mixed',
-          fontSize: '0.75rem',
+          fontSize: '0.625rem',
           fontWeight: '700',
           letterSpacing: '1px',
           color: '#fff'
@@ -842,26 +842,8 @@ const MarketplacePage = () => {
         </div>
       </button>
 
-      {/* Sliding Filter Panel */}
+      {/* Sliding Filter Panel - NO BACKDROP, pushes content */}
       {showFilterPanel && (
-        <>
-          {/* Backdrop */}
-          <div
-            onClick={() => setShowFilterPanel(false)}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(4px)',
-              zIndex: 200,
-              animation: 'fadeIn 0.3s ease-out'
-            }}
-          />
-
-          {/* Filter Panel */}
           <div
             className="glass-strong"
             style={{
