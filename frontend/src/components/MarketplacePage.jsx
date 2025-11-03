@@ -805,21 +805,20 @@ const MarketplacePage = () => {
         )}
       </div>
 
-      {/* Floating Filter Button - Thinner, Left Side */}
+      {/* Floating Filter Button - Unified with Header Style */}
       <button
         onClick={() => setShowFilterPanel(!showFilterPanel)}
-        className="glass-strong"
         style={{
           position: 'fixed',
-          left: showFilterPanel ? '380px' : '1rem', // Moves with panel
+          left: showFilterPanel ? '380px' : '1rem',
           top: '40%',
           transform: 'translateY(-50%)',
-          width: '32px', // Thinner: 32px instead of 48px
+          width: '32px',
           height: '100px',
-          borderRadius: '10px',
-          border: '1px solid rgba(139, 92, 246, 0.4)',
-          background: 'rgba(139, 92, 246, 0.15)',
-          backdropFilter: 'blur(16px)',
+          borderRadius: '6px',
+          border: '1px solid transparent',
+          background: 'transparent',
+          backdropFilter: 'blur(10px)',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           zIndex: 100,
@@ -829,26 +828,24 @@ const MarketplacePage = () => {
           justifyContent: 'center',
           gap: '0.5rem',
           padding: '0.75rem 0',
-          boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
-          animation: 'pulseSoft 2s ease-in-out infinite'
+          color: '#fff'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
-          e.currentTarget.style.boxShadow = '0 6px 30px rgba(139, 92, 246, 0.5)';
+          e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.3)';
+          e.currentTarget.style.border = '1px solid transparent';
+          e.currentTarget.style.background = 'transparent';
         }}
       >
-        <SlidersHorizontal size={16} color="#fff" />
+        <SlidersHorizontal size={16} />
         <div style={{
           writingMode: 'vertical-rl',
           textOrientation: 'mixed',
           fontSize: '0.625rem',
-          fontWeight: '700',
-          letterSpacing: '1px',
-          color: '#fff'
+          fontWeight: '500',
+          letterSpacing: '0.5px'
         }}>
           FILTERS
         </div>
