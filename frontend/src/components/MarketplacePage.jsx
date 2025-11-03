@@ -1510,6 +1510,91 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   OUT OF STOCK
                 </div>
               )}
+
+              {/* Mini Rating & Wishlist - Bottom Right (частично выходят за карточку) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '-12px',
+                right: '-8px',
+                display: 'flex',
+                gap: '0.375rem',
+                zIndex: 15
+              }}>
+                {/* Mini Rating Badge - Статичный */}
+                {product.average_rating > 0 && (
+                  <div 
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: '0.25rem 0.5rem',
+                      borderRadius: '8px',
+                      background: 'rgba(0, 0, 0, 0.75)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      fontSize: '0.6875rem',
+                      fontWeight: '700',
+                      color: '#fbbf24',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)'
+                    }}
+                  >
+                    <Star size={10} fill="#fbbf24" color="#fbbf24" />
+                    {product.average_rating.toFixed(1)}
+                  </div>
+                )}
+
+                {/* Mini Wishlist Button - Показывает счетчик при наведении/клике */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onToggleWishlist(product.id);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '8px',
+                    background: product.is_wishlisted 
+                      ? 'rgba(255, 59, 48, 0.75)' 
+                      : 'rgba(0, 0, 0, 0.75)',
+                    backdropFilter: 'blur(10px)',
+                    border: product.is_wishlisted 
+                      ? '1px solid rgba(255, 59, 48, 0.4)' 
+                      : '1px solid rgba(255, 255, 255, 0.15)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontSize: '0.6875rem',
+                    fontWeight: '700',
+                    color: '#fff',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 59, 48, 0.85)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 59, 48, 0.6)';
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = product.is_wishlisted 
+                      ? 'rgba(255, 59, 48, 0.75)' 
+                      : 'rgba(0, 0, 0, 0.75)';
+                    e.currentTarget.style.border = product.is_wishlisted 
+                      ? '1px solid rgba(255, 59, 48, 0.4)' 
+                      : '1px solid rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <Heart 
+                    size={10} 
+                    fill={product.is_wishlisted ? '#ff3b30' : 'none'} 
+                    color={product.is_wishlisted ? '#ff3b30' : '#fff'} 
+                  />
+                  {/* Счетчик показывается при наведении или если товар в избранном */}
+                  {(isHovered || product.is_wishlisted) && (
+                    <span>{product.wishlist_count || 0}</span>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </Link>
