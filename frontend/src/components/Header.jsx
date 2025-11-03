@@ -39,7 +39,14 @@ const Header = () => {
 
   const handleLogoClick = (e) => {
     e.preventDefault();
-    setShowCatalogPopup(true);
+    // Toggle between catalog popup (unauthenticated) and LVL menu (authenticated)
+    if (isAuthenticated) {
+      setShowLVLMenu(!showLVLMenu);
+      setShowCatalogPopup(false);
+    } else {
+      setShowCatalogPopup(!showCatalogPopup);
+      setShowLVLMenu(false);
+    }
   };
 
   const handleCategoryClick = (slug) => {
