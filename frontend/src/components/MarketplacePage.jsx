@@ -882,32 +882,33 @@ const MarketplacePage = () => {
             }}>
               <h2 style={{
                 fontSize: '1.5rem',
-                fontWeight: '900',
-                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                fontWeight: '500',
+                letterSpacing: '0.5px'
               }}>
                 FILTERS
               </h2>
               <button
                 onClick={() => setShowFilterPanel(false)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '50%',
+                  background: 'transparent',
+                  border: '1px solid transparent',
+                  borderRadius: '6px',
                   width: '36px',
                   height: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.3s ease',
+                  color: '#fff'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.border = '1px solid transparent';
                 }}
               >
                 <X size={20} />
