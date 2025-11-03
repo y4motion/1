@@ -1190,66 +1190,6 @@ const ProductCardList = ({ product, onToggleWishlist }) => {
   const imageUrl = !imageError && primaryImage?.url || 'https://via.placeholder.com/300x300?text=No+Image';
 
   return (
-                  size={14} 
-                  fill={product.wishlist_count > 0 ? '#ff3b30' : 'none'}
-                  color={product.wishlist_count > 0 ? '#ff3b30' : 'currentColor'}
-                />
-                <span>{product.wishlist_count || 0}</span>
-              </button>
-              {product.total_reviews > 0 && (
-                <span style={{ fontWeight: '600' }}>
-                  {product.total_reviews} {product.total_reviews === 1 ? 'review' : 'reviews'}
-                </span>
-              )}
-            </div>
-
-            {/* Price - Always Visible */}
-            <div style={{ marginTop: 'auto', paddingTop: '0.5rem' }}>
-              <div style={{
-                fontSize: isHovered ? '1.875rem' : '1.75rem',
-                fontWeight: '800',
-                background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                transition: 'font-size 0.3s ease',
-                marginBottom: '0.25rem'
-              }}>
-                ${product.price}
-              </div>
-              {!isHovered && product.stock > 0 && (
-                <div style={{ 
-                  fontSize: '0.75rem', 
-                  color: '#4CAF50', 
-                  fontWeight: '600',
-                  letterSpacing: '0.3px'
-                }}>
-                  IN STOCK ({product.stock})
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </Link>
-
-      {/* Quick Buy Modal */}
-      {showQuickBuy && (
-        <QuickBuyModal 
-          product={product}
-          onClose={() => setShowQuickBuy(false)}
-        />
-      )}
-    </>
-  );
-};
-
-// Product Card List Component (Horizontal Layout)
-const ProductCardList = ({ product, onToggleWishlist }) => {
-  const [imageError, setImageError] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const primaryImage = product.images?.find(img => img.is_primary) || product.images?.[0];
-  const imageUrl = !imageError && primaryImage?.url || 'https://via.placeholder.com/300x300?text=No+Image';
-
-  return (
     <Link 
       to={`/product/${product.id}`}
       style={{ textDecoration: 'none', color: 'inherit' }}
