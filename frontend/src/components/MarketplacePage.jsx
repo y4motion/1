@@ -25,6 +25,7 @@ const MarketplacePage = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showCatalog, setShowCatalog] = useState(false); // Catalog dropdown
   const [showFilterPanel, setShowFilterPanel] = useState(false); // Sliding filter panel
+  const [expandedSections, setExpandedSections] = useState({}); // Collapsible sections
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
