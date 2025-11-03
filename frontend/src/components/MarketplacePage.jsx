@@ -1031,7 +1031,7 @@ const MarketplacePage = () => {
             </div>
 
             {/* Sort By */}
-            <div style={{ marginBottom: '2rem' }}>
+            <div style={{ marginBottom: '1.5rem' }}>
               <h3 style={{
                 fontSize: '0.875rem',
                 fontWeight: '700',
@@ -1065,6 +1065,73 @@ const MarketplacePage = () => {
               </select>
             </div>
 
+            {/* Divider */}
+            <div style={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', margin: '1.5rem 0' }} />
+
+            {/* Additional Tech Filters */}
+            {/* Brands - Collapsible */}
+            <CollapsibleFilter title="Brands" id="brands">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['ASUS', 'MSI', 'Gigabyte', 'Corsair', 'Razer', 'Logitech'].map(brand => (
+                  <label key={brand} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.875rem' }}>
+                    <input type="checkbox" />
+                    <span>{brand}</span>
+                  </label>
+                ))}
+              </div>
+            </CollapsibleFilter>
+
+            {/* Color - Collapsible */}
+            <CollapsibleFilter title="Color" id="color">
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {[
+                  { name: 'Black', color: '#000' },
+                  { name: 'White', color: '#fff' },
+                  { name: 'Red', color: '#f00' },
+                  { name: 'Blue', color: '#00f' },
+                  { name: 'RGB', gradient: 'linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)' }
+                ].map(item => (
+                  <button
+                    key={item.name}
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      background: item.gradient || item.color,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title={item.name}
+                  />
+                ))}
+              </div>
+            </CollapsibleFilter>
+
+            {/* Connection Type */}
+            <CollapsibleFilter title="Connection" id="connection">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['Wireless', 'Wired', 'Bluetooth', 'USB', 'USB-C'].map(type => (
+                  <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.875rem' }}>
+                    <input type="checkbox" />
+                    <span>{type}</span>
+                  </label>
+                ))}
+              </div>
+            </CollapsibleFilter>
+
+            {/* Features */}
+            <CollapsibleFilter title="Features" id="features">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['RGB Lighting', 'Programmable Keys', 'Mechanical', 'Hot-Swappable', 'Noise Cancelling', 'Water Resistant'].map(feature => (
+                  <label key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.875rem' }}>
+                    <input type="checkbox" />
+                    <span>{feature}</span>
+                  </label>
+                ))}
+              </div>
+            </CollapsibleFilter>
+
             {/* Apply Button */}
             <button
               onClick={() => {
@@ -1083,7 +1150,8 @@ const MarketplacePage = () => {
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 boxShadow: '0 4px 20px rgba(139, 92, 246, 0.4)',
-                letterSpacing: '0.5px'
+                letterSpacing: '0.5px',
+                marginTop: '1.5rem'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
@@ -1097,7 +1165,56 @@ const MarketplacePage = () => {
               APPLY FILTERS
             </button>
           </div>
-        </>
+      )}
+    </div>
+  );
+};
+
+// Collapsible Filter Component
+const CollapsibleFilter = ({ title, id, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div style={{ marginBottom: '1.5rem' }}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0.875rem 0',
+          background: 'none',
+          border: 'none',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          color: '#fff',
+          cursor: 'pointer',
+          fontSize: '0.875rem',
+          fontWeight: '700',
+          letterSpacing: '0.5px',
+          textTransform: 'uppercase',
+          opacity: 0.7,
+          transition: 'opacity 0.2s ease'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.7}
+      >
+        {title}
+        <span style={{ 
+          transform: isOpen ? 'rotate(90deg)' : 'rotate(0)', 
+          transition: 'transform 0.3s ease',
+          fontSize: '1.25rem'
+        }}>
+          {isOpen ? '−' : '+'}
+        </span>
+      </button>
+      {isOpen && (
+        <div style={{ 
+          paddingTop: '1rem',
+          animation: 'slideDown 0.3s ease-out'
+        }}>
+          {children}
+        </div>
       )}
     </div>
   );
