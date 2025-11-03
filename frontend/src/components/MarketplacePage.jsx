@@ -121,8 +121,11 @@ const MarketplacePage = () => {
       <div className="grain-overlay" />
       
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
+        {/* Header - MINIMAL MARKET */}
+        <div style={{ 
+          marginBottom: '3rem',
+          textAlign: 'center'
+        }}>
           <h1 style={{
             fontSize: '4rem',
             fontWeight: '900',
@@ -135,96 +138,61 @@ const MarketplacePage = () => {
           }}>
             MINIMAL MARKET
           </h1>
-          <p style={{ fontSize: '1.125rem', opacity: 0.7, marginBottom: '2rem' }}>
+          <p style={{ fontSize: '1.125rem', opacity: 0.7 }}>
             Discover premium gaming gear from verified sellers
           </p>
-
-          {/* Featured Chips */}
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            marginBottom: '2rem',
-            flexWrap: 'wrap'
-          }}>
-            {featuredChips.map(chip => (
-              <button
-                key={chip.id}
-                onClick={() => handleFeaturedChipClick(chip.tag)}
-                className="glass-subtle featured-chip"
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '50px',
-                  border: selectedTag === chip.tag 
-                    ? '2px solid rgba(255, 255, 255, 0.3)'
-                    : '1px solid rgba(255, 255, 255, 0.1)',
-                  background: selectedTag === chip.tag
-                    ? 'rgba(255, 255, 255, 0.15)'
-                    : 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  fontSize: '0.875rem',
-                  fontWeight: '600',
-                  letterSpacing: '0.5px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: '#fff'
-                }}
-                onMouseEnter={(e) => {
-                  if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }
-                }}
-              >
-                <span style={{ fontSize: '1.25rem' }}>{chip.icon}</span>
-                {chip.label}
-              </button>
-            ))}
-            
-            {/* Clear Filters Chip */}
-            {selectedTag !== 'all' && (
-              <button
-                onClick={() => setSelectedTag('all')}
-                className="glass-subtle"
-                style={{
-                  padding: '0.75rem 1rem',
-                  borderRadius: '50px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  background: 'rgba(255, 59, 48, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  fontSize: '0.875rem',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: '#ff3b30'
-                }}
-              >
-                <X size={16} />
-                Clear
-              </button>
-            )}
-          </div>
         </div>
 
-        {/* Search & Filters Row */}
+        {/* Catalog Button + Centered Search Bar with Filter Inside */}
         <div style={{
           display: 'flex',
           gap: '1rem',
           marginBottom: '3rem',
-          alignItems: 'center'
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative'
         }}>
-          {/* Minimalist Search Bar */}
+          {/* Catalog Button */}
+          <button
+            onClick={() => setShowCatalog(!showCatalog)}
+            className="glass-subtle"
+            style={{
+              padding: '1rem 1.5rem',
+              borderRadius: '50px',
+              border: showCatalog 
+                ? '2px solid rgba(139, 92, 246, 0.4)'
+                : '1px solid rgba(255, 255, 255, 0.1)',
+              background: showCatalog
+                ? 'rgba(139, 92, 246, 0.15)'
+                : 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: '#fff'
+            }}
+            onMouseEnter={(e) => {
+              if (!showCatalog) {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.transform = 'scale(1.02)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!showCatalog) {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.transform = 'scale(1)';
+              }
+            }}
+          >
+            <Menu size={20} />
+            CATALOG
+          </button>
+
+          {/* Centered Search Bar with Filter Inside */}
           <div style={{ 
             position: 'relative', 
             flex: 1,
@@ -250,7 +218,7 @@ const MarketplacePage = () => {
               className="minimal-search"
               style={{
                 width: '100%',
-                padding: '1rem 1rem 1rem 3.5rem',
+                padding: '1rem 4.5rem 1rem 3.5rem',
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
@@ -280,7 +248,145 @@ const MarketplacePage = () => {
                 }
               }}
             />
+            
+            {/* Filter Button - Inside Search (right side) */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              style={{
+                position: 'absolute',
+                right: '0.625rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                padding: '0.625rem',
+                borderRadius: '50%',
+                border: showFilters 
+                  ? '2px solid rgba(139, 92, 246, 0.4)'
+                  : '1px solid rgba(255, 255, 255, 0.1)',
+                background: showFilters
+                  ? 'rgba(139, 92, 246, 0.2)'
+                  : 'rgba(255, 255, 255, 0.08)',
+                backdropFilter: 'blur(10px)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff'
+              }}
+              onMouseEnter={(e) => {
+                if (!showFilters) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!showFilters) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                }
+              }}
+            >
+              <SlidersHorizontal size={18} />
+            </button>
           </div>
+        </div>
+
+        {/* Catalog Dropdown */}
+        {showCatalog && (
+          <div 
+            className="glass-strong"
+            style={{
+              padding: '1.5rem',
+              borderRadius: '16px',
+              marginBottom: '2rem',
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+              backdropFilter: 'blur(20px)',
+              animation: 'slideDown 0.3s ease-out',
+              maxWidth: '800px',
+              margin: '0 auto 2rem'
+            }}
+          >
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+              gap: '0.75rem'
+            }}>
+              <button
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setShowCatalog(false);
+                }}
+                className="glass-subtle"
+                style={{
+                  padding: '1rem',
+                  borderRadius: '12px',
+                  border: selectedCategory === 'all'
+                    ? '2px solid rgba(139, 92, 246, 0.5)'
+                    : '1px solid rgba(255, 255, 255, 0.1)',
+                  background: selectedCategory === 'all'
+                    ? 'rgba(139, 92, 246, 0.15)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: '#fff',
+                  textAlign: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  if (selectedCategory !== 'all') {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedCategory !== 'all') {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  }
+                }}
+              >
+                🌐 All Categories
+              </button>
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    setShowCatalog(false);
+                  }}
+                  className="glass-subtle"
+                  style={{
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: selectedCategory === category.id
+                      ? '2px solid rgba(139, 92, 246, 0.5)'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: selectedCategory === category.id
+                      ? 'rgba(139, 92, 246, 0.15)'
+                      : 'rgba(255, 255, 255, 0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontSize: '0.875rem',
+                    fontWeight: '600',
+                    color: '#fff',
+                    textAlign: 'center'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedCategory !== category.id) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCategory !== category.id) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }
+                  }}
+                >
+                  {category.icon || '📦'} {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
           {/* View Mode Toggles */}
           <div style={{
