@@ -1297,7 +1297,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
             className="glass-subtle product-card"
             style={{
               borderRadius: '20px',
-              overflow: 'hidden',
+              overflow: 'visible', // Изменено чтобы элементы могли выходить за границы
               border: '1px solid rgba(255, 255, 255, 0.08)',
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
