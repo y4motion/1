@@ -1315,7 +1315,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
               position: 'relative', 
               paddingTop: '133%',
               background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
-              overflow: 'hidden'
+              overflow: 'visible' // Изменено на visible чтобы элементы могли выходить за границы
             }}>
               {/* Carousel Image */}
               <img 
@@ -1330,95 +1330,11 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   height: '100%',
                   objectFit: 'cover',
                   transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                  borderRadius: '20px',
+                  overflow: 'hidden'
                 }}
               />
-
-              {/* Rating Badge - Top Left Corner (наезжает на карточку) */}
-              {product.average_rating > 0 && (
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '-8px',
-                    left: '0.75rem',
-                    background: 'rgba(0, 0, 0, 0.7)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '0.25rem 0.5rem',
-                    borderRadius: '6px',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    fontSize: '0.6875rem',
-                    fontWeight: '700',
-                    color: '#fff',
-                    zIndex: 10,
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
-                  }}
-                >
-                  {product.average_rating.toFixed(1)}
-                </div>
-              )}
-
-              {/* Action Icons Row - Top of Card (appears on hover) - только сердечко */}
-              <div style={{
-                position: 'absolute',
-                top: '1rem',
-                left: '1rem',
-                right: '1rem',
-                display: 'flex',
-                gap: '0.5rem',
-                alignItems: 'center',
-                opacity: isHovered ? 1 : 0,
-                transform: isHovered ? 'translateY(0)' : 'translateY(-10px)',
-                transition: 'all 0.3s ease',
-                pointerEvents: isHovered ? 'auto' : 'none'
-              }}>
-                {/* Wishlist - Красный акрил при наведении */}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onToggleWishlist(product.id);
-                  }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.25rem',
-                    padding: '0.375rem 0.625rem',
-                    borderRadius: '6px',
-                    background: product.is_wishlisted 
-                      ? 'rgba(255, 59, 48, 0.4)' 
-                      : 'rgba(0, 0, 0, 0.4)',
-                    backdropFilter: 'blur(10px)',
-                    border: product.is_wishlisted 
-                      ? '1px solid rgba(255, 59, 48, 0.3)' 
-                      : '1px solid rgba(255, 255, 255, 0.1)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    fontSize: '0.75rem',
-                    fontWeight: '600',
-                    color: '#fff'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 59, 48, 0.6)';
-                    e.currentTarget.style.border = '1px solid rgba(255, 59, 48, 0.5)';
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = product.is_wishlisted 
-                      ? 'rgba(255, 59, 48, 0.4)' 
-                      : 'rgba(0, 0, 0, 0.4)';
-                    e.currentTarget.style.border = product.is_wishlisted 
-                      ? '1px solid rgba(255, 59, 48, 0.3)' 
-                      : '1px solid rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                >
-                  <Heart 
-                    size={12} 
-                    fill={product.is_wishlisted ? '#ff3b30' : 'none'} 
-                    color={product.is_wishlisted ? '#ff3b30' : '#fff'} 
-                  />
-                  <span>{product.wishlist_count || 0}</span>
-                </button>
-              </div>
 
               {/* Carousel Navigation */}
               {images.length > 1 && (
