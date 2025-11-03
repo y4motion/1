@@ -20,8 +20,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showCatalogPopup, setShowCatalogPopup] = useState(false);
-  const [showLVLMenu, setShowLVLMenu] = useState(false); // New state for LVL menu from logo button
+  const [showLVLMenu, setShowLVLMenu] = useState(false); // LVL menu from logo button
   const [showSpinWheel, setShowSpinWheel] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
