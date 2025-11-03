@@ -918,7 +918,7 @@ const MarketplacePage = () => {
             <div style={{ marginBottom: '2rem' }}>
               <h3 style={{
                 fontSize: '0.875rem',
-                fontWeight: '700',
+                fontWeight: '500',
                 marginBottom: '1rem',
                 opacity: 0.7,
                 letterSpacing: '0.5px',
@@ -931,21 +931,33 @@ const MarketplacePage = () => {
                   onClick={() => {
                     setSelectedCategory('all');
                   }}
-                  className="glass-subtle"
                   style={{
-                    padding: '0.875rem 1rem',
-                    borderRadius: '12px',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
                     border: selectedCategory === 'all'
-                      ? '1px solid rgba(139, 92, 246, 0.5)'
-                      : '1px solid rgba(255, 255, 255, 0.1)',
+                      ? '1px solid rgba(255, 255, 255, 0.3)'
+                      : '1px solid transparent',
                     background: selectedCategory === 'all'
-                      ? 'rgba(139, 92, 246, 0.15)'
-                      : 'rgba(255, 255, 255, 0.05)',
+                      ? 'rgba(255, 255, 255, 0.03)'
+                      : 'transparent',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
+                    transition: 'all 0.3s ease',
                     textAlign: 'left',
-                    fontSize: '0.9375rem',
-                    fontWeight: '600'
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    color: '#fff'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedCategory !== 'all') {
+                      e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCategory !== 'all') {
+                      e.currentTarget.style.border = '1px solid transparent';
+                      e.currentTarget.style.background = 'transparent';
+                    }
                   }}
                 >
                   All Categories
@@ -956,21 +968,33 @@ const MarketplacePage = () => {
                     onClick={() => {
                       setSelectedCategory(category.id);
                     }}
-                    className="glass-subtle"
                     style={{
-                      padding: '0.875rem 1rem',
-                      borderRadius: '12px',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '6px',
                       border: selectedCategory === category.id
-                        ? '1px solid rgba(139, 92, 246, 0.5)'
-                        : '1px solid rgba(255, 255, 255, 0.1)',
+                        ? '1px solid rgba(255, 255, 255, 0.3)'
+                        : '1px solid transparent',
                       background: selectedCategory === category.id
-                        ? 'rgba(139, 92, 246, 0.15)'
-                        : 'rgba(255, 255, 255, 0.05)',
+                        ? 'rgba(255, 255, 255, 0.03)'
+                        : 'transparent',
                       cursor: 'pointer',
-                      transition: 'all 0.2s ease',
+                      transition: 'all 0.3s ease',
                       textAlign: 'left',
-                      fontSize: '0.9375rem',
-                      fontWeight: '600'
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      color: '#fff'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedCategory !== category.id) {
+                        e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedCategory !== category.id) {
+                        e.currentTarget.style.border = '1px solid transparent';
+                        e.currentTarget.style.background = 'transparent';
+                      }
                     }}
                   >
                     {category.icon} {category.name}
