@@ -24,6 +24,7 @@ const MarketplacePage = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [showCatalog, setShowCatalog] = useState(false); // Catalog dropdown
+  const [showFilterPanel, setShowFilterPanel] = useState(false); // Sliding filter panel
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
