@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon } from 'lucide-react';
+import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon, Menu } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -23,6 +23,7 @@ const MarketplacePage = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [showCatalog, setShowCatalog] = useState(false); // Catalog dropdown
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
