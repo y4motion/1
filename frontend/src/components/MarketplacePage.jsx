@@ -1313,7 +1313,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
             {/* Image Container with Carousel */}
             <div style={{ 
               position: 'relative', 
-              paddingTop: '133%', // Pinterest-style taller aspect ratio
+              paddingTop: '133%',
               background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
               overflow: 'hidden'
             }}>
@@ -1333,6 +1333,137 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                   transform: isHovered ? 'scale(1.05)' : 'scale(1)'
                 }}
               />
+
+              {/* Action Icons Row - Top of Card (appears on hover) */}
+              <div style={{
+                position: 'absolute',
+                top: '1rem',
+                left: '1rem',
+                right: '1rem',
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+                opacity: isHovered ? 1 : 0,
+                transform: isHovered ? 'translateY(0)' : 'translateY(-10px)',
+                transition: 'all 0.3s ease',
+                pointerEvents: isHovered ? 'auto' : 'none'
+              }}>
+                {/* Fire (Rating) */}
+                {product.average_rating > 0 && (
+                  <div 
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: '0.375rem 0.625rem',
+                      borderRadius: '6px',
+                      background: 'rgba(0, 0, 0, 0.4)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      fontSize: '0.75rem',
+                      fontWeight: '600'
+                    }}
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <span style={{ fontSize: '0.875rem' }}>🔥</span>
+                    <span>{product.average_rating.toFixed(1)}</span>
+                  </div>
+                )}
+
+                {/* Wishlist */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onToggleWishlist(product.id);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.375rem 0.625rem',
+                    borderRadius: '6px',
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    color: '#fff'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <Heart size={12} fill={product.is_wishlisted ? '#ff3b30' : 'none'} color={product.is_wishlisted ? '#ff3b30' : '#fff'} />
+                  <span>{product.wishlist_count || 0}</span>
+                </button>
+
+                {/* Cart/Purchases */}
+                <div 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.375rem 0.625rem',
+                    borderRadius: '6px',
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600'
+                  }}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <ShoppingCart size={12} />
+                  <span>{product.purchases_count || 0}</span>
+                </div>
+
+                {/* Spacer */}
+                <div style={{ flex: 1 }} />
+
+                {/* Share Icon */}
+                <button
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0.375rem',
+                    borderRadius: '6px',
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    color: '#fff'
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log('Share product:', product.id);
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                  </svg>
+                </button>
+              </div>
 
               {/* Carousel Navigation */}
               {images.length > 1 && (
@@ -1413,7 +1544,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                 </>
               )}
 
-              {/* Price Tag - Apple-style rounded (White Matted Acrylic) - Same size as BUY button */}
+              {/* Price Tag - Apple-style rounded (White Matted Acrylic) */}
               {showPriceTag && (
                 <div 
                   className="price-tag"
@@ -1434,7 +1565,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     letterSpacing: '0.5px',
                     display: 'flex',
                     alignItems: 'center',
-                    height: '32px', // Fixed height to match BUY button
+                    height: '32px',
                     minWidth: '70px',
                     justifyContent: 'center'
                   }}
@@ -1474,7 +1605,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)',
                     letterSpacing: '0.5px',
                     pointerEvents: isHovered ? 'auto' : 'none',
-                    height: '32px', // Fixed height matching price tag
+                    height: '32px',
                     minWidth: '100px'
                   }}
                   onMouseOver={(e) => {
@@ -1512,115 +1643,15 @@ const ProductCard = ({ product, onToggleWishlist }) => {
           </div>
         </Link>
 
-        {/* Action Icons - Directly Below Card */}
-        <div style={{
-          display: 'flex',
-          gap: '0.75rem',
-          alignItems: 'center',
-          marginTop: '0.75rem',
-          padding: '0 0.25rem'
-        }}>
-          {/* Rating */}
-          {product.average_rating > 0 && (
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.375rem',
-              opacity: 0.5,
-              transition: 'opacity 0.2s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-            >
-              <Star size={14} fill="#FFD700" color="#FFD700" />
-              <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.average_rating.toFixed(1)}</span>
-            </div>
-          )}
-
-          {/* Wishlist */}
-          <button
-            onClick={() => onToggleWishlist(product.id)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.375rem',
-              opacity: 0.5,
-              transition: 'all 0.2s ease',
-              color: '#fff',
-              padding: 0
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = 1;
-              e.currentTarget.style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = 0.5;
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} color={product.is_wishlisted ? '#ff3b30' : '#fff'} />
-            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.wishlist_count || 0}</span>
-          </button>
-
-          {/* Cart/Purchases */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.375rem',
-            opacity: 0.5,
-            transition: 'opacity 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-          >
-            <ShoppingCart size={14} />
-            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.purchases_count || 0}</span>
-          </div>
-
-          {/* Spacer */}
-          <div style={{ flex: 1 }} />
-
-          {/* Share Icon */}
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              opacity: 0.5,
-              transition: 'all 0.2s ease',
-              color: '#fff',
-              padding: 0
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = 1;
-              e.currentTarget.style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = 0.5;
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              console.log('Share product:', product.id);
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="18" cy="5" r="3"></circle>
-              <circle cx="6" cy="12" r="3"></circle>
-              <circle cx="18" cy="19" r="3"></circle>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-          </button>
-        </div>
-
-        {/* Product Title - Below Icons (like NZXT example) */}
+        {/* Product Title - Below Card (Acrylic, muted → bright on hover) */}
         <div style={{ 
           marginTop: '0.625rem',
-          padding: '0 0.25rem'
+          padding: '0.5rem 0.75rem',
+          borderRadius: '8px',
+          background: isHovered ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          transition: 'all 0.3s ease'
         }}>
           <h3 style={{
             fontSize: '1rem',
@@ -1631,7 +1662,9 @@ const ProductCard = ({ product, onToggleWishlist }) => {
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
+            opacity: isHovered ? 1 : 0.6,
+            transition: 'opacity 0.3s ease'
           }}>
             {product.title}
           </h3>
