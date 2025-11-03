@@ -397,7 +397,7 @@ const MarketplacePage = () => {
           gap: '1rem',
           flexWrap: 'wrap'
         }}>
-          {/* Featured Chips - Left Side */}
+          {/* Featured Chips - Left Side (Minimalist Acrylic Style) */}
           <div style={{
             display: 'flex',
             gap: '0.75rem',
@@ -407,12 +407,12 @@ const MarketplacePage = () => {
               <button
                 key={chip.id}
                 onClick={() => handleFeaturedChipClick(chip.tag)}
-                className="glass-subtle featured-chip"
+                className="glass-subtle"
                 style={{
                   padding: '0.625rem 1.25rem',
-                  borderRadius: '50px',
+                  borderRadius: '12px',
                   border: selectedTag === chip.tag 
-                    ? '2px solid rgba(139, 92, 246, 0.5)'
+                    ? '1px solid rgba(139, 92, 246, 0.4)'
                     : '1px solid rgba(255, 255, 255, 0.1)',
                   background: selectedTag === chip.tag
                     ? 'rgba(139, 92, 246, 0.15)'
@@ -421,27 +421,33 @@ const MarketplacePage = () => {
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   fontSize: '0.8125rem',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   letterSpacing: '0.5px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  color: '#fff'
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                  boxShadow: selectedTag === chip.tag 
+                    ? '0 4px 16px rgba(139, 92, 246, 0.3)' 
+                    : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                  animation: selectedTag === chip.tag ? 'pulseSoft 2s ease-in-out infinite' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedTag !== chip.tag) {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
                     e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedTag !== chip.tag) {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
                     e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
                   }
                 }}
               >
-                <span style={{ fontSize: '1rem' }}>{chip.icon}</span>
                 {chip.label}
               </button>
             ))}
@@ -453,8 +459,8 @@ const MarketplacePage = () => {
                 className="glass-subtle"
                 style={{
                   padding: '0.625rem 1rem',
-                  borderRadius: '50px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 59, 48, 0.3)',
                   background: 'rgba(255, 59, 48, 0.1)',
                   backdropFilter: 'blur(10px)',
                   cursor: 'pointer',
@@ -465,6 +471,14 @@ const MarketplacePage = () => {
                   alignItems: 'center',
                   gap: '0.5rem',
                   color: '#ff3b30'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 59, 48, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 59, 48, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 <X size={14} />
