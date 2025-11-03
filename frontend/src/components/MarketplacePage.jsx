@@ -205,7 +205,7 @@ const MarketplacePage = () => {
             CATALOG
           </button>
 
-          {/* Centered Search Bar with Filter Inside */}
+          {/* Centered Search Bar */}
           <div style={{ 
             position: 'relative', 
             flex: 1,
@@ -231,7 +231,7 @@ const MarketplacePage = () => {
               className="minimal-search"
               style={{
                 width: '100%',
-                padding: '1rem 4.5rem 1rem 3.5rem',
+                padding: '1rem 3.5rem 1rem 3.5rem',
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
@@ -261,46 +261,6 @@ const MarketplacePage = () => {
                 }
               }}
             />
-            
-            {/* Filter Button - Inside Search (right side) */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              style={{
-                position: 'absolute',
-                right: '0.625rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                padding: '0.625rem',
-                borderRadius: '50%',
-                border: showFilters 
-                  ? '2px solid rgba(139, 92, 246, 0.4)'
-                  : '1px solid rgba(255, 255, 255, 0.1)',
-                background: showFilters
-                  ? 'rgba(139, 92, 246, 0.2)'
-                  : 'rgba(255, 255, 255, 0.08)',
-                backdropFilter: 'blur(10px)',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff'
-              }}
-              onMouseEnter={(e) => {
-                if (!showFilters) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!showFilters) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                }
-              }}
-            >
-              <SlidersHorizontal size={18} />
-            </button>
           </div>
         </div>
 
