@@ -1041,20 +1041,22 @@ const ProductCard = ({ product, onToggleWishlist }) => {
           marginTop: '0.75rem',
           padding: '0 0.25rem'
         }}>
-          {/* Views */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.375rem',
-            opacity: 0.5,
-            transition: 'opacity 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-          >
-            <Eye size={14} />
-            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.views || 0}</span>
-          </div>
+          {/* Rating */}
+          {product.average_rating > 0 && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.375rem',
+              opacity: 0.5,
+              transition: 'opacity 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
+            >
+              <Star size={14} fill="#FFD700" color="#FFD700" />
+              <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.average_rating.toFixed(1)}</span>
+            </div>
+          )}
 
           {/* Wishlist */}
           <button
