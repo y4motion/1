@@ -216,7 +216,8 @@ const Header = () => {
             borderRadius: '16px',
             overflow: 'hidden',
             zIndex: 1000,
-            animation: 'slideDown 0.3s ease-out'
+            animation: 'slideDown 0.3s ease-out',
+            color: theme === 'dark' ? '#ffffff' : '#1a1a1a' // Адаптивный цвет текста
           }}
         >
           {/* User Header */}
