@@ -39,14 +39,8 @@ const Header = () => {
 
   const handleLogoClick = (e) => {
     e.preventDefault();
-    // Toggle between catalog popup (unauthenticated) and LVL menu (authenticated)
-    if (isAuthenticated) {
-      setShowLVLMenu(!showLVLMenu);
-      setShowCatalogPopup(false);
-    } else {
-      setShowCatalogPopup(!showCatalogPopup);
-      setShowLVLMenu(false);
-    }
+    // Only toggle LVL menu (catalog moved to MarketplacePage)
+    setShowLVLMenu(!showLVLMenu);
   };
 
   const handleCategoryClick = (slug) => {
