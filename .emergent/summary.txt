@@ -1,61 +1,37 @@
 <analysis>
-The AI engineer successfully transitioned an existing frontend MVP, built to replicate wegic.ai's aesthetic, into Phase 2: Full-Stack Integration. The initial phase concluded with a pixel-perfect frontend, incorporating glassmorphism, theme/language switching, and a gamified user menu. Phase 2 involved implementing a robust FastAPI backend with MongoDB for user authentication (JWT), including user and product-related models (products, categories, reviews, questions, chat, cart) and their respective API routes.
+The AI engineer successfully progressed through significant UI/UX redesigns and backend expansions. Initial work focused on a detailed redesign of the  and the , incorporating user-specified aesthetics like glassmorphism, dark purple accents, and responsive layouts. Backend models (, , ) and routes were extended to support stock management, pre-orders, and payment methods. Crucially, the gamified LVL user menu was relocated from the right header to the left logo button, enhancing UI clarity.
 
-On the frontend, the engineer integrated the authentication system, designed a dynamic  with minimalist search, filter islands, and featured chips, and developed a comprehensive . Iterative refinements were made to product card design, adding hover expansion, grid/list views, and quantity selection. Persistent challenges with CORS and trailing slashes between frontend and backend were systematically debugged and resolved. The work demonstrates a methodical approach to feature development, incorporating user feedback through detailed planning, and effectively resolving technical issues to achieve complex UI/UX and full-stack functionalities.
+Subsequent efforts concentrated on refining the marketplace: implementing Pinterest-style product cards with image carousels, Apple-style price/buy tags, and improved action icons. A major refactor of the filter system involved creating a floating, scroll-following FILTERS button and a sliding panel that dynamically pushes content. Throughout these changes, the engineer systematically debugged issues like import errors and duplicated frontend code, ensuring a unified, minimalist design language. The current work is centered on further refining product card interactivity and visual elements.
 </analysis>
 
 <product_requirements>
-The core objective is to build a minimalist, modern gaming/tech e-commerce marketplace mimicking wegic.ai's aesthetic, featuring a dark, textured background, extensive glassmorphism, bold white typography, and interactive elements with subtle hover effects.
-
-**Frontend MVP (Phase 1.5 - Completed by previous AI Engineer):**
-- Minimalist header with pulsing logo, HOME, MARKETPLACE, RESTOCK links.
-- Permanent glassmorphism LVL button for user account access.
-- Hero section with pulsing RUNNING TO UPGRADE... text and acrylic search.
-- Product categories and minimalist footer.
-- Mouse-hover light/blur effect, language switcher (EN/RU), dark/light theme switcher.
-- Expanded LVL user menu with gamified features: Achievements, Daily Quests, Spin Wheel, Inventory/Wallet, Quick Actions, Social, Progress/Statistics.
-
-**Full-Stack Integration (Phase 2 - Ongoing):**
-- **Backend Setup**: Robust framework, production-ready MongoDB.
-- **LVL System**: User Authentication (registration, login, sessions), real-time cart, basic internal messaging.
-- **Content Management System (CMS)**: Admin/Moderator panel for products, categories, users, moderation workflow.
-- **Product Data Flow**: Connect frontend to live database, replacing mock data.
-- **User Registration Enhancements**: Google, Yandex, Apple quick registrations.
-- **Payment Integration**: Tinkoff (Terminal Key, Secret Key), Crypto (user-friendly for Russian audience), QR code payments.
-- **AI Integration**: DeepSeek (or similar free, high-token LLM) for customer support, system adaptation, ranking, and suggestions.
-- **Notifications**: Email notifications (Gmail) for order status/payments, real-time LVL menu notifications.
-- **User Features**: Order history, wishlist/favorites.
-- **SEO Optimization**: AI optimization for search ranking.
-- **Marketplace UI Enhancements**:
-    - Search: No borders, transparent background, glass effect only on hover/focus.
-    - Filters: Separate island icon, opening a glass popup with categories, price range, brand, rating.
-    - MINIMAL MARKET title with three featured chips: PRO GAMING, PRO CREATOR, OUR CHOICE (linked to AI/manager/admin-tagged products).
-    - Product Cards: 4 cards in a row, larger size, hover expansion with additional info (rating, views, cart count, wishlist count, top review, quick add to cart).
-    - View Switcher: Toggle between Grid (4-column) and List view.
-    - Items per page: Options for 20, 40, 60, 100.
-    - Card hover refinement: Reduce spacing, replace Add to Cart with Быстрая Покупка (Quick Buy) button (bottom right), unify wishlist icon (only count at bottom).
-    - Quick Buy Modal: Option to buy without registration (via SBP, QR, full name, number, address).
-    - Multi-currency: RUB, USD, CNY with conversion (indexed with exchange, default RUB).
-- **Product Detail Page**: Inspired by gearz.gg, kin.x, jonsbo.
-    - Left column: Image gallery with previews, zoom, video support.
-    - Right column: Title, breadcrumbs, rating, price, stock, quantity selector, CTA buttons (Add to Cart, Wishlist, Share), short description.
-    - Tabs: Overview, Specifications, Reviews & Ratings (with breakdown, filters), Questions & Answers (search, ask question), Live Chat (real-time, AI-integrated, global widget, notifications).
-    - Used By section, Related Products carousel.
-    - Design consistency: Glassmorphism elements, dark/light theme adaptability, animations, micro-interactions.
+The goal is to build a minimalist, modern gaming/tech e-commerce marketplace, mimicking wegic.ai's aesthetic with dark backgrounds, glassmorphism, and interactive elements.
+**Phase 1.5 (Completed):** Minimalist header, LVL button, hero section, product categories, mouse-hover effects, language/theme switch, gamified LVL user menu.
+**Phase 2 (Ongoing):**
+-   **Backend**: Robust FastAPI/MongoDB for user auth, real-time cart, basic messaging, CMS.
+-   **Frontend**: Dynamic MarketplacePage with search, filter islands, featured chips, hover-expanded product cards, grid/list views, quantity options, .
+-   **New Features/Refinements**:
+    -   Quick Buy Modal (no registration, SBP/QR/card/crypto payment, full name, number, address).
+    -   Multi-currency (RUB, USD, CNY).
+    -   Product Cards: 4 per row, larger, hover expansion with quick buy, unified wishlist. Pinterest-style pins with carousels, title below photo, white matte acrylic pulsing price tag, purple pulsing buy button on hover, subtle interaction icons (rating, likes, share) below card.
+    -   Stock Management:  field, Under Order notification for out-of-stock items, admin-configurable delivery days.
+    -   LVL Menu: Relocate existing gamified menu from right header to left logo/power button.
+    -   Marketplace Layout: CATALOG button on MarketplacePage, search bar under MINIMAL MARKET title (centered), filter inside search (removed), featured chips + grid/list/items-per-page in a single row above products.
+    -   Filter Panel: Floating FILTERS button (scroll-following), sliding panel (pushes content, no blur), comprehensive tech filters (PC, hardware, price, popularity, rating, color), unified design with header.
+    -   Product Card Hover: Reactions (like/share) in card header on hover, star icon replaced with flame, acrylic product names (dimmed normally, bright on hover).
 </product_requirements>
 
 <key_technical_concepts>
-- **React Frontend**: Interactive UIs.
-- **FastAPI Backend**: API, business logic.
-- **MongoDB Database**: Data persistence.
-- **JWT Authentication**: User sessions.
-- **Glassmorphism/Acrylic Design**: Core aesthetic, .
-- **Tailwind CSS**: Utility-first styling.
-- **i18n**: Multi-language support.
-- **React Context**: Global state (Theme, Auth).
-- **UUIDs**: Primary keys for MongoDB documents.
-- **CORS Management**: Cross-origin requests.
-- **Supervisor**: Process management for services.
+-   **React Frontend**: Component-based UI development.
+-   **FastAPI Backend**: Asynchronous API server, Pydantic for data validation.
+-   **MongoDB Database**: NoSQL data storage, UUIDs for IDs.
+-   **JWT Authentication**: Secure user sessions.
+-   **Glassmorphism/Acrylic Design**: Core visual aesthetic.
+-   **Tailwind CSS**: Utility-first styling.
+-   **i18n**: Multi-language support.
+-   **React Context**: Global state management (Auth, Theme).
+-   **CORS Management**: Handling cross-origin requests.
+-   **Supervisor**: Process management for backend/frontend services.
 </key_technical_concepts>
 
 <code_architecture>
@@ -68,54 +44,49 @@ The application uses a full-stack architecture with a React frontend, FastAPI ba
 
 -   :
     -   **Importance**: Main FastAPI application.
-    -   **Changes**: Configured CORS middleware, added database client setup/shutdown events, and included , , , , , . Debugged CORS origins ( added), and trailing slash issues with FastAPI routing.
+    -   **Changes**: Added  and .
 -   :
-    -   **Importance**: Handles MongoDB connection via .
-    -   **Changes**: Newly created to centralize database connection logic, ensuring  is read from environment.
+    -   **Importance**: Pydantic model for product data.
+    -   **Changes**: Added , , ,  fields to support inventory and pre-order management.
 -   :
-    -   **Importance**: Pydantic model for user data and database schema.
-    -   **Changes**: Newly created with fields like , , , , . Updated to include roles and  for products.
+    -   **Importance**: Newly created Pydantic model for order data, supporting both registered and quick-buy users.
+    -   **Changes**: Defines fields for order details including customer info, product items, total amount, status, etc.
 -   :
-    -   **Importance**: API endpoints for user authentication (registration, login).
-    -   **Changes**: Newly created, implements JWT-based authentication using .
--    (product, category, review, question, chat, cart):
-    -   **Importance**: Pydantic models for various marketplace entities.
-    -   **Changes**: Newly created to define the structure of products, categories, reviews, user questions, chat messages, and cart items, all using UUIDs for IDs.
--    (product, category, review, question, cart):
-    -   **Importance**: API endpoints for CRUD operations on marketplace entities.
-    -   **Changes**: Newly created, connecting to MongoDB via .  debugged for trailing slash issues.
+    -   **Importance**: Newly created Pydantic model for admin-configurable payment methods.
+    -   **Changes**: Defines fields for payment method name, type, configuration, and active status.
 -   :
-    -   **Importance**: Main entry point, sets up routing and global contexts.
-    -   **Changes**: Wrapped with  and . Added routes for  and .
+    -   **Importance**: Newly created API endpoints for order CRUD operations.
+    -   **Changes**: Implements routes for creating, retrieving, and managing orders. Fixed import errors within this file.
 -   :
-    -   **Importance**: Main navigation, user menu.
-    -   **Changes**: Integrated  and dynamic display of login/register or user info/logout based on . Refined LVL button logic.
+    -   **Importance**: Newly created API endpoints for managing payment methods (admin-only).
+    -   **Changes**: Implements routes for configuring payment options.
 -   :
-    -   **Importance**: Manages user authentication state globally.
-    -   **Changes**: Newly created to provide  for login, logout, and user data.
+    -   **Importance**: Utility functions for authentication.
+    -   **Changes**: Added  for flexible authentication in certain routes.
 -   :
-    -   **Importance**: Login and registration forms.
-    -   **Changes**: Newly created for user authentication.
+    -   **Importance**: Handles main navigation and user interface.
+    -   **Changes**: Relocated the entire LVL gamified menu from the right user button to the left logo/Power button. Simplified the right button to display only Login/Logout. Removed catalog popup from this component.
 -   :
-    -   **Importance**: Internationalization strings.
-    -   **Changes**: Created (replacing , ) and expanded to include authentication and marketplace-specific strings.
+    -   **Importance**: Displays product listings and filters.
+    -   **Changes**:
+        -   Redesigned layout: centered search bar under MINIMAL MARKET, combined featured chips/view options in one row.
+        -   Implemented Pinterest-style product cards with image carousels, product name below image, Apple-style price/buy tags (white acrylic pulsing price, purple acrylic pulsing buy on hover), and interaction icons (rating, wishlist, cart, share) below the card.
+        -   Introduced a floating FILTERS button on the left that follows scroll.
+        -   Implemented a sliding filter panel (no backdrop) that pushes product content to the right, with extensive tech-related filter categories.
+        -   Removed filter icon from search bar and added search *within* the filter panel.
+        -   Refined overall styling for minimalist acrylic design and unified hover effects, removing duplicate rating display.
+        -   Corrected Pinterest-style spacing (1rem gap).
 -   :
-    -   **Importance**: Displays product listings.
-    -   **Changes**: Initially created with basic search/categories. Extensively modified to include minimalist search, filter island, MINIMAL MARKET title, featured chips (PRO GAMING, PRO CREATOR, OUR CHOICE), 4-column product grid, hover-expanded cards, Grid/List view switcher, and quantity options (20, 40, 60, 100). Further refined for Quick Buy button and unified wishlist.
+    -   **Importance**: Modal for quick purchases without registration.
+    -   **Changes**: Completely redesigned with a wide 3-column layout (product image/info, customer form, payment methods), dark purple theme, and integration of stock status/pre-order logic.
 -   :
-    -   **Importance**: Displays detailed product information.
-    -   **Changes**: Newly created, implementing image gallery, product info, quantity selector, CTA buttons, trust badges, and tabs (Overview, Specs, Reviews, Q&A, Live Chat placeholder).
--   :
-    -   **Importance**: Enables quick purchases without registration.
-    -   **Changes**: Newly created to implement the quick buy functionality requested by the user.
--   :
-    -   **Importance**: Defines core aesthetic styles.
-    -   **Changes**: Added CSS for hover expansion animations and refined glassmorphism effects for new components.
+    -   **Importance**: Core aesthetic styles.
+    -   **Changes**: Added CSS for new pulsating animations for price/buy tags and refined glassmorphism effects for new components and the filter panel to match header styles.
 </code_architecture>
 
 <pending_tasks>
 -   **Real-time Chat Implementation**: Develop full WebSocket chat with DeepSeek AI integration for auto-responses, global widget, and notification system.
--   **Payment Gateways**: Integrate Tinkoff (Terminal Key, Secret Key) and a suitable crypto service (user-friendly for Russian audience), including QR code payments.
+-   **Payment Gateways**: Integrate Tinkoff (Terminal Key, Secret Key) and a suitable crypto service (top 5 stablecoins + top 5 networks), including QR code payments.
 -   **Multi-currency Conversion**: Implement live conversion for RUB, USD, CNY, indexed with a real stock exchange.
 -   **Content Management System (CMS)**: Develop full admin/moderator panel for products, categories, users, with moderation workflow.
 -   **User Registration Enhancements**: Integrate Google, Yandex, Apple quick registrations.
@@ -125,15 +96,14 @@ The application uses a full-stack architecture with a React frontend, FastAPI ba
 </pending_tasks>
 
 <current_work>
-The AI engineer is currently working on refining the product cards on the marketplace and implementing the Quick Buy functionality. Specifically, the task involves:
-1.  **Adjusting Hover Expansion**: Reducing excessive spacing within the expanded product card on hover.
-2.  **Replacing Add to Cart with Quick Buy**: Removing the ADD TO CART button from the hover state and introducing a БЫСТРАЯ ПОКУПКА (Quick Buy) button in the bottom-right corner of the product cards.
-3.  **Unifying Wishlist Icon**: Removing the heart icon from the top-right corner of product cards, retaining only the wishlist count at the bottom.
-4.  **Creating Quick Buy Modal**: Developing a  component that allows users to purchase a product without full registration. This modal is expected to include fields for payment via SBP (System of Faster Payments), QR code, full name (ФИО), contact number, and delivery address, all within a single dialog box.
-5.  **Setting up Multi-currency Display**: Preparing the groundwork for multi-currency support (RUB, USD, CNY), with a default of RUB and eventual indexing with a real stock exchange.
-The engineer has already modified  to incorporate these UI changes and has started creating the  component.
+The AI engineer is currently in the process of further refining the product cards on the  based on the user's latest feedback. The immediate task involves:
+1.  **Relocating Action Icons**: Moving the reaction/sharing icons (previously below the card) to the header area of the product image, appearing only on hover.
+2.  **Replacing Star with Flame Icon**: Changing the rating icon (star) to a minimalist flame icon (🔥) within the action row.
+3.  **Acrylic Product Names**: Applying an acrylic effect to product names, making them appear subtle/dimmed by default and becoming bright and readable upon hover, to draw less attention in a static state.
+
+The engineer has just executed a file edit () to address these specific changes, making the product cards more interactive and visually cohesive with the overall minimalist, glassmorphism design. This follows extensive work on redesigning the Quick Buy modal, integrating stock management, refactoring the header for the LVL menu, and a complete overhaul of the marketplace layout, including Pinterest-style product cards and a new sliding filter panel.
 </current_work>
 
 <optional_next_step>
-Test the newly implemented  component and its integration into the .
+Take a screenshot to visually verify the latest changes to the product cards' hover effects and icon updates.
 </optional_next_step>
