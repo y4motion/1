@@ -934,7 +934,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                 </>
               )}
 
-              {/* Price Tag - Apple-style rounded (White Matted Acrylic) */}
+              {/* Price Tag - Apple-style rounded (White Matted Acrylic) - Same size as BUY button */}
               {showPriceTag && (
                 <div 
                   className="price-tag"
@@ -945,14 +945,19 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     background: 'rgba(255, 255, 255, 0.95)',
                     backdropFilter: 'blur(16px)',
                     padding: '0.5rem 0.875rem',
-                    borderRadius: '12px', // Apple-style rounded corners
-                    fontSize: '1.125rem',
-                    fontWeight: '900',
+                    borderRadius: '12px',
+                    fontSize: '0.8125rem',
+                    fontWeight: '800',
                     color: '#000',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)',
                     transition: 'all 0.3s ease',
                     opacity: isHovered ? 0 : 1,
-                    letterSpacing: '-0.5px'
+                    letterSpacing: '0.5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '32px', // Fixed height to match BUY button
+                    minWidth: '70px',
+                    justifyContent: 'center'
                   }}
                 >
                   ${product.price}
@@ -976,7 +981,7 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     backdropFilter: 'blur(16px)',
                     border: 'none',
                     padding: '0.5rem 0.875rem',
-                    borderRadius: '12px', // Apple-style rounded corners
+                    borderRadius: '12px',
                     color: '#fff',
                     fontSize: '0.8125rem',
                     fontWeight: '800',
@@ -989,7 +994,9 @@ const ProductCard = ({ product, onToggleWishlist }) => {
                     transform: isHovered ? 'translateY(0)' : 'translateY(10px)',
                     boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)',
                     letterSpacing: '0.5px',
-                    pointerEvents: isHovered ? 'auto' : 'none'
+                    pointerEvents: isHovered ? 'auto' : 'none',
+                    height: '32px', // Fixed height matching price tag
+                    minWidth: '100px'
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.boxShadow = '0 6px 24px rgba(139, 92, 246, 0.6), 0 2px 6px rgba(139, 92, 246, 0.3)';
