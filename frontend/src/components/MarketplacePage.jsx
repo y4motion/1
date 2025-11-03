@@ -807,373 +807,365 @@ const ProductCard = ({ product, onToggleWishlist }) => {
 
   return (
     <>
-      <Link 
-        to={`/product/${product.id}`}
-        style={{ textDecoration: 'none', color: 'inherit' }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div 
-          className="glass-subtle product-card"
-          style={{
-            borderRadius: '20px',
-            overflow: 'hidden',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-            boxShadow: isHovered 
-              ? '0 12px 40px rgba(0, 0, 0, 0.4)' 
-              : '0 4px 16px rgba(0, 0, 0, 0.2)',
-            position: 'relative'
-          }}
+      <div style={{ position: 'relative' }}>
+        <Link 
+          to={`/product/${product.id}`}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Image Container with Carousel */}
-          <div style={{ 
-            position: 'relative', 
-            paddingTop: '133%', // Pinterest-style taller aspect ratio
-            background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
-            overflow: 'hidden'
-          }}>
-            {/* Carousel Image */}
-            <img 
-              src={!imageError && images[currentImageIndex]?.url || 'https://via.placeholder.com/300x400?text=No+Image'}
-              alt={images[currentImageIndex]?.alt || product.title}
-              onError={() => setImageError(true)}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                transform: isHovered ? 'scale(1.05)' : 'scale(1)'
-              }}
-            />
+          <div 
+            className="glass-subtle product-card"
+            style={{
+              borderRadius: '20px',
+              overflow: 'hidden',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+              boxShadow: isHovered 
+                ? '0 12px 40px rgba(0, 0, 0, 0.4)' 
+                : '0 4px 16px rgba(0, 0, 0, 0.2)',
+              position: 'relative'
+            }}
+          >
+            {/* Image Container with Carousel */}
+            <div style={{ 
+              position: 'relative', 
+              paddingTop: '133%', // Pinterest-style taller aspect ratio
+              background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
+              overflow: 'hidden'
+            }}>
+              {/* Carousel Image */}
+              <img 
+                src={!imageError && images[currentImageIndex]?.url || 'https://via.placeholder.com/300x400?text=No+Image'}
+                alt={images[currentImageIndex]?.alt || product.title}
+                onError={() => setImageError(true)}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+                }}
+              />
 
-            {/* Carousel Navigation */}
-            {images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
+              {/* Carousel Navigation */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={prevImage}
+                    style={{
+                      position: 'absolute',
+                      left: '0.5rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(0, 0, 0, 0.5)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '50%',
+                      width: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      opacity: isHovered ? 1 : 0,
+                      transition: 'opacity 0.3s ease',
+                      color: '#fff'
+                    }}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    style={{
+                      position: 'absolute',
+                      right: '0.5rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(0, 0, 0, 0.5)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '50%',
+                      width: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      opacity: isHovered ? 1 : 0,
+                      transition: 'opacity 0.3s ease',
+                      color: '#fff'
+                    }}
+                  >
+                    ›
+                  </button>
+
+                  {/* Carousel Dots */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '0.75rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    gap: '0.375rem'
+                  }}>
+                    {images.map((_, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          background: index === currentImageIndex 
+                            ? 'rgba(255, 255, 255, 0.9)' 
+                            : 'rgba(255, 255, 255, 0.3)',
+                          transition: 'all 0.3s ease'
+                        }}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* Price Tag - Apple-style rounded (White Matted Acrylic) */}
+              {showPriceTag && (
+                <div 
+                  className="price-tag"
                   style={{
                     position: 'absolute',
-                    left: '0.5rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(0, 0, 0, 0.5)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    opacity: isHovered ? 1 : 0,
-                    transition: 'opacity 0.3s ease',
-                    color: '#fff'
+                    bottom: '1rem',
+                    right: '1rem',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(16px)',
+                    padding: '0.5rem 0.875rem',
+                    borderRadius: '12px', // Apple-style rounded corners
+                    fontSize: '1.125rem',
+                    fontWeight: '900',
+                    color: '#000',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)',
+                    transition: 'all 0.3s ease',
+                    opacity: isHovered ? 0 : 1,
+                    letterSpacing: '-0.5px'
                   }}
                 >
-                  ‹
-                </button>
+                  ${product.price}
+                </div>
+              )}
+
+              {/* Quick Buy Button - Apple-style rounded (Purple Acrylic) */}
+              {product.stock > 0 && (
                 <button
-                  onClick={nextImage}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowQuickBuy(true);
+                  }}
+                  onMouseEnter={() => setShowPriceTag(false)}
+                  onMouseLeave={() => setShowPriceTag(true)}
                   style={{
                     position: 'absolute',
-                    right: '0.5rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(0, 0, 0, 0.5)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
+                    bottom: '1rem',
+                    right: '1rem',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(107, 70, 193, 0.95) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    border: 'none',
+                    padding: '0.5rem 0.875rem',
+                    borderRadius: '12px', // Apple-style rounded corners
+                    color: '#fff',
+                    fontSize: '0.8125rem',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
+                    gap: '0.5rem',
                     opacity: isHovered ? 1 : 0,
-                    transition: 'opacity 0.3s ease',
-                    color: '#fff'
+                    transform: isHovered ? 'translateY(0)' : 'translateY(10px)',
+                    boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)',
+                    letterSpacing: '0.5px',
+                    pointerEvents: isHovered ? 'auto' : 'none'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(139, 92, 246, 0.6), 0 2px 6px rgba(139, 92, 246, 0.3)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)';
                   }}
                 >
-                  ›
+                  <Zap size={14} />
+                  BUY NOW
                 </button>
+              )}
 
-                {/* Carousel Dots */}
+              {/* Out of Stock Badge */}
+              {product.stock === 0 && (
                 <div style={{
                   position: 'absolute',
-                  bottom: '0.75rem',
+                  top: '50%',
                   left: '50%',
-                  transform: 'translateX(-50%)',
-                  display: 'flex',
-                  gap: '0.375rem'
+                  transform: 'translate(-50%, -50%)',
+                  background: 'rgba(255, 59, 48, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '12px',
+                  fontSize: '0.875rem',
+                  fontWeight: '700',
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 4px 16px rgba(255, 59, 48, 0.4)'
                 }}>
-                  {images.map((_, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        background: index === currentImageIndex 
-                          ? 'rgba(255, 255, 255, 0.9)' 
-                          : 'rgba(255, 255, 255, 0.3)',
-                        transition: 'all 0.3s ease'
-                      }}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-
-            {/* Title - Inside Card at Bottom */}
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: '1.5rem 1rem 1rem',
-              background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.95) 100%)',
-              backdropFilter: 'blur(8px)'
-            }}>
-              <h3 style={{
-                fontSize: '1rem',
-                fontWeight: '700',
-                marginBottom: '0.25rem',
-                lineHeight: '1.3',
-                color: '#fff',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}>
-                {product.title}
-              </h3>
-              
-              {/* Rating - Small */}
-              {product.average_rating > 0 && (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  marginTop: '0.375rem'
-                }}>
-                  <Star size={12} fill="#FFD700" color="#FFD700" />
-                  <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#FFD700' }}>
-                    {product.average_rating.toFixed(1)}
-                  </span>
-                  <span style={{ fontSize: '0.6875rem', opacity: 0.6, marginLeft: '0.25rem' }}>
-                    ({product.total_reviews})
-                  </span>
+                  OUT OF STOCK
                 </div>
               )}
             </div>
-
-            {/* Price Tag - Right Bottom (White Matted Acrylic with Pulsing Glow) */}
-            {showPriceTag && (
-              <div 
-                className="price-tag"
-                style={{
-                  position: 'absolute',
-                  bottom: '1rem',
-                  right: '-0.5rem',
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(12px)',
-                  padding: '0.625rem 1rem 0.625rem 0.75rem',
-                  borderRadius: '12px 0 0 12px',
-                  fontSize: '1.125rem',
-                  fontWeight: '900',
-                  color: '#000',
-                  boxShadow: '0 4px 20px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3)',
-                  animation: 'pulseSoft 2s ease-in-out infinite',
-                  transition: 'opacity 0.3s ease',
-                  opacity: isHovered ? 0 : 1,
-                  letterSpacing: '-0.5px',
-                  clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)',
-                  paddingLeft: '1rem'
-                }}
-              >
-                ${product.price}
-              </div>
-            )}
-
-            {/* Quick Buy Button - Appears on Hover, Covers Price Tag */}
-            {product.stock > 0 && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowQuickBuy(true);
-                }}
-                onMouseEnter={() => setShowPriceTag(false)}
-                onMouseLeave={() => setShowPriceTag(true)}
-                style={{
-                  position: 'absolute',
-                  bottom: '1rem',
-                  right: '-0.5rem',
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(107, 70, 193, 0.95) 100%)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  padding: '0.625rem 1rem 0.625rem 0.75rem',
-                  borderRadius: '12px 0 0 12px',
-                  color: '#fff',
-                  fontSize: '0.8125rem',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  opacity: isHovered ? 1 : 0,
-                  transform: isHovered ? 'translateX(0)' : 'translateX(10px)',
-                  boxShadow: '0 4px 24px rgba(139, 92, 246, 0.5)',
-                  animation: isHovered ? 'pulseSoft 2s ease-in-out infinite' : 'none',
-                  letterSpacing: '0.5px',
-                  clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%)',
-                  paddingLeft: '1rem',
-                  pointerEvents: isHovered ? 'auto' : 'none'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 32px rgba(139, 92, 246, 0.7)';
-                }}
-              >
-                <Zap size={14} />
-                BUY NOW
-              </button>
-            )}
-
-            {/* Out of Stock Badge */}
-            {product.stock === 0 && (
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                background: 'rgba(255, 59, 48, 0.95)',
-                backdropFilter: 'blur(10px)',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: '0.875rem',
-                fontWeight: '700',
-                letterSpacing: '0.5px',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                OUT OF STOCK
-              </div>
-            )}
           </div>
-        </div>
-      </Link>
+        </Link>
 
-      {/* Action Icons - Below Card (Minimalist, Semi-transparent) */}
-      <div style={{
-        display: 'flex',
-        gap: '0.75rem',
-        alignItems: 'center',
-        marginTop: '0.75rem',
-        padding: '0 0.5rem'
-      }}>
-        {/* Views */}
+        {/* Action Icons - Directly Below Card */}
         <div style={{
           display: 'flex',
+          gap: '0.75rem',
           alignItems: 'center',
-          gap: '0.375rem',
-          opacity: 0.5,
-          transition: 'opacity 0.2s ease'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
-        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-        >
-          <Eye size={14} />
-          <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.views || 0}</span>
-        </div>
-
-        {/* Wishlist */}
-        <button
-          onClick={() => onToggleWishlist(product.id)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
+          marginTop: '0.75rem',
+          padding: '0 0.25rem'
+        }}>
+          {/* Views */}
+          <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '0.375rem',
             opacity: 0.5,
-            transition: 'all 0.2s ease',
-            color: '#fff',
-            padding: 0
+            transition: 'opacity 0.2s ease'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = 1;
-            e.currentTarget.style.transform = 'scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = 0.5;
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-        >
-          <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} color={product.is_wishlisted ? '#ff3b30' : '#fff'} />
-          <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.wishlist_count || 0}</span>
-        </button>
+          onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
+          >
+            <Eye size={14} />
+            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.views || 0}</span>
+          </div>
 
-        {/* Cart/Purchases */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.375rem',
-          opacity: 0.5,
-          transition: 'opacity 0.2s ease'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
-        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
-        >
-          <ShoppingCart size={14} />
-          <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.purchases_count || 0}</span>
+          {/* Wishlist */}
+          <button
+            onClick={() => onToggleWishlist(product.id)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.375rem',
+              opacity: 0.5,
+              transition: 'all 0.2s ease',
+              color: '#fff',
+              padding: 0
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = 1;
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = 0.5;
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} color={product.is_wishlisted ? '#ff3b30' : '#fff'} />
+            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.wishlist_count || 0}</span>
+          </button>
+
+          {/* Cart/Purchases */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.375rem',
+            opacity: 0.5,
+            transition: 'opacity 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = 0.5}
+          >
+            <ShoppingCart size={14} />
+            <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>{product.purchases_count || 0}</span>
+          </div>
+
+          {/* Spacer */}
+          <div style={{ flex: 1 }} />
+
+          {/* Share Icon */}
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              opacity: 0.5,
+              transition: 'all 0.2s ease',
+              color: '#fff',
+              padding: 0
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = 1;
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = 0.5;
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('Share product:', product.id);
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </button>
         </div>
 
-        {/* Spacer */}
-        <div style={{ flex: 1 }} />
-
-        {/* Share Icon */}
-        <button
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            opacity: 0.5,
-            transition: 'all 0.2s ease',
+        {/* Product Title - Below Icons (like NZXT example) */}
+        <div style={{ 
+          marginTop: '0.625rem',
+          padding: '0 0.25rem'
+        }}>
+          <h3 style={{
+            fontSize: '1rem',
+            fontWeight: '700',
+            lineHeight: '1.3',
             color: '#fff',
-            padding: 0
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = 1;
-            e.currentTarget.style.transform = 'scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = 0.5;
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            // TODO: Implement share functionality
-            console.log('Share product:', product.id);
-          }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="18" cy="5" r="3"></circle>
-            <circle cx="6" cy="12" r="3"></circle>
-            <circle cx="18" cy="19" r="3"></circle>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-          </svg>
-        </button>
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            marginBottom: '0.375rem'
+          }}>
+            {product.title}
+          </h3>
+          
+          {/* Rating - Below Title */}
+          {product.average_rating > 0 && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem'
+            }}>
+              <Star size={12} fill="#FFD700" color="#FFD700" />
+              <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#FFD700' }}>
+                {product.average_rating.toFixed(1)}
+              </span>
+              <span style={{ fontSize: '0.6875rem', opacity: 0.6, marginLeft: '0.125rem' }}>
+                ({product.total_reviews})
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Quick Buy Modal */}
