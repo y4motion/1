@@ -1007,7 +1007,7 @@ const MarketplacePage = () => {
             <div style={{ marginBottom: '2rem' }}>
               <h3 style={{
                 fontSize: '0.875rem',
-                fontWeight: '700',
+                fontWeight: '500',
                 marginBottom: '1rem',
                 opacity: 0.7,
                 letterSpacing: '0.5px',
@@ -1023,13 +1023,20 @@ const MarketplacePage = () => {
                   onChange={(e) => setMinPrice(e.target.value)}
                   style={{
                     flex: 1,
-                    padding: '0.875rem 1rem',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    border: '1px solid transparent',
                     background: 'rgba(255, 255, 255, 0.05)',
                     color: '#fff',
-                    fontSize: '0.9375rem',
-                    outline: 'none'
+                    fontSize: '0.875rem',
+                    outline: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.border = '1px solid transparent';
                   }}
                 />
                 <input
@@ -1039,13 +1046,20 @@ const MarketplacePage = () => {
                   onChange={(e) => setMaxPrice(e.target.value)}
                   style={{
                     flex: 1,
-                    padding: '0.875rem 1rem',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    border: '1px solid transparent',
                     background: 'rgba(255, 255, 255, 0.05)',
                     color: '#fff',
-                    fontSize: '0.9375rem',
-                    outline: 'none'
+                    fontSize: '0.875rem',
+                    outline: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.border = '1px solid transparent';
                   }}
                 />
               </div>
@@ -1055,7 +1069,7 @@ const MarketplacePage = () => {
             <div style={{ marginBottom: '1.5rem' }}>
               <h3 style={{
                 fontSize: '0.875rem',
-                fontWeight: '700',
+                fontWeight: '500',
                 marginBottom: '1rem',
                 opacity: 0.7,
                 letterSpacing: '0.5px',
@@ -1068,14 +1082,21 @@ const MarketplacePage = () => {
                 onChange={(e) => setSortBy(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.875rem 1rem',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  border: '1px solid transparent',
                   background: 'rgba(255, 255, 255, 0.05)',
                   color: '#fff',
-                  fontSize: '0.9375rem',
+                  fontSize: '0.875rem',
                   cursor: 'pointer',
-                  outline: 'none'
+                  outline: 'none',
+                  transition: 'all 0.3s ease'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid transparent';
                 }}
               >
                 <option value="created_at" style={{ background: '#1a1a1a' }}>Newest First</option>
