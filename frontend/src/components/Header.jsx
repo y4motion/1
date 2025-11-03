@@ -330,41 +330,6 @@ const Header = () => {
                     </button>
                   </div>
                 </div>
-
-                {/* Logout Button */}
-                {isAuthenticated && (
-                  <button
-                    onClick={() => {
-                      logout();
-                      setShowUserMenu(false);
-                    }}
-                    className="glass-subtle"
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '8px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.875rem',
-                      fontWeight: '600',
-                      transition: 'all 0.3s ease',
-                      background: 'rgba(255, 59, 48, 0.1)',
-                      color: '#ff3b30'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 59, 48, 0.2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 59, 48, 0.1)';
-                    }}
-                  >
-                    <X size={18} />
-                    {t('user.logout')}
-                  </button>
-                )}
               </div>
             )}
             
