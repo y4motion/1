@@ -792,6 +792,319 @@ const MarketplacePage = () => {
           )
         )}
       </div>
+
+      {/* Floating Filter Button - Follows Scroll (Left Side) */}
+      <button
+        onClick={() => setShowFilterPanel(!showFilterPanel)}
+        className="glass-strong"
+        style={{
+          position: 'fixed',
+          left: '2rem',
+          top: '40%',
+          transform: 'translateY(-50%)',
+          width: '48px',
+          height: '120px',
+          borderRadius: '12px',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
+          background: 'rgba(139, 92, 246, 0.15)',
+          backdropFilter: 'blur(16px)',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          zIndex: 100,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem',
+          padding: '1rem 0',
+          boxShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
+          animation: 'pulseSoft 2s ease-in-out infinite'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+          e.currentTarget.style.boxShadow = '0 6px 30px rgba(139, 92, 246, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.3)';
+        }}
+      >
+        <SlidersHorizontal size={20} color="#fff" />
+        <div style={{
+          writingMode: 'vertical-rl',
+          textOrientation: 'mixed',
+          fontSize: '0.75rem',
+          fontWeight: '700',
+          letterSpacing: '1px',
+          color: '#fff'
+        }}>
+          FILTERS
+        </div>
+      </button>
+
+      {/* Sliding Filter Panel */}
+      {showFilterPanel && (
+        <>
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowFilterPanel(false)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.7)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 200,
+              animation: 'fadeIn 0.3s ease-out'
+            }}
+          />
+
+          {/* Filter Panel */}
+          <div
+            className="glass-strong"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: '380px',
+              background: 'rgba(20, 20, 30, 0.95)',
+              backdropFilter: 'blur(20px)',
+              borderRight: '1px solid rgba(139, 92, 246, 0.3)',
+              zIndex: 201,
+              padding: '2rem',
+              overflowY: 'auto',
+              animation: 'slideInFromLeft 0.3s ease-out',
+              boxShadow: '4px 0 40px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '2rem',
+              paddingBottom: '1rem',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <h2 style={{
+                fontSize: '1.5rem',
+                fontWeight: '900',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                FILTERS
+              </h2>
+              <button
+                onClick={() => setShowFilterPanel(false)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '50%',
+                  width: '36px',
+                  height: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Categories */}
+            <div style={{ marginBottom: '2rem' }}>
+              <h3 style={{
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                marginBottom: '1rem',
+                opacity: 0.7,
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase'
+              }}>
+                Categories
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <button
+                  onClick={() => {
+                    setSelectedCategory('all');
+                  }}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.875rem 1rem',
+                    borderRadius: '12px',
+                    border: selectedCategory === 'all'
+                      ? '1px solid rgba(139, 92, 246, 0.5)'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    background: selectedCategory === 'all'
+                      ? 'rgba(139, 92, 246, 0.15)'
+                      : 'rgba(255, 255, 255, 0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    textAlign: 'left',
+                    fontSize: '0.9375rem',
+                    fontWeight: '600'
+                  }}
+                >
+                  All Categories
+                </button>
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => {
+                      setSelectedCategory(category.id);
+                    }}
+                    className="glass-subtle"
+                    style={{
+                      padding: '0.875rem 1rem',
+                      borderRadius: '12px',
+                      border: selectedCategory === category.id
+                        ? '1px solid rgba(139, 92, 246, 0.5)'
+                        : '1px solid rgba(255, 255, 255, 0.1)',
+                      background: selectedCategory === category.id
+                        ? 'rgba(139, 92, 246, 0.15)'
+                        : 'rgba(255, 255, 255, 0.05)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      textAlign: 'left',
+                      fontSize: '0.9375rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    {category.icon} {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Range */}
+            <div style={{ marginBottom: '2rem' }}>
+              <h3 style={{
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                marginBottom: '1rem',
+                opacity: 0.7,
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase'
+              }}>
+                Price Range
+              </h3>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  style={{
+                    flex: 1,
+                    padding: '0.875rem 1rem',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: '#fff',
+                    fontSize: '0.9375rem',
+                    outline: 'none'
+                  }}
+                />
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  style={{
+                    flex: 1,
+                    padding: '0.875rem 1rem',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: '#fff',
+                    fontSize: '0.9375rem',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Sort By */}
+            <div style={{ marginBottom: '2rem' }}>
+              <h3 style={{
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                marginBottom: '1rem',
+                opacity: 0.7,
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase'
+              }}>
+                Sort By
+              </h3>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '0.9375rem',
+                  cursor: 'pointer',
+                  outline: 'none'
+                }}
+              >
+                <option value="created_at" style={{ background: '#1a1a1a' }}>Newest First</option>
+                <option value="price_asc" style={{ background: '#1a1a1a' }}>Price: Low to High</option>
+                <option value="price_desc" style={{ background: '#1a1a1a' }}>Price: High to Low</option>
+                <option value="rating" style={{ background: '#1a1a1a' }}>Highest Rated</option>
+                <option value="popular" style={{ background: '#1a1a1a' }}>Most Popular</option>
+              </select>
+            </div>
+
+            {/* Apply Button */}
+            <button
+              onClick={() => {
+                fetchProducts();
+                setShowFilterPanel(false);
+              }}
+              style={{
+                width: '100%',
+                padding: '1rem',
+                borderRadius: '12px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                color: '#fff',
+                fontSize: '1rem',
+                fontWeight: '800',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 20px rgba(139, 92, 246, 0.4)',
+                letterSpacing: '0.5px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 30px rgba(139, 92, 246, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.4)';
+              }}
+            >
+              APPLY FILTERS
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
