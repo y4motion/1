@@ -482,6 +482,19 @@ const ProductDetailPage = () => {
               </button>
 
               <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: product.title,
+                      text: product.description,
+                      url: window.location.href,
+                    }).catch(err => console.log('Error sharing:', err));
+                  } else {
+                    // Fallback: копирование ссылки
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Ссылка скопирована в буфер обмена!');
+                  }
+                }}
                 className="glass-subtle"
                 style={{
                   padding: '1.125rem',
