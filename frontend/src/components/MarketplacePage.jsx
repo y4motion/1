@@ -1181,23 +1181,9 @@ const ProductCard = ({ product, onToggleWishlist }) => {
     </>
   );
 };
-            flex: 1, 
-            display: 'flex', 
-            flexDirection: 'column',
-            transition: 'all 0.4s ease'
-          }}>
-            {/* Title */}
-            <h3 style={{
-              fontSize: '1.0625rem',
-              fontWeight: '700',
-              marginBottom: '0.5rem',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              lineHeight: '1.4',
-              minHeight: '2.8rem'
+
+// Product Card List Component (Horizontal Layout)
+const ProductCardList = ({ product, onToggleWishlist }) => {
             }}>
               {product.title}
             </h3>
