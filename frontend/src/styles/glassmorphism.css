@@ -348,6 +348,16 @@
   }
 }
 
+/* Soft pulsing glow for price tags and buttons */
+@keyframes pulseSoft {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 32px rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.4);
+  }
+}
+
 /* Fade in animation */
 @keyframes fadeIn {
   from {
