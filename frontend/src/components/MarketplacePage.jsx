@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon, Menu } from 'lucide-react';
+import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon, Menu, Share2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
