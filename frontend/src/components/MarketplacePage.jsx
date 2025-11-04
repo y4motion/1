@@ -198,7 +198,7 @@ const MarketplacePage = () => {
       
       // Persona filter
       if (selectedPersona) {
-        url += `&persona=${selectedPersona}`;
+        url += `&persona_id=${selectedPersona}`;
       }
       
       // Search
