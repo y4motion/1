@@ -1,7 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { ChevronDown, Plus, Check, Info, ShoppingCart, Wrench } from 'lucide-react';
+import { ChevronDown, Plus, Check, Info, ShoppingCart, Wrench, Cpu, Monitor, HardDrive, Box, Gauge, Snowflake, Zap } from 'lucide-react';
+
+// Component Icons (NZXT-inspired minimalist SVG)
+const ComponentIcons = {
+  cpu: (props) => <Cpu {...props} />,
+  gpu: (props) => <Monitor {...props} />,
+  motherboard: (props) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <rect x="7" y="7" width="3" height="3"/>
+      <rect x="14" y="7" width="3" height="3"/>
+      <rect x="7" y="14" width="3" height="3"/>
+      <rect x="14" y="14" width="3" height="3"/>
+    </svg>
+  ),
+  ram: (props) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="4" y="6" width="16" height="12" rx="1"/>
+      <line x1="8" y1="10" x2="8" y2="14"/>
+      <line x1="12" y1="10" x2="12" y2="14"/>
+      <line x1="16" y1="10" x2="16" y2="14"/>
+    </svg>
+  ),
+  storage: (props) => <HardDrive {...props} />,
+  psu: (props) => <Zap {...props} />,
+  case: (props) => <Box {...props} />,
+  cooling: (props) => <Snowflake {...props} />
+};
 
 const PCBuilderPage = () => {
   const { theme } = useTheme();
@@ -17,6 +44,9 @@ const PCBuilderPage = () => {
     case: null,
     cooling: null
   });
+
+  const [buildType, setBuildType] = useState(null); // Mini-ITX, Micro-ATX, Mid-Tower, Full-Tower
+  const [performanceResolution, setPerformanceResolution] = useState('1440'); // 1080, 1440, 4K
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPower, setTotalPower] = useState(0);
