@@ -44,7 +44,16 @@ const MarketplacePage = () => {
   useEffect(() => {
     fetchCategories();
     fetchProducts();
+    fetchPersonas();
+    fetchCatalogCategories();
   }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
+  
+  // Load specific filters when category changes
+  useEffect(() => {
+    if (selectedCategory && selectedCategory !== 'all') {
+      fetchSpecificFilters(selectedCategory);
+    }
+  }, [selectedCategory]);
 
   // Close menus when clicking outside
   useEffect(() => {
