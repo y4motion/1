@@ -27,6 +27,7 @@ from routes.wishlist_routes import router as wishlist_router
 from routes.saved_routes import router as saved_router
 from routes.catalog_routes import router as catalog_router
 from routes.support_chat_routes import router as support_chat_router
+from routes.pc_build_routes import router as pc_build_router
 
 
 ROOT_DIR = Path(__file__).parent
