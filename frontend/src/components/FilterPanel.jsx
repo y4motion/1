@@ -445,8 +445,178 @@ const FilterPanel = ({
           </button>
           
           {expandedSections.specific && (
-            <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
-              Фильтры для выбранной категории появятся здесь
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {Object.entries(specificFilters).map(([filterKey, filterConfig]) => (
+                <div key={filterKey}>
+                  <h4 style={{ 
+                    fontSize: '0.875rem', 
+                    fontWeight: '500', 
+                    marginBottom: '0.75rem',
+                    opacity: 0.8,
+                    textTransform: 'capitalize'
+                  }}>
+                    {filterKey.replace(/_/g, ' ')}
+                  </h4>
+                  
+                  {/* Checkbox filter */}
+                  {filterConfig.type === 'checkbox' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {filterConfig.values.map(value => (
+                        <label 
+                          key={value}
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '0.5rem', 
+                            cursor: 'pointer',
+                            fontSize: '0.8125rem'
+                          }}
+                        >
+                          <input 
+                            type="checkbox"
+                            checked={activeFilters[filterKey]?.includes(value) || false}
+                            onChange={(e) => {
+                              const current = activeFilters[filterKey] || [];
+                              const newValue = e.target.checked
+                                ? [...current, value]
+                                : current.filter(v => v !== value);
+                              onFilterChange(filterKey, newValue);
+                            }}
+                            style={{ accentColor: theme === 'dark' ? '#fff' : '#000' }}
+                          />
+                          <span>{value}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {/* Range filter */}
+                  {filterConfig.type === 'range' && (
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input
+                        type="number"
+                        placeholder={`Min (${filterConfig.min})`}
+                        min={filterConfig.min}
+                        max={filterConfig.max}
+                        value={activeFilters[filterKey]?.min || ''}
+                        onChange={(e) => onFilterChange(filterKey, {
+                          ...activeFilters[filterKey],
+                          min: e.target.value
+                        })}
+                        style={{
+                          flex: 1,
+                          padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: '1px solid transparent',
+                          background: 'transparent',
+                          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                          fontSize: '0.8125rem',
+                          outline: 'none',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.border = theme === 'dark' 
+                            ? '1px solid rgba(255, 255, 255, 0.2)' 
+                            : '1px solid rgba(0, 0, 0, 0.2)';
+                          e.currentTarget.style.background = theme === 'dark'
+                            ? 'rgba(255, 255, 255, 0.05)'
+                            : 'rgba(0, 0, 0, 0.05)';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.border = '1px solid transparent';
+                          e.currentTarget.style.background = 'transparent';
+                        }}
+                      />
+                      <input
+                        type="number"
+                        placeholder={`Max (${filterConfig.max})`}
+                        min={filterConfig.min}
+                        max={filterConfig.max}
+                        value={activeFilters[filterKey]?.max || ''}
+                        onChange={(e) => onFilterChange(filterKey, {
+                          ...activeFilters[filterKey],
+                          max: e.target.value
+                        })}
+                        style={{
+                          flex: 1,
+                          padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: '1px solid transparent',
+                          background: 'transparent',
+                          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                          fontSize: '0.8125rem',
+                          outline: 'none',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.border = theme === 'dark' 
+                            ? '1px solid rgba(255, 255, 255, 0.2)' 
+                            : '1px solid rgba(0, 0, 0, 0.2)';
+                          e.currentTarget.style.background = theme === 'dark'
+                            ? 'rgba(255, 255, 255, 0.05)'
+                            : 'rgba(0, 0, 0, 0.05)';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.border = '1px solid transparent';
+                          e.currentTarget.style.background = 'transparent';
+                        }}
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Boolean filter */}
+                  {filterConfig.type === 'boolean' && (
+                    <label style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '0.5rem', 
+                      cursor: 'pointer',
+                      fontSize: '0.8125rem'
+                    }}>
+                      <input 
+                        type="checkbox"
+                        checked={activeFilters[filterKey] || false}
+                        onChange={(e) => onFilterChange(filterKey, e.target.checked)}
+                        style={{ accentColor: theme === 'dark' ? '#fff' : '#000' }}
+                      />
+                      <span>Enabled</span>
+                    </label>
+                  )}
+                  
+                  {/* Text filter */}
+                  {filterConfig.type === 'text' && (
+                    <input
+                      type="text"
+                      placeholder="Enter value..."
+                      value={activeFilters[filterKey] || ''}
+                      onChange={(e) => onFilterChange(filterKey, e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        borderRadius: '6px',
+                        border: '1px solid transparent',
+                        background: 'transparent',
+                        color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                        fontSize: '0.8125rem',
+                        outline: 'none',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.border = theme === 'dark' 
+                          ? '1px solid rgba(255, 255, 255, 0.2)' 
+                          : '1px solid rgba(0, 0, 0, 0.2)';
+                        e.currentTarget.style.background = theme === 'dark'
+                          ? 'rgba(255, 255, 255, 0.05)'
+                          : 'rgba(0, 0, 0, 0.05)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.border = '1px solid transparent';
+                        e.currentTarget.style.background = 'transparent';
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
