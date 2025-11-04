@@ -204,26 +204,9 @@ const Header = () => {
             </nav>
           </div>
 
-          {/* RIGHT ZONE: Account + Settings + Cart */}
+          {/* RIGHT ZONE: Settings + Account + Cart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            {/* Account/Login Button (1st from left in this zone) */}
-            <button
-              onClick={() => {
-                if (isAuthenticated) {
-                  setShowUserMenu(!showUserMenu);
-                } else {
-                  setAuthMode('login');
-                  setShowAuthModal(true);
-                }
-              }}
-              className="theme-toggle"
-              title={isAuthenticated ? 'Account' : 'Login'}
-              style={{ padding: '0.375rem' }}
-            >
-              <User size={18} className="icon-color" />
-            </button>
-
-            {/* Settings Multi-Button (2nd from left in this zone) */}
+            {/* Settings Multi-Button (1st from left in this zone) */}
             <div style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowSettingsMenu(!showSettingsMenu)}
