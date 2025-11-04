@@ -169,7 +169,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           marginBottom: '0.5rem',
           letterSpacing: '0.5px'
         }}>
-          {mode === 'login' ? 'WELCOME BACK' : 'CREATE ACCOUNT'}
+          {mode === 'login' ? t('user.welcomeBack') : t('user.createAccount')}
         </h2>
         <p style={{
           fontSize: '0.9375rem',
@@ -177,8 +177,8 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           marginBottom: '2rem'
         }}>
           {mode === 'login' 
-            ? 'Login to access your account' 
-            : 'Register to start shopping'}
+            ? t('user.loginSubtitle')
+            : t('user.registerSubtitle')}
         </p>
 
         {/* Error Message */}
