@@ -285,7 +285,9 @@ const MarketplacePage = () => {
               padding: '1.5rem',
               borderRadius: '16px',
               marginBottom: '2rem',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              border: theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.1)'
+                : '1px solid rgba(0, 0, 0, 0.1)',
               backdropFilter: 'blur(20px)',
               animation: 'slideDown 0.3s ease-out',
               maxWidth: '800px',
