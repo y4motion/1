@@ -436,7 +436,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
                       }}>
-                        {session.last_message || 'No messages'}
+                        {session.last_message || t.chat.noMessages}
                       </div>
                       <div style={{
                         fontSize: '0.7rem',
