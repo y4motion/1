@@ -174,10 +174,14 @@ const MarketplacePage = () => {
               borderRadius: '50px',
               border: showCatalog 
                 ? '2px solid rgba(139, 92, 246, 0.4)'
-                : '1px solid rgba(255, 255, 255, 0.1)',
+                : theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.1)'
+                  : '1px solid rgba(0, 0, 0, 0.1)',
               background: showCatalog
                 ? 'rgba(139, 92, 246, 0.15)'
-                : 'rgba(255, 255, 255, 0.05)',
+                : theme === 'dark'
+                  ? 'rgba(255, 255, 255, 0.05)'
+                  : 'rgba(0, 0, 0, 0.03)',
               backdropFilter: 'blur(10px)',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
@@ -186,17 +190,21 @@ const MarketplacePage = () => {
               gap: '0.75rem',
               fontSize: '0.875rem',
               fontWeight: '600',
-              color: '#fff'
+              color: theme === 'dark' ? '#fff' : '#1a1a1a'
             }}
             onMouseEnter={(e) => {
               if (!showCatalog) {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.transform = 'scale(1.02)';
+                e.currentTarget.style.background = theme === 'dark' 
+                  ? 'rgba(255, 255, 255, 0.1)' 
+                  : 'rgba(0, 0, 0, 0.06)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
               }
             }}
             onMouseLeave={(e) => {
               if (!showCatalog) {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.background = theme === 'dark' 
+                  ? 'rgba(255, 255, 255, 0.05)' 
+                  : 'rgba(0, 0, 0, 0.03)';
                 e.currentTarget.style.transform = 'scale(1)';
               }
             }}
