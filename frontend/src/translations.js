@@ -87,7 +87,18 @@ export const translations = {
       password: 'Password',
       loading: 'Loading...',
       needAccount: 'Need an account? Register',
-      haveAccount: 'Already have an account? Login'
+      haveAccount: 'Already have an account? Login',
+      welcomeBack: 'WELCOME BACK',
+      createAccount: 'CREATE ACCOUNT',
+      loginSubtitle: 'Login to access your account',
+      registerSubtitle: 'Register to start shopping',
+      rememberMe: 'Remember me',
+      forgotPassword: 'Forgot password?',
+      orContinueWith: 'Or continue with',
+      signInWith: 'Sign in with',
+      authFailed: 'Authentication failed',
+      unexpectedError: 'An unexpected error occurred',
+      comingSoon: 'OAuth coming soon! Use email/password for now.'
     },
     product: {
       backTo: 'Back to',
