@@ -6,7 +6,12 @@ export const translations = {
       creator: 'CREATOR',
       user: 'USER',
       marketplace: 'MARKETPLACE',
-      restock: 'RESTOCK'
+      restock: 'RESTOCK',
+      startMenu: 'Start Menu',
+      settings: 'Settings',
+      shoppingCart: 'Shopping Cart',
+      account: 'Account',
+      login: 'Login'
     },
     hero: {
       title: 'RUNNING TO UPGRADE...',
