@@ -282,6 +282,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "Fixed filter panel styling bugs: Removed opaque background (rgba(20, 20, 30, 0.95)) and replaced with transparent glass-strong class for acrylic effect matching LVL menu and AuthModal. Changed content push from marginLeft to paddingLeft to eliminate white bar artifact. Filter panel now uses pure glassmorphism with backdrop-filter blur, fully transparent, and adapts to both themes. Verified: no white bar, transparent acrylic panel, purple APPLY FILTERS button working correctly in both dark and light themes."
+      - working: true
+        agent: "main"
+        comment: "Added auto-close functionality for menus when clicking outside. Implemented useEffect with document event listeners for both MarketplacePage filter panel and Header LVL menu. Uses refs and data attributes to detect clicks outside menu areas. Filter panel closes when clicking on page content. LVL menu closes when clicking outside. Verified working correctly in both cases - menus automatically close on outside click while staying open when clicking inside menu or trigger button."
 
 metadata:
   created_by: "main_agent"
