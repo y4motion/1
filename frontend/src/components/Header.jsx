@@ -140,12 +140,40 @@ const Header = () => {
 
           {/* Right Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {/* Cart Button - Moved to start */}
+            <button
+              className="theme-toggle"
+              title="Shopping Cart"
+              style={{ 
+                padding: '0.375rem',
+                position: 'relative'
+              }}
+            >
+              <ShoppingCart size={18} className="icon-color" />
+              {mockUser.cartItems > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-4px',
+                  right: '-4px',
+                  background: '#F44336',
+                  color: 'white',
+                  padding: '0.125rem 0.375rem',
+                  borderRadius: '10px',
+                  fontSize: '0.625rem',
+                  fontWeight: '700',
+                  minWidth: '16px',
+                  textAlign: 'center'
+                }}>
+                  {mockUser.cartItems}
+                </span>
+              )}
+            </button>
+
             {/* Language Toggle */}
             <button
-              className="lang-toggle"
+              className="theme-toggle"
               onClick={toggleLanguage}
-              title={language === 'en' ? 'Switch to Russian' : 'Переключить на английский'}
-              style={{ padding: '0.375rem 0.625rem' }}
+              style={{ padding: '0.375rem 0.625rem', display: 'flex', alignItems: 'center' }}
             >
               <Globe size={18} className="icon-color" />
               <span style={{ 
@@ -172,7 +200,7 @@ const Header = () => {
               )}
             </button>
 
-            {/* User Auth Button - Right Side */}
+            {/* User Auth Button - Icon Only */}
             <div>
               {isAuthenticated ? (
                 <button
@@ -187,15 +215,15 @@ const Header = () => {
                 </button>
               ) : (
                 <button
-                  className="lvl-button-permanent"
+                  className="theme-toggle"
                   onClick={() => {
                     setAuthMode('login');
                     setShowAuthModal(true);
                   }}
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+                  title="Login"
+                  style={{ padding: '0.375rem' }}
                 >
-                  <LogIn size={18} className="icon-color" />
-                  <span style={{ fontSize: '0.875rem' }}>{t('user.login')}</span>
+                  <User size={18} className="icon-color" />
                 </button>
               )}
             </div>
