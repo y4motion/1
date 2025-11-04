@@ -309,98 +309,72 @@ const Header = () => {
                     </div>
                   </div>
 
-                  {/* Currency */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ 
-                      fontSize: '0.75rem', 
-                      fontWeight: '600', 
-                      marginBottom: '0.5rem',
-                      opacity: 0.7
-                    }} className="icon-color">
-                      {language === 'ru' ? 'ВАЛЮТА' : 'CURRENCY'}
+                  {/* Bottom Row: Language + Theme */}
+                  <div style={{ display: 'flex', gap: '0.75rem' }}>
+                    {/* Language - Compact */}
+                    <div style={{ flex: '1' }}>
+                      <div style={{ 
+                        fontSize: '0.7rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.375rem',
+                        opacity: 0.7
+                      }} className="icon-color">
+                        {language === 'ru' ? 'ЯЗЫК' : 'LANGUAGE'}
+                      </div>
+                      <button
+                        onClick={toggleLanguage}
+                        className="glass-subtle"
+                        style={{
+                          width: '100%',
+                          padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.375rem',
+                          fontSize: '0.8rem'
+                        }}
+                      >
+                        <Globe size={14} className="icon-color" />
+                        <span className="icon-color">{language === 'ru' ? 'RU' : 'EN'}</span>
+                      </button>
                     </div>
-                    <select
-                      value={currency}
-                      onChange={(e) => setCurrency(e.target.value)}
-                      className="glass-subtle"
-                      style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        borderRadius: '8px',
-                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                        background: 'transparent',
-                        cursor: 'pointer',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      <option value="RUB">RUB (₽)</option>
-                      <option value="USD">USD ($)</option>
-                      <option value="EUR">EUR (€)</option>
-                      <option value="CNY">CNY (¥)</option>
-                    </select>
-                  </div>
 
-                  {/* Language */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ 
-                      fontSize: '0.75rem', 
-                      fontWeight: '600', 
-                      marginBottom: '0.5rem',
-                      opacity: 0.7
-                    }} className="icon-color">
-                      {language === 'ru' ? 'ЯЗЫК' : 'LANGUAGE'}
+                    {/* Theme - Compact */}
+                    <div style={{ flex: '1' }}>
+                      <div style={{ 
+                        fontSize: '0.7rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.375rem',
+                        opacity: 0.7
+                      }} className="icon-color">
+                        {language === 'ru' ? 'ТЕМА' : 'THEME'}
+                      </div>
+                      <button
+                        onClick={toggleTheme}
+                        className="glass-subtle"
+                        style={{
+                          width: '100%',
+                          padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.375rem',
+                          fontSize: '0.8rem'
+                        }}
+                      >
+                        {theme === 'dark' ? (
+                          <><Sun size={14} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Темная' : 'Dark'}</span></>
+                        ) : (
+                          <><Moon size={14} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Светлая' : 'Light'}</span></>
+                        )}
+                      </button>
                     </div>
-                    <button
-                      onClick={toggleLanguage}
-                      className="glass-subtle"
-                      style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        borderRadius: '8px',
-                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      <Globe size={16} className="icon-color" />
-                      <span className="icon-color">{language === 'ru' ? 'Русский' : 'English'}</span>
-                    </button>
-                  </div>
-
-                  {/* Theme */}
-                  <div>
-                    <div style={{ 
-                      fontSize: '0.75rem', 
-                      fontWeight: '600', 
-                      marginBottom: '0.5rem',
-                      opacity: 0.7
-                    }} className="icon-color">
-                      {language === 'ru' ? 'ТЕМА' : 'THEME'}
-                    </div>
-                    <button
-                      onClick={toggleTheme}
-                      className="glass-subtle"
-                      style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        borderRadius: '8px',
-                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      {theme === 'dark' ? (
-                        <><Sun size={16} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Темная' : 'Dark'}</span></>
-                      ) : (
-                        <><Moon size={16} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Светлая' : 'Light'}</span></>
-                      )}
-                    </button>
                   </div>
                 </div>
               )}
