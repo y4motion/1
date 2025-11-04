@@ -248,11 +248,56 @@ const MarketplacePage = () => {
     setSelectedCategory('all');
   };
 
-  const featuredChips = [
-    { id: 'pro-gaming', label: 'PRO GAMING', icon: '🎮', tag: 'pro-gaming' },
-    { id: 'pro-creator', label: 'PRO CREATOR', icon: '🎨', tag: 'pro-creator' },
-    { id: 'our-choice', label: 'OUR CHOICE', icon: '⭐', tag: 'featured' }
-  ];
+  // Featured chips removed - now using personas in filter panel instead
+  
+  // Generate active filter chips for display
+  const getActiveFilterChips = () => {
+    const chips = [];
+    
+    // Add persona chip
+    if (selectedPersona && personas[selectedPersona]) {
+      chips.push({
+        id: 'persona',
+        label: personas[selectedPersona].name,
+        type: 'persona',
+        value: selectedPersona
+      });
+    }
+    
+    // Add category chip (if not 'all')
+    if (selectedCategory !== 'all' && catalogCategories[selectedCategory]) {
+      chips.push({
+        id: 'category',
+        label: catalogCategories[selectedCategory].name,
+        type: 'category',
+        value: selectedCategory
+      });
+    }
+    
+    // Add price range chip
+    if (minPrice || maxPrice) {
+      chips.push({
+        id: 'price',
+        label: `₽${minPrice || '0'} - ₽${maxPrice || '∞'}`,
+        type: 'price',
+        value: { min: minPrice, max: maxPrice }
+      });
+    }
+    
+    // Add other active filters from activeFilters state
+    Object.entries(activeFilters).forEach(([key, value]) => {
+      if (value) {
+        chips.push({
+          id: key,
+          label: `${key}: ${value}`,
+          type: 'filter',
+          value: value
+        });
+      }
+    });
+    
+    return chips;
+  };
 
   return (
     <div className="dark-bg" style={{ 
