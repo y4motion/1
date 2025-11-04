@@ -407,7 +407,6 @@ const Header = () => {
                 }
               }}
               className="theme-toggle"
-              title={t('nav.shoppingCart')}
               style={{ 
                 padding: '0.375rem',
                 position: 'relative'
