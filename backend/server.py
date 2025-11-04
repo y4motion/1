@@ -22,6 +22,9 @@ from routes.cart_routes import router as cart_router
 from routes.order_routes import router as order_router
 from routes.payment_settings_routes import router as payment_settings_router
 from routes.checkout_routes import router as checkout_router
+from routes.bag_routes import router as bag_router
+from routes.wishlist_routes import router as wishlist_router
+from routes.saved_routes import router as saved_router
 
 
 ROOT_DIR = Path(__file__).parent
