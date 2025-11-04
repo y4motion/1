@@ -90,6 +90,25 @@ const Header = () => {
   // Get wishlist products
   const wishlistProducts = products.filter(p => wishlist.includes(p.id));
 
+  // Close menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close LVL menu if click outside
+      if (lvlMenuRef.current && !lvlMenuRef.current.contains(event.target) && showLVLMenu) {
+        setShowLVLMenu(false);
+      }
+      // Close user menu if click outside
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target) && showUserMenu) {
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLVLMenu, showUserMenu]);
+
   return (
     <>
       {/* Spin Wheel Modal */}
