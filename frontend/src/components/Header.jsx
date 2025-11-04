@@ -225,55 +225,87 @@ const Header = () => {
                     position: 'absolute',
                     top: 'calc(100% + 8px)',
                     right: 0,
-                    width: '280px',
+                    width: '400px',
                     borderRadius: '12px',
-                    padding: '1rem',
+                    padding: '0.875rem',
                     zIndex: 100,
                     animation: 'fadeIn 0.2s ease-out'
                   }}
                 >
-                  {/* Sound Management */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ 
-                      fontSize: '0.75rem', 
-                      fontWeight: '600', 
-                      marginBottom: '0.5rem',
-                      opacity: 0.7
-                    }} className="icon-color">
-                      {language === 'ru' ? 'ЗВУК' : 'SOUND'}
+                  {/* Top Row: Sound + Currency */}
+                  <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                    {/* Sound Management - Compact */}
+                    <div style={{ flex: '1' }}>
+                      <div style={{ 
+                        fontSize: '0.7rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.375rem',
+                        opacity: 0.7
+                      }} className="icon-color">
+                        {language === 'ru' ? 'ЗВУК' : 'SOUND'}
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.375rem' }}>
+                        {[
+                          { mode: 'silent', icon: VolumeX },
+                          { mode: 'ambient', icon: Music },
+                          { mode: 'surround', icon: Volume2 },
+                          { mode: 'tactile', icon: MousePointer }
+                        ].map(({ mode, icon: Icon }) => (
+                          <button
+                            key={mode}
+                            onClick={() => setSoundMode(mode)}
+                            className="glass-subtle"
+                            style={{
+                              padding: '0.5rem',
+                              borderRadius: '6px',
+                              border: soundMode === mode 
+                                ? '1px solid rgba(139, 92, 246, 0.5)' 
+                                : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                              background: soundMode === mode 
+                                ? 'rgba(139, 92, 246, 0.1)' 
+                                : 'transparent',
+                              cursor: 'pointer',
+                              transition: 'all 0.3s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <Icon size={14} className="icon-color" />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                      {[
-                        { mode: 'silent', icon: VolumeX, label: language === 'ru' ? 'Тихо' : 'Silent' },
-                        { mode: 'ambient', icon: Music, label: language === 'ru' ? 'Эмбиент' : 'Ambient' },
-                        { mode: 'surround', icon: Volume2, label: language === 'ru' ? 'Объемный' : 'Surround' },
-                        { mode: 'tactile', icon: MousePointer, label: language === 'ru' ? 'Тактильный' : 'Tactile' }
-                      ].map(({ mode, icon: Icon, label }) => (
-                        <button
-                          key={mode}
-                          onClick={() => setSoundMode(mode)}
-                          className="glass-subtle"
-                          style={{
-                            padding: '0.75rem',
-                            borderRadius: '8px',
-                            border: soundMode === mode 
-                              ? '1px solid rgba(139, 92, 246, 0.5)' 
-                              : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                            background: soundMode === mode 
-                              ? 'rgba(139, 92, 246, 0.1)' 
-                              : 'transparent',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem'
-                          }}
-                        >
-                          <Icon size={16} className="icon-color" />
-                          <span style={{ fontSize: '0.7rem' }} className="icon-color">{label}</span>
-                        </button>
-                      ))}
+
+                    {/* Currency - Compact */}
+                    <div style={{ flex: '1' }}>
+                      <div style={{ 
+                        fontSize: '0.7rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.375rem',
+                        opacity: 0.7
+                      }} className="icon-color">
+                        {language === 'ru' ? 'ВАЛЮТА' : 'CURRENCY'}
+                      </div>
+                      <select
+                        value={currency}
+                        onChange={(e) => setCurrency(e.target.value)}
+                        className="glass-subtle icon-color"
+                        style={{
+                          width: '100%',
+                          padding: '0.5rem',
+                          borderRadius: '6px',
+                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          background: 'transparent',
+                          cursor: 'pointer',
+                          fontSize: '0.8rem'
+                        }}
+                      >
+                        <option value="RUB">RUB ₽</option>
+                        <option value="USD">USD $</option>
+                        <option value="EUR">EUR €</option>
+                        <option value="CNY">CNY ¥</option>
+                      </select>
                     </div>
                   </div>
 
