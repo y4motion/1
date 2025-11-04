@@ -33,7 +33,8 @@ async def register(user_data: UserCreate):
     user = User(
         email=user_data.email,
         username=user_data.username,
-        hashed_password=hash_password(user_data.password)
+        hashed_password=hash_password(user_data.password),
+        is_seller=user_data.is_seller  # Allow setting seller status during registration
     )
     
     # Convert to dict and serialize datetime
