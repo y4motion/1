@@ -37,6 +37,28 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
     scrollToBottom();
   }, [messages]);
 
+  // Check if user has personal manager access
+  useEffect(() => {
+    const checkManagerAccess = async () => {
+      try {
+        const headers = {};
+        if (user?.token) {
+          headers['Authorization'] = `Bearer ${user.token}`;
+        }
+        
+        const response = await fetch(`${API_URL}/api/support-chat/check-manager-access`, { headers });
+        if (response.ok) {
+          const data = await response.json();
+          setHasPersonalManager(data.has_access);
+        }
+      } catch (error) {
+        console.error('Failed to check manager access:', error);
+      }
+    };
+    
+    checkManagerAccess();
+  }, [user]);
+
   // Initialize WebSocket connection
   useEffect(() => {
     // Generate or get session ID
