@@ -88,24 +88,25 @@ const PCBuilderPage = () => {
     setTotalPrice(total);
   }, [selectedComponents]);
 
-  // Mock component data
+  // Mock component data with enhanced details
   const components = {
     cpu: [
-      { id: 'cpu1', name: 'AMD Ryzen 7 9700X', price: 359, tdp: 65, specs: '8-Core, 16-Thread, 4.5GHz Boost' },
-      { id: 'cpu2', name: 'AMD Ryzen 7 9800X3D', price: 479, tdp: 120, specs: '8-Core, 16-Thread, 5.2GHz Boost, 3D V-Cache' },
-      { id: 'cpu3', name: 'Intel Core i7-14700K', price: 409, tdp: 125, specs: '20-Core, 28-Thread, 5.6GHz Boost' },
-      { id: 'cpu4', name: 'AMD Ryzen 9 9900X', price: 499, tdp: 170, specs: '12-Core, 24-Thread, 5.4GHz Boost' }
+      { id: 'cpu1', name: 'AMD Ryzen 7 9700X', price: 359, tdp: 65, specs: '8-Core, 16-Thread, 4.5GHz Boost', performanceScore: 75 },
+      { id: 'cpu2', name: 'AMD Ryzen 7 9800X3D', price: 479, tdp: 120, specs: '8-Core, 16-Thread, 5.2GHz Boost, 3D V-Cache', performanceScore: 95 },
+      { id: 'cpu3', name: 'Intel Core i7-14700K', price: 409, tdp: 125, specs: '20-Core, 28-Thread, 5.6GHz Boost', performanceScore: 85 },
+      { id: 'cpu4', name: 'AMD Ryzen 9 9900X', price: 499, tdp: 170, specs: '12-Core, 24-Thread, 5.4GHz Boost', performanceScore: 100 }
     ],
     gpu: [
-      { id: 'gpu1', name: 'NVIDIA RTX 5060', price: 299, tdp: 115, specs: '8GB GDDR6, 1080p Gaming' },
-      { id: 'gpu2', name: 'NVIDIA RTX 5070 Ti', price: 599, tdp: 285, specs: '16GB GDDR6X, 1440p Gaming' },
-      { id: 'gpu3', name: 'NVIDIA RTX 5080', price: 999, tdp: 320, specs: '16GB GDDR6X, 4K Gaming' },
-      { id: 'gpu4', name: 'AMD RX 9070 XT', price: 649, tdp: 300, specs: '16GB GDDR6, 1440p Gaming' }
+      { id: 'gpu1', name: 'NVIDIA RTX 5060', price: 299, tdp: 115, specs: '8GB GDDR6, 1080p Gaming', performanceScore: 60 },
+      { id: 'gpu2', name: 'NVIDIA RTX 5070 Ti', price: 599, tdp: 285, specs: '16GB GDDR6X, 1440p Gaming', performanceScore: 85 },
+      { id: 'gpu3', name: 'NVIDIA RTX 5080', price: 999, tdp: 320, specs: '16GB GDDR6X, 4K Gaming', performanceScore: 100 },
+      { id: 'gpu4', name: 'AMD RX 9070 XT', price: 649, tdp: 300, specs: '16GB GDDR6, 1440p Gaming', performanceScore: 80 }
     ],
     motherboard: [
-      { id: 'mb1', name: 'MSI B650 TOMAHAWK', price: 229, specs: 'ATX, PCIe 5.0, DDR5' },
-      { id: 'mb2', name: 'ASUS ROG STRIX X670E', price: 399, specs: 'ATX, PCIe 5.0, DDR5, Wi-Fi 6E' },
-      { id: 'mb3', name: 'GIGABYTE Z790 AORUS', price: 329, specs: 'ATX, PCIe 5.0, DDR5, Thunderbolt 4' }
+      { id: 'mb1', name: 'MSI B650 TOMAHAWK', price: 229, specs: 'ATX, PCIe 5.0, DDR5', formFactor: 'ATX' },
+      { id: 'mb2', name: 'ASUS ROG STRIX X670E', price: 399, specs: 'ATX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'ATX' },
+      { id: 'mb3', name: 'GIGABYTE Z790 AORUS', price: 329, specs: 'ATX, PCIe 5.0, DDR5, Thunderbolt 4', formFactor: 'ATX' },
+      { id: 'mb4', name: 'ASUS ROG STRIX B650I', price: 279, specs: 'Mini-ITX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'Mini-ITX' }
     ],
     ram: [
       { id: 'ram1', name: '32GB DDR5 4800MHz', price: 109, modules: 2, specs: '2x16GB, CL40' },
@@ -124,15 +125,48 @@ const PCBuilderPage = () => {
       { id: 'psu4', name: '1000W 80+ Platinum', price: 199, wattage: 1000, specs: 'Fully Modular, 12 Year Warranty' }
     ],
     case: [
-      { id: 'case1', name: 'NZXT H7 Flow White', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans' },
-      { id: 'case2', name: 'NZXT H7 Flow Black', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans' },
-      { id: 'case3', name: 'Lian Li O11 Dynamic', price: 159, specs: 'Mid Tower, Dual Tempered Glass' }
+      { id: 'case1', name: 'NZXT H210i', price: 99, specs: 'Mini-ITX, Tempered Glass, RGB', formFactor: 'Mini-ITX', image: '🔲' },
+      { id: 'case2', name: 'Cooler Master Q300L', price: 49, specs: 'Micro-ATX, Acrylic Window', formFactor: 'Micro-ATX', image: '🔳' },
+      { id: 'case3', name: 'NZXT H7 Flow White', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬜' },
+      { id: 'case4', name: 'NZXT H7 Flow Black', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬛' },
+      { id: 'case5', name: 'Lian Li O11 Dynamic', price: 159, specs: 'Mid Tower, Dual Tempered Glass', formFactor: 'Mid-Tower', image: '◼️' },
+      { id: 'case6', name: 'Corsair 7000D Airflow', price: 249, specs: 'Full Tower, Massive Airflow, 10x140mm Support', formFactor: 'Full-Tower', image: '⬛' }
     ],
     cooling: [
       { id: 'cool1', name: 'NZXT Kraken 240 RGB', price: 129, power: 10, specs: '240mm AIO, RGB' },
       { id: 'cool2', name: 'NZXT Kraken 360 RGB', price: 179, power: 15, specs: '360mm AIO, RGB, LCD Screen' },
       { id: 'cool3', name: 'Noctua NH-D15', price: 109, power: 0, specs: 'Dual Tower Air Cooler' }
     ]
+  };
+
+  // Performance metrics calculator based on selected components
+  const calculatePerformance = (resolution) => {
+    const cpuScore = selectedComponents.cpu?.performanceScore || 0;
+    const gpuScore = selectedComponents.gpu?.performanceScore || 0;
+    
+    // Base FPS calculation (simplified algorithm)
+    const basePerformance = (cpuScore * 0.3 + gpuScore * 0.7);
+    
+    const games = [
+      { name: 'Counter-Strike 2', baseMultiplier: 4.5 },
+      { name: 'Valorant', baseMultiplier: 7.0 },
+      { name: 'Fortnite', baseMultiplier: 2.1 },
+      { name: 'GTA V', baseMultiplier: 2.3 },
+      { name: 'League of Legends', baseMultiplier: 2.8 },
+      { name: 'Cyberpunk 2077', baseMultiplier: 1.6 },
+      { name: 'Black Myth: Wukong', baseMultiplier: 1.0 }
+    ];
+
+    const resolutionMultiplier = {
+      '1080': 1.0,
+      '1440': 0.75,
+      '4K': 0.45
+    };
+
+    return games.map(game => ({
+      name: game.name,
+      fps: Math.round(basePerformance * game.baseMultiplier * resolutionMultiplier[resolution])
+    }));
   };
 
   const componentCategories = [
