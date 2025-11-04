@@ -143,7 +143,12 @@ export const translations = {
       creator: 'СОЗДАТЕЛЬ',
       user: 'ПОЛЬЗОВАТЕЛЬ',
       marketplace: 'МАРКЕТПЛЕЙС',
-      restock: 'ОБНОВЛЕНИЕ'
+      restock: 'ОБНОВЛЕНИЕ',
+      startMenu: 'Главное меню',
+      settings: 'Настройки',
+      shoppingCart: 'Корзина',
+      account: 'Аккаунт',
+      login: 'Войти'
     },
     hero: {
       title: 'БЕЖИМ АПГРЕЙДИТЬСЯ...',
