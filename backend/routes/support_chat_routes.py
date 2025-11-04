@@ -8,7 +8,9 @@ from models.support_chat import (
     SupportChatSessionResponse,
     SendSupportMessageRequest,
     SupportMessage,
-    SupportMessageResponse
+    SupportMessageResponse,
+    ManagerRequest,
+    RequestManagerData
 )
 from utils.auth_utils import get_current_user, get_current_user_optional
 import json
