@@ -513,7 +513,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               }
             }}
           >
-            {loading ? 'PROCESSING...' : mode === 'login' ? 'LOGIN' : 'CREATE ACCOUNT'}
+            {loading ? t('user.loading') : mode === 'login' ? t('user.login') : t('user.register')}
           </button>
         </form>
 
