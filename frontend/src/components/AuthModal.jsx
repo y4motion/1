@@ -356,18 +356,14 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               onFocus={(e) => {
                 e.currentTarget.style.border = theme === 'dark'
                   ? '1px solid rgba(255, 255, 255, 0.2)'
-                  : '1px solid rgba(0, 0, 0, 0.15)';
+                  : '1px solid rgba(0, 0, 0, 0.2)';
                 e.currentTarget.style.background = theme === 'dark'
                   ? 'rgba(255, 255, 255, 0.05)'
-                  : 'rgba(0, 0, 0, 0.03)';
+                  : 'rgba(0, 0, 0, 0.05)';
               }}
               onBlur={(e) => {
-                e.currentTarget.style.border = theme === 'dark'
-                  ? '1px solid transparent'
-                  : '1px solid rgba(0, 0, 0, 0.1)';
-                e.currentTarget.style.background = theme === 'dark'
-                  ? 'transparent'
-                  : 'rgba(255, 255, 255, 0.5)';
+                e.currentTarget.style.border = '1px solid transparent';
+                e.currentTarget.style.background = 'transparent';
               }}
             />
           </div>
@@ -435,18 +431,14 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               onFocus={(e) => {
                 e.currentTarget.style.border = theme === 'dark'
                   ? '1px solid rgba(255, 255, 255, 0.2)'
-                  : '1px solid rgba(0, 0, 0, 0.15)';
+                  : '1px solid rgba(0, 0, 0, 0.2)';
                 e.currentTarget.style.background = theme === 'dark'
                   ? 'rgba(255, 255, 255, 0.05)'
-                  : 'rgba(0, 0, 0, 0.03)';
+                  : 'rgba(0, 0, 0, 0.05)';
               }}
               onBlur={(e) => {
-                e.currentTarget.style.border = theme === 'dark'
-                  ? '1px solid transparent'
-                  : '1px solid rgba(0, 0, 0, 0.1)';
-                e.currentTarget.style.background = theme === 'dark'
-                  ? 'transparent'
-                  : 'rgba(255, 255, 255, 0.5)';
+                e.currentTarget.style.border = '1px solid transparent';
+                e.currentTarget.style.background = 'transparent';
               }}
             />
           </div>
