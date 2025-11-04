@@ -378,7 +378,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                 marginBottom: '0.5rem',
                 opacity: 0.8
               }}>
-                Username
+                {t('user.username')}
               </label>
               <input
                 type="text"
