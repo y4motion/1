@@ -83,6 +83,7 @@ api_router.include_router(question_router)
 api_router.include_router(cart_router)
 api_router.include_router(order_router)
 api_router.include_router(payment_settings_router)
+api_router.include_router(checkout_router)
 
 # Include the router in the main app
 app.include_router(api_router)
