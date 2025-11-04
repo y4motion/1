@@ -28,6 +28,10 @@ const Header = () => {
   const [authMode, setAuthMode] = useState('login');
   const [activeTab, setActiveTab] = useState('overview');
   const [copiedCode, setCopiedCode] = useState(false);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [soundMode, setSoundMode] = useState('surround'); // silent, ambient, surround, tactile
+  const [currency, setCurrency] = useState('RUB'); // RUB, USD, EUR, CNY
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
