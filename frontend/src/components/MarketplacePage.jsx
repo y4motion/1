@@ -1166,7 +1166,7 @@ const MarketplacePage = () => {
               </div>
             </CollapsibleFilter>
 
-            {/* Apply Button */}
+            {/* Apply Button - ONLY PURPLE ELEMENT */}
             <button
               onClick={() => {
                 fetchProducts();
@@ -1174,25 +1174,28 @@ const MarketplacePage = () => {
               }}
               style={{
                 width: '100%',
-                padding: '0.5rem 1rem',
-                borderRadius: '6px',
-                border: '1px solid transparent',
-                background: 'rgba(255, 255, 255, 0.05)',
+                padding: '1rem',
+                borderRadius: '8px',
+                border: '1px solid rgba(139, 92, 246, 0.5)',
+                background: 'rgba(139, 92, 246, 0.15)',
                 color: '#fff',
-                fontSize: '0.875rem',
-                fontWeight: '500',
+                fontSize: '1rem',
+                fontWeight: '700',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 letterSpacing: '0.5px',
-                marginTop: '1.5rem'
+                marginTop: '1.5rem',
+                boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.background = 'rgba(139, 92, 246, 0.25)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.border = '1px solid transparent';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
               }}
             >
               APPLY FILTERS
