@@ -144,7 +144,14 @@ const Header = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {/* Cart Button - Moved to start */}
             <button
-              onClick={() => navigate('/cart')}
+              onClick={() => {
+                if (isAuthenticated) {
+                  setShowCartPanel(true);
+                } else {
+                  setAuthMode('login');
+                  setShowAuthModal(true);
+                }
+              }}
               className="theme-toggle"
               title="Shopping Cart"
               style={{ 
