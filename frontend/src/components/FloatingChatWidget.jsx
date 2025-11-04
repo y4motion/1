@@ -52,58 +52,118 @@ const FloatingChatWidget = () => {
         />
       )}
 
-      {/* Floating Button */}
+      {/* Floating Button - Retro TV Style */}
       <button
         onClick={toggleChat}
-        className={`floating-chat-button ${!hasAnimated ? 'glitch-in' : ''}`}
+        className={`retro-flicker-button ${!hasAnimated ? 'retro-flicker-in' : ''}`}
         style={{
           position: 'fixed',
           bottom: '20px',
           right: '20px',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          border: '1px solid transparent',
-          background: theme === 'dark' 
-            ? 'rgba(139, 92, 246, 0.2)' 
-            : 'rgba(139, 92, 246, 0.15)',
+          padding: '12px 20px',
+          border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.3)' : '2px solid rgba(0, 0, 0, 0.3)',
+          background: theme === 'dark' ? 'rgba(20, 20, 30, 0.9)' : 'rgba(240, 240, 245, 0.9)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
+          borderRadius: '12px',
+          cursor: 'pointer',
+          zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
+          gap: '12px',
+          boxShadow: theme === 'dark' 
+            ? '0 4px 16px rgba(0, 0, 0, 0.5)' 
+            : '0 4px 16px rgba(0, 0, 0, 0.15)',
           transition: 'all 0.3s ease',
-          zIndex: 1000,
-          boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
-          color: '#fff'
+          minWidth: isOpen ? '48px' : '180px'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-          e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
-          e.currentTarget.style.background = theme === 'dark'
-            ? 'rgba(139, 92, 246, 0.3)'
-            : 'rgba(139, 92, 246, 0.25)';
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = theme === 'dark'
+            ? '0 6px 20px rgba(0, 0, 0, 0.7)'
+            : '0 6px 20px rgba(0, 0, 0, 0.25)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0) scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
-          e.currentTarget.style.background = theme === 'dark'
-            ? 'rgba(139, 92, 246, 0.2)'
-            : 'rgba(139, 92, 246, 0.15)';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = theme === 'dark'
+            ? '0 4px 16px rgba(0, 0, 0, 0.5)'
+            : '0 4px 16px rgba(0, 0, 0, 0.15)';
         }}
       >
         {isOpen ? (
-          <X size={28} strokeWidth={2.5} />
+          <X size={24} strokeWidth={2} color={theme === 'dark' ? '#fff' : '#000'} />
         ) : (
           <>
-            <MessageCircle size={28} strokeWidth={2.5} />
+            {/* Book Icon */}
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none"
+              style={{ flexShrink: 0 }}
+            >
+              <path 
+                d="M4 19.5C4 18.1193 5.11929 17 6.5 17H20M4 19.5C4 20.8807 5.11929 22 6.5 22H20V2H6.5C5.11929 2 4 3.11929 4 4.5V19.5Z" 
+                stroke={theme === 'dark' ? '#fff' : '#000'} 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M12 6L12 13M12 13L9 10M12 13L15 10" 
+                stroke={theme === 'dark' ? '#fff' : '#000'} 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+            
+            {/* Separator */}
+            <div style={{
+              width: '1px',
+              height: '28px',
+              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)'
+            }} />
+            
+            {/* Text */}
+            <span className="retro-button-text" style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              color: theme === 'dark' ? '#fff' : '#000',
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.5px'
+            }}>
+              Beta Sign-Up
+            </span>
+            
+            {/* Arrow */}
+            <svg 
+              width="16" 
+              height="16" 
+              viewBox="0 0 16 16" 
+              fill="none"
+              style={{ 
+                marginLeft: 'auto',
+                opacity: 0.6,
+                flexShrink: 0
+              }}
+            >
+              <path 
+                d="M6 3L11 8L6 13" 
+                stroke={theme === 'dark' ? '#fff' : '#000'} 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+            
+            {/* Unread Badge */}
             {unreadCount > 0 && (
               <span
                 style={{
                   position: 'absolute',
-                  top: '-5px',
-                  right: '-5px',
+                  top: '-8px',
+                  right: '-8px',
                   background: '#ef4444',
                   color: '#fff',
                   borderRadius: '50%',
@@ -112,7 +172,7 @@ const FloatingChatWidget = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '12px',
+                  fontSize: '11px',
                   fontWeight: '700',
                   boxShadow: '0 2px 8px rgba(239, 68, 68, 0.5)',
                   animation: 'pulse-badge 2s ease-in-out infinite'
