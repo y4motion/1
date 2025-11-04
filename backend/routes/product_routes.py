@@ -16,7 +16,7 @@ async def create_product(product_data: ProductCreate, current_user: dict = Depen
     Create a new product (requires authentication)
     """
     # Check if user has seller/admin permissions
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     if not user or (not user.get("is_seller") and not user.get("is_admin")):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -26,7 +26,7 @@ async def create_product(product_data: ProductCreate, current_user: dict = Depen
     # Create product
     product = Product(
         **product_data.model_dump(),
-        seller_id=current_user["user_id"]
+        seller_id=current_user["id"]
     )
     
     # Serialize datetime
