@@ -987,7 +987,8 @@ class MarketplaceTestSuite:
                 f"{self.api_url}/products/",
                 params={
                     "persona_id": "pro_gamer",
-                    "specific_filters": json.dumps(specific_filters)
+                    "specific_filters": json.dumps(specific_filters),
+                    "status": "all"
                 }
             ) as response:
                 
