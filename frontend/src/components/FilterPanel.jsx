@@ -180,27 +180,25 @@ const FilterPanel = ({
               paddingRight: '0.5rem'
             }}
           >
-            {/* No persona option */}
+            {/* No persona option - Minimalist Power button style */}
             <button
               onClick={() => onPersonaChange(null)}
               style={{
-                padding: '1rem 1.5rem',
-                borderRadius: '12px',
+                padding: '0.75rem 1.25rem',
+                borderRadius: '6px',
                 border: selectedPersona === null 
                   ? theme === 'dark'
-                    ? '2px solid rgba(255, 255, 255, 0.3)'
-                    : '2px solid rgba(0, 0, 0, 0.3)'
-                  : 'none',
+                    ? '1px solid rgba(255, 255, 255, 0.2)'
+                    : '1px solid rgba(0, 0, 0, 0.2)'
+                  : '1px solid transparent',
                 background: selectedPersona === null
                   ? theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(200, 200, 200, 0.5)'
-                  : theme === 'dark'
                     ? 'rgba(255, 255, 255, 0.05)'
-                    : 'rgba(220, 220, 220, 0.5)',
+                    : 'rgba(0, 0, 0, 0.05)'
+                  : 'transparent',
                 color: theme === 'dark' ? '#fff' : '#000',
-                fontSize: '0.875rem',
-                fontWeight: '700',
+                fontSize: '0.8125rem',
+                fontWeight: '500',
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase',
                 cursor: 'pointer',
@@ -208,46 +206,46 @@ const FilterPanel = ({
                 textAlign: 'center'
               }}
               onMouseEnter={(e) => {
-                if (selectedPersona !== null) {
-                  e.currentTarget.style.background = theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.08)'
-                    : 'rgba(180, 180, 180, 0.5)';
-                }
+                e.currentTarget.style.border = theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)';
+                e.currentTarget.style.background = theme === 'dark'
+                  ? 'rgba(255, 255, 255, 0.05)'
+                  : 'rgba(0, 0, 0, 0.05)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
                 if (selectedPersona !== null) {
-                  e.currentTarget.style.background = theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.05)'
-                    : 'rgba(220, 220, 220, 0.5)';
+                  e.currentTarget.style.border = '1px solid transparent';
+                  e.currentTarget.style.background = 'transparent';
                 }
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               ВСЕ ТОВАРЫ
             </button>
 
-            {/* Personas - Vertical List with PRO GAMING style */}
+            {/* Personas - Minimalist, thin borders like Power button */}
             {Object.values(personas).map((persona) => (
               <button
                 key={persona.id}
                 onClick={() => onPersonaChange(persona.id)}
                 style={{
-                  padding: '1rem 1.5rem',
-                  borderRadius: '12px',
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '6px',
                   border: selectedPersona === persona.id 
                     ? theme === 'dark'
-                      ? '2px solid rgba(255, 255, 255, 0.3)'
-                      : '2px solid rgba(0, 0, 0, 0.3)'
-                    : 'none',
+                      ? '1px solid rgba(255, 255, 255, 0.2)'
+                      : '1px solid rgba(0, 0, 0, 0.2)'
+                    : '1px solid transparent',
                   background: selectedPersona === persona.id
                     ? theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(200, 200, 200, 0.5)'
-                    : theme === 'dark'
                       ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(220, 220, 220, 0.5)',
+                      : 'rgba(0, 0, 0, 0.05)'
+                    : 'transparent',
                   color: theme === 'dark' ? '#fff' : '#000',
-                  fontSize: '0.875rem',
-                  fontWeight: '700',
+                  fontSize: '0.8125rem',
+                  fontWeight: '500',
                   letterSpacing: '0.5px',
                   textTransform: 'uppercase',
                   cursor: 'pointer',
@@ -255,18 +253,20 @@ const FilterPanel = ({
                   textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
-                  if (selectedPersona !== persona.id) {
-                    e.currentTarget.style.background = theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.08)'
-                      : 'rgba(180, 180, 180, 0.5)';
-                  }
+                  e.currentTarget.style.border = theme === 'dark'
+                    ? '1px solid rgba(255, 255, 255, 0.2)'
+                    : '1px solid rgba(0, 0, 0, 0.2)';
+                  e.currentTarget.style.background = theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   if (selectedPersona !== persona.id) {
-                    e.currentTarget.style.background = theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(220, 220, 220, 0.5)';
+                    e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.background = 'transparent';
                   }
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 {persona.name_en.toUpperCase()}
