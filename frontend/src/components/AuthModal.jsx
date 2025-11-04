@@ -261,7 +261,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
             <button
               onClick={() => handleSocialLogin('Yandex')}
               title="Sign in with Yandex"
-              style={buttonBaseStyle}
+              style={socialButtonStyle}
               onMouseEnter={(e) => {
                 e.currentTarget.style.border = theme === 'dark'
                   ? '1px solid rgba(255, 255, 255, 0.2)'
@@ -272,17 +272,13 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.border = theme === 'dark'
-                  ? '1px solid transparent'
-                  : '1px solid rgba(0, 0, 0, 0.1)';
-                e.currentTarget.style.background = theme === 'dark'
-                  ? 'transparent'
-                  : 'rgba(255, 255, 255, 0.5)';
+                e.currentTarget.style.border = '1px solid transparent';
+                e.currentTarget.style.background = 'transparent';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24">
-                <path fill="#FC3F1D" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.096 17.946h-2.52v-7.561H11.18c-1.498 0-2.405-.843-2.405-2.24 0-1.469.907-2.336 2.405-2.336h5.396v2.117h-4.86c-.47 0-.674.228-.674.623 0 .408.204.623.673.623h2.381v9.774z"/>
+              <svg width="20" height="20" viewBox="0 0 24 24" opacity="0.6">
+                <path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.096 17.946h-2.52v-7.561H11.18c-1.498 0-2.405-.843-2.405-2.24 0-1.469.907-2.336 2.405-2.336h5.396v2.117h-4.86c-.47 0-.674.228-.674.623 0 .408.204.623.673.623h2.381v9.774z"/>
               </svg>
             </button>
 
