@@ -1012,9 +1012,7 @@ const MarketplacePage = () => {
                     padding: '0.5rem 1rem',
                     borderRadius: '6px',
                     border: '1px solid transparent',
-                    background: theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : 'rgba(0, 0, 0, 0.05)',
+                    background: 'transparent',
                     color: theme === 'dark' ? '#fff' : '#1a1a1a',
                     fontSize: '0.875rem',
                     outline: 'none',
@@ -1024,9 +1022,13 @@ const MarketplacePage = () => {
                     e.currentTarget.style.border = theme === 'dark' 
                       ? '1px solid rgba(255, 255, 255, 0.2)' 
                       : '1px solid rgba(0, 0, 0, 0.2)';
+                    e.currentTarget.style.background = theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.05)';
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.background = 'transparent';
                   }}
                 />
                 <input
@@ -1039,9 +1041,7 @@ const MarketplacePage = () => {
                     padding: '0.5rem 1rem',
                     borderRadius: '6px',
                     border: '1px solid transparent',
-                    background: theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : 'rgba(0, 0, 0, 0.05)',
+                    background: 'transparent',
                     color: theme === 'dark' ? '#fff' : '#1a1a1a',
                     fontSize: '0.875rem',
                     outline: 'none',
@@ -1051,9 +1051,13 @@ const MarketplacePage = () => {
                     e.currentTarget.style.border = theme === 'dark' 
                       ? '1px solid rgba(255, 255, 255, 0.2)' 
                       : '1px solid rgba(0, 0, 0, 0.2)';
+                    e.currentTarget.style.background = theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.05)';
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.background = 'transparent';
                   }}
                 />
               </div>
