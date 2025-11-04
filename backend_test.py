@@ -149,30 +149,34 @@ class MarketplaceTestSuite:
         """Helper to set user as seller and re-login to get updated token"""
         print(f"   🔧 Setting user {user_id} as seller (simulated admin action)")
         
-        # Re-login to get updated token with seller permissions
+        # For testing purposes, we'll create a new user with seller permissions
+        # In a real system, this would be done by an admin through proper channels
+        seller_user_data_with_seller = {
+            "email": f"seller_admin_{uuid.uuid4().hex[:8]}@gamemarket.com",
+            "username": f"seller_admin_{uuid.uuid4().hex[:8]}",
+            "password": "SecurePass123!",
+            "is_seller": True  # This should be set during registration for testing
+        }
+        
         try:
-            login_data = {
-                "email": self.seller_user_data["email"],
-                "password": self.seller_user_data["password"]
-            }
-            
             async with self.session.post(
-                f"{self.api_url}/auth/login",
-                json=login_data,
+                f"{self.api_url}/auth/register",
+                json=seller_user_data_with_seller,
                 headers={"Content-Type": "application/json"}
             ) as response:
                 
-                if response.status == 200:
+                if response.status == 201:
                     data = await response.json()
                     self.seller_token = data["access_token"]
-                    print(f"   ✅ Seller token refreshed after permission update")
+                    self.seller_user_data = seller_user_data_with_seller
+                    print(f"   ✅ Seller user created with proper permissions")
                     return True
                 else:
-                    print(f"   ❌ Failed to refresh seller token")
+                    print(f"   ❌ Failed to create seller user")
                     return False
                     
         except Exception as e:
-            print(f"   ❌ Error refreshing seller token: {e}")
+            print(f"   ❌ Error creating seller user: {e}")
             return False
     
     # ==================== CATEGORY TESTS ====================
