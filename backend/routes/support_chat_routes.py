@@ -358,14 +358,49 @@ async def mark_session_read(session_id: str):
     return {"message": "Messages marked as read"}
 
 
+@router.get("/support-chat/check-manager-access")
+async def check_manager_access(
+    current_user: dict = Depends(get_current_user_optional)
+):
+    """
+    Check if user has access to personal manager
+    Access granted if:
+    - User has completed orders
+    - User has assigned personal manager
+    - User has urgent support flag
+    """
+    if not current_user:
+        return {"has_access": False}
+    
+    user_id = current_user.get("id")
+    
+    # Check if user has any orders
+    orders_count = await db.orders.count_documents({"user_id": user_id})
+    
+    # Check if user has personal manager assigned
+    user_data = await db.users.find_one({"id": user_id})
+    has_personal_manager = user_data.get("has_personal_manager", False) if user_data else False
+    
+    # Check if user has urgent support flag
+    has_urgent_flag = user_data.get("urgent_support", False) if user_data else False
+    
+    # Grant access if any condition is met
+    has_access = orders_count > 0 or has_personal_manager or has_urgent_flag
+    
+    return {
+        "has_access": has_access,
+        "reason": "has_orders" if orders_count > 0 else ("has_manager" if has_personal_manager else ("urgent" if has_urgent_flag else "none"))
+    }
+
+
 @router.post("/support-chat/request-manager")
 async def request_manager(
     request_data: RequestManagerData,
     current_user: dict = Depends(get_current_user_optional)
 ):
     """
-    Request human manager support
-    Saves request to database for admin panel review
+    Request personal manager support
+    Only available for users who have orders or assigned manager
     """
     user_id = current_user.get("id") if current_user else request_data.user_id
     
@@ -389,6 +424,6 @@ async def request_manager(
     )
     
     return {
-        "message": "Manager request submitted successfully",
+        "message": "Personal manager request submitted successfully",
         "request_id": manager_request.id
     }
