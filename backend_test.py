@@ -539,7 +539,7 @@ class MarketplaceTestSuite:
             
             # Remove item from cart
             async with self.session.delete(
-                f"{self.api_url}/cart/items{self.product_id}/",
+                f"{self.api_url}/cart/items/{self.product_id}",
                 headers={"Authorization": f"Bearer {self.normal_token}"}
             ) as response:
                 
