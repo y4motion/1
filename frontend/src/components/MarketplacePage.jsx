@@ -98,6 +98,42 @@ const MarketplacePage = () => {
       console.error('Failed to fetch categories:', error);
     }
   };
+  
+  const fetchPersonas = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/catalog/personas`);
+      if (response.ok) {
+        const data = await response.json();
+        setPersonas(data.personas || {});
+      }
+    } catch (error) {
+      console.error('Failed to fetch personas:', error);
+    }
+  };
+  
+  const fetchCatalogCategories = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/catalog/categories`);
+      if (response.ok) {
+        const data = await response.json();
+        setCatalogCategories(data.categories || {});
+      }
+    } catch (error) {
+      console.error('Failed to fetch catalog categories:', error);
+    }
+  };
+  
+  const fetchSpecificFilters = async (subcategoryId) => {
+    try {
+      const response = await fetch(`${API_URL}/api/catalog/filters/${subcategoryId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setSpecificFilters(data.filters || {});
+      }
+    } catch (error) {
+      console.error('Failed to fetch specific filters:', error);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
