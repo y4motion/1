@@ -298,13 +298,14 @@ const Header = () => {
                           border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
                           background: 'transparent',
                           cursor: 'pointer',
-                          fontSize: '0.8rem'
+                          fontSize: '0.8rem',
+                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
                         }}
                       >
-                        <option value="RUB">RUB ₽</option>
-                        <option value="USD">USD $</option>
-                        <option value="EUR">EUR €</option>
-                        <option value="CNY">CNY ¥</option>
+                        <option value="RUB" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>RUB ₽</option>
+                        <option value="USD" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>USD $</option>
+                        <option value="EUR" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>EUR €</option>
+                        <option value="CNY" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>CNY ¥</option>
                       </select>
                     </div>
                   </div>
