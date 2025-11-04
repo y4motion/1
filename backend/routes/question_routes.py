@@ -23,12 +23,12 @@ async def create_question(question_data: QuestionCreate, current_user: dict = De
         )
     
     # Get user info
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     
     # Create question
     question = Question(
         **question_data.model_dump(),
-        user_id=current_user["user_id"],
+        user_id=current_user["id"],
         username=user.get("username", "Anonymous"),
         user_avatar=user.get("avatar_url")
     )
@@ -87,16 +87,16 @@ async def create_answer(
         )
     
     # Get user info
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     
     # Check if answering user is the seller
     product = await db.products.find_one({"id": question["product_id"]})
-    is_seller = product and product.get("seller_id") == current_user["user_id"]
+    is_seller = product and product.get("seller_id") == current_user["id"]
     
     # Create answer
     answer = Answer(
         **answer_data.model_dump(),
-        user_id=current_user["user_id"],
+        user_id=current_user["id"],
         username=user.get("username", "Anonymous"),
         user_avatar=user.get("avatar_url"),
         is_seller=is_seller
@@ -129,8 +129,8 @@ async def delete_question(question_id: str, current_user: dict = Depends(get_cur
         )
     
     # Check permissions
-    user = await db.users.find_one({"id": current_user["user_id"]})
-    if question["user_id"] != current_user["user_id"] and not user.get("is_admin"):
+    user = await db.users.find_one({"id": current_user["id"]})
+    if question["user_id"] != current_user["id"] and not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have permission to delete this question"
