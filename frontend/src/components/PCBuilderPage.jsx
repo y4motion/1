@@ -422,7 +422,28 @@ const PCBuilderPage = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ fontSize: '1.5rem' }}>{category.icon}</span>
+                    <div 
+                      className="glass-subtle"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '8px',
+                        border: selected 
+                          ? '1px solid rgba(139, 92, 246, 0.5)'
+                          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                        background: selected ? 'rgba(139, 92, 246, 0.1)' : 'transparent',
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      {ComponentIcons[category.icon]({
+                        size: 20,
+                        color: selected ? '#8b5cf6' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'),
+                        strokeWidth: 2
+                      })}
+                    </div>
                     <div style={{ textAlign: 'left' }}>
                       <div style={{ fontSize: '0.875rem', fontWeight: '700', letterSpacing: '0.5px' }}>
                         {category.name}
