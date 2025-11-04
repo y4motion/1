@@ -399,10 +399,14 @@ const MarketplacePage = () => {
                   borderRadius: '12px',
                   border: selectedTag === chip.tag 
                     ? '1px solid rgba(139, 92, 246, 0.4)'
-                    : '1px solid rgba(255, 255, 255, 0.1)',
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                   background: selectedTag === chip.tag
                     ? 'rgba(139, 92, 246, 0.15)'
-                    : 'rgba(255, 255, 255, 0.05)',
+                    : theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.03)',
                   backdropFilter: 'blur(10px)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -412,25 +416,35 @@ const MarketplacePage = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  color: '#fff',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a',
                   textTransform: 'uppercase',
                   boxShadow: selectedTag === chip.tag 
                     ? '0 4px 16px rgba(139, 92, 246, 0.3)' 
-                    : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    : theme === 'dark'
+                      ? '0 2px 8px rgba(0, 0, 0, 0.1)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.05)',
                   animation: selectedTag === chip.tag ? 'pulseSoft 2s ease-in-out infinite' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.background = theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.1)' 
+                      : 'rgba(0, 0, 0, 0.06)';
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                    e.currentTarget.style.boxShadow = theme === 'dark' 
+                      ? '0 4px 12px rgba(0, 0, 0, 0.2)' 
+                      : '0 4px 12px rgba(0, 0, 0, 0.1)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.currentTarget.style.background = theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : 'rgba(0, 0, 0, 0.03)';
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    e.currentTarget.style.boxShadow = theme === 'dark' 
+                      ? '0 2px 8px rgba(0, 0, 0, 0.1)' 
+                      : '0 2px 8px rgba(0, 0, 0, 0.05)';
                   }
                 }}
               >
