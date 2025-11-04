@@ -10,7 +10,7 @@ from models.support_chat import (
     SupportMessage,
     SupportMessageResponse
 )
-from utils.auth_utils import get_current_user, get_optional_user
+from utils.auth_utils import get_current_user, get_current_user_optional
 import json
 import os
 from dotenv import load_dotenv
