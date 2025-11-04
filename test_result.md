@@ -279,6 +279,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "Redesigned filter panel and catalog to match site's glassmorphism aesthetic. Filter panel now starts at top: 100px (below header) with borderTopRightRadius: 16px and never overlaps header (z-index: 40 vs header z-index: 50). All input fields (search, price range, sort select) use transparent backgrounds with acrylic focus states. Purple color exclusively reserved for APPLY FILTERS button (same style as AuthModal LOGIN button). Catalog dropdown border changed from purple to theme-aware neutral colors. Category selection uses theme-based borders/backgrounds (white/black) instead of purple. All elements verified in both dark and light themes."
+      - working: true
+        agent: "main"
+        comment: "Fixed filter panel styling bugs: Removed opaque background (rgba(20, 20, 30, 0.95)) and replaced with transparent glass-strong class for acrylic effect matching LVL menu and AuthModal. Changed content push from marginLeft to paddingLeft to eliminate white bar artifact. Filter panel now uses pure glassmorphism with backdrop-filter blur, fully transparent, and adapts to both themes. Verified: no white bar, transparent acrylic panel, purple APPLY FILTERS button working correctly in both dark and light themes."
 
 metadata:
   created_by: "main_agent"
