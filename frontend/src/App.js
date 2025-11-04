@@ -19,7 +19,6 @@ function App() {
         <AuthProvider>
           <div className="App">
             <BrowserRouter>
-              <MouseFollower />
               <Header />
               <Routes>
                 <Route path="/" element={<HomePage />} />
