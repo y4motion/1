@@ -185,8 +185,8 @@ async def update_product(
         )
     
     # Check permissions
-    user = await db.users.find_one({"id": current_user["user_id"]})
-    if product["seller_id"] != current_user["user_id"] and not user.get("is_admin"):
+    user = await db.users.find_one({"id": current_user["id"]})
+    if product["seller_id"] != current_user["id"] and not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have permission to update this product"
@@ -224,8 +224,8 @@ async def delete_product(product_id: str, current_user: dict = Depends(get_curre
         )
     
     # Check permissions
-    user = await db.users.find_one({"id": current_user["user_id"]})
-    if product["seller_id"] != current_user["user_id"] and not user.get("is_admin"):
+    user = await db.users.find_one({"id": current_user["id"]})
+    if product["seller_id"] != current_user["id"] and not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have permission to delete this product"
@@ -242,7 +242,7 @@ async def toggle_wishlist(product_id: str, current_user: dict = Depends(get_curr
     """
     Add or remove product from user's wishlist
     """
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     product = await db.products.find_one({"id": product_id})
     
     if not product:
@@ -257,7 +257,7 @@ async def toggle_wishlist(product_id: str, current_user: dict = Depends(get_curr
         # Remove from wishlist
         wishlist.remove(product_id)
         await db.users.update_one(
-            {"id": current_user["user_id"]},
+            {"id": current_user["id"]},
             {"$set": {"wishlist": wishlist}}
         )
         await db.products.update_one(
@@ -269,7 +269,7 @@ async def toggle_wishlist(product_id: str, current_user: dict = Depends(get_curr
         # Add to wishlist
         wishlist.append(product_id)
         await db.users.update_one(
-            {"id": current_user["user_id"]},
+            {"id": current_user["id"]},
             {"$set": {"wishlist": wishlist}}
         )
         await db.products.update_one(
