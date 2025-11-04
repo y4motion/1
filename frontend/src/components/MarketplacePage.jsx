@@ -123,8 +123,8 @@ const MarketplacePage = () => {
       minHeight: '100vh', 
       paddingTop: '6rem', 
       paddingBottom: '4rem',
-      marginLeft: showFilterPanel ? '360px' : '0', // Pushes content when panel opens
-      transition: 'margin-left 0.3s ease'
+      paddingLeft: showFilterPanel ? '400px' : '0', // Pushes content when panel opens
+      transition: 'padding-left 0.3s ease'
     }}>
       <div className="grain-overlay" />
       
