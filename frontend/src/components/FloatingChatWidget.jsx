@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Minimize2, Trash2 } from 'lucide-react';
+import { MessageCircle, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import ChatWindow from './ChatWindow';
 import '../styles/chatWidget.css';
