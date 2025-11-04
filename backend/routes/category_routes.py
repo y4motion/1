@@ -14,7 +14,7 @@ async def create_category(category_data: CategoryCreate, current_user: dict = De
     """
     Create a new category (admin only)
     """
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     if not user or not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -89,7 +89,7 @@ async def update_category(
     """
     Update a category (admin only)
     """
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     if not user or not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -126,7 +126,7 @@ async def delete_category(category_id: str, current_user: dict = Depends(get_cur
     """
     Delete a category (admin only)
     """
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     if not user or not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
