@@ -417,7 +417,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               marginBottom: '0.5rem',
               opacity: 0.8
             }}>
-              Password
+              {t('user.password')}
             </label>
             <input
               type="password"
