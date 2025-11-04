@@ -504,6 +504,17 @@ class MarketplaceTestSuite:
                 
                 print(f"✅ Added to cart: {data.get('item_count', 0)} items, total: ${data.get('total', 0)}")
             
+            # Check cart contents before updating
+            async with self.session.get(
+                f"{self.api_url}/cart",
+                headers={"Authorization": f"Bearer {self.normal_token}"}
+            ) as response:
+                cart_data = await response.json()
+                print(f"   Cart contents: {len(cart_data.get('items', []))} items")
+                if cart_data.get('items'):
+                    print(f"   First item product_id: {cart_data['items'][0]['product_id']}")
+                    print(f"   Test product_id: {self.product_id}")
+            
             # Update cart item quantity
             update_data = {"quantity": 3}
             async with self.session.put(
