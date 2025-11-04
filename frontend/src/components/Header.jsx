@@ -14,6 +14,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import SpinWheel from './SpinWheel';
+import QuickCartPanel from './QuickCartPanel';
 import '../styles/glassmorphism.css';
 
 const Header = () => {
@@ -21,6 +22,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showLVLMenu, setShowLVLMenu] = useState(false); // LVL menu from logo button
+  const [showCartPanel, setShowCartPanel] = useState(false); // Quick cart panel
   const [showSpinWheel, setShowSpinWheel] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
