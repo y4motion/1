@@ -210,12 +210,16 @@ const MarketplacePage = () => {
               padding: '1rem 1.5rem',
               borderRadius: '50px',
               border: showCatalog 
-                ? '2px solid rgba(139, 92, 246, 0.4)'
+                ? theme === 'dark'
+                  ? '2px solid rgba(255, 255, 255, 0.3)'
+                  : '2px solid rgba(0, 0, 0, 0.3)'
                 : theme === 'dark'
                   ? '1px solid rgba(255, 255, 255, 0.1)'
                   : '1px solid rgba(0, 0, 0, 0.1)',
               background: showCatalog
-                ? 'rgba(139, 92, 246, 0.15)'
+                ? theme === 'dark'
+                  ? 'rgba(255, 255, 255, 0.1)'
+                  : 'rgba(0, 0, 0, 0.08)'
                 : theme === 'dark'
                   ? 'rgba(255, 255, 255, 0.05)'
                   : 'rgba(0, 0, 0, 0.03)',
