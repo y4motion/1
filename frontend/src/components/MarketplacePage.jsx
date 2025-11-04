@@ -423,7 +423,11 @@ const MarketplacePage = () => {
             >
               <Menu size={18} />
               <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                {selectedCategory === 'all' ? 'ALL' : catalogCategories[selectedCategory]?.name_en?.toUpperCase() || 'CATEGORY'}
+                {selectedSubcategory 
+                  ? catalogCategories[selectedCategory]?.subcategories?.[selectedSubcategory]?.name_en?.toUpperCase().substring(0, 12) || 'SUBCATEGORY'
+                  : selectedCategory === 'all' 
+                    ? 'ALL' 
+                    : catalogCategories[selectedCategory]?.name_en?.toUpperCase().substring(0, 12) || 'CATEGORY'}
               </span>
             </button>
             
