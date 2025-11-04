@@ -93,13 +93,26 @@ const Header = () => {
   // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close LVL menu if click outside
-      if (lvlMenuRef.current && !lvlMenuRef.current.contains(event.target) && showLVLMenu) {
-        setShowLVLMenu(false);
+      // For LVL menu: check if click is outside both the button and the menu
+      if (showLVLMenu) {
+        const lvlMenuElement = document.querySelector('[data-lvl-menu="true"]');
+        const isClickInsideButton = lvlMenuRef.current && lvlMenuRef.current.contains(event.target);
+        const isClickInsideMenu = lvlMenuElement && lvlMenuElement.contains(event.target);
+        
+        if (!isClickInsideButton && !isClickInsideMenu) {
+          setShowLVLMenu(false);
+        }
       }
-      // Close user menu if click outside
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target) && showUserMenu) {
-        setShowUserMenu(false);
+      
+      // For user menu: similar logic
+      if (showUserMenu) {
+        const userMenuElement = document.querySelector('[data-user-menu="true"]');
+        const isClickInsideButton = userMenuRef.current && userMenuRef.current.contains(event.target);
+        const isClickInsideMenu = userMenuElement && userMenuElement.contains(event.target);
+        
+        if (!isClickInsideButton && !isClickInsideMenu) {
+          setShowUserMenu(false);
+        }
       }
     };
 
