@@ -292,7 +292,7 @@ const MarketplacePage = () => {
           </p>
         </div>
 
-        {/* Catalog Button + Centered Search Bar with Filter Inside */}
+        {/* NEW: Centered Search Bar with Integrated Category Dropdown */}
         <div style={{
           display: 'flex',
           gap: '1rem',
@@ -301,87 +301,62 @@ const MarketplacePage = () => {
           justifyContent: 'center',
           position: 'relative'
         }}>
-          {/* Catalog Button */}
-          <button
-            ref={catalogButtonRef}
-            onClick={() => setShowCatalog(!showCatalog)}
-            className="glass-subtle"
-            style={{
-              padding: '1rem 1.5rem',
-              borderRadius: '50px',
-              border: showCatalog 
-                ? theme === 'dark'
-                  ? '2px solid rgba(255, 255, 255, 0.3)'
-                  : '2px solid rgba(0, 0, 0, 0.3)'
-                : theme === 'dark'
-                  ? '1px solid rgba(255, 255, 255, 0.1)'
-                  : '1px solid rgba(0, 0, 0, 0.1)',
-              background: showCatalog
-                ? theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.1)'
-                  : 'rgba(0, 0, 0, 0.08)'
-                : theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.05)'
-                  : 'rgba(0, 0, 0, 0.03)',
-              backdropFilter: 'blur(10px)',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              color: theme === 'dark' ? '#fff' : '#1a1a1a'
-            }}
-            onMouseEnter={(e) => {
-              if (!showCatalog) {
-                e.currentTarget.style.background = theme === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.1)' 
-                  : 'rgba(0, 0, 0, 0.06)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!showCatalog) {
-                e.currentTarget.style.background = theme === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.05)' 
-                  : 'rgba(0, 0, 0, 0.03)';
-                e.currentTarget.style.transform = 'scale(1)';
-              }
+          {/* Search Bar with Category Integration */}
+          <div 
+            ref={searchContainerRef}
+            style={{ 
+              position: 'relative', 
+              flex: 1,
+              maxWidth: '700px'
             }}
           >
-            <Menu size={20} />
-            CATALOG
-          </button>
-
-          {/* Centered Search Bar */}
-          <div style={{ 
-            position: 'relative', 
-            flex: 1,
-            maxWidth: '600px'
-          }}>
-            <Search 
-              size={20} 
-              style={{ 
-                position: 'absolute', 
-                left: '1.25rem', 
-                top: '50%', 
+            {/* Category Button Inside Search */}
+            <button
+              onClick={() => setShowSearchCategoryDropdown(!showSearchCategoryDropdown)}
+              style={{
+                position: 'absolute',
+                left: '1rem',
+                top: '50%',
                 transform: 'translateY(-50%)',
-                opacity: 0.4,
-                pointerEvents: 'none',
-                zIndex: 2,
-                color: theme === 'dark' ? '#fff' : '#1a1a1a'
-              }} 
-            />
+                zIndex: 3,
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                padding: '0.5rem',
+                borderRadius: '6px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = theme === 'dark'
+                  ? 'rgba(255, 255, 255, 0.1)'
+                  : 'rgba(0, 0, 0, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              <Menu size={18} />
+              <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+                {selectedCategory === 'all' ? 'ALL' : catalogCategories[selectedCategory]?.name_en?.toUpperCase() || 'CATEGORY'}
+              </span>
+            </button>
+            
             <input
               type="text"
               placeholder="Search for gear..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onFocus={() => setShowSearchCategoryDropdown(true)}
               className="minimal-search"
               style={{
                 width: '100%',
-                padding: '1rem 3.5rem 1rem 3.5rem',
+                padding: '1rem 3.5rem 1rem 140px',
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
@@ -389,16 +364,6 @@ const MarketplacePage = () => {
                 fontSize: '1rem',
                 outline: 'none',
                 transition: 'all 0.3s ease'
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.background = theme === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.08)' 
-                  : 'rgba(0, 0, 0, 0.05)';
-                e.currentTarget.style.backdropFilter = 'blur(10px)';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.backdropFilter = 'none';
               }}
               onMouseEnter={(e) => {
                 if (document.activeElement !== e.currentTarget) {
@@ -415,6 +380,118 @@ const MarketplacePage = () => {
                 }
               }}
             />
+            
+            <Search 
+              size={20} 
+              style={{ 
+                position: 'absolute', 
+                right: '1.25rem', 
+                top: '50%', 
+                transform: 'translateY(-50%)',
+                opacity: 0.4,
+                pointerEvents: 'none',
+                zIndex: 2,
+                color: theme === 'dark' ? '#fff' : '#1a1a1a'
+              }} 
+            />
+            
+            {/* Category Dropdown */}
+            {showSearchCategoryDropdown && (
+              <div
+                className="glass-strong"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 0.5rem)',
+                  left: 0,
+                  right: 0,
+                  maxHeight: '400px',
+                  overflowY: 'auto',
+                  borderRadius: '16px',
+                  padding: '1rem',
+                  zIndex: 100,
+                  animation: 'slideDown 0.3s ease-out'
+                }}
+              >
+                {/* All Categories Option */}
+                <div
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setShowSearchCategoryDropdown(false);
+                  }}
+                  style={{
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    marginBottom: '0.5rem',
+                    background: selectedCategory === 'all'
+                      ? theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : 'rgba(0, 0, 0, 0.08)'
+                      : 'transparent',
+                    transition: 'all 0.3s ease',
+                    fontWeight: selectedCategory === 'all' ? '600' : '400'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'rgba(0, 0, 0, 0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCategory !== 'all') {
+                      e.currentTarget.style.background = 'transparent';
+                    }
+                  }}
+                >
+                  <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+                    🌐 All Products
+                  </div>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '0.25rem' }}>
+                    Browse entire marketplace
+                  </div>
+                </div>
+                
+                {/* Catalog Categories */}
+                {Object.values(catalogCategories).map((category) => (
+                  <div
+                    key={category.id}
+                    onClick={() => {
+                      setSelectedCategory(category.id);
+                      setShowSearchCategoryDropdown(false);
+                    }}
+                    style={{
+                      padding: '1rem',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      marginBottom: '0.5rem',
+                      background: selectedCategory === category.id
+                        ? theme === 'dark'
+                          ? 'rgba(255, 255, 255, 0.1)'
+                          : 'rgba(0, 0, 0, 0.08)'
+                        : 'transparent',
+                      transition: 'all 0.3s ease',
+                      fontWeight: selectedCategory === category.id ? '600' : '400'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.08)'
+                        : 'rgba(0, 0, 0, 0.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedCategory !== category.id) {
+                        e.currentTarget.style.background = 'transparent';
+                      }
+                    }}
+                  >
+                    <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+                      {category.icon} {category.name}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '0.25rem' }}>
+                      {category.name_en}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
