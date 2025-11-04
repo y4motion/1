@@ -235,14 +235,159 @@ const PCBuilderPage = () => {
 
       {/* Main Content */}
       <div style={{
-        maxWidth: '1400px',
+        maxWidth: '1600px',
         margin: '0 auto',
         padding: '2rem',
         display: 'grid',
-        gridTemplateColumns: '1fr 400px',
+        gridTemplateColumns: '350px 1fr 400px',
         gap: '2rem'
       }}>
-        {/* Component Selection */}
+        {/* Left Column - Case Render & Performance */}
+        <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
+          {/* Case Render */}
+          <div
+            className="glass"
+            style={{
+              padding: '2rem',
+              borderRadius: '12px',
+              marginBottom: '1.5rem',
+              border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+              textAlign: 'center',
+              minHeight: '250px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            {selectedComponents.case ? (
+              <>
+                <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>
+                  {selectedComponents.case.image}
+                </div>
+                <div style={{ fontSize: '0.875rem', fontWeight: '700', marginBottom: '0.25rem' }}>
+                  {selectedComponents.case.name}
+                </div>
+                <div style={{ 
+                  fontSize: '0.75rem', 
+                  padding: '0.25rem 0.75rem', 
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  border: '1px solid rgba(139, 92, 246, 0.4)',
+                  borderRadius: '4px',
+                  color: '#8b5cf6',
+                  fontWeight: '600'
+                }}>
+                  {buildType || 'Select Case'}
+                </div>
+              </>
+            ) : (
+              <>
+                <Box size={80} color={theme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)'} strokeWidth={1} />
+                <div style={{ fontSize: '0.875rem', opacity: 0.5, marginTop: '1rem' }}>
+                  {language === 'ru' ? 'Выберите корпус' : 'Select a Case'}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Performance Section */}
+          {(selectedComponents.cpu && selectedComponents.gpu) && (
+            <div
+              className="glass"
+              style={{
+                padding: '1.5rem',
+                borderRadius: '12px',
+                border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'
+              }}
+            >
+              <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '1rem', letterSpacing: '0.5px' }}>
+                {language === 'ru' ? 'ПРОИЗВОДИТЕЛЬНОСТЬ' : 'PERFORMANCE'}
+              </h3>
+              
+              {/* Game Performance List */}
+              <div style={{ marginBottom: '1rem' }}>
+                {performanceData.map((game, idx) => (
+                  <div 
+                    key={idx}
+                    style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center',
+                      marginBottom: '0.75rem',
+                      paddingBottom: '0.75rem',
+                      borderBottom: idx < performanceData.length - 1 
+                        ? (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.05)')
+                        : 'none'
+                    }}
+                  >
+                    <span style={{ fontSize: '0.8125rem', opacity: 0.9 }}>
+                      {game.name}
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                      <span style={{ 
+                        fontSize: '1.25rem', 
+                        fontWeight: '700',
+                        color: game.fps >= 120 ? '#10b981' : game.fps >= 60 ? '#8b5cf6' : '#f59e0b'
+                      }}>
+                        {game.fps}
+                      </span>
+                      <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>FPS</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Resolution Selector */}
+              <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                {['1080', '1440', '4K'].map((res) => (
+                  <button
+                    key={res}
+                    onClick={() => setPerformanceResolution(res)}
+                    className="glass-subtle"
+                    style={{
+                      padding: '0.5rem 1rem',
+                      borderRadius: '6px',
+                      border: performanceResolution === res
+                        ? '1px solid rgba(139, 92, 246, 0.5)'
+                        : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                      background: performanceResolution === res ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                      color: performanceResolution === res ? '#8b5cf6' : 'inherit',
+                      fontSize: '0.8125rem',
+                      fontWeight: performanceResolution === res ? '700' : '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (performanceResolution !== res) {
+                        e.currentTarget.style.background = theme === 'dark' 
+                          ? 'rgba(255, 255, 255, 0.05)' 
+                          : 'rgba(0, 0, 0, 0.05)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (performanceResolution !== res) {
+                        e.currentTarget.style.background = 'transparent';
+                      }
+                    }}
+                  >
+                    {res}
+                  </button>
+                ))}
+              </div>
+              
+              <div style={{ 
+                fontSize: '0.6875rem', 
+                opacity: 0.5, 
+                textAlign: 'center', 
+                marginTop: '0.75rem' 
+              }}>
+                {language === 'ru' ? 'Тестирование на ультра настройках' : 'Tested at Ultra High Settings'}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Center Column - Component Selection */}
         <div>
           {componentCategories.map((category) => {
             const selected = selectedComponents[category.key];
