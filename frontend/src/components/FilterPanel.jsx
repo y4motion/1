@@ -170,115 +170,107 @@ const FilterPanel = ({
         
         {expandedSections.personas && (
           <div 
-            className="persona-scroll"
+            className="persona-scroll-vertical"
             style={{ 
               display: 'flex',
-              overflowX: 'auto',
+              flexDirection: 'column',
               gap: '0.75rem',
-              paddingBottom: '1rem',
-              scrollbarWidth: 'thin',
-              scrollbarColor: theme === 'dark' 
-                ? 'rgba(255, 255, 255, 0.3) transparent'
-                : 'rgba(0, 0, 0, 0.3) transparent'
+              maxHeight: '280px',
+              overflowY: 'auto',
+              paddingRight: '0.5rem'
             }}
           >
             {/* No persona option */}
-            <div
+            <button
               onClick={() => onPersonaChange(null)}
               style={{
-                minWidth: '120px',
-                padding: '1rem 0.75rem',
+                padding: '1rem 1.5rem',
                 borderRadius: '12px',
                 border: selectedPersona === null 
                   ? theme === 'dark'
-                    ? '2px solid rgba(255, 255, 255, 0.4)'
-                    : '2px solid rgba(0, 0, 0, 0.4)'
-                  : theme === 'dark'
-                    ? '1px solid rgba(255, 255, 255, 0.1)'
-                    : '1px solid rgba(0, 0, 0, 0.1)',
+                    ? '2px solid rgba(255, 255, 255, 0.3)'
+                    : '2px solid rgba(0, 0, 0, 0.3)'
+                  : 'none',
                 background: selectedPersona === null
                   ? theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.15)'
-                    : 'rgba(0, 0, 0, 0.1)'
-                  : 'transparent',
+                    ? 'rgba(255, 255, 255, 0.1)'
+                    : 'rgba(200, 200, 200, 0.5)'
+                  : theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(220, 220, 220, 0.5)',
+                color: theme === 'dark' ? '#fff' : '#000',
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.5rem',
                 textAlign: 'center'
               }}
               onMouseEnter={(e) => {
                 if (selectedPersona !== null) {
                   e.currentTarget.style.background = theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.05)'
-                    : 'rgba(0, 0, 0, 0.05)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'rgba(180, 180, 180, 0.5)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (selectedPersona !== null) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.background = theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(220, 220, 220, 0.5)';
                 }
               }}
             >
-              <div style={{ fontSize: '2rem' }}>🌐</div>
-              <div style={{ fontSize: '0.75rem', fontWeight: '600' }}>
-                Все
-              </div>
-            </div>
+              ВСЕ ТОВАРЫ
+            </button>
 
-            {/* Personas - Horizontal Scroll */}
+            {/* Personas - Vertical List with PRO GAMING style */}
             {Object.values(personas).map((persona) => (
-              <div
+              <button
                 key={persona.id}
                 onClick={() => onPersonaChange(persona.id)}
                 style={{
-                  minWidth: '120px',
-                  padding: '1rem 0.75rem',
+                  padding: '1rem 1.5rem',
                   borderRadius: '12px',
                   border: selectedPersona === persona.id 
                     ? theme === 'dark'
-                      ? '2px solid rgba(255, 255, 255, 0.4)'
-                      : '2px solid rgba(0, 0, 0, 0.4)'
-                    : theme === 'dark'
-                      ? '1px solid rgba(255, 255, 255, 0.1)'
-                      : '1px solid rgba(0, 0, 0, 0.1)',
+                      ? '2px solid rgba(255, 255, 255, 0.3)'
+                      : '2px solid rgba(0, 0, 0, 0.3)'
+                    : 'none',
                   background: selectedPersona === persona.id
                     ? theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.15)'
-                      : 'rgba(0, 0, 0, 0.1)'
-                    : 'transparent',
+                      ? 'rgba(255, 255, 255, 0.1)'
+                      : 'rgba(200, 200, 200, 0.5)'
+                    : theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(220, 220, 220, 0.5)',
+                  color: theme === 'dark' ? '#fff' : '#000',
+                  fontSize: '0.875rem',
+                  fontWeight: '700',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '0.5rem',
                   textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedPersona !== persona.id) {
                     e.currentTarget.style.background = theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(0, 0, 0, 0.05)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'rgba(180, 180, 180, 0.5)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedPersona !== persona.id) {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.background = theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(220, 220, 220, 0.5)';
                   }
                 }}
               >
-                <div style={{ fontSize: '2rem' }}>{persona.icon}</div>
-                <div style={{ fontSize: '0.75rem', fontWeight: '600', lineHeight: '1.2' }}>
-                  {persona.name}
-                </div>
-              </div>
+                {persona.name_en.toUpperCase()}
+              </button>
             ))}
           </div>
         )}
