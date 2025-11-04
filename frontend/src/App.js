@@ -35,7 +35,6 @@ function App() {
                 <Route path="/pro-gamer" element={<PlaceholderPage title="PRO GAMER" />} />
                 <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
                 <Route path="/user" element={<PlaceholderPage title="USER" />} />
-                <Route path="/marketplace" element={<PlaceholderPage title="MARKETPLACE" />} />
                 <Route path="/restock" element={<PlaceholderPage title="RESTOCK" />} />
                 <Route path="/best-products" element={<PlaceholderPage title="BEST PRODUCTS" />} />
                 <Route path="/builds" element={<PlaceholderPage title="BUILDS" />} />
