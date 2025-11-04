@@ -360,7 +360,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
             color: theme === 'dark' ? '#fff' : '#1a1a1a'
           }}>
             <h3 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>
-              Chat History
+              {t.chat.chatHistory}
             </h3>
             <button
               onClick={() => setShowHistory(false)}
