@@ -10,6 +10,8 @@ import HomePage from "./components/HomePage";
 import CategoryPage from "./components/CategoryPage";
 import ProductPage from "./components/ProductPage";
 import MarketplacePage from "./components/MarketplacePage";
+import PCBuilderPage from "./components/PCBuilderPage";
+import ModPage from "./components/ModPage";
 import ProductDetailPage from "./components/ProductDetailPage";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
