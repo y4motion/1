@@ -1010,10 +1010,25 @@ const MarketplacePage = () => {
         </div>
       </button>
 
-      {/* Sliding Filter Panel - Transparent acrylic style like AuthModal and LVL menu */}
+      {/* New Filter Panel Component */}
       {showFilterPanel && (
+        <FilterPanel
+          personas={personas}
+          selectedPersona={selectedPersona}
+          onPersonaChange={handlePersonaChange}
+          specificFilters={specificFilters}
+          activeFilters={activeFilters}
+          onFilterChange={handleFilterChange}
+          onResetFilters={handleResetFilters}
+          onSaveFilterSet={handleSaveFilterSet}
+          onClose={() => setShowFilterPanel(false)}
+        />
+      )}
+
+      {/* OLD PANEL - TO BE REMOVED */}
+      {false && (
           <div
-            data-filter-panel="true"
+            data-filter-panel-old="true"
             className="glass-strong"
             style={{
               position: 'fixed',
