@@ -443,7 +443,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                         opacity: 0.5,
                         color: theme === 'dark' ? '#fff' : '#1a1a1a'
                       }}>
-                        {session.messages_count} messages • {new Date(session.updated_at).toLocaleDateString()}
+                        {session.messages_count} {t.chat.messages} • {new Date(session.updated_at).toLocaleDateString()}
                       </div>
                     </div>
                     
