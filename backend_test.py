@@ -724,6 +724,325 @@ class MarketplaceTestSuite:
             print(f"❌ Q&A workflow test error: {e}")
             return False
     
+    # ==================== CATALOG SYSTEM TESTS ====================
+    
+    async def test_catalog_personas(self):
+        """Test catalog personas endpoint"""
+        print("\n🧪 Testing Catalog Personas API...")
+        
+        try:
+            async with self.session.get(f"{self.api_url}/catalog/personas") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Status: {status}")
+                
+                if status == 200:
+                    personas = data.get("personas", {})
+                    print(f"✅ Personas retrieved: {len(personas)} personas")
+                    
+                    # Verify expected personas exist
+                    expected_personas = ["pro_gamer", "pro_creator", "audiophile", "smart_home", 
+                                       "minimalist", "rgb_enthusiast", "next_level", "gift_seeker", 
+                                       "remote_worker", "mobile_setup"]
+                    
+                    missing_personas = []
+                    for persona_id in expected_personas:
+                        if persona_id not in personas:
+                            missing_personas.append(persona_id)
+                    
+                    if missing_personas:
+                        print(f"❌ Missing personas: {missing_personas}")
+                        return False
+                    
+                    # Verify persona structure
+                    sample_persona = personas.get("pro_gamer", {})
+                    required_fields = ["id", "name", "name_en", "icon", "description"]
+                    
+                    for field in required_fields:
+                        if field not in sample_persona:
+                            print(f"❌ Missing field '{field}' in persona structure")
+                            return False
+                    
+                    print(f"✅ All 10 personas present with correct structure")
+                    print(f"   Sample: {sample_persona['name_en']} ({sample_persona['icon']})")
+                    return True
+                else:
+                    print(f"❌ Failed to get personas: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Catalog personas test error: {e}")
+            return False
+    
+    async def test_catalog_categories(self):
+        """Test catalog categories endpoint"""
+        print("\n🧪 Testing Catalog Categories API...")
+        
+        try:
+            async with self.session.get(f"{self.api_url}/catalog/categories") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Status: {status}")
+                
+                if status == 200:
+                    categories = data.get("categories", {})
+                    print(f"✅ Categories retrieved: {len(categories)} main categories")
+                    
+                    # Verify expected categories exist (100-900)
+                    expected_categories = ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
+                    
+                    missing_categories = []
+                    for cat_id in expected_categories:
+                        if cat_id not in categories:
+                            missing_categories.append(cat_id)
+                    
+                    if missing_categories:
+                        print(f"❌ Missing categories: {missing_categories}")
+                        return False
+                    
+                    # Verify category structure and count subcategories
+                    total_subcategories = 0
+                    sample_category = categories.get("100", {})
+                    required_fields = ["id", "name", "name_en", "icon", "subcategories"]
+                    
+                    for field in required_fields:
+                        if field not in sample_category:
+                            print(f"❌ Missing field '{field}' in category structure")
+                            return False
+                    
+                    # Count all subcategories
+                    for category in categories.values():
+                        total_subcategories += len(category.get("subcategories", {}))
+                    
+                    print(f"✅ All 9 main categories present with {total_subcategories} subcategories")
+                    print(f"   Sample: {sample_category['name_en']} ({sample_category['icon']})")
+                    return True
+                else:
+                    print(f"❌ Failed to get categories: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Catalog categories test error: {e}")
+            return False
+    
+    async def test_catalog_config(self):
+        """Test full catalog configuration endpoint"""
+        print("\n🧪 Testing Full Catalog Configuration...")
+        
+        try:
+            # Test if there's a full config endpoint
+            async with self.session.get(f"{self.api_url}/catalog/config") as response:
+                status = response.status
+                
+                if status == 404:
+                    print("ℹ️  Full config endpoint not implemented - testing individual endpoints")
+                    return True
+                
+                data = await response.json()
+                print(f"   Status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Full catalog config retrieved")
+                    return True
+                else:
+                    print(f"❌ Failed to get full config: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Catalog config test error: {e}")
+            return False
+    
+    async def test_product_filtering_by_persona(self):
+        """Test product filtering by persona_id"""
+        print("\n🧪 Testing Product Filtering by Persona...")
+        
+        # First create a test product with persona targeting
+        if not self.seller_token:
+            print("❌ No seller token available for creating test product")
+            return False
+        
+        try:
+            # Create a product targeted at pro_gamer persona
+            product_data = {
+                "title": "Pro Gaming Mouse RTX Edition",
+                "description": "Ultra-lightweight gaming mouse with 8000Hz polling rate",
+                "category_id": "200",
+                "subcategory_id": "230",
+                "price": 89.99,
+                "currency": "USD",
+                "stock": 15,
+                "personas": ["pro_gamer", "rgb_enthusiast"],
+                "specific_filters": {
+                    "polling_rate_hz": 8000,
+                    "weight_g": 65,
+                    "sensor_dpi": 25600
+                },
+                "images": [{"url": "https://example.com/gaming-mouse.jpg", "is_primary": True}],
+                "specifications": [
+                    {"name": "Polling Rate", "value": "8000Hz"},
+                    {"name": "Weight", "value": "65g"}
+                ],
+                "tags": ["gaming", "mouse", "lightweight", "pro"]
+            }
+            
+            async with self.session.post(
+                f"{self.api_url}/products/",
+                json=product_data,
+                headers={
+                    "Authorization": f"Bearer {self.seller_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                if status == 201:
+                    test_product_id = data["id"]
+                    print(f"✅ Test product created: {data['title']}")
+                else:
+                    print(f"❌ Failed to create test product: {data}")
+                    return False
+            
+            # Test filtering by persona_id
+            async with self.session.get(
+                f"{self.api_url}/products/",
+                params={"persona": "pro_gamer"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Persona filter status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Products filtered by persona: {len(data)} products found")
+                    
+                    # Verify the test product is in results
+                    found_test_product = any(p["id"] == test_product_id for p in data)
+                    if found_test_product:
+                        print(f"✅ Test product found in persona filter results")
+                    else:
+                        print(f"❌ Test product not found in persona filter results")
+                        return False
+                    
+                    return True
+                else:
+                    print(f"❌ Failed to filter by persona: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Product persona filtering test error: {e}")
+            return False
+    
+    async def test_product_filtering_by_specific_attributes(self):
+        """Test product filtering by specific_filters"""
+        print("\n🧪 Testing Product Filtering by Specific Attributes...")
+        
+        try:
+            # Test specific filters (JSON format)
+            specific_filters = {
+                "polling_rate_hz": {"min": 4000},
+                "weight_g": {"max": 80}
+            }
+            
+            async with self.session.get(
+                f"{self.api_url}/products/",
+                params={"specific_filters": json.dumps(specific_filters)}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Specific filters status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Products filtered by specific attributes: {len(data)} products found")
+                    return True
+                else:
+                    print(f"❌ Failed to filter by specific attributes: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Product specific filtering test error: {e}")
+            return False
+    
+    async def test_combined_persona_and_specific_filters(self):
+        """Test combined persona and specific filters"""
+        print("\n🧪 Testing Combined Persona + Specific Filters...")
+        
+        try:
+            # Test combined filtering
+            specific_filters = {
+                "weight_g": {"max": 100}
+            }
+            
+            async with self.session.get(
+                f"{self.api_url}/products/",
+                params={
+                    "persona": "pro_gamer",
+                    "specific_filters": json.dumps(specific_filters)
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Combined filters status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Products filtered by persona + specific attributes: {len(data)} products found")
+                    return True
+                else:
+                    print(f"❌ Failed to apply combined filters: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Combined filtering test error: {e}")
+            return False
+    
+    async def test_backward_compatibility_filters(self):
+        """Test that existing product filters still work"""
+        print("\n🧪 Testing Backward Compatibility of Existing Filters...")
+        
+        test_cases = [
+            ("Search filter", {"search": "gaming"}),
+            ("Category filter", {"category_id": "200"}),
+            ("Price range", {"min_price": 50, "max_price": 200}),
+            ("Sort by price", {"sort_by": "price", "sort_order": "asc"}),
+            ("Pagination", {"skip": 0, "limit": 5})
+        ]
+        
+        success_count = 0
+        
+        for test_name, params in test_cases:
+            try:
+                async with self.session.get(
+                    f"{self.api_url}/products/",
+                    params=params
+                ) as response:
+                    
+                    status = response.status
+                    data = await response.json()
+                    
+                    if status == 200:
+                        print(f"   ✅ {test_name}: {len(data)} products")
+                        success_count += 1
+                    else:
+                        print(f"   ❌ {test_name} failed: {status}")
+                        
+            except Exception as e:
+                print(f"   ❌ {test_name} error: {e}")
+        
+        if success_count == len(test_cases):
+            print(f"✅ All backward compatibility tests passed")
+            return True
+        else:
+            print(f"❌ {len(test_cases) - success_count} backward compatibility tests failed")
+            return False
+    
     async def run_all_tests(self):
         """Run complete marketplace API test suite"""
         print("🚀 Starting Marketplace Backend API Tests")
