@@ -55,7 +55,7 @@ const FloatingChatWidget = () => {
       {/* Floating Button */}
       <button
         onClick={toggleChat}
-        className={`floating-chat-button ${!hasAnimated ? 'bounce-in' : ''}`}
+        className={`floating-chat-button ${!hasAnimated ? 'glitch-in' : ''}`}
         style={{
           position: 'fixed',
           bottom: '20px',
