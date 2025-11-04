@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { X } from 'lucide-react';
 import '../styles/glassmorphism.css';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const { login, register } = useAuth();
   const [mode, setMode] = useState(initialMode);
   const [formData, setFormData] = useState({
@@ -12,6 +15,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     username: '',
     password: ''
   });
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +29,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     try {
       let result;
       if (mode === 'login') {
-        result = await login(formData.email, formData.password);
+        result = await login(formData.email, formData.password, rememberMe);
       } else {
         result = await register(formData.email, formData.username, formData.password);
       }
@@ -34,7 +38,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         onClose();
         setFormData({ email: '', username: '', password: '' });
       } else {
-        setError(result.error);
+        setError(result.error || 'Authentication failed');
       }
     } catch (err) {
       setError('An unexpected error occurred');
@@ -43,11 +47,17 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     }
   };
 
+  const handleSocialLogin = (provider) => {
+    // TODO: Integrate OAuth when API keys are provided
+    alert(`${provider} login will be available after API integration`);
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
   };
 
   const toggleMode = () => {
