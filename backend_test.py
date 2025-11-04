@@ -1065,6 +1065,14 @@ class MarketplaceTestSuite:
             ("Shopping Cart Operations", self.test_cart_operations),
             ("Review System Workflow", self.test_review_workflow),
             ("Question & Answer Workflow", self.test_question_answer_workflow),
+            # PHASE 3: Catalog System Tests
+            ("Catalog Personas API", self.test_catalog_personas),
+            ("Catalog Categories API", self.test_catalog_categories),
+            ("Catalog Full Configuration", self.test_catalog_config),
+            ("Product Filtering by Persona", self.test_product_filtering_by_persona),
+            ("Product Filtering by Specific Attributes", self.test_product_filtering_by_specific_attributes),
+            ("Combined Persona + Specific Filters", self.test_combined_persona_and_specific_filters),
+            ("Backward Compatibility Filters", self.test_backward_compatibility_filters),
         ]
         
         for test_name, test_func in tests:
