@@ -11,11 +11,11 @@ const FloatingChatWidget = () => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const audioRef = useRef(null);
 
-  // Glitch animation on page load
+  // Retro flicker animation on page load
   useEffect(() => {
     const timer = setTimeout(() => {
       setHasAnimated(true);
-    }, 800); // Match animation duration
+    }, 1200); // Match retro-flicker-in animation duration
     return () => clearTimeout(timer);
   }, []);
 
