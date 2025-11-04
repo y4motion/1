@@ -45,7 +45,7 @@ async def register(user_data: UserCreate):
     await db.users.insert_one(user_dict)
     
     # Create access token
-    access_token = create_access_token(data={"sub": user.id, "email": user.email})
+    access_token = create_access_token(data={"sub": user.id, "email": user.email, "is_seller": user.is_seller, "is_admin": user.is_admin})
     
     # Prepare user response
     user_response = UserResponse(**user.model_dump())
@@ -91,7 +91,7 @@ async def login(credentials: UserLogin):
         )
     
     # Create access token
-    access_token = create_access_token(data={"sub": user.id, "email": user.email})
+    access_token = create_access_token(data={"sub": user.id, "email": user.email, "is_seller": user.is_seller, "is_admin": user.is_admin})
     
     # Prepare user response
     user_response = UserResponse(**user.model_dump())
