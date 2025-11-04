@@ -5,7 +5,7 @@ from config.catalog_config import PERSONAS, MAIN_CATEGORIES, SPECIFIC_FILTERS, P
 router = APIRouter()
 
 
-@router.get("/api/catalog/personas")
+@router.get("/catalog/personas")
 async def get_personas() -> Dict[str, Any]:
     """Get all available personas"""
     return {"personas": PERSONAS}
