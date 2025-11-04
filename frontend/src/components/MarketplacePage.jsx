@@ -541,63 +541,75 @@ const MarketplacePage = () => {
                   </div>
                 </div>
                 
-                {/* Catalog Categories - No emojis, minimalist */}
+                {/* Catalog Categories with Subcategories */}
                 {Object.values(catalogCategories).map((category) => (
-                  <div
-                    key={category.id}
-                    onClick={() => {
-                      setSelectedCategory(category.id);
-                      setShowSearchCategoryDropdown(false);
-                    }}
-                    style={{
-                      padding: '0.75rem 1rem',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      marginBottom: '0.25rem',
-                      border: selectedCategory === category.id
-                        ? theme === 'dark'
-                          ? '1px solid rgba(255, 255, 255, 0.2)'
-                          : '1px solid rgba(0, 0, 0, 0.2)'
-                        : '1px solid transparent',
-                      background: selectedCategory === category.id
-                        ? theme === 'dark'
-                          ? 'rgba(255, 255, 255, 0.05)'
-                          : 'rgba(0, 0, 0, 0.05)'
-                        : 'transparent',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.border = theme === 'dark'
-                        ? '1px solid rgba(255, 255, 255, 0.2)'
-                        : '1px solid rgba(0, 0, 0, 0.2)';
-                      e.currentTarget.style.background = theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.05)'
-                        : 'rgba(0, 0, 0, 0.05)';
-                      e.currentTarget.style.transform = 'translateY(-1px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedCategory !== category.id) {
-                        e.currentTarget.style.border = '1px solid transparent';
-                        e.currentTarget.style.background = 'transparent';
-                      }
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <div style={{ 
-                      fontSize: '0.8125rem', 
-                      fontWeight: '500',
-                      letterSpacing: '0.3px',
-                      marginBottom: '0.125rem'
-                    }}>
-                      {category.name_en.toUpperCase()}
+                  <div key={category.id} style={{ marginBottom: '0.5rem' }}>
+                    {/* Main Category Header */}
+                    <div
+                      style={{
+                        padding: '0.5rem 1rem',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        letterSpacing: '0.5px',
+                        opacity: 0.6,
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {category.name_en}
                     </div>
-                    <div style={{ 
-                      fontSize: '0.6875rem', 
-                      opacity: 0.5,
-                      fontWeight: '400'
-                    }}>
-                      {category.name}
-                    </div>
+                    
+                    {/* Subcategories */}
+                    {category.subcategories && Object.values(category.subcategories).map((subcategory) => (
+                      <div
+                        key={subcategory.id}
+                        onClick={() => {
+                          setSelectedCategory(category.id);
+                          setSelectedSubcategory(subcategory.id);
+                          setShowSearchCategoryDropdown(false);
+                        }}
+                        style={{
+                          padding: '0.625rem 1rem 0.625rem 1.5rem',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          marginBottom: '0.125rem',
+                          border: selectedSubcategory === subcategory.id
+                            ? theme === 'dark'
+                              ? '1px solid rgba(255, 255, 255, 0.2)'
+                              : '1px solid rgba(0, 0, 0, 0.2)'
+                            : '1px solid transparent',
+                          background: selectedSubcategory === subcategory.id
+                            ? theme === 'dark'
+                              ? 'rgba(255, 255, 255, 0.05)'
+                              : 'rgba(0, 0, 0, 0.05)'
+                            : 'transparent',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.border = theme === 'dark'
+                            ? '1px solid rgba(255, 255, 255, 0.2)'
+                            : '1px solid rgba(0, 0, 0, 0.2)';
+                          e.currentTarget.style.background = theme === 'dark'
+                            ? 'rgba(255, 255, 255, 0.05)'
+                            : 'rgba(0, 0, 0, 0.05)';
+                          e.currentTarget.style.transform = 'translateX(2px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (selectedSubcategory !== subcategory.id) {
+                            e.currentTarget.style.border = '1px solid transparent';
+                            e.currentTarget.style.background = 'transparent';
+                          }
+                          e.currentTarget.style.transform = 'translateX(0)';
+                        }}
+                      >
+                        <div style={{ 
+                          fontSize: '0.8125rem', 
+                          fontWeight: '400',
+                          letterSpacing: '0.2px'
+                        }}>
+                          {subcategory.name}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
