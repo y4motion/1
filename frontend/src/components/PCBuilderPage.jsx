@@ -537,7 +537,7 @@ const PCBuilderPage = () => {
           })}
         </div>
 
-        {/* Summary Sidebar */}
+        {/* Right Column - Summary Sidebar */}
         <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
           {/* Power Calculator */}
           <div
