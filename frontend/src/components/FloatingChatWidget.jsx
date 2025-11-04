@@ -84,71 +84,28 @@ const FloatingChatWidget = () => {
         }}
       >
         {isOpen ? (
-          <X size={24} strokeWidth={2} color={theme === 'dark' ? '#fff' : '#000'} />
+          <X size={18} className="icon-color" strokeWidth={2} />
         ) : (
           <>
-            {/* Book Icon */}
-            <svg 
-              width="24" 
-              height="24" 
-              viewBox="0 0 24 24" 
-              fill="none"
-              style={{ flexShrink: 0 }}
-            >
-              <path 
-                d="M4 19.5C4 18.1193 5.11929 17 6.5 17H20M4 19.5C4 20.8807 5.11929 22 6.5 22H20V2H6.5C5.11929 2 4 3.11929 4 4.5V19.5Z" 
-                stroke={theme === 'dark' ? '#fff' : '#000'} 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-              <path 
-                d="M12 6L12 13M12 13L9 10M12 13L15 10" 
-                stroke={theme === 'dark' ? '#fff' : '#000'} 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-            </svg>
+            {/* Message Icon */}
+            <MessageCircle size={18} className="icon-color" strokeWidth={2} style={{ flexShrink: 0 }} />
             
             {/* Separator */}
             <div style={{
               width: '1px',
-              height: '28px',
-              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)'
+              height: '20px',
+              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
             }} />
             
             {/* Text */}
             <span className="retro-button-text" style={{
-              fontSize: '14px',
-              fontWeight: '600',
-              color: theme === 'dark' ? '#fff' : '#000',
-              whiteSpace: 'nowrap',
-              letterSpacing: '0.5px'
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              letterSpacing: '0.3px',
+              whiteSpace: 'nowrap'
             }}>
-              Beta Sign-Up
+              SUPPORT
             </span>
-            
-            {/* Arrow */}
-            <svg 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
-              fill="none"
-              style={{ 
-                marginLeft: 'auto',
-                opacity: 0.6,
-                flexShrink: 0
-              }}
-            >
-              <path 
-                d="M6 3L11 8L6 13" 
-                stroke={theme === 'dark' ? '#fff' : '#000'} 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-            </svg>
             
             {/* Unread Badge */}
             {unreadCount > 0 && (
