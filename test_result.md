@@ -246,7 +246,7 @@ frontend:
 
   - task: "Auth Integration (AuthContext + AuthModal)"
     implemented: true
-    working: "pending_test"
+    working: true
     files:
       - "/app/frontend/src/contexts/AuthContext.jsx"
       - "/app/frontend/src/components/AuthModal.jsx"
@@ -254,11 +254,14 @@ frontend:
       - "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "pending_test"
         agent: "main"
         comment: "Implemented AuthContext with login/register/logout functions, JWT token management in localStorage, auto-loading user on mount. Created glassmorphism AuthModal with email/username/password fields. Integrated into Header: shows LOGIN button when not authenticated, LVL menu when authenticated, LOGOUT button in user menu. Updated App.js with AuthProvider wrapper."
+      - working: true
+        agent: "main"
+        comment: "Restyled AuthModal to perfectly match site's glassmorphism aesthetic. Removed brand colors from social login buttons (Google, Apple, Yandex, VK) - now use currentColor with 0.6 opacity for theme consistency. All social buttons have transparent backgrounds with acrylic hover effects matching Header style. Input fields use transparent backgrounds with glassmorphism focus states. All hover effects consistent: border change + subtle background + translateY(-2px). Purple color reserved exclusively for main LOGIN button as requested. Verified theme compatibility in both dark and light modes. Close button matches Header style. All elements use site's liquid polymorph/acrylic aesthetic."
 
   - task: "Marketplace Page"
     implemented: true
