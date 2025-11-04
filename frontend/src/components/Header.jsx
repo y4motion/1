@@ -204,19 +204,7 @@ const Header = () => {
             </nav>
           </div>
 
-          {/* CENTER ZONE: Search */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button
-              onClick={() => setShowSearchModal(true)}
-              className="theme-toggle"
-              title="Search"
-              style={{ padding: '0.375rem' }}
-            >
-              <Search size={18} className="icon-color" />
-            </button>
-          </div>
-
-          {/* RIGHT ZONE: Settings + Account + Cart */}
+          {/* RIGHT ZONE: Account + Settings + Cart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {/* Settings Multi-Button (1st from right, but rendered 3rd from left) */}
             <div style={{ position: 'relative' }}>
