@@ -200,6 +200,94 @@ const PCBuilderPage = () => {
       .every(cat => selectedComponents[cat.key] !== null);
   };
 
+  // Save build and add to cart
+  const handleAddToCart = async (asAssembled = false) => {
+    if (!isConfigComplete()) return;
+    
+    setIsAddingToCart(true);
+    
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+      
+      // Convert components to backend format
+      const componentsData = {};
+      Object.keys(selectedComponents).forEach(key => {
+        const comp = selectedComponents[key];
+        if (comp) {
+          componentsData[key] = {
+            component_id: comp.id,
+            component_type: key,
+            name: comp.name,
+            price: comp.price,
+            specs: comp.specs || '',
+            tdp: comp.tdp || 0
+          };
+        }
+      });
+      
+      // Create or update build
+      let buildId = savedBuildId;
+      
+      if (!buildId) {
+        // Create new build
+        const buildResponse = await fetch(`${BACKEND_URL}/api/pc-builds`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            build_name: `${buildType || 'Custom'} Build`,
+            components: componentsData
+          })
+        });
+        
+        if (!buildResponse.ok) {
+          throw new Error('Failed to create build');
+        }
+        
+        const build = await buildResponse.json();
+        buildId = build.id;
+        setSavedBuildId(buildId);
+      }
+      
+      // Add to cart
+      const cartResponse = await fetch(`${BACKEND_URL}/api/pc-builds/${buildId}/add-to-cart?as_assembled=${asAssembled}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include'
+      });
+      
+      if (!cartResponse.ok) {
+        const errorData = await cartResponse.json();
+        throw new Error(errorData.detail || 'Failed to add to cart');
+      }
+      
+      const result = await cartResponse.json();
+      
+      alert(
+        asAssembled
+          ? (language === 'ru' ? `Сборка добавлена в корзину! (+$99 за сборку)` : `Build added to cart! (+$99 assembly fee)`)
+          : (language === 'ru' ? `${result.items_added} компонентов добавлено в корзину` : `${result.items_added} components added to cart`)
+      );
+      
+      // Optionally redirect to cart
+      // window.location.href = '/cart';
+      
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert(
+        language === 'ru'
+          ? 'Ошибка при добавлении в корзину. Попробуйте войти в систему.'
+          : 'Error adding to cart. Please try logging in.'
+      );
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
