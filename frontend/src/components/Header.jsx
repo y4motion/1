@@ -316,7 +316,22 @@ const Header = () => {
                           background: 'transparent',
                           cursor: 'pointer',
                           fontSize: '0.8rem',
-                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.05)' 
+                            : 'rgba(0, 0, 0, 0.05)';
+                          e.currentTarget.style.borderColor = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.15)' 
+                            : 'rgba(0, 0, 0, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.borderColor = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.08)' 
+                            : 'rgba(0, 0, 0, 0.08)';
                         }}
                       >
                         <option value="RUB" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>RUB ₽</option>
