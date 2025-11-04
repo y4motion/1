@@ -25,6 +25,7 @@ from routes.checkout_routes import router as checkout_router
 from routes.bag_routes import router as bag_router
 from routes.wishlist_routes import router as wishlist_router
 from routes.saved_routes import router as saved_router
+from routes.catalog_routes import router as catalog_router
 
 
 ROOT_DIR = Path(__file__).parent
