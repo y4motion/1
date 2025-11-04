@@ -31,6 +31,8 @@ function App() {
                 <Route path="/category/:slug" element={<CategoryPage />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/marketplace" element={<MarketplacePage />} />
+                <Route path="/pc-builder" element={<PCBuilderPage />} />
+                <Route path="/mod" element={<ModPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 
