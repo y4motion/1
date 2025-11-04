@@ -469,7 +469,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                   userSelect: 'none'
                 }}
               >
-                Remember me
+                {t('user.rememberMe')}
               </label>
             </div>
           )}
