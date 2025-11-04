@@ -18,6 +18,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
   const [chatSessions, setChatSessions] = useState([]);
   const [showSessionMenu, setShowSessionMenu] = useState(null);
   const [managerRequested, setManagerRequested] = useState(false);
+  const [hasPersonalManager, setHasPersonalManager] = useState(false);
   
   const wsRef = useRef(null);
   const messagesEndRef = useRef(null);
