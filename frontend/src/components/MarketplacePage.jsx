@@ -41,7 +41,8 @@ const MarketplacePage = () => {
   
   // Refs for click outside detection
   const filterButtonRef = useRef(null);
-  const catalogButtonRef = useRef(null);
+  const catalogButtonRef = useRef(null); // TO BE REMOVED
+  const searchContainerRef = useRef(null);
 
   useEffect(() => {
     fetchCategories();
