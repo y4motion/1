@@ -427,34 +427,6 @@ const Header = () => {
                 </span>
               )}
             </button>
-
-            {/* User Auth Button - Icon Only */}
-            <div>
-              {isAuthenticated ? (
-                <button
-                  onClick={() => {
-                    logout();
-                  }}
-                  className="lvl-button-permanent"
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
-                >
-                  <X size={18} className="icon-color" />
-                  <span style={{ fontSize: '0.875rem' }}>{t('user.logout')}</span>
-                </button>
-              ) : (
-                <button
-                  className="theme-toggle"
-                  onClick={() => {
-                    setAuthMode('login');
-                    setShowAuthModal(true);
-                  }}
-                  title="Login"
-                  style={{ padding: '0.375rem' }}
-                >
-                  <User size={18} className="icon-color" />
-                </button>
-              )}
-            </div>
           </div>
         </div>
       </header>
