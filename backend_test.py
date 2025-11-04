@@ -986,7 +986,7 @@ class MarketplaceTestSuite:
             async with self.session.get(
                 f"{self.api_url}/products/",
                 params={
-                    "persona": "pro_gamer",
+                    "persona_id": "pro_gamer",
                     "specific_filters": json.dumps(specific_filters)
                 }
             ) as response:
