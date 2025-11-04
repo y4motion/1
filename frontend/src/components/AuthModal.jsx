@@ -65,16 +65,12 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     setFormData({ email: '', username: '', password: '' });
   };
 
-  const buttonBaseStyle = {
+  // Social button style - matching Header acrylic buttons
+  const socialButtonStyle = {
     padding: '0.875rem',
     borderRadius: '6px',
-    border: theme === 'dark'
-      ? '1px solid transparent'
-      : '1px solid rgba(0, 0, 0, 0.1)',
-    background: theme === 'dark'
-      ? 'transparent'
-      : 'rgba(255, 255, 255, 0.5)',
-    backdropFilter: 'blur(10px)',
+    border: '1px solid transparent',
+    background: 'transparent',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
     display: 'flex',
@@ -87,13 +83,8 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     width: '100%',
     padding: '0.875rem 1rem',
     borderRadius: '6px',
-    border: theme === 'dark'
-      ? '1px solid transparent'
-      : '1px solid rgba(0, 0, 0, 0.1)',
-    background: theme === 'dark'
-      ? 'transparent'
-      : 'rgba(255, 255, 255, 0.5)',
-    backdropFilter: 'blur(10px)',
+    border: '1px solid transparent',
+    background: 'transparent',
     color: theme === 'dark' ? '#fff' : '#1a1a1a',
     fontSize: '0.9375rem',
     outline: 'none',
