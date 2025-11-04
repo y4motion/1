@@ -52,14 +52,14 @@ const MarketplacePage = () => {
     fetchCatalogCategories();
   }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
   
-  // Load specific filters when category changes
+  // Load specific filters when subcategory changes
   useEffect(() => {
-    if (selectedCategory && selectedCategory !== 'all') {
-      fetchSpecificFilters(selectedCategory);
+    if (selectedSubcategory) {
+      fetchSpecificFilters(selectedSubcategory);
     } else {
-      setSpecificFilters({}); // Clear filters when "all" is selected
+      setSpecificFilters({}); // Clear filters when no subcategory
     }
-  }, [selectedCategory]);
+  }, [selectedSubcategory]);
   
   // Apply persona presets when persona is selected
   useEffect(() => {
