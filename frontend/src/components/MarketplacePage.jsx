@@ -155,6 +155,31 @@ const MarketplacePage = () => {
       console.error('Failed to fetch specific filters:', error);
     }
   };
+  
+  const applyPersonaPresets = async (personaId, categoryId) => {
+    try {
+      const response = await fetch(`${API_URL}/api/catalog/presets/${personaId}`);
+      if (response.ok) {
+        const data = await response.json();
+        const presets = data.presets || {};
+        
+        // Apply presets for the selected category if they exist
+        if (presets[categoryId]) {
+          const categoryPresets = presets[categoryId];
+          const newFilters = { ...activeFilters };
+          
+          // Merge presets into active filters
+          Object.entries(categoryPresets).forEach(([key, value]) => {
+            newFilters[key] = value;
+          });
+          
+          setActiveFilters(newFilters);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch persona presets:', error);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
