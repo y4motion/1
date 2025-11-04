@@ -134,7 +134,7 @@ const Header = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showLVLMenu, showUserMenu]);
+  }, [showLVLMenu, showUserMenu, showSettingsMenu]);
 
   return (
     <>
