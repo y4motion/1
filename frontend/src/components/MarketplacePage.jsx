@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon, Menu, Share2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -28,6 +28,9 @@ const MarketplacePage = () => {
   const [expandedSections, setExpandedSections] = useState({}); // Collapsible sections
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  
+  // Ref for click outside detection
+  const filterButtonRef = useRef(null);
 
   useEffect(() => {
     fetchCategories();
