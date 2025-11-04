@@ -249,8 +249,8 @@ export const translations = {
       noMessages: 'Нет сообщений',
       messages: 'сообщений',
       typePlaceholder: 'Введите сообщение...',
-      requestManager: 'Связаться с менеджером',
-      managerRequested: 'Запрос получен. Менеджер поддержки свяжется с вами в ближайшее время.',
+      requestManager: 'Связаться с личным менеджером',
+      managerRequested: 'Запрос получен. Ваш личный менеджер свяжется с вами в ближайшее время.',
       managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.'
     }
   }
