@@ -170,15 +170,17 @@ const PCBuilderPage = () => {
   };
 
   const componentCategories = [
-    { key: 'cpu', name: language === 'ru' ? 'ПРОЦЕССОР' : 'CPU', icon: '🔲', required: true },
-    { key: 'gpu', name: language === 'ru' ? 'ВИДЕОКАРТА' : 'GPU', icon: '🎮', required: true },
-    { key: 'motherboard', name: language === 'ru' ? 'МАТЕРИНСКАЯ ПЛАТА' : 'MOTHERBOARD', icon: '🔧', required: true },
-    { key: 'ram', name: language === 'ru' ? 'ПАМЯТЬ' : 'RAM', icon: '📊', required: true },
-    { key: 'storage', name: language === 'ru' ? 'НАКОПИТЕЛЬ' : 'STORAGE', icon: '💾', required: true },
-    { key: 'psu', name: language === 'ru' ? 'БЛОК ПИТАНИЯ' : 'POWER SUPPLY', icon: '⚡', required: true },
-    { key: 'case', name: language === 'ru' ? 'КОРПУС' : 'CASE', icon: '📦', required: false },
-    { key: 'cooling', name: language === 'ru' ? 'ОХЛАЖДЕНИЕ' : 'COOLING', icon: '❄️', required: false }
+    { key: 'case', name: language === 'ru' ? 'КОРПУС' : 'CASE', icon: 'case', required: true },
+    { key: 'cpu', name: language === 'ru' ? 'ПРОЦЕССОР' : 'CPU', icon: 'cpu', required: true },
+    { key: 'gpu', name: language === 'ru' ? 'ВИДЕОКАРТА' : 'GPU', icon: 'gpu', required: true },
+    { key: 'motherboard', name: language === 'ru' ? 'МАТЕРИНСКАЯ ПЛАТА' : 'MOTHERBOARD', icon: 'motherboard', required: true },
+    { key: 'ram', name: language === 'ru' ? 'ПАМЯТЬ' : 'RAM', icon: 'ram', required: true },
+    { key: 'storage', name: language === 'ru' ? 'НАКОПИТЕЛЬ' : 'STORAGE', icon: 'storage', required: true },
+    { key: 'psu', name: language === 'ru' ? 'БЛОК ПИТАНИЯ' : 'POWER SUPPLY', icon: 'psu', required: true },
+    { key: 'cooling', name: language === 'ru' ? 'ОХЛАЖДЕНИЕ' : 'COOLING', icon: 'cooling', required: false }
   ];
+
+  const performanceData = calculatePerformance(performanceResolution);
 
   const [expandedCategory, setExpandedCategory] = useState(null);
 
