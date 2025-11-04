@@ -53,3 +53,19 @@ class SupportMessageResponse(BaseModel):
     text: str
     timestamp: datetime
     read: bool
+
+
+class ManagerRequest(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    user_id: Optional[str] = None
+    language: str = "en"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    status: str = "pending"  # pending, assigned, completed
+    assigned_to: Optional[str] = None
+
+
+class RequestManagerData(BaseModel):
+    session_id: str
+    user_id: Optional[str] = None
+    language: str = "en"
