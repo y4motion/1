@@ -215,7 +215,7 @@ const Header = () => {
               title="Search"
               style={{ padding: '0.375rem' }}
             >
-              <MessageCircle size={18} className="icon-color" />
+              <Search size={18} className="icon-color" />
             </button>
           </div>
 
