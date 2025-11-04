@@ -391,24 +391,7 @@ const Header = () => {
               )}
             </div>
 
-            {/* Account/Login Button (2nd from right) */}
-            <button
-              onClick={() => {
-                if (isAuthenticated) {
-                  setShowUserMenu(!showUserMenu);
-                } else {
-                  setAuthMode('login');
-                  setShowAuthModal(true);
-                }
-              }}
-              className="theme-toggle"
-              title={isAuthenticated ? 'Account' : 'Login'}
-              style={{ padding: '0.375rem' }}
-            >
-              <User size={18} className="icon-color" />
-            </button>
-
-            {/* Cart Button - EXTREME RIGHT */}
+            {/* Cart Button - EXTREME RIGHT (3rd from left in this zone) */}
             <button
               onClick={() => {
                 if (isAuthenticated) {
