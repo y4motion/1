@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import "./styles/glassmorphism.css";
-import "./styles/mouseFollower.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -12,7 +11,6 @@ import CategoryPage from "./components/CategoryPage";
 import ProductPage from "./components/ProductPage";
 import MarketplacePage from "./components/MarketplacePage";
 import ProductDetailPage from "./components/ProductDetailPage";
-import MouseFollower from "./components/MouseFollower";
 
 function App() {
   return (
