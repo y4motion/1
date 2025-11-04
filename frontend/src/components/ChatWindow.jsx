@@ -382,7 +382,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               fontSize: '0.875rem',
               color: theme === 'dark' ? '#fff' : '#1a1a1a'
             }}>
-              No previous chats
+              {t.chat.noPreviousChats}
             </p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
