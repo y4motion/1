@@ -285,6 +285,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "Added auto-close functionality for menus when clicking outside. Implemented useEffect with document event listeners for both MarketplacePage filter panel and Header LVL menu. Uses refs and data attributes to detect clicks outside menu areas. Filter panel closes when clicking on page content. LVL menu closes when clicking outside. Verified working correctly in both cases - menus automatically close on outside click while staying open when clicking inside menu or trigger button."
+      - working: true
+        agent: "main"
+        comment: "Extended auto-close functionality to catalog dropdown in MarketplacePage. Added catalogButtonRef, data-catalog attribute, and integrated into existing useEffect handler. Removed purple colors from CATALOG button when active - now uses theme-aware neutral colors (white borders in dark theme, black in light theme). Verified: catalog opens on click, closes automatically when clicking outside, maintains neutral styling in both themes."
 
 metadata:
   created_by: "main_agent"
