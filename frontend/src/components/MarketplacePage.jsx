@@ -317,6 +317,7 @@ const MarketplacePage = () => {
         {/* Catalog Dropdown */}
         {showCatalog && (
           <div 
+            data-catalog="true"
             className="glass-strong"
             style={{
               padding: '1.5rem',
