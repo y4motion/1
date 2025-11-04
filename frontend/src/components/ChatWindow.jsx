@@ -561,7 +561,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
+          placeholder={t.chat.typePlaceholder}
           style={{
             flex: 1,
             padding: '0.75rem',
