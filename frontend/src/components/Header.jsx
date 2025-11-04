@@ -282,6 +282,7 @@ const Header = () => {
       {/* Enhanced LVL Menu with Tabs - Now opens from logo button (left side) */}
       {showLVLMenu && (
         <div 
+          data-lvl-menu="true"
           className="glass-strong"
           style={{
             position: 'fixed',
