@@ -13,6 +13,7 @@ import MarketplacePage from "./components/MarketplacePage";
 import ProductDetailPage from "./components/ProductDetailPage";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
+import FloatingChatWidget from "./components/FloatingChatWidget";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <div className="App">
             <BrowserRouter>
               <Header />
+              <FloatingChatWidget />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/category/:slug" element={<CategoryPage />} />
