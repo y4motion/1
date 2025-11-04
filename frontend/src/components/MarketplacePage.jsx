@@ -968,21 +968,23 @@ const MarketplacePage = () => {
                   padding: '0.5rem 1rem 0.5rem 2.75rem',
                   borderRadius: '6px',
                   border: '1px solid transparent',
-                  background: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.05)' 
-                    : 'rgba(0, 0, 0, 0.05)',
+                  background: 'transparent',
                   color: theme === 'dark' ? '#fff' : '#1a1a1a',
                   fontSize: '0.875rem',
                   outline: 'none',
                   transition: 'all 0.3s ease'
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.border = theme === 'dark'
+                    ? '1px solid rgba(255, 255, 255, 0.2)'
+                    : '1px solid rgba(0, 0, 0, 0.2)';
+                  e.currentTarget.style.background = theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(0, 0, 0, 0.05)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.border = '1px solid transparent';
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.background = 'transparent';
                 }}
               />
             </div>
