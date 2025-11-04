@@ -142,6 +142,7 @@ const Header = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {/* Cart Button - Moved to start */}
             <button
+              onClick={() => navigate('/cart')}
               className="theme-toggle"
               title="Shopping Cart"
               style={{ 
