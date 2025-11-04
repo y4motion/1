@@ -82,13 +82,22 @@ const MarketplacePage = () => {
           setShowCatalog(false);
         }
       }
+      
+      // Close search category dropdown if click outside
+      if (showSearchCategoryDropdown) {
+        const isClickInsideSearch = searchContainerRef.current && searchContainerRef.current.contains(event.target);
+        
+        if (!isClickInsideSearch) {
+          setShowSearchCategoryDropdown(false);
+        }
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showFilterPanel, showCatalog]);
+  }, [showFilterPanel, showCatalog, showSearchCategoryDropdown]);
 
   const fetchCategories = async () => {
     try {
