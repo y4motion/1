@@ -1,0 +1,73 @@
+from fastapi import APIRouter
+from typing import Dict, Any
+from config.catalog_config import PERSONAS, MAIN_CATEGORIES, SPECIFIC_FILTERS, PERSONA_FILTER_PRESETS
+
+router = APIRouter()
+
+
+@router.get("/api/catalog/personas")
+async def get_personas() -> Dict[str, Any]:
+    """Get all available personas"""
+    return {"personas": PERSONAS}
+
+
+@router.get("/api/catalog/categories")
+async def get_categories() -> Dict[str, Any]:
+    """Get all main categories and their subcategories"""
+    return {"categories": MAIN_CATEGORIES}
+
+
+@router.get("/api/catalog/categories/{category_id}")
+async def get_category(category_id: str) -> Dict[str, Any]:
+    """Get specific category details"""
+    if category_id not in MAIN_CATEGORIES:
+        return {"error": "Category not found"}
+    return {"category": MAIN_CATEGORIES[category_id]}
+
+
+@router.get("/api/catalog/filters/{subcategory_id}")
+async def get_specific_filters(subcategory_id: str) -> Dict[str, Any]:
+    """Get specific filters for a subcategory"""
+    if subcategory_id not in SPECIFIC_FILTERS:
+        return {"filters": {}}
+    return {"subcategory_id": subcategory_id, "filters": SPECIFIC_FILTERS[subcategory_id]}
+
+
+@router.get("/api/catalog/presets/{persona_id}")
+async def get_persona_presets(persona_id: str) -> Dict[str, Any]:
+    """Get filter presets for a specific persona"""
+    if persona_id not in PERSONA_FILTER_PRESETS:
+        return {"presets": {}}
+    return {"persona_id": persona_id, "presets": PERSONA_FILTER_PRESETS[persona_id]}
+
+
+@router.get("/api/catalog/search-categories")
+async def search_categories(query: str = "") -> Dict[str, Any]:
+    """Search categories by name (for search dropdown integration)"""
+    results = []
+    query_lower = query.lower()
+    
+    for cat_id, category in MAIN_CATEGORIES.items():
+        # Search in main category
+        if query_lower in category["name"].lower() or query_lower in category["name_en"].lower():
+            results.append({
+                "type": "main_category",
+                "id": cat_id,
+                "name": category["name"],
+                "name_en": category["name_en"],
+                "icon": category["icon"]
+            })
+        
+        # Search in subcategories
+        for subcat_id, subcategory in category["subcategories"].items():
+            if query_lower in subcategory["name"].lower() or query_lower in subcategory["name_en"].lower():
+                results.append({
+                    "type": "subcategory",
+                    "id": subcat_id,
+                    "parent_id": cat_id,
+                    "name": subcategory["name"],
+                    "name_en": subcategory["name_en"],
+                    "parent_name": category["name"]
+                })
+    
+    return {"query": query, "results": results}
