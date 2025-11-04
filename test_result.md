@@ -227,6 +227,35 @@ backend:
         agent: "testing"
         comment: "MongoDB user collection tested successfully through authentication endpoints. ✅ User registration creates new documents with UUID-based IDs. ✅ User lookup by email works correctly for login. ✅ User profile retrieval by ID works for /me endpoint. ✅ Duplicate email/username detection working. ✅ Datetime serialization/deserialization working properly. ✅ Gamification fields (level=1, coins=0, achievements=[], etc.) properly initialized. MongoDB integration is working correctly with motor AsyncIOMotorClient."
 
+  - task: "Catalog Configuration API (Personas & Categories)"
+    implemented: true
+    working: "pending_test"
+    files:
+      - "/app/backend/config/catalog_config.py"
+      - "/app/backend/routes/catalog_routes.py"
+      - "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "Created centralized catalog configuration system with 9 main categories (39 subcategories) and 10 personas (Pro Gamer, Pro Creator, Audiophile, Smart Home, Minimalist, RGB Enthusiast, Next Level, Gift Seeker, Remote Worker, Mobile Setup). Each has EN/RU names, descriptions, emojis. Implemented API endpoints: GET /api/catalog/personas, GET /api/catalog/categories, GET /api/catalog/config (full config). Fixed routing by removing internal /api/ prefix duplication. Registered catalog_routes in server.py."
+
+  - task: "Product Filtering by Persona & Specific Attributes"
+    implemented: true
+    working: "pending_test"
+    files:
+      - "/app/backend/models/product.py"
+      - "/app/backend/routes/product_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "Extended Product model with category_id, sub_category_id, persona_id, and specific_attributes (dict for dynamic filtering). Updated GET /api/products endpoint to accept query parameters: persona_id (filter by persona), specific_filters (JSON dict for attribute-based filtering like {'gpu_series': 'RTX 40', 'ram': '32GB'}). Implemented backend filtering logic to match products by persona and specific attributes. Ready for testing with sample data."
+
 frontend:
   - task: "Frontend MVP (Phase 1.5)"
     implemented: true
