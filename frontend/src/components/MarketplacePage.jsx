@@ -939,7 +939,8 @@ const MarketplacePage = () => {
                   top: '50%', 
                   transform: 'translateY(-50%)',
                   opacity: 0.4,
-                  pointerEvents: 'none'
+                  pointerEvents: 'none',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a'
                 }} 
               />
               <input
@@ -950,8 +951,10 @@ const MarketplacePage = () => {
                   padding: '0.5rem 1rem 0.5rem 2.75rem',
                   borderRadius: '6px',
                   border: '1px solid transparent',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  color: '#fff',
+                  background: theme === 'dark' 
+                    ? 'rgba(255, 255, 255, 0.05)' 
+                    : 'rgba(0, 0, 0, 0.05)',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a',
                   fontSize: '0.875rem',
                   outline: 'none',
                   transition: 'all 0.3s ease'
