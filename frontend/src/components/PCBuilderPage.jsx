@@ -717,18 +717,19 @@ const PCBuilderPage = () => {
 
             {/* Action Buttons */}
             <button
-              disabled={!isConfigComplete()}
+              onClick={() => handleAddToCart(false)}
+              disabled={!isConfigComplete() || isAddingToCart}
               style={{
                 width: '100%',
                 padding: '0.875rem',
                 marginBottom: '0.75rem',
                 borderRadius: '8px',
                 border: 'none',
-                background: isConfigComplete() ? '#8b5cf6' : 'rgba(139, 92, 246, 0.3)',
+                background: isConfigComplete() && !isAddingToCart ? '#8b5cf6' : 'rgba(139, 92, 246, 0.3)',
                 color: '#ffffff',
                 fontSize: '0.9375rem',
                 fontWeight: '700',
-                cursor: isConfigComplete() ? 'pointer' : 'not-allowed',
+                cursor: isConfigComplete() && !isAddingToCart ? 'pointer' : 'not-allowed',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -736,34 +737,37 @@ const PCBuilderPage = () => {
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                if (isConfigComplete()) {
+                if (isConfigComplete() && !isAddingToCart) {
                   e.currentTarget.style.background = '#7c3aed';
                   e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (isConfigComplete()) {
+                if (isConfigComplete() && !isAddingToCart) {
                   e.currentTarget.style.background = '#8b5cf6';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
               <ShoppingCart size={18} />
-              {language === 'ru' ? 'ДОБАВИТЬ В КОРЗИНУ' : 'ADD TO CART'}
+              {isAddingToCart 
+                ? (language === 'ru' ? 'Добавление...' : 'Adding...')
+                : (language === 'ru' ? 'ДОБАВИТЬ В КОРЗИНУ' : 'ADD TO CART')}
             </button>
 
             <button
-              disabled={!isConfigComplete()}
+              onClick={() => handleAddToCart(true)}
+              disabled={!isConfigComplete() || isAddingToCart}
               style={{
                 width: '100%',
                 padding: '0.875rem',
                 borderRadius: '8px',
-                border: isConfigComplete() ? '1px solid rgba(139, 92, 246, 0.5)' : '1px solid rgba(139, 92, 246, 0.2)',
+                border: isConfigComplete() && !isAddingToCart ? '1px solid rgba(139, 92, 246, 0.5)' : '1px solid rgba(139, 92, 246, 0.2)',
                 background: 'transparent',
-                color: isConfigComplete() ? '#8b5cf6' : 'rgba(139, 92, 246, 0.5)',
+                color: isConfigComplete() && !isAddingToCart ? '#8b5cf6' : 'rgba(139, 92, 246, 0.5)',
                 fontSize: '0.9375rem',
                 fontWeight: '700',
-                cursor: isConfigComplete() ? 'pointer' : 'not-allowed',
+                cursor: isConfigComplete() && !isAddingToCart ? 'pointer' : 'not-allowed',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -771,20 +775,22 @@ const PCBuilderPage = () => {
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                if (isConfigComplete()) {
+                if (isConfigComplete() && !isAddingToCart) {
                   e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)';
                   e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (isConfigComplete()) {
+                if (isConfigComplete() && !isAddingToCart) {
                   e.currentTarget.style.background = 'transparent';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
               <Wrench size={18} />
-              {language === 'ru' ? 'ЗАКАЗАТЬ ГОТОВУЮ СБОРКУ' : 'ORDER ASSEMBLED'}
+              {isAddingToCart
+                ? (language === 'ru' ? 'Добавление...' : 'Adding...')
+                : (language === 'ru' ? 'ЗАКАЗАТЬ ГОТОВУЮ СБОРКУ' : 'ORDER ASSEMBLED')}
             </button>
           </div>
         </div>
