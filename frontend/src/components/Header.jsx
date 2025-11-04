@@ -269,7 +269,6 @@ const Header = () => {
       {/* Enhanced LVL Menu with Tabs - Now opens from logo button (left side) */}
       {showLVLMenu && (
         <div 
-          ref={lvlMenuRef}
           className="glass-strong"
           style={{
             position: 'fixed',
