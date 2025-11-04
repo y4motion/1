@@ -98,6 +98,15 @@ const Header = () => {
   // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close Settings menu
+      if (showSettingsMenu) {
+        const settingsMenu = event.target.closest('.glass-strong');
+        const settingsButton = event.target.closest('button[title="Settings"]');
+        if (!settingsMenu && !settingsButton) {
+          setShowSettingsMenu(false);
+        }
+      }
+
       // For LVL menu: check if click is outside both the button and the menu
       if (showLVLMenu) {
         const lvlMenuElement = document.querySelector('[data-lvl-menu="true"]');
