@@ -49,7 +49,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   };
 
   const handleSocialLogin = (provider) => {
-    alert(`${provider} OAuth coming soon! Use email/password for now.`);
+    alert(`${provider} ${t('user.comingSoon')}`);
   };
 
   const handleChange = (e) => {
