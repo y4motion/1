@@ -116,6 +116,19 @@ export const translations = {
       submittedBy: 'Submitted by',
       moderatedBy: 'Moderated by',
       created: 'Created'
+    },
+    chat: {
+      title: 'Support Chat',
+      aiAssistant: 'AI Assistant',
+      online: 'Online',
+      chatHistory: 'Chat History',
+      noPreviousChats: 'No previous chats',
+      noMessages: 'No messages',
+      messages: 'messages',
+      typePlaceholder: 'Type your message...',
+      requestManager: 'Request Human Manager',
+      managerRequested: 'Manager request received. A human support agent will contact you soon.',
+      managerRequestError: 'Failed to send manager request. Please try again.'
     }
   },
   ru: {
