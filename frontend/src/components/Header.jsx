@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Power, ShoppingCart, MessageCircle, User, Sun, Moon, Globe, X, 
@@ -31,6 +31,10 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
+  
+  // Refs for click outside detection
+  const lvlMenuRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   const navLinks = [
     { name: 'HOME', path: '/', key: 'home' },
