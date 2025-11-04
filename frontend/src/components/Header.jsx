@@ -144,9 +144,9 @@ const Header = () => {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          {/* Left Group: Logo + Navigation Links (tightly grouped) */}
+          {/* LEFT ZONE: Start + Logo + Navigation */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            {/* Logo - Left with Enhanced Pulsing - wrapped in ref for click outside detection */}
+            {/* "Start" Button (Level Menu) - EXTREME LEFT */}
             <div ref={lvlMenuRef}>
               <button
                 onClick={handleLogoClick}
@@ -163,12 +163,36 @@ const Header = () => {
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+                title="Start Menu"
               >
                 <Power size={24} className="icon-color" strokeWidth={2} />
               </button>
             </div>
 
-            {/* Navigation Links - Left-aligned, adjacent to logo */}
+            {/* Logo - Return to Homepage */}
+            <Link 
+              to="/"
+              style={{ 
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.5rem',
+                borderRadius: '6px',
+                transition: 'all 0.3s ease',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+            >
+              <span style={{ 
+                fontSize: '1.25rem', 
+                fontWeight: '700',
+                letterSpacing: '0.5px'
+              }} className="icon-color">
+                MINIMAL
+              </span>
+            </Link>
+
+            {/* Navigation Links */}
             <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
               {navLinks.map((link) => (
                 <Link
@@ -181,6 +205,18 @@ const Header = () => {
                 </Link>
               ))}
             </nav>
+          </div>
+
+          {/* CENTER ZONE: Search */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="theme-toggle"
+              title="Search"
+              style={{ padding: '0.375rem' }}
+            >
+              <MessageCircle size={18} className="icon-color" />
+            </button>
           </div>
 
           {/* Right Controls */}
