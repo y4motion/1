@@ -37,6 +37,26 @@ const MarketplacePage = () => {
     fetchProducts();
   }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
 
+  // Close filter panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showFilterPanel) {
+        const filterPanelElement = document.querySelector('[data-filter-panel="true"]');
+        const isClickInsideButton = filterButtonRef.current && filterButtonRef.current.contains(event.target);
+        const isClickInsidePanel = filterPanelElement && filterPanelElement.contains(event.target);
+        
+        if (!isClickInsideButton && !isClickInsidePanel) {
+          setShowFilterPanel(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showFilterPanel]);
+
   const fetchCategories = async () => {
     try {
       const response = await fetch(`${API_URL}/api/categories/`);  // Added trailing slash
