@@ -868,13 +868,13 @@ const MarketplacePage = () => {
         </div>
       </button>
 
-      {/* Sliding Filter Panel - NO BACKDROP, pushes content */}
+      {/* Sliding Filter Panel - NO BACKDROP, pushes content, starts below header */}
       {showFilterPanel && (
           <div
             className="glass-strong"
             style={{
               position: 'fixed',
-              top: 0,
+              top: '100px', // Starts below header with gap
               left: 0,
               bottom: 0,
               width: '380px',
@@ -883,9 +883,10 @@ const MarketplacePage = () => {
                 : 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
               borderRight: theme === 'dark' 
-                ? '1px solid rgba(139, 92, 246, 0.3)' 
+                ? '1px solid rgba(255, 255, 255, 0.1)' 
                 : '1px solid rgba(0, 0, 0, 0.1)',
-              zIndex: 201,
+              borderTopRightRadius: '16px',
+              zIndex: 40, // Lower than header (header is z-50)
               padding: '2rem',
               overflowY: 'auto',
               animation: 'slideInFromLeft 0.3s ease-out',
