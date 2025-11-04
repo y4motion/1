@@ -439,6 +439,12 @@ const Header = () => {
         </div>
       )}
 
+      {/* Quick Cart Panel */}
+      <QuickCartPanel 
+        isOpen={showCartPanel}
+        onClose={() => setShowCartPanel(false)}
+      />
+
       {/* Auth Modal */}
       <AuthModal 
         isOpen={showAuthModal} 
