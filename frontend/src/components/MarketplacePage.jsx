@@ -29,17 +29,19 @@ const MarketplacePage = () => {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
   
-  // Ref for click outside detection
+  // Refs for click outside detection
   const filterButtonRef = useRef(null);
+  const catalogButtonRef = useRef(null);
 
   useEffect(() => {
     fetchCategories();
     fetchProducts();
   }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
 
-  // Close filter panel when clicking outside
+  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close filter panel if click outside
       if (showFilterPanel) {
         const filterPanelElement = document.querySelector('[data-filter-panel="true"]');
         const isClickInsideButton = filterButtonRef.current && filterButtonRef.current.contains(event.target);
@@ -49,13 +51,24 @@ const MarketplacePage = () => {
           setShowFilterPanel(false);
         }
       }
+      
+      // Close catalog dropdown if click outside
+      if (showCatalog) {
+        const catalogElement = document.querySelector('[data-catalog="true"]');
+        const isClickInsideButton = catalogButtonRef.current && catalogButtonRef.current.contains(event.target);
+        const isClickInsideCatalog = catalogElement && catalogElement.contains(event.target);
+        
+        if (!isClickInsideButton && !isClickInsideCatalog) {
+          setShowCatalog(false);
+        }
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showFilterPanel]);
+  }, [showFilterPanel, showCatalog]);
 
   const fetchCategories = async () => {
     try {
