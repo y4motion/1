@@ -186,7 +186,7 @@ const Header = () => {
                 padding: '0.5rem 1rem'
               }}
             >
-              HOME
+              {t('nav.home')}
             </Link>
 
             {/* Navigation Links */}
