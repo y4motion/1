@@ -126,8 +126,8 @@ export const translations = {
       noMessages: 'No messages',
       messages: 'messages',
       typePlaceholder: 'Type your message...',
-      requestManager: 'Request Human Manager',
-      managerRequested: 'Manager request received. A human support agent will contact you soon.',
+      requestManager: 'Contact Personal Manager',
+      managerRequested: 'Request received. Your personal manager will contact you soon.',
       managerRequestError: 'Failed to send manager request. Please try again.'
     }
   },
