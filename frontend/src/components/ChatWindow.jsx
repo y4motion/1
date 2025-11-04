@@ -576,8 +576,8 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
             : '1px solid rgba(0, 0, 0, 0.1)'
         }}
       >
-        {/* Request Manager Button */}
-        {!managerRequested && (
+        {/* Request Personal Manager Button - Only if user has access */}
+        {!managerRequested && hasPersonalManager && (
           <button
             onClick={requestManager}
             style={{
@@ -585,9 +585,9 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               padding: '0.65rem',
               marginBottom: '0.75rem',
               borderRadius: '8px',
-              border: '1px solid rgba(16, 185, 129, 0.5)',
-              background: 'rgba(16, 185, 129, 0.1)',
-              color: theme === 'dark' ? '#10b981' : '#059669',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              background: 'rgba(139, 92, 246, 0.1)',
+              color: '#8b5cf6',
               fontSize: '0.875rem',
               fontWeight: '600',
               cursor: 'pointer',
@@ -598,11 +598,11 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               gap: '0.5rem'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(16, 185, 129, 0.2)';
+              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(16, 185, 129, 0.1)';
+              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
