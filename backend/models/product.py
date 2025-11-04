@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 import uuid
 from datetime import datetime, timezone
 
@@ -18,7 +18,8 @@ class ProductSpecification(BaseModel):
 class ProductBase(BaseModel):
     title: str
     description: str
-    category_id: str
+    category_id: str  # Main category ID (100-900)
+    subcategory_id: Optional[str] = None  # Detailed subcategory (e.g., "120" for GPU)
     price: float
     currency: str = "USD"
     images: List[ProductImage] = Field(default_factory=list)
@@ -30,6 +31,13 @@ class ProductBase(BaseModel):
     is_available: bool = True  # Overall availability
     allow_preorder: bool = True  # Allow pre-orders when out of stock
     preorder_delivery_days: int = 14  # Estimated delivery days for pre-orders
+    
+    # Persona targeting - which personas this product is suitable for
+    personas: List[str] = Field(default_factory=list)  # ["pro_gamer", "rgb_enthusiast", ...]
+    
+    # Specific filters (category-dependent fields stored as flexible dict)
+    # Examples: {"vram_gb": 16, "pci_e_version": "5.0"} for GPU
+    specific_filters: Dict[str, Any] = Field(default_factory=dict)
 
 
 class ProductCreate(ProductBase):
