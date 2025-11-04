@@ -356,3 +356,39 @@ async def mark_session_read(session_id: str):
         )
     
     return {"message": "Messages marked as read"}
+
+
+@router.post("/support-chat/request-manager")
+async def request_manager(
+    request_data: RequestManagerData,
+    current_user: dict = Depends(get_current_user_optional)
+):
+    """
+    Request human manager support
+    Saves request to database for admin panel review
+    """
+    user_id = current_user.get("id") if current_user else request_data.user_id
+    
+    # Create manager request
+    manager_request = ManagerRequest(
+        session_id=request_data.session_id,
+        user_id=user_id,
+        language=request_data.language
+    )
+    
+    # Save to database
+    request_dict = manager_request.model_dump()
+    request_dict['created_at'] = request_dict['created_at'].isoformat()
+    
+    await db.manager_requests.insert_one(request_dict)
+    
+    # Also update session to flag manager request
+    await db.support_chat_sessions.update_one(
+        {"id": request_data.session_id},
+        {"$set": {"manager_requested": True}}
+    )
+    
+    return {
+        "message": "Manager request submitted successfully",
+        "request_id": manager_request.id
+    }
