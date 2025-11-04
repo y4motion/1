@@ -905,6 +905,7 @@ const MarketplacePage = () => {
       {/* Sliding Filter Panel - Transparent acrylic style like AuthModal and LVL menu */}
       {showFilterPanel && (
           <div
+            data-filter-panel="true"
             className="glass-strong"
             style={{
               position: 'fixed',
