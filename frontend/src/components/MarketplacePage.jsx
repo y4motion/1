@@ -843,6 +843,7 @@ const MarketplacePage = () => {
 
       {/* Floating Filter Button - Unified with Header Style */}
       <button
+        ref={filterButtonRef}
         onClick={() => setShowFilterPanel(!showFilterPanel)}
         style={{
           position: 'fixed',
