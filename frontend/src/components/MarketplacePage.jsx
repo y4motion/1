@@ -55,8 +55,17 @@ const MarketplacePage = () => {
   useEffect(() => {
     if (selectedCategory && selectedCategory !== 'all') {
       fetchSpecificFilters(selectedCategory);
+    } else {
+      setSpecificFilters({}); // Clear filters when "all" is selected
     }
   }, [selectedCategory]);
+  
+  // Apply persona presets when persona is selected
+  useEffect(() => {
+    if (selectedPersona && selectedCategory && selectedCategory !== 'all') {
+      applyPersonaPresets(selectedPersona, selectedCategory);
+    }
+  }, [selectedPersona, selectedCategory]);
 
   // Close menus when clicking outside
   useEffect(() => {
