@@ -176,8 +176,8 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     "timestamp": user_message.timestamp.isoformat()
                 })
             
-            # Get AI response
-            ai_response_text = await get_ai_response(message_text, session_id, user_id)
+            # Get AI response with language
+            ai_response_text = await get_ai_response(message_text, session_id, user_id, language)
             
             # Create bot message
             bot_message = SupportMessage(
