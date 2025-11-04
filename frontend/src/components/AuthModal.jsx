@@ -343,7 +343,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               marginBottom: '0.5rem',
               opacity: 0.8
             }}>
-              Email
+              {t('user.email')}
             </label>
             <input
               type="email"
