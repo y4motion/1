@@ -41,7 +41,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         setError(result.error || t('user.authFailed'));
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError(t('user.unexpectedError'));
       console.error('Auth error:', err);
     } finally {
       setLoading(false);
