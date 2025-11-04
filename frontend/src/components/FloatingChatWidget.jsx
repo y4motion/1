@@ -11,11 +11,11 @@ const FloatingChatWidget = () => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const audioRef = useRef(null);
 
-  // Bounce animation on page load
+  // Glitch animation on page load
   useEffect(() => {
     const timer = setTimeout(() => {
       setHasAnimated(true);
-    }, 500);
+    }, 800); // Match animation duration
     return () => clearTimeout(timer);
   }, []);
 
