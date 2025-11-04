@@ -664,7 +664,7 @@ const MarketplacePage = () => {
           </div>
         )}
 
-        {/* Featured Chips + View Controls Row (above product cards) */}
+        {/* Active Filter Chips + View Controls Row (above product cards) */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -673,83 +673,79 @@ const MarketplacePage = () => {
           gap: '1rem',
           flexWrap: 'wrap'
         }}>
-          {/* Featured Chips - Left Side (Minimalist Acrylic Style) */}
+          {/* Active Filter Chips - Left Side */}
           <div style={{
             display: 'flex',
             gap: '0.75rem',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            flex: 1
           }}>
-            {featuredChips.map(chip => (
-              <button
+            {getActiveFilterChips().map(chip => (
+              <div
                 key={chip.id}
-                onClick={() => handleFeaturedChipClick(chip.tag)}
                 className="glass-subtle"
                 style={{
-                  padding: '0.625rem 1.25rem',
-                  borderRadius: '12px',
-                  border: selectedTag === chip.tag 
-                    ? '1px solid rgba(139, 92, 246, 0.4)'
-                    : theme === 'dark'
-                      ? '1px solid rgba(255, 255, 255, 0.1)'
-                      : '1px solid rgba(0, 0, 0, 0.1)',
-                  background: selectedTag === chip.tag
-                    ? 'rgba(139, 92, 246, 0.15)'
-                    : theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(0, 0, 0, 0.03)',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
+                  border: theme === 'dark'
+                    ? '1px solid rgba(255, 255, 255, 0.2)'
+                    : '1px solid rgba(0, 0, 0, 0.2)',
+                  background: theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'rgba(0, 0, 0, 0.05)',
                   backdropFilter: 'blur(10px)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
                   fontSize: '0.8125rem',
-                  fontWeight: '700',
-                  letterSpacing: '0.5px',
+                  fontWeight: '600',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  color: theme === 'dark' ? '#fff' : '#1a1a1a',
-                  textTransform: 'uppercase',
-                  boxShadow: selectedTag === chip.tag 
-                    ? '0 4px 16px rgba(139, 92, 246, 0.3)' 
-                    : theme === 'dark'
-                      ? '0 2px 8px rgba(0, 0, 0, 0.1)'
-                      : '0 2px 8px rgba(0, 0, 0, 0.05)',
-                  animation: selectedTag === chip.tag ? 'pulseSoft 2s ease-in-out infinite' : 'none'
-                }}
-                onMouseEnter={(e) => {
-                  if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.1)' 
-                      : 'rgba(0, 0, 0, 0.06)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = theme === 'dark' 
-                      ? '0 4px 12px rgba(0, 0, 0, 0.2)' 
-                      : '0 4px 12px rgba(0, 0, 0, 0.1)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedTag !== chip.tag) {
-                    e.currentTarget.style.background = theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : 'rgba(0, 0, 0, 0.03)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = theme === 'dark' 
-                      ? '0 2px 8px rgba(0, 0, 0, 0.1)' 
-                      : '0 2px 8px rgba(0, 0, 0, 0.05)';
-                  }
+                  gap: '0.75rem',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a'
                 }}
               >
-                {chip.label}
-              </button>
+                <span>{chip.label}</span>
+                <button
+                  onClick={() => {
+                    // Remove filter based on type
+                    if (chip.type === 'persona') {
+                      setSelectedPersona(null);
+                    } else if (chip.type === 'category') {
+                      setSelectedCategory('all');
+                    } else if (chip.type === 'price') {
+                      setMinPrice('');
+                      setMaxPrice('');
+                    } else if (chip.type === 'filter') {
+                      const newFilters = { ...activeFilters };
+                      delete newFilters[chip.id];
+                      setActiveFilters(newFilters);
+                    }
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                    opacity: 0.6,
+                    transition: 'opacity 0.3s ease',
+                    padding: '0',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
+                >
+                  <X size={14} />
+                </button>
+              </div>
             ))}
             
-            {/* Clear Filters Chip */}
-            {selectedTag !== 'all' && (
+            {/* Clear All Filters Button */}
+            {getActiveFilterChips().length > 0 && (
               <button
-                onClick={() => setSelectedTag('all')}
+                onClick={handleResetFilters}
                 className="glass-subtle"
                 style={{
-                  padding: '0.625rem 1rem',
-                  borderRadius: '12px',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
                   border: '1px solid rgba(255, 59, 48, 0.3)',
                   background: 'rgba(255, 59, 48, 0.1)',
                   backdropFilter: 'blur(10px)',
