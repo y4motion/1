@@ -41,9 +41,10 @@ const Header = () => {
   const userMenuRef = useRef(null);
 
   const navLinks = [
-    { name: 'HOME', path: '/', key: 'home' },
     { name: t('nav.marketplace'), path: '/marketplace', key: 'marketplace' },
-    { name: t('nav.restock'), path: '/restock', key: 'restock' }
+    { name: t('nav.restock'), path: '/restock', key: 'restock' },
+    { name: language === 'ru' ? 'Собрать ПК' : 'PC Builder', path: '/pc-builder', key: 'pc-builder' },
+    { name: 'M Hub+', path: '/m-hub', key: 'm-hub' }
   ];
 
   const handleLogoClick = (e) => {
