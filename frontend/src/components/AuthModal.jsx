@@ -524,7 +524,8 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           fontSize: '0.875rem',
           opacity: 0.7
         }}>
-          {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
+          {mode === 'login' ? t('user.needAccount') : t('user.haveAccount')}
+          {' '}
           <button
             onClick={toggleMode}
             style={{
@@ -534,7 +535,8 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               fontWeight: '700',
               cursor: 'pointer',
               textDecoration: 'underline',
-              opacity: 0.8
+              opacity: 0.8,
+              display: 'inline'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '1';
