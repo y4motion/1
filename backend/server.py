@@ -91,6 +91,7 @@ api_router.include_router(checkout_router)
 api_router.include_router(bag_router)
 api_router.include_router(wishlist_router)
 api_router.include_router(saved_router)
+api_router.include_router(catalog_router)
 
 # Include the router in the main app
 app.include_router(api_router)
