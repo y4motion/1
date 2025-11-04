@@ -386,7 +386,9 @@ const Header = () => {
                         }}
                       >
                         <Globe size={14} className="icon-color" />
-                        <span className="icon-color">{language === 'ru' ? 'RU' : 'EN'}</span>
+                        <span className="icon-color">
+                          {language === 'en' ? 'EN' : language === 'ru' ? 'RU' : 'MIX'}
+                        </span>
                       </button>
                     </div>
 
