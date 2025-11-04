@@ -52,6 +52,14 @@ const PCBuilderPage = () => {
   const [totalPower, setTotalPower] = useState(0);
   const [recommendedPSU, setRecommendedPSU] = useState(0);
 
+  // Determine build type based on case selection
+  useEffect(() => {
+    if (selectedComponents.case) {
+      const caseSize = selectedComponents.case.formFactor;
+      setBuildType(caseSize);
+    }
+  }, [selectedComponents.case]);
+
   // Calculate total power consumption and recommended PSU
   useEffect(() => {
     const powerConsumption = {
