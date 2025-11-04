@@ -51,6 +51,8 @@ const PCBuilderPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPower, setTotalPower] = useState(0);
   const [recommendedPSU, setRecommendedPSU] = useState(0);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [savedBuildId, setSavedBuildId] = useState(null);
 
   // Determine build type based on case selection
   useEffect(() => {
