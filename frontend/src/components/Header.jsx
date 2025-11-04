@@ -398,7 +398,22 @@ const Header = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '0.375rem',
-                          fontSize: '0.8rem'
+                          fontSize: '0.8rem',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.05)' 
+                            : 'rgba(0, 0, 0, 0.05)';
+                          e.currentTarget.style.borderColor = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.15)' 
+                            : 'rgba(0, 0, 0, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.borderColor = theme === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.08)' 
+                            : 'rgba(0, 0, 0, 0.08)';
                         }}
                       >
                         {theme === 'dark' ? (
