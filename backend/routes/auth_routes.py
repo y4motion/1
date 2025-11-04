@@ -106,7 +106,7 @@ async def get_current_user_profile(current_user: dict = Depends(get_current_user
     """
     Get current authenticated user profile
     """
-    user_dict = await db.users.find_one({"id": current_user["user_id"]})
+    user_dict = await db.users.find_one({"id": current_user["id"]})
     if not user_dict:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
