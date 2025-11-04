@@ -95,6 +95,7 @@ api_router.include_router(wishlist_router)
 api_router.include_router(saved_router)
 api_router.include_router(catalog_router)
 api_router.include_router(support_chat_router)
+api_router.include_router(pc_build_router)
 
 # Include the router in the main app
 app.include_router(api_router)
