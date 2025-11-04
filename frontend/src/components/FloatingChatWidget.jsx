@@ -52,42 +52,35 @@ const FloatingChatWidget = () => {
         />
       )}
 
-      {/* Floating Button - Retro TV Style */}
+      {/* Floating Button - Glassmorphism Style matching Header */}
       <button
         onClick={toggleChat}
-        className={`retro-flicker-button ${!hasAnimated ? 'retro-flicker-in' : ''}`}
+        className={`retro-flicker-button glass ${!hasAnimated ? 'retro-flicker-in' : ''}`}
         style={{
           position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          padding: '12px 20px',
-          border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.3)' : '2px solid rgba(0, 0, 0, 0.3)',
-          background: theme === 'dark' ? 'rgba(20, 20, 30, 0.9)' : 'rgba(240, 240, 245, 0.9)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
+          bottom: '24px',
+          right: '24px',
+          padding: '0.625rem 1rem',
           borderRadius: '12px',
           cursor: 'pointer',
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          boxShadow: theme === 'dark' 
-            ? '0 4px 16px rgba(0, 0, 0, 0.5)' 
-            : '0 4px 16px rgba(0, 0, 0, 0.15)',
+          gap: '10px',
           transition: 'all 0.3s ease',
-          minWidth: isOpen ? '48px' : '180px'
+          minWidth: isOpen ? '48px' : '160px'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.boxShadow = theme === 'dark'
-            ? '0 6px 20px rgba(0, 0, 0, 0.7)'
-            : '0 6px 20px rgba(0, 0, 0, 0.25)';
+          e.currentTarget.style.background = theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.08)'
+            : 'rgba(255, 255, 255, 0.85)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = theme === 'dark'
-            ? '0 4px 16px rgba(0, 0, 0, 0.5)'
-            : '0 4px 16px rgba(0, 0, 0, 0.15)';
+          e.currentTarget.style.background = theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.03)'
+            : 'rgba(255, 255, 255, 0.7)';
         }}
       >
         {isOpen ? (
