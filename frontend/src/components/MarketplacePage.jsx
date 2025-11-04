@@ -19,6 +19,7 @@ const MarketplacePage = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedTag, setSelectedTag] = useState('all');
   const [sortBy, setSortBy] = useState('created_at');
   const [minPrice, setMinPrice] = useState('');
