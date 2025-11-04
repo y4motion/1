@@ -147,12 +147,60 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
 
     const message = {
       message: inputText,
-      user_id: user?.id || null
+      user_id: user?.id || null,
+      language: currentLang
     };
 
     wsRef.current.send(JSON.stringify(message));
     setInputText('');
     setIsTyping(true);
+  };
+
+  // Request human manager
+  const requestManager = async () => {
+    try {
+      setManagerRequested(true);
+      
+      const headers = { 'Content-Type': 'application/json' };
+      if (user?.token) {
+        headers['Authorization'] = `Bearer ${user.token}`;
+      }
+      
+      const response = await fetch(`${API_URL}/api/support-chat/request-manager`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          session_id: sessionId,
+          user_id: user?.id || null,
+          language: currentLang
+        })
+      });
+
+      if (response.ok) {
+        // Add system message
+        setMessages(prev => [...prev, {
+          id: Date.now(),
+          sender: 'bot',
+          text: t.chat.managerRequested,
+          timestamp: new Date()
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          id: Date.now(),
+          sender: 'bot',
+          text: t.chat.managerRequestError,
+          timestamp: new Date()
+        }]);
+      }
+    } catch (error) {
+      console.error('Failed to request manager:', error);
+      setMessages(prev => [...prev, {
+        id: Date.now(),
+        sender: 'bot',
+        text: t.chat.managerRequestError,
+        timestamp: new Date()
+      }]);
+    }
   };
 
   // Handle Enter key
