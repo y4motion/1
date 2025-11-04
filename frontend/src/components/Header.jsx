@@ -269,6 +269,24 @@ const Header = () => {
                               alignItems: 'center',
                               justifyContent: 'center'
                             }}
+                            onMouseEnter={(e) => {
+                              if (soundMode !== mode) {
+                                e.currentTarget.style.background = theme === 'dark' 
+                                  ? 'rgba(255, 255, 255, 0.05)' 
+                                  : 'rgba(0, 0, 0, 0.05)';
+                                e.currentTarget.style.borderColor = theme === 'dark' 
+                                  ? 'rgba(255, 255, 255, 0.15)' 
+                                  : 'rgba(0, 0, 0, 0.15)';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (soundMode !== mode) {
+                                e.currentTarget.style.background = 'transparent';
+                                e.currentTarget.style.borderColor = theme === 'dark' 
+                                  ? 'rgba(255, 255, 255, 0.08)' 
+                                  : 'rgba(0, 0, 0, 0.08)';
+                              }
+                            }}
                           >
                             <Icon size={14} className="icon-color" />
                           </button>
