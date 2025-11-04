@@ -185,22 +185,54 @@ const MarketplacePage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      let url = `${API_URL}/api/products/?limit=${itemsPerPage}&sort_by=${sortBy}&sort_order=desc`;  // Use itemsPerPage
+      let url = `${API_URL}/api/products/?limit=${itemsPerPage}&sort_by=${sortBy}&sort_order=desc`;
       
+      // Category filters
       if (selectedCategory !== 'all') {
         url += `&category_id=${selectedCategory}`;
       }
       
+      if (selectedSubcategory) {
+        url += `&subcategory_id=${selectedSubcategory}`;
+      }
+      
+      // Persona filter
+      if (selectedPersona) {
+        url += `&persona=${selectedPersona}`;
+      }
+      
+      // Search
       if (searchTerm) {
         url += `&search=${encodeURIComponent(searchTerm)}`;
       }
       
+      // Price range
       if (minPrice) {
         url += `&min_price=${minPrice}`;
       }
       
       if (maxPrice) {
         url += `&max_price=${maxPrice}`;
+      }
+      
+      // Specific filters (dynamic filters from catalog)
+      if (Object.keys(activeFilters).length > 0) {
+        const cleanFilters = {};
+        Object.entries(activeFilters).forEach(([key, value]) => {
+          // Only include non-empty filters
+          if (value && (
+            (Array.isArray(value) && value.length > 0) ||
+            (typeof value === 'object' && (value.min || value.max)) ||
+            (typeof value === 'boolean') ||
+            (typeof value === 'string' && value.trim())
+          )) {
+            cleanFilters[key] = value;
+          }
+        });
+        
+        if (Object.keys(cleanFilters).length > 0) {
+          url += `&specific_filters=${encodeURIComponent(JSON.stringify(cleanFilters))}`;
+        }
       }
 
       const response = await fetch(url);
