@@ -29,6 +29,14 @@ const MarketplacePage = () => {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
   
+  // New catalog system states
+  const [personas, setPersonas] = useState({});
+  const [selectedPersona, setSelectedPersona] = useState(null);
+  const [catalogCategories, setCatalogCategories] = useState({});
+  const [specificFilters, setSpecificFilters] = useState({});
+  const [activeFilters, setActiveFilters] = useState({});
+  const [savedFilterSets, setSavedFilterSets] = useState([]);
+  
   // Refs for click outside detection
   const filterButtonRef = useRef(null);
   const catalogButtonRef = useRef(null);
