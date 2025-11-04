@@ -45,7 +45,7 @@ async def get_products(
     limit: int = Query(20, ge=1, le=100),
     category_id: Optional[str] = None,
     subcategory_id: Optional[str] = None,
-    persona: Optional[str] = None,
+    persona_id: Optional[str] = None,
     search: Optional[str] = None,
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
