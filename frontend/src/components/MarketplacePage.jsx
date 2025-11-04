@@ -457,45 +457,56 @@ const MarketplacePage = () => {
                   animation: 'slideDown 0.3s ease-out'
                 }}
               >
-                {/* All Categories Option */}
+                {/* All Categories Option - Minimalist style */}
                 <div
                   onClick={() => {
                     setSelectedCategory('all');
                     setShowSearchCategoryDropdown(false);
                   }}
                   style={{
-                    padding: '1rem',
-                    borderRadius: '12px',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '6px',
                     cursor: 'pointer',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.25rem',
+                    border: selectedCategory === 'all'
+                      ? theme === 'dark'
+                        ? '1px solid rgba(255, 255, 255, 0.2)'
+                        : '1px solid rgba(0, 0, 0, 0.2)'
+                      : '1px solid transparent',
                     background: selectedCategory === 'all'
                       ? theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.1)'
-                        : 'rgba(0, 0, 0, 0.08)'
+                        ? 'rgba(255, 255, 255, 0.05)'
+                        : 'rgba(0, 0, 0, 0.05)'
                       : 'transparent',
-                    transition: 'all 0.3s ease',
-                    fontWeight: selectedCategory === 'all' ? '600' : '400'
+                    transition: 'all 0.3s ease'
                   }}
                   onMouseEnter={(e) => {
+                    e.currentTarget.style.border = theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.2)'
+                      : '1px solid rgba(0, 0, 0, 0.2)';
                     e.currentTarget.style.background = theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.08)'
+                      ? 'rgba(255, 255, 255, 0.05)'
                       : 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
                   }}
                   onMouseLeave={(e) => {
                     if (selectedCategory !== 'all') {
+                      e.currentTarget.style.border = '1px solid transparent';
                       e.currentTarget.style.background = 'transparent';
                     }
+                    e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
-                  <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                    🌐 All Products
-                  </div>
-                  <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '0.25rem' }}>
-                    Browse entire marketplace
+                  <div style={{ 
+                    fontSize: '0.8125rem', 
+                    fontWeight: '500',
+                    letterSpacing: '0.3px'
+                  }}>
+                    ALL PRODUCTS
                   </div>
                 </div>
                 
-                {/* Catalog Categories */}
+                {/* Catalog Categories - No emojis, minimalist */}
                 {Object.values(catalogCategories).map((category) => (
                   <div
                     key={category.id}
@@ -504,34 +515,53 @@ const MarketplacePage = () => {
                       setShowSearchCategoryDropdown(false);
                     }}
                     style={{
-                      padding: '1rem',
-                      borderRadius: '12px',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '6px',
                       cursor: 'pointer',
-                      marginBottom: '0.5rem',
+                      marginBottom: '0.25rem',
+                      border: selectedCategory === category.id
+                        ? theme === 'dark'
+                          ? '1px solid rgba(255, 255, 255, 0.2)'
+                          : '1px solid rgba(0, 0, 0, 0.2)'
+                        : '1px solid transparent',
                       background: selectedCategory === category.id
                         ? theme === 'dark'
-                          ? 'rgba(255, 255, 255, 0.1)'
-                          : 'rgba(0, 0, 0, 0.08)'
+                          ? 'rgba(255, 255, 255, 0.05)'
+                          : 'rgba(0, 0, 0, 0.05)'
                         : 'transparent',
-                      transition: 'all 0.3s ease',
-                      fontWeight: selectedCategory === category.id ? '600' : '400'
+                      transition: 'all 0.3s ease'
                     }}
                     onMouseEnter={(e) => {
+                      e.currentTarget.style.border = theme === 'dark'
+                        ? '1px solid rgba(255, 255, 255, 0.2)'
+                        : '1px solid rgba(0, 0, 0, 0.2)';
                       e.currentTarget.style.background = theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.08)'
+                        ? 'rgba(255, 255, 255, 0.05)'
                         : 'rgba(0, 0, 0, 0.05)';
+                      e.currentTarget.style.transform = 'translateY(-1px)';
                     }}
                     onMouseLeave={(e) => {
                       if (selectedCategory !== category.id) {
+                        e.currentTarget.style.border = '1px solid transparent';
                         e.currentTarget.style.background = 'transparent';
                       }
+                      e.currentTarget.style.transform = 'translateY(0)';
                     }}
                   >
-                    <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                      {category.icon} {category.name}
+                    <div style={{ 
+                      fontSize: '0.8125rem', 
+                      fontWeight: '500',
+                      letterSpacing: '0.3px',
+                      marginBottom: '0.125rem'
+                    }}>
+                      {category.name_en.toUpperCase()}
                     </div>
-                    <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '0.25rem' }}>
-                      {category.name_en}
+                    <div style={{ 
+                      fontSize: '0.6875rem', 
+                      opacity: 0.5,
+                      fontWeight: '400'
+                    }}>
+                      {category.name}
                     </div>
                   </div>
                 ))}
