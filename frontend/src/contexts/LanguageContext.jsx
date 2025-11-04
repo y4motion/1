@@ -33,7 +33,11 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ru' : 'en');
+    setLanguage(prev => {
+      if (prev === 'en') return 'ru';
+      if (prev === 'ru') return 'advanced';
+      return 'en';
+    });
   };
 
   return (
