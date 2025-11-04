@@ -28,23 +28,46 @@ active_connections: Dict[str, List[WebSocket]] = {}
 
 
 # AI Bot Helper
-async def get_ai_response(user_message: str, session_id: str, user_id: Optional[str]) -> str:
+async def get_ai_response(user_message: str, session_id: str, user_id: Optional[str], language: str = 'en') -> str:
     """
     Generate AI response using OpenAI GPT-4o via emergentintegrations
+    Responds in the specified language (en or ru)
     """
     try:
         api_key = os.getenv("EMERGENT_LLM_KEY")
         
-        # System message with context
-        system_message = """You are a helpful AI support assistant for a gaming/tech e-commerce marketplace called "Minimal Market". 
+        # System message with context - language specific
+        if language == 'ru':
+            system_message = """Ты полезный AI помощник службы поддержки игрового/технологического маркетплейса "Minimal Market". 
+Твоя роль:
+1. Отвечать на вопросы о товарах в каталоге (компоненты ПК, периферия, аудиооборудование и т.д.)
+2. Помогать с вопросами по заказам
+3. Предоставлять техническую поддержку и рекомендации по продуктам
+4. Отвечать на общие вопросы о сайте
+
+Будь дружелюбным, кратким и полезным. Всегда отвечай на русском языке.
+Если не знаешь что-то, будь честным и предложи связаться с менеджером.
+
+Доступные категории товаров:
+- Компоненты ПК (процессоры, видеокарты, память, накопители, материнские платы, блоки питания, корпуса, охлаждение)
+- Периферия (клавиатуры, мыши, гарнитуры, мониторы, веб-камеры, микрофоны)
+- Аудиооборудование (наушники, колонки, ЦАПы, усилители)
+- Сетевое оборудование (роутеры, Wi-Fi адаптеры, кабели)
+- Умный дом
+- Игровые аксессуары
+- Оборудование для стриминга
+- Мобильные аксессуары
+- Офисное оборудование"""
+        else:
+            system_message = """You are a helpful AI support assistant for a gaming/tech e-commerce marketplace called "Minimal Market". 
 Your role is to:
 1. Answer questions about products in our catalog (PC components, peripherals, audio equipment, etc.)
 2. Help with order-related inquiries
 3. Provide technical support and product recommendations
 4. Answer general questions about the website
 
-Be friendly, concise, and helpful. Support both English and Russian languages.
-If you don't know something, be honest and suggest contacting human support.
+Be friendly, concise, and helpful. Always respond in English.
+If you don't know something, be honest and suggest contacting a human manager.
 
 Available product categories:
 - PC Components (CPUs, GPUs, RAM, Storage, Motherboards, PSUs, Cases, Cooling)
@@ -74,6 +97,8 @@ Available product categories:
         
     except Exception as e:
         print(f"AI response error: {str(e)}")
+        if language == 'ru':
+            return "Извините, у меня возникли проблемы с обработкой вашего запроса. Пожалуйста, попробуйте еще раз или свяжитесь с нашей службой поддержки."
         return "I apologize, but I'm having trouble processing your request right now. Please try again or contact our support team for assistance."
 
 
