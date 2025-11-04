@@ -44,16 +44,22 @@ async def get_products(
     skip: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=100),
     category_id: Optional[str] = None,
+    subcategory_id: Optional[str] = None,
+    persona: Optional[str] = None,
     search: Optional[str] = None,
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
     sort_by: str = Query("created_at", regex="^(created_at|price|average_rating|views)$"),
     sort_order: str = Query("desc", regex="^(asc|desc)$"),
-    status: str = Query("approved", regex="^(all|pending|approved|rejected)$")
+    status: str = Query("approved", regex="^(all|pending|approved|rejected)$"),
+    specific_filters: Optional[str] = None  # JSON string of specific filters
 ):
     """
     Get all products with filters and pagination
+    Supports persona filtering and specific_filters (dynamic filters by subcategory)
     """
+    import json
+    
     # Build query
     query = {"is_active": True}
     
@@ -62,6 +68,13 @@ async def get_products(
     
     if category_id:
         query["category_id"] = category_id
+    
+    if subcategory_id:
+        query["subcategory_id"] = subcategory_id
+    
+    # Filter by persona
+    if persona:
+        query["personas"] = {"$in": [persona]}
     
     if search:
         query["$or"] = [
@@ -78,6 +91,36 @@ async def get_products(
             query["price"]["$lte"] = max_price
         else:
             query["price"] = {"$lte": max_price}
+    
+    # Apply specific filters (dynamic filtering based on specific_filters dict)
+    if specific_filters:
+        try:
+            filters_dict = json.loads(specific_filters)
+            for key, value in filters_dict.items():
+                if value:  # Only apply non-empty filters
+                    filter_key = f"specific_filters.{key}"
+                    
+                    # Handle different filter types
+                    if isinstance(value, list):
+                        # Checkbox filters - any of the selected values
+                        query[filter_key] = {"$in": value}
+                    elif isinstance(value, dict):
+                        # Range filters
+                        if "min" in value and value["min"]:
+                            query[filter_key] = {"$gte": float(value["min"])}
+                        if "max" in value and value["max"]:
+                            if filter_key in query:
+                                query[filter_key]["$lte"] = float(value["max"])
+                            else:
+                                query[filter_key] = {"$lte": float(value["max"])}
+                    elif isinstance(value, bool):
+                        # Boolean filters
+                        query[filter_key] = value
+                    else:
+                        # Text filters - exact match or regex
+                        query[filter_key] = {"$regex": str(value), "$options": "i"}
+        except json.JSONDecodeError:
+            pass  # Ignore invalid JSON
     
     # Sort order
     sort_direction = -1 if sort_order == "desc" else 1
