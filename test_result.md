@@ -343,7 +343,10 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Catalog Configuration API (Personas & Categories)"
+    - "Product Filtering by Persona & Specific Attributes"
+    - "Adaptive Filter Panel Component"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
