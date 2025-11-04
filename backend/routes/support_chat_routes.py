@@ -128,6 +128,7 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
             data = await websocket.receive_json()
             message_text = data.get("message", "")
             user_id = data.get("user_id")
+            language = data.get("language", "en")
             
             if not message_text:
                 continue
