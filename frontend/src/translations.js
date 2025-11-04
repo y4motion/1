@@ -239,6 +239,19 @@ export const translations = {
       submittedBy: 'Отправлено',
       moderatedBy: 'Модерировано',
       created: 'Создано'
+    },
+    chat: {
+      title: 'Чат поддержки',
+      aiAssistant: 'AI ассистент',
+      online: 'Онлайн',
+      chatHistory: 'История чатов',
+      noPreviousChats: 'Нет предыдущих чатов',
+      noMessages: 'Нет сообщений',
+      messages: 'сообщений',
+      typePlaceholder: 'Введите сообщение...',
+      requestManager: 'Связаться с менеджером',
+      managerRequested: 'Запрос получен. Менеджер поддержки свяжется с вами в ближайшее время.',
+      managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.'
     }
   }
 };
