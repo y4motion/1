@@ -211,7 +211,6 @@ const Header = () => {
               <button
                 onClick={() => setShowSettingsMenu(!showSettingsMenu)}
                 className="theme-toggle"
-                title={t('nav.settings')}
                 style={{ padding: '0.375rem' }}
               >
                 <Settings size={18} className="icon-color" />
