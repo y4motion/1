@@ -76,6 +76,7 @@ class ProductUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     category_id: Optional[str] = None
+    subcategory_id: Optional[str] = None
     price: Optional[float] = None
     currency: Optional[str] = None
     images: Optional[List[ProductImage]] = None
@@ -86,3 +87,5 @@ class ProductUpdate(BaseModel):
     is_available: Optional[bool] = None
     allow_preorder: Optional[bool] = None
     preorder_delivery_days: Optional[int] = None
+    personas: Optional[List[str]] = None
+    specific_filters: Optional[Dict[str, Any]] = None
