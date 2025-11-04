@@ -2,49 +2,91 @@
 
 /* RETRO TV FLICKER EFFECT - Мерцание с эффектом старого ТВ */
 
-/* 1. Анимация Появления с Мерцанием */
+/* 1. Анимация Появления с Мерцанием и Полосками/Пропусками */
 @keyframes retro-flicker-in {
   0% {
     opacity: 0;
+    clip-path: inset(0 0 100% 0);
   }
   5% {
     opacity: 0.5;
+    clip-path: inset(40% 0 40% 0);
   }
   10% {
     opacity: 0.1;
+    clip-path: inset(0 0 80% 0);
   }
   15% {
     opacity: 0.8;
+    clip-path: inset(30% 0 30% 0);
   }
   20% {
     opacity: 0.2;
+    clip-path: inset(10% 0 60% 0);
   }
   25% {
     opacity: 0.9;
+    clip-path: inset(50% 0 20% 0);
   }
   30% {
     opacity: 0.3;
+    clip-path: inset(0 0 70% 0);
+  }
+  35% {
+    opacity: 0.7;
+    clip-path: inset(25% 0 25% 0);
   }
   40% {
     opacity: 0.95;
+    clip-path: inset(15% 0 40% 0);
+  }
+  45% {
+    opacity: 0.5;
+    clip-path: inset(35% 0 35% 0);
   }
   50% {
     opacity: 0.4;
+    clip-path: inset(0 0 50% 0);
+  }
+  55% {
+    opacity: 0.85;
+    clip-path: inset(20% 0 20% 0);
   }
   60% {
     opacity: 1;
+    clip-path: inset(10% 0 30% 0);
+  }
+  65% {
+    opacity: 0.6;
+    clip-path: inset(45% 0 10% 0);
   }
   70% {
     opacity: 0.85;
+    clip-path: inset(5% 0 15% 0);
+  }
+  75% {
+    opacity: 0.95;
+    clip-path: inset(12% 0 12% 0);
   }
   80% {
     opacity: 1;
+    clip-path: inset(0 0 10% 0);
+  }
+  85% {
+    opacity: 0.9;
+    clip-path: inset(8% 0 8% 0);
   }
   90% {
     opacity: 0.95;
+    clip-path: inset(0 0 5% 0);
+  }
+  95% {
+    opacity: 0.98;
+    clip-path: inset(3% 0 3% 0);
   }
   100% {
     opacity: 1;
+    clip-path: inset(0 0 0 0);
   }
 }
 
