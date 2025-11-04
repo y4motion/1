@@ -886,7 +886,9 @@ const MarketplacePage = () => {
               alignItems: 'center',
               marginBottom: '1.5rem',
               paddingBottom: '1rem',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+              borderBottom: theme === 'dark' 
+                ? '1px solid rgba(255, 255, 255, 0.1)' 
+                : '1px solid rgba(0, 0, 0, 0.1)'
             }}>
               <h2 style={{
                 fontSize: '1.5rem',
@@ -908,11 +910,15 @@ const MarketplacePage = () => {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  color: '#fff'
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.background = theme === 'dark' 
+                    ? 'rgba(255, 255, 255, 0.05)' 
+                    : 'rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.border = theme === 'dark' 
+                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                    : '1px solid rgba(0, 0, 0, 0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'transparent';
