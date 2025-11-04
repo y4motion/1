@@ -194,7 +194,7 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
 @router.post("/support-chat/sessions", response_model=SupportChatSessionResponse)
 async def create_support_chat_session(
     session_data: SupportChatSessionCreate,
-    current_user: dict = Depends(get_optional_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """
     Create a new support chat session
@@ -225,7 +225,7 @@ async def create_support_chat_session(
 
 @router.get("/support-chat/sessions", response_model=List[SupportChatSessionResponse])
 async def get_support_chat_sessions(
-    current_user: dict = Depends(get_optional_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """
     Get all support chat sessions for current user
@@ -280,7 +280,7 @@ async def get_support_chat_session(session_id: str):
 @router.delete("/support-chat/sessions/{session_id}")
 async def delete_support_chat_session(
     session_id: str,
-    current_user: dict = Depends(get_optional_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """
     Delete (deactivate) a support chat session
