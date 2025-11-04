@@ -228,7 +228,8 @@ const MarketplacePage = () => {
                 transform: 'translateY(-50%)',
                 opacity: 0.4,
                 pointerEvents: 'none',
-                zIndex: 2
+                zIndex: 2,
+                color: theme === 'dark' ? '#fff' : '#1a1a1a'
               }} 
             />
             <input
@@ -243,13 +244,15 @@ const MarketplacePage = () => {
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
-                color: '#fff',
+                color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '1rem',
                 outline: 'none',
                 transition: 'all 0.3s ease'
               }}
               onFocus={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.background = theme === 'dark' 
+                  ? 'rgba(255, 255, 255, 0.08)' 
+                  : 'rgba(0, 0, 0, 0.05)';
                 e.currentTarget.style.backdropFilter = 'blur(10px)';
               }}
               onBlur={(e) => {
@@ -258,7 +261,9 @@ const MarketplacePage = () => {
               }}
               onMouseEnter={(e) => {
                 if (document.activeElement !== e.currentTarget) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.background = theme === 'dark' 
+                    ? 'rgba(255, 255, 255, 0.05)' 
+                    : 'rgba(0, 0, 0, 0.03)';
                   e.currentTarget.style.backdropFilter = 'blur(10px)';
                 }
               }}
