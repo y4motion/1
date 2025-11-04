@@ -11,13 +11,13 @@ async def get_personas() -> Dict[str, Any]:
     return {"personas": PERSONAS}
 
 
-@router.get("/api/catalog/categories")
+@router.get("/catalog/categories")
 async def get_categories() -> Dict[str, Any]:
     """Get all main categories and their subcategories"""
     return {"categories": MAIN_CATEGORIES}
 
 
-@router.get("/api/catalog/categories/{category_id}")
+@router.get("/catalog/categories/{category_id}")
 async def get_category(category_id: str) -> Dict[str, Any]:
     """Get specific category details"""
     if category_id not in MAIN_CATEGORIES:
@@ -25,7 +25,7 @@ async def get_category(category_id: str) -> Dict[str, Any]:
     return {"category": MAIN_CATEGORIES[category_id]}
 
 
-@router.get("/api/catalog/filters/{subcategory_id}")
+@router.get("/catalog/filters/{subcategory_id}")
 async def get_specific_filters(subcategory_id: str) -> Dict[str, Any]:
     """Get specific filters for a subcategory"""
     if subcategory_id not in SPECIFIC_FILTERS:
@@ -33,7 +33,7 @@ async def get_specific_filters(subcategory_id: str) -> Dict[str, Any]:
     return {"subcategory_id": subcategory_id, "filters": SPECIFIC_FILTERS[subcategory_id]}
 
 
-@router.get("/api/catalog/presets/{persona_id}")
+@router.get("/catalog/presets/{persona_id}")
 async def get_persona_presets(persona_id: str) -> Dict[str, Any]:
     """Get filter presets for a specific persona"""
     if persona_id not in PERSONA_FILTER_PRESETS:
@@ -41,7 +41,7 @@ async def get_persona_presets(persona_id: str) -> Dict[str, Any]:
     return {"persona_id": persona_id, "presets": PERSONA_FILTER_PRESETS[persona_id]}
 
 
-@router.get("/api/catalog/search-categories")
+@router.get("/catalog/search-categories")
 async def search_categories(query: str = "") -> Dict[str, Any]:
     """Search categories by name (for search dropdown integration)"""
     results = []
