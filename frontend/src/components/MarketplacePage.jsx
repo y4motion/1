@@ -308,25 +308,33 @@ const MarketplacePage = () => {
                   borderRadius: '12px',
                   border: selectedCategory === 'all'
                     ? '2px solid rgba(139, 92, 246, 0.5)'
-                    : '1px solid rgba(255, 255, 255, 0.1)',
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                   background: selectedCategory === 'all'
                     ? 'rgba(139, 92, 246, 0.15)'
-                    : 'rgba(255, 255, 255, 0.05)',
+                    : theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.03)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   fontSize: '0.875rem',
                   fontWeight: '600',
-                  color: '#fff',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a',
                   textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedCategory !== 'all') {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.background = theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.1)' 
+                      : 'rgba(0, 0, 0, 0.06)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedCategory !== 'all') {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    e.currentTarget.style.background = theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : 'rgba(0, 0, 0, 0.03)';
                   }
                 }}
               >
@@ -345,25 +353,33 @@ const MarketplacePage = () => {
                     borderRadius: '12px',
                     border: selectedCategory === category.id
                       ? '2px solid rgba(139, 92, 246, 0.5)'
-                      : '1px solid rgba(255, 255, 255, 0.1)',
+                      : theme === 'dark'
+                        ? '1px solid rgba(255, 255, 255, 0.1)'
+                        : '1px solid rgba(0, 0, 0, 0.1)',
                     background: selectedCategory === category.id
                       ? 'rgba(139, 92, 246, 0.15)'
-                      : 'rgba(255, 255, 255, 0.05)',
+                      : theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.05)'
+                        : 'rgba(0, 0, 0, 0.03)',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     fontSize: '0.875rem',
                     fontWeight: '600',
-                    color: '#fff',
+                    color: theme === 'dark' ? '#fff' : '#1a1a1a',
                     textAlign: 'center'
                   }}
                   onMouseEnter={(e) => {
                     if (selectedCategory !== category.id) {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.background = theme === 'dark' 
+                        ? 'rgba(255, 255, 255, 0.1)' 
+                        : 'rgba(0, 0, 0, 0.06)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (selectedCategory !== category.id) {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.background = theme === 'dark' 
+                        ? 'rgba(255, 255, 255, 0.05)' 
+                        : 'rgba(0, 0, 0, 0.03)';
                     }
                   }}
                 >
