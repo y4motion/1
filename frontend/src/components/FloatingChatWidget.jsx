@@ -3,6 +3,7 @@ import { MessageCircle, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import ChatWindow from './ChatWindow';
 import '../styles/chatWidget.css';
+import '../styles/glassmorphism.css';
 
 const FloatingChatWidget = () => {
   const { theme } = useTheme();
