@@ -219,9 +219,194 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Right Controls */}
+          {/* RIGHT ZONE: Settings + Account + Cart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            {/* Cart Button - Moved to start */}
+            {/* Settings Multi-Button (1st from right, but rendered 3rd from left) */}
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                className="theme-toggle"
+                title="Settings"
+                style={{ padding: '0.375rem' }}
+              >
+                <Settings size={18} className="icon-color" />
+              </button>
+
+              {/* Settings Dropdown Menu */}
+              {showSettingsMenu && (
+                <div 
+                  className="glass-strong"
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    width: '280px',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    zIndex: 100,
+                    animation: 'fadeIn 0.2s ease-out'
+                  }}
+                >
+                  {/* Sound Management */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <div style={{ 
+                      fontSize: '0.75rem', 
+                      fontWeight: '600', 
+                      marginBottom: '0.5rem',
+                      opacity: 0.7
+                    }} className="icon-color">
+                      {language === 'ru' ? 'ЗВУК' : 'SOUND'}
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                      {[
+                        { mode: 'silent', icon: VolumeX, label: language === 'ru' ? 'Тихо' : 'Silent' },
+                        { mode: 'ambient', icon: Music, label: language === 'ru' ? 'Эмбиент' : 'Ambient' },
+                        { mode: 'surround', icon: Volume2, label: language === 'ru' ? 'Объемный' : 'Surround' },
+                        { mode: 'tactile', icon: MousePointer, label: language === 'ru' ? 'Тактильный' : 'Tactile' }
+                      ].map(({ mode, icon: Icon, label }) => (
+                        <button
+                          key={mode}
+                          onClick={() => setSoundMode(mode)}
+                          className="glass-subtle"
+                          style={{
+                            padding: '0.75rem',
+                            borderRadius: '8px',
+                            border: soundMode === mode 
+                              ? '1px solid rgba(139, 92, 246, 0.5)' 
+                              : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                            background: soundMode === mode 
+                              ? 'rgba(139, 92, 246, 0.1)' 
+                              : 'transparent',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.25rem'
+                          }}
+                        >
+                          <Icon size={16} className="icon-color" />
+                          <span style={{ fontSize: '0.7rem' }} className="icon-color">{label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Currency */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <div style={{ 
+                      fontSize: '0.75rem', 
+                      fontWeight: '600', 
+                      marginBottom: '0.5rem',
+                      opacity: 0.7
+                    }} className="icon-color">
+                      {language === 'ru' ? 'ВАЛЮТА' : 'CURRENCY'}
+                    </div>
+                    <select
+                      value={currency}
+                      onChange={(e) => setCurrency(e.target.value)}
+                      className="glass-subtle"
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        borderRadius: '8px',
+                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      <option value="RUB">RUB (₽)</option>
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="CNY">CNY (¥)</option>
+                    </select>
+                  </div>
+
+                  {/* Language */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <div style={{ 
+                      fontSize: '0.75rem', 
+                      fontWeight: '600', 
+                      marginBottom: '0.5rem',
+                      opacity: 0.7
+                    }} className="icon-color">
+                      {language === 'ru' ? 'ЯЗЫК' : 'LANGUAGE'}
+                    </div>
+                    <button
+                      onClick={toggleLanguage}
+                      className="glass-subtle"
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        borderRadius: '8px',
+                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      <Globe size={16} className="icon-color" />
+                      <span className="icon-color">{language === 'ru' ? 'Русский' : 'English'}</span>
+                    </button>
+                  </div>
+
+                  {/* Theme */}
+                  <div>
+                    <div style={{ 
+                      fontSize: '0.75rem', 
+                      fontWeight: '600', 
+                      marginBottom: '0.5rem',
+                      opacity: 0.7
+                    }} className="icon-color">
+                      {language === 'ru' ? 'ТЕМА' : 'THEME'}
+                    </div>
+                    <button
+                      onClick={toggleTheme}
+                      className="glass-subtle"
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        borderRadius: '8px',
+                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      {theme === 'dark' ? (
+                        <><Sun size={16} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Темная' : 'Dark'}</span></>
+                      ) : (
+                        <><Moon size={16} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Светлая' : 'Light'}</span></>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Account/Login Button (2nd from right) */}
+            <button
+              onClick={() => {
+                if (isAuthenticated) {
+                  setShowUserMenu(!showUserMenu);
+                } else {
+                  setAuthMode('login');
+                  setShowAuthModal(true);
+                }
+              }}
+              className="theme-toggle"
+              title={isAuthenticated ? 'Account' : 'Login'}
+              style={{ padding: '0.375rem' }}
+            >
+              <User size={18} className="icon-color" />
+            </button>
+
+            {/* Cart Button - EXTREME RIGHT */}
             <button
               onClick={() => {
                 if (isAuthenticated) {
@@ -244,7 +429,7 @@ const Header = () => {
                   position: 'absolute',
                   top: '-4px',
                   right: '-4px',
-                  background: '#F44336',
+                  background: '#8b5cf6',
                   color: 'white',
                   padding: '0.125rem 0.375rem',
                   borderRadius: '10px',
@@ -255,37 +440,6 @@ const Header = () => {
                 }}>
                   {mockUser.cartItems}
                 </span>
-              )}
-            </button>
-
-            {/* Language Toggle */}
-            <button
-              className="theme-toggle"
-              onClick={toggleLanguage}
-              style={{ padding: '0.375rem 0.625rem', display: 'flex', alignItems: 'center' }}
-            >
-              <Globe size={18} className="icon-color" />
-              <span style={{ 
-                marginLeft: '0.375rem', 
-                fontSize: '0.75rem', 
-                fontWeight: '600',
-                letterSpacing: '0.5px'
-              }} className="icon-color">
-                {language.toUpperCase()}
-              </span>
-            </button>
-
-            {/* Theme Toggle */}
-            <button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              style={{ padding: '0.375rem' }}
-            >
-              {theme === 'dark' ? (
-                <Sun size={18} className="icon-color" />
-              ) : (
-                <Moon size={18} className="icon-color" />
               )}
             </button>
 
