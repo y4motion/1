@@ -789,8 +789,12 @@ const MarketplacePage = () => {
           width: '32px',
           height: '100px',
           borderRadius: '6px',
-          border: '1px solid transparent',
-          background: 'transparent',
+          border: theme === 'dark' 
+            ? '1px solid transparent' 
+            : '1px solid rgba(0, 0, 0, 0.1)',
+          background: theme === 'dark' 
+            ? 'transparent' 
+            : 'rgba(255, 255, 255, 0.5)',
           backdropFilter: 'blur(10px)',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
@@ -801,15 +805,25 @@ const MarketplacePage = () => {
           justifyContent: 'center',
           gap: '0.5rem',
           padding: '0.75rem 0',
-          color: '#fff'
+          color: theme === 'dark' ? '#fff' : '#1a1a1a'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+          e.currentTarget.style.border = theme === 'dark' 
+            ? '1px solid rgba(255, 255, 255, 0.2)' 
+            : '1px solid rgba(0, 0, 0, 0.2)';
+          e.currentTarget.style.background = theme === 'dark' 
+            ? 'rgba(255, 255, 255, 0.05)' 
+            : 'rgba(0, 0, 0, 0.05)';
+          e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.border = '1px solid transparent';
-          e.currentTarget.style.background = 'transparent';
+          e.currentTarget.style.border = theme === 'dark' 
+            ? '1px solid transparent' 
+            : '1px solid rgba(0, 0, 0, 0.1)';
+          e.currentTarget.style.background = theme === 'dark' 
+            ? 'transparent' 
+            : 'rgba(255, 255, 255, 0.5)';
+          e.currentTarget.style.transform = 'translateY(-50%)';
         }}
       >
         <SlidersHorizontal size={16} />
