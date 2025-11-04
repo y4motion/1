@@ -848,14 +848,21 @@ const MarketplacePage = () => {
               left: 0,
               bottom: 0,
               width: '380px',
-              background: 'rgba(20, 20, 30, 0.95)',
+              background: theme === 'dark' 
+                ? 'rgba(20, 20, 30, 0.95)' 
+                : 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRight: '1px solid rgba(139, 92, 246, 0.3)',
+              borderRight: theme === 'dark' 
+                ? '1px solid rgba(139, 92, 246, 0.3)' 
+                : '1px solid rgba(0, 0, 0, 0.1)',
               zIndex: 201,
               padding: '2rem',
               overflowY: 'auto',
               animation: 'slideInFromLeft 0.3s ease-out',
-              boxShadow: '4px 0 40px rgba(0, 0, 0, 0.5)'
+              boxShadow: theme === 'dark' 
+                ? '4px 0 40px rgba(0, 0, 0, 0.5)' 
+                : '4px 0 40px rgba(0, 0, 0, 0.1)',
+              color: theme === 'dark' ? '#fff' : '#1a1a1a'
             }}
           >
             {/* Header */}
