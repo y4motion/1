@@ -258,10 +258,10 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           />
           <div>
             <h3 style={{ fontSize: '1rem', fontWeight: '600', margin: 0 }}>
-              Support Chat
+              {t.chat.title}
             </h3>
             <p style={{ fontSize: '0.75rem', opacity: 0.7, margin: 0 }}>
-              AI Assistant • Online
+              {t.chat.aiAssistant} • {t.chat.online}
             </p>
           </div>
         </div>
