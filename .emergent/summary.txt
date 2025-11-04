@@ -1,43 +1,36 @@
 <analysis>
-The AI engineer's work trajectory demonstrates a systematic approach to evolving an MVP application into a more feature-rich and aesthetically refined product. Initially, the focus was on significant UI/UX redesigns, implementing a glassmorphism theme, and expanding backend capabilities for e-commerce essentials like stock, orders, and payment methods. Key UI changes included relocating the LVL menu and overhauling the marketplace product cards with Pinterest-style layouts and interactive elements.
+The AI engineer successfully progressed the e-commerce application through several critical development phases. Initially, the focus was on UI/UX enhancements, including the restyling of the  to match the application's glassmorphism aesthetic, ensuring consistent hover effects and color schemes across light and dark themes. This involved removing purple accents except for the primary login button.
 
-Subsequently, the engineer addressed user feedback on card aesthetics, refining icon placement, implementing specific hover effects, and ensuring theme compatibility across various UI components. A major feature addition involved developing a complete cart and checkout flow, including a custom toast notification and a sliding quick-cart panel. The latest work centered on revamping the authentication modal to align with the application's unique design language, integrating social login placeholders, and ensuring theme responsiveness. Throughout, the engineer demonstrated strong problem-solving in adapting to specific design nuances and functional requirements.
+Following this, the engineer tackled the marketplace filter panel. This involved correcting its positioning to avoid overlapping the header, applying the consistent glassmorphism style, and addressing a white stripe bug. A significant improvement was the implementation of auto-close functionality for the LVL menu, filter panel, and category dropdown upon clicking outside.
+
+The project then moved into a major architectural overhaul for the marketplace catalog and filtering system, guided by new detailed user instructions. This involved extending the backend  model, creating dedicated configuration for categories, subcategories, and 10 detailed personas, and building new API endpoints. On the frontend, the  was refactored into a separate component, initially implementing horizontal scrolling for personas (later changed to vertical as per user feedback), and then refining their visual style to be minimalist. The old  button was removed, and categories were integrated into the search bar as a dropdown. The final work in the trajectory focused on making the category and persona displays minimalist and modern, followed by beginning the implementation of dynamic specific filters and backend product filtering based on personas and specific attributes. The engineer demonstrated a methodical approach, iteratively applying changes, seeking user feedback, and performing testing.
 </analysis>
 
 <product_requirements>
-The overarching goal is to develop a minimalist, modern gaming/tech e-commerce marketplace, drawing inspiration from wegic.ai's aesthetic, characterized by dark backgrounds, glassmorphism, and interactive UI.
+The goal is to build a minimalist, modern gaming/tech e-commerce marketplace inspired by wegic.ai, featuring dark backgrounds, glassmorphism, and interactive UI.
 
-**Completed Features (Phase 1.5 & Initial Phase 2):**
-- Minimalist header with LVL button, hero section, product categories, mouse-hover effects, language/theme switch.
-- Gamified LVL user menu (relocated from right header to left logo/power button).
-- Robust FastAPI/MongoDB backend for user authentication, real-time cart, basic messaging, and CMS.
-- Dynamic MarketplacePage with a centered search bar under MINIMAL MARKET, combined featured chips/view options, Pinterest-style product cards (4 per row, larger, hover expansion with quick buy, image carousels, title below photo), Apple-style price/buy tags (white matte acrylic pulsing price, purple pulsing buy button on hover).
-- Subtle interaction icons (rating, likes, share) below the card (later refined and repositioned).
-- Floating FILTERS button (scroll-following) and a sliding filter panel that pushes content, with tech-related categories.
--  and  redesigned for quick purchases without registration, dark purple theme, 3-column layout, and integration of stock/pre-order logic.
-- Backend support for stock management (, , ,  fields in ).
-
-**Ongoing/Recently Completed Refinements:**
-- Product Cards: Rating displayed above card (small, numeric, slightly overlapping, white minimalist). Heart icon (wishlist) and rating positioned miniature, partially outside card contour at the bottom right. Heart turns red acrylic on hover/if in wishlist.
-- Sharing: Removed from initial product card view, moved to  and .
-- Header: LVL menu text made white in dark theme for readability. Mouse follower effect removed.
-- Filters:  section removed. All filter elements (input fields, buttons) made visible and readable in light theme, with unified hover effects.
-- Header Right Section: Login button replaced with a human icon. Cart icon moved to the far left of the right header group, displaying an item count badge.
-- Cart & Checkout Flow: Implementation of an Added to Cart toast notification (bottom-right, minimalist, purple accents, auto-closing with a large cursor-following close button). Dedicated  (requiring authorization) and  (with payment integration placeholders).
-- Quick Cart Panel: A sliding panel from the right in the header for quick cart overview, item removal, adding to wishlist/bags, and creating custom product bags.
-- AuthModal: Added Remember Me checkbox, social login placeholders (Google, Apple, Yandex, VK), logout option, and ability to switch between login/register. Currently being restyled to match the site's primary hover/glassmorphism aesthetic, removing purple except for the main login button.
+**Key Features & Refinements:**
+1.  **UI/UX Redesign:** Apply glassmorphism and liquid polymorph styles across components.
+    *   **AuthModal:** Restyle to match site's aesthetic, reserving purple only for the main login button.
+    *   **Marketplace Filter Panel:** Position to avoid header overlap, apply glassmorphism/acrylic, make APPLY FILTERS button purple, remove other purple elements, fix white stripe bug, and ensure theme compatibility.
+    *   **Menus Auto-close:** Implement click-outside-to-close for LVL menu, filter panel, and category dropdown.
+2.  **Adaptive Catalog System:**
+    *   **Backend:** Extend  model with , , , and . Define structured categories (9 main + subcategories) and 10 personas (Pro Gamer, Pro Creator, Audiophile, Smart Home, Minimalist, RGB Enthusiast, Next Level, Gift Seeker, Remote Worker, Mobile Setup). Create API endpoints for catalog configuration.
+    *   **Frontend:** Redesign filter panel with Personas, General Filters, and Specific Filters blocks. Remove old CATALOG button. Integrate categories into the search bar as a dropdown. Implement active filter chips and a Clear button.
+    *   **Persona & Category Styling:** Make personas and categories minimalist, with thin outlines, transparent backgrounds, and subtle hover effects, similar to the Header's Power button.
+3.  **Dynamic Filtering Logic:** Implement a system where selected categories and personas dynamically influence the available specific filters.
+4.  **Backend Product Filtering:** Update product API to filter based on persona and specific attributes.
 </product_requirements>
 
 <key_technical_concepts>
-- **React Frontend**: Component-based UI.
+- **React Frontend**: Component-based UI, React Context for global state,  and  for side effects and DOM manipulation.
 - **FastAPI Backend**: Asynchronous API server, Pydantic for data validation.
 - **MongoDB Database**: NoSQL storage, UUIDs for IDs.
-- **JWT Authentication**: Secure user sessions.
 - **Glassmorphism/Acrylic Design**: Core visual aesthetic.
 - **Tailwind CSS**: Utility-first styling.
-- **i18n**: Multi-language support.
-- **React Context**: Global state management (Auth, Theme).
-- **Supervisor**: Process management.
+- **Supervisor**: Process management for backend/frontend.
+- **Python Linting (Ruff)**: Code quality.
+- **JavaScript Linting (ESLint)**: Code quality.
 </key_technical_concepts>
 
 <code_architecture>
@@ -50,46 +43,45 @@ The application employs a full-stack architecture featuring a React frontend, a 
 
 -   :
     -   **Importance**: Main FastAPI application entry point.
-    -   **Changes**: Integrated new , , , .
+    -   **Changes**: Registered new .
 -   :
     -   **Importance**: Defines the product data structure.
-    -   **Changes**: Added , , ,  fields.
--   , :
-    -   **Importance**: Newly created models for order and payment method data.
-    -   **Changes**: Defines fields for order details and configurable payment methods.
--    (new: , , , , , ):
-    -   **Importance**: Define API endpoints for specific functionalities.
-    -   **Changes**: Implemented CRUD operations for orders, payment settings, checkout, user bags, wishlists, and saved items.
--   :
-    -   **Importance**: Defines main application structure and routes.
-    -   **Changes**: Added new routes for  and .
--   :
-    -   **Importance**: Main navigation, theme/language toggles, user menu.
-    -   **Changes**: LVL menu relocated to left logo, simplified right header. Login button replaced with user icon. Cart icon moved to the far right, now opens  instead of navigating. Adapted LVL menu text color for dark theme.
--   :
-    -   **Importance**: Product listing and filtering.
-    -   **Changes**: Extensive redesign of product cards (Pinterest-style, carousels, Apple-style pricing). Filter system overhaul (floating button, sliding panel). Product cards updated: rating (white, numeric, small, slightly overlapping top-left, then moved bottom-right with heart), heart icon (red acrylic on hover/active, bottom-right). Removed CATEGORIES from filters. All filter and featured chip elements made theme-aware and readable.  logic removed from the component.
--   :
-    -   **Importance**: Quick purchase modal.
-    -   **Changes**: Complete redesign with 3-column layout, stock/pre-order logic, sharing button added.
--   :
-    -   **Importance**: User authentication (login/register).
-    -   **Changes**: Added Remember Me, social login placeholders, logout functionality. Currently undergoing a full restyle to match site's hover/glassmorphism aesthetic, removing purple except for main login button.
+    -   **Changes**: Extended with , , , and a  field to support dynamic filtering.
 -    (NEW):
-    -   **Importance**: Custom toast notification for adding items to cart.
-    -   **Changes**: Implements bottom-right, minimalist, purple-accented, auto-closing toast with a cursor-following close button.
+    -   **Importance**: Centralized configuration for all categories, subcategories, and personas, including their IDs, names (EN/RU), and descriptions/emojis.
+    -   **Changes**: Created with detailed JSON structures for the catalog.
 -    (NEW):
-    -   **Importance**: Dedicated page for viewing and managing items in the cart.
-    -   **Changes**: Created to display cart contents, requiring user authorization.
+    -   **Importance**: Provides API endpoints to fetch the catalog configuration ().
+    -   **Changes**: Implemented  and  endpoints; corrected routing by removing internal  prefix.
+-   :
+    -   **Importance**: Defines API endpoints for product listing.
+    -   **Changes**: Modified  endpoint to accept  and  query parameters for enhanced filtering logic.
+-   :
+    -   **Importance**: User authentication modal.
+    -   **Changes**: Extensively restyled to align with glassmorphism/acrylic theme, removed purple except for the main login button, refined hover effects, and ensured theme compatibility.
+-   :
+    -   **Importance**: Main navigation.
+    -   **Changes**: Implemented automatic closing of the LVL menu on clicks outside, using  and .
+-   :
+    -   **Importance**: Product listing and filtering page.
+    -   **Changes**:
+        -   Redesigned filter panel, replacing inline logic with .
+        -   Removed white stripe bug by adjusting content shift.
+        -   Implemented automatic closing of the filter panel and catalog dropdown on clicks outside.
+        -   Removed the old CATALOG button and integrated categories into the search bar with a new dropdown.
+        -   Removed PRO GAMING, PRO CREATOR, OUR CHOICE featured chips and replaced them with active filter chips display.
+        -   Added new states and functions (, , , , ) for dynamic filtering.
+        -   Updated  to send  and  to the backend.
+        -   Applied minimalist styling to categories in the search dropdown (thin borders, transparent backgrounds).
 -    (NEW):
-    -   **Importance**: Dedicated page for the checkout process.
-    -   **Changes**: Created with payment integration placeholders and an admin panel for key management.
+    -   **Importance**: Dedicated component for rendering the complex marketplace filter UI.
+    -   **Changes**: Built to display personas, general filters, and dynamically rendered specific filters. Implemented vertical scrolling for personas and applied minimalist styling based on user feedback (rounded buttons, bold uppercase text, no emojis).
 -    (NEW):
-    -   **Importance**: Sliding panel for quick access to cart contents from the header.
-    -   **Changes**: Implements right-side sliding panel with features for item removal, wishlist, and custom bags.
+    -   **Importance**: Renders specific filters based on selected category/persona.
+    -   **Changes**: Created as a placeholder, planned to dynamically render filter types.
 -   :
     -   **Importance**: Core aesthetic styles.
-    -   **Changes**: Added CSS for new pulsating animations and refined glassmorphism effects for new components and the filter panel.
+    -   **Changes**: Added CSS for custom scrollbars and refined glassmorphism effects for new filter panel components.
 </code_architecture>
 
 <pending_tasks>
@@ -101,14 +93,29 @@ The application employs a full-stack architecture featuring a React frontend, a 
 -   **Notifications**: Implement email notifications (Gmail) and real-time LVL menu notifications.
 -   **User Features**: Implement full user order history and wishlist/favorites with saving.
 -   **SEO Optimization**: Implement AI optimization for search ranking.
+-   **Dynamic Specific Filters**: Complete the UI and logic for dynamically displaying specific filters based on selected categories/subcategories.
 </pending_tasks>
 
 <current_work>
-The AI engineer is currently working on refining the  component. The user explicitly requested to restyle this login/registration menu to perfectly match the site's existing hover effects, glassmorphism, acrylic, and liquid polymorph styles. This includes ensuring buttons and their highlights align with the overall site aesthetic and that the modal functions correctly across different themes. A specific directive was to remove the purple color from all elements within the modal, reserving it exclusively for the main Login button.
+The AI engineer is currently working on **Stage 3: Dynamic Filtering Logic** and **Stage 7: Backend Filtering of Products** (as per the refined plan after user input). Specifically, the immediate preceding actions were:
 
-This follows the successful implementation of the core  functionality, including real registration/login, a Remember Me checkbox, and placeholders for social login options (Google, Apple, Yandex, VK). The previous task involved completing the  and associated backend routes for wishlist, saved items, and custom bags. The work immediately before this summary request involves modifying the  file to apply the requested styling changes.
+1.  **Backend Product Filtering:**
+    *   The  file was modified to include  and  as query parameters in the product listing API endpoint. This enables the backend to receive and process these new filtering criteria.
+2.  **Frontend Integration of Filters:**
+    *   The  function in  was updated to send the  and  states to the backend API when requesting products.
+    *   The  dependency array in  was updated to trigger product fetching whenever these new filter parameters change, ensuring the product list updates dynamically.
+    *   Linting was run on both Python and JavaScript files, and the backend server was restarted to apply the changes.
+
+Before this, the engineer successfully implemented:
+*   The  styling.
+*   The  filter panel restyle (glassmorphism, no header overlap, correct colors, no white stripe).
+*   Auto-closing functionality for the LVL menu, filter panel, and catalog dropdown.
+*   The  component to display personas, general filters, and specific filters.
+*   The removal of the old  button and integration of categories into the search bar, applying minimalist design to persona and category selections.
+
+The current state is that the backend is configured to accept new filter parameters, and the frontend is set up to send them. The next step is to test this backend filtering.
 </current_work>
 
 <optional_next_step>
-Complete the restyling of the  to match the site's hover and glassmorphism aesthetic.
+Test the backend filtering of products using the newly implemented  and  parameters.
 </optional_next_step>
