@@ -181,24 +181,12 @@ const Header = () => {
             {/* Logo - Return to Homepage */}
             <Link 
               to="/"
+              className="text-link"
               style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0.5rem',
-                borderRadius: '6px',
-                transition: 'all 0.3s ease',
-                textDecoration: 'none'
+                padding: '0.5rem 1rem'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
             >
-              <span style={{ 
-                fontSize: '1.25rem', 
-                fontWeight: '700',
-                letterSpacing: '0.5px'
-              }} className="icon-color">
-                MINIMAL
-              </span>
+              HOME
             </Link>
 
             {/* Navigation Links */}
