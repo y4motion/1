@@ -48,53 +48,7 @@
   }
 }
 
-/* 2. Анимация Постоянного Легкого Мерцания (Jitter) */
-@keyframes flicker-jitter {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  33% {
-    opacity: 0.98;
-    transform: translateY(0.5px);
-  }
-  66% {
-    opacity: 1;
-    transform: translateY(-0.5px);
-  }
-  100% {
-    opacity: 0.97;
-    transform: translateY(0);
-  }
-}
-
-/* 3. Анимация Мерцания Сканлайнов */
-@keyframes scanline-flicker {
-  0% {
-    opacity: 0.05;
-  }
-  50% {
-    opacity: 0.12;
-  }
-  100% {
-    opacity: 0.05;
-  }
-}
-
-/* 4. Анимация Дрожания Текста */
-@keyframes text-jitter {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(1px);
-  }
-  100% {
-    transform: translateY(-1px);
-  }
-}
-
-/* 5. Анимация Вертикального Статтера (Пробелов) */
+/* 2. Анимация Вертикального Статтера (Пробелов) - редкий эффект */
 @keyframes vertical-stutter {
   0%, 90% {
     clip-path: inset(0 0 0 0);
