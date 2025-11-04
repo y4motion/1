@@ -43,8 +43,8 @@ const Header = () => {
   const navLinks = [
     { name: t('nav.marketplace'), path: '/marketplace', key: 'marketplace' },
     { name: t('nav.restock'), path: '/restock', key: 'restock' },
-    { name: language === 'ru' ? 'Собрать ПК' : 'PC Builder', path: '/pc-builder', key: 'pc-builder' },
-    { name: 'M Hub+', path: '/m-hub', key: 'm-hub' }
+    { name: language === 'ru' ? 'СБОРОЧНАЯ' : 'ASSEMBLY', path: '/pc-builder', key: 'pc-builder' },
+    { name: 'MOD', path: '/mod', key: 'mod' }
   ];
 
   const handleLogoClick = (e) => {
