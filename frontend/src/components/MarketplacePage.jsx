@@ -203,6 +203,7 @@ const MarketplacePage = () => {
         }}>
           {/* Catalog Button */}
           <button
+            ref={catalogButtonRef}
             onClick={() => setShowCatalog(!showCatalog)}
             className="glass-subtle"
             style={{
