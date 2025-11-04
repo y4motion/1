@@ -13,6 +13,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     username: str
     password: str
+    is_seller: Optional[bool] = False  # Allow setting seller status during registration (for testing)
 
 
 class UserLogin(BaseModel):
