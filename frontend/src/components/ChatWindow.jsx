@@ -550,72 +550,108 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           padding: '1rem',
           borderTop: theme === 'dark'
             ? '1px solid rgba(255, 255, 255, 0.1)'
-            : '1px solid rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          gap: '0.75rem'
+            : '1px solid rgba(0, 0, 0, 0.1)'
         }}
       >
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder={t.chat.typePlaceholder}
-          style={{
-            flex: 1,
-            padding: '0.75rem',
-            borderRadius: '8px',
-            border: '1px solid transparent',
-            background: 'transparent',
-            color: theme === 'dark' ? '#fff' : '#1a1a1a',
-            fontSize: '0.875rem',
-            outline: 'none',
-            transition: 'all 0.3s ease'
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.border = theme === 'dark'
-              ? '1px solid rgba(255, 255, 255, 0.2)'
-              : '1px solid rgba(0, 0, 0, 0.2)';
-            e.currentTarget.style.background = theme === 'dark'
-              ? 'rgba(255, 255, 255, 0.05)'
-              : 'rgba(0, 0, 0, 0.05)';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.border = '1px solid transparent';
-            e.currentTarget.style.background = 'transparent';
-          }}
-        />
-        
-        <button
-          onClick={sendMessage}
-          disabled={!inputText.trim()}
-          style={{
-            padding: '0.75rem',
-            borderRadius: '8px',
-            border: '1px solid rgba(139, 92, 246, 0.5)',
-            background: 'rgba(139, 92, 246, 0.2)',
-            color: '#fff',
-            cursor: inputText.trim() ? 'pointer' : 'not-allowed',
-            opacity: inputText.trim() ? 1 : 0.5,
-            transition: 'all 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          onMouseEnter={(e) => {
-            if (inputText.trim()) {
-              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.3)';
+        {/* Request Manager Button */}
+        {!managerRequested && (
+          <button
+            onClick={requestManager}
+            style={{
+              width: '100%',
+              padding: '0.65rem',
+              marginBottom: '0.75rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(16, 185, 129, 0.5)',
+              background: 'rgba(16, 185, 129, 0.1)',
+              color: theme === 'dark' ? '#10b981' : '#059669',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(16, 185, 129, 0.2)';
               e.currentTarget.style.transform = 'translateY(-2px)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
-            e.currentTarget.style.transform = 'translateY(0)';
-          }}
-        >
-          <Send size={18} />
-        </button>
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(16, 185, 129, 0.1)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <Users size={16} />
+            {t.chat.requestManager}
+          </button>
+        )}
+        
+        {/* Message Input */}
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder={t.chat.typePlaceholder}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              borderRadius: '8px',
+              border: '1px solid transparent',
+              background: 'transparent',
+              color: theme === 'dark' ? '#fff' : '#1a1a1a',
+              fontSize: '0.875rem',
+              outline: 'none',
+              transition: 'all 0.3s ease'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.border = theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.2)'
+                : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background = theme === 'dark'
+                ? 'rgba(255, 255, 255, 0.05)'
+                : 'rgba(0, 0, 0, 0.05)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.border = '1px solid transparent';
+              e.currentTarget.style.background = 'transparent';
+            }}
+          />
+          
+          <button
+            onClick={sendMessage}
+            disabled={!inputText.trim()}
+            style={{
+              padding: '0.75rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              background: 'rgba(139, 92, 246, 0.2)',
+              color: '#fff',
+              cursor: inputText.trim() ? 'pointer' : 'not-allowed',
+              opacity: inputText.trim() ? 1 : 0.5,
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            onMouseEnter={(e) => {
+              if (inputText.trim()) {
+                e.currentTarget.style.background = 'rgba(139, 92, 246, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <Send size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );
