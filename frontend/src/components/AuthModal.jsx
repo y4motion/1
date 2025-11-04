@@ -545,7 +545,6 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               e.currentTarget.style.opacity = '0.8';
             }}
           >
-            {mode === 'login' ? 'Sign Up' : 'Login'}
           </button>
         </div>
       </div>
