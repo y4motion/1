@@ -14,11 +14,11 @@ async def get_cart(current_user: dict = Depends(get_current_user)):
     """
     Get current user's cart
     """
-    cart = await db.carts.find_one({"user_id": current_user["user_id"]}, {"_id": 0})
+    cart = await db.carts.find_one({"user_id": current_user["id"]}, {"_id": 0})
     
     if not cart:
         # Create empty cart
-        cart = Cart(user_id=current_user["user_id"])
+        cart = Cart(user_id=current_user["id"])
         cart_dict = cart.model_dump()
         cart_dict['updated_at'] = cart_dict['updated_at'].isoformat()
         await db.carts.insert_one(cart_dict)
@@ -49,10 +49,10 @@ async def add_to_cart(item_data: AddToCartRequest, current_user: dict = Depends(
         )
     
     # Get or create cart
-    cart = await db.carts.find_one({"user_id": current_user["user_id"]})
+    cart = await db.carts.find_one({"user_id": current_user["id"]})
     
     if not cart:
-        cart = Cart(user_id=current_user["user_id"])
+        cart = Cart(user_id=current_user["id"])
         cart_dict = cart.model_dump()
         cart_dict['updated_at'] = cart_dict['updated_at'].isoformat()
         await db.carts.insert_one(cart_dict)
@@ -88,7 +88,7 @@ async def add_to_cart(item_data: AddToCartRequest, current_user: dict = Depends(
     
     # Update cart
     await db.carts.update_one(
-        {"user_id": current_user["user_id"]},
+        {"user_id": current_user["id"]},
         {"$set": {
             "items": items,
             "total": round(total, 2),
@@ -109,7 +109,7 @@ async def update_cart_item(
     """
     Update cart item quantity
     """
-    cart = await db.carts.find_one({"user_id": current_user["user_id"]})
+    cart = await db.carts.find_one({"user_id": current_user["id"]})
     
     if not cart:
         raise HTTPException(
@@ -138,7 +138,7 @@ async def update_cart_item(
     
     # Update cart
     await db.carts.update_one(
-        {"user_id": current_user["user_id"]},
+        {"user_id": current_user["id"]},
         {"$set": {
             "items": items,
             "total": round(total, 2),
@@ -155,7 +155,7 @@ async def remove_from_cart(product_id: str, current_user: dict = Depends(get_cur
     """
     Remove item from cart
     """
-    cart = await db.carts.find_one({"user_id": current_user["user_id"]})
+    cart = await db.carts.find_one({"user_id": current_user["id"]})
     
     if not cart:
         raise HTTPException(
@@ -172,7 +172,7 @@ async def remove_from_cart(product_id: str, current_user: dict = Depends(get_cur
     
     # Update cart
     await db.carts.update_one(
-        {"user_id": current_user["user_id"]},
+        {"user_id": current_user["id"]},
         {"$set": {
             "items": items,
             "total": round(total, 2),
@@ -190,7 +190,7 @@ async def clear_cart(current_user: dict = Depends(get_current_user)):
     Clear all items from cart
     """
     await db.carts.update_one(
-        {"user_id": current_user["user_id"]},
+        {"user_id": current_user["id"]},
         {"$set": {
             "items": [],
             "total": 0.0,
