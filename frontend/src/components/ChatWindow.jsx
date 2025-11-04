@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Send, Folder, Trash2 } from 'lucide-react';
+import { X, Send, Folder, Trash2, Users } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { translations } from '../translations';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 const WS_URL = API_URL.replace('http', 'ws');
@@ -16,10 +17,15 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
   const [showHistory, setShowHistory] = useState(false);
   const [chatSessions, setChatSessions] = useState([]);
   const [showSessionMenu, setShowSessionMenu] = useState(null);
+  const [managerRequested, setManagerRequested] = useState(false);
   
   const wsRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  
+  // Get current language
+  const currentLang = localStorage.getItem('language') || 'en';
+  const t = translations[currentLang];
 
   // Auto-scroll to bottom
   const scrollToBottom = () => {
