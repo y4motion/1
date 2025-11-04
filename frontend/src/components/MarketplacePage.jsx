@@ -878,7 +878,7 @@ const MarketplacePage = () => {
         </div>
       </button>
 
-      {/* Sliding Filter Panel - NO BACKDROP, pushes content, starts below header */}
+      {/* Sliding Filter Panel - Transparent acrylic style like AuthModal and LVL menu */}
       {showFilterPanel && (
           <div
             className="glass-strong"
@@ -888,21 +888,11 @@ const MarketplacePage = () => {
               left: 0,
               bottom: 0,
               width: '380px',
-              background: theme === 'dark' 
-                ? 'rgba(20, 20, 30, 0.95)' 
-                : 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(20px)',
-              borderRight: theme === 'dark' 
-                ? '1px solid rgba(255, 255, 255, 0.1)' 
-                : '1px solid rgba(0, 0, 0, 0.1)',
               borderTopRightRadius: '16px',
               zIndex: 40, // Lower than header (header is z-50)
               padding: '2rem',
               overflowY: 'auto',
               animation: 'slideInFromLeft 0.3s ease-out',
-              boxShadow: theme === 'dark' 
-                ? '4px 0 40px rgba(0, 0, 0, 0.5)' 
-                : '4px 0 40px rgba(0, 0, 0, 0.1)',
               color: theme === 'dark' ? '#fff' : '#1a1a1a'
             }}
           >
