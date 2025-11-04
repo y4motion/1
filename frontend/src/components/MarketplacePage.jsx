@@ -50,7 +50,7 @@ const MarketplacePage = () => {
     fetchProducts();
     fetchPersonas();
     fetchCatalogCategories();
-  }, [selectedCategory, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage]);
+  }, [selectedCategory, selectedSubcategory, selectedPersona, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage, activeFilters]);
   
   // Load specific filters when subcategory changes
   useEffect(() => {
