@@ -392,7 +392,7 @@ const Header = () => {
                 }
               }}
               className="theme-toggle"
-              title={isAuthenticated ? 'Account' : 'Login'}
+              title={isAuthenticated ? t('nav.account') : t('nav.login')}
               style={{ padding: '0.375rem' }}
             >
               <User size={18} className="icon-color" />
