@@ -73,8 +73,8 @@ async def get_products(
         query["subcategory_id"] = subcategory_id
     
     # Filter by persona
-    if persona:
-        query["personas"] = {"$in": [persona]}
+    if persona_id:
+        query["personas"] = {"$in": [persona_id]}
     
     if search:
         query["$or"] = [
