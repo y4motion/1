@@ -25,7 +25,7 @@ async def create_review(review_data: ReviewCreate, current_user: dict = Depends(
     # Check if user already reviewed this product
     existing_review = await db.reviews.find_one({
         "product_id": review_data.product_id,
-        "user_id": current_user["user_id"]
+        "user_id": current_user["id"]
     })
     if existing_review:
         raise HTTPException(
@@ -34,12 +34,12 @@ async def create_review(review_data: ReviewCreate, current_user: dict = Depends(
         )
     
     # Get user info for caching
-    user = await db.users.find_one({"id": current_user["user_id"]})
+    user = await db.users.find_one({"id": current_user["id"]})
     
     # Create review
     review = Review(
         **review_data.model_dump(),
-        user_id=current_user["user_id"],
+        user_id=current_user["id"],
         username=user.get("username", "Anonymous"),
         user_avatar=user.get("avatar_url")
     )
@@ -119,7 +119,7 @@ async def react_to_review(
     # Check if user already reacted
     existing_reaction = await db.review_reactions.find_one({
         "review_id": review_id,
-        "user_id": current_user["user_id"]
+        "user_id": current_user["id"]
     })
     
     if existing_reaction:
@@ -132,14 +132,14 @@ async def react_to_review(
         
         # Update reaction
         await db.review_reactions.update_one(
-            {"review_id": review_id, "user_id": current_user["user_id"]},
+            {"review_id": review_id, "user_id": current_user["id"]},
             {"$set": {"reaction_type": reaction_type}}
         )
     else:
         # Create new reaction
         reaction = ReviewReaction(
             review_id=review_id,
-            user_id=current_user["user_id"],
+            user_id=current_user["id"],
             reaction_type=reaction_type
         )
         await db.review_reactions.insert_one(reaction.model_dump())
@@ -167,8 +167,8 @@ async def delete_review(review_id: str, current_user: dict = Depends(get_current
         )
     
     # Check permissions
-    user = await db.users.find_one({"id": current_user["user_id"]})
-    if review["user_id"] != current_user["user_id"] and not user.get("is_admin"):
+    user = await db.users.find_one({"id": current_user["id"]})
+    if review["user_id"] != current_user["id"] and not user.get("is_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have permission to delete this review"
