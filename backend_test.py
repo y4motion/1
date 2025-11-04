@@ -485,7 +485,7 @@ class MarketplaceTestSuite:
             # Add item to cart
             add_data = {"product_id": self.product_id, "quantity": 2}
             async with self.session.post(
-                f"{self.api_url}/cart/items/",
+                f"{self.api_url}/cart/items",
                 json=add_data,
                 headers={
                     "Authorization": f"Bearer {self.normal_token}",
@@ -507,7 +507,7 @@ class MarketplaceTestSuite:
             # Update cart item quantity
             update_data = {"quantity": 3}
             async with self.session.put(
-                f"{self.api_url}/cart/items/{self.product_id}/",
+                f"{self.api_url}/cart/items{self.product_id}/",
                 json=update_data,
                 headers={
                     "Authorization": f"Bearer {self.normal_token}",
@@ -528,7 +528,7 @@ class MarketplaceTestSuite:
             
             # Remove item from cart
             async with self.session.delete(
-                f"{self.api_url}/cart/items/{self.product_id}/",
+                f"{self.api_url}/cart/items{self.product_id}/",
                 headers={"Authorization": f"Bearer {self.normal_token}"}
             ) as response:
                 
