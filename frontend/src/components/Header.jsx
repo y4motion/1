@@ -172,7 +172,7 @@ const Header = () => {
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
-                title="Start Menu"
+                title={t('nav.startMenu')}
               >
                 <Power size={24} className="icon-color" strokeWidth={2} />
               </button>
