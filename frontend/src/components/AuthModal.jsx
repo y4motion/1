@@ -38,7 +38,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         onClose();
         setFormData({ email: '', username: '', password: '' });
       } else {
-        setError(result.error || 'Authentication failed');
+        setError(result.error || t('user.authFailed'));
       }
     } catch (err) {
       setError('An unexpected error occurred');
