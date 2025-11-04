@@ -196,6 +196,41 @@ const MarketplacePage = () => {
       console.error('Failed to toggle wishlist:', error);
     }
   };
+  
+  // New filter handlers
+  const handlePersonaChange = (personaId) => {
+    setSelectedPersona(personaId);
+    // Apply persona presets
+    // TODO: Fetch and apply persona filter presets
+  };
+  
+  const handleFilterChange = (filterType, value) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      [filterType]: value
+    }));
+  };
+  
+  const handleResetFilters = () => {
+    setSelectedPersona(null);
+    setActiveFilters({});
+    setMinPrice('');
+    setMaxPrice('');
+  };
+  
+  const handleSaveFilterSet = () => {
+    const filterSetName = prompt('Введите название набора фильтров:');
+    if (filterSetName) {
+      const newFilterSet = {
+        name: filterSetName,
+        persona: selectedPersona,
+        filters: activeFilters,
+        timestamp: new Date().toISOString()
+      };
+      setSavedFilterSets(prev => [...prev, newFilterSet]);
+      alert(`Набор "${filterSetName}" сохранен!`);
+    }
+  };
 
   const handleFeaturedChipClick = (tag) => {
     setSelectedTag(tag);
