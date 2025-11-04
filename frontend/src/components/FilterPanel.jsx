@@ -169,16 +169,19 @@ const FilterPanel = ({
         </button>
         
         {expandedSections.personas && (
-          <div style={{ 
-            display: 'flex',
-            overflowX: 'auto',
-            gap: '0.75rem',
-            paddingBottom: '1rem',
-            scrollbarWidth: 'thin',
-            scrollbarColor: theme === 'dark' 
-              ? 'rgba(255, 255, 255, 0.3) transparent'
-              : 'rgba(0, 0, 0, 0.3) transparent'
-          }}>
+          <div 
+            className="persona-scroll"
+            style={{ 
+              display: 'flex',
+              overflowX: 'auto',
+              gap: '0.75rem',
+              paddingBottom: '1rem',
+              scrollbarWidth: 'thin',
+              scrollbarColor: theme === 'dark' 
+                ? 'rgba(255, 255, 255, 0.3) transparent'
+                : 'rgba(0, 0, 0, 0.3) transparent'
+            }}
+          >
             {/* No persona option */}
             <div
               onClick={() => onPersonaChange(null)}
