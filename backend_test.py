@@ -702,7 +702,7 @@ class MarketplaceTestSuite:
                 }
                 
                 async with self.session.post(
-                    f"{self.api_url}/questions/{self.question_id}/answers/",
+                    f"{self.api_url}/questions/{self.question_id}/answers",
                     json=answer_data,
                     headers={
                         "Authorization": f"Bearer {self.seller_token}",
