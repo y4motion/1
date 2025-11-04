@@ -169,110 +169,113 @@ const FilterPanel = ({
         </button>
         
         {expandedSections.personas && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ 
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '0.75rem',
+            paddingBottom: '1rem',
+            scrollbarWidth: 'thin',
+            scrollbarColor: theme === 'dark' 
+              ? 'rgba(255, 255, 255, 0.3) transparent'
+              : 'rgba(0, 0, 0, 0.3) transparent'
+          }}>
             {/* No persona option */}
-            <label
+            <div
+              onClick={() => onPersonaChange(null)}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.75rem',
-                borderRadius: '8px',
+                minWidth: '120px',
+                padding: '1rem 0.75rem',
+                borderRadius: '12px',
                 border: selectedPersona === null 
                   ? theme === 'dark'
-                    ? '2px solid rgba(255, 255, 255, 0.3)'
-                    : '2px solid rgba(0, 0, 0, 0.3)'
-                  : '1px solid transparent',
+                    ? '2px solid rgba(255, 255, 255, 0.4)'
+                    : '2px solid rgba(0, 0, 0, 0.4)'
+                  : theme === 'dark'
+                    ? '1px solid rgba(255, 255, 255, 0.1)'
+                    : '1px solid rgba(0, 0, 0, 0.1)',
                 background: selectedPersona === null
                   ? theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.08)'
+                    ? 'rgba(255, 255, 255, 0.15)'
+                    : 'rgba(0, 0, 0, 0.1)'
                   : 'transparent',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.5rem',
+                textAlign: 'center'
               }}
               onMouseEnter={(e) => {
                 if (selectedPersona !== null) {
                   e.currentTarget.style.background = theme === 'dark'
                     ? 'rgba(255, 255, 255, 0.05)'
                     : 'rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (selectedPersona !== null) {
                   e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
-              <input
-                type="radio"
-                name="persona"
-                checked={selectedPersona === null}
-                onChange={() => onPersonaChange(null)}
-                style={{ accentColor: theme === 'dark' ? '#fff' : '#000' }}
-              />
-              <span style={{ fontSize: '0.875rem', fontWeight: '500' }}>
-                Все товары (без фильтра)
-              </span>
-            </label>
+              <div style={{ fontSize: '2rem' }}>🌐</div>
+              <div style={{ fontSize: '0.75rem', fontWeight: '600' }}>
+                Все
+              </div>
+            </div>
 
-            {/* Personas */}
+            {/* Personas - Horizontal Scroll */}
             {Object.values(personas).map((persona) => (
-              <label
+              <div
                 key={persona.id}
+                onClick={() => onPersonaChange(persona.id)}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '0.75rem',
-                  borderRadius: '8px',
+                  minWidth: '120px',
+                  padding: '1rem 0.75rem',
+                  borderRadius: '12px',
                   border: selectedPersona === persona.id 
                     ? theme === 'dark'
-                      ? '2px solid rgba(255, 255, 255, 0.3)'
-                      : '2px solid rgba(0, 0, 0, 0.3)'
-                    : '1px solid transparent',
+                      ? '2px solid rgba(255, 255, 255, 0.4)'
+                      : '2px solid rgba(0, 0, 0, 0.4)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                   background: selectedPersona === persona.id
                     ? theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.08)'
+                      ? 'rgba(255, 255, 255, 0.15)'
+                      : 'rgba(0, 0, 0, 0.1)'
                     : 'transparent',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedPersona !== persona.id) {
                     e.currentTarget.style.background = theme === 'dark'
                       ? 'rgba(255, 255, 255, 0.05)'
                       : 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedPersona !== persona.id) {
                     e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.transform = 'translateY(0)';
                   }
                 }}
               >
-                <input
-                  type="radio"
-                  name="persona"
-                  checked={selectedPersona === persona.id}
-                  onChange={() => onPersonaChange(persona.id)}
-                  style={{ accentColor: theme === 'dark' ? '#fff' : '#000' }}
-                />
-                <span style={{ fontSize: '1.25rem' }}>{persona.icon}</span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                    {persona.name}
-                  </div>
-                  <div style={{ 
-                    fontSize: '0.75rem', 
-                    opacity: 0.6,
-                    marginTop: '0.25rem'
-                  }}>
-                    {persona.description}
-                  </div>
+                <div style={{ fontSize: '2rem' }}>{persona.icon}</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: '600', lineHeight: '1.2' }}>
+                  {persona.name}
                 </div>
-              </label>
+              </div>
             ))}
           </div>
         )}
