@@ -913,7 +913,7 @@ class MarketplaceTestSuite:
             # Test filtering by persona_id
             async with self.session.get(
                 f"{self.api_url}/products/",
-                params={"persona": "pro_gamer"}
+                params={"persona_id": "pro_gamer"}
             ) as response:
                 
                 status = response.status
