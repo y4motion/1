@@ -44,7 +44,7 @@ const Header = () => {
     { name: t('nav.marketplace'), path: '/marketplace', key: 'marketplace' },
     { name: t('nav.restock'), path: '/restock', key: 'restock' },
     { name: language === 'ru' ? 'СБОРОЧНАЯ' : 'ASSEMBLY', path: '/pc-builder', key: 'pc-builder' },
-    { name: 'MOD', path: '/mod', key: 'mod' }
+    { name: t('nav.mod'), path: '/mod', key: 'mod' }
   ];
 
   const handleLogoClick = (e) => {
