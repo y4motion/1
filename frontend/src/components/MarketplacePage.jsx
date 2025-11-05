@@ -820,8 +820,6 @@ const MarketplacePage = () => {
         />
       )}
 
-      {/* OLD PANEL - TO BE REMOVED */}
-      {false && (
           <div
             data-filter-panel-old="true"
             className="glass-strong"
