@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import "./styles/glassmorphism.css";
+import "./styles/minimalMod.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
