@@ -912,18 +912,22 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
           <div 
             className="glass-subtle product-card"
             style={{
-              borderRadius: '20px',
-              overflow: 'visible', // Изменено чтобы элементы могли выходить за границы
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              borderRadius: theme === 'minimal-mod' ? '8px' : '20px',
+              overflow: 'visible',
+              border: theme === 'minimal-mod' 
+                ? '1px solid rgba(241, 241, 241, 0.12)'
+                : '1px solid rgba(255, 255, 255, 0.08)',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+              transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
               boxShadow: isHovered 
-                ? '0 12px 40px rgba(0, 0, 0, 0.4)' 
-                : '0 4px 16px rgba(0, 0, 0, 0.2)',
-              position: 'relative'
+                ? (theme === 'minimal-mod' ? '0 4px 16px rgba(0, 0, 0, 0.9)' : '0 12px 40px rgba(0, 0, 0, 0.4)') 
+                : (theme === 'minimal-mod' ? '0 2px 8px rgba(0, 0, 0, 0.8)' : '0 4px 16px rgba(0, 0, 0, 0.2)'),
+              position: 'relative',
+              background: theme === 'minimal-mod' ? 'rgba(10, 10, 10, 0.85)' : undefined,
+              fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
             }}
           >
             {/* Image Container with Carousel */}
