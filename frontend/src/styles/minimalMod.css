@@ -56,12 +56,13 @@
   transform: none;
 }
 
-/* Cards/Panels in Minimal Mod - Fully transparent by default */
+/* Cards/Panels in Minimal Mod - No background shapes */
 [data-theme="minimal-mod"] .glass,
 [data-theme="minimal-mod"] .glass-strong,
 [data-theme="minimal-mod"] .glass-subtle {
   background: transparent !important;
-  border: 1px solid var(--border-color);
+  border: none !important;
+  border-radius: 0 !important;
   backdrop-filter: none;
   box-shadow: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -71,7 +72,6 @@
 [data-theme="minimal-mod"] .glass-strong:hover,
 [data-theme="minimal-mod"] .glass-subtle:hover {
   background: rgba(255, 255, 255, 0.05) !important;
-  border-color: var(--border-hover);
 }
 
 /* Input fields */
