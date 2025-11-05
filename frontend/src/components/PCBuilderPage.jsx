@@ -60,9 +60,12 @@ const PCBuilderPage = () => {
     socket: [],
     size: [],
     color: [],
-    year: []
+    year: [],
+    priceRange: { min: 0, max: 2000 },
+    tdpRange: { min: 0, max: 500 }
   });
   const [showFilterDropdown, setShowFilterDropdown] = useState(null); // which filter dropdown is open
+  const [smartFilter, setSmartFilter] = useState(true); // Auto-filter compatible components
 
   // Determine build type based on case selection
   useEffect(() => {
