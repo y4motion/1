@@ -565,7 +565,7 @@ const MarketplacePage = () => {
                 opacity: 0.4,
                 pointerEvents: 'none',
                 zIndex: 2,
-                color: theme === 'dark' ? '#fff' : '#1a1a1a'
+                color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1'
               }} 
             />
             
