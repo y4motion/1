@@ -72,6 +72,18 @@ const PCBuilderPage = () => {
     }
   }, [selectedComponents.case]);
 
+  // Close filter dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (showFilterDropdown && !e.target.closest('[data-filter-dropdown]')) {
+        setShowFilterDropdown(null);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showFilterDropdown]);
+
   // Calculate total power consumption and recommended PSU
   useEffect(() => {
     const powerConsumption = {
