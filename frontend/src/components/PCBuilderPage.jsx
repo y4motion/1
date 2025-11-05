@@ -53,6 +53,16 @@ const PCBuilderPage = () => {
   const [recommendedPSU, setRecommendedPSU] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [savedBuildId, setSavedBuildId] = useState(null);
+  
+  // Filters state
+  const [activeFilters, setActiveFilters] = useState({
+    brand: [],
+    socket: [],
+    size: [],
+    color: [],
+    year: []
+  });
+  const [showFilterDropdown, setShowFilterDropdown] = useState(null); // which filter dropdown is open
 
   // Determine build type based on case selection
   useEffect(() => {
