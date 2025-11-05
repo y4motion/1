@@ -30,7 +30,7 @@ const Header = () => {
   const [copiedCode, setCopiedCode] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
-  const [soundMode, setSoundMode] = useState('surround'); // silent, ambient, surround, tactile
+  const [soundMode, setSoundMode] = useState('on'); // on, off
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
   const { currency, setCurrency } = require('../contexts/CurrencyContext').useCurrency();
