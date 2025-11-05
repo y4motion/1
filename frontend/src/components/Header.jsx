@@ -100,7 +100,7 @@ const Header = () => {
     const handleClickOutside = (event) => {
       // Close Settings menu
       if (showSettingsMenu) {
-        const settingsMenu = event.target.closest('.glass-strong');
+        const settingsMenu = event.target.closest('[data-settings-menu="true"]');
         const settingsButton = event.target.closest('button[title="Settings"]');
         if (!settingsMenu && !settingsButton) {
           setShowSettingsMenu(false);
