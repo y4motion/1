@@ -711,14 +711,14 @@ const MarketplacePage = () => {
           transform: 'translateY(-50%)',
           width: '32px',
           height: '100px',
-          borderRadius: '6px',
-          border: theme === 'dark' 
-            ? '1px solid transparent' 
-            : '1px solid rgba(0, 0, 0, 0.1)',
-          background: theme === 'dark' 
-            ? 'transparent' 
-            : 'rgba(255, 255, 255, 0.5)',
-          backdropFilter: 'blur(10px)',
+          borderRadius: theme === 'minimal-mod' ? '0' : '6px',
+          border: theme === 'minimal-mod'
+            ? 'none'
+            : (theme === 'dark' ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.1)'),
+          background: theme === 'minimal-mod'
+            ? 'transparent'
+            : (theme === 'dark' ? 'transparent' : 'rgba(255, 255, 255, 0.5)'),
+          backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(10px)',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           zIndex: 100,
