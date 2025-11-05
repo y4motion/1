@@ -879,7 +879,7 @@ const PCBuilderPage = () => {
             
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
               {/* Brand Filter */}
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'brand' ? null : 'brand')}
                   className="glass-subtle"
