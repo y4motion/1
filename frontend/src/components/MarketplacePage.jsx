@@ -521,7 +521,7 @@ const MarketplacePage = () => {
               className="minimal-search"
               style={{
                 width: '100%',
-                padding: '1rem 3.5rem 1rem 140px',
+                padding: '1rem 3rem 1rem 140px',
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
