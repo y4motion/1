@@ -754,10 +754,203 @@ const PCBuilderPage = () => {
                 {isExpanded && (
                   <div style={{
                     borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                    padding: '0.75rem 1rem',
-                    maxHeight: '300px',
-                    overflowY: 'auto'
+                    padding: '0.75rem 1rem'
                   }}>
+                    {/* Search and Filters Row */}
+                    <div style={{
+                      display: 'flex',
+                      gap: '0.5rem',
+                      marginBottom: '0.75rem',
+                      alignItems: 'center'
+                    }}>
+                      {/* Search Input */}
+                      <input
+                        type="text"
+                        placeholder={language === 'ru' ? '🔍 Поиск...' : '🔍 Search...'}
+                        value={categorySearch[category.key] || ''}
+                        onChange={(e) => updateCategorySearch(category.key, e.target.value)}
+                        style={{
+                          flex: 1,
+                          padding: '0.5rem 0.75rem',
+                          borderRadius: '6px',
+                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)',
+                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                          fontSize: '0.8125rem',
+                          outline: 'none'
+                        }}
+                      />
+                      
+                      {/* Brand Filter Dropdown */}
+                      {getAvailableBrands(category.key).length > 0 && (
+                        <div style={{ position: 'relative' }} data-filter-dropdown>
+                          <button
+                            onClick={() => setShowFilterDropdown(showFilterDropdown === `${category.key}-brand` ? null : `${category.key}-brand`)}
+                            style={{
+                              padding: '0.5rem 0.75rem',
+                              borderRadius: '6px',
+                              border: (categoryFilters[category.key]?.brand?.length > 0)
+                                ? '1px solid rgba(139, 92, 246, 0.5)'
+                                : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                              background: (categoryFilters[category.key]?.brand?.length > 0) ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              fontWeight: '600',
+                              whiteSpace: 'nowrap',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.25rem',
+                              color: 'inherit'
+                            }}
+                          >
+                            {language === 'ru' ? 'Бренд' : 'Brand'}
+                            {(categoryFilters[category.key]?.brand?.length > 0) && (
+                              <span style={{
+                                background: '#8b5cf6',
+                                color: 'white',
+                                borderRadius: '10px',
+                                padding: '0 0.375rem',
+                                fontSize: '0.625rem'
+                              }}>
+                                {categoryFilters[category.key].brand.length}
+                              </span>
+                            )}
+                            <ChevronDown size={12} />
+                          </button>
+                          
+                          {showFilterDropdown === `${category.key}-brand` && (
+                            <div
+                              className="glass"
+                              style={{
+                                position: 'absolute',
+                                top: 'calc(100% + 0.5rem)',
+                                left: 0,
+                                zIndex: 1000,
+                                minWidth: '180px',
+                                maxHeight: '200px',
+                                overflowY: 'auto',
+                                padding: '0.5rem',
+                                borderRadius: '8px',
+                                border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                              }}
+                            >
+                              {getAvailableBrands(category.key).map(brand => (
+                                <label
+                                  key={brand}
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.5rem',
+                                    cursor: 'pointer',
+                                    borderRadius: '4px',
+                                    fontSize: '0.8125rem'
+                                  }}
+                                  onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={(categoryFilters[category.key]?.brand || []).includes(brand)}
+                                    onChange={() => toggleCategoryFilter(category.key, 'brand', brand)}
+                                    style={{ accentColor: '#8b5cf6' }}
+                                  />
+                                  <span>{brand}</span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Size Filter Dropdown (for motherboard/case) */}
+                      {getAvailableSizes(category.key).length > 0 && (
+                        <div style={{ position: 'relative' }} data-filter-dropdown>
+                          <button
+                            onClick={() => setShowFilterDropdown(showFilterDropdown === `${category.key}-size` ? null : `${category.key}-size`)}
+                            style={{
+                              padding: '0.5rem 0.75rem',
+                              borderRadius: '6px',
+                              border: (categoryFilters[category.key]?.size?.length > 0)
+                                ? '1px solid rgba(139, 92, 246, 0.5)'
+                                : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                              background: (categoryFilters[category.key]?.size?.length > 0) ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              fontWeight: '600',
+                              whiteSpace: 'nowrap',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.25rem',
+                              color: 'inherit'
+                            }}
+                          >
+                            {language === 'ru' ? 'Размер' : 'Size'}
+                            {(categoryFilters[category.key]?.size?.length > 0) && (
+                              <span style={{
+                                background: '#8b5cf6',
+                                color: 'white',
+                                borderRadius: '10px',
+                                padding: '0 0.375rem',
+                                fontSize: '0.625rem'
+                              }}>
+                                {categoryFilters[category.key].size.length}
+                              </span>
+                            )}
+                            <ChevronDown size={12} />
+                          </button>
+                          
+                          {showFilterDropdown === `${category.key}-size` && (
+                            <div
+                              className="glass"
+                              style={{
+                                position: 'absolute',
+                                top: 'calc(100% + 0.5rem)',
+                                right: 0,
+                                zIndex: 1000,
+                                minWidth: '150px',
+                                padding: '0.5rem',
+                                borderRadius: '8px',
+                                border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                              }}
+                            >
+                              {getAvailableSizes(category.key).map(size => (
+                                <label
+                                  key={size}
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.5rem',
+                                    cursor: 'pointer',
+                                    borderRadius: '4px',
+                                    fontSize: '0.8125rem'
+                                  }}
+                                  onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={(categoryFilters[category.key]?.size || []).includes(size)}
+                                    onChange={() => toggleCategoryFilter(category.key, 'size', size)}
+                                    style={{ accentColor: '#8b5cf6' }}
+                                  />
+                                  <span>{size}</span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Component List */}
+                    <div style={{
+                      maxHeight: '300px',
+                      overflowY: 'auto'
+                    }}>
                     {getFilteredComponents(category.key).map((component) => {
                       const isIncompatible = component.compatibility && !component.compatibility.compatible;
                       return (
