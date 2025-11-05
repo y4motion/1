@@ -523,18 +523,22 @@ const Header = () => {
       {showLVLMenu && (
         <div 
           data-lvl-menu="true"
-          className="glass-strong"
+          className={theme === 'minimal-mod' ? '' : 'glass-strong'}
           style={{
             position: 'fixed',
             top: '5.5rem',
             left: '3rem',
             width: '480px',
             maxHeight: '600px',
-            borderRadius: '16px',
+            borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+            background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+            backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
+            border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : undefined,
             overflow: 'hidden',
             zIndex: 1000,
             animation: 'slideDown 0.3s ease-out',
-            color: theme === 'dark' ? '#ffffff' : '#1a1a1a' // Адаптивный цвет текста
+            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+            color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')
           }}
         >
           {/* User Header */}
