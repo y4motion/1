@@ -892,25 +892,66 @@ const PCBuilderPage = () => {
               border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <h3 style={{ fontSize: '0.875rem', fontWeight: '700', margin: 0, letterSpacing: '0.5px' }}>
-                {language === 'ru' ? 'ФИЛЬТРЫ' : 'FILTERS'}
-              </h3>
-              {(activeFilters.brand.length > 0 || activeFilters.socket.length > 0 || activeFilters.color.length > 0 || activeFilters.year.length > 0) && (
-                <button
-                  onClick={clearFilters}
-                  style={{
-                    fontSize: '0.75rem',
-                    color: '#8b5cf6',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    textDecoration: 'underline'
-                  }}
-                >
-                  {language === 'ru' ? 'Очистить' : 'Clear'}
-                </button>
-              )}
+            <div style={{ marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                <h3 style={{ fontSize: '0.875rem', fontWeight: '700', margin: 0, letterSpacing: '0.5px' }}>
+                  {language === 'ru' ? 'ФИЛЬТРЫ' : 'FILTERS'}
+                </h3>
+                {(activeFilters.brand.length > 0 || activeFilters.socket.length > 0 || activeFilters.color.length > 0 || activeFilters.year.length > 0) && (
+                  <button
+                    onClick={clearFilters}
+                    style={{
+                      fontSize: '0.75rem',
+                      color: '#8b5cf6',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    {language === 'ru' ? 'Очистить' : 'Clear'}
+                  </button>
+                )}
+              </div>
+              
+              {/* Smart Filter Toggle */}
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem',
+                  cursor: 'pointer',
+                  borderRadius: '6px',
+                  background: smartFilter ? 'rgba(139, 92, 246, 0.1)' : 'transparent',
+                  border: smartFilter ? '1px solid rgba(139, 92, 246, 0.3)' : '1px solid transparent',
+                  transition: 'all 0.2s ease',
+                  marginBottom: '0.75rem'
+                }}
+                onMouseEnter={(e) => {
+                  if (!smartFilter) {
+                    e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!smartFilter) {
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={smartFilter}
+                  onChange={(e) => setSmartFilter(e.target.checked)}
+                  style={{ accentColor: '#8b5cf6' }}
+                />
+                <span style={{ fontSize: '0.75rem', fontWeight: '600' }}>
+                  {language === 'ru' ? '🧠 Умная фильтрация' : '🧠 Smart Filter'}
+                </span>
+                <span style={{ fontSize: '0.625rem', opacity: 0.6 }}>
+                  ({language === 'ru' ? 'совместимость' : 'compatibility'})
+                </span>
+              </label>
             </div>
             
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
