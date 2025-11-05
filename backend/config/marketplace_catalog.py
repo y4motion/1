@@ -276,7 +276,7 @@ MARKETPLACE_CATALOG = {
         "id": "audio_video",
         "name_en": "Audio & Video",
         "name_ru": "Аудио и видео",
-        "icon": "🎧",
+        "icon": "Headphones",
         "subcategories": {
             "audio_systems": {
                 "name_en": "Audio Systems",
