@@ -831,14 +831,7 @@ const PCBuilderPage = () => {
         </div>
 
         {/* Right Column - Summary Sidebar */}
-        <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}
-          onClick={(e) => {
-            // Close filter dropdowns when clicking outside
-            if (!e.target.closest('button')) {
-              setShowFilterDropdown(null);
-            }
-          }}
-        >
+        <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
               </div>
             );
           })}
