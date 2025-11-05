@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from typing import Dict, Any
 from config.catalog_config import PERSONAS, MAIN_CATEGORIES, SPECIFIC_FILTERS, PERSONA_FILTER_PRESETS
+from config.marketplace_catalog import MARKETPLACE_CATALOG
 
 router = APIRouter()
 
