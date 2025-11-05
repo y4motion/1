@@ -566,6 +566,11 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
+[data-theme='minimal-mod'] .theme-toggle,
+[data-theme='minimal-mod'] .lang-toggle {
+  border-radius: 0;
+}
+
 [data-theme='minimal-mod'] .theme-toggle:hover,
 [data-theme='minimal-mod'] .lang-toggle:hover {
   background: transparent;
