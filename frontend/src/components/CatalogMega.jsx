@@ -17,6 +17,8 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log('CatalogMega rendered', { loading, catalogKeys: Object.keys(catalog) });
+
   useEffect(() => {
     fetchCatalog();
   }, []);
