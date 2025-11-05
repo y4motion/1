@@ -26,9 +26,10 @@ const MarketplacePage = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [showCatalog, setShowCatalog] = useState(false); // Catalog dropdown - TO BE REMOVED
+  const [showCatalogMega, setShowCatalogMega] = useState(false); // New mega catalog
   const [showFilterPanel, setShowFilterPanel] = useState(false); // Sliding filter panel
-  const [showSearchCategoryDropdown, setShowSearchCategoryDropdown] = useState(false); // Category dropdown in search
+  const [showSearchHistory, setShowSearchHistory] = useState(false); // Search history dropdown
+  const [searchHistory, setSearchHistory] = useState([]); // Stores last 10 searches
   const [expandedSections, setExpandedSections] = useState({}); // Collapsible sections
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
