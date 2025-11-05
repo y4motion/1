@@ -212,6 +212,33 @@
   background: rgba(0, 0, 0, 0.03);
 }
 
+/* Minimal Mod theme - navigation links */
+[data-theme='minimal-mod'] .text-link {
+  color: rgba(241, 241, 241, 0.9);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  background: transparent;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', 'Monaco', monospace;
+}
+
+[data-theme='minimal-mod'] .text-link:hover {
+  border: none;
+  background: transparent;
+  color: rgba(241, 241, 241, 1);
+}
+
+[data-theme='minimal-mod'] .text-link.active {
+  border: none;
+  background: transparent;
+}
+
 /* LVL button special styling */
 [data-theme='dark'] .lvl-button {
   background: rgba(255, 255, 255, 0.05);
