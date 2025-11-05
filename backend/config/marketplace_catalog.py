@@ -30,7 +30,7 @@ MARKETPLACE_CATALOG = {
         "id": "pc_components",
         "name_en": "PC Components",
         "name_ru": "Комплектующие для ПК",
-        "icon": "🔧",
+        "icon": "Cpu",
         "subcategories": {
             "main_components": {
                 "name_en": "Main Components",
