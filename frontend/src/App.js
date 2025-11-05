@@ -55,7 +55,8 @@ function App() {
               </Routes>
             </BrowserRouter>
           </div>
-        </AuthProvider>
+          </AuthProvider>
+        </CurrencyProvider>
       </LanguageProvider>
     </ThemeProvider>
   );
