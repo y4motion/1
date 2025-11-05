@@ -409,34 +409,47 @@ const Header = () => {
                           width: '100%',
                           padding: '0.5rem',
                           borderRadius: '6px',
-                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          border: theme === 'dark' 
+                            ? '1px solid rgba(255, 255, 255, 0.08)' 
+                            : theme === 'light' 
+                              ? '1px solid rgba(0, 0, 0, 0.08)'
+                              : '1px solid rgba(241, 241, 241, 0.12)',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '0.375rem',
                           fontSize: '0.8rem',
+                          fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
                           transition: 'all 0.3s ease'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background = theme === 'dark' 
                             ? 'rgba(255, 255, 255, 0.05)' 
-                            : 'rgba(0, 0, 0, 0.05)';
+                            : theme === 'light'
+                              ? 'rgba(0, 0, 0, 0.05)'
+                              : 'rgba(255, 255, 255, 0.08)';
                           e.currentTarget.style.borderColor = theme === 'dark' 
                             ? 'rgba(255, 255, 255, 0.15)' 
-                            : 'rgba(0, 0, 0, 0.15)';
+                            : theme === 'light'
+                              ? 'rgba(0, 0, 0, 0.15)'
+                              : 'rgba(241, 241, 241, 0.24)';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = 'transparent';
                           e.currentTarget.style.borderColor = theme === 'dark' 
                             ? 'rgba(255, 255, 255, 0.08)' 
-                            : 'rgba(0, 0, 0, 0.08)';
+                            : theme === 'light'
+                              ? 'rgba(0, 0, 0, 0.08)'
+                              : 'rgba(241, 241, 241, 0.12)';
                         }}
                       >
                         {theme === 'dark' ? (
                           <><Sun size={14} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Темная' : 'Dark'}</span></>
-                        ) : (
+                        ) : theme === 'light' ? (
                           <><Moon size={14} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Светлая' : 'Light'}</span></>
+                        ) : (
+                          <><Power size={14} className="icon-color" /><span className="icon-color">{language === 'ru' ? 'Минимал Мод' : 'Minimal Mod'}</span></>
                         )}
                       </button>
                     </div>
