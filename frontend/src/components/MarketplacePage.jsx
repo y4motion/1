@@ -933,7 +933,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                 : (isHovered ? '0 12px 40px rgba(0, 0, 0, 0.4)' : 'none'),
               position: 'relative',
               background: theme === 'minimal-mod' 
-                ? (isHovered ? 'rgba(255, 255, 255, 0.04)' : 'transparent')
+                ? 'transparent'
                 : undefined,
               fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
             }}
