@@ -348,7 +348,7 @@ MARKETPLACE_CATALOG = {
         "id": "software_services",
         "name_en": "Software & Services",
         "name_ru": "ПО и услуги",
-        "icon": "⚙️",
+        "icon": "Settings",
         "subcategories": {
             "operating_systems": {
                 "name_en": "Operating Systems",
