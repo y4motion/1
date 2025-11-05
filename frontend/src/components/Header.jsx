@@ -225,6 +225,7 @@ const Header = () => {
               {/* Settings Dropdown Menu */}
               {showSettingsMenu && (
                 <div 
+                  data-settings-menu="true"
                   className={theme === 'minimal-mod' ? '' : 'glass-strong'}
                   style={{
                     position: 'absolute',
