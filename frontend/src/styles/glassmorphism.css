@@ -539,6 +539,11 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
+[data-theme='minimal-mod'] .theme-toggle:hover,
+[data-theme='minimal-mod'] .lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* Search dialog styling */
 .search-dialog {
   background: rgba(255, 255, 255, 0.04);
