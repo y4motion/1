@@ -79,8 +79,10 @@ const PCBuilderPage = () => {
       }
     };
     
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    if (showFilterDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
   }, [showFilterDropdown]);
 
   // Calculate total power consumption and recommended PSU
