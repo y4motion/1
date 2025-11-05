@@ -244,7 +244,7 @@ const Header = () => {
                 >
                   {/* Top Row: Sound + Currency */}
                   <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.75rem' }}>
-                    {/* Sound Management - Compact */}
+                    {/* Sound Management - Simplified: On/Off */}
                     <div style={{ flex: '1' }}>
                       <div style={{ 
                         fontSize: '0.7rem', 
@@ -256,32 +256,32 @@ const Header = () => {
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.375rem' }}>
                         {[
-                          { mode: 'silent', icon: VolumeX },
-                          { mode: 'ambient', icon: Music },
-                          { mode: 'surround', icon: Volume2 },
-                          { mode: 'tactile', icon: MousePointer }
-                        ].map(({ mode, icon: Icon }) => (
+                          { mode: 'on', icon: Volume2, label: language === 'ru' ? 'ВКЛ' : 'ON' },
+                          { mode: 'off', icon: VolumeX, label: language === 'ru' ? 'ВЫКЛ' : 'OFF' }
+                        ].map(({ mode, icon: Icon, label }) => (
                           <button
                             key={mode}
                             onClick={() => setSoundMode(mode)}
                             className="glass-subtle"
                             style={{
                               padding: '0.5rem',
-                              borderRadius: '6px',
+                              borderRadius: theme === 'minimal-mod' ? '0' : '6px',
                               border: soundMode === mode 
-                                ? '1px solid rgba(139, 92, 246, 0.5)' 
-                                : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                                ? (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.3)' : '1px solid rgba(139, 92, 246, 0.5)')
+                                : (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)')),
                               background: soundMode === mode 
-                                ? 'rgba(139, 92, 246, 0.1)' 
+                                ? (theme === 'minimal-mod' ? 'transparent' : 'rgba(139, 92, 246, 0.1)')
                                 : 'transparent',
                               cursor: 'pointer',
                               transition: 'all 0.3s ease',
                               display: 'flex',
+                              flexDirection: 'column',
                               alignItems: 'center',
-                              justifyContent: 'center'
+                              justifyContent: 'center',
+                              gap: '0.25rem'
                             }}
                             onMouseEnter={(e) => {
-                              if (soundMode !== mode) {
+                              if (soundMode !== mode && theme !== 'minimal-mod') {
                                 e.currentTarget.style.background = theme === 'dark' 
                                   ? 'rgba(255, 255, 255, 0.05)' 
                                   : 'rgba(0, 0, 0, 0.05)';
@@ -293,13 +293,16 @@ const Header = () => {
                             onMouseLeave={(e) => {
                               if (soundMode !== mode) {
                                 e.currentTarget.style.background = 'transparent';
-                                e.currentTarget.style.borderColor = theme === 'dark' 
-                                  ? 'rgba(255, 255, 255, 0.08)' 
-                                  : 'rgba(0, 0, 0, 0.08)';
+                                e.currentTarget.style.borderColor = theme === 'minimal-mod'
+                                  ? 'rgba(241, 241, 241, 0.12)'
+                                  : (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)');
                               }
                             }}
                           >
-                            <Icon size={14} className="icon-color" />
+                            <Icon size={18} className="icon-color" />
+                            <span style={{ fontSize: '0.625rem', fontWeight: '600' }} className="icon-color">
+                              {label}
+                            </span>
                           </button>
                         ))}
                       </div>
