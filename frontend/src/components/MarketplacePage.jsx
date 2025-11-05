@@ -488,11 +488,11 @@ const MarketplacePage = () => {
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 padding: '0.5rem',
-                borderRadius: '6px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '6px',
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                if (!showCatalogMega) {
+                if (!showCatalogMega && theme !== 'minimal-mod') {
                   e.currentTarget.style.background = theme === 'dark'
                     ? 'rgba(255, 255, 255, 0.1)'
                     : 'rgba(0, 0, 0, 0.1)';
