@@ -556,7 +556,7 @@ const MarketplacePage = () => {
                 gap: '0.375rem',
                 fontSize: '0.8125rem',
                 fontWeight: '600',
-                color: showCatalogMegaMega ? '#8b5cf6' : 'inherit',
+                color: showCatalogMega ? '#8b5cf6' : 'inherit',
                 transition: 'all 0.2s ease',
                 zIndex: 2
               }}
