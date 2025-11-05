@@ -219,9 +219,11 @@ const PCBuilderPage = () => {
     return { compatible: true, reason: '' };
   };
 
-  // Filter components based on active filters and compatibility
+  // Filter components based on category-specific filters and compatibility
   const getFilteredComponents = (category) => {
     let items = components[category] || [];
+    const filters = categoryFilters[category] || { brand: [], size: [] };
+    const search = categorySearch[category] || '';
     
     // SMART FILTER: Auto-filter based on selected components
     if (smartFilter) {
@@ -245,41 +247,24 @@ const PCBuilderPage = () => {
       }
     }
     
-    // Apply brand filter
-    if (activeFilters.brand.length > 0) {
-      items = items.filter(item => activeFilters.brand.includes(item.brand));
-    }
-    
-    // Apply socket filter (for CPU and motherboard)
-    if (activeFilters.socket.length > 0 && (category === 'cpu' || category === 'motherboard')) {
-      items = items.filter(item => activeFilters.socket.includes(item.socket));
-    }
-    
-    // Apply color filter
-    if (activeFilters.color.length > 0) {
-      items = items.filter(item => activeFilters.color.includes(item.color));
-    }
-    
-    // Apply year filter
-    if (activeFilters.year.length > 0) {
-      items = items.filter(item => activeFilters.year.includes(item.year));
-    }
-    
-    // Apply price range filter
-    if (activeFilters.priceRange.min > 0 || activeFilters.priceRange.max < 2000) {
+    // Apply category-specific search
+    if (search) {
       items = items.filter(item => 
-        item.price >= activeFilters.priceRange.min && 
-        item.price <= activeFilters.priceRange.max
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        (item.brand && item.brand.toLowerCase().includes(search.toLowerCase())) ||
+        (item.specs && item.specs.toLowerCase().includes(search.toLowerCase()))
       );
     }
     
-    // Apply TDP range filter (for components with power consumption)
-    if (category === 'cpu' || category === 'gpu') {
-      if (activeFilters.tdpRange.min > 0 || activeFilters.tdpRange.max < 500) {
-        items = items.filter(item => 
-          item.tdp >= activeFilters.tdpRange.min && 
-          item.tdp <= activeFilters.tdpRange.max
-        );
+    // Apply category-specific brand filter
+    if (filters.brand && filters.brand.length > 0) {
+      items = items.filter(item => filters.brand.includes(item.brand));
+    }
+    
+    // Apply category-specific size filter (formFactor for motherboards/cases)
+    if (filters.size && filters.size.length > 0) {
+      if (category === 'motherboard' || category === 'case') {
+        items = items.filter(item => filters.size.includes(item.formFactor));
       }
     }
     
