@@ -100,12 +100,13 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
     <div
       className="glass"
       style={{
-        position: 'absolute',
-        top: '100%',
-        left: 0,
-        right: 0,
-        marginTop: '0.5rem',
-        maxHeight: '600px',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90vw',
+        maxWidth: '1200px',
+        maxHeight: '80vh',
         display: 'grid',
         gridTemplateColumns: '280px 1fr',
         background: theme === 'dark' ? 'rgba(10, 10, 10, 0.98)' : 'rgba(255, 255, 255, 0.98)',
@@ -114,7 +115,7 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
         borderRadius: '12px',
         overflow: 'hidden',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        zIndex: 1000
+        zIndex: 9999
       }}
     >
       {/* Left Sidebar - Main Categories */}
