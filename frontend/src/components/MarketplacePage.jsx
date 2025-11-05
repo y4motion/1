@@ -546,47 +546,7 @@ const MarketplacePage = () => {
               }}
             />
             
-            {/* Catalog Button inside search */}
-            <button
-              onClick={() => {
-                console.log('Catalog button clicked, current state:', showCatalogMega);
-                setShowCatalogMega(!showCatalogMega);
-              }}
-              style={{
-                position: 'absolute',
-                right: '3.5rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                padding: '0.5rem',
-                borderRadius: '6px',
-                border: 'none',
-                background: showCatalogMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                fontSize: '0.8125rem',
-                fontWeight: '600',
-                color: showCatalogMega ? '#8b5cf6' : 'inherit',
-                transition: 'all 0.2s ease',
-                zIndex: 2
-              }}
-              onMouseEnter={(e) => {
-                if (!showCatalogMega) {
-                  e.currentTarget.style.background = theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.1)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!showCatalogMega) {
-                  e.currentTarget.style.background = 'transparent';
-                }
-              }}
-            >
-              <Menu size={16} />
-            </button>
-            
+            {/* Search Icon - Right Side */}
             <Search 
               size={20} 
               style={{ 
