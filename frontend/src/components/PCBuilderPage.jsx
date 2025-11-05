@@ -1041,7 +1041,7 @@ const PCBuilderPage = () => {
               </div>
 
               {/* Color Filter */}
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'color' ? null : 'color')}
                   className="glass-subtle"
