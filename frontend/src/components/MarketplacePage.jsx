@@ -196,6 +196,28 @@ const MarketplacePage = () => {
     }
   };
 
+  // Search history management
+  const addToSearchHistory = (query) => {
+    if (!query || query.trim() === '') return;
+    
+    const updated = [query, ...searchHistory.filter(item => item !== query)].slice(0, 10);
+    setSearchHistory(updated);
+    localStorage.setItem('searchHistory', JSON.stringify(updated));
+  };
+
+  const clearSearchHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('searchHistory');
+  };
+
+  const handleSearchSubmit = (query) => {
+    if (query && query.trim()) {
+      addToSearchHistory(query.trim());
+      setSearchTerm(query.trim());
+      setShowSearchHistory(false);
+    }
+  };
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
