@@ -1122,9 +1122,7 @@ const PCBuilderPage = () => {
                   ({language === 'ru' ? 'совместимость' : 'compatibility'})
                 </span>
               </label>
-            </div>
-            
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          </div>
               {/* Brand Filter */}
               <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
