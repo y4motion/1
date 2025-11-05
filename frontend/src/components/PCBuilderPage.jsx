@@ -126,20 +126,22 @@ const PCBuilderPage = () => {
       { id: 'mb5', name: 'ASRock B650M Pro', brand: 'ASRock', socket: 'AM5', price: 179, specs: 'Micro-ATX, PCIe 4.0, DDR5', formFactor: 'Micro-ATX', year: 2023 }
     ],
     ram: [
-      { id: 'ram1', name: '32GB DDR5 4800MHz', price: 109, modules: 2, specs: '2x16GB, CL40' },
-      { id: 'ram2', name: '64GB DDR5 6000MHz', price: 229, modules: 2, specs: '2x32GB, CL36' },
-      { id: 'ram3', name: '32GB DDR5 6400MHz RGB', price: 149, modules: 2, specs: '2x16GB, CL32, RGB' }
+      { id: 'ram1', name: 'Corsair Vengeance 32GB DDR5 4800MHz', brand: 'Corsair', price: 109, modules: 2, specs: '2x16GB, CL40', color: 'Black', year: 2023 },
+      { id: 'ram2', name: 'G.Skill Trident Z5 64GB DDR5 6000MHz', brand: 'G.Skill', price: 229, modules: 2, specs: '2x32GB, CL36', color: 'Silver', year: 2024 },
+      { id: 'ram3', name: 'Corsair Dominator 32GB DDR5 6400MHz RGB', brand: 'Corsair', price: 149, modules: 2, specs: '2x16GB, CL32, RGB', color: 'RGB', year: 2024 },
+      { id: 'ram4', name: 'Kingston Fury 32GB DDR5 5600MHz', brand: 'Kingston', price: 119, modules: 2, specs: '2x16GB, CL36', color: 'Black', year: 2023 }
     ],
     storage: [
-      { id: 'ssd1', name: '1TB NVMe Gen4 SSD', price: 89, count: 1, specs: '7000MB/s Read' },
-      { id: 'ssd2', name: '2TB NVMe Gen4 SSD', price: 149, count: 1, specs: '7450MB/s Read' },
-      { id: 'ssd3', name: '4TB NVMe Gen5 SSD', price: 449, count: 1, specs: '12000MB/s Read' }
+      { id: 'ssd1', name: 'Samsung 980 PRO 1TB NVMe Gen4', brand: 'Samsung', price: 89, count: 1, specs: '7000MB/s Read', year: 2023 },
+      { id: 'ssd2', name: 'WD Black SN850X 2TB NVMe Gen4', brand: 'WD', price: 149, count: 1, specs: '7450MB/s Read', year: 2024 },
+      { id: 'ssd3', name: 'Crucial T700 4TB NVMe Gen5', brand: 'Crucial', price: 449, count: 1, specs: '12000MB/s Read', year: 2024 },
+      { id: 'ssd4', name: 'Kingston KC3000 1TB NVMe Gen4', brand: 'Kingston', price: 79, count: 1, specs: '7000MB/s Read', year: 2023 }
     ],
     psu: [
-      { id: 'psu1', name: '650W 80+ Gold', price: 89, wattage: 650, specs: 'Modular, 10 Year Warranty' },
-      { id: 'psu2', name: '750W 80+ Gold', price: 109, wattage: 750, specs: 'Fully Modular, 10 Year Warranty' },
-      { id: 'psu3', name: '850W 80+ Platinum', price: 159, wattage: 850, specs: 'Fully Modular, 12 Year Warranty' },
-      { id: 'psu4', name: '1000W 80+ Platinum', price: 199, wattage: 1000, specs: 'Fully Modular, 12 Year Warranty' }
+      { id: 'psu1', name: 'Corsair RM650x 650W 80+ Gold', brand: 'Corsair', price: 89, wattage: 650, length: 160, specs: 'Modular, 10 Year Warranty', year: 2023 },
+      { id: 'psu2', name: 'EVGA SuperNOVA 750W 80+ Gold', brand: 'EVGA', price: 109, wattage: 750, length: 180, specs: 'Fully Modular, 10 Year Warranty', year: 2023 },
+      { id: 'psu3', name: 'Seasonic Focus 850W 80+ Platinum', brand: 'Seasonic', price: 159, wattage: 850, length: 170, specs: 'Fully Modular, 12 Year Warranty', year: 2024 },
+      { id: 'psu4', name: 'be quiet! Dark Power 1000W 80+ Platinum', brand: 'be quiet!', price: 199, wattage: 1000, length: 180, specs: 'Fully Modular, 12 Year Warranty', year: 2024 }
     ],
     case: [
       { id: 'case1', name: 'NZXT H210i', brand: 'NZXT', price: 99, specs: 'Mini-ITX, Tempered Glass, RGB', formFactor: 'Mini-ITX', image: '🔲', 
