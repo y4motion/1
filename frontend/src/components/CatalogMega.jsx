@@ -150,10 +150,14 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
                 gap: '0.75rem',
                 padding: '0.875rem 1rem',
                 marginBottom: '0.25rem',
-                borderRadius: '8px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 border: 'none',
-                background: isSelected ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
-                color: isSelected ? '#8b5cf6' : 'inherit',
+                background: theme === 'minimal-mod'
+                  ? 'transparent'
+                  : (isSelected ? 'rgba(139, 92, 246, 0.2)' : 'transparent'),
+                color: theme === 'minimal-mod'
+                  ? (isSelected ? '#f1f1f1' : 'rgba(241, 241, 241, 0.9)')
+                  : (isSelected ? '#8b5cf6' : 'inherit'),
                 cursor: 'pointer',
                 textAlign: 'left',
                 transition: 'all 0.2s ease',
@@ -161,7 +165,7 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
                 fontWeight: isSelected ? '600' : '500'
               }}
               onMouseEnter={(e) => {
-                if (!isSelected) {
+                if (!isSelected && theme !== 'minimal-mod') {
                   e.currentTarget.style.background = theme === 'dark' 
                     ? 'rgba(255, 255, 255, 0.05)' 
                     : 'rgba(0, 0, 0, 0.05)';
