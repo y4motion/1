@@ -158,10 +158,112 @@ const PCBuilderPage = () => {
         maxGPULength: 500, maxPSULength: 250, supportedMobo: ['E-ATX', 'ATX', 'Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240', 'AIO-360', 'AIO-420', 'Custom'], color: 'Black', year: 2023 }
     ],
     cooling: [
-      { id: 'cool1', name: 'NZXT Kraken 240 RGB', price: 129, power: 10, specs: '240mm AIO, RGB' },
-      { id: 'cool2', name: 'NZXT Kraken 360 RGB', price: 179, power: 15, specs: '360mm AIO, RGB, LCD Screen' },
-      { id: 'cool3', name: 'Noctua NH-D15', price: 109, power: 0, specs: 'Dual Tower Air Cooler' }
+      { id: 'cool1', name: 'NZXT Kraken 240 RGB', brand: 'NZXT', price: 129, power: 10, type: 'AIO-240', specs: '240mm AIO, RGB', color: 'Black', year: 2024 },
+      { id: 'cool2', name: 'NZXT Kraken 360 RGB', brand: 'NZXT', price: 179, power: 15, type: 'AIO-360', specs: '360mm AIO, RGB, LCD Screen', color: 'Black', year: 2024 },
+      { id: 'cool3', name: 'Noctua NH-D15', brand: 'Noctua', price: 109, power: 0, type: 'Air', specs: 'Dual Tower Air Cooler', color: 'Brown', year: 2023 },
+      { id: 'cool4', name: 'Arctic Liquid Freezer II 280', brand: 'Arctic', price: 99, power: 12, type: 'AIO-240', specs: '280mm AIO', color: 'Black', year: 2023 },
+      { id: 'cool5', name: 'Corsair iCUE H150i Elite', brand: 'Corsair', price: 189, power: 15, type: 'AIO-360', specs: '360mm AIO, RGB', color: 'Black', year: 2024 }
     ]
+  };
+
+  // Get available filter options based on current category
+  const getFilterOptions = (category) => {
+    const items = components[category] || [];
+    return {
+      brands: [...new Set(items.map(item => item.brand).filter(Boolean))],
+      sockets: [...new Set(items.map(item => item.socket).filter(Boolean))],
+      colors: [...new Set(items.map(item => item.color).filter(Boolean))],
+      years: [...new Set(items.map(item => item.year).filter(Boolean))].sort((a, b) => b - a)
+    };
+  };
+
+  // Check component compatibility with selected case
+  const checkCompatibility = (component, category) => {
+    if (!selectedComponents.case) return { compatible: true, reason: '' };
+    
+    const selectedCase = selectedComponents.case;
+    
+    switch(category) {
+      case 'gpu':
+        if (component.length > selectedCase.maxGPULength) {
+          return { compatible: false, reason: language === 'ru' ? 'Не подходит под корпус (длина)' : 'Does not fit case (length)' };
+        }
+        break;
+      case 'motherboard':
+        if (!selectedCase.supportedMobo.includes(component.formFactor)) {
+          return { compatible: false, reason: language === 'ru' ? 'Не подходит под корпус (форм-фактор)' : 'Does not fit case (form factor)' };
+        }
+        break;
+      case 'psu':
+        if (component.length > selectedCase.maxPSULength) {
+          return { compatible: false, reason: language === 'ru' ? 'Не подходит под корпус (длина БП)' : 'Does not fit case (PSU length)' };
+        }
+        break;
+      case 'cooling':
+        if (!selectedCase.supportsCooling.includes(component.type)) {
+          return { compatible: false, reason: language === 'ru' ? 'Не подходит под корпус (охлаждение)' : 'Does not fit case (cooling)' };
+        }
+        break;
+    }
+    
+    return { compatible: true, reason: '' };
+  };
+
+  // Filter components based on active filters and compatibility
+  const getFilteredComponents = (category) => {
+    let items = components[category] || [];
+    
+    // Apply brand filter
+    if (activeFilters.brand.length > 0) {
+      items = items.filter(item => activeFilters.brand.includes(item.brand));
+    }
+    
+    // Apply socket filter (for CPU and motherboard)
+    if (activeFilters.socket.length > 0 && (category === 'cpu' || category === 'motherboard')) {
+      items = items.filter(item => activeFilters.socket.includes(item.socket));
+    }
+    
+    // Apply color filter
+    if (activeFilters.color.length > 0) {
+      items = items.filter(item => activeFilters.color.includes(item.color));
+    }
+    
+    // Apply year filter
+    if (activeFilters.year.length > 0) {
+      items = items.filter(item => activeFilters.year.includes(item.year));
+    }
+    
+    // Filter out incompatible components if case is selected
+    if (selectedComponents.case) {
+      items = items.map(item => ({
+        ...item,
+        compatibility: checkCompatibility(item, category)
+      }));
+    }
+    
+    return items;
+  };
+
+  // Toggle filter value
+  const toggleFilter = (filterType, value) => {
+    setActiveFilters(prev => {
+      const current = prev[filterType];
+      const newValues = current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
+      return { ...prev, [filterType]: newValues };
+    });
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setActiveFilters({
+      brand: [],
+      socket: [],
+      size: [],
+      color: [],
+      year: []
+    });
   };
 
   // Performance metrics calculator based on selected components
