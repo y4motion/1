@@ -372,7 +372,7 @@ MARKETPLACE_CATALOG = {
         "id": "merch_collectibles",
         "name_en": "Merch & Collectibles",
         "name_ru": "Мерч и коллекционное",
-        "icon": "🎁",
+        "icon": "Gift",
         "subcategories": {
             "apparel": {
                 "name_en": "Apparel",
