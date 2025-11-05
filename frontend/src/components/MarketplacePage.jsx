@@ -1154,7 +1154,6 @@ const MarketplacePage = () => {
               APPLY FILTERS
             </button>
           </div>
-      )}
     </div>
   );
 };
