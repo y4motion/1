@@ -11,6 +11,7 @@ const FloatingChatWidget = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const audioRef = useRef(null);
+  const chatButtonRef = useRef(null);
 
   // Retro flicker animation on page load
   useEffect(() => {
@@ -19,6 +20,25 @@ const FloatingChatWidget = () => {
     }, 1200); // Match retro-flicker-in animation duration
     return () => clearTimeout(timer);
   }, []);
+
+  // Close chat when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen) {
+        const chatWindow = event.target.closest('[data-chat-window="true"]');
+        const chatButton = chatButtonRef.current && chatButtonRef.current.contains(event.target);
+        
+        if (!chatWindow && !chatButton) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   // Play notification sound
   const playNotificationSound = () => {
