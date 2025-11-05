@@ -1280,7 +1280,9 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
           cursor: 'pointer',
           display: 'grid',
           gridTemplateColumns: '240px 1fr auto',
-          background: theme === 'minimal-mod' ? 'rgba(10, 10, 10, 0.85)' : undefined,
+          background: theme === 'minimal-mod' 
+            ? (isHovered ? 'rgba(255, 255, 255, 0.04)' : 'transparent')
+            : undefined,
           fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
           gap: '2rem',
           padding: '1.5rem',
