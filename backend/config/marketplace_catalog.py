@@ -300,7 +300,7 @@ MARKETPLACE_CATALOG = {
         "id": "chairs_desks",
         "name_en": "Chairs & Desks",
         "name_ru": "Кресла и столы",
-        "icon": "🪑",
+        "icon": "Armchair",
         "subcategories": {
             "gaming_chairs": {
                 "name_en": "Gaming Chairs",
