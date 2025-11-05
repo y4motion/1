@@ -112,7 +112,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
       {/* Modal - Same style as Header */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="glass-strong"
+        className={theme === 'minimal-mod' ? '' : 'glass-strong'}
         style={{
           position: 'fixed',
           top: '50%',
@@ -121,9 +121,13 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           width: '90%',
           maxWidth: '480px',
           padding: '2.5rem',
-          borderRadius: '16px',
+          borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+          background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+          backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
+          border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : undefined,
           zIndex: 9999,
-          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+          fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+          color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
           animation: 'slideUp 0.3s ease-out'
         }}
       >
