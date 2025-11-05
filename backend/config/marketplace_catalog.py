@@ -252,7 +252,7 @@ MARKETPLACE_CATALOG = {
         "id": "storage",
         "name_en": "Storage",
         "name_ru": "Накопители",
-        "icon": "💾",
+        "icon": "HardDrive",
         "subcategories": {
             "internal_storage": {
                 "name_en": "Internal Storage",
