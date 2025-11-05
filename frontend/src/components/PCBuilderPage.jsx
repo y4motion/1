@@ -701,56 +701,132 @@ const PCBuilderPage = () => {
                     {getFilteredComponents(category.key).map((component) => {
                       const isIncompatible = component.compatibility && !component.compatibility.compatible;
                       return (
-                      <button
-                        key={component.id}
-                        onClick={() => selectComponent(category.key, component)}
-                        className="glass-subtle"
-                        style={{
-                          width: '100%',
-                          padding: '1rem',
-                          marginBottom: '0.75rem',
-                          borderRadius: '8px',
-                          border: selected?.id === component.id
-                            ? '1px solid rgba(139, 92, 246, 0.5)'
-                            : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                          background: selected?.id === component.id ? 'rgba(139, 92, 246, 0.1)' : 'transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'all 0.3s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          if (selected?.id !== component.id) {
-                            e.currentTarget.style.background = theme === 'dark' 
-                              ? 'rgba(255, 255, 255, 0.05)' 
-                              : 'rgba(0, 0, 0, 0.05)';
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (selected?.id !== component.id) {
-                            e.currentTarget.style.background = 'transparent';
-                          }
-                        }}
-                      >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '0.5rem' }}>
-                          <div style={{ fontWeight: '600', fontSize: '0.9375rem' }}>
-                            {component.name}
+                        <button
+                          key={component.id}
+                          onClick={() => !isIncompatible && selectComponent(category.key, component)}
+                          className="glass-subtle"
+                          style={{
+                            width: '100%',
+                            padding: '0.625rem 0.75rem',
+                            marginBottom: '0.375rem',
+                            borderRadius: '6px',
+                            border: isIncompatible
+                              ? '1px solid rgba(239, 68, 68, 0.5)'
+                              : selected?.id === component.id
+                                ? '1px solid rgba(139, 92, 246, 0.5)'
+                                : theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.05)',
+                            background: isIncompatible 
+                              ? 'rgba(239, 68, 68, 0.1)'
+                              : selected?.id === component.id 
+                                ? 'rgba(139, 92, 246, 0.1)' 
+                                : 'transparent',
+                            cursor: isIncompatible ? 'not-allowed' : 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.2s ease',
+                            opacity: isIncompatible ? 0.6 : 1
+                          }}
+                          onMouseEnter={(e) => {
+                            if (selected?.id !== component.id && !isIncompatible) {
+                              e.currentTarget.style.background = theme === 'dark' 
+                                ? 'rgba(255, 255, 255, 0.03)' 
+                                : 'rgba(0, 0, 0, 0.03)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (selected?.id !== component.id && !isIncompatible) {
+                              e.currentTarget.style.background = 'transparent';
+                            }
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.5rem',
+                                marginBottom: '0.25rem'
+                              }}>
+                                <span style={{ 
+                                  fontWeight: '600', 
+                                  fontSize: '0.8125rem',
+                                  whiteSpace: 'nowrap',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis'
+                                }}>
+                                  {component.name}
+                                </span>
+                                {component.brand && (
+                                  <span style={{
+                                    fontSize: '0.625rem',
+                                    padding: '0.125rem 0.375rem',
+                                    background: 'rgba(139, 92, 246, 0.2)',
+                                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                                    borderRadius: '3px',
+                                    whiteSpace: 'nowrap'
+                                  }}>
+                                    {component.brand}
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ 
+                                fontSize: '0.6875rem', 
+                                opacity: 0.6,
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                              }}>
+                                {component.specs}
+                              </div>
+                              {isIncompatible && (
+                                <div style={{
+                                  fontSize: '0.625rem',
+                                  color: '#ef4444',
+                                  marginTop: '0.25rem',
+                                  fontWeight: '600'
+                                }}>
+                                  ⚠ {component.compatibility.reason}
+                                </div>
+                              )}
+                            </div>
+                            <div style={{ 
+                              fontWeight: '700', 
+                              fontSize: '0.875rem', 
+                              color: isIncompatible ? '#ef4444' : '#8b5cf6',
+                              marginLeft: '0.75rem',
+                              whiteSpace: 'nowrap'
+                            }}>
+                              ${component.price}
+                            </div>
                           </div>
-                          <div style={{ fontWeight: '700', fontSize: '1rem', color: '#8b5cf6' }}>
-                            ${component.price}
-                          </div>
-                        </div>
-                        <div style={{ fontSize: '0.8125rem', opacity: 0.7 }}>
-                          {component.specs}
-                        </div>
-                        {component.tdp && (
-                          <div style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '0.25rem' }}>
-                            TDP: {component.tdp}W
-                          </div>
-                        )}
-                      </button>
-                    ))}
+                        </button>
+                      );
+                    })}
+                    {getFilteredComponents(category.key).length === 0 && (
+                      <div style={{
+                        textAlign: 'center',
+                        padding: '1.5rem',
+                        fontSize: '0.8125rem',
+                        opacity: 0.5
+                      }}>
+                        {language === 'ru' ? 'Нет компонентов' : 'No components found'}
+                      </div>
+                    )}
                   </div>
                 )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Right Column - Summary Sidebar */}
+        <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}
+          onClick={(e) => {
+            // Close filter dropdowns when clicking outside
+            if (!e.target.closest('button')) {
+              setShowFilterDropdown(null);
+            }
+          }}
+        >
               </div>
             );
           })}
