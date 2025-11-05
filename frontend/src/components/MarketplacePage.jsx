@@ -540,7 +540,7 @@ const MarketplacePage = () => {
             
             {/* Catalog Button inside search */}
             <button
-              onClick={() => setShowCatalogMega(!showCatalogMegaMega)}
+              onClick={() => setShowCatalogMega(!showCatalogMega)}
               style={{
                 position: 'absolute',
                 right: '3.5rem',
