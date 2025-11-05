@@ -691,6 +691,7 @@ const MarketplacePage = () => {
         
         {showCatalogMega && (
           <CatalogMega
+            theme={theme}
             onClose={() => setShowCatalogMega(false)}
             onCategorySelect={(categoryId, subcategoryId, item) => {
               setSelectedCategory(categoryId);
