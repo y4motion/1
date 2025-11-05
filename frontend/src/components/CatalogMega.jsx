@@ -118,7 +118,7 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
         borderRadius: '12px',
         overflow: 'hidden',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        zIndex: 9999
+        zIndex: 99
       }}
     >
       {/* Left Sidebar - Main Categories */}
