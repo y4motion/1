@@ -130,7 +130,9 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
       {/* Left Sidebar - Main Categories */}
       <div style={{
         overflowY: 'auto',
-        borderRight: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+        borderRight: theme === 'minimal-mod'
+          ? '1px solid rgba(241, 241, 241, 0.12)'
+          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
         padding: '0.5rem'
       }}>
         {Object.entries(catalog).map(([categoryId, category]) => {
