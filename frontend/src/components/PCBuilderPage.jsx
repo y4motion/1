@@ -961,7 +961,7 @@ const PCBuilderPage = () => {
               </div>
 
               {/* Socket Filter */}
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'socket' ? null : 'socket')}
                   className="glass-subtle"
