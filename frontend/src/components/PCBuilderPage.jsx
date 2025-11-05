@@ -228,6 +228,28 @@ const PCBuilderPage = () => {
   const getFilteredComponents = (category) => {
     let items = components[category] || [];
     
+    // SMART FILTER: Auto-filter based on selected components
+    if (smartFilter) {
+      // If CPU is selected, filter motherboards by socket
+      if (category === 'motherboard' && selectedComponents.cpu) {
+        items = items.filter(item => item.socket === selectedComponents.cpu.socket);
+      }
+      
+      // If motherboard is selected, filter CPUs by socket
+      if (category === 'cpu' && selectedComponents.motherboard) {
+        items = items.filter(item => item.socket === selectedComponents.motherboard.socket);
+      }
+      
+      // If PSU is selected, filter by recommended wattage
+      if (category !== 'psu' && selectedComponents.psu) {
+        const maxAllowedPower = selectedComponents.psu.wattage * 0.8; // 80% utilization max
+        items = items.filter(item => {
+          const itemPower = item.tdp || 0;
+          return (totalPower - (selectedComponents[category]?.tdp || 0) + itemPower) <= maxAllowedPower;
+        });
+      }
+    }
+    
     // Apply brand filter
     if (activeFilters.brand.length > 0) {
       items = items.filter(item => activeFilters.brand.includes(item.brand));
@@ -248,12 +270,35 @@ const PCBuilderPage = () => {
       items = items.filter(item => activeFilters.year.includes(item.year));
     }
     
+    // Apply price range filter
+    if (activeFilters.priceRange.min > 0 || activeFilters.priceRange.max < 2000) {
+      items = items.filter(item => 
+        item.price >= activeFilters.priceRange.min && 
+        item.price <= activeFilters.priceRange.max
+      );
+    }
+    
+    // Apply TDP range filter (for components with power consumption)
+    if (category === 'cpu' || category === 'gpu') {
+      if (activeFilters.tdpRange.min > 0 || activeFilters.tdpRange.max < 500) {
+        items = items.filter(item => 
+          item.tdp >= activeFilters.tdpRange.min && 
+          item.tdp <= activeFilters.tdpRange.max
+        );
+      }
+    }
+    
     // Filter out incompatible components if case is selected
     if (selectedComponents.case) {
       items = items.map(item => ({
         ...item,
         compatibility: checkCompatibility(item, category)
       }));
+      
+      // Hide incompatible items if smart filter is on
+      if (smartFilter) {
+        items = items.filter(item => !item.compatibility || item.compatibility.compatible);
+      }
     }
     
     return items;
