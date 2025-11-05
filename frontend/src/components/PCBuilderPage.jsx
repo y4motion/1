@@ -100,13 +100,15 @@ const PCBuilderPage = () => {
     setTotalPrice(total);
   }, [selectedComponents]);
 
-  // Mock component data with enhanced details
+  // Mock component data with enhanced details including filters
   const components = {
     cpu: [
-      { id: 'cpu1', name: 'AMD Ryzen 7 9700X', price: 359, tdp: 65, specs: '8-Core, 16-Thread, 4.5GHz Boost', performanceScore: 75 },
-      { id: 'cpu2', name: 'AMD Ryzen 7 9800X3D', price: 479, tdp: 120, specs: '8-Core, 16-Thread, 5.2GHz Boost, 3D V-Cache', performanceScore: 95 },
-      { id: 'cpu3', name: 'Intel Core i7-14700K', price: 409, tdp: 125, specs: '20-Core, 28-Thread, 5.6GHz Boost', performanceScore: 85 },
-      { id: 'cpu4', name: 'AMD Ryzen 9 9900X', price: 499, tdp: 170, specs: '12-Core, 24-Thread, 5.4GHz Boost', performanceScore: 100 }
+      { id: 'cpu1', name: 'AMD Ryzen 7 9700X', brand: 'AMD', socket: 'AM5', price: 359, tdp: 65, specs: '8-Core, 16-Thread, 4.5GHz Boost', performanceScore: 75, year: 2024 },
+      { id: 'cpu2', name: 'AMD Ryzen 7 9800X3D', brand: 'AMD', socket: 'AM5', price: 479, tdp: 120, specs: '8-Core, 16-Thread, 5.2GHz Boost, 3D V-Cache', performanceScore: 95, year: 2024 },
+      { id: 'cpu3', name: 'Intel Core i7-14700K', brand: 'Intel', socket: 'LGA1700', price: 409, tdp: 125, specs: '20-Core, 28-Thread, 5.6GHz Boost', performanceScore: 85, year: 2023 },
+      { id: 'cpu4', name: 'AMD Ryzen 9 9900X', brand: 'AMD', socket: 'AM5', price: 499, tdp: 170, specs: '12-Core, 24-Thread, 5.4GHz Boost', performanceScore: 100, year: 2024 },
+      { id: 'cpu5', name: 'Intel Core i5-14600K', brand: 'Intel', socket: 'LGA1700', price: 289, tdp: 125, specs: '14-Core, 20-Thread, 5.3GHz Boost', performanceScore: 70, year: 2023 },
+      { id: 'cpu6', name: 'AMD Ryzen 5 9600X', brand: 'AMD', socket: 'AM5', price: 279, tdp: 65, specs: '6-Core, 12-Thread, 5.4GHz Boost', performanceScore: 65, year: 2024 }
     ],
     gpu: [
       { id: 'gpu1', name: 'NVIDIA RTX 5060', price: 299, tdp: 115, specs: '8GB GDDR6, 1080p Gaming', performanceScore: 60 },
