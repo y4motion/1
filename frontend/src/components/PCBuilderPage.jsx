@@ -142,12 +142,18 @@ const PCBuilderPage = () => {
       { id: 'psu4', name: '1000W 80+ Platinum', price: 199, wattage: 1000, specs: 'Fully Modular, 12 Year Warranty' }
     ],
     case: [
-      { id: 'case1', name: 'NZXT H210i', price: 99, specs: 'Mini-ITX, Tempered Glass, RGB', formFactor: 'Mini-ITX', image: '🔲' },
-      { id: 'case2', name: 'Cooler Master Q300L', price: 49, specs: 'Micro-ATX, Acrylic Window', formFactor: 'Micro-ATX', image: '🔳' },
-      { id: 'case3', name: 'NZXT H7 Flow White', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬜' },
-      { id: 'case4', name: 'NZXT H7 Flow Black', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬛' },
-      { id: 'case5', name: 'Lian Li O11 Dynamic', price: 159, specs: 'Mid Tower, Dual Tempered Glass', formFactor: 'Mid-Tower', image: '◼️' },
-      { id: 'case6', name: 'Corsair 7000D Airflow', price: 249, specs: 'Full Tower, Massive Airflow, 10x140mm Support', formFactor: 'Full-Tower', image: '⬛' }
+      { id: 'case1', name: 'NZXT H210i', brand: 'NZXT', price: 99, specs: 'Mini-ITX, Tempered Glass, RGB', formFactor: 'Mini-ITX', image: '🔲', 
+        maxGPULength: 325, maxPSULength: 180, supportedMobo: ['Mini-ITX'], supportsCooling: ['Air', 'AIO-240'], color: 'Black', year: 2023 },
+      { id: 'case2', name: 'Cooler Master Q300L', brand: 'Cooler Master', price: 49, specs: 'Micro-ATX, Acrylic Window', formFactor: 'Micro-ATX', image: '🔳',
+        maxGPULength: 360, maxPSULength: 180, supportedMobo: ['Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240'], color: 'Black', year: 2022 },
+      { id: 'case3', name: 'NZXT H7 Flow White', brand: 'NZXT', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬜',
+        maxGPULength: 400, maxPSULength: 220, supportedMobo: ['ATX', 'Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240', 'AIO-360'], color: 'White', year: 2024 },
+      { id: 'case4', name: 'NZXT H7 Flow Black', brand: 'NZXT', price: 129, specs: 'Mid Tower, Tempered Glass, 3x120mm Fans', formFactor: 'Mid-Tower', image: '⬛',
+        maxGPULength: 400, maxPSULength: 220, supportedMobo: ['ATX', 'Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240', 'AIO-360'], color: 'Black', year: 2024 },
+      { id: 'case5', name: 'Lian Li O11 Dynamic', brand: 'Lian Li', price: 159, specs: 'Mid Tower, Dual Tempered Glass', formFactor: 'Mid-Tower', image: '◼️',
+        maxGPULength: 420, maxPSULength: 220, supportedMobo: ['ATX', 'Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240', 'AIO-360', 'Custom'], color: 'Black', year: 2023 },
+      { id: 'case6', name: 'Corsair 7000D Airflow', brand: 'Corsair', price: 249, specs: 'Full Tower, Massive Airflow, 10x140mm Support', formFactor: 'Full-Tower', image: '⬛',
+        maxGPULength: 500, maxPSULength: 250, supportedMobo: ['E-ATX', 'ATX', 'Micro-ATX', 'Mini-ITX'], supportsCooling: ['Air', 'AIO-240', 'AIO-360', 'AIO-420', 'Custom'], color: 'Black', year: 2023 }
     ],
     cooling: [
       { id: 'cool1', name: 'NZXT Kraken 240 RGB', price: 129, power: 10, specs: '240mm AIO, RGB' },
