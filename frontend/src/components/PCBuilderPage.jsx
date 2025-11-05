@@ -119,10 +119,11 @@ const PCBuilderPage = () => {
       { id: 'gpu6', name: 'AMD RX 7900 XTX', brand: 'AMD', length: 287, price: 899, tdp: 355, specs: '24GB GDDR6, 4K Gaming', performanceScore: 95, year: 2023 }
     ],
     motherboard: [
-      { id: 'mb1', name: 'MSI B650 TOMAHAWK', price: 229, specs: 'ATX, PCIe 5.0, DDR5', formFactor: 'ATX' },
-      { id: 'mb2', name: 'ASUS ROG STRIX X670E', price: 399, specs: 'ATX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'ATX' },
-      { id: 'mb3', name: 'GIGABYTE Z790 AORUS', price: 329, specs: 'ATX, PCIe 5.0, DDR5, Thunderbolt 4', formFactor: 'ATX' },
-      { id: 'mb4', name: 'ASUS ROG STRIX B650I', price: 279, specs: 'Mini-ITX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'Mini-ITX' }
+      { id: 'mb1', name: 'MSI B650 TOMAHAWK', brand: 'MSI', socket: 'AM5', price: 229, specs: 'ATX, PCIe 5.0, DDR5', formFactor: 'ATX', year: 2023 },
+      { id: 'mb2', name: 'ASUS ROG STRIX X670E', brand: 'ASUS', socket: 'AM5', price: 399, specs: 'ATX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'ATX', year: 2023 },
+      { id: 'mb3', name: 'GIGABYTE Z790 AORUS', brand: 'GIGABYTE', socket: 'LGA1700', price: 329, specs: 'ATX, PCIe 5.0, DDR5, Thunderbolt 4', formFactor: 'ATX', year: 2023 },
+      { id: 'mb4', name: 'ASUS ROG STRIX B650I', brand: 'ASUS', socket: 'AM5', price: 279, specs: 'Mini-ITX, PCIe 5.0, DDR5, Wi-Fi 6E', formFactor: 'Mini-ITX', year: 2024 },
+      { id: 'mb5', name: 'ASRock B650M Pro', brand: 'ASRock', socket: 'AM5', price: 179, specs: 'Micro-ATX, PCIe 4.0, DDR5', formFactor: 'Micro-ATX', year: 2023 }
     ],
     ram: [
       { id: 'ram1', name: '32GB DDR5 4800MHz', price: 109, modules: 2, specs: '2x16GB, CL40' },
