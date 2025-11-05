@@ -877,7 +877,7 @@ const CollapsibleFilter = ({ title, id, children }) => {
 };
 
 // Pinterest-Style Product Card Component with Carousel
-const ProductCard = ({ product, onToggleWishlist }) => {
+const ProductCard = ({ product, theme, onToggleWishlist }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showQuickBuy, setShowQuickBuy] = useState(false);
