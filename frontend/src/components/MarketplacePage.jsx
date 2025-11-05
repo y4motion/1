@@ -112,7 +112,7 @@ const MarketplacePage = () => {
         const isClickInsideSearch = searchContainerRef.current && searchContainerRef.current.contains(event.target);
         
         if (!isClickInsideSearch) {
-          setShowSearchCategoryDropdown(false);
+          setShowSearchHistory(false);
         }
       }
     };
