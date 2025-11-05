@@ -26,7 +26,7 @@ const MarketplacePage = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [showCatalogMegaMega, setShowCatalogMega] = useState(false); // New mega catalog
+  const [showCatalogMega, setShowCatalogMega] = useState(false); // New mega catalog
   const [showFilterPanel, setShowFilterPanel] = useState(false); // Sliding filter panel
   const [showSearchHistory, setShowSearchHistory] = useState(false); // Search history dropdown
   const [searchHistory, setSearchHistory] = useState([]); // Stores last 10 searches
