@@ -460,7 +460,7 @@ const MarketplacePage = () => {
           >
             {/* Category Button Inside Search */}
             <button
-              onClick={() => setShowSearchCategoryDropdown(!showSearchHistory)}
+              onClick={() => setShowSearchHistory(!showSearchHistory)}
               style={{
                 position: 'absolute',
                 left: '1rem',
