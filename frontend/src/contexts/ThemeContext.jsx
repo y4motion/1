@@ -22,11 +22,21 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setTheme(prev => {
+      if (prev === 'dark') return 'light';
+      if (prev === 'light') return 'minimal-mod';
+      return 'dark';
+    });
+  };
+
+  const setSpecificTheme = (newTheme) => {
+    if (['dark', 'light', 'minimal-mod'].includes(newTheme)) {
+      setTheme(newTheme);
+    }
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setSpecificTheme }}>
       {children}
     </ThemeContext.Provider>
   );
