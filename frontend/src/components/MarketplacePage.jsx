@@ -1272,10 +1272,10 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
       <div 
         className="glass-strong product-card"
         style={{
-          borderRadius: theme === 'minimal-mod' ? '8px' : '16px',
-          border: isHovered 
-            ? (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.24)' : '1px solid rgba(255, 255, 255, 0.3)')
-            : (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : '1px solid rgba(255, 255, 255, 0.08)'),
+          borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+          border: theme === 'minimal-mod' 
+            ? 'none'
+            : (isHovered ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)'),
           transition: 'all 0.2s ease',
           cursor: 'pointer',
           display: 'grid',
