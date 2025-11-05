@@ -126,16 +126,16 @@
   background: var(--text-secondary);
 }
 
-/* Product Cards - No borders or shapes */
+/* Product Cards - No borders or shapes, no hover effects */
 [data-theme="minimal-mod"] .product-card {
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  transition: all 0.2s ease;
+  transition: none;
 }
 
 [data-theme="minimal-mod"] .product-card:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: transparent !important;
   transform: none;
   box-shadow: none;
 }
