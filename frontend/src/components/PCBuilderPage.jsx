@@ -1200,7 +1200,7 @@ const PCBuilderPage = () => {
                   {language === 'ru' ? 'Компоненты:' : 'Components:'}
                 </span>
                 <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                  ${totalPrice}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', paddingTop: '0.75rem', borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)' }}>
@@ -1208,7 +1208,7 @@ const PCBuilderPage = () => {
                   {language === 'ru' ? 'Всего:' : 'Total:'}
                 </span>
                 <span style={{ fontSize: '1.5rem', fontWeight: '700', color: '#8b5cf6' }}>
-                  ${totalPrice}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
             </div>
