@@ -38,20 +38,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Buttons in Minimal Mod */
+/* Buttons in Minimal Mod - Fully transparent by default */
 [data-theme="minimal-mod"] button:not(.no-minimal-mod) {
+  background-color: transparent !important;
   border: 1px solid var(--border-color);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="minimal-mod"] button:not(.no-minimal-mod):hover {
-  background-color: var(--accent-hover) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
   border-color: var(--border-hover);
   transform: translateY(-1px);
 }
 
 [data-theme="minimal-mod"] button:not(.no-minimal-mod):active {
-  background-color: var(--accent-active) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
   transform: translateY(0);
 }
 
