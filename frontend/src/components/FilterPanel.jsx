@@ -709,32 +709,44 @@ const FilterPanel = ({
           Сбросить все фильтры
         </button>
 
-        {/* Apply Filters Button - ONLY PURPLE ELEMENT */}
+        {/* Apply Filters Button */}
         <button
           onClick={onClose}
           style={{
             width: '100%',
             padding: '1rem',
-            borderRadius: '8px',
-            border: '1px solid rgba(139, 92, 246, 0.5)',
-            background: 'rgba(139, 92, 246, 0.15)',
-            color: '#fff',
+            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+            border: theme === 'minimal-mod' 
+              ? '1px solid rgba(241, 241, 241, 0.2)'
+              : '1px solid rgba(139, 92, 246, 0.5)',
+            background: theme === 'minimal-mod' 
+              ? 'transparent'
+              : 'rgba(139, 92, 246, 0.15)',
+            color: theme === 'minimal-mod' ? '#f1f1f1' : '#fff',
             fontSize: '1rem',
             fontWeight: '700',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             letterSpacing: '0.5px',
-            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)'
+            boxShadow: theme === 'minimal-mod' ? 'none' : '0 4px 12px rgba(139, 92, 246, 0.3)'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(139, 92, 246, 0.25)';
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
+            if (theme === 'minimal-mod') {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+            } else {
+              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.25)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
+            }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
+            if (theme === 'minimal-mod') {
+              e.currentTarget.style.background = 'transparent';
+            } else {
+              e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
+            }
           }}
         >
           ПРИМЕНИТЬ ФИЛЬТРЫ
