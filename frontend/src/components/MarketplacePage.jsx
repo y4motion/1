@@ -732,7 +732,6 @@ const MarketplacePage = () => {
           </div>
         </div>
 
-      {showFilterPanel && (
         {/* Catalog Mega Menu */}
         {showCatalogMega && (
           <CatalogMega
@@ -744,6 +743,8 @@ const MarketplacePage = () => {
             }}
           />
         )}
+
+      {showFilterPanel && (
         <FilterPanel
           personas={personas}
           selectedPersona={selectedPersona}
