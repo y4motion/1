@@ -325,33 +325,38 @@ const Header = () => {
                         style={{
                           width: '100%',
                           padding: '0.5rem',
-                          borderRadius: '6px',
-                          border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                          borderRadius: theme === 'minimal-mod' ? '0' : '6px',
+                          border: theme === 'minimal-mod'
+                            ? '1px solid rgba(241, 241, 241, 0.2)'
+                            : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
                           background: 'transparent',
                           cursor: 'pointer',
                           fontSize: '0.8rem',
-                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                          fontWeight: '600',
+                          color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'),
                           transition: 'all 0.3s ease'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.background = theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.05)' 
-                            : 'rgba(0, 0, 0, 0.05)';
-                          e.currentTarget.style.borderColor = theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.15)' 
-                            : 'rgba(0, 0, 0, 0.15)';
+                          if (theme !== 'minimal-mod') {
+                            e.currentTarget.style.background = theme === 'dark' 
+                              ? 'rgba(255, 255, 255, 0.05)' 
+                              : 'rgba(0, 0, 0, 0.05)';
+                            e.currentTarget.style.borderColor = theme === 'dark' 
+                              ? 'rgba(255, 255, 255, 0.15)' 
+                              : 'rgba(0, 0, 0, 0.15)';
+                          }
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = 'transparent';
-                          e.currentTarget.style.borderColor = theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.08)' 
-                            : 'rgba(0, 0, 0, 0.08)';
+                          e.currentTarget.style.borderColor = theme === 'minimal-mod'
+                            ? 'rgba(241, 241, 241, 0.2)'
+                            : (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)');
                         }}
                       >
-                        <option value="RUB" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>RUB ₽</option>
-                        <option value="USD" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>USD $</option>
-                        <option value="EUR" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>EUR €</option>
-                        <option value="CNY" style={{ background: theme === 'dark' ? '#1a1a1a' : '#ffffff', color: theme === 'dark' ? '#ffffff' : '#1a1a1a' }}>CNY ¥</option>
+                        <option value="RUB" style={{ background: theme === 'minimal-mod' ? '#000000' : (theme === 'dark' ? '#1a1a1a' : '#ffffff'), color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'), fontWeight: '600' }}>RUB ₽</option>
+                        <option value="USD" style={{ background: theme === 'minimal-mod' ? '#000000' : (theme === 'dark' ? '#1a1a1a' : '#ffffff'), color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'), fontWeight: '600' }}>USD $</option>
+                        <option value="EUR" style={{ background: theme === 'minimal-mod' ? '#000000' : (theme === 'dark' ? '#1a1a1a' : '#ffffff'), color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'), fontWeight: '600' }}>EUR €</option>
+                        <option value="CNY" style={{ background: theme === 'minimal-mod' ? '#000000' : (theme === 'dark' ? '#1a1a1a' : '#ffffff'), color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'), fontWeight: '600' }}>CNY ¥</option>
                       </select>
                     </div>
                   </div>
