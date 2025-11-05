@@ -256,9 +256,9 @@ const Header = () => {
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.375rem' }}>
                         {[
-                          { mode: 'on', icon: Volume2, label: language === 'ru' ? 'ВКЛ' : 'ON' },
-                          { mode: 'off', icon: VolumeX, label: language === 'ru' ? 'ВЫКЛ' : 'OFF' }
-                        ].map(({ mode, icon: Icon, label }) => (
+                          { mode: 'on', icon: Volume2 },
+                          { mode: 'off', icon: VolumeX }
+                        ].map(({ mode, icon: Icon }) => (
                           <button
                             key={mode}
                             onClick={() => setSoundMode(mode)}
@@ -268,17 +268,15 @@ const Header = () => {
                               borderRadius: theme === 'minimal-mod' ? '0' : '6px',
                               border: soundMode === mode 
                                 ? (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.3)' : '1px solid rgba(139, 92, 246, 0.5)')
-                                : (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)')),
+                                : (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.2)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)')),
                               background: soundMode === mode 
                                 ? (theme === 'minimal-mod' ? 'transparent' : 'rgba(139, 92, 246, 0.1)')
                                 : 'transparent',
                               cursor: 'pointer',
                               transition: 'all 0.3s ease',
                               display: 'flex',
-                              flexDirection: 'column',
                               alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: '0.25rem'
+                              justifyContent: 'center'
                             }}
                             onMouseEnter={(e) => {
                               if (soundMode !== mode && theme !== 'minimal-mod') {
@@ -294,15 +292,12 @@ const Header = () => {
                               if (soundMode !== mode) {
                                 e.currentTarget.style.background = 'transparent';
                                 e.currentTarget.style.borderColor = theme === 'minimal-mod'
-                                  ? 'rgba(241, 241, 241, 0.12)'
+                                  ? 'rgba(241, 241, 241, 0.2)'
                                   : (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)');
                               }
                             }}
                           >
                             <Icon size={18} className="icon-color" />
-                            <span style={{ fontSize: '0.625rem', fontWeight: '600' }} className="icon-color">
-                              {label}
-                            </span>
                           </button>
                         ))}
                       </div>
