@@ -263,13 +263,13 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
       <div
         style={{
           padding: '1rem',
-          borderBottom: theme === 'dark'
-            ? '1px solid rgba(255, 255, 255, 0.1)'
-            : '1px solid rgba(0, 0, 0, 0.1)',
+          borderBottom: theme === 'minimal-mod'
+            ? '1px solid rgba(241, 241, 241, 0.12)'
+            : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          color: theme === 'dark' ? '#fff' : '#1a1a1a'
+          color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#fff' : '#1a1a1a')
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
