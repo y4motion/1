@@ -151,7 +151,7 @@ MARKETPLACE_CATALOG = {
         "id": "gaming_laptops",
         "name_en": "Gaming Laptops",
         "name_ru": "Игровые ноутбуки",
-        "icon": "💼",
+        "icon": "Laptop",
         "subcategories": {
             "by_performance": {
                 "name_en": "By Performance",
