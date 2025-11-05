@@ -694,9 +694,13 @@ const PCBuilderPage = () => {
                 {isExpanded && (
                   <div style={{
                     borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-                    padding: '1rem'
+                    padding: '0.75rem 1rem',
+                    maxHeight: '300px',
+                    overflowY: 'auto'
                   }}>
-                    {components[category.key].map((component) => (
+                    {getFilteredComponents(category.key).map((component) => {
+                      const isIncompatible = component.compatibility && !component.compatibility.compatible;
+                      return (
                       <button
                         key={component.id}
                         onClick={() => selectComponent(category.key, component)}
