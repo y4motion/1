@@ -37,19 +37,24 @@ const FilterPanel = ({
   return (
     <div
       data-filter-panel="true"
-      className="glass-strong"
+      className={theme === 'minimal-mod' ? '' : 'glass-strong'}
       style={{
         position: 'fixed',
         top: '100px',
         left: 0,
         bottom: 0,
         width: '400px',
-        borderTopRightRadius: '16px',
+        borderTopRightRadius: theme === 'minimal-mod' ? '0' : '16px',
+        background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+        backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
+        border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : undefined,
+        borderLeft: 'none',
         zIndex: 40,
         padding: '2rem',
         overflowY: 'auto',
         animation: 'slideInFromLeft 0.3s ease-out',
-        color: theme === 'dark' ? '#fff' : '#1a1a1a'
+        fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+        color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1'
       }}
     >
       {/* Header */}
