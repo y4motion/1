@@ -1,0 +1,153 @@
+/* 
+ * Minimal Mod Theme
+ * Inspired by pmm.gg - Premium minimal monochrome design
+ */
+
+[data-theme="minimal-mod"] {
+  /* Core Colors */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #141414;
+  
+  --text-primary: #f1f1f1;
+  --text-secondary: #b0b0b0;
+  --text-muted: #707070;
+  
+  --border-color: rgba(241, 241, 241, 0.12);
+  --border-hover: rgba(241, 241, 241, 0.24);
+  
+  /* Accent */
+  --accent-primary: #ffffff;
+  --accent-hover: rgba(255, 255, 255, 0.08);
+  --accent-active: rgba(255, 255, 255, 0.16);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.95);
+}
+
+/* Global Minimal Mod Styles */
+[data-theme="minimal-mod"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Menlo', 'Consolas', 'Monaco', 'Liberation Mono', 'Lucida Console', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Buttons in Minimal Mod */
+[data-theme="minimal-mod"] button:not(.no-minimal-mod) {
+  border: 1px solid var(--border-color);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="minimal-mod"] button:not(.no-minimal-mod):hover {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+[data-theme="minimal-mod"] button:not(.no-minimal-mod):active {
+  background-color: var(--accent-active) !important;
+  transform: translateY(0);
+}
+
+/* Cards/Panels in Minimal Mod */
+[data-theme="minimal-mod"] .glass,
+[data-theme="minimal-mod"] .glass-strong {
+  background: rgba(10, 10, 10, 0.85) !important;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Input fields */
+[data-theme="minimal-mod"] input,
+[data-theme="minimal-mod"] textarea,
+[data-theme="minimal-mod"] select {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+[data-theme="minimal-mod"] input:focus,
+[data-theme="minimal-mod"] textarea:focus,
+[data-theme="minimal-mod"] select:focus {
+  border-color: var(--border-hover);
+  background-color: var(--bg-tertiary);
+  outline: none;
+}
+
+[data-theme="minimal-mod"] input::placeholder,
+[data-theme="minimal-mod"] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Links */
+[data-theme="minimal-mod"] a {
+  color: var(--text-primary);
+  transition: opacity 0.2s ease;
+}
+
+[data-theme="minimal-mod"] a:hover {
+  opacity: 0.7;
+}
+
+/* Scrollbar */
+[data-theme="minimal-mod"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="minimal-mod"] ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+[data-theme="minimal-mod"] ::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 4px;
+}
+
+[data-theme="minimal-mod"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Product Cards */
+[data-theme="minimal-mod"] .product-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="minimal-mod"] .product-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Backdrop */
+[data-theme="minimal-mod"] .backdrop {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Animations */
+@keyframes minimal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-theme="minimal-mod"] .animate-in {
+  animation: minimal-fade-in 0.3s ease-out;
+}
