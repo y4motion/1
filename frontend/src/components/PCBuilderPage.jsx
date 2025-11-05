@@ -832,7 +832,6 @@ const PCBuilderPage = () => {
 
         {/* Right Column - Summary Sidebar */}
         <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
-              </div>
             );
           })}
         </div>
