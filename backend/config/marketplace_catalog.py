@@ -324,7 +324,7 @@ MARKETPLACE_CATALOG = {
         "id": "smart_home",
         "name_en": "Smart Home",
         "name_ru": "Умный дом",
-        "icon": "🏠",
+        "icon": "Home",
         "subcategories": {
             "smart_lighting": {
                 "name_en": "Smart Lighting",
