@@ -126,19 +126,18 @@
   background: var(--text-secondary);
 }
 
-/* Product Cards - Fully transparent by default */
+/* Product Cards - No borders or shapes */
 [data-theme="minimal-mod"] .product-card {
   background: transparent !important;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: none !important;
+  border-radius: 0 !important;
   transition: all 0.2s ease;
 }
 
 [data-theme="minimal-mod"] .product-card:hover {
   background: rgba(255, 255, 255, 0.04) !important;
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transform: none;
+  box-shadow: none;
 }
 
 /* Backdrop */
