@@ -912,19 +912,19 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
           <div 
             className="glass-subtle product-card"
             style={{
-              borderRadius: theme === 'minimal-mod' ? '8px' : '20px',
+              borderRadius: theme === 'minimal-mod' ? '0' : '20px',
               overflow: 'visible',
               border: theme === 'minimal-mod' 
-                ? '1px solid rgba(241, 241, 241, 0.12)'
+                ? 'none'
                 : '1px solid rgba(255, 255, 255, 0.08)',
               transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
-              boxShadow: isHovered 
-                ? (theme === 'minimal-mod' ? '0 4px 16px rgba(0, 0, 0, 0.6)' : '0 12px 40px rgba(0, 0, 0, 0.4)') 
-                : 'none',
+              transform: theme === 'minimal-mod' ? 'none' : (isHovered ? 'translateY(-2px)' : 'translateY(0)'),
+              boxShadow: theme === 'minimal-mod' 
+                ? 'none'
+                : (isHovered ? '0 12px 40px rgba(0, 0, 0, 0.4)' : 'none'),
               position: 'relative',
               background: theme === 'minimal-mod' 
                 ? (isHovered ? 'rgba(255, 255, 255, 0.04)' : 'transparent')
