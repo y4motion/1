@@ -88,7 +88,7 @@ MARKETPLACE_CATALOG = {
         "id": "peripherals",
         "name_en": "Peripherals",
         "name_ru": "Периферия",
-        "icon": "⌨️",
+        "icon": "Keyboard",
         "subcategories": {
             "keyboards": {
                 "name_en": "Keyboards",
