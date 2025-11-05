@@ -458,22 +458,26 @@ const MarketplacePage = () => {
               maxWidth: '700px'
             }}
           >
-            {/* Category Button Inside Search */}
+            {/* Catalog Button - Left Side */}
             <button
-              onClick={() => setShowSearchHistory(!showSearchHistory)}
+              ref={catalogButtonRef}
+              onClick={() => {
+                console.log('Catalog button clicked, current state:', showCatalogMega);
+                setShowCatalogMega(!showCatalogMega);
+              }}
               style={{
                 position: 'absolute',
                 left: '1rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 zIndex: 3,
-                background: 'transparent',
+                background: showCatalogMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                color: showCatalogMega ? '#8b5cf6' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 padding: '0.5rem',
@@ -481,12 +485,16 @@ const MarketplacePage = () => {
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.1)'
-                  : 'rgba(0, 0, 0, 0.1)';
+                if (!showCatalogMega) {
+                  e.currentTarget.style.background = theme === 'dark'
+                    ? 'rgba(255, 255, 255, 0.1)'
+                    : 'rgba(0, 0, 0, 0.1)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
+                if (!showCatalogMega) {
+                  e.currentTarget.style.background = 'transparent';
+                }
               }}
             >
               <Menu size={18} />
