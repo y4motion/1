@@ -1125,7 +1125,7 @@ const PCBuilderPage = () => {
           </div>
 
           {/* Power Calculator */}
-              <div style={{ position: 'relative' }} data-filter-dropdown>
+          <div
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'brand' ? null : 'brand')}
                   className="glass-subtle"
