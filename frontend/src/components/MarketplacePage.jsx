@@ -549,7 +549,7 @@ const MarketplacePage = () => {
                 padding: '0.5rem',
                 borderRadius: '6px',
                 border: 'none',
-                background: showCatalogMegaMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                background: showCatalogMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
