@@ -236,23 +236,27 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
 
   return (
     <div
-      className="glass-strong"
+      data-chat-window="true"
+      className={theme === 'minimal-mod' ? '' : 'glass-strong'}
       style={{
         position: 'fixed',
         bottom: '90px',
         right: '20px',
         width: '400px',
         height: '600px',
-        borderRadius: '16px',
+        borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+        background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+        backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
         zIndex: 999,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+        boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.3)',
+        fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
         animation: 'slideUp 0.3s ease-out',
-        border: theme === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.1)' 
-          : '1px solid rgba(0, 0, 0, 0.1)'
+        border: theme === 'minimal-mod'
+          ? '1px solid rgba(241, 241, 241, 0.12)'
+          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)')
       }}
     >
       {/* Header */}
