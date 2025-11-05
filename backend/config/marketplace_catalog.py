@@ -127,7 +127,7 @@ MARKETPLACE_CATALOG = {
         "id": "gaming_consoles",
         "name_en": "Gaming Consoles",
         "name_ru": "Игровые консоли",
-        "icon": "🎮",
+        "icon": "Gamepad2",
         "subcategories": {
             "current_gen": {
                 "name_en": "Current Generation",
