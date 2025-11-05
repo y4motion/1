@@ -322,7 +322,9 @@ const PCBuilderPage = () => {
       socket: [],
       size: [],
       color: [],
-      year: []
+      year: [],
+      priceRange: { min: 0, max: 2000 },
+      tdpRange: { min: 0, max: 500 }
     });
   };
 
