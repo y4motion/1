@@ -61,6 +61,7 @@ const PCBuilderPage = () => {
   // Category-specific filters and search
   const [categoryFilters, setCategoryFilters] = useState({});
   const [categorySearch, setCategorySearch] = useState({});
+  const [showFilterDropdown, setShowFilterDropdown] = useState(null);
 
   // Determine build type based on case selection
   useEffect(() => {
