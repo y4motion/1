@@ -169,10 +169,14 @@ const Header = () => {
                   padding: '0.5rem',
                   display: 'flex',
                   alignItems: 'center',
-                  borderRadius: '6px',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '6px',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
+                onMouseEnter={(e) => {
+                  if (theme !== 'minimal-mod') {
+                    e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+                  }
+                }}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                 title={t('nav.startMenu')}
               >
