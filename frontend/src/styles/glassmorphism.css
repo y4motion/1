@@ -148,6 +148,11 @@
   animation: pulse-glow-enhanced-light 4s ease-in-out infinite;
 }
 
+[data-theme='minimal-mod'] .pulse-glow-enhanced {
+  animation: none;
+  border-radius: 0;
+}
+
 @keyframes pulse-glow-enhanced-light {
   0%, 100% {
     opacity: 1;
