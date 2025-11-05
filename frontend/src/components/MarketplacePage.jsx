@@ -607,127 +607,85 @@ const MarketplacePage = () => {
                   animation: 'slideDown 0.3s ease-out'
                 }}
               >
-                {/* All Categories Option - Minimalist style */}
-                <div
-                  onClick={() => {
-                    setSelectedCategory('all');
-                    setShowSearchCategoryDropdown(false);
-                  }}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    marginBottom: '0.25rem',
-                    border: selectedCategory === 'all'
-                      ? theme === 'dark'
-                        ? '1px solid rgba(255, 255, 255, 0.2)'
-                        : '1px solid rgba(0, 0, 0, 0.2)'
-                      : '1px solid transparent',
-                    background: selectedCategory === 'all'
-                      ? theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.05)'
-                        : 'rgba(0, 0, 0, 0.05)'
-                      : 'transparent',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.border = theme === 'dark'
-                      ? '1px solid rgba(255, 255, 255, 0.2)'
-                      : '1px solid rgba(0, 0, 0, 0.2)';
-                    e.currentTarget.style.background = theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(0, 0, 0, 0.05)';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (selectedCategory !== 'all') {
-                      e.currentTarget.style.border = '1px solid transparent';
-                      e.currentTarget.style.background = 'transparent';
-                    }
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <div style={{ 
-                    fontSize: '0.8125rem', 
-                    fontWeight: '500',
-                    letterSpacing: '0.3px'
-                  }}>
-                    ALL PRODUCTS
-                  </div>
-                </div>
-                
-                {/* Catalog Categories with Subcategories */}
-                {Object.values(catalogCategories).map((category) => (
-                  <div key={category.id} style={{ marginBottom: '0.5rem' }}>
-                    {/* Main Category Header */}
-                    <div
-                      style={{
-                        padding: '0.5rem 1rem',
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        letterSpacing: '0.5px',
-                        opacity: 0.6,
-                        textTransform: 'uppercase'
-                      }}
-                    >
-                      {category.name_en}
+                {/* Search History */}
+                {searchHistory.length > 0 ? (
+                  <>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '0.5rem 1rem',
+                      marginBottom: '0.75rem'
+                    }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '600', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        {language === 'ru' ? 'История поиска' : 'Search History'}
+                      </span>
+                      <button
+                        onClick={clearSearchHistory}
+                        style={{
+                          fontSize: '0.6875rem',
+                          color: '#8b5cf6',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '0.25rem 0.5rem',
+                          borderRadius: '4px'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        {language === 'ru' ? 'Очистить' : 'Clear'}
+                      </button>
                     </div>
                     
-                    {/* Subcategories */}
-                    {category.subcategories && Object.values(category.subcategories).map((subcategory) => (
+                    {searchHistory.map((historyItem, index) => (
                       <div
-                        key={subcategory.id}
+                        key={index}
                         onClick={() => {
-                          setSelectedCategory(category.id);
-                          setSelectedSubcategory(subcategory.id);
-                          setShowSearchCategoryDropdown(false);
+                          setSearchTerm(historyItem);
+                          handleSearchSubmit(historyItem);
                         }}
                         style={{
-                          padding: '0.625rem 1rem 0.625rem 1.5rem',
+                          padding: '0.75rem 1rem',
                           borderRadius: '6px',
                           cursor: 'pointer',
-                          marginBottom: '0.125rem',
-                          border: selectedSubcategory === subcategory.id
-                            ? theme === 'dark'
-                              ? '1px solid rgba(255, 255, 255, 0.2)'
-                              : '1px solid rgba(0, 0, 0, 0.2)'
-                            : '1px solid transparent',
-                          background: selectedSubcategory === subcategory.id
-                            ? theme === 'dark'
-                              ? 'rgba(255, 255, 255, 0.05)'
-                              : 'rgba(0, 0, 0, 0.05)'
-                            : 'transparent',
-                          transition: 'all 0.3s ease'
+                          marginBottom: '0.25rem',
+                          border: '1px solid transparent',
+                          background: 'transparent',
+                          transition: 'all 0.2s ease',
+                          fontSize: '0.8125rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.border = theme === 'dark'
-                            ? '1px solid rgba(255, 255, 255, 0.2)'
-                            : '1px solid rgba(0, 0, 0, 0.2)';
+                            ? '1px solid rgba(255, 255, 255, 0.1)'
+                            : '1px solid rgba(0, 0, 0, 0.1)';
                           e.currentTarget.style.background = theme === 'dark'
                             ? 'rgba(255, 255, 255, 0.05)'
                             : 'rgba(0, 0, 0, 0.05)';
-                          e.currentTarget.style.transform = 'translateX(2px)';
                         }}
                         onMouseLeave={(e) => {
-                          if (selectedSubcategory !== subcategory.id) {
-                            e.currentTarget.style.border = '1px solid transparent';
-                            e.currentTarget.style.background = 'transparent';
-                          }
-                          e.currentTarget.style.transform = 'translateX(0)';
+                          e.currentTarget.style.border = '1px solid transparent';
+                          e.currentTarget.style.background = 'transparent';
                         }}
                       >
-                        <div style={{ 
-                          fontSize: '0.8125rem', 
-                          fontWeight: '400',
-                          letterSpacing: '0.2px'
-                        }}>
-                          {subcategory.name}
-                        </div>
+                        <Search size={14} opacity={0.5} />
+                        <span>{historyItem}</span>
                       </div>
                     ))}
+                  </>
+                ) : (
+                  <div style={{
+                    padding: '2rem 1rem',
+                    textAlign: 'center',
+                    fontSize: '0.8125rem',
+                    opacity: 0.5
+                  }}>
+                    {language === 'ru' ? 'История поиска пуста' : 'No search history yet'}
                   </div>
-                ))}
-              </div>
+                )}              </div>
             )}
           </div>
         </div>
