@@ -532,8 +532,9 @@ const MarketplacePage = () => {
                 borderRadius: '50px',
                 border: 'none',
                 background: 'transparent',
-                color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1',
                 fontSize: '1rem',
+                fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
                 outline: 'none',
                 transition: 'all 0.3s ease'
               }}
