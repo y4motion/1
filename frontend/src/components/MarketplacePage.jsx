@@ -428,14 +428,21 @@ const MarketplacePage = () => {
             fontWeight: '900',
             marginBottom: '0.5rem',
             letterSpacing: '3px',
-            background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+            background: theme === 'minimal-mod' 
+              ? 'linear-gradient(135deg, #f1f1f1 0%, #b0b0b0 100%)'
+              : 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
           }}>
             MINIMAL MARKET
           </h1>
-          <p style={{ fontSize: '1.125rem', opacity: 0.7 }}>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            opacity: 0.7,
+            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
+          }}>
             Discover premium gaming gear from verified sellers
           </p>
         </div>
