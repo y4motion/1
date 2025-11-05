@@ -695,10 +695,12 @@ const FilterPanel = ({
           style={{
             width: '100%',
             padding: '0.875rem',
-            borderRadius: '8px',
-            border: '1px solid transparent',
+            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+            border: theme === 'minimal-mod' 
+              ? '1px solid rgba(241, 241, 241, 0.2)'
+              : '1px solid transparent',
             background: 'transparent',
-            color: theme === 'dark' ? '#fff' : '#1a1a1a',
+            color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
             fontSize: '0.875rem',
             fontWeight: '500',
             cursor: 'pointer',
@@ -709,15 +711,19 @@ const FilterPanel = ({
             gap: '0.5rem'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.border = theme === 'dark'
-              ? '1px solid rgba(255, 255, 255, 0.2)'
-              : '1px solid rgba(0, 0, 0, 0.2)';
-            e.currentTarget.style.background = theme === 'dark'
-              ? 'rgba(255, 255, 255, 0.05)'
-              : 'rgba(0, 0, 0, 0.05)';
+            if (theme === 'minimal-mod') {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+            } else {
+              e.currentTarget.style.border = theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.2)'
+                : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background = theme === 'dark'
+                ? 'rgba(255, 255, 255, 0.05)'
+                : 'rgba(0, 0, 0, 0.05)';
+            }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.border = '1px solid transparent';
+            e.currentTarget.style.border = theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.2)' : '1px solid transparent';
             e.currentTarget.style.background = 'transparent';
           }}
         >
