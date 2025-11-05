@@ -284,28 +284,46 @@ const PCBuilderPage = () => {
     return items;
   };
 
-  // Toggle filter value
-  const toggleFilter = (filterType, value) => {
-    setActiveFilters(prev => {
-      const current = prev[filterType];
+  // Toggle category filter
+  const toggleCategoryFilter = (category, filterType, value) => {
+    setCategoryFilters(prev => {
+      const catFilters = prev[category] || { brand: [], size: [] };
+      const current = catFilters[filterType] || [];
       const newValues = current.includes(value)
         ? current.filter(v => v !== value)
         : [...current, value];
-      return { ...prev, [filterType]: newValues };
+      
+      return {
+        ...prev,
+        [category]: {
+          ...catFilters,
+          [filterType]: newValues
+        }
+      };
     });
   };
 
-  // Clear all filters
-  const clearFilters = () => {
-    setActiveFilters({
-      brand: [],
-      socket: [],
-      size: [],
-      color: [],
-      year: [],
-      priceRange: { min: 0, max: 2000 },
-      tdpRange: { min: 0, max: 500 }
-    });
+  // Update category search
+  const updateCategorySearch = (category, value) => {
+    setCategorySearch(prev => ({
+      ...prev,
+      [category]: value
+    }));
+  };
+
+  // Get available brands for a category
+  const getAvailableBrands = (category) => {
+    const items = components[category] || [];
+    return [...new Set(items.map(item => item.brand).filter(Boolean))].sort();
+  };
+
+  // Get available sizes for a category
+  const getAvailableSizes = (category) => {
+    const items = components[category] || [];
+    if (category === 'motherboard' || category === 'case') {
+      return [...new Set(items.map(item => item.formFactor).filter(Boolean))].sort();
+    }
+    return [];
   };
 
   // Performance metrics calculator based on selected components
