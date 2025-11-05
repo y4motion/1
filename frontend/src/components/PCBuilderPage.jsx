@@ -1121,7 +1121,7 @@ const PCBuilderPage = () => {
               </div>
 
               {/* Year Filter */}
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'year' ? null : 'year')}
                   className="glass-subtle"
