@@ -111,10 +111,12 @@ const PCBuilderPage = () => {
       { id: 'cpu6', name: 'AMD Ryzen 5 9600X', brand: 'AMD', socket: 'AM5', price: 279, tdp: 65, specs: '6-Core, 12-Thread, 5.4GHz Boost', performanceScore: 65, year: 2024 }
     ],
     gpu: [
-      { id: 'gpu1', name: 'NVIDIA RTX 5060', price: 299, tdp: 115, specs: '8GB GDDR6, 1080p Gaming', performanceScore: 60 },
-      { id: 'gpu2', name: 'NVIDIA RTX 5070 Ti', price: 599, tdp: 285, specs: '16GB GDDR6X, 1440p Gaming', performanceScore: 85 },
-      { id: 'gpu3', name: 'NVIDIA RTX 5080', price: 999, tdp: 320, specs: '16GB GDDR6X, 4K Gaming', performanceScore: 100 },
-      { id: 'gpu4', name: 'AMD RX 9070 XT', price: 649, tdp: 300, specs: '16GB GDDR6, 1440p Gaming', performanceScore: 80 }
+      { id: 'gpu1', name: 'NVIDIA RTX 5060', brand: 'NVIDIA', length: 242, price: 299, tdp: 115, specs: '8GB GDDR6, 1080p Gaming', performanceScore: 60, year: 2025 },
+      { id: 'gpu2', name: 'NVIDIA RTX 5070 Ti', brand: 'NVIDIA', length: 304, price: 599, tdp: 285, specs: '16GB GDDR6X, 1440p Gaming', performanceScore: 85, year: 2025 },
+      { id: 'gpu3', name: 'NVIDIA RTX 5080', brand: 'NVIDIA', length: 336, price: 999, tdp: 320, specs: '16GB GDDR6X, 4K Gaming', performanceScore: 100, year: 2025 },
+      { id: 'gpu4', name: 'AMD RX 9070 XT', brand: 'AMD', length: 310, price: 649, tdp: 300, specs: '16GB GDDR6, 1440p Gaming', performanceScore: 80, year: 2025 },
+      { id: 'gpu5', name: 'NVIDIA RTX 4090', brand: 'NVIDIA', length: 304, price: 1599, tdp: 450, specs: '24GB GDDR6X, 4K Gaming', performanceScore: 110, year: 2023 },
+      { id: 'gpu6', name: 'AMD RX 7900 XTX', brand: 'AMD', length: 287, price: 899, tdp: 355, specs: '24GB GDDR6, 4K Gaming', performanceScore: 95, year: 2023 }
     ],
     motherboard: [
       { id: 'mb1', name: 'MSI B650 TOMAHAWK', price: 229, specs: 'ATX, PCIe 5.0, DDR5', formFactor: 'ATX' },
