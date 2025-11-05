@@ -223,7 +223,7 @@ MARKETPLACE_CATALOG = {
         "id": "networking",
         "name_en": "Networking",
         "name_ru": "Сетевое оборудование",
-        "icon": "🌐",
+        "icon": "Wifi",
         "subcategories": {
             "routers_modems": {
                 "name_en": "Routers & Modems",
