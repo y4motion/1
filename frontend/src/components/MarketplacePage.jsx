@@ -732,24 +732,16 @@ const MarketplacePage = () => {
           </div>
         </div>
 
-        {/* Catalog Dropdown */}
+        {/* Catalog Mega Menu */}
         {showCatalogMega && (
-          <div 
-            data-catalog="true"
-            className="glass-strong"
-            style={{
-              padding: '1.5rem',
-              borderRadius: '16px',
-              marginBottom: '2rem',
-              border: theme === 'dark'
-                ? '1px solid rgba(255, 255, 255, 0.1)'
-                : '1px solid rgba(0, 0, 0, 0.1)',
-              backdropFilter: 'blur(20px)',
-              animation: 'slideDown 0.3s ease-out',
-              maxWidth: '800px',
-              margin: '0 auto 2rem'
+          <CatalogMega
+            onClose={() => setShowCatalogMega(false)}
+            onCategorySelect={(categoryId, subcategoryId, item) => {
+              setSelectedCategory(categoryId);
+              setSelectedSubcategory(subcategoryId);
+              setShowCatalogMega(false);
             }}
-          >
+          />
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
