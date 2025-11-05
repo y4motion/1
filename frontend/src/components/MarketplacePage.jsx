@@ -11,7 +11,7 @@ import '../styles/glassmorphism.css';
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const MarketplacePage = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, token } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
