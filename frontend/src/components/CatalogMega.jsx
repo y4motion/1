@@ -194,9 +194,9 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
         overflowY: 'auto',
         padding: '1.5rem'
       }}>
-        {selectedCategory && (
+        {selectedMainCategory && catalog[selectedMainCategory] && (
           <div>
-            {Object.entries(selectedCategory.subcategories).map(([subcategoryId, subcategory]) => (
+            {Object.entries(catalog[selectedMainCategory].subcategories || {}).map(([subcategoryId, subcategory]) => (
               <div
                 key={subcategoryId}
                 style={{
