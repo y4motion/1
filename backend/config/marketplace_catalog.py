@@ -6,7 +6,7 @@ MARKETPLACE_CATALOG = {
         "id": "gaming_pcs",
         "name_en": "Gaming PCs",
         "name_ru": "Игровые ПК",
-        "icon": "💻",
+        "icon": "Monitor",
         "subcategories": {
             "pre_built": {
                 "name_en": "Pre-Built PCs",
