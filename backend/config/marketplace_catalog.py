@@ -199,7 +199,7 @@ MARKETPLACE_CATALOG = {
         "id": "vr_ar",
         "name_en": "VR & AR",
         "name_ru": "VR и AR",
-        "icon": "🥽",
+        "icon": "Glasses",
         "subcategories": {
             "vr_headsets": {
                 "name_en": "VR Headsets",
