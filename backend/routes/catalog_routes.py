@@ -72,3 +72,17 @@ async def search_categories(query: str = "") -> Dict[str, Any]:
                 })
     
     return {"query": query, "results": results}
+
+
+@router.get("/marketplace/catalog")
+async def get_marketplace_catalog() -> Dict[str, Any]:
+    """Get extended marketplace catalog for gaming/tech products"""
+    return {"catalog": MARKETPLACE_CATALOG}
+
+
+@router.get("/marketplace/catalog/{category_id}")
+async def get_marketplace_category(category_id: str) -> Dict[str, Any]:
+    """Get specific marketplace category with all subcategories"""
+    if category_id not in MARKETPLACE_CATALOG:
+        return {"error": "Category not found"}
+    return {"category": MARKETPLACE_CATALOG[category_id]}
