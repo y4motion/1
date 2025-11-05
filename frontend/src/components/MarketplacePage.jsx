@@ -47,6 +47,18 @@ const MarketplacePage = () => {
   const catalogButtonRef = useRef(null); // TO BE REMOVED
   const searchContainerRef = useRef(null);
 
+  // Load search history from localStorage
+  useEffect(() => {
+    const savedHistory = localStorage.getItem('searchHistory');
+    if (savedHistory) {
+      try {
+        setSearchHistory(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error('Error loading search history:', e);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     fetchCategories();
     fetchProducts();
