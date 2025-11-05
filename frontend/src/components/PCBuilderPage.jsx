@@ -1048,7 +1048,7 @@ const PCBuilderPage = () => {
                               marginLeft: '0.75rem',
                               whiteSpace: 'nowrap'
                             }}>
-                              ${component.price}
+                              {formatPrice(component.price)}
                             </div>
                           </div>
                         </button>
