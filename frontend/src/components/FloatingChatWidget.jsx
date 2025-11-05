@@ -75,6 +75,7 @@ const FloatingChatWidget = () => {
 
       {/* Floating Button - Glassmorphism Style matching Header */}
       <button
+        ref={chatButtonRef}
         onClick={toggleChat}
         className={`retro-flicker-button glass ${!hasAnimated ? 'retro-flicker-in' : ''}`}
         style={{
