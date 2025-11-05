@@ -798,6 +798,7 @@ const MarketplacePage = () => {
               <ProductCard 
                 key={product.id} 
                 product={product} 
+                theme={theme}
                 onToggleWishlist={handleToggleWishlist}
               />
             ))}
@@ -811,7 +812,8 @@ const MarketplacePage = () => {
             {products.map(product => (
               <ProductCardList 
                 key={product.id} 
-                product={product} 
+                product={product}
+                theme={theme}
                 onToggleWishlist={handleToggleWishlist}
               />
             ))}
