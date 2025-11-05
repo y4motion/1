@@ -55,18 +55,12 @@ const PCBuilderPage = () => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [savedBuildId, setSavedBuildId] = useState(null);
   
-  // Filters state
-  const [activeFilters, setActiveFilters] = useState({
-    brand: [],
-    socket: [],
-    size: [],
-    color: [],
-    year: [],
-    priceRange: { min: 0, max: 2000 },
-    tdpRange: { min: 0, max: 500 }
-  });
-  const [showFilterDropdown, setShowFilterDropdown] = useState(null); // which filter dropdown is open
-  const [smartFilter, setSmartFilter] = useState(true); // Auto-filter compatible components
+  // Smart filter toggle (global)
+  const [smartFilter, setSmartFilter] = useState(true);
+  
+  // Category-specific filters and search
+  const [categoryFilters, setCategoryFilters] = useState({});
+  const [categorySearch, setCategorySearch] = useState({});
 
   // Determine build type based on case selection
   useEffect(() => {
