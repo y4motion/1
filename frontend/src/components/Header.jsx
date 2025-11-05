@@ -146,8 +146,10 @@ const Header = () => {
         />
       )}
       <header className="fixed top-0 left-0 right-0 z-50" style={{ padding: '1rem 3rem' }}>
-        <div className="glass" style={{ 
-          borderRadius: '16px', 
+        <div className={theme === 'minimal-mod' ? '' : 'glass'} style={{ 
+          borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+          background: theme === 'minimal-mod' ? 'transparent' : undefined,
+          border: theme === 'minimal-mod' ? 'none' : undefined,
           padding: '0.625rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
