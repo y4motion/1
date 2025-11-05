@@ -936,9 +936,11 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
             <div style={{ 
               position: 'relative', 
               paddingTop: '133%',
-              background: 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
+              background: theme === 'minimal-mod' 
+                ? 'transparent' 
+                : 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
               overflow: 'hidden',
-              borderRadius: '20px'
+              borderRadius: theme === 'minimal-mod' ? '0' : '20px'
             }}>
               {/* Carousel Image */}
               <img 
