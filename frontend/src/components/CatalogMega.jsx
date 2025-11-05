@@ -308,6 +308,7 @@ const CatalogMega = ({ onClose, onCategorySelect }) => {
         <X size={18} />
       </button>
     </div>
+    </>
   );
 };
 
