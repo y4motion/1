@@ -638,12 +638,14 @@ const MarketplacePage = () => {
                           gap: '0.75rem'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.border = theme === 'dark'
-                            ? '1px solid rgba(255, 255, 255, 0.1)'
-                            : '1px solid rgba(0, 0, 0, 0.1)';
-                          e.currentTarget.style.background = theme === 'dark'
-                            ? 'rgba(255, 255, 255, 0.05)'
-                            : 'rgba(0, 0, 0, 0.05)';
+                          if (theme !== 'minimal-mod') {
+                            e.currentTarget.style.border = theme === 'dark'
+                              ? '1px solid rgba(255, 255, 255, 0.1)'
+                              : '1px solid rgba(0, 0, 0, 0.1)';
+                            e.currentTarget.style.background = theme === 'dark'
+                              ? 'rgba(255, 255, 255, 0.05)'
+                              : 'rgba(0, 0, 0, 0.05)';
+                          }
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.border = '1px solid transparent';
