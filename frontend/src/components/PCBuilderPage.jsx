@@ -1074,40 +1074,18 @@ const PCBuilderPage = () => {
 
         {/* Right Column - Summary Sidebar */}
         <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
-          {/* Filters Block */}
+          {/* Smart Filter Block */}
           <div
             className="glass"
             style={{
-              padding: '1.25rem',
+              padding: '1rem',
               borderRadius: '12px',
               marginBottom: '1rem',
               border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'
             }}
           >
-            <div style={{ marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                <h3 style={{ fontSize: '0.875rem', fontWeight: '700', margin: 0, letterSpacing: '0.5px' }}>
-                  {language === 'ru' ? 'ФИЛЬТРЫ' : 'FILTERS'}
-                </h3>
-                {(activeFilters.brand.length > 0 || activeFilters.socket.length > 0 || activeFilters.color.length > 0 || activeFilters.year.length > 0) && (
-                  <button
-                    onClick={clearFilters}
-                    style={{
-                      fontSize: '0.75rem',
-                      color: '#8b5cf6',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    {language === 'ru' ? 'Очистить' : 'Clear'}
-                  </button>
-                )}
-              </div>
-              
-              {/* Smart Filter Toggle */}
-              <label
+            {/* Smart Filter Toggle */}
+            <label
                 style={{
                   display: 'flex',
                   alignItems: 'center',
