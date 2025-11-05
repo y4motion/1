@@ -742,7 +742,8 @@ const MarketplacePage = () => {
               setShowCatalogMega(false);
             }}
           />
-            <div style={{
+        )}
+
       {/* Floating Filter Button - Unified with Header Style */}
       <button
         ref={filterButtonRef}
