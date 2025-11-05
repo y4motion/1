@@ -64,9 +64,9 @@ const FilterPanel = ({
         alignItems: 'center',
         marginBottom: '1.5rem',
         paddingBottom: '1rem',
-        borderBottom: theme === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.1)' 
-          : '1px solid rgba(0, 0, 0, 0.1)'
+        borderBottom: theme === 'minimal-mod'
+          ? '1px solid rgba(241, 241, 241, 0.12)'
+          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)')
       }}>
         <h2 style={{
           fontSize: '1.5rem',
