@@ -568,7 +568,7 @@
 
 [data-theme='minimal-mod'] .theme-toggle:hover,
 [data-theme='minimal-mod'] .lang-toggle:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 /* Search dialog styling */
