@@ -778,6 +778,51 @@ const MarketplacePage = () => {
         />
       )}
 
+      {/* Products Grid/List */}
+      <div style={{
+        padding: '2rem',
+        maxWidth: '1400px',
+        margin: '0 auto'
+      }}>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}>
+            {language === 'ru' ? 'Загрузка товаров...' : 'Loading products...'}
+          </div>
+        ) : products.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}>
+            {language === 'ru' ? 'Товары не найдены' : 'No products found'}
+          </div>
+        ) : viewMode === 'grid' ? (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '1rem'
+          }}>
+            {products.map(product => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onToggleWishlist={handleToggleWishlist}
+              />
+            ))}
+          </div>
+        ) : (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.25rem'
+          }}>
+            {products.map(product => (
+              <ProductCardList 
+                key={product.id} 
+                product={product} 
+                onToggleWishlist={handleToggleWishlist}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
       </div>
     </div>
   );
