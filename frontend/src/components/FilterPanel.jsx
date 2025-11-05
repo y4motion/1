@@ -163,11 +163,16 @@ const FilterPanel = ({
             border: 'none',
             padding: '0.75rem 0',
             cursor: 'pointer',
-            color: theme === 'dark' ? '#fff' : '#1a1a1a',
+            color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
             marginBottom: '1rem'
           }}
         >
-          <h3 style={{ fontSize: '1rem', fontWeight: '600', letterSpacing: '0.5px' }}>
+          <h3 style={{ 
+            fontSize: '1rem', 
+            fontWeight: '600', 
+            letterSpacing: '0.5px',
+            color: theme === 'minimal-mod' ? '#f1f1f1' : 'inherit'
+          }}>
             СУПЕР-ФИЛЬТР: ПЕРСОНЫ
           </h3>
           {expandedSections.personas ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
