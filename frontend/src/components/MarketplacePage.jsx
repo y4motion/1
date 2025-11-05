@@ -26,7 +26,7 @@ const MarketplacePage = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [showCatalogMega, setShowCatalogMega] = useState(false); // New mega catalog
+  const [showCatalogMegaMega, setShowCatalogMega] = useState(false); // New mega catalog
   const [showFilterPanel, setShowFilterPanel] = useState(false); // Sliding filter panel
   const [showSearchHistory, setShowSearchHistory] = useState(false); // Search history dropdown
   const [searchHistory, setSearchHistory] = useState([]); // Stores last 10 searches
@@ -97,7 +97,7 @@ const MarketplacePage = () => {
       }
       
       // Close catalog dropdown if click outside
-      if (showCatalog) {
+      if (showCatalogMega) {
         const catalogElement = document.querySelector('[data-catalog="true"]');
         const isClickInsideButton = catalogButtonRef.current && catalogButtonRef.current.contains(event.target);
         const isClickInsideCatalog = catalogElement && catalogElement.contains(event.target);
@@ -108,7 +108,7 @@ const MarketplacePage = () => {
       }
       
       // Close search category dropdown if click outside
-      if (showSearchCategoryDropdown) {
+      if (showSearchHistory) {
         const isClickInsideSearch = searchContainerRef.current && searchContainerRef.current.contains(event.target);
         
         if (!isClickInsideSearch) {
@@ -121,7 +121,7 @@ const MarketplacePage = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showFilterPanel, showCatalog, showSearchCategoryDropdown]);
+  }, [showFilterPanel, showCatalogMega, showSearchHistory]);
 
   const fetchCategories = async () => {
     try {
@@ -460,7 +460,7 @@ const MarketplacePage = () => {
           >
             {/* Category Button Inside Search */}
             <button
-              onClick={() => setShowSearchCategoryDropdown(!showSearchCategoryDropdown)}
+              onClick={() => setShowSearchCategoryDropdown(!showSearchHistory)}
               style={{
                 position: 'absolute',
                 left: '1rem',
@@ -540,7 +540,7 @@ const MarketplacePage = () => {
             
             {/* Catalog Button inside search */}
             <button
-              onClick={() => setShowCatalogMega(!showCatalogMega)}
+              onClick={() => setShowCatalogMega(!showCatalogMegaMega)}
               style={{
                 position: 'absolute',
                 right: '3.5rem',
@@ -549,26 +549,26 @@ const MarketplacePage = () => {
                 padding: '0.5rem',
                 borderRadius: '6px',
                 border: 'none',
-                background: showCatalogMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                background: showCatalogMegaMega ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.375rem',
                 fontSize: '0.8125rem',
                 fontWeight: '600',
-                color: showCatalogMega ? '#8b5cf6' : 'inherit',
+                color: showCatalogMegaMega ? '#8b5cf6' : 'inherit',
                 transition: 'all 0.2s ease',
                 zIndex: 2
               }}
               onMouseEnter={(e) => {
-                if (!showCatalogMega) {
+                if (!showCatalogMegaMega) {
                   e.currentTarget.style.background = theme === 'dark' 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'rgba(0, 0, 0, 0.1)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (!showCatalogMega) {
+                if (!showCatalogMegaMega) {
                   e.currentTarget.style.background = 'transparent';
                 }
               }}
@@ -591,7 +591,7 @@ const MarketplacePage = () => {
             />
             
             {/* Category Dropdown */}
-            {showSearchCategoryDropdown && (
+            {showSearchHistory && (
               <div
                 className="glass-strong"
                 style={{
@@ -733,7 +733,7 @@ const MarketplacePage = () => {
         </div>
 
         {/* Catalog Dropdown */}
-        {showCatalog && (
+        {showCatalogMega && (
           <div 
             data-catalog="true"
             className="glass-strong"
