@@ -728,25 +728,29 @@ const MarketplacePage = () => {
           justifyContent: 'center',
           gap: '0.5rem',
           padding: '0.75rem 0',
-          color: theme === 'dark' ? '#fff' : '#1a1a1a'
+          color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.border = theme === 'dark' 
-            ? '1px solid rgba(255, 255, 255, 0.2)' 
-            : '1px solid rgba(0, 0, 0, 0.2)';
-          e.currentTarget.style.background = theme === 'dark' 
-            ? 'rgba(255, 255, 255, 0.05)' 
-            : 'rgba(0, 0, 0, 0.05)';
-          e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)';
+          if (theme !== 'minimal-mod') {
+            e.currentTarget.style.border = theme === 'dark' 
+              ? '1px solid rgba(255, 255, 255, 0.2)' 
+              : '1px solid rgba(0, 0, 0, 0.2)';
+            e.currentTarget.style.background = theme === 'dark' 
+              ? 'rgba(255, 255, 255, 0.05)' 
+              : 'rgba(0, 0, 0, 0.05)';
+            e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)';
+          }
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.border = theme === 'dark' 
-            ? '1px solid transparent' 
-            : '1px solid rgba(0, 0, 0, 0.1)';
-          e.currentTarget.style.background = theme === 'dark' 
-            ? 'transparent' 
-            : 'rgba(255, 255, 255, 0.5)';
-          e.currentTarget.style.transform = 'translateY(-50%)';
+          if (theme !== 'minimal-mod') {
+            e.currentTarget.style.border = theme === 'dark' 
+              ? '1px solid transparent' 
+              : '1px solid rgba(0, 0, 0, 0.1)';
+            e.currentTarget.style.background = theme === 'dark' 
+              ? 'transparent' 
+              : 'rgba(255, 255, 255, 0.5)';
+            e.currentTarget.style.transform = 'translateY(-50%)';
+          }
         }}
       >
         <SlidersHorizontal size={16} />
