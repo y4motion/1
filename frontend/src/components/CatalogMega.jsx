@@ -7,9 +7,10 @@ import { ChevronRight, X } from 'lucide-react';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
-const CatalogMega = ({ onClose, onCategorySelect }) => {
+const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
   const { language } = useLanguage();
-  const { theme } = useTheme();
+  const { theme: contextTheme } = useTheme();
+  const theme = themeOverride || contextTheme;
   const navigate = useNavigate();
   
   const [catalog, setCatalog] = useState({});
