@@ -101,7 +101,7 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
     <>
       {/* Catalog Panel */}
       <div
-        className="glass"
+        className={theme === 'minimal-mod' ? '' : 'glass'}
         data-catalog="true"
         style={{
         position: 'fixed',
@@ -113,12 +113,17 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
         maxHeight: '80vh',
         display: 'grid',
         gridTemplateColumns: '280px 1fr',
-        background: theme === 'dark' ? 'rgba(10, 10, 10, 0.98)' : 'rgba(255, 255, 255, 0.98)',
-        backdropFilter: 'blur(20px)',
-        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-        borderRadius: '12px',
+        background: theme === 'minimal-mod' 
+          ? 'rgba(0, 0, 0, 0.95)' 
+          : (theme === 'dark' ? 'rgba(10, 10, 10, 0.98)' : 'rgba(255, 255, 255, 0.98)'),
+        backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(20px)',
+        border: theme === 'minimal-mod' 
+          ? '1px solid rgba(241, 241, 241, 0.12)'
+          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+        borderRadius: theme === 'minimal-mod' ? '0' : '12px',
         overflow: 'hidden',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+        boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.4)',
+        fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
         zIndex: 99
       }}
     >
