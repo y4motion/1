@@ -225,15 +225,19 @@ const Header = () => {
               {/* Settings Dropdown Menu */}
               {showSettingsMenu && (
                 <div 
-                  className="glass-strong"
+                  className={theme === 'minimal-mod' ? '' : 'glass-strong'}
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 8px)',
                     right: 0,
                     width: '400px',
-                    borderRadius: '12px',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+                    backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
+                    border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : undefined,
                     padding: '0.875rem',
                     zIndex: 100,
+                    fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
                     animation: 'fadeIn 0.2s ease-out'
                   }}
                 >
