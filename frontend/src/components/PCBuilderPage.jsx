@@ -754,6 +754,362 @@ const PCBuilderPage = () => {
 
         {/* Right Column - Summary Sidebar */}
         <div style={{ position: 'sticky', top: '100px', height: 'fit-content' }}>
+          {/* Filters Block */}
+          <div
+            className="glass"
+            style={{
+              padding: '1.25rem',
+              borderRadius: '12px',
+              marginBottom: '1rem',
+              border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '0.875rem', fontWeight: '700', margin: 0, letterSpacing: '0.5px' }}>
+                {language === 'ru' ? 'ФИЛЬТРЫ' : 'FILTERS'}
+              </h3>
+              {(activeFilters.brand.length > 0 || activeFilters.socket.length > 0 || activeFilters.color.length > 0 || activeFilters.year.length > 0) && (
+                <button
+                  onClick={clearFilters}
+                  style={{
+                    fontSize: '0.75rem',
+                    color: '#8b5cf6',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  {language === 'ru' ? 'Очистить' : 'Clear'}
+                </button>
+              )}
+            </div>
+            
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {/* Brand Filter */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowFilterDropdown(showFilterDropdown === 'brand' ? null : 'brand')}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.5rem 0.75rem',
+                    borderRadius: '6px',
+                    border: activeFilters.brand.length > 0 
+                      ? '1px solid rgba(139, 92, 246, 0.5)'
+                      : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                    background: activeFilters.brand.length > 0 ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{language === 'ru' ? 'Бренд' : 'Brand'}</span>
+                  {activeFilters.brand.length > 0 && (
+                    <span style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      borderRadius: '10px',
+                      padding: '0 0.375rem',
+                      fontSize: '0.625rem'
+                    }}>
+                      {activeFilters.brand.length}
+                    </span>
+                  )}
+                  <ChevronDown size={12} />
+                </button>
+                
+                {showFilterDropdown === 'brand' && (
+                  <div
+                    className="glass"
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 0.5rem)',
+                      left: 0,
+                      zIndex: 1000,
+                      minWidth: '180px',
+                      maxHeight: '250px',
+                      overflowY: 'auto',
+                      padding: '0.5rem',
+                      borderRadius: '8px',
+                      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                    }}
+                  >
+                    {['AMD', 'Intel', 'NVIDIA', 'MSI', 'ASUS', 'GIGABYTE', 'Corsair', 'NZXT', 'Noctua', 'Samsung', 'WD', 'Kingston', 'G.Skill', 'EVGA', 'Seasonic', 'be quiet!', 'Lian Li', 'Cooler Master', 'ASRock', 'Arctic', 'Crucial'].map(brand => (
+                      <label
+                        key={brand}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem',
+                          cursor: 'pointer',
+                          borderRadius: '4px',
+                          fontSize: '0.8125rem',
+                          transition: 'background 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={activeFilters.brand.includes(brand)}
+                          onChange={() => toggleFilter('brand', brand)}
+                          style={{ accentColor: '#8b5cf6' }}
+                        />
+                        <span>{brand}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Socket Filter */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowFilterDropdown(showFilterDropdown === 'socket' ? null : 'socket')}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.5rem 0.75rem',
+                    borderRadius: '6px',
+                    border: activeFilters.socket.length > 0 
+                      ? '1px solid rgba(139, 92, 246, 0.5)'
+                      : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                    background: activeFilters.socket.length > 0 ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{language === 'ru' ? 'Сокет' : 'Socket'}</span>
+                  {activeFilters.socket.length > 0 && (
+                    <span style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      borderRadius: '10px',
+                      padding: '0 0.375rem',
+                      fontSize: '0.625rem'
+                    }}>
+                      {activeFilters.socket.length}
+                    </span>
+                  )}
+                  <ChevronDown size={12} />
+                </button>
+                
+                {showFilterDropdown === 'socket' && (
+                  <div
+                    className="glass"
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 0.5rem)',
+                      left: 0,
+                      zIndex: 1000,
+                      minWidth: '150px',
+                      padding: '0.5rem',
+                      borderRadius: '8px',
+                      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                    }}
+                  >
+                    {['AM5', 'AM4', 'LGA1700', 'LGA1200'].map(socket => (
+                      <label
+                        key={socket}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem',
+                          cursor: 'pointer',
+                          borderRadius: '4px',
+                          fontSize: '0.8125rem',
+                          transition: 'background 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={activeFilters.socket.includes(socket)}
+                          onChange={() => toggleFilter('socket', socket)}
+                          style={{ accentColor: '#8b5cf6' }}
+                        />
+                        <span>{socket}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Color Filter */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowFilterDropdown(showFilterDropdown === 'color' ? null : 'color')}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.5rem 0.75rem',
+                    borderRadius: '6px',
+                    border: activeFilters.color.length > 0 
+                      ? '1px solid rgba(139, 92, 246, 0.5)'
+                      : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                    background: activeFilters.color.length > 0 ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{language === 'ru' ? 'Цвет' : 'Color'}</span>
+                  {activeFilters.color.length > 0 && (
+                    <span style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      borderRadius: '10px',
+                      padding: '0 0.375rem',
+                      fontSize: '0.625rem'
+                    }}>
+                      {activeFilters.color.length}
+                    </span>
+                  )}
+                  <ChevronDown size={12} />
+                </button>
+                
+                {showFilterDropdown === 'color' && (
+                  <div
+                    className="glass"
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 0.5rem)',
+                      left: 0,
+                      zIndex: 1000,
+                      minWidth: '140px',
+                      padding: '0.5rem',
+                      borderRadius: '8px',
+                      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                    }}
+                  >
+                    {['Black', 'White', 'Silver', 'RGB', 'Brown'].map(color => (
+                      <label
+                        key={color}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem',
+                          cursor: 'pointer',
+                          borderRadius: '4px',
+                          fontSize: '0.8125rem',
+                          transition: 'background 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={activeFilters.color.includes(color)}
+                          onChange={() => toggleFilter('color', color)}
+                          style={{ accentColor: '#8b5cf6' }}
+                        />
+                        <span>{color}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Year Filter */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowFilterDropdown(showFilterDropdown === 'year' ? null : 'year')}
+                  className="glass-subtle"
+                  style={{
+                    padding: '0.5rem 0.75rem',
+                    borderRadius: '6px',
+                    border: activeFilters.year.length > 0 
+                      ? '1px solid rgba(139, 92, 246, 0.5)'
+                      : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
+                    background: activeFilters.year.length > 0 ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{language === 'ru' ? 'Год' : 'Year'}</span>
+                  {activeFilters.year.length > 0 && (
+                    <span style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      borderRadius: '10px',
+                      padding: '0 0.375rem',
+                      fontSize: '0.625rem'
+                    }}>
+                      {activeFilters.year.length}
+                    </span>
+                  )}
+                  <ChevronDown size={12} />
+                </button>
+                
+                {showFilterDropdown === 'year' && (
+                  <div
+                    className="glass"
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 0.5rem)',
+                      left: 0,
+                      zIndex: 1000,
+                      minWidth: '120px',
+                      padding: '0.5rem',
+                      borderRadius: '8px',
+                      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                    }}
+                  >
+                    {[2025, 2024, 2023, 2022].map(year => (
+                      <label
+                        key={year}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.5rem',
+                          cursor: 'pointer',
+                          borderRadius: '4px',
+                          fontSize: '0.8125rem',
+                          transition: 'background 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={activeFilters.year.includes(year)}
+                          onChange={() => toggleFilter('year', year)}
+                          style={{ accentColor: '#8b5cf6' }}
+                        />
+                        <span>{year}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Power Calculator */}
           <div
             className="glass"
