@@ -1254,7 +1254,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
 };
 
 // Product Card List Component (Horizontal Layout)
-const ProductCardList = ({ product, onToggleWishlist }) => {
+const ProductCardList = ({ product, theme, onToggleWishlist }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const primaryImage = product.images?.find(img => img.is_primary) || product.images?.[0];
@@ -1270,14 +1270,16 @@ const ProductCardList = ({ product, onToggleWishlist }) => {
       <div 
         className="glass-strong product-card"
         style={{
-          borderRadius: '16px',
+          borderRadius: theme === 'minimal-mod' ? '8px' : '16px',
           border: isHovered 
-            ? '1px solid rgba(255, 255, 255, 0.3)' 
-            : '1px solid rgba(255, 255, 255, 0.08)',
-          transition: 'all 0.3s ease',
+            ? (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.24)' : '1px solid rgba(255, 255, 255, 0.3)')
+            : (theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : '1px solid rgba(255, 255, 255, 0.08)'),
+          transition: 'all 0.2s ease',
           cursor: 'pointer',
           display: 'grid',
           gridTemplateColumns: '240px 1fr auto',
+          background: theme === 'minimal-mod' ? 'rgba(10, 10, 10, 0.85)' : undefined,
+          fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
           gap: '2rem',
           padding: '1.5rem',
           transform: isHovered ? 'translateX(8px)' : 'translateX(0)',
