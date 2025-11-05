@@ -504,7 +504,12 @@ const MarketplacePage = () => {
               placeholder="Search for gear..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onFocus={() => setShowSearchCategoryDropdown(true)}
+              onFocus={() => setShowSearchHistory(true)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit(searchTerm);
+                }
+              }}
               className="minimal-search"
               style={{
                 width: '100%',
