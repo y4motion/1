@@ -22,9 +22,10 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <AuthProvider>
-          <div className="App">
-            <BrowserRouter>
+        <CurrencyProvider>
+          <AuthProvider>
+            <div className="App">
+              <BrowserRouter>
               <Header />
               <FloatingChatWidget />
               <Routes>
