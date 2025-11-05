@@ -1064,6 +1064,7 @@ const PCBuilderPage = () => {
                         {language === 'ru' ? 'Нет компонентов' : 'No components found'}
                       </div>
                     )}
+                    </div>
                   </div>
                 )}
               </div>
