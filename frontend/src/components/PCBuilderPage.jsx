@@ -1123,7 +1123,8 @@ const PCBuilderPage = () => {
                 </span>
               </label>
           </div>
-              {/* Brand Filter */}
+
+          {/* Power Calculator */}
               <div style={{ position: 'relative' }} data-filter-dropdown>
                 <button
                   onClick={() => setShowFilterDropdown(showFilterDropdown === 'brand' ? null : 'brand')}
