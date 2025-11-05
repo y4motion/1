@@ -149,10 +149,10 @@ const MarketplacePage = () => {
   
   const fetchCatalogCategories = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/catalog/categories`);
+      const response = await fetch(`${API_URL}/api/marketplace/catalog`);
       if (response.ok) {
         const data = await response.json();
-        setCatalogCategories(data.categories || {});
+        setCatalogCategories(data.catalog || {});
       }
     } catch (error) {
       console.error('Failed to fetch catalog categories:', error);
