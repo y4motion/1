@@ -33,6 +33,7 @@ const ComponentIcons = {
 const PCBuilderPage = () => {
   const { theme } = useTheme();
   const { language, t } = useLanguage();
+  const { formatPrice, currency } = require('../contexts/CurrencyContext').useCurrency();
 
   const [selectedComponents, setSelectedComponents] = useState({
     cpu: null,
