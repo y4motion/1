@@ -820,6 +820,7 @@ const MarketplacePage = () => {
         />
       )}
 
+      </div>
     </div>
   );
 };
