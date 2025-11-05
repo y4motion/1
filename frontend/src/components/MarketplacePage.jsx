@@ -923,10 +923,12 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
               flexDirection: 'column',
               transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
               boxShadow: isHovered 
-                ? (theme === 'minimal-mod' ? '0 4px 16px rgba(0, 0, 0, 0.9)' : '0 12px 40px rgba(0, 0, 0, 0.4)') 
-                : (theme === 'minimal-mod' ? '0 2px 8px rgba(0, 0, 0, 0.8)' : '0 4px 16px rgba(0, 0, 0, 0.2)'),
+                ? (theme === 'minimal-mod' ? '0 4px 16px rgba(0, 0, 0, 0.6)' : '0 12px 40px rgba(0, 0, 0, 0.4)') 
+                : 'none',
               position: 'relative',
-              background: theme === 'minimal-mod' ? 'rgba(10, 10, 10, 0.85)' : undefined,
+              background: theme === 'minimal-mod' 
+                ? (isHovered ? 'rgba(255, 255, 255, 0.04)' : 'transparent')
+                : undefined,
               fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
             }}
           >
