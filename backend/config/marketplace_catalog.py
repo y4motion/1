@@ -175,7 +175,7 @@ MARKETPLACE_CATALOG = {
         "id": "mobile_gaming",
         "name_en": "Mobile Gaming",
         "name_ru": "Мобильный гейминг",
-        "icon": "📱",
+        "icon": "Smartphone",
         "subcategories": {
             "gaming_phones": {
                 "name_en": "Gaming Smartphones",
