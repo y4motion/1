@@ -103,7 +103,7 @@ const MarketplacePage = () => {
         const isClickInsideCatalog = catalogElement && catalogElement.contains(event.target);
         
         if (!isClickInsideButton && !isClickInsideCatalog) {
-          setShowCatalog(false);
+          setShowCatalogMega(false);
         }
       }
       
