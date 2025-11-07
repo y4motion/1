@@ -18,6 +18,34 @@ const HomePage = () => {
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
 
+  // Dynamic category blocks for PMM.gg style
+  const mainCategories = [
+    {
+      title: 'FEED',
+      image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=800&q=80',
+      link: '/feed',
+      description: 'Лента постов и новостей'
+    },
+    {
+      title: 'ARTICLES',
+      image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80',
+      link: '/articles',
+      description: 'Обзоры и аналитика'
+    },
+    {
+      title: 'CREATORS',
+      image: 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=800&q=80',
+      link: '/creators',
+      description: 'Хаб креаторов'
+    },
+    {
+      title: 'GROUP BUY',
+      image: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&q=80',
+      link: '/groupbuy',
+      description: 'Групповые закупки'
+    }
+  ];
+
   return (
     <div className="dark-bg" style={{ minHeight: '100vh', paddingTop: '6rem' }}>
       <div className="grain-overlay" />
