@@ -205,43 +205,6 @@ const HomePage = () => {
             ))}</div>
         </div>
       </div>
-
-      {/* Footer Section */}
-      <div style={{
-        marginTop: '6rem',
-        padding: '3rem',
-        borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.05)'
-      }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '1rem',
-          maxWidth: '1200px',
-          margin: '0 auto'
-        }}>
-          {footerLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className="text-link"
-              style={{ textAlign: 'center' }}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Copyright */}
-        <div style={{
-          textAlign: 'center',
-          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
-          fontSize: '0.875rem',
-          marginTop: '3rem',
-          letterSpacing: '0.5px'
-        }}>
-          {t('home.copyright')}
-        </div>
-      </div>
     </div>
   );
 };
