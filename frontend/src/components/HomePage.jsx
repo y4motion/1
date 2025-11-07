@@ -108,16 +108,16 @@ const HomePage = () => {
         margin: '3rem 0'
       }} />
 
-      {/* PMM.gg Style Layout: 4 Squares + 1 Large Rectangle */}
-      <div style={{ padding: '0 3rem', marginBottom: '4rem' }}>
-        {/* Top 4 Square Blocks */}
+      {/* PMM.gg Style Layout: 4 Squares + 1 Large Rectangle - EXACT SIZES */}
+      <div style={{ padding: '0 10rem', marginBottom: '4rem' }}> {/* 160px = 10rem padding */}
+        {/* Top 4 Square Blocks - 382px x 382px with 24px gap */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '1.5rem',
-          maxWidth: '1400px',
+          gap: '24px',
+          maxWidth: '1600px',
           margin: '0 auto',
-          marginBottom: '1.5rem'
+          marginBottom: '24px'
         }}>
           {topCategories.map((category, index) => (
             <div
@@ -125,8 +125,8 @@ const HomePage = () => {
               onClick={() => navigate(category.link)}
               className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105"
               style={{
-                height: '320px',
-                borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+                height: '382px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '8px',
               }}
             >
               {/* Background Image */}
@@ -139,7 +139,7 @@ const HomePage = () => {
               {/* Dark Overlay */}
               <div 
                 className="absolute inset-0 bg-black transition-opacity duration-300"
-                style={{ opacity: 0.4 }}
+                style={{ opacity: 0.3 }}
               />
 
               {/* Content Overlay */}
@@ -166,21 +166,21 @@ const HomePage = () => {
               {/* Hover Border */}
               <div 
                 className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '8px' }}
               />
             </div>
           ))}
         </div>
 
-        {/* Large Bottom Block for FEED */}
+        {/* Large Bottom Block for FEED - 1600px x 560px */}
         <div
           onClick={() => navigate(bottomBlock.link)}
           className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.01]"
           style={{
-            height: '400px',
-            maxWidth: '1400px',
+            height: '560px',
+            maxWidth: '1600px',
             margin: '0 auto',
-            borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
           }}
         >
           {/* Background Image */}
@@ -191,7 +191,7 @@ const HomePage = () => {
           />
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-black/50" />
 
           {/* Content Overlay */}
           <div className="absolute inset-0 flex items-center justify-center p-12">
@@ -217,7 +217,7 @@ const HomePage = () => {
           {/* Hover Border */}
           <div 
             className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '8px' }}
           />
         </div>
       </div>
