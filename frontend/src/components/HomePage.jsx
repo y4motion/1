@@ -218,6 +218,46 @@ const HomePage = () => {
           )}
         </div>
 
+        {/* Scroll Hint Arrows - Strobe Effect */}
+        <div style={{
+          position: 'absolute',
+          bottom: '3rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.5rem',
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 1s ease 1s'
+        }}>
+          {/* First Arrow */}
+          <div
+            style={{
+              animation: 'strobeArrow 2s ease-in-out infinite',
+              animationDelay: '0s'
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+          
+          {/* Second Arrow */}
+          <div
+            style={{
+              marginTop: '-0.75rem',
+              animation: 'strobeArrow 2s ease-in-out infinite',
+              animationDelay: '0.3s'
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
         {/* CSS Animations */}
         <style jsx>{`
           @keyframes searchShrink {
@@ -239,6 +279,17 @@ const HomePage = () => {
             to {
               opacity: 1;
               transform: translateX(-50%) translateY(0);
+            }
+          }
+
+          @keyframes strobeArrow {
+            0%, 100% {
+              opacity: 0.2;
+              transform: translateY(0);
+            }
+            50% {
+              opacity: 1;
+              transform: translateY(8px);
             }
           }
 
