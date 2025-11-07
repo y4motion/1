@@ -232,28 +232,28 @@ const HomePage = () => {
           opacity: isLoaded ? 1 : 0,
           transition: 'opacity 1s ease 1s'
         }}>
-          {/* First Arrow */}
+          {/* First Arrow - No vertical line, just chevron */}
           <div
             style={{
               animation: 'strobeArrow 2s ease-in-out infinite',
               animationDelay: '0s'
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M19 12l-7 7-7-7" />
             </svg>
           </div>
           
           {/* Second Arrow */}
           <div
             style={{
-              marginTop: '-0.75rem',
+              marginTop: '-1.5rem',
               animation: 'strobeArrow 2s ease-in-out infinite',
               animationDelay: '0.3s'
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M19 12l-7 7-7-7" />
             </svg>
           </div>
         </div>
