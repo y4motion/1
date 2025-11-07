@@ -18,13 +18,13 @@ const HomePage = () => {
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
 
-  // Dynamic category blocks for PMM.gg style
-  const mainCategories = [
+  // Top 4 square blocks (PMM.gg style)
+  const topCategories = [
     {
-      title: 'FEED',
-      image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=800&q=80',
-      link: '/feed',
-      description: 'Лента постов и новостей'
+      title: 'RATING',
+      image: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80',
+      link: '/rating',
+      description: 'Рейтинг сообщества'
     },
     {
       title: 'ARTICLES',
@@ -45,6 +45,14 @@ const HomePage = () => {
       description: 'Групповые закупки'
     }
   ];
+
+  // Large bottom block for FEED
+  const bottomBlock = {
+    title: 'FEED',
+    image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=1600&q=80',
+    link: '/feed',
+    description: 'Лента постов и новостей сообщества'
+  };
 
   return (
     <div className="dark-bg" style={{ minHeight: '100vh', paddingTop: '6rem' }}>
