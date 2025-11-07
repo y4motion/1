@@ -291,7 +291,7 @@ const HomePage = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '24px',
-            maxWidth: '1760px',
+            maxWidth: '1840px',
             margin: '0 auto'
           }}>
             {featuredProducts.map((product) => (
