@@ -12,6 +12,11 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 
+async def get_database():
+    """Get database instance"""
+    return db
+
+
 async def close_mongo_connection():
     """Close MongoDB connection"""
     client.close()
