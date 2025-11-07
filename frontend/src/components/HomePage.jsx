@@ -101,6 +101,31 @@ const HomePage = () => {
           ))}
         </div>
 
+        {/* Community Hub Section */}
+        <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+          <h3 style={{
+            fontSize: '2rem',
+            fontWeight: '700',
+            marginBottom: '3rem',
+            textAlign: 'center',
+            letterSpacing: '1px'
+          }}>
+            {t('home.communityHub') || '\ud83c\udf0e Community Hub'}
+          </h3>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gap: '2rem',
+            maxWidth: '1400px',
+            margin: '0 auto'
+          }}>
+            <TopArticlesWidget />
+            <TopUsersWidget />
+            <TopProposalsWidget />
+          </div>
+        </div>
+
         {/* Featured Products */}
         <div style={{ marginTop: '4rem' }}>
           <h3 style={{
