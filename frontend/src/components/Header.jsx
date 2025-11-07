@@ -653,87 +653,170 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Gamification Badges - Compact */}
+            {/* Gamification Badges - Compact with Tooltips */}
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               {/* Level Badge */}
-              <div style={{
-                padding: '0.25rem 0.625rem',
-                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                background: `${currentLevel.color}20`,
-                border: `1px solid ${currentLevel.color}60`,
-                fontSize: '0.75rem',
-                fontWeight: '700',
-                color: currentLevel.color,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem'
-              }}>
+              <div 
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                  background: `${currentLevel.color}20`,
+                  border: `1px solid ${currentLevel.color}60`,
+                  fontSize: '0.75rem',
+                  fontWeight: '700',
+                  color: currentLevel.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = `0 4px 12px ${currentLevel.color}40`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                title={language === 'ru' 
+                  ? `Уровень ${displayUser.level} - ${currentLevel.name}\n\nВаш текущий ранг в системе.\nКаждый новый уровень открывает:\n• Эксклюзивные скидки\n• Особые награды\n• Доступ к закрытым распродажам\n\nПовышайте уровень набирая XP!`
+                  : `Level ${displayUser.level} - ${currentLevel.name}\n\nYour current rank in the system.\nEach new level unlocks:\n• Exclusive discounts\n• Special rewards\n• Access to private sales\n\nLevel up by earning XP!`
+                }
+              >
                 <span>🏆</span>
                 LVL {displayUser.level}
               </div>
 
               {/* XP Badge */}
-              <div style={{
-                padding: '0.25rem 0.625rem',
-                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                background: theme === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem'
-              }}>
+              <div 
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                  background: theme === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                title={language === 'ru'
+                  ? `Опыт: ${displayUser.xp} XP\nДо следующего уровня: ${displayUser.nextLevelXP - displayUser.xp} XP\n\nКак получить XP:\n• Покупки: +10 XP за каждые $1\n• Отзывы: +25 XP за отзыв\n• Ежедневный вход: +5 XP\n• Реферальная программа: +100 XP\n• Достижения: +50-500 XP`
+                  : `Experience: ${displayUser.xp} XP\nTo next level: ${displayUser.nextLevelXP - displayUser.xp} XP\n\nHow to earn XP:\n• Purchases: +10 XP per $1\n• Reviews: +25 XP per review\n• Daily login: +5 XP\n• Referral program: +100 XP\n• Achievements: +50-500 XP`
+                }
+              >
                 <span>⭐</span>
                 {displayUser.xp} XP
               </div>
 
               {/* Achievements Badge */}
-              <div style={{
-                padding: '0.25rem 0.625rem',
-                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
-                border: '1px solid rgba(255, 215, 0, 0.3)',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                color: '#FFD700',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem'
-              }}>
+              <div 
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                  background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                  border: '1px solid rgba(255, 215, 0, 0.3)',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  color: '#FFD700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => navigate('/profile?tab=achievements')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                title={language === 'ru'
+                  ? `Достижения: ${unlockedAchievements.length} из ${achievements.length}\n\nТекущие достижения:\n${unlockedAchievements.map(a => `✓ ${a.name}`).join('\n')}\n\nКак получить:\n• Выполняйте квесты\n• Совершайте покупки\n• Приглашайте друзей\n• Участвуйте в активностях\n\nНажмите для просмотра всех`
+                  : `Achievements: ${unlockedAchievements.length} of ${achievements.length}\n\nCurrent achievements:\n${unlockedAchievements.map(a => `✓ ${a.name}`).join('\n')}\n\nHow to unlock:\n• Complete quests\n• Make purchases\n• Invite friends\n• Participate in activities\n\nClick to view all`
+                }
+              >
                 <span>🎯</span>
                 {unlockedAchievements.length}/{achievements.length}
               </div>
 
               {/* Streak Badge */}
-              <div style={{
-                padding: '0.25rem 0.625rem',
-                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
-                border: '1px solid rgba(255, 152, 0, 0.3)',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                color: '#FF9800',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem'
-              }}>
+              <div 
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                  background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
+                  border: '1px solid rgba(255, 152, 0, 0.3)',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  color: '#FF9800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 152, 0, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                title={language === 'ru'
+                  ? `Серия входов: ${displayUser.loginStreak} дней подряд 🔥\n\nТекущий бонус: +${displayUser.loginStreak * 5} XP в день\n\nНаграды за серию:\n• 7 дней: +50 XP бонус\n• 14 дней: +150 XP + 100🪙\n• 30 дней: +500 XP + 500🪙\n• 100 дней: Эпическое достижение!\n\nНе пропускайте ни дня!`
+                  : `Login streak: ${displayUser.loginStreak} days in a row 🔥\n\nCurrent bonus: +${displayUser.loginStreak * 5} XP per day\n\nStreak rewards:\n• 7 days: +50 XP bonus\n• 14 days: +150 XP + 100🪙\n• 30 days: +500 XP + 500🪙\n• 100 days: Epic achievement!\n\nDon't miss a single day!`
+                }
+              >
                 <span>🔥</span>
                 {displayUser.loginStreak}d
               </div>
 
               {/* Coins Badge */}
-              <div style={{
-                padding: '0.25rem 0.625rem',
-                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
-                border: '1px solid rgba(255, 215, 0, 0.3)',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem'
-              }}>
+              <div 
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                  background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                  border: '1px solid rgba(255, 215, 0, 0.3)',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => setShowSpinWheel(true)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                title={language === 'ru'
+                  ? `Бонусные монеты: ${mockUser.bonusBalance}🪙\n\nМожно использовать для:\n• Скидки на покупки (1🪙 = $0.01)\n• Открытие лутбоксов\n• Участие в аукционах\n• Эксклюзивные товары\n\nКак получить:\n• Ежедневные квесты: +50-200🪙\n• Покупки: +1🪙 за каждые $1\n• Колесо фортуны: до 1000🪙\n• Реферальная программа: +500🪙\n\nНажмите для вращения колеса!`
+                  : `Bonus coins: ${mockUser.bonusBalance}🪙\n\nCan be used for:\n• Purchase discounts (1🪙 = $0.01)\n• Opening lootboxes\n• Auction participation\n• Exclusive items\n\nHow to earn:\n• Daily quests: +50-200🪙\n• Purchases: +1🪙 per $1\n• Spin wheel: up to 1000🪙\n• Referrals: +500🪙\n\nClick to spin the wheel!`
+                }
+              >
                 <span>🪙</span>
                 {mockUser.bonusBalance}
               </div>
