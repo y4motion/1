@@ -105,6 +105,8 @@ const HomePage = () => {
         columns={4}
       />
 
+      {/* Content Container */}
+      <div style={{ padding: '0 3rem' }}>
         {/* Community Hub Section */}
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
           <h3 style={{
@@ -114,7 +116,7 @@ const HomePage = () => {
             textAlign: 'center',
             letterSpacing: '1px'
           }}>
-            {t('home.communityHub') || '\ud83c\udf0e Community Hub'}
+            {t('home.communityHub') || '🌐 Community Hub'}
           </h3>
           
           <div style={{
