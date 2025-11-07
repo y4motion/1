@@ -20,38 +20,38 @@ const HomePage = () => {
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
 
-  // Top 4 square blocks (PMM.gg style)
+  // Top 4 square blocks (PMM.gg style) - Angry Miao images
   const topCategories = [
     {
       title: 'RATING',
-      image: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1602025882379-e01cf08baa51?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwxfHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
       link: '/rating',
       description: 'Рейтинг сообщества'
     },
     {
       title: 'ARTICLES',
-      image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1626958390898-162d3577f293?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwyfHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
       link: '/articles',
       description: 'Обзоры и аналитика'
     },
     {
       title: 'CREATORS',
-      image: 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1618586810102-aaa7049200c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHw0fHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
       link: '/creators',
       description: 'Хаб креаторов'
     },
     {
       title: 'GROUP BUY',
-      image: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&q=80',
+      image: 'https://images.pexels.com/photos/34563105/pexels-photo-34563105.jpeg',
       link: '/groupbuy',
       description: 'Групповые закупки'
     }
   ];
 
-  // Large bottom block for FEED
+  // Large bottom block for FEED - Angry Miao image
   const bottomBlock = {
     title: 'FEED',
-    image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=1600&q=80',
+    image: 'https://images.unsplash.com/photo-1615031465602-20f3ff3ca279?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwzfHxhbmdyeSUyMG1pYW8lMjBrZXlib2FyZHxlbnwwfHx8fDE3NjI1NDIyOTF8MA&ixlib=rb-4.1.0&q=85',
     link: '/feed',
     description: 'Лента постов и новостей сообщества'
   };
