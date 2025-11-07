@@ -685,9 +685,10 @@ const MarketplacePage = () => {
             )}
 
             {/* Catalog Mega Menu - positioned relative to search container */}
-            {showCatalogMega && (
+            {showCatalogMega && catalogData && (
               <CatalogMega
                 theme={theme}
+                catalogData={catalogData}
                 onClose={() => setShowCatalogMega(false)}
                 onCategorySelect={(categoryId, subcategoryId, item) => {
                   setSelectedCategory(categoryId);
