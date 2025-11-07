@@ -126,7 +126,8 @@ const HomePage = () => {
               onClick={() => navigate(category.link)}
               className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105"
               style={{
-                height: '382px',
+                aspectRatio: '1 / 1',
+                width: '100%',
                 borderRadius: theme === 'minimal-mod' ? '0' : '3px',
               }}
             >
