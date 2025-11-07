@@ -230,16 +230,6 @@ const HomePage = () => {
       <div style={{ padding: '0 3rem' }}>
         {/* Community Hub Section */}
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
-          <h3 style={{
-            fontSize: '2rem',
-            fontWeight: '700',
-            marginBottom: '3rem',
-            textAlign: 'center',
-            letterSpacing: '1px'
-          }}>
-            {t('home.communityHub') || '🌐 Community Hub'}
-          </h3>
-          
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
@@ -250,6 +240,37 @@ const HomePage = () => {
             <TopArticlesWidget />
             <TopUsersWidget />
             <TopProposalsWidget />
+          </div>
+        </div>
+
+        {/* Top Categories Section */}
+        <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            marginBottom: '2rem',
+            textAlign: 'center',
+            letterSpacing: '1px'
+          }}>
+            {t('home.exploreTitle') || 'Explore the most popular products'}
+          </h3>
+          
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+            marginBottom: '4rem'
+          }}>
+            {categories.map((category) => (
+              <Link
+                key={category.id}
+                to={`/category/${category.slug}`}
+                className="text-link"
+              >
+                {t(`categories.${category.slug}`)}
+              </Link>
+            ))}
           </div>
         </div>
 
