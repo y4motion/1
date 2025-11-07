@@ -583,9 +583,9 @@ const Header = () => {
           {/* Tabs */}
           <div style={{ display: 'flex', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)', padding: '0 0.5rem' }}>
             {[
+              { id: 'menu', icon: Home, label: language === 'ru' ? 'Меню' : 'Menu' },
               { id: 'overview', icon: User, label: 'Overview' },
               { id: 'achievements', icon: Trophy, label: t('user.achievements') },
-              { id: 'quests', icon: Target, label: t('user.dailyQuests') },
               { id: 'rewards', icon: Gift, label: t('user.inventory') }
             ].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, padding: '0.75rem 0.5rem', border: 'none', background: 'none', cursor: 'pointer', borderBottom: activeTab === tab.id ? `2px solid ${currentLevel.color}` : '2px solid transparent', opacity: activeTab === tab.id ? 1 : 0.5, transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
@@ -597,6 +597,85 @@ const Header = () => {
           
           {/* Compact content - just show current user info */}
           <div style={{ padding: '1rem', maxHeight: '400px', overflowY: 'auto' }}>
+            {/* Menu Tab - Twitter Style */}
+            {activeTab === 'menu' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <Link to="/" className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+                  <Home size={20} />
+                  <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Главная' : 'Home'}</span>
+                </Link>
+                
+                <button className="text-link" style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <Bell size={20} />
+                    <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Уведомления' : 'Notifications'}</span>
+                  </span>
+                  {19 > 0 && <span style={{ background: '#8b5cf6', color: 'white', padding: '0.125rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>19</span>}
+                </button>
+
+                <Link to="/chat" className="text-link" style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <Mail size={20} />
+                    <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщения' : 'Messages'}</span>
+                  </span>
+                  {mockUser.messages > 0 && <span style={{ background: '#4CAF50', color: 'white', padding: '0.125rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>{mockUser.messages}</span>}
+                </Link>
+
+                <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+                  <BookMarked size={20} />
+                  <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Закладки' : 'Bookmarks'}</span>
+                </button>
+
+                <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+                  <List size={20} />
+                  <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Списки' : 'Lists'}</span>
+                </button>
+
+                <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+                  <Users size={20} />
+                  <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщества' : 'Communities'}</span>
+                </button>
+
+                <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+                  <UserCircle size={20} />
+                  <span style={{ fontSize: '1rem', fontWeight: '500' }}>{language === 'ru' ? 'Профиль' : 'Profile'}</span>
+                </button>
+
+                {/* Post Button */}
+                <button 
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    marginTop: '1rem',
+                    background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+                    border: 'none',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '24px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    fontSize: '1rem',
+                    fontWeight: '700',
+                    color: '#fff',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
+                  }}
+                >
+                  <Edit3 size={20} />
+                  {language === 'ru' ? 'Опубликовать' : 'Post'}
+                </button>
+              </div>
+            )}
+            
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
