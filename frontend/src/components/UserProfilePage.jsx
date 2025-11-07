@@ -110,7 +110,9 @@ const UserProfilePage = () => {
               }}>
                 {displayUser.avatar || '👤'}
               </div>
-              <button style={{
+              <button 
+                onClick={() => setShowEditModal(true)}
+                style={{
                 position: 'absolute',
                 bottom: 0,
                 right: 0,
