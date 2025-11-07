@@ -696,7 +696,7 @@ const MarketplacePage = () => {
               bottom: 0,
               background: 'rgba(0, 0, 0, 0.5)',
               zIndex: 98,
-              animation: 'fadeIn 0.2s ease-out'
+              animation: 'fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           />
         )}
