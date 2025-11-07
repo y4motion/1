@@ -303,7 +303,7 @@ const HomePage = () => {
                   className="group cursor-pointer transition-all duration-300 hover:scale-105"
                   style={{
                     backgroundColor: 'rgb(10, 10, 10)',
-                    borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '3px',
                     overflow: 'hidden'
                   }}
                 >
