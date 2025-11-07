@@ -171,8 +171,8 @@ const HomePage = () => {
               className="search-container"
               style={{
                 position: 'relative',
-                maxWidth: '600px',
-                width: '100%',
+                maxWidth: '780px',
+                width: '130%',
                 animation: 'searchShrink 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards'
               }}
             >
