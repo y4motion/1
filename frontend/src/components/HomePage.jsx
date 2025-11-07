@@ -274,22 +274,22 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Featured Products */}
-        <div style={{ marginTop: '4rem' }}>
+        {/* Featured Products - PMM.gg Style */}
+        <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
           <h3 style={{
-            fontSize: '1.25rem',
-            fontWeight: '600',
-            marginBottom: '2rem',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            marginBottom: '3rem',
             textAlign: 'center',
-            letterSpacing: '0.5px'
+            letterSpacing: '1px'
           }}>
-            {t('home.featuredDeals')}
+            FEATURED DEALS
           </h3>
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '24px',
             maxWidth: '1200px',
             margin: '0 auto'
           }}>
@@ -299,32 +299,31 @@ const HomePage = () => {
                 to={`/product/${product.id}`}
                 style={{ textDecoration: 'none' }}
               >
-                <div className="product-card" style={{ padding: '1.5rem' }}>
+                <div 
+                  className="group cursor-pointer transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: 'rgb(10, 10, 10)',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+                    overflow: 'hidden'
+                  }}
+                >
                   {/* Product Image */}
                   <div style={{
                     width: '100%',
-                    height: '200px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    marginBottom: '1rem',
-                    background: theme === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.05)'
+                    height: '280px',
+                    overflow: 'hidden'
                   }}>
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="no-transform-transition"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
 
                   {/* Product Info */}
-                  <div style={{ marginBottom: '0.75rem' }}>
+                  <div style={{ padding: '1.5rem' }}>
                     <div style={{
-                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                      color: 'rgba(255, 255, 255, 0.5)',
                       fontSize: '0.75rem',
                       fontWeight: '600',
                       letterSpacing: '1px',
@@ -333,47 +332,43 @@ const HomePage = () => {
                     }}>
                       {product.category}
                     </div>
+                    
                     <h4 style={{
                       fontSize: '1.125rem',
                       fontWeight: '600',
-                      marginBottom: '0.5rem'
+                      marginBottom: '0.5rem',
+                      color: 'white'
                     }}>
                       {product.name}
                     </h4>
+                    
                     <p style={{
-                      color: theme === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                      color: 'rgba(255, 255, 255, 0.6)',
                       fontSize: '0.875rem',
-                      lineHeight: '1.4'
+                      lineHeight: '1.4',
+                      marginBottom: '1rem'
                     }}>
                       {product.description}
                     </p>
-                  </div>
 
-                  {/* Price and Status */}
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <div>
+                    {/* Price */}
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
                       <div style={{
                         fontSize: '1.5rem',
-                        fontWeight: '700'
+                        fontWeight: '700',
+                        color: 'white'
                       }}>
                         ${product.price}
                       </div>
                       {product.originalPrice && (
                         <div style={{
-                          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
+                          color: 'rgba(255, 255, 255, 0.4)',
                           fontSize: '0.875rem',
                           textDecoration: 'line-through'
                         }}>
                           ${product.originalPrice}
                         </div>
                       )}
-                    </div>
-                    <div className="status-badge status-approved">
-                      {t('product.approved')}
                     </div>
                   </div>
                 </div>
