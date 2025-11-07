@@ -20,6 +20,7 @@ import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
 import ChatFullPage from "./components/ChatFullPage";
 import UserProfilePage from "./components/UserProfilePage";
+import NotificationsPage from "./components/NotificationsPage";
 import FloatingChatWidget from "./components/FloatingChatWidget";
 
 function App() {
