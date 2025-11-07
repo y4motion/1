@@ -96,7 +96,8 @@ const CatalogMega = ({ theme: themeOverride, catalogData: preloadedCatalog, onCl
         left: '0',
         width: '90vw',
         maxWidth: '1200px',
-        maxHeight: '80vh',
+        height: '420px',
+        maxHeight: '420px',
         display: 'grid',
         gridTemplateColumns: '280px 1fr',
         background: theme === 'minimal-mod' 
