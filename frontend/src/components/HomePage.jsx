@@ -11,17 +11,6 @@ const HomePage = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
 
-  const footerLinks = [
-    { name: t('footer.bestProducts'), path: '/best-products' },
-    { name: t('footer.builds'), path: '/builds' },
-    { name: t('footer.team'), path: '/team' },
-    { name: t('footer.joinGuild'), path: '/join-guild' },
-    { name: t('footer.personalDevelopments'), path: '/developments' },
-    { name: t('footer.contactInformation'), path: '/contact' },
-    { name: t('footer.support'), path: '/support' },
-    { name: t('footer.suggestIdea'), path: '/suggest' }
-  ];
-
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
 
