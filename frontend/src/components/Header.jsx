@@ -658,6 +658,7 @@ const Header = () => {
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               {/* Level Badge */}
               <BadgeTooltip
+                position="bottom"
                 content={
                   <div>
                     <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
