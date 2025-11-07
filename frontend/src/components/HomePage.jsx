@@ -99,36 +99,11 @@ const HomePage = () => {
         margin: '3rem 0'
       }} />
 
-      {/* Category Section */}
-      <div style={{ padding: '2rem 3rem' }}>
-        <h2 style={{
-          fontSize: '1.5rem',
-          fontWeight: '700',
-          marginBottom: '2rem',
-          textAlign: 'center',
-          letterSpacing: '1px'
-        }}>
-          {t('home.exploreTitle')}
-        </h2>
-
-        {/* Category Links */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: '0.5rem',
-          marginBottom: '4rem'
-        }}>
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              to={`/category/${category.slug}`}
-              className="text-link"
-            >
-              {t(`categories.${category.slug}`)}
-            </Link>
-          ))}
-        </div>
+      {/* Dynamic Category Grid (PMM.gg style) */}
+      <DynamicCategoryGrid 
+        categories={mainCategories}
+        columns={4}
+      />
 
         {/* Community Hub Section */}
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
