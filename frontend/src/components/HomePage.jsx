@@ -85,7 +85,7 @@ const HomePage = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '85vh',
+        minHeight: '100vh',
         overflow: 'hidden'
       }}>
         {/* Background Image (instead of video for now) */}
