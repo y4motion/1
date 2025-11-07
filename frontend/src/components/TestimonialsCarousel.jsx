@@ -18,7 +18,7 @@ function TestimonialsCarousel() {
   // Auto-scroll
   useEffect(() => {
     const interval = setInterval(() => {
-      handleScroll(300); // Scroll right by 300px every 4 seconds
+      handleScroll(500); // Scroll right by 500px every 4 seconds
     }, 4000);
 
     return () => clearInterval(interval);
