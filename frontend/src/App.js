@@ -45,7 +45,7 @@ function App() {
                 <Route path="/chat" element={<ChatFullPage />} />
                 <Route path="/chat/:conversationId" element={<ChatFullPage />} />
                 <Route path="/profile" element={<UserProfilePage />} />
-                <Route path="/notifications" element={<PlaceholderPage title="NOTIFICATIONS" />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/bookmarks" element={<PlaceholderPage title="BOOKMARKS" />} />
                 <Route path="/lists" element={<PlaceholderPage title="LISTS" />} />
                 <Route path="/communities" element={<PlaceholderPage title="COMMUNITIES" />} />
