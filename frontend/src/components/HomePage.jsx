@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { categories, products } from '../mockData';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -14,6 +14,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
