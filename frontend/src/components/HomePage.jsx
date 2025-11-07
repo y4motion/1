@@ -4,6 +4,9 @@ import { Search } from 'lucide-react';
 import { categories, products } from '../mockData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
+import TopArticlesWidget from './TopArticlesWidget';
+import TopUsersWidget from './TopUsersWidget';
+import TopProposalsWidget from './TopProposalsWidget';
 import '../styles/glassmorphism.css';
 
 const HomePage = () => {
