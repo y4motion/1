@@ -546,6 +546,14 @@ const UserProfilePage = () => {
           )}
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        currentUser={profileData}
+        onSave={handleSaveProfile}
+      />
     </div>
   );
 };
