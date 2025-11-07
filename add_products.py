@@ -12,7 +12,7 @@ products = [
         "original_price": 179.99,
         "category_id": "200",
         "sub_category_id": "202",
-        "images": ["https://images.unsplash.com/photo-1527814050087-3793815479db?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=800", "is_primary": True}],
         "stock": 15,
         "personas": ["pro_gamer"],
         "specific_attributes": {
@@ -31,7 +31,7 @@ products = [
         "original_price": 249.99,
         "category_id": "200",
         "sub_category_id": "201",
-        "images": ["https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800", "is_primary": True}],
         "stock": 8,
         "personas": ["pro_gamer", "rgb_enthusiast"],
         "specific_attributes": {
@@ -49,7 +49,7 @@ products = [
         "original_price": 1499.99,
         "category_id": "200",
         "sub_category_id": "204",
-        "images": ["https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800", "is_primary": True}],
         "stock": 5,
         "personas": ["pro_gamer", "pro_creator"],
         "specific_attributes": {
@@ -67,7 +67,7 @@ products = [
         "price": 1599.99,
         "category_id": "100",
         "sub_category_id": "102",
-        "images": ["https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800", "is_primary": True}],
         "stock": 3,
         "personas": ["pro_gamer", "pro_creator"],
         "specific_attributes": {
@@ -84,7 +84,7 @@ products = [
         "price": 549.99,
         "category_id": "100",
         "sub_category_id": "101",
-        "images": ["https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800", "is_primary": True}],
         "stock": 12,
         "personas": ["pro_gamer", "pro_creator"],
         "specific_attributes": {
@@ -102,7 +102,7 @@ products = [
         "price": 399.99,
         "category_id": "300",
         "sub_category_id": "301",
-        "images": ["https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800"],
+        "images": [{"url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800", "is_primary": True}],
         "stock": 20,
         "personas": ["audiophile", "remote_worker"],
         "specific_attributes": {
