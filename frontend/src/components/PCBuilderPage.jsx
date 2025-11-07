@@ -834,7 +834,7 @@ const PCBuilderPage = () => {
                                 overflowY: 'auto',
                                 padding: '0.5rem',
                                 borderRadius: '8px',
-                                border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                                border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.15)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
                                 boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
                               }}
                             >
@@ -915,7 +915,7 @@ const PCBuilderPage = () => {
                                 minWidth: '150px',
                                 padding: '0.5rem',
                                 borderRadius: '8px',
-                                border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+                                border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.15)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
                                 boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
                               }}
                             >
