@@ -7,22 +7,31 @@ import { ChevronRight, X } from 'lucide-react';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
-const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
+const CatalogMega = ({ theme: themeOverride, catalogData: preloadedCatalog, onClose, onCategorySelect }) => {
   const { language } = useLanguage();
   const { theme: contextTheme } = useTheme();
   const theme = themeOverride || contextTheme;
   const navigate = useNavigate();
   
-  const [catalog, setCatalog] = useState({});
+  const [catalog, setCatalog] = useState(preloadedCatalog || {});
   const [selectedMainCategory, setSelectedMainCategory] = useState(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!preloadedCatalog);
 
-  console.log('CatalogMega rendered', { loading, catalogKeys: Object.keys(catalog) });
+  console.log('CatalogMega rendered', { loading, catalogKeys: Object.keys(catalog), hasPreloaded: !!preloadedCatalog });
 
   useEffect(() => {
-    fetchCatalog();
-  }, []);
+    // Only fetch if no preloaded data
+    if (!preloadedCatalog) {
+      fetchCatalog();
+    } else {
+      // Auto-select first category from preloaded data
+      const firstCategory = Object.keys(preloadedCatalog)[0];
+      if (firstCategory) {
+        setSelectedMainCategory(firstCategory);
+      }
+    }
+  }, [preloadedCatalog]);
 
   const fetchCatalog = async () => {
     try {
