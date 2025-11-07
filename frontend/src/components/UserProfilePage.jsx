@@ -159,10 +159,10 @@ const UserProfilePage = () => {
                     color: theme === 'dark' ? '#fff' : '#1a1a1a',
                     marginBottom: '0.25rem'
                   }}>
-                    {displayUser.username}
+                    {profileData.username}
                   </h1>
                   <div style={{ opacity: 0.6, fontSize: '0.875rem' }}>
-                    @{displayUser.username.toLowerCase()}
+                    @{profileData.username.toLowerCase()}
                   </div>
                 </div>
                 <button 
