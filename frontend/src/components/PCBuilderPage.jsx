@@ -480,8 +480,8 @@ const PCBuilderPage = () => {
     <div style={{
       minHeight: '100vh',
       paddingTop: '80px',
-      background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-      color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+      background: theme === 'minimal-mod' ? '#000000' : (theme === 'dark' ? '#0a0a0a' : '#ffffff'),
+      color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')
     }}>
       {/* Hero Section */}
       <div style={{
