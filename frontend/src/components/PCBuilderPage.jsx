@@ -696,7 +696,7 @@ const PCBuilderPage = () => {
                     background: 'transparent',
                     border: 'none',
                     cursor: 'pointer',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                    color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -778,7 +778,7 @@ const PCBuilderPage = () => {
                           borderRadius: '6px',
                           border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
                           background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)',
-                          color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                          color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'),
                           fontSize: '0.8125rem',
                           outline: 'none'
                         }}
