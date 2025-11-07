@@ -76,19 +76,21 @@ function TestimonialsCarousel() {
   if (loading) return <div className="text-center py-12">Загрузка...</div>;
 
   return (
-    <div className="w-full py-16" style={{ padding: '4rem 10rem' }}>
-      {/* Section Title */}
-      <h2 
-        className="text-4xl font-bold mb-12"
-        style={{
-          fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
-          letterSpacing: '1px'
-        }}
-      >
-        WHAT PEOPLE SAY
-      </h2>
+    <div className="w-full py-16">
+      {/* Section Title - with padding */}
+      <div style={{ padding: '0 10rem', marginBottom: '3rem' }}>
+        <h2 
+          className="text-4xl font-bold"
+          style={{
+            fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
+            letterSpacing: '1px'
+          }}
+        >
+          WHAT PEOPLE SAY
+        </h2>
+      </div>
 
-      {/* Testimonials Container with Custom Scrollbar */}
+      {/* Testimonials Container - full width, no padding */}
       <div className="relative">
         {/* Scrollable Reviews */}
         <div
@@ -97,7 +99,9 @@ function TestimonialsCarousel() {
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-8"
           style={{
             scrollBehavior: 'smooth',
-            scrollSnapType: 'x mandatory'
+            scrollSnapType: 'x mandatory',
+            paddingLeft: '10rem',
+            paddingRight: '10rem'
           }}
         >
           {reviews.map((review, index) => (
@@ -108,8 +112,8 @@ function TestimonialsCarousel() {
               style={{
                 backgroundColor: 'rgb(10, 10, 10)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '3px',
-                minHeight: '200px',
-                width: '400px',
+                minHeight: '190px',
+                width: '500px',
                 scrollSnapAlign: 'start'
               }}
             >
