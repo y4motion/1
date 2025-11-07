@@ -62,9 +62,10 @@ const Footer = () => {
             fontSize: '0.8125rem',
             fontWeight: '700',
             marginBottom: '1rem',
-            opacity: 0.5,
+            opacity: 0.8,
             letterSpacing: '0.5px',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)'
           }}>
             {language === 'ru' ? 'Продукты' : 'Products'}
           </div>
@@ -106,9 +107,10 @@ const Footer = () => {
             fontSize: '0.8125rem',
             fontWeight: '700',
             marginBottom: '1rem',
-            opacity: 0.5,
+            opacity: 0.8,
             letterSpacing: '0.5px',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)'
           }}>
             {language === 'ru' ? 'Поддержка' : 'Support'}
           </div>
@@ -150,9 +152,10 @@ const Footer = () => {
             fontSize: '0.8125rem',
             fontWeight: '700',
             marginBottom: '1rem',
-            opacity: 0.5,
+            opacity: 0.8,
             letterSpacing: '0.5px',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)'
           }}>
             {language === 'ru' ? 'Политика' : 'Legal'}
           </div>
@@ -194,9 +197,10 @@ const Footer = () => {
             fontSize: '0.8125rem',
             fontWeight: '700',
             marginBottom: '1rem',
-            opacity: 0.5,
+            opacity: 0.8,
             letterSpacing: '0.5px',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)'
           }}>
             {language === 'ru' ? 'Ещё...' : 'More...'}
           </div>
