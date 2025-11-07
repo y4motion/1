@@ -17,15 +17,18 @@ export const ThemeProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    console.log('Theme changing to:', theme);
     localStorage.setItem('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
+    // Also add to body for backup
+    document.body.setAttribute('data-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme(prev => {
-      if (prev === 'dark') return 'light';
-      if (prev === 'light') return 'minimal-mod';
-      return 'dark';
+      const next = prev === 'dark' ? 'light' : prev === 'light' ? 'minimal-mod' : 'dark';
+      console.log('Toggle theme from', prev, 'to', next);
+      return next;
     });
   };
 
