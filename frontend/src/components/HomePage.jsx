@@ -223,6 +223,9 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Testimonials Section (PMM.gg style) */}
+      <TestimonialsCarousel />
+
       {/* Content Container */}
       <div style={{ padding: '0 3rem' }}>
         {/* Community Hub Section */}
