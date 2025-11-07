@@ -107,7 +107,7 @@ function TestimonialsCarousel() {
               className="flex-shrink-0 p-6 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-white/10"
               style={{
                 backgroundColor: 'rgb(10, 10, 10)',
-                borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '3px',
                 minHeight: '200px',
                 width: '400px',
                 scrollSnapAlign: 'start'
