@@ -135,7 +135,7 @@ function TestimonialsCarousel() {
         </div>
 
         {/* Custom Scrollbar and Navigation (PMM.gg style) */}
-        <div className="flex items-center gap-4 mt-8">
+        <div className="flex items-center gap-4 mt-8" style={{ padding: '0 10rem' }}>
           {/* Progress Bar */}
           <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
             <div 
@@ -147,7 +147,7 @@ function TestimonialsCarousel() {
           {/* Navigation Buttons */}
           <div className="flex gap-3">
             <button
-              onClick={() => handleScroll(-400)}
+              onClick={() => handleScroll(-500)}
               className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
               style={{
                 backgroundColor: 'transparent',
@@ -159,7 +159,7 @@ function TestimonialsCarousel() {
             </button>
 
             <button
-              onClick={() => handleScroll(400)}
+              onClick={() => handleScroll(500)}
               className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-all"
               style={{
                 borderRadius: theme === 'minimal-mod' ? '0' : '50%'
