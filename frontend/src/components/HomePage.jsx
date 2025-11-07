@@ -107,11 +107,119 @@ const HomePage = () => {
         margin: '3rem 0'
       }} />
 
-      {/* Dynamic Category Grid (PMM.gg style) */}
-      <DynamicCategoryGrid 
-        categories={mainCategories}
-        columns={4}
-      />
+      {/* PMM.gg Style Layout: 4 Squares + 1 Large Rectangle */}
+      <div style={{ padding: '0 3rem', marginBottom: '4rem' }}>
+        {/* Top 4 Square Blocks */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '1.5rem',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          marginBottom: '1.5rem'
+        }}>
+          {topCategories.map((category, index) => (
+            <div
+              key={index}
+              onClick={() => navigate(category.link)}
+              className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105"
+              style={{
+                height: '320px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+              }}
+            >
+              {/* Background Image */}
+              <img
+                src={category.image}
+                alt={category.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+
+              {/* Dark Overlay */}
+              <div 
+                className="absolute inset-0 bg-black transition-opacity duration-300"
+                style={{ opacity: 0.4 }}
+              />
+
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
+                <h3 
+                  className="text-white text-4xl font-bold text-center tracking-wider"
+                  style={{
+                    textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
+                    fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
+                  }}
+                >
+                  {category.title}
+                </h3>
+                {category.description && (
+                  <p 
+                    className="text-white/80 text-sm text-center mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.8)' }}
+                  >
+                    {category.description}
+                  </p>
+                )}
+              </div>
+
+              {/* Hover Border */}
+              <div 
+                className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
+                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Large Bottom Block for FEED */}
+        <div
+          onClick={() => navigate(bottomBlock.link)}
+          className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.01]"
+          style={{
+            height: '400px',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            borderRadius: theme === 'minimal-mod' ? '0' : '16px',
+          }}
+        >
+          {/* Background Image */}
+          <img
+            src={bottomBlock.image}
+            alt={bottomBlock.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60" />
+
+          {/* Content Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center p-12">
+            <div className="text-center max-w-3xl">
+              <h3 
+                className="text-white text-6xl font-bold mb-4 tracking-wider"
+                style={{
+                  textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
+                  fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
+                }}
+              >
+                {bottomBlock.title}
+              </h3>
+              <p 
+                className="text-white/90 text-xl"
+                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.8)' }}
+              >
+                {bottomBlock.description}
+              </p>
+            </div>
+          </div>
+
+          {/* Hover Border */}
+          <div 
+            className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
+            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+          />
+        </div>
+      </div>
 
       {/* Content Container */}
       <div style={{ padding: '0 3rem' }}>
