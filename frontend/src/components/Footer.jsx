@@ -76,7 +76,7 @@ const Footer = () => {
               style={{
                 display: 'block',
                 padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
                 transition: 'all 0.2s ease',
@@ -121,7 +121,7 @@ const Footer = () => {
               style={{
                 display: 'block',
                 padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
                 transition: 'all 0.2s ease',
@@ -166,7 +166,7 @@ const Footer = () => {
               style={{
                 display: 'block',
                 padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
                 transition: 'all 0.2s ease',
