@@ -75,6 +75,13 @@
   color: #1a1a1a;
 }
 
+/* Minimal Mod textured background */
+[data-theme='minimal-mod'] .dark-bg {
+  background: #000000;
+  min-height: 100vh;
+  color: #f1f1f1;
+}
+
 /* Acrylic/Glassmorphism base style */
 [data-theme='dark'] .glass {
   background: rgba(255, 255, 255, 0.03);
