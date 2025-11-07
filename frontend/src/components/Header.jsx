@@ -767,13 +767,13 @@ const Header = () => {
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Профиль' : 'Profile'}</span>
             </Link>
 
-            <button className="text-link" style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
+            <Link to="/notifications" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <Bell size={20} />
                 <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Уведомления' : 'Notifications'}</span>
               </span>
               {19 > 0 && <span style={{ background: '#8b5cf6', color: 'white', padding: '0.125rem 0.5rem', borderRadius: theme === 'minimal-mod' ? '0' : '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>19</span>}
-            </button>
+            </Link>
 
             <Link to="/chat" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -783,20 +783,20 @@ const Header = () => {
               {mockUser.messages > 0 && <span style={{ background: '#4CAF50', color: 'white', padding: '0.125rem 0.5rem', borderRadius: theme === 'minimal-mod' ? '0' : '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>{mockUser.messages}</span>}
             </Link>
 
-            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+            <Link to="/bookmarks" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
               <BookMarked size={20} />
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Закладки' : 'Bookmarks'}</span>
-            </button>
+            </Link>
 
-            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+            <Link to="/lists" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
               <List size={20} />
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Списки' : 'Lists'}</span>
-            </button>
+            </Link>
 
-            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+            <Link to="/communities" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
               <Users size={20} />
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщества' : 'Communities'}</span>
-            </button>
+            </Link>
 
             <button onClick={() => { setShowSettingsMenu(true); setShowLVLMenu(false); }} className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
               <Settings size={20} />
