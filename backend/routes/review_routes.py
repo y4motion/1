@@ -182,3 +182,26 @@ async def delete_review(review_id: str, current_user: dict = Depends(get_current
     await update_product_rating(product_id)
     
     return {"message": "Review deleted successfully"}
+
+
+@router.get("/top", response_model=List[ReviewResponse])
+async def get_top_reviews(
+    limit: int = Query(12, ge=1, le=50)
+):
+    """
+    Get top reviews (most liked/helpful) from all products for testimonials section
+    """
+    reviews = await db.reviews.find(
+        {"status": "approved", "rating": {"$gte": 4}},  # Only 4-5 star reviews
+        {"_id": 0}
+    ).sort([("helpful_count", -1), ("rating", -1)]).limit(limit).to_list(limit)
+    
+    # Parse datetime
+    for review in reviews:
+        if isinstance(review.get('created_at'), str):
+            review['created_at'] = datetime.fromisoformat(review['created_at'])
+        if isinstance(review.get('updated_at'), str):
+            review['updated_at'] = datetime.fromisoformat(review['updated_at'])
+    
+    return [ReviewResponse(**r) for r in reviews]
+
