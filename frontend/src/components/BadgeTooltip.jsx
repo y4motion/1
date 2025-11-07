@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 
-const BadgeTooltip = ({ children, content, position = 'top' }) => {
+const BadgeTooltip = ({ children, content, position = 'right' }) => {
   const [isVisible, setIsVisible] = useState(false);
   const { theme } = useTheme();
 
@@ -15,12 +15,10 @@ const BadgeTooltip = ({ children, content, position = 'top' }) => {
       {isVisible && (
         <div
           style={{
-            position: 'absolute',
-            bottom: position === 'top' ? 'calc(100% + 8px)' : undefined,
-            top: position === 'bottom' ? 'calc(100% + 8px)' : undefined,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '280px',
+            position: 'fixed',
+            left: position === 'right' ? 'auto' : '50%',
+            transform: position === 'right' ? 'translateY(-50%)' : 'translateX(-50%)',
+            width: '300px',
             padding: '0.875rem 1rem',
             background: theme === 'minimal-mod'
               ? 'rgba(0, 0, 0, 0.98)'
@@ -30,33 +28,34 @@ const BadgeTooltip = ({ children, content, position = 'top' }) => {
               ? '1px solid rgba(241, 241, 241, 0.2)'
               : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.15)'),
             borderRadius: theme === 'minimal-mod' ? '0' : '8px',
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
             zIndex: 10001,
             fontSize: '0.8125rem',
             lineHeight: '1.5',
             color: theme === 'dark' ? '#fff' : '#1a1a1a',
             animation: 'scaleIn 0.15s ease-out',
             pointerEvents: 'none',
-            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
+            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+            marginLeft: position === 'right' ? '12px' : undefined
           }}
         >
           {content}
-          {/* Arrow */}
-          <div
-            style={{
-              position: 'absolute',
-              top: position === 'top' ? '100%' : undefined,
-              bottom: position === 'bottom' ? '100%' : undefined,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 0,
-              height: 0,
-              borderLeft: '6px solid transparent',
-              borderRight: '6px solid transparent',
-              borderTop: position === 'top' ? `6px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'}` : undefined,
-              borderBottom: position === 'bottom' ? `6px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'}` : undefined
-            }}
-          />
+          {/* Arrow pointing left */}
+          {position === 'right' && (
+            <div
+              style={{
+                position: 'absolute',
+                right: '100%',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 0,
+                height: 0,
+                borderTop: '6px solid transparent',
+                borderBottom: '6px solid transparent',
+                borderRight: `6px solid ${theme === 'minimal-mod' ? 'rgba(241, 241, 241, 0.2)' : (theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)')}`
+              }}
+            />
+          )}
         </div>
       )}
     </div>
@@ -64,3 +63,4 @@ const BadgeTooltip = ({ children, content, position = 'top' }) => {
 };
 
 export default BadgeTooltip;
+
