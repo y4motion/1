@@ -35,14 +35,14 @@ const Footer = () => {
       className={theme === 'minimal-mod' ? '' : 'glass'}
       style={{
         background: theme === 'minimal-mod'
-          ? 'rgba(0, 0, 0, 0.98)'
-          : (theme === 'dark' ? 'rgba(10, 10, 15, 0.95)' : 'rgba(250, 250, 250, 0.95)'),
+          ? 'rgba(0, 0, 0, 1)'
+          : (theme === 'dark' ? 'rgba(5, 5, 8, 0.98)' : 'rgba(250, 250, 250, 0.98)'),
         backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(20px)',
         borderTop: theme === 'minimal-mod'
           ? '1px solid rgba(241, 241, 241, 0.12)'
           : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
         padding: '3rem 2rem 2rem',
-        marginTop: '6rem',
+        marginTop: '0',
         fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
       }}
     >
