@@ -718,7 +718,7 @@ const PCBuilderPage = () => {
                     >
                       {ComponentIcons[category.icon]({
                         size: 20,
-                        color: selected ? '#8b5cf6' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'),
+                        color: selected ? '#8b5cf6' : (theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')),
                         strokeWidth: 2
                       })}
                     </div>
