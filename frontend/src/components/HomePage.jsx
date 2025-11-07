@@ -84,12 +84,11 @@ const HomePage = () => {
             height: '100%',
             objectFit: 'cover',
             zIndex: 0,
-            opacity: 0.6
+            opacity: 0.4
           }}
+          poster="https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=1920&q=80"
         >
-          <source src="https://player.vimeo.com/progressive_redirect/playback/932616405/rendition/1080p/file.mp4?loc=external&signature=0bcb0e16c45e7e9e8f234a5e23efe1feda1c9e2f0e6d42f2cf6b2e9cf1b1a1e8" type="video/mp4" />
-          {/* Fallback poster image */}
-          <img src="https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=1920&q=80" alt="Gaming background" />
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-person-playing-on-a-console-with-a-control-in-their-hands-27} 5.mp4" type="video/mp4" />
         </video>
 
         {/* Dark Overlay */}
