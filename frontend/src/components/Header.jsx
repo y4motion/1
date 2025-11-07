@@ -711,7 +711,6 @@ const Header = () => {
 
               {/* XP Badge */}
               <BadgeTooltip
-                position="right"
                 content={
                   <div>
                     <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
