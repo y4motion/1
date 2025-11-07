@@ -73,28 +73,8 @@ const Footer = () => {
             <Link
               key={index}
               to={link.path}
-              style={{
-                display: 'block',
-                padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'all 0.2s ease',
-                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
-                paddingLeft: '0.5rem'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
-                e.currentTarget.style.paddingLeft = '0.75rem';
-                if (theme !== 'minimal-mod') {
-                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-                e.currentTarget.style.paddingLeft = '0.5rem';
-                e.currentTarget.style.background = 'transparent';
-              }}
+              className="text-link"
+              style={{ padding: '0.375rem 0', display: 'block' }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
             </Link>
@@ -118,28 +98,8 @@ const Footer = () => {
             <Link
               key={index}
               to={link.path}
-              style={{
-                display: 'block',
-                padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'all 0.2s ease',
-                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
-                paddingLeft: '0.5rem'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
-                e.currentTarget.style.paddingLeft = '0.75rem';
-                if (theme !== 'minimal-mod') {
-                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-                e.currentTarget.style.paddingLeft = '0.5rem';
-                e.currentTarget.style.background = 'transparent';
-              }}
+              className="text-link"
+              style={{ padding: '0.375rem 0', display: 'block' }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
             </Link>
@@ -163,28 +123,8 @@ const Footer = () => {
             <Link
               key={index}
               to={link.path}
-              style={{
-                display: 'block',
-                padding: '0.5rem 0',
-                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.8)',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'all 0.2s ease',
-                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
-                paddingLeft: '0.5rem'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
-                e.currentTarget.style.paddingLeft = '0.75rem';
-                if (theme !== 'minimal-mod') {
-                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-                e.currentTarget.style.paddingLeft = '0.5rem';
-                e.currentTarget.style.background = 'transparent';
-              }}
+              className="text-link"
+              style={{ padding: '0.375rem 0', display: 'block' }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
             </Link>
