@@ -37,13 +37,15 @@ function TestimonialsCarousel() {
       
       if (response.ok) {
         const data = await response.json();
-        setReviews(data);
+        // Use data if available, otherwise fallback to mock
+        setReviews(data.length > 0 ? data : mockReviews);
       } else {
         // Fallback to mock reviews if API not ready
         setReviews(mockReviews);
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
+      // Always use mock reviews as fallback
       setReviews(mockReviews);
     } finally {
       setLoading(false);
@@ -71,8 +73,7 @@ function TestimonialsCarousel() {
     }
   };
 
-  if (loading) return null;
-  if (reviews.length === 0) return null;
+  if (loading) return <div className="text-center py-12">Загрузка...</div>;
 
   const visibleReviews = reviews.slice(currentIndex, currentIndex + 3);
 
