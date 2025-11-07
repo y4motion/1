@@ -135,7 +135,7 @@ function TestimonialsCarousel() {
         </div>
 
         {/* Custom Scrollbar and Navigation (PMM.gg style) */}
-        <div className="flex items-center gap-4 mt-8" style={{ padding: '0 10rem' }}>
+        <div className="flex items-center gap-4 mt-8" style={{ padding: '0 5rem' }}>
           {/* Progress Bar */}
           <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
             <div 
