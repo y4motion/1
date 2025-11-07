@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import TopArticlesWidget from './TopArticlesWidget';
 import TopUsersWidget from './TopUsersWidget';
 import TopProposalsWidget from './TopProposalsWidget';
+import TestimonialsCarousel from './TestimonialsCarousel';
 import DynamicCategoryGrid from './DynamicCategoryGrid';
 import '../styles/glassmorphism.css';
 
