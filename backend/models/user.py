@@ -41,6 +41,24 @@ class User(UserBase):
     inventory: list = Field(default_factory=list)
     wishlist: list = Field(default_factory=list)  # Product IDs
     
+    # New social/rating fields
+    monthly_rp: int = 0  # Rating Points (resets monthly)
+    current_streak: int = 0  # Days of continuous activity
+    online_status: str = "online"  # "online", "away", "busy", "offline"
+    bio: Optional[str] = None
+    location: Optional[str] = None
+    website: Optional[str] = None
+    referral_code: Optional[str] = None
+    joined_date: Optional[datetime] = None
+    
+    # Creator fields
+    is_verified_creator: bool = False
+    creator_profile_id: Optional[str] = None
+    
+    # Video hover privilege (Top-10 monthly)
+    has_video_hover: bool = False
+    video_hover_url: Optional[str] = None
+    
     # Profile data
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
