@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Camera, Edit2, Trophy, Target, Gift, TrendingUp, Calendar, MapPin, Link as LinkIcon, Check } from 'lucide-react';
+import { ArrowLeft, Camera, Edit2, Trophy, Target, Gift, TrendingUp, Calendar, MapPin, Link as LinkIcon, Check, Copy, Mail, MessageCircle } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { mockUser, userLevels, achievements, dailyQuests } from '../mockData';
+import EditProfileModal from './EditProfileModal';
 import '../styles/glassmorphism.css';
 
 const UserProfilePage = () => {
@@ -13,11 +14,32 @@ const UserProfilePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('stats');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [copiedReferral, setCopiedReferral] = useState(false);
+  const [profileData, setProfileData] = useState({
+    username: user?.username || mockUser.username,
+    bio: mockUser.bio || (language === 'ru' ? 'Любитель игр и технологий' : 'Gaming and tech enthusiast'),
+    location: mockUser.location || 'Moscow, Russia',
+    website: mockUser.website || '',
+    avatar: mockUser.avatar || '🎮'
+  });
 
   const displayUser = user || mockUser;
   const currentLevel = userLevels[displayUser.level];
   const unlockedAchievements = achievements.filter(a => a.unlocked);
   const completedQuests = dailyQuests.filter(q => q.completed);
+
+  const handleSaveProfile = (newData) => {
+    setProfileData(newData);
+    // TODO: Save to backend
+    console.log('Profile updated:', newData);
+  };
+
+  const handleCopyReferral = () => {
+    navigator.clipboard.writeText(displayUser.referralCode);
+    setCopiedReferral(true);
+    setTimeout(() => setCopiedReferral(false), 2000);
+  };
 
   return (
     <div
