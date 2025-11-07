@@ -8,6 +8,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import HomePage from "./components/HomePage";
 import CategoryPage from "./components/CategoryPage";
 import ProductPage from "./components/ProductPage";
@@ -17,6 +18,7 @@ import ModPage from "./components/ModPage";
 import ProductDetailPage from "./components/ProductDetailPage";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
+import ChatFullPage from "./components/ChatFullPage";
 import FloatingChatWidget from "./components/FloatingChatWidget";
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
                 <Route path="/mod" element={<ModPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/chat" element={<ChatFullPage />} />
+                <Route path="/chat/:conversationId" element={<ChatFullPage />} />
                 
                 {/* Placeholder routes for navigation links */}
                 <Route path="/catalog" element={<PlaceholderPage title="CATALOG" />} />
@@ -53,7 +57,14 @@ function App() {
                 <Route path="/contact" element={<PlaceholderPage title="CONTACT INFORMATION" />} />
                 <Route path="/support" element={<PlaceholderPage title="SUPPORT" />} />
                 <Route path="/suggest" element={<PlaceholderPage title="SUGGEST AN IDEA" />} />
+                <Route path="/news" element={<PlaceholderPage title="NEWS" />} />
+                <Route path="/downloads" element={<PlaceholderPage title="DOWNLOADS" />} />
+                <Route path="/privacy" element={<PlaceholderPage title="PRIVACY POLICY" />} />
+                <Route path="/cookies" element={<PlaceholderPage title="COOKIE POLICY" />} />
+                <Route path="/accessibility" element={<PlaceholderPage title="ACCESSIBILITY" />} />
+                <Route path="/ads" element={<PlaceholderPage title="ADVERTISING INFO" />} />
               </Routes>
+              <Footer />
             </BrowserRouter>
           </div>
           </AuthProvider>
