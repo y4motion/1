@@ -110,13 +110,13 @@ const HomePage = () => {
       }} />
 
       {/* PMM.gg Style Layout: 4 Squares + 1 Large Rectangle - EXACT SIZES */}
-      <div style={{ padding: '0 10rem', marginBottom: '4rem' }}> {/* 160px = 10rem padding */}
+      <div style={{ padding: '0 5rem', marginBottom: '4rem' }}> {/* 80px = 5rem padding instead of 10rem */}
         {/* Top 4 Square Blocks - 382px x 382px with 24px gap */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '24px',
-          maxWidth: '1600px',
+          maxWidth: '1760px',
           margin: '0 auto',
           marginBottom: '24px'
         }}>
