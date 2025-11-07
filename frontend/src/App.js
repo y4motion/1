@@ -19,6 +19,7 @@ import ProductDetailPage from "./components/ProductDetailPage";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
 import ChatFullPage from "./components/ChatFullPage";
+import UserProfilePage from "./components/UserProfilePage";
 import FloatingChatWidget from "./components/FloatingChatWidget";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/chat" element={<ChatFullPage />} />
                 <Route path="/chat/:conversationId" element={<ChatFullPage />} />
+                <Route path="/profile" element={<UserProfilePage />} />
                 
                 {/* Placeholder routes for navigation links */}
                 <Route path="/catalog" element={<PlaceholderPage title="CATALOG" />} />
