@@ -756,7 +756,7 @@ const PCBuilderPage = () => {
                 {/* Component Options */}
                 {isExpanded && (
                   <div style={{
-                    borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
+                    borderTop: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
                     padding: '0.75rem 1rem'
                   }}>
                     {/* Search and Filters Row */}
