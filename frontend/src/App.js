@@ -54,6 +54,15 @@ function App() {
                 <Route path="/chat/:conversationId" element={<ChatFullPage />} />
                 <Route path="/profile" element={<UserProfilePage />} />
                 <Route path="/notifications" element={<NotificationsPage />} />
+                
+                {/* New social/community routes */}
+                <Route path="/feed" element={<FeedPage />} />
+                <Route path="/articles" element={<ArticlesPage />} />
+                <Route path="/creators" element={<CreatorsPage />} />
+                <Route path="/voting" element={<VotingPage />} />
+                <Route path="/rating" element={<RatingPage />} />
+                <Route path="/groupbuy" element={<GroupBuyPage />} />
+                
                 <Route path="/bookmarks" element={<PlaceholderPage title="BOOKMARKS" />} />
                 <Route path="/lists" element={<PlaceholderPage title="LISTS" />} />
                 <Route path="/communities" element={<PlaceholderPage title="COMMUNITIES" />} />
