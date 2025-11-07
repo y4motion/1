@@ -83,29 +83,7 @@ const CatalogMega = ({ theme: themeOverride, catalogData: preloadedCatalog, onCl
 
   const selectedCategory = selectedMainCategory ? catalog[selectedMainCategory] : null;
 
-  if (loading) {
-    return (
-      <div style={{
-        position: 'absolute',
-        top: '100%',
-        left: 0,
-        right: 0,
-        padding: '2rem',
-        textAlign: 'center',
-        background: theme === 'dark' ? 'rgba(10, 10, 10, 0.98)' : 'rgba(255, 255, 255, 0.98)',
-        backdropFilter: 'blur(20px)',
-        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-        borderRadius: '12px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        zIndex: 1000
-      }}>
-        <div style={{ fontSize: '0.875rem', opacity: 0.7 }}>
-          {language === 'ru' ? 'Загрузка каталога...' : 'Loading catalog...'}
-        </div>
-      </div>
-    );
-  }
-
+  // No loading state needed - data is preloaded
   return (
     <>
       {/* Catalog Panel */}
