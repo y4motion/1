@@ -88,26 +88,21 @@ const HomePage = () => {
         minHeight: '85vh',
         overflow: 'hidden'
       }}>
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        {/* Background Image (instead of video for now) */}
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             zIndex: 0,
             opacity: 0.4
           }}
-          poster="https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=1920&q=80"
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-person-playing-on-a-console-with-a-control-in-their-hands-27} 5.mp4" type="video/mp4" />
-        </video>
+        />
 
         {/* Dark Overlay */}
         <div style={{
