@@ -225,12 +225,138 @@ const UserProfilePage = () => {
             </div>
           </div>
 
-          {/* XP Progress */}
+          {/* Bio Section */}
+          {profileData.bio && (
+            <div style={{
+              marginTop: '1.5rem',
+              padding: '1rem',
+              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
+              borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+              borderLeft: `3px solid ${currentLevel.color}`
+            }}>
+              <div style={{ fontSize: '0.9375rem', lineHeight: '1.6' }}>
+                {profileData.bio}
+              </div>
+            </div>
+          )}
+
+          {/* Additional Info */}
+          <div style={{
+            marginTop: '1.5rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            fontSize: '0.875rem',
+            opacity: 0.7
+          }}>
+            {profileData.location && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MapPin size={16} />
+                {profileData.location}
+              </div>
+            )}
+            {profileData.website && (
+              <a 
+                href={profileData.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: '#8b5cf6',
+                  textDecoration: 'none',
+                  transition: 'opacity 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                <LinkIcon size={16} />
+                {profileData.website.replace(/^https?:\/\//, '')}
+              </a>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Calendar size={16} />
+              {language === 'ru' ? 'Присоединился' : 'Joined'} {new Date(displayUser.joinedDate || '2024-01-01').toLocaleDateString(language === 'ru' ? 'ru-RU' : 'en-US', { month: 'long', year: 'numeric' })}
+            </div>
+          </div>
+
+          {/* Referral Code */}
+          <div style={{
+            marginTop: '1.5rem',
+            padding: '1rem',
+            background: theme === 'dark' ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.05)',
+            border: '1px solid rgba(139, 92, 246, 0.3)',
+            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.25rem' }}>
+                {language === 'ru' ? 'Реферальный код' : 'Referral Code'}
+              </div>
+              <div style={{
+                fontSize: '1.125rem',
+                fontWeight: '700',
+                fontFamily: 'monospace',
+                color: '#8b5cf6'
+              }}>
+                {displayUser.referralCode}
+              </div>
+            </div>
+            <button
+              onClick={handleCopyReferral}
+              style={{
+                padding: '0.625rem 1rem',
+                background: copiedReferral ? 'rgba(76, 175, 80, 0.2)' : 'transparent',
+                border: copiedReferral ? '1px solid #4CAF50' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.2)'),
+                borderRadius: theme === 'minimal-mod' ? '0' : '6px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: copiedReferral ? '#4CAF50' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
+                fontSize: '0.8125rem',
+                fontWeight: '600',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {copiedReferral ? <Check size={16} /> : <Copy size={16} />}
+              {copiedReferral ? (language === 'ru' ? 'Скопировано!' : 'Copied!') : (language === 'ru' ? 'Копировать' : 'Copy')}
+            </button>
+          </div>
+        </div>
+
+        {/* XP Progress */}
+        <div
+          className={theme === 'minimal-mod' ? '' : 'glass'}
+          style={{
+            borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+            background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
+            border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : undefined,
+            padding: '1.25rem',
+            marginBottom: '1.5rem'
+          }}
+        >
+          <div style={{
+            fontSize: '0.875rem',
+            fontWeight: '600',
+            marginBottom: '0.75rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <span>{language === 'ru' ? 'Прогресс до следующего уровня' : 'Progress to Next Level'}</span>
+            <span style={{ color: currentLevel.color }}>
+              {((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%
+            </span>
+          </div>
           <div>
             <div style={{
-              height: '8px',
+              height: '12px',
               background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-              borderRadius: theme === 'minimal-mod' ? '0' : '4px',
+              borderRadius: theme === 'minimal-mod' ? '0' : '6px',
               overflow: 'hidden',
               marginBottom: '0.5rem'
             }}>
