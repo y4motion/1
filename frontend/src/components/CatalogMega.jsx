@@ -117,7 +117,9 @@ const CatalogMega = ({ theme: themeOverride, catalogData: preloadedCatalog, onCl
       }}
     >
       {/* Left Sidebar - Main Categories */}
-      <div style={{
+      <div 
+        className="catalog-sidebar-scroll"
+        style={{
         overflowY: 'auto',
         borderRight: theme === 'minimal-mod'
           ? '1px solid rgba(241, 241, 241, 0.12)'
