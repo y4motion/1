@@ -60,6 +60,20 @@ const MarketplacePage = () => {
     }
   }, []);
 
+  // Preload catalog data on mount
+  useEffect(() => {
+    const preloadCatalog = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/marketplace/catalog`);
+        const data = await response.json();
+        setCatalogData(data.catalog || {});
+      } catch (error) {
+        console.error('Error preloading catalog:', error);
+      }
+    };
+    preloadCatalog();
+  }, []);
+
   useEffect(() => {
     fetchCategories();
     fetchProducts();
