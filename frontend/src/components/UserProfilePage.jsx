@@ -16,12 +16,23 @@ const UserProfilePage = () => {
   const [activeTab, setActiveTab] = useState('stats');
   const [showEditModal, setShowEditModal] = useState(false);
   const [copiedReferral, setCopiedReferral] = useState(false);
-  const [profileData, setProfileData] = useState({
-    username: user?.username || mockUser.username,
-    bio: mockUser.bio || (language === 'ru' ? 'Любитель игр и технологий' : 'Gaming and tech enthusiast'),
-    location: mockUser.location || 'Moscow, Russia',
-    website: mockUser.website || '',
-    avatar: mockUser.avatar || '🎮'
+  const [profileData, setProfileData] = useState(() => {
+    // Load from localStorage or use defaults
+    const saved = localStorage.getItem('userProfile');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Error loading profile:', e);
+      }
+    }
+    return {
+      username: user?.username || mockUser.username,
+      bio: mockUser.bio || (language === 'ru' ? 'Любитель игр и технологий' : 'Gaming and tech enthusiast'),
+      location: mockUser.location || 'Moscow, Russia',
+      website: mockUser.website || '',
+      avatar: mockUser.avatar || '🎮'
+    };
   });
 
   const displayUser = user || mockUser;
@@ -31,8 +42,10 @@ const UserProfilePage = () => {
 
   const handleSaveProfile = (newData) => {
     setProfileData(newData);
-    // TODO: Save to backend
-    console.log('Profile updated:', newData);
+    // Save to localStorage
+    localStorage.setItem('userProfile', JSON.stringify(newData));
+    // TODO: Save to backend API
+    console.log('Profile updated and saved:', newData);
   };
 
   const handleCopyReferral = () => {
