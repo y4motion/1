@@ -124,7 +124,8 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
         boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.4)',
         fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
         zIndex: 99,
-        animation: 'slideDown 0.2s ease-out'
+        animation: 'smoothSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
       {/* Left Sidebar - Main Categories */}
