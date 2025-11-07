@@ -512,6 +512,7 @@ metadata:
 test_plan:
   current_focus:
     - "Theme Switching System - CRITICAL BUGS"
+    - "PC Builder Page - Minimal Mod Theme Issues"
   stuck_tasks:
     - "Theme Switching System - CRITICAL BUGS"
   test_all: false
