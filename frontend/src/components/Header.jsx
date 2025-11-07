@@ -537,7 +537,7 @@ const Header = () => {
             position: 'fixed',
             top: '5.5rem',
             left: '3rem',
-            width: '320px',
+            width: '340px',
             borderRadius: theme === 'minimal-mod' ? '0' : '16px',
             background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
             backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
@@ -549,38 +549,222 @@ const Header = () => {
             color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')
           }}
         >
-          {/* User Header - Compact */}
+          {/* User Header - Editable */}
           <div style={{ padding: '1.25rem', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'start', gap: '0.875rem', marginBottom: '0.875rem' }}>
+              {/* Avatar with edit button */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: `linear-gradient(135deg, ${currentLevel.color} 0%, ${currentLevel.color}99 100%)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.75rem',
+                  border: `2px solid ${currentLevel.color}`,
+                  position: 'relative'
+                }}>
+                  {displayUser.avatar || '👤'}
+                </div>
+                <button style={{
+                  position: 'absolute',
+                  bottom: -2,
+                  right: -2,
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  background: theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)',
+                  border: `2px solid ${theme === 'dark' ? '#0a0a0b' : '#fafafa'}`,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                  fontSize: '10px',
+                  transition: 'background 0.2s ease',
+                  padding: 0
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'}
+                title={language === 'ru' ? 'Изменить фото' : 'Change photo'}
+                >
+                  📷
+                </button>
+                {/* Online Status Indicator */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: 2,
+                  right: 14,
+                  width: '14px',
+                  height: '14px',
+                  borderRadius: '50%',
+                  background: '#4CAF50',
+                  border: `2px solid ${theme === 'dark' ? '#0a0a0b' : '#fafafa'}`,
+                  boxShadow: '0 0 8px rgba(76, 175, 80, 0.6)'
+                }} />
+              </div>
+              
+              {/* Name and Status - Editable */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                  <div style={{ fontSize: '1.0625rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {user?.username || mockUser.username}
+                  </div>
+                  <button style={{
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0.25rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                    transition: 'color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}
+                  title={language === 'ru' ? 'Изменить имя' : 'Edit name'}
+                  >
+                    <Edit3 size={14} />
+                  </button>
+                </div>
+                {/* Status Dropdown */}
+                <select
+                  defaultValue="online"
+                  style={{
+                    width: '100%',
+                    padding: '0.375rem 0.5rem',
+                    background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
+                    border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.15)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                    borderRadius: theme === 'minimal-mod' ? '0' : '6px',
+                    color: theme === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontFamily: 'inherit'
+                  }}
+                >
+                  <option value="online">🟢 {language === 'ru' ? 'В сети' : 'Online'}</option>
+                  <option value="away">🟡 {language === 'ru' ? 'Отошел' : 'Away'}</option>
+                  <option value="busy">🔴 {language === 'ru' ? 'Занят' : 'Busy'}</option>
+                  <option value="offline">⚫ {language === 'ru' ? 'Не в сети' : 'Offline'}</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Gamification Badges - Compact */}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {/* Level Badge */}
               <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                background: `linear-gradient(135deg, ${currentLevel.color} 0%, ${currentLevel.color}99 100%)`,
+                padding: '0.25rem 0.625rem',
+                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                background: `${currentLevel.color}20`,
+                border: `1px solid ${currentLevel.color}60`,
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                color: currentLevel.color,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                border: `2px solid ${currentLevel.color}`
+                gap: '0.375rem'
               }}>
-                {displayUser.avatar || '👤'}
+                <span>🏆</span>
+                LVL {displayUser.level}
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.125rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {user?.username || mockUser.username}
-                </div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-                  @{(user?.username || mockUser.username).toLowerCase()}
-                </div>
+
+              {/* XP Badge */}
+              <div style={{
+                padding: '0.25rem 0.625rem',
+                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                background: theme === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem'
+              }}>
+                <span>⭐</span>
+                {displayUser.xp} XP
+              </div>
+
+              {/* Achievements Badge */}
+              <div style={{
+                padding: '0.25rem 0.625rem',
+                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                border: '1px solid rgba(255, 215, 0, 0.3)',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: '#FFD700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem'
+              }}>
+                <span>🎯</span>
+                {unlockedAchievements.length}/{achievements.length}
+              </div>
+
+              {/* Streak Badge */}
+              <div style={{
+                padding: '0.25rem 0.625rem',
+                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
+                border: '1px solid rgba(255, 152, 0, 0.3)',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: '#FF9800',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem'
+              }}>
+                <span>🔥</span>
+                {displayUser.loginStreak}d
+              </div>
+
+              {/* Coins Badge */}
+              <div style={{
+                padding: '0.25rem 0.625rem',
+                borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                border: '1px solid rgba(255, 215, 0, 0.3)',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem'
+              }}>
+                <span>🪙</span>
+                {mockUser.bonusBalance}
+              </div>
+            </div>
+
+            {/* Mini XP Progress Bar */}
+            <div style={{ marginTop: '0.75rem' }}>
+              <div style={{
+                height: '4px',
+                background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                borderRadius: theme === 'minimal-mod' ? '0' : '2px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  height: '100%',
+                  width: `${((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%`,
+                  background: currentLevel.color,
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
+              <div style={{ fontSize: '0.6875rem', opacity: 0.5, marginTop: '0.25rem', textAlign: 'right' }}>
+                {displayUser.nextLevelXP - displayUser.xp} XP → LVL {displayUser.level + 1}
               </div>
             </div>
           </div>
 
           {/* Menu Items - Simple List */}
           <div style={{ padding: '0.5rem' }}>
-            <Link to="/" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
-              <Home size={20} />
-              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Главная' : 'Home'}</span>
+            <Link to="/profile" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <UserCircle size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Профиль' : 'Profile'}</span>
             </Link>
 
             <button className="text-link" style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
@@ -614,49 +798,18 @@ const Header = () => {
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщества' : 'Communities'}</span>
             </button>
 
-            <Link to="/profile" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
-              <UserCircle size={20} />
-              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Профиль' : 'Profile'}</span>
-            </Link>
-
             <button onClick={() => { setShowSettingsMenu(true); setShowLVLMenu(false); }} className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
               <Settings size={20} />
               <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Настройки' : 'Settings'}</span>
             </button>
-          </div>
 
-          {/* Level Info - Compact */}
-          <div style={{
-            padding: '1rem',
-            margin: '0.5rem',
-            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
-            background: `${currentLevel.color}15`,
-            border: `1px solid ${currentLevel.color}50`
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <div style={{ fontSize: '0.8125rem', fontWeight: '600' }}>
-                {currentLevel.name} • LVL {displayUser.level}
-              </div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>
-                {displayUser.xp} XP
-              </div>
-            </div>
-            <div style={{
-              height: '6px',
-              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-              borderRadius: theme === 'minimal-mod' ? '0' : '3px',
-              overflow: 'hidden'
-            }}>
-              <div style={{
-                height: '100%',
-                width: `${((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%`,
-                background: currentLevel.color,
-                transition: 'width 0.3s ease'
-              }} />
-            </div>
-            <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '0.375rem', textAlign: 'right' }}>
-              {displayUser.nextLevelXP - displayUser.xp} XP {language === 'ru' ? 'до LVL' : 'to LVL'} {displayUser.level + 1}
-            </div>
+            {/* Logout */}
+            {isAuthenticated && (
+              <button onClick={() => { logout(); setShowLVLMenu(false); }} className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem', borderTop: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)', marginTop: '0.5rem', paddingTop: '1rem' }}>
+                <Power size={20} />
+                <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Выйти' : 'Logout'}</span>
+              </button>
+            )}
           </div>
         </div>
       )}
