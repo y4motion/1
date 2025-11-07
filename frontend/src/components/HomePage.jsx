@@ -180,7 +180,7 @@ const HomePage = () => {
           className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.01]"
           style={{
             height: '560px',
-            maxWidth: '1760px',
+            maxWidth: '1840px',
             margin: '0 auto',
             borderRadius: theme === 'minimal-mod' ? '0' : '3px',
           }}
