@@ -660,8 +660,6 @@ const Header = () => {
           </div>
         </div>
       )}
-        </div>
-      )}
 
       {/* Quick Cart Panel */}
       <QuickCartPanel 
