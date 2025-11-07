@@ -489,15 +489,19 @@ frontend:
     files:
       - "/app/frontend/src/contexts/ThemeContext.jsx"
       - "/app/frontend/src/components/Header.jsx"
+      - "/app/frontend/src/components/PCBuilderPage.jsx"
       - "/app/frontend/src/styles/minimalMod.css"
       - "/app/frontend/src/styles/glassmorphism.css"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: true
     status_history:
       - working: false
         agent: "testing"
         comment: "🚨 CRITICAL THEME BUGS FOUND - Comprehensive testing revealed BLOCKING issues: 1) **THEME TOGGLE BROKEN**: Clicking theme button in settings does NOT cycle themes - stays stuck on 'dark' theme. Users cannot switch to Light or Minimal Mod. 2) **MINIMAL MOD CSS NOT APPLYING**: [data-theme='minimal-mod'] CSS rules are being overridden by inline styles. Evidence: LVL menu has border-radius: 16px (should be 0), backdrop-filter: blur(30px) (should be none), badges have border-radius: 12px (should be 0), footer has backdrop-filter: blur(20px) (should be none). 3) **MONOSPACE FONT MISSING**: Components show system fonts instead of SF Mono/monospace in minimal-mod. 4) **INLINE STYLES OVERRIDE THEME**: Components use inline borderRadius/backdropFilter that override [data-theme] CSS. ROOT CAUSE: Either toggleTheme() state not propagating OR inline styles have higher specificity than theme CSS. FIXES NEEDED: 1) Debug ThemeContext.jsx toggleTheme() function and state propagation, 2) Remove inline borderRadius/backdropFilter from all components (Header, LVL menu, Footer, etc), 3) Replace inline styles with CSS classes for theme-dependent properties, 4) Add !important to critical minimal-mod rules or use higher specificity selectors, 5) Ensure data-theme attribute updates on document.documentElement. This is BLOCKING - users cannot experience 2 out of 3 themes."
+      - working: false
+        agent: "testing"
+        comment: "🚨 COMPREHENSIVE MINIMAL MOD THEME TESTING COMPLETED - CRITICAL ISSUES FOUND ON PC BUILDER PAGE ❌ **TESTING METHOD**: Set theme directly via JavaScript (localStorage + data-theme attribute) and tested all 8 pages systematically. Theme switching via UI is BROKEN (buttons have animation/stability issues preventing clicks). **RESULTS BY PAGE**: ✅ Homepage (/): 0 issues - theme applies correctly. ✅ Marketplace (/marketplace): 0 issues - 'MINIMAL MARKET' header visible, monospace font applied, all elements readable. ✅ Profile (/profile): 0 issues - cards and tabs adapt correctly. ✅ Chat (/chat): 0 issues - message input and bubbles readable. ✅ Notifications (/notifications): 0 issues - notification cards readable. ✅ Mod Page (/mod): 0 issues - content visible and readable. ✅ Footer: 0 issues - links readable, no backdrop-filter issues. ❌ **PC BUILDER (/pc-builder): 10 CRITICAL ISSUES** - 9 component selection buttons (CASE*, CPU*, GPU*, MOTHERBOARD*, RAM*, STORAGE*, POWER SUPPLY*, COOLING) have BLACK TEXT (rgb(26,26,26)) on BLACK/TRANSPARENT BACKGROUND (rgba(0,0,0,0)) making them COMPLETELY UNREADABLE. This is a BLOCKING issue for PC Builder functionality in Minimal Mod theme. **ROOT CAUSE**: PCBuilderPage.jsx component buttons not adapting text color for minimal-mod theme. Buttons use dark text color that works in light theme but becomes invisible in minimal-mod's black background. **FIX NEEDED**: Update PCBuilderPage.jsx to use theme-aware text colors. Add conditional styling or CSS classes that change button text color to light (rgb(241,241,241)) when data-theme='minimal-mod'. **SCREENSHOTS**: All 8 pages captured showing current state in minimal-mod theme. PC Builder screenshot clearly shows invisible button text issue."
 
 metadata:
   created_by: "main_agent"
