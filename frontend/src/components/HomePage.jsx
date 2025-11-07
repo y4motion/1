@@ -57,44 +57,79 @@ const HomePage = () => {
   };
 
   return (
-    <div className="dark-bg" style={{ minHeight: '100vh', paddingTop: '6rem' }}>
+    <div className="dark-bg" style={{ minHeight: '100vh' }}>
       <div className="grain-overlay" />
       
-      {/* Hero Section */}
+      {/* Hero Section with Video Background */}
       <div style={{
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '70vh',
-        padding: '2rem',
-        textAlign: 'center'
+        minHeight: '85vh',
+        overflow: 'hidden'
       }}>
-        {/* Main Hero Text with Pulsing */}
-        <h1 
-          className="pulse-glow"
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           style={{
-            fontSize: '5rem',
-            fontWeight: '900',
-            marginBottom: '3rem',
-            letterSpacing: '2px',
-            lineHeight: '1.1'
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            opacity: 0.6
           }}
         >
-          {t('hero.title')}
-        </h1>
+          <source src="https://player.vimeo.com/progressive_redirect/playback/932616405/rendition/1080p/file.mp4?loc=external&signature=0bcb0e16c45e7e9e8f234a5e23efe1feda1c9e2f0e6d42f2cf6b2e9cf1b1a1e8" type="video/mp4" />
+          {/* Fallback poster image */}
+          <img src="https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=1920&q=80" alt="Gaming background" />
+        </video>
 
-        {/* Search Dialog */}
-        <div className="search-dialog" style={{ maxWidth: '600px', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Search size={20} style={{ color: theme === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)' }} />
-            <input
-              type="text"
-              placeholder={t('hero.searchPlaceholder')}
-              className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        {/* Dark Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1
+        }} />
+
+        {/* Search in Center */}
+        <div style={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center',
+          padding: '2rem',
+          maxWidth: '800px',
+          width: '100%'
+        }}>
+          {/* Search Dialog */}
+          <div className="search-dialog" style={{ maxWidth: '600px', width: '100%', margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <Search size={20} style={{ color: 'rgba(255, 255, 255, 0.6)' }} />
+              <input
+                type="text"
+                placeholder={t('hero.searchPlaceholder')}
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: 'white',
+                  fontSize: '1.1rem'
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
