@@ -654,173 +654,284 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Gamification Badges - Compact with Tooltips */}
+            {/* Gamification Badges - Interactive with Rich Tooltips */}
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               {/* Level Badge */}
-              <div 
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                  background: `${currentLevel.color}20`,
-                  border: `1px solid ${currentLevel.color}60`,
-                  fontSize: '0.75rem',
-                  fontWeight: '700',
-                  color: currentLevel.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = `0 4px 12px ${currentLevel.color}40`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                title={language === 'ru' 
-                  ? `Уровень ${displayUser.level} - ${currentLevel.name}\n\nВаш текущий ранг в системе.\nКаждый новый уровень открывает:\n• Эксклюзивные скидки\n• Особые награды\n• Доступ к закрытым распродажам\n\nПовышайте уровень набирая XP!`
-                  : `Level ${displayUser.level} - ${currentLevel.name}\n\nYour current rank in the system.\nEach new level unlocks:\n• Exclusive discounts\n• Special rewards\n• Access to private sales\n\nLevel up by earning XP!`
+              <BadgeTooltip
+                content={
+                  <div>
+                    <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+                      {language === 'ru' ? `Уровень ${displayUser.level} - ${currentLevel.name}` : `Level ${displayUser.level} - ${currentLevel.name}`}
+                    </div>
+                    <div style={{ marginBottom: '0.5rem', opacity: 0.8 }}>
+                      {language === 'ru' ? 'Ваш текущий ранг в системе.' : 'Your current rank in the system.'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Преимущества уровня:' : 'Level benefits:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6' }}>
+                      • {language === 'ru' ? 'Эксклюзивные скидки' : 'Exclusive discounts'}<br/>
+                      • {language === 'ru' ? 'Особые награды' : 'Special rewards'}<br/>
+                      • {language === 'ru' ? 'Доступ к закрытым распродажам' : 'Access to private sales'}
+                    </div>
+                    <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(139, 92, 246, 0.15)', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600' }}>
+                      💡 {language === 'ru' ? 'Повышайте уровень набирая XP!' : 'Level up by earning XP!'}
+                    </div>
+                  </div>
                 }
               >
-                <span>🏆</span>
-                LVL {displayUser.level}
-              </div>
+                <div 
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: `${currentLevel.color}20`,
+                    border: `1px solid ${currentLevel.color}60`,
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    color: currentLevel.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = `0 4px 12px ${currentLevel.color}40`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <span>🏆</span>
+                  LVL {displayUser.level}
+                </div>
+              </BadgeTooltip>
 
               {/* XP Badge */}
-              <div 
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                  background: theme === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                title={language === 'ru'
-                  ? `Опыт: ${displayUser.xp} XP\nДо следующего уровня: ${displayUser.nextLevelXP - displayUser.xp} XP\n\nКак получить XP:\n• Покупки: +10 XP за каждые $1\n• Отзывы: +25 XP за отзыв\n• Ежедневный вход: +5 XP\n• Реферальная программа: +100 XP\n• Достижения: +50-500 XP`
-                  : `Experience: ${displayUser.xp} XP\nTo next level: ${displayUser.nextLevelXP - displayUser.xp} XP\n\nHow to earn XP:\n• Purchases: +10 XP per $1\n• Reviews: +25 XP per review\n• Daily login: +5 XP\n• Referral program: +100 XP\n• Achievements: +50-500 XP`
+              <BadgeTooltip
+                content={
+                  <div>
+                    <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+                      {language === 'ru' ? `Опыт: ${displayUser.xp} XP` : `Experience: ${displayUser.xp} XP`}
+                    </div>
+                    <div style={{ marginBottom: '0.5rem', opacity: 0.8 }}>
+                      {language === 'ru' ? `До следующего уровня: ${displayUser.nextLevelXP - displayUser.xp} XP` : `To next level: ${displayUser.nextLevelXP - displayUser.xp} XP`}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Как получить XP:' : 'How to earn XP:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6' }}>
+                      • {language === 'ru' ? 'Покупки: +10 XP за каждый $1' : 'Purchases: +10 XP per $1'}<br/>
+                      • {language === 'ru' ? 'Отзывы: +25 XP за отзыв' : 'Reviews: +25 XP per review'}<br/>
+                      • {language === 'ru' ? 'Ежедневный вход: +5 XP' : 'Daily login: +5 XP'}<br/>
+                      • {language === 'ru' ? 'Реферальная программа: +100 XP' : 'Referrals: +100 XP'}<br/>
+                      • {language === 'ru' ? 'Достижения: +50-500 XP' : 'Achievements: +50-500 XP'}
+                    </div>
+                  </div>
                 }
               >
-                <span>⭐</span>
-                {displayUser.xp} XP
-              </div>
+                <div 
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: theme === 'dark' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <span>⭐</span>
+                  {displayUser.xp} XP
+                </div>
+              </BadgeTooltip>
 
               {/* Achievements Badge */}
-              <div 
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                  background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)',
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  color: '#FFD700',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-                onClick={() => navigate('/profile?tab=achievements')}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                title={language === 'ru'
-                  ? `Достижения: ${unlockedAchievements.length} из ${achievements.length}\n\nТекущие достижения:\n${unlockedAchievements.map(a => `✓ ${a.name}`).join('\n')}\n\nКак получить:\n• Выполняйте квесты\n• Совершайте покупки\n• Приглашайте друзей\n• Участвуйте в активностях\n\nНажмите для просмотра всех`
-                  : `Achievements: ${unlockedAchievements.length} of ${achievements.length}\n\nCurrent achievements:\n${unlockedAchievements.map(a => `✓ ${a.name}`).join('\n')}\n\nHow to unlock:\n• Complete quests\n• Make purchases\n• Invite friends\n• Participate in activities\n\nClick to view all`
+              <BadgeTooltip
+                content={
+                  <div>
+                    <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+                      {language === 'ru' ? `Достижения: ${unlockedAchievements.length}/${achievements.length}` : `Achievements: ${unlockedAchievements.length}/${achievements.length}`}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Разблокировано:' : 'Unlocked:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.8, lineHeight: '1.5', marginBottom: '0.5rem' }}>
+                      {unlockedAchievements.slice(0, 3).map((a, i) => (
+                        <div key={i}>✓ {a.name}</div>
+                      ))}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Как разблокировать:' : 'How to unlock:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6' }}>
+                      • {language === 'ru' ? 'Выполняйте квесты' : 'Complete quests'}<br/>
+                      • {language === 'ru' ? 'Совершайте покупки' : 'Make purchases'}<br/>
+                      • {language === 'ru' ? 'Приглашайте друзей' : 'Invite friends'}
+                    </div>
+                    <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(139, 92, 246, 0.15)', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', textAlign: 'center' }}>
+                      {language === 'ru' ? '👆 Нажмите для просмотра всех' : '👆 Click to view all'}
+                    </div>
+                  </div>
                 }
               >
-                <span>🎯</span>
-                {unlockedAchievements.length}/{achievements.length}
-              </div>
+                <div 
+                  onClick={() => { navigate('/profile?tab=achievements'); setShowLVLMenu(false); }}
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    color: '#FFD700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <span>🎯</span>
+                  {unlockedAchievements.length}/{achievements.length}
+                </div>
+              </BadgeTooltip>
 
               {/* Streak Badge */}
-              <div 
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                  background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
-                  border: '1px solid rgba(255, 152, 0, 0.3)',
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  color: '#FF9800',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 152, 0, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                title={language === 'ru'
-                  ? `Серия входов: ${displayUser.loginStreak} дней подряд 🔥\n\nТекущий бонус: +${displayUser.loginStreak * 5} XP в день\n\nНаграды за серию:\n• 7 дней: +50 XP бонус\n• 14 дней: +150 XP + 100🪙\n• 30 дней: +500 XP + 500🪙\n• 100 дней: Эпическое достижение!\n\nНе пропускайте ни дня!`
-                  : `Login streak: ${displayUser.loginStreak} days in a row 🔥\n\nCurrent bonus: +${displayUser.loginStreak * 5} XP per day\n\nStreak rewards:\n• 7 days: +50 XP bonus\n• 14 days: +150 XP + 100🪙\n• 30 days: +500 XP + 500🪙\n• 100 days: Epic achievement!\n\nDon't miss a single day!`
+              <BadgeTooltip
+                content={
+                  <div>
+                    <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+                      {language === 'ru' ? `Серия входов: ${displayUser.loginStreak} дней 🔥` : `Login streak: ${displayUser.loginStreak} days 🔥`}
+                    </div>
+                    <div style={{ marginBottom: '0.5rem', opacity: 0.8 }}>
+                      {language === 'ru' ? `Текущий бонус: +${displayUser.loginStreak * 5} XP в день` : `Current bonus: +${displayUser.loginStreak * 5} XP per day`}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Награды за серию:' : 'Streak rewards:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6' }}>
+                      {displayUser.loginStreak >= 7 ? '✅' : '🔒'} 7 {language === 'ru' ? 'дней: +50 XP бонус' : 'days: +50 XP bonus'}<br/>
+                      {displayUser.loginStreak >= 14 ? '✅' : '🔒'} 14 {language === 'ru' ? 'дней: +150 XP + 100🪙' : 'days: +150 XP + 100🪙'}<br/>
+                      {displayUser.loginStreak >= 30 ? '✅' : '🔒'} 30 {language === 'ru' ? 'дней: +500 XP + 500🪙' : 'days: +500 XP + 500🪙'}<br/>
+                      {displayUser.loginStreak >= 100 ? '✅' : '🔒'} 100 {language === 'ru' ? 'дней: Эпическое достижение!' : 'days: Epic achievement!'}
+                    </div>
+                    <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(255, 152, 0, 0.15)', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', textAlign: 'center' }}>
+                      ⚠️ {language === 'ru' ? 'Не пропускайте ни дня!' : 'Don\'t miss a single day!'}
+                    </div>
+                  </div>
                 }
               >
-                <span>🔥</span>
-                {displayUser.loginStreak}d
-              </div>
+                <div 
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)',
+                    border: '1px solid rgba(255, 152, 0, 0.3)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    color: '#FF9800',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 152, 0, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <span>🔥</span>
+                  {displayUser.loginStreak}d
+                </div>
+              </BadgeTooltip>
 
               {/* Coins Badge */}
-              <div 
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '12px',
-                  background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)',
-                  fontSize: '0.75rem',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-                onClick={() => setShowSpinWheel(true)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                title={language === 'ru'
-                  ? `Бонусные монеты: ${mockUser.bonusBalance}🪙\n\nМожно использовать для:\n• Скидки на покупки (1🪙 = $0.01)\n• Открытие лутбоксов\n• Участие в аукционах\n• Эксклюзивные товары\n\nКак получить:\n• Ежедневные квесты: +50-200🪙\n• Покупки: +1🪙 за каждые $1\n• Колесо фортуны: до 1000🪙\n• Реферальная программа: +500🪙\n\nНажмите для вращения колеса!`
-                  : `Bonus coins: ${mockUser.bonusBalance}🪙\n\nCan be used for:\n• Purchase discounts (1🪙 = $0.01)\n• Opening lootboxes\n• Auction participation\n• Exclusive items\n\nHow to earn:\n• Daily quests: +50-200🪙\n• Purchases: +1🪙 per $1\n• Spin wheel: up to 1000🪙\n• Referrals: +500🪙\n\nClick to spin the wheel!`
+              <BadgeTooltip
+                content={
+                  <div>
+                    <div style={{ fontWeight: '700', marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+                      {language === 'ru' ? `Бонусные монеты: ${mockUser.bonusBalance}🪙` : `Bonus coins: ${mockUser.bonusBalance}🪙`}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Можно использовать для:' : 'Can be used for:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6', marginBottom: '0.5rem' }}>
+                      • {language === 'ru' ? 'Скидки (1🪙 = $0.01)' : 'Discounts (1🪙 = $0.01)'}<br/>
+                      • {language === 'ru' ? 'Лутбоксы' : 'Lootboxes'}<br/>
+                      • {language === 'ru' ? 'Аукционы' : 'Auctions'}<br/>
+                      • {language === 'ru' ? 'Эксклюзивы' : 'Exclusive items'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.375rem', fontWeight: '600' }}>
+                      {language === 'ru' ? 'Как получить:' : 'How to earn:'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, lineHeight: '1.6' }}>
+                      • {language === 'ru' ? 'Квесты: +50-200🪙' : 'Quests: +50-200🪙'}<br/>
+                      • {language === 'ru' ? 'Покупки: +1🪙/$1' : 'Purchases: +1🪙/$1'}<br/>
+                      • {language === 'ru' ? 'Колесо фортуны: до 1000🪙' : 'Spin wheel: up to 1000🪙'}<br/>
+                      • {language === 'ru' ? 'Рефералы: +500🪙' : 'Referrals: +500🪙'}
+                    </div>
+                    <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(255, 215, 0, 0.15)', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', textAlign: 'center' }}>
+                      🎰 {language === 'ru' ? 'Нажмите для вращения колеса!' : 'Click to spin the wheel!'}
+                    </div>
+                  </div>
                 }
               >
-                <span>🪙</span>
-                {mockUser.bonusBalance}
-              </div>
+                <div 
+                  onClick={() => setShowSpinWheel(true)}
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: theme === 'minimal-mod' ? '0' : '12px',
+                    background: theme === 'dark' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.375rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <span>🪙</span>
+                  {mockUser.bonusBalance}
+                </div>
+              </BadgeTooltip>
             </div>
 
             {/* Mini XP Progress Bar */}
