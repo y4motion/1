@@ -121,7 +121,7 @@ const UserProfilePage = () => {
                 border: `3px solid ${currentLevel.color}`,
                 position: 'relative'
               }}>
-                {displayUser.avatar || '👤'}
+                {profileData.avatar || displayUser.avatar || '👤'}
               </div>
               <button 
                 onClick={() => setShowEditModal(true)}
