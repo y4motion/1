@@ -228,14 +228,14 @@ const HomePage = () => {
       <TestimonialsCarousel />
 
       {/* Content Container */}
-      <div style={{ padding: '0 5rem' }}> {/* Reduced from 3rem to match other sections */}
+      <div style={{ padding: '0 2.5rem' }}> {/* 40px padding */}
         {/* Community Hub Section */}
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '2rem',
-            maxWidth: '1760px',
+            maxWidth: '1840px',
             margin: '0 auto'
           }}>
             <TopArticlesWidget />
