@@ -120,35 +120,137 @@ const HomePage = () => {
           zIndex: 1
         }} />
 
-        {/* Search in Center */}
+        {/* Search in Center with Loading Animation */}
         <div style={{
           position: 'relative',
           zIndex: 2,
           textAlign: 'center',
           padding: '2rem',
-          maxWidth: '800px',
-          width: '100%'
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-          {/* Search Dialog */}
-          <div className="search-dialog" style={{ maxWidth: '600px', width: '100%', margin: '0 auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Search size={20} style={{ color: 'rgba(255, 255, 255, 0.6)' }} />
+          {!isLoaded ? (
+            /* Loading Bar Animation */
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '1200px',
+              height: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start'
+            }}>
+              {/* Progress Line */}
+              <div
+                style={{
+                  width: `${loadingProgress}%`,
+                  height: '2px',
+                  background: 'white',
+                  transition: 'width 0.05s linear',
+                  boxShadow: '0 0 10px rgba(255,255,255,0.5)'
+                }}
+              />
+              {/* Loading Percentage */}
+              <span
+                style={{
+                  position: 'absolute',
+                  left: `${loadingProgress}%`,
+                  transform: 'translateX(-50%)',
+                  top: '-30px',
+                  color: 'white',
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  textShadow: '0 0 10px rgba(255,255,255,0.8)',
+                  transition: 'left 0.05s linear'
+                }}
+              >
+                {loadingProgress}%
+              </span>
+            </div>
+          ) : (
+            /* Search Bar After Loading - Compact, No Border */
+            <div
+              className="search-container"
+              style={{
+                position: 'relative',
+                maxWidth: '600px',
+                width: '100%',
+                animation: 'searchShrink 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+              }}
+            >
+              {/* Search Icon Above */}
+              <div style={{
+                position: 'absolute',
+                top: '-40px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                opacity: 0,
+                animation: 'fadeInIcon 0.5s ease 0.8s forwards'
+              }}>
+                <Search size={24} style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
+              </div>
+
+              {/* Search Input - No Border */}
               <input
                 type="text"
-                placeholder={t('hero.searchPlaceholder')}
-                className="search-input"
+                placeholder="Search for products..."
+                className="search-input-minimal"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
                   color: 'white',
-                  fontSize: '1.1rem'
+                  fontSize: '1.1rem',
+                  outline: 'none',
+                  textAlign: 'center',
+                  transition: 'all 0.3s ease'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderBottom = '2px solid rgba(255, 255, 255, 0.6)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.3)';
                 }}
               />
             </div>
-          </div>
+          )}
         </div>
+
+        {/* CSS Animations */}
+        <style jsx>{`
+          @keyframes searchShrink {
+            from {
+              transform: scaleX(2);
+              opacity: 0;
+            }
+            to {
+              transform: scaleX(1);
+              opacity: 1;
+            }
+          }
+
+          @keyframes fadeInIcon {
+            from {
+              opacity: 0;
+              transform: translateX(-50%) translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(-50%) translateY(0);
+            }
+          }
+
+          .search-input-minimal::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+          }
+        `}</style>
       </div>
 
       {/* Divider */}
