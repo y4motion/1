@@ -483,6 +483,22 @@ frontend:
         agent: "testing"
         comment: "NOTIFICATIONS PAGE TESTING COMPLETED ✅ All notification features verified: Page header with title 'Уведомления/Notifications' and back button ✓, unread badge showing '2' next to title (purple badge) ✓, 5 notifications displayed with different types: 'Order #12345 shipped' (Package icon), 'Product added to favorites' (Heart icon), 'New message' (MessageCircle icon), 'Achievement unlocked!' (Trophy icon), 'Bonus coins credited' (Gift icon) ✓, unread notifications highlighted with purple border and background ✓, read notifications have reduced opacity (0.7) ✓, clicking notification marks it as read ✓, 'Mark all as read' button visible when unread notifications exist ✓, delete button (X) present on all notifications with hover effect (red on hover) ✓, check mark button (✓) visible on unread notifications to mark as read ✓, notification cards have hover effect (translateX) ✓. All notifications show proper icon, title, message, and timestamp. Page adapts to all themes correctly."
 
+  - task: "Theme Switching System - CRITICAL BUGS"
+    implemented: true
+    working: false
+    files:
+      - "/app/frontend/src/contexts/ThemeContext.jsx"
+      - "/app/frontend/src/components/Header.jsx"
+      - "/app/frontend/src/styles/minimalMod.css"
+      - "/app/frontend/src/styles/glassmorphism.css"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🚨 CRITICAL THEME BUGS FOUND - Comprehensive testing revealed BLOCKING issues: 1) **THEME TOGGLE BROKEN**: Clicking theme button in settings does NOT cycle themes - stays stuck on 'dark' theme. Users cannot switch to Light or Minimal Mod. 2) **MINIMAL MOD CSS NOT APPLYING**: [data-theme='minimal-mod'] CSS rules are being overridden by inline styles. Evidence: LVL menu has border-radius: 16px (should be 0), backdrop-filter: blur(30px) (should be none), badges have border-radius: 12px (should be 0), footer has backdrop-filter: blur(20px) (should be none). 3) **MONOSPACE FONT MISSING**: Components show system fonts instead of SF Mono/monospace in minimal-mod. 4) **INLINE STYLES OVERRIDE THEME**: Components use inline borderRadius/backdropFilter that override [data-theme] CSS. ROOT CAUSE: Either toggleTheme() state not propagating OR inline styles have higher specificity than theme CSS. FIXES NEEDED: 1) Debug ThemeContext.jsx toggleTheme() function and state propagation, 2) Remove inline borderRadius/backdropFilter from all components (Header, LVL menu, Footer, etc), 3) Replace inline styles with CSS classes for theme-dependent properties, 4) Add !important to critical minimal-mod rules or use higher specificity selectors, 5) Ensure data-theme attribute updates on document.documentElement. This is BLOCKING - users cannot experience 2 out of 3 themes."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
