@@ -29,6 +29,14 @@ from routes.catalog_routes import router as catalog_router
 from routes.support_chat_routes import router as support_chat_router
 from routes.pc_build_routes import router as pc_build_router
 
+# Import new social/community routes
+from routes.feed_routes import router as feed_router
+from routes.article_routes import router as article_router
+from routes.creator_routes import router as creator_router
+from routes.voting_routes import router as voting_router
+from routes.rating_routes import router as rating_router
+from routes.groupbuy_routes import router as groupbuy_router
+
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
