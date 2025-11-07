@@ -27,7 +27,7 @@ const Header = () => {
   const [showSpinWheel, setShowSpinWheel] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('menu');
   const [copiedCode, setCopiedCode] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
