@@ -179,7 +179,9 @@ const CatalogMega = ({ theme: themeOverride, catalogData: preloadedCatalog, onCl
       </div>
 
       {/* Right Area - Subcategories & Items */}
-      <div style={{
+      <div 
+        className="catalog-content-scroll"
+        style={{
         overflowY: 'auto',
         padding: '1.5rem'
       }}>
