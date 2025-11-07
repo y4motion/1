@@ -13,12 +13,30 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { t } = useLanguage();
   const { theme } = useTheme();
   const navigate = useNavigate();
 
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
+
+  // Loading animation effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setIsLoaded(true), 500); // Wait 500ms then transform
+          return 100;
+        }
+        return prev + 2; // Increment by 2% every 50ms = 2.5 seconds total
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Top 4 square blocks (PMM.gg style) - Angry Miao images
   const topCategories = [
