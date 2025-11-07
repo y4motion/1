@@ -88,7 +88,7 @@ const HomePage = () => {
         minHeight: '100vh',
         overflow: 'hidden'
       }}>
-        {/* Background Image (instead of video for now) */}
+        {/* Background Image - Mount Fuji / Torii / Sakura */}
         <div
           style={{
             position: 'absolute',
@@ -97,11 +97,11 @@ const HomePage = () => {
             width: '100%',
             height: '100%',
             background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-            backgroundImage: 'url(https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1578637387939-43c525550085?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxtb3VudCUyMGZ1aml8ZW58MHx8fHwxNzYyNTQ1ODMxfDA&ixlib=rb-4.1.0&q=85&w=1920)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             zIndex: 0,
-            opacity: 0.5
+            opacity: 0.6
           }}
         />
 
