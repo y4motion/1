@@ -104,10 +104,9 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
         className={theme === 'minimal-mod' ? '' : 'glass'}
         data-catalog="true"
         style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        position: 'absolute',
+        top: 'calc(100% + 0.5rem)',
+        left: '0',
         width: '90vw',
         maxWidth: '1200px',
         maxHeight: '80vh',
@@ -124,7 +123,8 @@ const CatalogMega = ({ theme: themeOverride, onClose, onCategorySelect }) => {
         overflow: 'hidden',
         boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.4)',
         fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
-        zIndex: 99
+        zIndex: 99,
+        animation: 'slideDown 0.2s ease-out'
       }}
     >
       {/* Left Sidebar - Main Categories */}
