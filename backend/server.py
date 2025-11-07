@@ -105,6 +105,14 @@ api_router.include_router(catalog_router)
 api_router.include_router(support_chat_router)
 api_router.include_router(pc_build_router)
 
+# Include new social/community routes
+api_router.include_router(feed_router)
+api_router.include_router(article_router)
+api_router.include_router(creator_router)
+api_router.include_router(voting_router)
+api_router.include_router(rating_router)
+api_router.include_router(groupbuy_router)
+
 # Include the router in the main app
 app.include_router(api_router)
 
