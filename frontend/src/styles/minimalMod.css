@@ -60,12 +60,18 @@
 [data-theme="minimal-mod"] .glass,
 [data-theme="minimal-mod"] .glass-strong,
 [data-theme="minimal-mod"] .glass-subtle {
-  background: transparent !important;
-  border: none !important;
+  background: rgba(0, 0, 0, 0.95) !important;
+  border: 1px solid rgba(241, 241, 241, 0.12) !important;
   border-radius: 0 !important;
-  backdrop-filter: none;
-  box-shadow: none;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Override ALL divs with inline styles in minimal-mod */
+[data-theme="minimal-mod"] * {
+  border-radius: 0 !important;
 }
 
 [data-theme="minimal-mod"] .glass:hover,
