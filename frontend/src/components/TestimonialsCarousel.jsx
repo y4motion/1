@@ -78,7 +78,7 @@ function TestimonialsCarousel() {
   return (
     <div className="w-full py-16">
       {/* Section Title - with padding */}
-      <div style={{ padding: '0 5rem', marginBottom: '3rem' }}>
+      <div style={{ padding: '0 2.5rem', marginBottom: '3rem' }}>
         <h2 
           className="text-4xl font-bold"
           style={{
@@ -100,8 +100,8 @@ function TestimonialsCarousel() {
           style={{
             scrollBehavior: 'smooth',
             scrollSnapType: 'x mandatory',
-            paddingLeft: '5rem',
-            paddingRight: '5rem'
+            paddingLeft: '2.5rem',
+            paddingRight: '2.5rem'
           }}
         >
           {reviews.map((review, index) => (
