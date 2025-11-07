@@ -206,7 +206,7 @@ const Footer = () => {
           </div>
           <div style={{
             fontSize: '0.75rem',
-            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
             lineHeight: '1.6'
           }}>
             © 2024 Gaming Marketplace<br/>
