@@ -741,3 +741,109 @@ img, .no-transform-transition {
 [data-theme='light'] .persona-scroll-vertical::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
 }
+
+
+/* Catalog Mega Menu - Elegant Thin Scrollbar */
+.catalog-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.catalog-sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.catalog-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0.5rem 0;
+}
+
+.catalog-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.catalog-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+  width: 6px;
+}
+
+/* Light theme */
+[data-theme='light'] .catalog-sidebar-scroll {
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+[data-theme='light'] .catalog-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme='light'] .catalog-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Minimal Mod theme - Ultra thin scrollbar */
+[data-theme='minimal-mod'] .catalog-sidebar-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+
+[data-theme='minimal-mod'] .catalog-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(241, 241, 241, 0.2);
+  border-radius: 1px;
+}
+
+[data-theme='minimal-mod'] .catalog-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(241, 241, 241, 0.4);
+  width: 3px;
+}
+
+/* Right panel scrollbar - even more refined */
+.catalog-content-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.catalog-content-scroll::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.catalog-content-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.catalog-content-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.catalog-content-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='light'] .catalog-content-scroll {
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+[data-theme='light'] .catalog-content-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .catalog-content-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='minimal-mod'] .catalog-content-scroll::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+[data-theme='minimal-mod'] .catalog-content-scroll::-webkit-scrollbar-thumb {
+  background: rgba(241, 241, 241, 0.15);
+}
+
+[data-theme='minimal-mod'] .catalog-content-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(241, 241, 241, 0.3);
+}
+
