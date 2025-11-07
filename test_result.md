@@ -507,10 +507,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Catalog Configuration API (Personas & Categories)"
-    - "Product Filtering by Persona & Specific Attributes"
-    - "Adaptive Filter Panel Component"
-  stuck_tasks: []
+    - "Theme Switching System - CRITICAL BUGS"
+  stuck_tasks:
+    - "Theme Switching System - CRITICAL BUGS"
   test_all: false
   test_priority: "high_first"
 
