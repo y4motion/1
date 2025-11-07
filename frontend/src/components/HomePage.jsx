@@ -127,7 +127,7 @@ const HomePage = () => {
               className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105"
               style={{
                 height: '382px',
-                borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+                borderRadius: theme === 'minimal-mod' ? '0' : '3px',
               }}
             >
               {/* Background Image */}
@@ -167,7 +167,7 @@ const HomePage = () => {
               {/* Hover Border */}
               <div 
                 className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '8px' }}
+                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '3px' }}
               />
             </div>
           ))}
@@ -181,7 +181,7 @@ const HomePage = () => {
             height: '560px',
             maxWidth: '1600px',
             margin: '0 auto',
-            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+            borderRadius: theme === 'minimal-mod' ? '0' : '3px',
           }}
         >
           {/* Background Image */}
@@ -218,7 +218,7 @@ const HomePage = () => {
           {/* Hover Border */}
           <div 
             className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '8px' }}
+            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '3px' }}
           />
         </div>
       </div>
