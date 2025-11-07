@@ -23,6 +23,14 @@ import UserProfilePage from "./components/UserProfilePage";
 import NotificationsPage from "./components/NotificationsPage";
 import FloatingChatWidget from "./components/FloatingChatWidget";
 
+// New social/community pages
+import FeedPage from "./components/FeedPage";
+import ArticlesPage from "./components/ArticlesPage";
+import CreatorsPage from "./components/CreatorsPage";
+import VotingPage from "./components/VotingPage";
+import RatingPage from "./components/RatingPage";
+import GroupBuyPage from "./components/GroupBuyPage";
+
 function App() {
   return (
     <ThemeProvider>
