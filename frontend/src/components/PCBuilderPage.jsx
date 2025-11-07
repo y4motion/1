@@ -777,7 +777,7 @@ const PCBuilderPage = () => {
                           padding: '0.5rem 0.75rem',
                           borderRadius: '6px',
                           border: theme === 'minimal-mod' ? '1px solid rgba(241, 241, 241, 0.12)' : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
-                          background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)',
+                          background: theme === 'minimal-mod' ? 'rgba(241, 241, 241, 0.05)' : (theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)'),
                           color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a'),
                           fontSize: '0.8125rem',
                           outline: 'none'
