@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Power, ShoppingCart, MessageCircle, User, Sun, Moon, Globe, X, 
   Trophy, Target, Gift, Wallet, Clock, Users, TrendingUp, Package, 
-  Heart, Copy, Check, LogIn, Search, Settings, Volume2, VolumeX, Music, MousePointer
+  Heart, Copy, Check, LogIn, Search, Settings, Volume2, VolumeX, Music, MousePointer,
+  Home, Bell, Mail, BookMarked, List, UserCircle, Edit3
 } from 'lucide-react';
 import { 
   mockUser, categories, achievements, dailyQuests, inventoryItems, 
