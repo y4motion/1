@@ -31,7 +31,7 @@ const BadgeTooltip = ({ children, content, position = 'top' }) => {
               : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.15)'),
             borderRadius: theme === 'minimal-mod' ? '0' : '8px',
             boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
-            zIndex: 10000,
+            zIndex: 10001,
             fontSize: '0.8125rem',
             lineHeight: '1.5',
             color: theme === 'dark' ? '#fff' : '#1a1a1a',
