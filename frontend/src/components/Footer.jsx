@@ -145,12 +145,6 @@ const Footer = () => {
           }}>
             {language === 'ru' ? 'Ещё...' : 'More...'}
           </div>
-          <div style={{
-            fontSize: '0.75rem',
-            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)'
-          }}>
-            © 2025 X Corp.
-          </div>
         </div>
       </div>
     </footer>
