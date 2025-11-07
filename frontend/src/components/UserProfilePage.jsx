@@ -152,7 +152,9 @@ const UserProfilePage = () => {
                     @{displayUser.username.toLowerCase()}
                   </div>
                 </div>
-                <button style={{
+                <button 
+                  onClick={() => setShowEditModal(true)}
+                  style={{
                   padding: '0.625rem 1.25rem',
                   background: 'transparent',
                   border: theme === 'minimal-mod'
