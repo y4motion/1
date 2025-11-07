@@ -78,6 +78,18 @@ class UserResponse(UserBase):
     daily_quests: list
     inventory: list
     wishlist: list
+    monthly_rp: int
+    current_streak: int
+    online_status: str
+    bio: Optional[str] = None
+    location: Optional[str] = None
+    website: Optional[str] = None
+    referral_code: Optional[str] = None
+    joined_date: Optional[datetime] = None
+    is_verified_creator: bool
+    creator_profile_id: Optional[str] = None
+    has_video_hover: bool
+    video_hover_url: Optional[str] = None
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
 
