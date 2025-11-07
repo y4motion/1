@@ -96,11 +96,12 @@ const HomePage = () => {
             left: 0,
             width: '100%',
             height: '100%',
+            background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
             backgroundImage: 'url(https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             zIndex: 0,
-            opacity: 0.4
+            opacity: 0.5
           }}
         />
 
