@@ -528,7 +528,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Enhanced LVL Menu with Tabs - Now opens from logo button (left side) */}
+      {/* Simplified LVL Menu - Twitter Style Navigation */}
       {showLVLMenu && (
         <div 
           data-lvl-menu="true"
@@ -537,8 +537,7 @@ const Header = () => {
             position: 'fixed',
             top: '5.5rem',
             left: '3rem',
-            width: '480px',
-            maxHeight: '600px',
+            width: '320px',
             borderRadius: theme === 'minimal-mod' ? '0' : '16px',
             background: theme === 'minimal-mod' ? 'rgba(0, 0, 0, 0.95)' : undefined,
             backdropFilter: theme === 'minimal-mod' ? 'none' : undefined,
@@ -550,55 +549,117 @@ const Header = () => {
             color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#ffffff' : '#1a1a1a')
           }}
         >
-          {/* User Header */}
-          <div style={{ padding: '1.5rem', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
-              <div>
-                <div style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem' }}>
+          {/* User Header - Compact */}
+          <div style={{ padding: '1.25rem', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                background: `linear-gradient(135deg, ${currentLevel.color} 0%, ${currentLevel.color}99 100%)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                border: `2px solid ${currentLevel.color}`
+              }}>
+                {displayUser.avatar || '👤'}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.125rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {user?.username || mockUser.username}
                 </div>
-                <div style={{ opacity: 0.6, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ padding: '0.125rem 0.5rem', borderRadius: '12px', background: currentLevel.color, color: 'white', fontSize: '0.75rem', fontWeight: '600' }}>
-                    {currentLevel.name}
-                  </span>
-                  <span>{displayUser.xp} XP</span>
+                <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+                  @{(user?.username || mockUser.username).toLowerCase()}
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.5rem 0.75rem', borderRadius: '8px', background: theme === 'dark' ? 'rgba(255, 152, 0, 0.15)' : 'rgba(255, 152, 0, 0.1)', border: '1px solid rgba(255, 152, 0, 0.3)' }}>
-                <span style={{ fontSize: '1.25rem' }}>🔥</span>
-                <span style={{ fontSize: '0.875rem', fontWeight: '700' }}>{displayUser.loginStreak}</span>
-              </div>
-            </div>
-            <div>
-              <div style={{ height: '8px', background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.5rem' }}>
-                <div style={{ height: '100%', width: `${((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%`, background: `linear-gradient(90deg, ${currentLevel.color}, ${currentLevel.color}dd)`, transition: 'width 0.3s ease' }} />
-              </div>
-              <div style={{ opacity: 0.5, fontSize: '0.75rem', display: 'flex', justifyContent: 'space-between' }}>
-                <span>{displayUser.nextLevelXP - displayUser.xp} {t('user.xpToNextLevel')}</span>
-                <span>{displayUser.level + 1}</span>
-              </div>
             </div>
           </div>
-          
-          {/* Tabs */}
-          <div style={{ display: 'flex', borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)', padding: '0 0.5rem' }}>
-            {[
-              { id: 'menu', icon: Home, label: language === 'ru' ? 'Меню' : 'Menu' },
-              { id: 'overview', icon: User, label: 'Overview' },
-              { id: 'achievements', icon: Trophy, label: t('user.achievements') },
-              { id: 'rewards', icon: Gift, label: t('user.inventory') }
-            ].map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, padding: '0.75rem 0.5rem', border: 'none', background: 'none', cursor: 'pointer', borderBottom: activeTab === tab.id ? `2px solid ${currentLevel.color}` : '2px solid transparent', opacity: activeTab === tab.id ? 1 : 0.5, transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
-                <tab.icon size={18} />
-                <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>{tab.label}</span>
-              </button>
-            ))}
+
+          {/* Menu Items - Simple List */}
+          <div style={{ padding: '0.5rem' }}>
+            <Link to="/" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <Home size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Главная' : 'Home'}</span>
+            </Link>
+
+            <button className="text-link" style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Bell size={20} />
+                <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Уведомления' : 'Notifications'}</span>
+              </span>
+              {19 > 0 && <span style={{ background: '#8b5cf6', color: 'white', padding: '0.125rem 0.5rem', borderRadius: theme === 'minimal-mod' ? '0' : '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>19</span>}
+            </button>
+
+            <Link to="/chat" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'space-between', display: 'flex', width: '100%', padding: '0.875rem 1rem' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Mail size={20} />
+                <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщения' : 'Messages'}</span>
+              </span>
+              {mockUser.messages > 0 && <span style={{ background: '#4CAF50', color: 'white', padding: '0.125rem 0.5rem', borderRadius: theme === 'minimal-mod' ? '0' : '12px', fontSize: '0.75rem', fontWeight: '700', minWidth: '24px', textAlign: 'center' }}>{mockUser.messages}</span>}
+            </Link>
+
+            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <BookMarked size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Закладки' : 'Bookmarks'}</span>
+            </button>
+
+            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <List size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Списки' : 'Lists'}</span>
+            </button>
+
+            <button className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <Users size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Сообщества' : 'Communities'}</span>
+            </button>
+
+            <Link to="/profile" className="text-link" onClick={() => setShowLVLMenu(false)} style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <UserCircle size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Профиль' : 'Profile'}</span>
+            </Link>
+
+            <button onClick={() => { setShowSettingsMenu(true); setShowLVLMenu(false); }} className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
+              <Settings size={20} />
+              <span style={{ fontSize: '0.9375rem', fontWeight: '500' }}>{language === 'ru' ? 'Настройки' : 'Settings'}</span>
+            </button>
           </div>
-          
-          {/* Compact content - just show current user info */}
-          <div style={{ padding: '1rem', maxHeight: '400px', overflowY: 'auto' }}>
-            {/* Menu Tab - Twitter Style */}
-            {activeTab === 'menu' && (
+
+          {/* Level Info - Compact */}
+          <div style={{
+            padding: '1rem',
+            margin: '0.5rem',
+            borderRadius: theme === 'minimal-mod' ? '0' : '8px',
+            background: `${currentLevel.color}15`,
+            border: `1px solid ${currentLevel.color}50`
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: '600' }}>
+                {currentLevel.name} • LVL {displayUser.level}
+              </div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                {displayUser.xp} XP
+              </div>
+            </div>
+            <div style={{
+              height: '6px',
+              background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              borderRadius: theme === 'minimal-mod' ? '0' : '3px',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                height: '100%',
+                width: `${((displayUser.xp / displayUser.nextLevelXP) * 100).toFixed(0)}%`,
+                background: currentLevel.color,
+                transition: 'width 0.3s ease'
+              }} />
+            </div>
+            <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '0.375rem', textAlign: 'right' }}>
+              {displayUser.nextLevelXP - displayUser.xp} XP {language === 'ru' ? 'до LVL' : 'to LVL'} {displayUser.level + 1}
+            </div>
+          </div>
+        </div>
+      )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 <Link to="/" className="text-link" style={{ justifyContent: 'flex-start', display: 'flex', width: '100%', padding: '0.875rem 1rem', gap: '1rem' }}>
                   <Home size={20} />
