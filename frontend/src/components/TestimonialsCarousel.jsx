@@ -7,75 +7,73 @@ function TestimonialsCarousel() {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [reviews, setReviews] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const carouselRef = React.useRef(null);
 
   useEffect(() => {
     fetchTopReviews();
   }, []);
 
-  // Auto-play carousel
+  // Auto-scroll
   useEffect(() => {
-    if (!isAutoPlaying || reviews.length === 0) return;
-
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex + 3 >= reviews.length ? 0 : prevIndex + 3
-      );
-    }, 5000); // Change every 5 seconds
+      handleScroll(300); // Scroll right by 300px every 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, reviews.length]);
+  }, []);
 
   const fetchTopReviews = async () => {
     try {
-      // Fetch most liked reviews from all products
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/reviews/top?limit=12`
       );
       
       if (response.ok) {
         const data = await response.json();
-        // Use data if available, otherwise fallback to mock
         setReviews(data.length > 0 ? data : mockReviews);
       } else {
-        // Fallback to mock reviews if API not ready
         setReviews(mockReviews);
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
-      // Always use mock reviews as fallback
       setReviews(mockReviews);
     } finally {
       setLoading(false);
     }
   };
 
-  const handlePrev = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? Math.max(0, reviews.length - 3) : Math.max(0, prevIndex - 3)
-    );
+  const handleScroll = (amount) => {
+    if (carouselRef.current) {
+      const newPosition = carouselRef.current.scrollLeft + amount;
+      const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
+      
+      // Loop back to start if reached end
+      if (newPosition >= maxScroll) {
+        carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        carouselRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+      }
+    }
   };
 
-  const handleNext = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => 
-      prevIndex + 3 >= reviews.length ? 0 : prevIndex + 3
-    );
+  const updateScrollPosition = () => {
+    if (carouselRef.current) {
+      const scrollPercentage = 
+        (carouselRef.current.scrollLeft / 
+        (carouselRef.current.scrollWidth - carouselRef.current.clientWidth)) * 100;
+      setScrollPosition(scrollPercentage);
+    }
   };
 
   const handleReviewClick = (review) => {
-    // Navigate to the product page where this review was left
     if (review.product_id) {
       navigate(`/product/${review.product_id}`);
     }
   };
 
   if (loading) return <div className="text-center py-12">Загрузка...</div>;
-
-  const visibleReviews = reviews.slice(currentIndex, currentIndex + 3);
 
   return (
     <div className="w-full py-16" style={{ padding: '4rem 10rem' }}>
@@ -90,51 +88,41 @@ function TestimonialsCarousel() {
         WHAT PEOPLE SAY
       </h2>
 
-      {/* Testimonials Carousel */}
+      {/* Testimonials Container with Custom Scrollbar */}
       <div className="relative">
-        <div className="grid grid-cols-3 gap-6">
-          {visibleReviews.map((review, index) => (
+        {/* Scrollable Reviews */}
+        <div
+          ref={carouselRef}
+          onScroll={updateScrollPosition}
+          className="flex gap-6 overflow-x-auto scrollbar-hide pb-8"
+          style={{
+            scrollBehavior: 'smooth',
+            scrollSnapType: 'x mandatory'
+          }}
+        >
+          {reviews.map((review, index) => (
             <div
-              key={currentIndex + index}
+              key={index}
               onClick={() => handleReviewClick(review)}
-              className="p-6 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-white/10"
+              className="flex-shrink-0 p-6 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-white/10"
               style={{
                 backgroundColor: 'rgb(10, 10, 10)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
-                minHeight: '200px'
+                minHeight: '200px',
+                width: '400px',
+                scrollSnapAlign: 'start'
               }}
             >
-              {/* Review Text */}
-              <p 
-                className="text-white mb-4 leading-relaxed"
-                style={{
-                  fontSize: '0.95rem',
-                  lineHeight: '1.6'
-                }}
-              >
+              <p className="text-white mb-4 leading-relaxed" style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
                 {review.comment || review.content}
               </p>
-
-              {/* Attribution */}
-              <p 
-                className="text-white/70 text-sm"
-                style={{
-                  fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
-                }}
-              >
+              <p className="text-white/70 text-sm" style={{ fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit' }}>
                 -{review.username} {review.source && `[${review.source}]`}
               </p>
-
-              {/* Rating Stars (if available) */}
               {review.rating && (
                 <div className="flex items-center gap-1 mt-2">
                   {[...Array(5)].map((_, i) => (
-                    <span 
-                      key={i}
-                      className={i < review.rating ? 'text-yellow-400' : 'text-white/20'}
-                    >
-                      ★
-                    </span>
+                    <span key={i} className={i < review.rating ? 'text-yellow-400' : 'text-white/20'}>★</span>
                   ))}
                 </div>
               )}
@@ -142,47 +130,54 @@ function TestimonialsCarousel() {
           ))}
         </div>
 
-        {/* Navigation Arrows */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            style={{
-              borderRadius: theme === 'minimal-mod' ? '0' : '50%'
-            }}
-            aria-label="Previous"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          {/* Progress Dots */}
-          <div className="flex gap-2">
-            {Array.from({ length: Math.ceil(reviews.length / 3) }).map((_, i) => (
-              <div
-                key={i}
-                className={`h-2 rounded-full transition-all ${
-                  Math.floor(currentIndex / 3) === i 
-                    ? 'w-8 bg-white' 
-                    : 'w-2 bg-white/30'
-                }`}
-              />
-            ))}
+        {/* Custom Scrollbar and Navigation (PMM.gg style) */}
+        <div className="flex items-center gap-4 mt-8">
+          {/* Progress Bar */}
+          <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-white transition-all duration-300"
+              style={{ width: `${scrollPosition}%` }}
+            />
           </div>
 
-          <button
-            onClick={handleNext}
-            disabled={currentIndex + 3 >= reviews.length}
-            className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            style={{
-              borderRadius: theme === 'minimal-mod' ? '0' : '50%'
-            }}
-            aria-label="Next"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+          {/* Navigation Buttons */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => handleScroll(-400)}
+              className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
+              style={{
+                backgroundColor: 'transparent',
+                borderRadius: theme === 'minimal-mod' ? '0' : '50%'
+              }}
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={() => handleScroll(400)}
+              className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-all"
+              style={{
+                borderRadius: theme === 'minimal-mod' ? '0' : '50%'
+              }}
+              aria-label="Next"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Hide scrollbar */}
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }
