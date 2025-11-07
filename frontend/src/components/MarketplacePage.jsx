@@ -41,6 +41,7 @@ const MarketplacePage = () => {
   const [specificFilters, setSpecificFilters] = useState({});
   const [activeFilters, setActiveFilters] = useState({});
   const [savedFilterSets, setSavedFilterSets] = useState([]);
+  const [catalogData, setCatalogData] = useState(null); // Preloaded catalog data
   
   // Refs for click outside detection
   const filterButtonRef = useRef(null);
