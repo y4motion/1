@@ -44,12 +44,6 @@ const Header = () => {
 
   const navLinks = [
     { name: t('nav.marketplace'), path: '/marketplace', key: 'marketplace' },
-    { name: language === 'ru' ? 'ЛЕНТА' : 'FEED', path: '/feed', key: 'feed' },
-    { name: language === 'ru' ? 'СТАТЬИ' : 'ARTICLES', path: '/articles', key: 'articles' },
-    { name: language === 'ru' ? 'КРЕАТОРЫ' : 'CREATORS', path: '/creators', key: 'creators' },
-    { name: language === 'ru' ? 'ГОЛОСОВАНИЯ' : 'VOTING', path: '/voting', key: 'voting' },
-    { name: language === 'ru' ? 'РЕЙТИНГ' : 'RATING', path: '/rating', key: 'rating' },
-    { name: language === 'ru' ? 'GROUP BUY' : 'GROUP BUY', path: '/groupbuy', key: 'groupbuy' },
     { name: t('nav.restock'), path: '/restock', key: 'restock' },
     { name: language === 'ru' ? 'СБОРОЧНАЯ' : 'ASSEMBLY', path: '/pc-builder', key: 'pc-builder' },
     { name: t('nav.mod'), path: '/mod', key: 'mod' }
