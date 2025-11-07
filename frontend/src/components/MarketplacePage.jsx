@@ -668,10 +668,22 @@ const MarketplacePage = () => {
                   </div>
                 )}              </div>
             )}
+
+            {/* Catalog Mega Menu - positioned relative to search container */}
+            {showCatalogMega && (
+              <CatalogMega
+                theme={theme}
+                onClose={() => setShowCatalogMega(false)}
+                onCategorySelect={(categoryId, subcategoryId, item) => {
+                  setSelectedCategory(categoryId);
+                  setSelectedSubcategory(subcategoryId);
+                  setShowCatalogMega(false);
+                }}
+              />
+            )}
           </div>
         </div>
 
-        {/* Catalog Mega Menu */}
         {/* Backdrop when catalog is open */}
         {showCatalogMega && (
           <div
@@ -685,18 +697,6 @@ const MarketplacePage = () => {
               background: 'rgba(0, 0, 0, 0.5)',
               zIndex: 98,
               animation: 'fadeIn 0.2s ease-out'
-            }}
-          />
-        )}
-        
-        {showCatalogMega && (
-          <CatalogMega
-            theme={theme}
-            onClose={() => setShowCatalogMega(false)}
-            onCategorySelect={(categoryId, subcategoryId, item) => {
-              setSelectedCategory(categoryId);
-              setSelectedSubcategory(subcategoryId);
-              setShowCatalogMega(false);
             }}
           />
         )}
