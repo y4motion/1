@@ -32,16 +32,17 @@ const Footer = () => {
 
   return (
     <footer
+      className={theme === 'minimal-mod' ? '' : 'glass'}
       style={{
         background: theme === 'minimal-mod'
           ? 'rgba(0, 0, 0, 0.98)'
-          : (theme === 'dark' ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)'),
+          : (theme === 'dark' ? 'rgba(10, 10, 15, 0.95)' : 'rgba(250, 250, 250, 0.95)'),
         backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(20px)',
         borderTop: theme === 'minimal-mod'
           ? '1px solid rgba(241, 241, 241, 0.12)'
           : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'),
         padding: '3rem 2rem 2rem',
-        marginTop: '4rem',
+        marginTop: '6rem',
         fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
       }}
     >
@@ -50,13 +51,23 @@ const Footer = () => {
           maxWidth: '1400px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '2rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '2.5rem',
           marginBottom: '2rem'
         }}
       >
         {/* Column 1 */}
         <div>
+          <div style={{
+            fontSize: '0.8125rem',
+            fontWeight: '700',
+            marginBottom: '1rem',
+            opacity: 0.5,
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
+          }}>
+            {language === 'ru' ? 'Продукты' : 'Products'}
+          </div>
           {footerLinks.column1.map((link, index) => (
             <Link
               key={index}
@@ -67,13 +78,21 @@ const Footer = () => {
                 color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                transition: 'color 0.2s ease'
+                transition: 'all 0.2s ease',
+                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
+                paddingLeft: '0.5rem'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
+                e.currentTarget.style.paddingLeft = '0.75rem';
+                if (theme !== 'minimal-mod') {
+                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+                e.currentTarget.style.paddingLeft = '0.5rem';
+                e.currentTarget.style.background = 'transparent';
               }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
@@ -83,6 +102,16 @@ const Footer = () => {
 
         {/* Column 2 */}
         <div>
+          <div style={{
+            fontSize: '0.8125rem',
+            fontWeight: '700',
+            marginBottom: '1rem',
+            opacity: 0.5,
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
+          }}>
+            {language === 'ru' ? 'Поддержка' : 'Support'}
+          </div>
           {footerLinks.column2.map((link, index) => (
             <Link
               key={index}
@@ -93,13 +122,21 @@ const Footer = () => {
                 color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                transition: 'color 0.2s ease'
+                transition: 'all 0.2s ease',
+                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
+                paddingLeft: '0.5rem'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
+                e.currentTarget.style.paddingLeft = '0.75rem';
+                if (theme !== 'minimal-mod') {
+                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+                e.currentTarget.style.paddingLeft = '0.5rem';
+                e.currentTarget.style.background = 'transparent';
               }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
@@ -109,6 +146,16 @@ const Footer = () => {
 
         {/* Column 3 */}
         <div>
+          <div style={{
+            fontSize: '0.8125rem',
+            fontWeight: '700',
+            marginBottom: '1rem',
+            opacity: 0.5,
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
+          }}>
+            {language === 'ru' ? 'Политика' : 'Legal'}
+          </div>
           {footerLinks.column3.map((link, index) => (
             <Link
               key={index}
@@ -119,13 +166,21 @@ const Footer = () => {
                 color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
                 textDecoration: 'none',
                 fontSize: '0.875rem',
-                transition: 'color 0.2s ease'
+                transition: 'all 0.2s ease',
+                borderRadius: theme === 'minimal-mod' ? '0' : '4px',
+                paddingLeft: '0.5rem'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? '#fff' : '#000';
+                e.currentTarget.style.paddingLeft = '0.75rem';
+                if (theme !== 'minimal-mod') {
+                  e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)';
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+                e.currentTarget.style.paddingLeft = '0.5rem';
+                e.currentTarget.style.background = 'transparent';
               }}
             >
               {language === 'ru' ? link.label_ru : link.label_en}
@@ -133,17 +188,25 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* More info */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.5rem'
-        }}>
+        {/* Column 4 - More */}
+        <div>
           <div style={{
-            fontSize: '0.75rem',
-            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+            fontSize: '0.8125rem',
+            fontWeight: '700',
+            marginBottom: '1rem',
+            opacity: 0.5,
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
           }}>
             {language === 'ru' ? 'Ещё...' : 'More...'}
+          </div>
+          <div style={{
+            fontSize: '0.75rem',
+            color: theme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
+            lineHeight: '1.6'
+          }}>
+            © 2024 Gaming Marketplace<br/>
+            {language === 'ru' ? 'Все права защищены' : 'All rights reserved'}
           </div>
         </div>
       </div>
