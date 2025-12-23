@@ -45,9 +45,15 @@ function App() {
               <div className="App">
                 <BrowserRouter>
                   <Header />
-                  <FloatingChatWidget />
-                  <Suspense fallback={<LoadingScreen />}>
-                  <Routes>
+                  
+                  {/* Main content area */}
+                  <main className="main-content">
+                    <Breadcrumbs />
+                    <FloatingChatWidget />
+                    
+                    <Suspense fallback={<LoadingScreen />}>
+                      <PageTransition>
+                        <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/category/:slug" element={<CategoryPage />} />
                     <Route path="/product/:id" element={<ProductDetailPage />} />
