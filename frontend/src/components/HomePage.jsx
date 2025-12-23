@@ -38,6 +38,20 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Prefetch critical routes after page loads
+  useEffect(() => {
+    if (isLoaded) {
+      // Prefetch marketplace and feed after 2 seconds (most visited pages)
+      const prefetchTimer = setTimeout(() => {
+        import('./MarketplacePage').catch(() => {});
+        import('./FeedPage').catch(() => {});
+        import('./ArticlesPage').catch(() => {});
+      }, 2000);
+
+      return () => clearTimeout(prefetchTimer);
+    }
+  }, [isLoaded]);
+
   // Top 4 square blocks (PMM.gg style) - Angry Miao images
   const topCategories = [
     {
