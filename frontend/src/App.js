@@ -12,6 +12,8 @@ import Footer from './components/Footer';
 import FloatingChatWidget from './components/FloatingChatWidget';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
+import Breadcrumbs from './components/Breadcrumbs';
+import PageTransition from './components/PageTransition';
 
 // Lazy load all page components for code splitting
 const HomePage = React.lazy(() => import('./components/HomePage'));
