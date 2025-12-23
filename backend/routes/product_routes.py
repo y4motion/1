@@ -37,6 +37,9 @@ async def create_product(product_data: ProductCreate, current_user: dict = Depen
     
     await db.products.insert_one(product_dict)
     
+    # Invalidate products list cache
+    invalidate_cache("get_products:*")
+    
     return ProductResponse(**product.model_dump())
 
 
