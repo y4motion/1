@@ -347,11 +347,12 @@ const HomePage = () => {
                 borderRadius: theme === 'minimal-mod' ? '0' : '3px',
               }}
             >
-              {/* Background Image */}
-              <img
+              {/* Background Image - Optimized */}
+              <OptimizedImage
                 src={category.image}
                 alt={category.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                priority={index < 2}
+                className="w-full h-full transition-transform duration-500 group-hover:scale-110"
               />
 
               {/* Dark Overlay */}
