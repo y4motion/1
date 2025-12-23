@@ -139,6 +139,11 @@ app.include_router(api_router)
 # Add logging middleware
 app.add_middleware(RequestLoggingMiddleware)
 
+# Add exception handlers
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
