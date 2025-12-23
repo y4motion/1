@@ -9,6 +9,7 @@ import TopUsersWidget from './TopUsersWidget';
 import TopProposalsWidget from './TopProposalsWidget';
 import TestimonialsCarousel from './TestimonialsCarousel';
 import DynamicCategoryGrid from './DynamicCategoryGrid';
+import OptimizedImage from './OptimizedImage';
 import '../styles/glassmorphism.css';
 
 const HomePage = () => {
