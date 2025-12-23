@@ -113,6 +113,7 @@ api_router.include_router(creator_router)
 api_router.include_router(voting_router)
 api_router.include_router(rating_router)
 api_router.include_router(groupbuy_router)
+api_router.include_router(logging_router)
 
 # Include the router in the main app
 app.include_router(api_router)
