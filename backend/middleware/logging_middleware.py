@@ -59,6 +59,10 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 f"⬅️  500 {request.method:6} {request.url.path:50} | "
                 f"Duration: {duration:.3f}s | ERROR: {str(e)}"
             )
+            
+            # Record metrics
+            metrics.record_request(request.url.path, duration, 500)
+            
             raise
         
         # Calculate duration
