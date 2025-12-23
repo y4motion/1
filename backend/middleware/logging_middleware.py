@@ -1,6 +1,7 @@
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from utils.logger import logger
+from utils.metrics import metrics
 import time
 import json
 
