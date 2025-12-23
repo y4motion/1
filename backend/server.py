@@ -155,5 +155,9 @@ async def shutdown_db_client():
 
 @app.on_event("startup")
 async def startup_db_indexes():
-    """Create database indexes on startup"""
+    """Create database indexes and start background tasks on startup"""
     await create_indexes()
+    
+    # Start background tasks
+    asyncio.create_task(track_product_prices())
+    logger.info("🚀 Background tasks started: price_tracker")
