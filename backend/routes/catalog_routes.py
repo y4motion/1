@@ -2,23 +2,27 @@ from fastapi import APIRouter
 from typing import Dict, Any
 from config.catalog_config import PERSONAS, MAIN_CATEGORIES, SPECIFIC_FILTERS, PERSONA_FILTER_PRESETS
 from config.marketplace_catalog import MARKETPLACE_CATALOG
+from utils.cache import cache_response
 
 router = APIRouter()
 
 
 @router.get("/catalog/personas")
+@cache_response(ttl_seconds=3600)  # 1 hour - rarely changes
 async def get_personas() -> Dict[str, Any]:
     """Get all available personas"""
     return {"personas": PERSONAS}
 
 
 @router.get("/catalog/categories")
+@cache_response(ttl_seconds=3600)  # 1 hour - rarely changes
 async def get_categories() -> Dict[str, Any]:
     """Get all main categories and their subcategories"""
     return {"categories": MAIN_CATEGORIES}
 
 
 @router.get("/catalog/categories/{category_id}")
+@cache_response(ttl_seconds=3600)  # 1 hour
 async def get_category(category_id: str) -> Dict[str, Any]:
     """Get specific category details"""
     if category_id not in MAIN_CATEGORIES:
