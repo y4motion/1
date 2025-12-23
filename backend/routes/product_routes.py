@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from models.product import Product, ProductCreate, ProductResponse, ProductUpdate
 from models.category import Category
 from utils.auth_utils import get_current_user
+from utils.cache import cache_response, invalidate_cache
 from database import db
 
 router = APIRouter(prefix="/products", tags=["products"])
