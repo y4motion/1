@@ -1,7 +1,8 @@
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from pydantic import BaseModel, EmailStr, Field, ConfigDict, field_validator
 from typing import Optional
 import uuid
 from datetime import datetime, timezone
+import re
 
 
 class UserBase(BaseModel):
@@ -11,9 +12,40 @@ class UserBase(BaseModel):
 
 class UserCreate(BaseModel):
     email: EmailStr
-    username: str
-    password: str
-    is_seller: Optional[bool] = False  # Allow setting seller status during registration (for testing)
+    username: str = Field(..., min_length=3, max_length=50)
+    password: str = Field(..., min_length=8, max_length=100)
+    is_seller: Optional[bool] = False
+    
+    @field_validator('username')
+    @classmethod
+    def validate_username(cls, v):
+        # Only letters, numbers, underscore, hyphen
+        if not re.match(r'^[a-zA-Z0-9_-]+$', v):
+            raise ValueError('Username can only contain letters, numbers, underscore and hyphen')
+        
+        # Forbidden words
+        forbidden_words = ['admin', 'root', 'moderator', 'glassy', 'official', 'support', 'system']
+        if any(word in v.lower() for word in forbidden_words):
+            raise ValueError('Username contains forbidden word')
+        
+        return v
+    
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters')
+        
+        if not re.search(r'[A-Z]', v):
+            raise ValueError('Password must contain at least one uppercase letter')
+        
+        if not re.search(r'[a-z]', v):
+            raise ValueError('Password must contain at least one lowercase letter')
+        
+        if not re.search(r'\d', v):
+            raise ValueError('Password must contain at least one digit')
+        
+        return v
 
 
 class UserLogin(BaseModel):
