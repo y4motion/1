@@ -66,6 +66,7 @@ async def get_my_stats(
 
 
 @router.get("/leaderboard", response_model=List[UserStats])
+@cache_response(ttl_seconds=60)  # 1 minute cache - updates frequently
 async def get_leaderboard(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
