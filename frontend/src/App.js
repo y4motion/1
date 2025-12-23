@@ -108,6 +108,7 @@ function App() {
                 <Footer />
               </BrowserRouter>
             </div>
+            </ErrorBoundary>
           </AuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
