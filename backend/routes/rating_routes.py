@@ -3,6 +3,7 @@ from typing import List
 from models.rating import UserStats, Achievement, XPTransaction, MonthlyLeaderboard
 from models.user import User
 from utils.auth_utils import get_current_user
+from utils.cache import cache_response, invalidate_cache
 from database import get_database
 from datetime import datetime, timezone
 
