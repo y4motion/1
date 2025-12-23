@@ -42,53 +42,55 @@ function App() {
               <BrowserRouter>
               <Header />
               <FloatingChatWidget />
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/category/:slug" element={<CategoryPage />} />
-                <Route path="/product/:id" element={<ProductDetailPage />} />
-                <Route path="/marketplace" element={<MarketplacePage />} />
-                <Route path="/pc-builder" element={<PCBuilderPage />} />
-                <Route path="/mod" element={<ModPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/chat" element={<ChatFullPage />} />
-                <Route path="/chat/:conversationId" element={<ChatFullPage />} />
-                <Route path="/profile" element={<UserProfilePage />} />
-                <Route path="/notifications" element={<NotificationsPage />} />
-                
-                {/* New social/community routes */}
-                <Route path="/feed" element={<FeedPage />} />
-                <Route path="/articles" element={<ArticlesPage />} />
-                <Route path="/creators" element={<CreatorsPage />} />
-                <Route path="/voting" element={<VotingPage />} />
-                <Route path="/rating" element={<RatingPage />} />
-                <Route path="/groupbuy" element={<GroupBuyPage />} />
-                
-                <Route path="/bookmarks" element={<PlaceholderPage title="BOOKMARKS" />} />
-                <Route path="/lists" element={<PlaceholderPage title="LISTS" />} />
-                <Route path="/communities" element={<PlaceholderPage title="COMMUNITIES" />} />
-                
-                {/* Placeholder routes for navigation links */}
-                <Route path="/catalog" element={<PlaceholderPage title="CATALOG" />} />
-                <Route path="/pro-gamer" element={<PlaceholderPage title="PRO GAMER" />} />
-                <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
-                <Route path="/user" element={<PlaceholderPage title="USER" />} />
-                <Route path="/restock" element={<PlaceholderPage title="RESTOCK" />} />
-                <Route path="/best-products" element={<PlaceholderPage title="BEST PRODUCTS" />} />
-                <Route path="/builds" element={<PlaceholderPage title="BUILDS" />} />
-                <Route path="/team" element={<PlaceholderPage title="TEAM" />} />
-                <Route path="/join-guild" element={<PlaceholderPage title="JOIN GUILD" />} />
-                <Route path="/developments" element={<PlaceholderPage title="PERSONAL DEVELOPMENTS" />} />
-                <Route path="/contact" element={<PlaceholderPage title="CONTACT INFORMATION" />} />
-                <Route path="/support" element={<PlaceholderPage title="SUPPORT" />} />
-                <Route path="/suggest" element={<PlaceholderPage title="SUGGEST AN IDEA" />} />
-                <Route path="/news" element={<PlaceholderPage title="NEWS" />} />
-                <Route path="/downloads" element={<PlaceholderPage title="DOWNLOADS" />} />
-                <Route path="/privacy" element={<PlaceholderPage title="PRIVACY POLICY" />} />
-                <Route path="/cookies" element={<PlaceholderPage title="COOKIE POLICY" />} />
-                <Route path="/accessibility" element={<PlaceholderPage title="ACCESSIBILITY" />} />
-                <Route path="/ads" element={<PlaceholderPage title="ADVERTISING INFO" />} />
-              </Routes>
+              <Suspense fallback={<LoadingScreen />}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/category/:slug" element={<CategoryPage />} />
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="/marketplace" element={<MarketplacePage />} />
+                  <Route path="/pc-builder" element={<PCBuilderPage />} />
+                  <Route path="/mod" element={<ModPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/chat" element={<ChatFullPage />} />
+                  <Route path="/chat/:conversationId" element={<ChatFullPage />} />
+                  <Route path="/profile" element={<UserProfilePage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
+                  
+                  {/* New social/community routes */}
+                  <Route path="/feed" element={<FeedPage />} />
+                  <Route path="/articles" element={<ArticlesPage />} />
+                  <Route path="/creators" element={<CreatorsPage />} />
+                  <Route path="/voting" element={<VotingPage />} />
+                  <Route path="/rating" element={<RatingPage />} />
+                  <Route path="/groupbuy" element={<GroupBuyPage />} />
+                  
+                  <Route path="/bookmarks" element={<PlaceholderPage title="BOOKMARKS" />} />
+                  <Route path="/lists" element={<PlaceholderPage title="LISTS" />} />
+                  <Route path="/communities" element={<PlaceholderPage title="COMMUNITIES" />} />
+                  
+                  {/* Placeholder routes for navigation links */}
+                  <Route path="/catalog" element={<PlaceholderPage title="CATALOG" />} />
+                  <Route path="/pro-gamer" element={<PlaceholderPage title="PRO GAMER" />} />
+                  <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
+                  <Route path="/user" element={<PlaceholderPage title="USER" />} />
+                  <Route path="/restock" element={<PlaceholderPage title="RESTOCK" />} />
+                  <Route path="/best-products" element={<PlaceholderPage title="BEST PRODUCTS" />} />
+                  <Route path="/builds" element={<PlaceholderPage title="BUILDS" />} />
+                  <Route path="/team" element={<PlaceholderPage title="TEAM" />} />
+                  <Route path="/join-guild" element={<PlaceholderPage title="JOIN GUILD" />} />
+                  <Route path="/developments" element={<PlaceholderPage title="PERSONAL DEVELOPMENTS" />} />
+                  <Route path="/contact" element={<PlaceholderPage title="CONTACT INFORMATION" />} />
+                  <Route path="/support" element={<PlaceholderPage title="SUPPORT" />} />
+                  <Route path="/suggest" element={<PlaceholderPage title="SUGGEST AN IDEA" />} />
+                  <Route path="/news" element={<PlaceholderPage title="NEWS" />} />
+                  <Route path="/downloads" element={<PlaceholderPage title="DOWNLOADS" />} />
+                  <Route path="/privacy" element={<PlaceholderPage title="PRIVACY POLICY" />} />
+                  <Route path="/cookies" element={<PlaceholderPage title="COOKIE POLICY" />} />
+                  <Route path="/accessibility" element={<PlaceholderPage title="ACCESSIBILITY" />} />
+                  <Route path="/ads" element={<PlaceholderPage title="ADVERTISING INFO" />} />
+                </Routes>
+              </Suspense>
               <Footer />
             </BrowserRouter>
           </div>
