@@ -495,9 +495,9 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => handlePasswordChange(e.target.value)}
               required
-              minLength={6}
+              minLength={8}
               placeholder="••••••••"
               style={inputBaseStyle}
               onFocus={(e) => {
@@ -513,6 +513,33 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                 e.currentTarget.style.background = 'transparent';
               }}
             />
+            
+            {/* Password Strength Indicator (Register only) */}
+            {mode === 'register' && passwordStrength && formData.password && (
+              <div style={{ marginTop: '0.5rem' }}>
+                <div style={{
+                  width: '100%',
+                  height: '4px',
+                  background: 'rgba(255,255,255,0.1)',
+                  borderRadius: '2px',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    width: passwordStrength.level === 'weak' ? '33%' : passwordStrength.level === 'medium' ? '66%' : '100%',
+                    height: '100%',
+                    background: passwordStrength.color,
+                    transition: 'all 0.3s ease'
+                  }} />
+                </div>
+                <p style={{
+                  fontSize: '0.75rem',
+                  color: passwordStrength.color,
+                  marginTop: '0.25rem'
+                }}>
+                  Password strength: {passwordStrength.level}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Remember Me (Login only) - Header style checkbox */}
