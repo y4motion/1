@@ -42,6 +42,13 @@ from routes.notification_routes import router as notification_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
+from middleware.exception_handler import (
+    validation_exception_handler,
+    http_exception_handler,
+    general_exception_handler
+)
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 # Import background tasks
 from tasks.price_tracker import track_product_prices
