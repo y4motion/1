@@ -111,9 +111,12 @@ function App() {
                       element={<PlaceholderPage title="ACCESSIBILITY" />}
                     />
                     <Route path="/ads" element={<PlaceholderPage title="ADVERTISING INFO" />} />
-                  </Routes>
-                </Suspense>
-                <Footer />
+                    </Routes>
+                      </PageTransition>
+                    </Suspense>
+                  </main>
+                  
+                  <Footer />
               </BrowserRouter>
             </div>
             </ErrorBoundary>
