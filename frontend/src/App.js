@@ -118,6 +118,7 @@ function App() {
                   </main>
                   
                   <Footer />
+                  <MobileBottomNav />
               </BrowserRouter>
             </div>
             </ErrorBoundary>
