@@ -68,6 +68,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         # Calculate duration
         duration = time.time() - start_time
         
+        # Record metrics
+        metrics.record_request(request.url.path, duration, response.status_code)
+        
         # Log response with color coding
         status = response.status_code
         log_msg = (
