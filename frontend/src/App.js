@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import "./styles/glassmorphism.css";
 import "./styles/minimalMod.css";
@@ -9,27 +9,28 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import HomePage from "./components/HomePage";
-import CategoryPage from "./components/CategoryPage";
-import ProductPage from "./components/ProductPage";
-import MarketplacePage from "./components/MarketplacePage";
-import PCBuilderPage from "./components/PCBuilderPage";
-import ModPage from "./components/ModPage";
-import ProductDetailPage from "./components/ProductDetailPage";
-import CartPage from "./components/CartPage";
-import CheckoutPage from "./components/CheckoutPage";
-import ChatFullPage from "./components/ChatFullPage";
-import UserProfilePage from "./components/UserProfilePage";
-import NotificationsPage from "./components/NotificationsPage";
 import FloatingChatWidget from "./components/FloatingChatWidget";
+import LoadingScreen from "./components/LoadingScreen";
 
-// New social/community pages
-import FeedPage from "./components/FeedPage";
-import ArticlesPage from "./components/ArticlesPage";
-import CreatorsPage from "./components/CreatorsPage";
-import VotingPage from "./components/VotingPage";
-import RatingPage from "./components/RatingPage";
-import GroupBuyPage from "./components/GroupBuyPage";
+// Lazy load all page components for code splitting
+const HomePage = React.lazy(() => import("./components/HomePage"));
+const CategoryPage = React.lazy(() => import("./components/CategoryPage"));
+const ProductPage = React.lazy(() => import("./components/ProductPage"));
+const MarketplacePage = React.lazy(() => import("./components/MarketplacePage"));
+const PCBuilderPage = React.lazy(() => import("./components/PCBuilderPage"));
+const ModPage = React.lazy(() => import("./components/ModPage"));
+const ProductDetailPage = React.lazy(() => import("./components/ProductDetailPage"));
+const CartPage = React.lazy(() => import("./components/CartPage"));
+const CheckoutPage = React.lazy(() => import("./components/CheckoutPage"));
+const ChatFullPage = React.lazy(() => import("./components/ChatFullPage"));
+const UserProfilePage = React.lazy(() => import("./components/UserProfilePage"));
+const NotificationsPage = React.lazy(() => import("./components/NotificationsPage"));
+const FeedPage = React.lazy(() => import("./components/FeedPage"));
+const ArticlesPage = React.lazy(() => import("./components/ArticlesPage"));
+const CreatorsPage = React.lazy(() => import("./components/CreatorsPage"));
+const VotingPage = React.lazy(() => import("./components/VotingPage"));
+const RatingPage = React.lazy(() => import("./components/RatingPage"));
+const GroupBuyPage = React.lazy(() => import("./components/GroupBuyPage"));
 
 function App() {
   return (
