@@ -1,6 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Heart, Eye, Star, X, ShoppingCart, Grid, List, Zap, CreditCard, MapPin, User as UserIcon, Menu, Share2 } from 'lucide-react';
+import {
+  Search,
+  SlidersHorizontal,
+  Heart,
+  Eye,
+  Star,
+  X,
+  ShoppingCart,
+  Grid,
+  List,
+  Zap,
+  CreditCard,
+  MapPin,
+  User as UserIcon,
+  Menu,
+  Share2,
+} from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -33,7 +49,7 @@ const MarketplacePage = () => {
   const [expandedSections, setExpandedSections] = useState({}); // Collapsible sections
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [itemsPerPage, setItemsPerPage] = useState(20);
-  
+
   // New catalog system states
   const [personas, setPersonas] = useState({});
   const [selectedPersona, setSelectedPersona] = useState(null);
@@ -42,7 +58,7 @@ const MarketplacePage = () => {
   const [activeFilters, setActiveFilters] = useState({});
   const [savedFilterSets, setSavedFilterSets] = useState([]);
   const [catalogData, setCatalogData] = useState(null); // Preloaded catalog data
-  
+
   // Refs for click outside detection
   const filterButtonRef = useRef(null);
   const catalogButtonRef = useRef(null);
@@ -79,8 +95,19 @@ const MarketplacePage = () => {
     fetchProducts();
     fetchPersonas();
     fetchCatalogCategories();
-  }, [selectedCategory, selectedSubcategory, selectedPersona, selectedTag, sortBy, searchTerm, minPrice, maxPrice, itemsPerPage, activeFilters]);
-  
+  }, [
+    selectedCategory,
+    selectedSubcategory,
+    selectedPersona,
+    selectedTag,
+    sortBy,
+    searchTerm,
+    minPrice,
+    maxPrice,
+    itemsPerPage,
+    activeFilters,
+  ]);
+
   // Load specific filters when subcategory changes
   useEffect(() => {
     if (selectedSubcategory) {
@@ -89,7 +116,7 @@ const MarketplacePage = () => {
       setSpecificFilters({}); // Clear filters when no subcategory
     }
   }, [selectedSubcategory]);
-  
+
   // Apply persona presets when persona is selected
   useEffect(() => {
     if (selectedPersona && selectedCategory && selectedCategory !== 'all') {
@@ -103,29 +130,32 @@ const MarketplacePage = () => {
       // Close filter panel if click outside
       if (showFilterPanel) {
         const filterPanelElement = document.querySelector('[data-filter-panel="true"]');
-        const isClickInsideButton = filterButtonRef.current && filterButtonRef.current.contains(event.target);
+        const isClickInsideButton =
+          filterButtonRef.current && filterButtonRef.current.contains(event.target);
         const isClickInsidePanel = filterPanelElement && filterPanelElement.contains(event.target);
-        
+
         if (!isClickInsideButton && !isClickInsidePanel) {
           setShowFilterPanel(false);
         }
       }
-      
+
       // Close catalog dropdown if click outside
       if (showCatalogMega) {
         const catalogElement = document.querySelector('[data-catalog="true"]');
-        const isClickInsideButton = catalogButtonRef.current && catalogButtonRef.current.contains(event.target);
+        const isClickInsideButton =
+          catalogButtonRef.current && catalogButtonRef.current.contains(event.target);
         const isClickInsideCatalog = catalogElement && catalogElement.contains(event.target);
-        
+
         if (!isClickInsideButton && !isClickInsideCatalog) {
           setShowCatalogMega(false);
         }
       }
-      
+
       // Close search category dropdown if click outside
       if (showSearchHistory) {
-        const isClickInsideSearch = searchContainerRef.current && searchContainerRef.current.contains(event.target);
-        
+        const isClickInsideSearch =
+          searchContainerRef.current && searchContainerRef.current.contains(event.target);
+
         if (!isClickInsideSearch) {
           setShowSearchHistory(false);
         }
@@ -140,7 +170,7 @@ const MarketplacePage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/categories/`);  // Added trailing slash
+      const response = await fetch(`${API_URL}/api/categories/`); // Added trailing slash
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
@@ -149,7 +179,7 @@ const MarketplacePage = () => {
       console.error('Failed to fetch categories:', error);
     }
   };
-  
+
   const fetchPersonas = async () => {
     try {
       const response = await fetch(`${API_URL}/api/catalog/personas`);
@@ -161,7 +191,7 @@ const MarketplacePage = () => {
       console.error('Failed to fetch personas:', error);
     }
   };
-  
+
   const fetchCatalogCategories = async () => {
     try {
       const response = await fetch(`${API_URL}/api/marketplace/catalog`);
@@ -173,7 +203,7 @@ const MarketplacePage = () => {
       console.error('Failed to fetch catalog categories:', error);
     }
   };
-  
+
   const fetchSpecificFilters = async (subcategoryId) => {
     try {
       const response = await fetch(`${API_URL}/api/catalog/filters/${subcategoryId}`);
@@ -185,24 +215,24 @@ const MarketplacePage = () => {
       console.error('Failed to fetch specific filters:', error);
     }
   };
-  
+
   const applyPersonaPresets = async (personaId, categoryId) => {
     try {
       const response = await fetch(`${API_URL}/api/catalog/presets/${personaId}`);
       if (response.ok) {
         const data = await response.json();
         const presets = data.presets || {};
-        
+
         // Apply presets for the selected category if they exist
         if (presets[categoryId]) {
           const categoryPresets = presets[categoryId];
           const newFilters = { ...activeFilters };
-          
+
           // Merge presets into active filters
           Object.entries(categoryPresets).forEach(([key, value]) => {
             newFilters[key] = value;
           });
-          
+
           setActiveFilters(newFilters);
         }
       }
@@ -214,8 +244,8 @@ const MarketplacePage = () => {
   // Search history management
   const addToSearchHistory = (query) => {
     if (!query || query.trim() === '') return;
-    
-    const updated = [query, ...searchHistory.filter(item => item !== query)].slice(0, 10);
+
+    const updated = [query, ...searchHistory.filter((item) => item !== query)].slice(0, 10);
     setSearchHistory(updated);
     localStorage.setItem('searchHistory', JSON.stringify(updated));
   };
@@ -237,50 +267,51 @@ const MarketplacePage = () => {
     try {
       setLoading(true);
       let url = `${API_URL}/api/products/?limit=${itemsPerPage}&sort_by=${sortBy}&sort_order=desc`;
-      
+
       // Category filters
       if (selectedCategory !== 'all') {
         url += `&category_id=${selectedCategory}`;
       }
-      
+
       if (selectedSubcategory) {
         url += `&subcategory_id=${selectedSubcategory}`;
       }
-      
+
       // Persona filter
       if (selectedPersona) {
         url += `&persona_id=${selectedPersona}`;
       }
-      
+
       // Search
       if (searchTerm) {
         url += `&search=${encodeURIComponent(searchTerm)}`;
       }
-      
+
       // Price range
       if (minPrice) {
         url += `&min_price=${minPrice}`;
       }
-      
+
       if (maxPrice) {
         url += `&max_price=${maxPrice}`;
       }
-      
+
       // Specific filters (dynamic filters from catalog)
       if (Object.keys(activeFilters).length > 0) {
         const cleanFilters = {};
         Object.entries(activeFilters).forEach(([key, value]) => {
           // Only include non-empty filters
-          if (value && (
-            (Array.isArray(value) && value.length > 0) ||
-            (typeof value === 'object' && (value.min || value.max)) ||
-            (typeof value === 'boolean') ||
-            (typeof value === 'string' && value.trim())
-          )) {
+          if (
+            value &&
+            ((Array.isArray(value) && value.length > 0) ||
+              (typeof value === 'object' && (value.min || value.max)) ||
+              typeof value === 'boolean' ||
+              (typeof value === 'string' && value.trim()))
+          ) {
             cleanFilters[key] = value;
           }
         });
-        
+
         if (Object.keys(cleanFilters).length > 0) {
           url += `&specific_filters=${encodeURIComponent(JSON.stringify(cleanFilters))}`;
         }
@@ -289,12 +320,12 @@ const MarketplacePage = () => {
       const response = await fetch(url);
       if (response.ok) {
         let data = await response.json();
-        
+
         // Filter by featured tag if selected
         if (selectedTag !== 'all') {
-          data = data.filter(p => p.tags && p.tags.includes(selectedTag));
+          data = data.filter((p) => p.tags && p.tags.includes(selectedTag));
         }
-        
+
         setProducts(data);
       }
     } catch (error) {
@@ -314,8 +345,8 @@ const MarketplacePage = () => {
       const response = await fetch(`${API_URL}/api/products/${productId}/wishlist`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -325,28 +356,28 @@ const MarketplacePage = () => {
       console.error('Failed to toggle wishlist:', error);
     }
   };
-  
+
   // New filter handlers
   const handlePersonaChange = (personaId) => {
     setSelectedPersona(personaId);
     // Apply persona presets
     // TODO: Fetch and apply persona filter presets
   };
-  
+
   const handleFilterChange = (filterType, value) => {
-    setActiveFilters(prev => ({
+    setActiveFilters((prev) => ({
       ...prev,
-      [filterType]: value
+      [filterType]: value,
     }));
   };
-  
+
   const handleResetFilters = () => {
     setSelectedPersona(null);
     setActiveFilters({});
     setMinPrice('');
     setMaxPrice('');
   };
-  
+
   const handleSaveFilterSet = () => {
     const filterSetName = prompt('Введите название набора фильтров:');
     if (filterSetName) {
@@ -354,9 +385,9 @@ const MarketplacePage = () => {
         name: filterSetName,
         persona: selectedPersona,
         filters: activeFilters,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-      setSavedFilterSets(prev => [...prev, newFilterSet]);
+      setSavedFilterSets((prev) => [...prev, newFilterSet]);
       alert(`Набор "${filterSetName}" сохранен!`);
     }
   };
@@ -367,41 +398,41 @@ const MarketplacePage = () => {
   };
 
   // Featured chips removed - now using personas in filter panel instead
-  
+
   // Generate active filter chips for display
   const getActiveFilterChips = () => {
     const chips = [];
-    
+
     // Add persona chip
     if (selectedPersona && personas[selectedPersona]) {
       chips.push({
         id: 'persona',
         label: personas[selectedPersona].name,
         type: 'persona',
-        value: selectedPersona
+        value: selectedPersona,
       });
     }
-    
+
     // Add category chip (if not 'all')
     if (selectedCategory !== 'all' && catalogCategories[selectedCategory]) {
       chips.push({
         id: 'category',
         label: catalogCategories[selectedCategory].name,
         type: 'category',
-        value: selectedCategory
+        value: selectedCategory,
       });
     }
-    
+
     // Add price range chip
     if (minPrice || maxPrice) {
       chips.push({
         id: 'price',
         label: `₽${minPrice || '0'} - ₽${maxPrice || '∞'}`,
         type: 'price',
-        value: { min: minPrice, max: maxPrice }
+        value: { min: minPrice, max: maxPrice },
       });
     }
-    
+
     // Add other active filters from activeFilters state
     Object.entries(activeFilters).forEach(([key, value]) => {
       if (value) {
@@ -409,75 +440,95 @@ const MarketplacePage = () => {
           id: key,
           label: `${key}: ${value}`,
           type: 'filter',
-          value: value
+          value: value,
         });
       }
     });
-    
+
     return chips;
   };
 
   return (
-    <div className="dark-bg" style={{ 
-      minHeight: '100vh', 
-      paddingTop: '6rem', 
-      paddingBottom: '4rem',
-      paddingLeft: showFilterPanel ? '400px' : '0', // Pushes content when panel opens
-      transition: 'padding-left 0.3s ease'
-    }}>
+    <div
+      className="dark-bg"
+      style={{
+        minHeight: '100vh',
+        paddingTop: '6rem',
+        paddingBottom: '4rem',
+        paddingLeft: showFilterPanel ? '400px' : '0', // Pushes content when panel opens
+        transition: 'padding-left 0.3s ease',
+      }}
+    >
       <div className="grain-overlay" />
-      
-      <div style={{ 
-        maxWidth: showFilterPanel ? '1200px' : '1400px', // Narrows when panel is open
-        margin: '0 auto', 
-        padding: '0 2rem',
-        transition: 'max-width 0.3s ease'
-      }}>
+
+      <div
+        style={{
+          maxWidth: showFilterPanel ? '1200px' : '1400px', // Narrows when panel is open
+          margin: '0 auto',
+          padding: '0 2rem',
+          transition: 'max-width 0.3s ease',
+        }}
+      >
         {/* Header - MINIMAL MARKET */}
-        <div style={{ 
-          marginBottom: '3rem',
-          textAlign: 'center'
-        }}>
-          <h1 style={{
-            fontSize: '4rem',
-            fontWeight: '900',
-            marginBottom: '0.5rem',
-            letterSpacing: '3px',
-            background: theme === 'minimal-mod' 
-              ? 'linear-gradient(135deg, #f1f1f1 0%, #b0b0b0 100%)'
-              : 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textTransform: 'uppercase',
-            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
-          }}>
+        <div
+          style={{
+            marginBottom: '3rem',
+            textAlign: 'center',
+          }}
+        >
+          <h1
+            style={{
+              fontSize: '4rem',
+              fontWeight: '900',
+              marginBottom: '0.5rem',
+              letterSpacing: '3px',
+              background:
+                theme === 'minimal-mod'
+                  ? 'linear-gradient(135deg, #f1f1f1 0%, #b0b0b0 100%)'
+                  : 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textTransform: 'uppercase',
+              fontFamily:
+                theme === 'minimal-mod'
+                  ? '"SF Mono", Menlo, Consolas, Monaco, monospace'
+                  : 'inherit',
+            }}
+          >
             MINIMAL MARKET
           </h1>
-          <p style={{ 
-            fontSize: '1.125rem', 
-            opacity: 0.7,
-            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
-          }}>
+          <p
+            style={{
+              fontSize: '1.125rem',
+              opacity: 0.7,
+              fontFamily:
+                theme === 'minimal-mod'
+                  ? '"SF Mono", Menlo, Consolas, Monaco, monospace'
+                  : 'inherit',
+            }}
+          >
             Discover premium gaming gear from verified sellers
           </p>
         </div>
 
         {/* NEW: Centered Search Bar with Integrated Category Dropdown */}
-        <div style={{
-          display: 'flex',
-          gap: '1rem',
-          marginBottom: '3rem',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            marginBottom: '3rem',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+          }}
+        >
           {/* Search Bar with Category Integration */}
-          <div 
+          <div
             ref={searchContainerRef}
-            style={{ 
-              position: 'relative', 
+            style={{
+              position: 'relative',
               flex: 1,
-              maxWidth: '700px'
+              maxWidth: '700px',
             }}
           >
             {/* Catalog Button - Left Side */}
@@ -499,18 +550,17 @@ const MarketplacePage = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                color: showCatalogMega ? '#8b5cf6' : (theme === 'dark' ? '#fff' : '#1a1a1a'),
+                color: showCatalogMega ? '#8b5cf6' : theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 padding: '0.5rem',
                 borderRadius: theme === 'minimal-mod' ? '0' : '6px',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
                 if (!showCatalogMega && theme !== 'minimal-mod') {
-                  e.currentTarget.style.background = theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.background =
+                    theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
                 }
               }}
               onMouseLeave={(e) => {
@@ -521,14 +571,20 @@ const MarketplacePage = () => {
             >
               <Menu size={18} />
               <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                {selectedSubcategory 
-                  ? catalogCategories[selectedCategory]?.subcategories?.[selectedSubcategory]?.name_en?.toUpperCase().substring(0, 12) || 'SUBCATEGORY'
-                  : selectedCategory === 'all' 
-                    ? 'ALL' 
-                    : catalogCategories[selectedCategory]?.name_en?.toUpperCase().substring(0, 12) || 'CATEGORY'}
+                {selectedSubcategory
+                  ? catalogCategories[selectedCategory]?.subcategories?.[
+                      selectedSubcategory
+                    ]?.name_en
+                      ?.toUpperCase()
+                      .substring(0, 12) || 'SUBCATEGORY'
+                  : selectedCategory === 'all'
+                    ? 'ALL'
+                    : catalogCategories[selectedCategory]?.name_en
+                        ?.toUpperCase()
+                        .substring(0, 12) || 'CATEGORY'}
               </span>
             </button>
-            
+
             <input
               type="text"
               placeholder="Search for gear..."
@@ -549,15 +605,17 @@ const MarketplacePage = () => {
                 background: 'transparent',
                 color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1',
                 fontSize: '1rem',
-                fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+                fontFamily:
+                  theme === 'minimal-mod'
+                    ? '"SF Mono", Menlo, Consolas, Monaco, monospace'
+                    : 'inherit',
                 outline: 'none',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
                 if (document.activeElement !== e.currentTarget && theme !== 'minimal-mod') {
-                  e.currentTarget.style.background = theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.05)' 
-                    : 'rgba(0, 0, 0, 0.03)';
+                  e.currentTarget.style.background =
+                    theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)';
                   e.currentTarget.style.backdropFilter = 'blur(10px)';
                 }
               }}
@@ -568,22 +626,22 @@ const MarketplacePage = () => {
                 }
               }}
             />
-            
+
             {/* Search Icon - Right Side */}
-            <Search 
-              size={20} 
-              style={{ 
-                position: 'absolute', 
-                right: '1.25rem', 
-                top: '50%', 
+            <Search
+              size={20}
+              style={{
+                position: 'absolute',
+                right: '1.25rem',
+                top: '50%',
                 transform: 'translateY(-50%)',
                 opacity: 0.4,
                 pointerEvents: 'none',
                 zIndex: 2,
-                color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1'
-              }} 
+                color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1',
+              }}
             />
-            
+
             {/* Category Dropdown */}
             {showSearchHistory && (
               <div
@@ -598,20 +656,30 @@ const MarketplacePage = () => {
                   borderRadius: '16px',
                   padding: '1rem',
                   zIndex: 100,
-                  animation: 'slideDown 0.3s ease-out'
+                  animation: 'slideDown 0.3s ease-out',
                 }}
               >
                 {/* Search History */}
                 {searchHistory.length > 0 ? (
                   <>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: '0.5rem 1rem',
-                      marginBottom: '0.75rem'
-                    }}>
-                      <span style={{ fontSize: '0.75rem', fontWeight: '600', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '0.5rem 1rem',
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: '0.75rem',
+                          fontWeight: '600',
+                          opacity: 0.6,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                        }}
+                      >
                         {language === 'ru' ? 'История поиска' : 'Search History'}
                       </span>
                       <button
@@ -623,15 +691,17 @@ const MarketplacePage = () => {
                           border: 'none',
                           cursor: 'pointer',
                           padding: '0.25rem 0.5rem',
-                          borderRadius: '4px'
+                          borderRadius: '4px',
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)')
+                        }
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                       >
                         {language === 'ru' ? 'Очистить' : 'Clear'}
                       </button>
                     </div>
-                    
+
                     {searchHistory.map((historyItem, index) => (
                       <div
                         key={index}
@@ -650,16 +720,18 @@ const MarketplacePage = () => {
                           fontSize: '0.8125rem',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '0.75rem'
+                          gap: '0.75rem',
                         }}
                         onMouseEnter={(e) => {
                           if (theme !== 'minimal-mod') {
-                            e.currentTarget.style.border = theme === 'dark'
-                              ? '1px solid rgba(255, 255, 255, 0.1)'
-                              : '1px solid rgba(0, 0, 0, 0.1)';
-                            e.currentTarget.style.background = theme === 'dark'
-                              ? 'rgba(255, 255, 255, 0.05)'
-                              : 'rgba(0, 0, 0, 0.05)';
+                            e.currentTarget.style.border =
+                              theme === 'dark'
+                                ? '1px solid rgba(255, 255, 255, 0.1)'
+                                : '1px solid rgba(0, 0, 0, 0.1)';
+                            e.currentTarget.style.background =
+                              theme === 'dark'
+                                ? 'rgba(255, 255, 255, 0.05)'
+                                : 'rgba(0, 0, 0, 0.05)';
                           }
                         }}
                         onMouseLeave={(e) => {
@@ -673,15 +745,18 @@ const MarketplacePage = () => {
                     ))}
                   </>
                 ) : (
-                  <div style={{
-                    padding: '2rem 1rem',
-                    textAlign: 'center',
-                    fontSize: '0.8125rem',
-                    opacity: 0.5
-                  }}>
+                  <div
+                    style={{
+                      padding: '2rem 1rem',
+                      textAlign: 'center',
+                      fontSize: '0.8125rem',
+                      opacity: 0.5,
+                    }}
+                  >
                     {language === 'ru' ? 'История поиска пуста' : 'No search history yet'}
                   </div>
-                )}              </div>
+                )}{' '}
+              </div>
             )}
 
             {/* Catalog Mega Menu - positioned relative to search container */}
@@ -712,138 +787,153 @@ const MarketplacePage = () => {
               bottom: 0,
               background: 'rgba(0, 0, 0, 0.5)',
               zIndex: 98,
-              animation: 'fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              animation: 'fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         )}
 
-      {/* Floating Filter Button - Unified with Header Style */}
-      <button
-        ref={filterButtonRef}
-        onClick={() => setShowFilterPanel(!showFilterPanel)}
-        style={{
-          position: 'fixed',
-          left: showFilterPanel ? '380px' : '1rem',
-          top: '40%',
-          transform: 'translateY(-50%)',
-          width: '32px',
-          height: '100px',
-          borderRadius: theme === 'minimal-mod' ? '0' : '6px',
-          border: theme === 'minimal-mod'
-            ? 'none'
-            : (theme === 'dark' ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.1)'),
-          background: theme === 'minimal-mod'
-            ? 'transparent'
-            : (theme === 'dark' ? 'transparent' : 'rgba(255, 255, 255, 0.5)'),
-          backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(10px)',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          zIndex: 100,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.5rem',
-          padding: '0.75rem 0',
-          color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1'
-        }}
-        onMouseEnter={(e) => {
-          if (theme !== 'minimal-mod') {
-            e.currentTarget.style.border = theme === 'dark' 
-              ? '1px solid rgba(255, 255, 255, 0.2)' 
-              : '1px solid rgba(0, 0, 0, 0.2)';
-            e.currentTarget.style.background = theme === 'dark' 
-              ? 'rgba(255, 255, 255, 0.05)' 
-              : 'rgba(0, 0, 0, 0.05)';
-            e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (theme !== 'minimal-mod') {
-            e.currentTarget.style.border = theme === 'dark' 
-              ? '1px solid transparent' 
-              : '1px solid rgba(0, 0, 0, 0.1)';
-            e.currentTarget.style.background = theme === 'dark' 
-              ? 'transparent' 
-              : 'rgba(255, 255, 255, 0.5)';
-            e.currentTarget.style.transform = 'translateY(-50%)';
-          }
-        }}
-      >
-        <SlidersHorizontal size={16} />
-        <div style={{
-          writingMode: 'vertical-rl',
-          textOrientation: 'mixed',
-          fontSize: '0.625rem',
-          fontWeight: '500',
-          letterSpacing: '0.5px'
-        }}>
-          FILTERS
-        </div>
-      </button>
-
-      {/* New Filter Panel Component */}
-      {showFilterPanel && (
-        <FilterPanel
-          personas={personas}
-          selectedPersona={selectedPersona}
-          onPersonaChange={handlePersonaChange}
-          specificFilters={specificFilters}
-          activeFilters={activeFilters}
-          onFilterChange={handleFilterChange}
-          onResetFilters={handleResetFilters}
-          onSaveFilterSet={handleSaveFilterSet}
-          onClose={() => setShowFilterPanel(false)}
-        />
-      )}
-
-      {/* Products Grid/List */}
-      <div style={{
-        padding: '2rem',
-        maxWidth: '1400px',
-        margin: '0 auto'
-      }}>
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}>
-            {language === 'ru' ? 'Загрузка товаров...' : 'Loading products...'}
-          </div>
-        ) : products.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}>
-            {language === 'ru' ? 'Товары не найдены' : 'No products found'}
-          </div>
-        ) : viewMode === 'grid' ? (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '1rem'
-          }}>
-            {products.map(product => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                theme={theme}
-                onToggleWishlist={handleToggleWishlist}
-              />
-            ))}
-          </div>
-        ) : (
-          <div style={{
+        {/* Floating Filter Button - Unified with Header Style */}
+        <button
+          ref={filterButtonRef}
+          onClick={() => setShowFilterPanel(!showFilterPanel)}
+          style={{
+            position: 'fixed',
+            left: showFilterPanel ? '380px' : '1rem',
+            top: '40%',
+            transform: 'translateY(-50%)',
+            width: '32px',
+            height: '100px',
+            borderRadius: theme === 'minimal-mod' ? '0' : '6px',
+            border:
+              theme === 'minimal-mod'
+                ? 'none'
+                : theme === 'dark'
+                  ? '1px solid transparent'
+                  : '1px solid rgba(0, 0, 0, 0.1)',
+            background:
+              theme === 'minimal-mod'
+                ? 'transparent'
+                : theme === 'dark'
+                  ? 'transparent'
+                  : 'rgba(255, 255, 255, 0.5)',
+            backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(10px)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            zIndex: 100,
             display: 'flex',
             flexDirection: 'column',
-            gap: '1.25rem'
-          }}>
-            {products.map(product => (
-              <ProductCardList 
-                key={product.id} 
-                product={product}
-                theme={theme}
-                onToggleWishlist={handleToggleWishlist}
-              />
-            ))}
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.5rem',
+            padding: '0.75rem 0',
+            color: theme === 'dark' ? '#fff' : theme === 'light' ? '#1a1a1a' : '#f1f1f1',
+          }}
+          onMouseEnter={(e) => {
+            if (theme !== 'minimal-mod') {
+              e.currentTarget.style.border =
+                theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background =
+                theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (theme !== 'minimal-mod') {
+              e.currentTarget.style.border =
+                theme === 'dark' ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.1)';
+              e.currentTarget.style.background =
+                theme === 'dark' ? 'transparent' : 'rgba(255, 255, 255, 0.5)';
+              e.currentTarget.style.transform = 'translateY(-50%)';
+            }
+          }}
+        >
+          <SlidersHorizontal size={16} />
+          <div
+            style={{
+              writingMode: 'vertical-rl',
+              textOrientation: 'mixed',
+              fontSize: '0.625rem',
+              fontWeight: '500',
+              letterSpacing: '0.5px',
+            }}
+          >
+            FILTERS
           </div>
-        )}
-      </div>
+        </button>
 
+        {/* New Filter Panel Component */}
+        {showFilterPanel && (
+          <FilterPanel
+            personas={personas}
+            selectedPersona={selectedPersona}
+            onPersonaChange={handlePersonaChange}
+            specificFilters={specificFilters}
+            activeFilters={activeFilters}
+            onFilterChange={handleFilterChange}
+            onResetFilters={handleResetFilters}
+            onSaveFilterSet={handleSaveFilterSet}
+            onClose={() => setShowFilterPanel(false)}
+          />
+        )}
+
+        {/* Products Grid/List */}
+        <div
+          style={{
+            padding: '2rem',
+            maxWidth: '1400px',
+            margin: '0 auto',
+          }}
+        >
+          {loading ? (
+            <div
+              style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}
+            >
+              {language === 'ru' ? 'Загрузка товаров...' : 'Loading products...'}
+            </div>
+          ) : products.length === 0 ? (
+            <div
+              style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}
+            >
+              {language === 'ru' ? 'Товары не найдены' : 'No products found'}
+            </div>
+          ) : viewMode === 'grid' ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '1rem',
+              }}
+            >
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  theme={theme}
+                  onToggleWishlist={handleToggleWishlist}
+                />
+              ))}
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.25rem',
+              }}
+            >
+              {products.map((product) => (
+                <ProductCardList
+                  key={product.id}
+                  product={product}
+                  theme={theme}
+                  onToggleWishlist={handleToggleWishlist}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -873,25 +963,29 @@ const CollapsibleFilter = ({ title, id, children }) => {
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
           opacity: 0.7,
-          transition: 'opacity 0.3s ease'
+          transition: 'opacity 0.3s ease',
         }}
-        onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
-        onMouseLeave={(e) => e.currentTarget.style.opacity = 0.7}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = 0.7)}
       >
         {title}
-        <span style={{ 
-          transform: isOpen ? 'rotate(90deg)' : 'rotate(0)', 
-          transition: 'transform 0.3s ease',
-          fontSize: '1.25rem'
-        }}>
+        <span
+          style={{
+            transform: isOpen ? 'rotate(90deg)' : 'rotate(0)',
+            transition: 'transform 0.3s ease',
+            fontSize: '1.25rem',
+          }}
+        >
           {isOpen ? '−' : '+'}
         </span>
       </button>
       {isOpen && (
-        <div style={{ 
-          paddingTop: '1rem',
-          animation: 'slideDown 0.3s ease-out'
-        }}>
+        <div
+          style={{
+            paddingTop: '1rem',
+            animation: 'slideDown 0.3s ease-out',
+          }}
+        >
           {children}
         </div>
       )}
@@ -906,10 +1000,11 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
   const [showQuickBuy, setShowQuickBuy] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPriceTag, setShowPriceTag] = useState(true);
-  
-  const images = product.images && product.images.length > 0 
-    ? product.images 
-    : [{ url: 'https://via.placeholder.com/300x400?text=No+Image', alt: product.title }];
+
+  const images =
+    product.images && product.images.length > 0
+      ? product.images
+      : [{ url: 'https://via.placeholder.com/300x400?text=No+Image', alt: product.title }];
 
   const nextImage = (e) => {
     e.preventDefault();
@@ -926,48 +1021,57 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
   return (
     <>
       <div style={{ position: 'relative' }}>
-        <Link 
+        <Link
           to={`/product/${product.id}`}
           style={{ textDecoration: 'none', color: 'inherit' }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div 
+          <div
             className="glass-subtle product-card"
             style={{
               borderRadius: theme === 'minimal-mod' ? '0' : '20px',
               overflow: 'visible',
-              border: theme === 'minimal-mod' 
-                ? 'none'
-                : '1px solid rgba(255, 255, 255, 0.08)',
+              border: theme === 'minimal-mod' ? 'none' : '1px solid rgba(255, 255, 255, 0.08)',
               transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              transform: theme === 'minimal-mod' ? 'none' : (isHovered ? 'translateY(-2px)' : 'translateY(0)'),
-              boxShadow: theme === 'minimal-mod' 
-                ? 'none'
-                : (isHovered ? '0 12px 40px rgba(0, 0, 0, 0.4)' : 'none'),
+              transform:
+                theme === 'minimal-mod' ? 'none' : isHovered ? 'translateY(-2px)' : 'translateY(0)',
+              boxShadow:
+                theme === 'minimal-mod'
+                  ? 'none'
+                  : isHovered
+                    ? '0 12px 40px rgba(0, 0, 0, 0.4)'
+                    : 'none',
               position: 'relative',
-              background: theme === 'minimal-mod' 
-                ? 'transparent'
-                : undefined,
-              fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
+              background: theme === 'minimal-mod' ? 'transparent' : undefined,
+              fontFamily:
+                theme === 'minimal-mod'
+                  ? '"SF Mono", Menlo, Consolas, Monaco, monospace'
+                  : 'inherit',
             }}
           >
             {/* Image Container with Carousel */}
-            <div style={{ 
-              position: 'relative', 
-              paddingTop: '133%',
-              background: theme === 'minimal-mod' 
-                ? 'transparent' 
-                : 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
-              overflow: 'hidden',
-              borderRadius: theme === 'minimal-mod' ? '0' : '20px'
-            }}>
+            <div
+              style={{
+                position: 'relative',
+                paddingTop: '133%',
+                background:
+                  theme === 'minimal-mod'
+                    ? 'transparent'
+                    : 'linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%)',
+                overflow: 'hidden',
+                borderRadius: theme === 'minimal-mod' ? '0' : '20px',
+              }}
+            >
               {/* Carousel Image */}
-              <img 
-                src={!imageError && images[currentImageIndex]?.url || 'https://via.placeholder.com/300x400?text=No+Image'}
+              <img
+                src={
+                  (!imageError && images[currentImageIndex]?.url) ||
+                  'https://via.placeholder.com/300x400?text=No+Image'
+                }
                 alt={images[currentImageIndex]?.alt || product.title}
                 onError={() => setImageError(true)}
                 style={{
@@ -978,7 +1082,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                   height: '100%',
                   objectFit: 'cover',
                   transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+                  transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                 }}
               />
 
@@ -1004,7 +1108,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                       cursor: 'pointer',
                       opacity: isHovered ? 1 : 0,
                       transition: 'opacity 0.3s ease',
-                      color: '#fff'
+                      color: '#fff',
                     }}
                   >
                     ‹
@@ -1028,21 +1132,23 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                       cursor: 'pointer',
                       opacity: isHovered ? 1 : 0,
                       transition: 'opacity 0.3s ease',
-                      color: '#fff'
+                      color: '#fff',
                     }}
                   >
                     ›
                   </button>
 
                   {/* Carousel Dots */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '0.75rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    gap: '0.375rem'
-                  }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '0.75rem',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      display: 'flex',
+                      gap: '0.375rem',
+                    }}
+                  >
                     {images.map((_, index) => (
                       <div
                         key={index}
@@ -1050,10 +1156,11 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                           width: '6px',
                           height: '6px',
                           borderRadius: '50%',
-                          background: index === currentImageIndex 
-                            ? 'rgba(255, 255, 255, 0.9)' 
-                            : 'rgba(255, 255, 255, 0.3)',
-                          transition: 'all 0.3s ease'
+                          background:
+                            index === currentImageIndex
+                              ? 'rgba(255, 255, 255, 0.9)'
+                              : 'rgba(255, 255, 255, 0.3)',
+                          transition: 'all 0.3s ease',
                         }}
                       />
                     ))}
@@ -1063,7 +1170,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
 
               {/* Price Tag - Apple-style rounded (White Matted Acrylic) */}
               {showPriceTag && (
-                <div 
+                <div
                   className="price-tag"
                   style={{
                     position: 'absolute',
@@ -1084,7 +1191,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                     alignItems: 'center',
                     height: '32px',
                     minWidth: '70px',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                   }}
                 >
                   ${product.price}
@@ -1104,7 +1211,8 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                     position: 'absolute',
                     bottom: '1rem',
                     right: '1rem',
-                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(107, 70, 193, 0.95) 100%)',
+                    background:
+                      'linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(107, 70, 193, 0.95) 100%)',
                     backdropFilter: 'blur(16px)',
                     border: 'none',
                     padding: '0.5rem 0.875rem',
@@ -1119,17 +1227,20 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                     gap: '0.5rem',
                     opacity: isHovered ? 1 : 0,
                     transform: isHovered ? 'translateY(0)' : 'translateY(10px)',
-                    boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)',
+                    boxShadow:
+                      '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)',
                     letterSpacing: '0.5px',
                     pointerEvents: isHovered ? 'auto' : 'none',
                     height: '32px',
-                    minWidth: '100px'
+                    minWidth: '100px',
                   }}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(139, 92, 246, 0.6), 0 2px 6px rgba(139, 92, 246, 0.3)';
+                    e.currentTarget.style.boxShadow =
+                      '0 6px 24px rgba(139, 92, 246, 0.6), 0 2px 6px rgba(139, 92, 246, 0.3)';
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)';
+                    e.currentTarget.style.boxShadow =
+                      '0 4px 16px rgba(139, 92, 246, 0.4), 0 1px 3px rgba(139, 92, 246, 0.2)';
                   }}
                 >
                   <Zap size={14} />
@@ -1139,36 +1250,40 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
 
               {/* Out of Stock Badge */}
               {product.stock === 0 && (
-                <div style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  background: 'rgba(255, 59, 48, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '12px',
-                  fontSize: '0.875rem',
-                  fontWeight: '700',
-                  letterSpacing: '0.5px',
-                  boxShadow: '0 4px 16px rgba(255, 59, 48, 0.4)'
-                }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    background: 'rgba(255, 59, 48, 0.95)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '12px',
+                    fontSize: '0.875rem',
+                    fontWeight: '700',
+                    letterSpacing: '0.5px',
+                    boxShadow: '0 4px 16px rgba(255, 59, 48, 0.4)',
+                  }}
+                >
                   OUT OF STOCK
                 </div>
               )}
 
               {/* Mini Rating & Wishlist - Bottom Right (наполовину выходят за карточку) */}
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                right: '-10px',
-                display: 'flex',
-                gap: '0.375rem',
-                zIndex: 15
-              }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-10px',
+                  right: '-10px',
+                  display: 'flex',
+                  gap: '0.375rem',
+                  zIndex: 15,
+                }}
+              >
                 {/* Mini Rating Badge - Минималистичный, статичный */}
                 {product.average_rating > 0 && (
-                  <div 
+                  <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1181,7 +1296,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                       fontSize: '0.6875rem',
                       fontWeight: '700',
                       color: '#fff', // Белый минималистичный
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
                     }}
                   >
                     <Star size={10} fill="none" color="#fff" strokeWidth={2.5} />
@@ -1201,19 +1316,19 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                     gap: '0.25rem',
                     padding: '0.3rem 0.55rem',
                     borderRadius: '8px',
-                    background: product.is_wishlisted 
-                      ? 'rgba(255, 59, 48, 0.75)' 
+                    background: product.is_wishlisted
+                      ? 'rgba(255, 59, 48, 0.75)'
                       : 'rgba(0, 0, 0, 0.75)',
                     backdropFilter: 'blur(10px)',
-                    border: product.is_wishlisted 
-                      ? '1px solid rgba(255, 59, 48, 0.4)' 
+                    border: product.is_wishlisted
+                      ? '1px solid rgba(255, 59, 48, 0.4)'
                       : '1px solid rgba(255, 255, 255, 0.15)',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     fontSize: '0.6875rem',
                     fontWeight: '700',
                     color: '#fff',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(255, 59, 48, 0.9)';
@@ -1221,18 +1336,18 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                     e.currentTarget.style.transform = 'scale(1.1)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = product.is_wishlisted 
-                      ? 'rgba(255, 59, 48, 0.75)' 
+                    e.currentTarget.style.background = product.is_wishlisted
+                      ? 'rgba(255, 59, 48, 0.75)'
                       : 'rgba(0, 0, 0, 0.75)';
-                    e.currentTarget.style.border = product.is_wishlisted 
-                      ? '1px solid rgba(255, 59, 48, 0.4)' 
+                    e.currentTarget.style.border = product.is_wishlisted
+                      ? '1px solid rgba(255, 59, 48, 0.4)'
                       : '1px solid rgba(255, 255, 255, 0.15)';
                     e.currentTarget.style.transform = 'scale(1)';
                   }}
                 >
-                  <Heart 
-                    size={10} 
-                    fill={product.is_wishlisted ? '#ff3b30' : 'none'} 
+                  <Heart
+                    size={10}
+                    fill={product.is_wishlisted ? '#ff3b30' : 'none'}
                     color={product.is_wishlisted ? '#ff3b30' : '#fff'}
                     strokeWidth={2.5}
                   />
@@ -1247,28 +1362,32 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
         </Link>
 
         {/* Product Title - Below Card (Acrylic, muted → bright on hover) */}
-        <div style={{ 
-          marginTop: '0.625rem',
-          padding: '0.5rem 0.75rem',
-          borderRadius: '8px',
-          background: isHovered ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          transition: 'all 0.3s ease'
-        }}>
-          <h3 style={{
-            fontSize: '1rem',
-            fontWeight: '700',
-            lineHeight: '1.3',
-            color: '#fff',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            opacity: isHovered ? 1 : 0.6,
-            transition: 'opacity 0.3s ease'
-          }}>
+        <div
+          style={{
+            marginTop: '0.625rem',
+            padding: '0.5rem 0.75rem',
+            borderRadius: '8px',
+            background: isHovered ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1rem',
+              fontWeight: '700',
+              lineHeight: '1.3',
+              color: '#fff',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              opacity: isHovered ? 1 : 0.6,
+              transition: 'opacity 0.3s ease',
+            }}
+          >
             {product.title}
           </h3>
         </div>
@@ -1284,53 +1403,54 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
 const ProductCardList = ({ product, theme, onToggleWishlist }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const primaryImage = product.images?.find(img => img.is_primary) || product.images?.[0];
-  const imageUrl = !imageError && primaryImage?.url || 'https://via.placeholder.com/300x300?text=No+Image';
+  const primaryImage = product.images?.find((img) => img.is_primary) || product.images?.[0];
+  const imageUrl =
+    (!imageError && primaryImage?.url) || 'https://via.placeholder.com/300x300?text=No+Image';
 
   return (
-    <Link 
+    <Link
       to={`/product/${product.id}`}
       style={{ textDecoration: 'none', color: 'inherit' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
+      <div
         className="glass-strong product-card"
         style={{
           borderRadius: theme === 'minimal-mod' ? '0' : '16px',
-          border: theme === 'minimal-mod' 
-            ? 'none'
-            : (isHovered ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)'),
+          border:
+            theme === 'minimal-mod'
+              ? 'none'
+              : isHovered
+                ? '1px solid rgba(255, 255, 255, 0.3)'
+                : '1px solid rgba(255, 255, 255, 0.08)',
           transition: 'all 0.2s ease',
           cursor: 'pointer',
           display: 'grid',
           gridTemplateColumns: '240px 1fr auto',
-          background: theme === 'minimal-mod' 
-            ? 'transparent'
-            : undefined,
-          fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+          background: theme === 'minimal-mod' ? 'transparent' : undefined,
+          fontFamily:
+            theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
           gap: '2rem',
           padding: '1.5rem',
           transform: isHovered ? 'translateX(8px)' : 'translateX(0)',
           backdropFilter: isHovered ? 'blur(20px)' : 'blur(10px)',
-          background: isHovered 
-            ? 'rgba(255, 255, 255, 0.12)' 
-            : 'rgba(255, 255, 255, 0.05)',
-          boxShadow: isHovered 
-            ? '0 8px 32px rgba(0, 0, 0, 0.4)' 
-            : '0 4px 20px rgba(0, 0, 0, 0.2)',
-          alignItems: 'center'
+          background: isHovered ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.05)',
+          boxShadow: isHovered ? '0 8px 32px rgba(0, 0, 0, 0.4)' : '0 4px 20px rgba(0, 0, 0, 0.2)',
+          alignItems: 'center',
         }}
       >
         {/* Image */}
-        <div style={{ 
-          position: 'relative', 
-          paddingTop: '100%',
-          background: 'rgba(0, 0, 0, 0.2)',
-          overflow: 'hidden',
-          borderRadius: '12px'
-        }}>
-          <img 
+        <div
+          style={{
+            position: 'relative',
+            paddingTop: '100%',
+            background: 'rgba(0, 0, 0, 0.2)',
+            overflow: 'hidden',
+            borderRadius: '12px',
+          }}
+        >
+          <img
             src={imageUrl}
             alt={product.title}
             onError={() => setImageError(true)}
@@ -1342,25 +1462,27 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
               height: '100%',
               objectFit: 'cover',
               transition: 'transform 0.4s ease',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
             }}
           />
 
           {/* Rating Badge */}
           {product.average_rating > 0 && (
-            <div style={{
-              position: 'absolute',
-              bottom: '0.75rem',
-              left: '0.75rem',
-              background: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(10px)',
-              padding: '0.375rem 0.625rem',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.25rem',
-              border: '1px solid rgba(255, 255, 255, 0.1)'
-            }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0.75rem',
+                left: '0.75rem',
+                background: 'rgba(0, 0, 0, 0.7)',
+                backdropFilter: 'blur(10px)',
+                padding: '0.375rem 0.625rem',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <Star size={14} fill="#FFD700" color="#FFD700" />
               <span style={{ fontSize: '0.8125rem', fontWeight: '700' }}>
                 {product.average_rating.toFixed(1)}
@@ -1370,20 +1492,22 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
 
           {/* Stock Badge */}
           {product.stock === 0 && (
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: 'rgba(255, 59, 48, 0.95)',
-              backdropFilter: 'blur(10px)',
-              padding: '0.5rem 1rem',
-              borderRadius: '6px',
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              letterSpacing: '0.5px',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
-            }}>
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(255, 59, 48, 0.95)',
+                backdropFilter: 'blur(10px)',
+                padding: '0.5rem 1rem',
+                borderRadius: '6px',
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                letterSpacing: '0.5px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+              }}
+            >
               OUT OF STOCK
             </div>
           )}
@@ -1392,38 +1516,44 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
         {/* Content */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {/* Title */}
-          <h3 style={{
-            fontSize: '1.5rem',
-            fontWeight: '700',
-            lineHeight: '1.3',
-            marginBottom: '0.5rem'
-          }}>
+          <h3
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: '700',
+              lineHeight: '1.3',
+              marginBottom: '0.5rem',
+            }}
+          >
             {product.title}
           </h3>
 
           {/* Description */}
-          <p style={{
-            fontSize: '0.9375rem',
-            lineHeight: '1.6',
-            opacity: 0.8,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
-          }}>
+          <p
+            style={{
+              fontSize: '0.9375rem',
+              lineHeight: '1.6',
+              opacity: 0.8,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
             {product.description}
           </p>
 
           {/* Stats Row */}
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '1.5rem',
-            fontSize: '0.875rem',
-            opacity: 0.75,
-            marginTop: '0.5rem'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.5rem',
+              fontSize: '0.875rem',
+              opacity: 0.75,
+              marginTop: '0.5rem',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
               <Eye size={16} />
               <span>{product.views || 0} views</span>
@@ -1441,14 +1571,16 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
 
           {/* Quick Specs */}
           {product.specifications && product.specifications.length > 0 && (
-            <div style={{
-              display: 'flex',
-              gap: '0.5rem',
-              flexWrap: 'wrap',
-              marginTop: '0.5rem'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                flexWrap: 'wrap',
+                marginTop: '0.5rem',
+              }}
+            >
               {product.specifications.slice(0, 4).map((spec, idx) => (
-                <div 
+                <div
                   key={idx}
                   style={{
                     background: 'rgba(255, 255, 255, 0.08)',
@@ -1456,7 +1588,7 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
                     borderRadius: '6px',
                     fontSize: '0.75rem',
                     fontWeight: '600',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   {spec.name}: {spec.value}
@@ -1467,31 +1599,37 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
         </div>
 
         {/* Price & Actions */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          gap: '1rem',
-          minWidth: '200px'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '1rem',
+            minWidth: '200px',
+          }}
+        >
           {/* Price */}
           <div style={{ textAlign: 'right' }}>
-            <div style={{
-              fontSize: '2.25rem',
-              fontWeight: '900',
-              background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              marginBottom: '0.5rem'
-            }}>
+            <div
+              style={{
+                fontSize: '2.25rem',
+                fontWeight: '900',
+                background: 'linear-gradient(135deg, #fff 0%, #a8a8a8 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                marginBottom: '0.5rem',
+              }}
+            >
               ${product.price}
             </div>
             {product.stock > 0 && (
-              <div style={{ 
-                fontSize: '0.8125rem', 
-                color: '#4CAF50', 
-                fontWeight: '600'
-              }}>
+              <div
+                style={{
+                  fontSize: '0.8125rem',
+                  color: '#4CAF50',
+                  fontWeight: '600',
+                }}
+              >
                 IN STOCK ({product.stock})
               </div>
             )}
@@ -1510,9 +1648,10 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
                 padding: '0.875rem 1.5rem',
                 borderRadius: '10px',
                 border: 'none',
-                background: product.stock > 0
-                  ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)'
-                  : 'rgba(255, 255, 255, 0.05)',
+                background:
+                  product.stock > 0
+                    ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)'
+                    : 'rgba(255, 255, 255, 0.05)',
                 color: '#fff',
                 fontSize: '0.875rem',
                 fontWeight: '700',
@@ -1522,7 +1661,7 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
                 gap: '0.5rem',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 opacity: product.stock > 0 ? 1 : 0.5,
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
             >
               <ShoppingCart size={16} />
@@ -1541,10 +1680,14 @@ const ProductCardList = ({ product, theme, onToggleWishlist }) => {
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 background: 'rgba(255, 255, 255, 0.05)',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
             >
-              <Heart size={20} color="#fff" fill={product.wishlist_count > 0 ? '#ff3b30' : 'transparent'} />
+              <Heart
+                size={20}
+                color="#fff"
+                fill={product.wishlist_count > 0 ? '#ff3b30' : 'transparent'}
+              />
             </button>
           </div>
         </div>
@@ -1559,7 +1702,7 @@ const QuickBuyModal = ({ product, onClose }) => {
     fullName: '',
     phone: '',
     address: '',
-    paymentMethod: 'tinkoff_card' // 'tinkoff_card', 'tinkoff_sbp', 'crypto_usdt', etc.
+    paymentMethod: 'tinkoff_card', // 'tinkoff_card', 'tinkoff_sbp', 'crypto_usdt', etc.
   });
   const [loading, setLoading] = useState(false);
   const [isPreorder, setIsPreorder] = useState(product.stock === 0);
@@ -1567,7 +1710,7 @@ const QuickBuyModal = ({ product, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // TODO: Implement actual order creation via API
     try {
       // Call /api/orders endpoint to create order
@@ -1577,13 +1720,15 @@ const QuickBuyModal = ({ product, onClose }) => {
         customer_phone: formData.phone,
         delivery_address: formData.address,
         payment_method: formData.paymentMethod,
-        preorder: isPreorder
+        preorder: isPreorder,
       });
-      
+
       setTimeout(() => {
-        alert(isPreorder 
-          ? `Предзаказ оформлен! Ожидаемая доставка: ${product.preorder_delivery_days || 14} дней. Мы свяжемся с вами для подтверждения.`
-          : 'Заказ оформлен! Мы свяжемся с вами для подтверждения.');
+        alert(
+          isPreorder
+            ? `Предзаказ оформлен! Ожидаемая доставка: ${product.preorder_delivery_days || 14} дней. Мы свяжемся с вами для подтверждения.`
+            : 'Заказ оформлен! Мы свяжемся с вами для подтверждения.'
+        );
         setLoading(false);
         onClose();
       }, 1500);
@@ -1594,15 +1739,15 @@ const QuickBuyModal = ({ product, onClose }) => {
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
       style={{
         background: 'rgba(0, 0, 0, 0.8)',
-        backdropFilter: 'blur(12px)'
+        backdropFilter: 'blur(12px)',
       }}
     >
-      <div 
+      <div
         className="glass-strong"
         onClick={(e) => e.stopPropagation()}
         style={{
@@ -1614,7 +1759,7 @@ const QuickBuyModal = ({ product, onClose }) => {
           position: 'relative',
           display: 'grid',
           gridTemplateColumns: '300px 1fr 280px',
-          gap: '2rem'
+          gap: '2rem',
         }}
       >
         {/* Close Button */}
@@ -1634,7 +1779,7 @@ const QuickBuyModal = ({ product, onClose }) => {
             justifyContent: 'center',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
-            zIndex: 10
+            zIndex: 10,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
@@ -1649,28 +1794,32 @@ const QuickBuyModal = ({ product, onClose }) => {
         </button>
 
         {/* LEFT SECTION: Product Image & Info */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
           {/* Product Image */}
-          <div style={{
-            width: '100%',
-            height: '280px',
-            borderRadius: '14px',
-            background: 'rgba(255, 255, 255, 0.03)',
-            overflow: 'hidden',
-            border: '1px solid rgba(255, 255, 255, 0.08)'
-          }}>
+          <div
+            style={{
+              width: '100%',
+              height: '280px',
+              borderRadius: '14px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              overflow: 'hidden',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
             {product.images && product.images[0] && (
-              <img 
-                src={product.images[0].url} 
+              <img
+                src={product.images[0].url}
                 alt={product.title}
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'cover'
+                  objectFit: 'cover',
                 }}
               />
             )}
@@ -1678,52 +1827,60 @@ const QuickBuyModal = ({ product, onClose }) => {
 
           {/* Product Details */}
           <div>
-            <h3 style={{
-              fontSize: '1.125rem',
-              fontWeight: '700',
-              marginBottom: '0.5rem',
-              lineHeight: '1.4'
-            }}>
+            <h3
+              style={{
+                fontSize: '1.125rem',
+                fontWeight: '700',
+                marginBottom: '0.5rem',
+                lineHeight: '1.4',
+              }}
+            >
               {product.title}
             </h3>
-            
+
             {/* Price */}
-            <div style={{
-              fontSize: '2rem',
-              fontWeight: '900',
-              marginBottom: '0.75rem',
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
+            <div
+              style={{
+                fontSize: '2rem',
+                fontWeight: '900',
+                marginBottom: '0.75rem',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               ${product.price}
             </div>
 
             {/* Stock Status */}
             {isPreorder ? (
-              <div style={{
-                padding: '0.625rem 1rem',
-                borderRadius: '8px',
-                background: 'rgba(251, 146, 60, 0.15)',
-                border: '1px solid rgba(251, 146, 60, 0.3)',
-                fontSize: '0.8125rem',
-                fontWeight: '600',
-                color: '#fb923c',
-                marginBottom: '0.75rem'
-              }}>
+              <div
+                style={{
+                  padding: '0.625rem 1rem',
+                  borderRadius: '8px',
+                  background: 'rgba(251, 146, 60, 0.15)',
+                  border: '1px solid rgba(251, 146, 60, 0.3)',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  color: '#fb923c',
+                  marginBottom: '0.75rem',
+                }}
+              >
                 ⚠ Под заказ (доставка {product.preorder_delivery_days || 14} дней)
               </div>
             ) : (
-              <div style={{
-                padding: '0.625rem 1rem',
-                borderRadius: '8px',
-                background: 'rgba(139, 92, 246, 0.15)',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-                fontSize: '0.8125rem',
-                fontWeight: '600',
-                color: '#a78bfa',
-                marginBottom: '0.75rem'
-              }}>
+              <div
+                style={{
+                  padding: '0.625rem 1rem',
+                  borderRadius: '8px',
+                  background: 'rgba(139, 92, 246, 0.15)',
+                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  fontSize: '0.8125rem',
+                  fontWeight: '600',
+                  color: '#a78bfa',
+                  marginBottom: '0.75rem',
+                }}
+              >
                 ✓ В наличии ({product.stock} шт)
               </div>
             )}
@@ -1732,11 +1889,13 @@ const QuickBuyModal = ({ product, onClose }) => {
             <button
               onClick={() => {
                 if (navigator.share) {
-                  navigator.share({
-                    title: product.title,
-                    text: product.description,
-                    url: `${window.location.origin}/product/${product.id}`,
-                  }).catch(err => console.log('Error sharing:', err));
+                  navigator
+                    .share({
+                      title: product.title,
+                      text: product.description,
+                      url: `${window.location.origin}/product/${product.id}`,
+                    })
+                    .catch((err) => console.log('Error sharing:', err));
                 } else {
                   navigator.clipboard.writeText(`${window.location.origin}/product/${product.id}`);
                   alert('Ссылка скопирована в буфер обмена!');
@@ -1756,7 +1915,7 @@ const QuickBuyModal = ({ product, onClose }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem'
+                gap: '0.5rem',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
@@ -1774,41 +1933,48 @@ const QuickBuyModal = ({ product, onClose }) => {
         </div>
 
         {/* CENTER SECTION: Form */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           {/* Header */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <h2 style={{ 
-              fontSize: '1.875rem', 
-              fontWeight: '900', 
-              marginBottom: '0.5rem',
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.5px'
-            }}>
+            <h2
+              style={{
+                fontSize: '1.875rem',
+                fontWeight: '900',
+                marginBottom: '0.5rem',
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                letterSpacing: '-0.5px',
+              }}
+            >
               ⚡ Быстрая Покупка
             </h2>
-            <p style={{ opacity: 0.65, fontSize: '0.9375rem' }}>
-              Оформите заказ без регистрации
-            </p>
+            <p style={{ opacity: 0.65, fontSize: '0.9375rem' }}>Оформите заказ без регистрации</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+          >
             {/* Full Name */}
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginBottom: '0.5rem', 
-                fontSize: '0.875rem', 
-                fontWeight: '600',
-                opacity: 0.85
-              }}>
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  marginBottom: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  opacity: 0.85,
+                }}
+              >
                 <UserIcon size={16} />
                 ФИО
               </label>
@@ -1827,7 +1993,7 @@ const QuickBuyModal = ({ product, onClose }) => {
                   color: '#fff',
                   fontSize: '0.9375rem',
                   outline: 'none',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
@@ -1842,15 +2008,17 @@ const QuickBuyModal = ({ product, onClose }) => {
 
             {/* Phone */}
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginBottom: '0.5rem', 
-                fontSize: '0.875rem', 
-                fontWeight: '600',
-                opacity: 0.85
-              }}>
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  marginBottom: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  opacity: 0.85,
+                }}
+              >
                 <CreditCard size={16} />
                 Телефон
               </label>
@@ -1869,7 +2037,7 @@ const QuickBuyModal = ({ product, onClose }) => {
                   color: '#fff',
                   fontSize: '0.9375rem',
                   outline: 'none',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
@@ -1884,15 +2052,17 @@ const QuickBuyModal = ({ product, onClose }) => {
 
             {/* Address */}
             <div style={{ marginBottom: '1.5rem', flex: 1 }}>
-              <label style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginBottom: '0.5rem', 
-                fontSize: '0.875rem', 
-                fontWeight: '600',
-                opacity: 0.85
-              }}>
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  marginBottom: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  opacity: 0.85,
+                }}
+              >
                 <MapPin size={16} />
                 Адрес доставки
               </label>
@@ -1912,7 +2082,7 @@ const QuickBuyModal = ({ product, onClose }) => {
                   fontSize: '0.9375rem',
                   outline: 'none',
                   resize: 'vertical',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.4)';
@@ -1946,7 +2116,7 @@ const QuickBuyModal = ({ product, onClose }) => {
                 gap: '0.75rem',
                 boxShadow: '0 4px 24px rgba(139, 92, 246, 0.4)',
                 opacity: loading ? 0.7 : 1,
-                transform: 'translateY(0)'
+                transform: 'translateY(0)',
               }}
               onMouseEnter={(e) => {
                 if (!loading) {
@@ -1964,30 +2134,36 @@ const QuickBuyModal = ({ product, onClose }) => {
             </button>
 
             {/* Info Text */}
-            <div style={{
-              marginTop: '0.875rem',
-              fontSize: '0.75rem',
-              opacity: 0.55,
-              textAlign: 'center',
-              lineHeight: '1.5'
-            }}>
+            <div
+              style={{
+                marginTop: '0.875rem',
+                fontSize: '0.75rem',
+                opacity: 0.55,
+                textAlign: 'center',
+                lineHeight: '1.5',
+              }}
+            >
               После оформления с вами свяжется менеджер для подтверждения заказа
             </div>
           </form>
         </div>
 
         {/* RIGHT SECTION: Payment Methods */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem'
-        }}>
-          <h3 style={{
-            fontSize: '1rem',
-            fontWeight: '700',
-            marginBottom: '0.5rem',
-            opacity: 0.9
-          }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1rem',
+              fontWeight: '700',
+              marginBottom: '0.5rem',
+              opacity: 0.9,
+            }}
+          >
             Способ оплаты
           </h3>
 
@@ -1999,15 +2175,17 @@ const QuickBuyModal = ({ product, onClose }) => {
             style={{
               padding: '1rem',
               borderRadius: '12px',
-              border: formData.paymentMethod === 'tinkoff_card' 
-                ? '2px solid rgba(139, 92, 246, 0.6)'
-                : '1px solid rgba(255, 255, 255, 0.1)',
-              background: formData.paymentMethod === 'tinkoff_card'
-                ? 'rgba(139, 92, 246, 0.15)'
-                : 'rgba(255, 255, 255, 0.05)',
+              border:
+                formData.paymentMethod === 'tinkoff_card'
+                  ? '2px solid rgba(139, 92, 246, 0.6)'
+                  : '1px solid rgba(255, 255, 255, 0.1)',
+              background:
+                formData.paymentMethod === 'tinkoff_card'
+                  ? 'rgba(139, 92, 246, 0.15)'
+                  : 'rgba(255, 255, 255, 0.05)',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              textAlign: 'left'
+              textAlign: 'left',
             }}
             onMouseEnter={(e) => {
               if (formData.paymentMethod !== 'tinkoff_card') {
@@ -2020,7 +2198,14 @@ const QuickBuyModal = ({ product, onClose }) => {
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '0.25rem',
+              }}
+            >
               <CreditCard size={18} color="#8B5CF6" />
               <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>Банковская карта</span>
             </div>
@@ -2037,15 +2222,17 @@ const QuickBuyModal = ({ product, onClose }) => {
             style={{
               padding: '1rem',
               borderRadius: '12px',
-              border: formData.paymentMethod === 'tinkoff_sbp' 
-                ? '2px solid rgba(139, 92, 246, 0.6)'
-                : '1px solid rgba(255, 255, 255, 0.1)',
-              background: formData.paymentMethod === 'tinkoff_sbp'
-                ? 'rgba(139, 92, 246, 0.15)'
-                : 'rgba(255, 255, 255, 0.05)',
+              border:
+                formData.paymentMethod === 'tinkoff_sbp'
+                  ? '2px solid rgba(139, 92, 246, 0.6)'
+                  : '1px solid rgba(255, 255, 255, 0.1)',
+              background:
+                formData.paymentMethod === 'tinkoff_sbp'
+                  ? 'rgba(139, 92, 246, 0.15)'
+                  : 'rgba(255, 255, 255, 0.05)',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              textAlign: 'left'
+              textAlign: 'left',
             }}
             onMouseEnter={(e) => {
               if (formData.paymentMethod !== 'tinkoff_sbp') {
@@ -2058,7 +2245,14 @@ const QuickBuyModal = ({ product, onClose }) => {
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '0.25rem',
+              }}
+            >
               <Zap size={18} color="#8B5CF6" />
               <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>СБП (SBP)</span>
             </div>
@@ -2075,15 +2269,17 @@ const QuickBuyModal = ({ product, onClose }) => {
             style={{
               padding: '1rem',
               borderRadius: '12px',
-              border: formData.paymentMethod === 'qr_code' 
-                ? '2px solid rgba(139, 92, 246, 0.6)'
-                : '1px solid rgba(255, 255, 255, 0.1)',
-              background: formData.paymentMethod === 'qr_code'
-                ? 'rgba(139, 92, 246, 0.15)'
-                : 'rgba(255, 255, 255, 0.05)',
+              border:
+                formData.paymentMethod === 'qr_code'
+                  ? '2px solid rgba(139, 92, 246, 0.6)'
+                  : '1px solid rgba(255, 255, 255, 0.1)',
+              background:
+                formData.paymentMethod === 'qr_code'
+                  ? 'rgba(139, 92, 246, 0.15)'
+                  : 'rgba(255, 255, 255, 0.05)',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              textAlign: 'left'
+              textAlign: 'left',
             }}
             onMouseEnter={(e) => {
               if (formData.paymentMethod !== 'qr_code') {
@@ -2096,7 +2292,14 @@ const QuickBuyModal = ({ product, onClose }) => {
               }
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '0.25rem',
+              }}
+            >
               <CreditCard size={18} color="#8B5CF6" />
               <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>QR-код</span>
             </div>
@@ -2106,14 +2309,23 @@ const QuickBuyModal = ({ product, onClose }) => {
           </button>
 
           {/* Crypto */}
-          <div style={{
-            marginTop: '0.5rem',
-            padding: '0.875rem 1rem',
-            borderRadius: '10px',
-            background: 'rgba(139, 92, 246, 0.08)',
-            border: '1px solid rgba(139, 92, 246, 0.2)'
-          }}>
-            <div style={{ fontSize: '0.8125rem', fontWeight: '600', marginBottom: '0.5rem', opacity: 0.9 }}>
+          <div
+            style={{
+              marginTop: '0.5rem',
+              padding: '0.875rem 1rem',
+              borderRadius: '10px',
+              background: 'rgba(139, 92, 246, 0.08)',
+              border: '1px solid rgba(139, 92, 246, 0.2)',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '0.8125rem',
+                fontWeight: '600',
+                marginBottom: '0.5rem',
+                opacity: 0.9,
+              }}
+            >
               💎 Криптовалюта
             </div>
             <div style={{ fontSize: '0.75rem', opacity: 0.65, lineHeight: '1.4' }}>

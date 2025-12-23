@@ -15,9 +15,7 @@ function CreatorsPage() {
 
   const fetchCreators = async () => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/creators`
-      );
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/creators`);
       if (response.ok) {
         const data = await response.json();
         setCreators(data);
@@ -34,7 +32,10 @@ function CreatorsPage() {
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 hover:bg-white/5 rounded-lg transition-all"
+          >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -42,7 +43,8 @@ function CreatorsPage() {
           </h1>
         </div>
         <p className="text-white/70 max-w-3xl">
-          Верифицированные обзорщики и стримеры. Контент структурирован по тегам товаров и категориям.
+          Верифицированные обзорщики и стримеры. Контент структурирован по тегам товаров и
+          категориям.
         </p>
       </div>
 
@@ -54,7 +56,7 @@ function CreatorsPage() {
           <div className="text-center py-12 text-white/50">Пока нет креаторов</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {creators.map(creator => (
+            {creators.map((creator) => (
               <div
                 key={creator.id}
                 className="glass-strong overflow-hidden"

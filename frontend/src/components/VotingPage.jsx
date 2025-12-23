@@ -34,23 +34,35 @@ function VotingPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'vetting': return 'bg-yellow-500/20 text-yellow-400';
-      case 'voting': return 'bg-blue-500/20 text-blue-400';
-      case 'in_progress': return 'bg-purple-500/20 text-purple-400';
-      case 'completed': return 'bg-green-500/20 text-green-400';
-      case 'rejected': return 'bg-red-500/20 text-red-400';
-      default: return 'bg-white/10';
+      case 'vetting':
+        return 'bg-yellow-500/20 text-yellow-400';
+      case 'voting':
+        return 'bg-blue-500/20 text-blue-400';
+      case 'in_progress':
+        return 'bg-purple-500/20 text-purple-400';
+      case 'completed':
+        return 'bg-green-500/20 text-green-400';
+      case 'rejected':
+        return 'bg-red-500/20 text-red-400';
+      default:
+        return 'bg-white/10';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'vetting': return 'На модерации';
-      case 'voting': return 'На голосовании';
-      case 'in_progress': return 'В разработке';
-      case 'completed': return 'Завершено';
-      case 'rejected': return 'Отклонено';
-      default: return status;
+      case 'vetting':
+        return 'На модерации';
+      case 'voting':
+        return 'На голосовании';
+      case 'in_progress':
+        return 'В разработке';
+      case 'completed':
+        return 'Завершено';
+      case 'rejected':
+        return 'Отклонено';
+      default:
+        return status;
     }
   };
 
@@ -60,7 +72,10 @@ function VotingPage() {
       <div className="max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-white/5 rounded-lg transition-all"
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -86,7 +101,7 @@ function VotingPage() {
 
         {/* Filters */}
         <div className="flex gap-2">
-          {['vetting', 'voting', 'in_progress', 'completed'].map(status => (
+          {['vetting', 'voting', 'in_progress', 'completed'].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -107,7 +122,7 @@ function VotingPage() {
           <div className="text-center py-12 text-white/50">Пока нет запросов</div>
         ) : (
           <div className="space-y-4">
-            {proposals.map(proposal => (
+            {proposals.map((proposal) => (
               <div
                 key={proposal.id}
                 onClick={() => navigate(`/voting/${proposal.id}`)}
@@ -117,7 +132,9 @@ function VotingPage() {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs px-3 py-1 rounded-full ${getStatusColor(proposal.status)}`}>
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full ${getStatusColor(proposal.status)}`}
+                    >
                       {getStatusText(proposal.status)}
                     </span>
                     <span className="text-xs px-2 py-1 bg-white/10 rounded-full">

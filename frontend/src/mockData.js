@@ -4,7 +4,7 @@ export const productStatus = {
   PENDING: 'pending_review',
   APPROVED: 'approved',
   REJECTED: 'rejected',
-  DRAFT: 'draft'
+  DRAFT: 'draft',
 };
 
 export const products = [
@@ -18,15 +18,16 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1628832307345-7404b47f1751',
     images: [
       'https://images.unsplash.com/photo-1628832307345-7404b47f1751',
-      'https://images.unsplash.com/photo-1613141412501-9012977f1969'
+      'https://images.unsplash.com/photo-1613141412501-9012977f1969',
     ],
     description: 'Professional wireless gaming mouse with RGB lighting and ergonomic design',
-    longDescription: 'Experience ultimate precision with our flagship gaming mouse featuring advanced optical sensors, customizable RGB lighting, and ergonomic design for extended gaming sessions.',
+    longDescription:
+      'Experience ultimate precision with our flagship gaming mouse featuring advanced optical sensors, customizable RGB lighting, and ergonomic design for extended gaming sessions.',
     specifications: {
       dpi: '30000',
       connectivity: 'Wireless',
       weight: '63g',
-      buttons: '8 programmable'
+      buttons: '8 programmable',
     },
     inStock: true,
     rating: 4.8,
@@ -35,7 +36,7 @@ export const products = [
     submittedBy: 'user-101',
     moderatedBy: 'mod-005',
     createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-16T14:20:00Z'
+    updatedAt: '2024-01-16T14:20:00Z',
   },
   {
     id: 'mouse-002',
@@ -45,12 +46,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1613141412501-9012977f1969',
     images: ['https://images.unsplash.com/photo-1613141412501-9012977f1969'],
     description: 'Ultra-lightweight professional gaming mouse',
-    longDescription: 'Engineered for esports professionals with ultra-lightweight design and precise tracking.',
+    longDescription:
+      'Engineered for esports professionals with ultra-lightweight design and precise tracking.',
     specifications: {
       dpi: '25600',
       connectivity: 'Wireless',
       weight: '61g',
-      buttons: '5'
+      buttons: '5',
     },
     inStock: true,
     rating: 4.9,
@@ -59,7 +61,7 @@ export const products = [
     submittedBy: 'user-102',
     moderatedBy: 'mod-005',
     createdAt: '2024-01-10T08:15:00Z',
-    updatedAt: '2024-01-11T09:30:00Z'
+    updatedAt: '2024-01-11T09:30:00Z',
   },
   {
     id: 'mouse-003',
@@ -69,12 +71,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1629429408209-1f912961dbd8',
     images: ['https://images.unsplash.com/photo-1629429408209-1f912961dbd8'],
     description: 'Versatile gaming mouse with customizable buttons',
-    longDescription: 'Highly customizable gaming mouse with 9 programmable buttons and stunning RGB.',
+    longDescription:
+      'Highly customizable gaming mouse with 9 programmable buttons and stunning RGB.',
     specifications: {
       dpi: '18000',
       connectivity: 'Wired',
       weight: '85g',
-      buttons: '9 programmable'
+      buttons: '9 programmable',
     },
     inStock: true,
     rating: 4.6,
@@ -83,7 +86,7 @@ export const products = [
     submittedBy: 'user-103',
     moderatedBy: 'mod-006',
     createdAt: '2024-01-12T11:45:00Z',
-    updatedAt: '2024-01-12T15:20:00Z'
+    updatedAt: '2024-01-12T15:20:00Z',
   },
   // KEYBOARD CATEGORY
   {
@@ -95,15 +98,16 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae',
     images: [
       'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae',
-      'https://images.unsplash.com/photo-1631449061775-c79df03a44f6'
+      'https://images.unsplash.com/photo-1631449061775-c79df03a44f6',
     ],
     description: 'Premium mechanical gaming keyboard with per-key RGB',
-    longDescription: 'Flagship mechanical keyboard featuring Cherry MX switches, per-key RGB lighting, and premium build quality for competitive gaming.',
+    longDescription:
+      'Flagship mechanical keyboard featuring Cherry MX switches, per-key RGB lighting, and premium build quality for competitive gaming.',
     specifications: {
       switches: 'Cherry MX Speed',
       lighting: 'Per-key RGB',
       connectivity: 'Wired USB-C',
-      features: 'Media controls, macro keys'
+      features: 'Media controls, macro keys',
     },
     inStock: true,
     rating: 4.9,
@@ -112,7 +116,7 @@ export const products = [
     submittedBy: 'user-104',
     moderatedBy: 'mod-007',
     createdAt: '2024-01-08T13:20:00Z',
-    updatedAt: '2024-01-09T10:15:00Z'
+    updatedAt: '2024-01-09T10:15:00Z',
   },
   {
     id: 'keyboard-002',
@@ -122,12 +126,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1626958390898-162d3577f293',
     images: ['https://images.unsplash.com/photo-1626958390898-162d3577f293'],
     description: 'Custom mechanical keyboard with wireless connectivity',
-    longDescription: 'Premium custom mechanical keyboard with hot-swappable switches and wireless connectivity.',
+    longDescription:
+      'Premium custom mechanical keyboard with hot-swappable switches and wireless connectivity.',
     specifications: {
       switches: 'Gateron Pro',
       lighting: 'RGB backlight',
       connectivity: 'Wireless/Wired',
-      features: 'Hot-swappable, QMK/VIA'
+      features: 'Hot-swappable, QMK/VIA',
     },
     inStock: true,
     rating: 4.8,
@@ -136,7 +141,7 @@ export const products = [
     submittedBy: 'user-105',
     moderatedBy: 'mod-007',
     createdAt: '2024-01-14T09:30:00Z',
-    updatedAt: '2024-01-14T16:45:00Z'
+    updatedAt: '2024-01-14T16:45:00Z',
   },
   {
     id: 'keyboard-003',
@@ -146,12 +151,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc',
     images: ['https://images.unsplash.com/photo-1538481199705-c710c4e965fc'],
     description: 'Opto-mechanical gaming keyboard with RGB underglow',
-    longDescription: 'Advanced opto-mechanical switches for faster actuation and stunning RGB lighting effects.',
+    longDescription:
+      'Advanced opto-mechanical switches for faster actuation and stunning RGB lighting effects.',
     specifications: {
       switches: 'Razer Opto-mechanical',
       lighting: 'Chroma RGB underglow',
       connectivity: 'Wired USB',
-      features: 'Media keys, wrist rest'
+      features: 'Media keys, wrist rest',
     },
     inStock: true,
     rating: 4.7,
@@ -160,7 +166,7 @@ export const products = [
     submittedBy: 'user-106',
     moderatedBy: 'mod-008',
     createdAt: '2024-01-11T14:10:00Z',
-    updatedAt: '2024-01-11T18:25:00Z'
+    updatedAt: '2024-01-11T18:25:00Z',
   },
   // MONITOR CATEGORY
   {
@@ -172,15 +178,16 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1635976457744-900f79574c3d',
     images: [
       'https://images.unsplash.com/photo-1635976457744-900f79574c3d',
-      'https://images.unsplash.com/photo-1614624532983-4ce03382d63d'
+      'https://images.unsplash.com/photo-1614624532983-4ce03382d63d',
     ],
     description: '49" Curved Gaming Monitor with 240Hz refresh rate',
-    longDescription: 'Ultra-wide curved gaming monitor with stunning visuals, 240Hz refresh rate, and immersive 1000R curvature for competitive gaming.',
+    longDescription:
+      'Ultra-wide curved gaming monitor with stunning visuals, 240Hz refresh rate, and immersive 1000R curvature for competitive gaming.',
     specifications: {
       size: '49 inches',
       resolution: '5120x1440 (DQHD)',
       refreshRate: '240Hz',
-      panelType: 'VA, 1000R curve'
+      panelType: 'VA, 1000R curve',
     },
     inStock: true,
     rating: 4.9,
@@ -189,7 +196,7 @@ export const products = [
     submittedBy: 'user-107',
     moderatedBy: 'mod-009',
     createdAt: '2024-01-05T11:20:00Z',
-    updatedAt: '2024-01-06T09:15:00Z'
+    updatedAt: '2024-01-06T09:15:00Z',
   },
   {
     id: 'monitor-002',
@@ -199,12 +206,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d',
     images: ['https://images.unsplash.com/photo-1614624532983-4ce03382d63d'],
     description: '27" 4K Gaming Monitor with HDR',
-    longDescription: 'Premium 4K gaming monitor with G-SYNC, HDR support, and stunning color accuracy.',
+    longDescription:
+      'Premium 4K gaming monitor with G-SYNC, HDR support, and stunning color accuracy.',
     specifications: {
       size: '27 inches',
       resolution: '3840x2160 (4K UHD)',
       refreshRate: '144Hz',
-      panelType: 'IPS, G-SYNC'
+      panelType: 'IPS, G-SYNC',
     },
     inStock: true,
     rating: 4.8,
@@ -213,7 +221,7 @@ export const products = [
     submittedBy: 'user-108',
     moderatedBy: 'mod-009',
     createdAt: '2024-01-07T10:45:00Z',
-    updatedAt: '2024-01-07T14:30:00Z'
+    updatedAt: '2024-01-07T14:30:00Z',
   },
   {
     id: 'monitor-003',
@@ -228,7 +236,7 @@ export const products = [
       size: '34 inches',
       resolution: '3440x1440 (UWQHD)',
       refreshRate: '165Hz',
-      panelType: 'Nano IPS, 1800R curve'
+      panelType: 'Nano IPS, 1800R curve',
     },
     inStock: true,
     rating: 4.7,
@@ -237,7 +245,7 @@ export const products = [
     submittedBy: 'user-109',
     moderatedBy: 'mod-010',
     createdAt: '2024-01-13T15:30:00Z',
-    updatedAt: '2024-01-13T17:45:00Z'
+    updatedAt: '2024-01-13T17:45:00Z',
   },
   // MOUSEPAD CATEGORY
   {
@@ -248,12 +256,13 @@ export const products = [
     image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7',
     images: ['https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7'],
     description: 'RGB Gaming Mouse Pad with hard surface',
-    longDescription: 'Premium RGB mouse pad with hard surface for precise tracking and stunning lighting effects.',
+    longDescription:
+      'Premium RGB mouse pad with hard surface for precise tracking and stunning lighting effects.',
     specifications: {
       surface: 'Hard micro-textured',
       size: 'Medium (355 x 255mm)',
       lighting: 'Chroma RGB',
-      connectivity: 'USB'
+      connectivity: 'USB',
     },
     inStock: true,
     rating: 4.6,
@@ -262,8 +271,8 @@ export const products = [
     submittedBy: 'user-110',
     moderatedBy: 'mod-011',
     createdAt: '2024-01-09T12:15:00Z',
-    updatedAt: '2024-01-09T16:40:00Z'
-  }
+    updatedAt: '2024-01-09T16:40:00Z',
+  },
 ];
 
 export const categories = [
@@ -275,15 +284,30 @@ export const categories = [
   { id: 'monitor', name: 'MONITOR', slug: 'monitor' },
   { id: 'audio', name: 'AUDIO', slug: 'audio' },
   { id: 'ergonomics', name: 'ERGONOMICS', slug: 'ergonomics' },
-  { id: 'custom', name: 'CUSTOM', slug: 'custom' }
+  { id: 'custom', name: 'CUSTOM', slug: 'custom' },
 ];
 
 export const userLevels = {
   1: { name: 'Novice', minXP: 0, color: '#888', perks: ['Basic Support'] },
   2: { name: 'Gamer', minXP: 100, color: '#4CAF50', perks: ['5% Discount', 'Free Shipping'] },
-  3: { name: 'Pro', minXP: 500, color: '#2196F3', perks: ['10% Discount', 'Priority Support', 'Exclusive Deals'] },
-  4: { name: 'Elite', minXP: 1500, color: '#9C27B0', perks: ['15% Discount', 'VIP Support', 'Early Access'] },
-  5: { name: 'Legend', minXP: 5000, color: '#FF9800', perks: ['20% Discount', 'Dedicated Manager', 'Beta Features'] }
+  3: {
+    name: 'Pro',
+    minXP: 500,
+    color: '#2196F3',
+    perks: ['10% Discount', 'Priority Support', 'Exclusive Deals'],
+  },
+  4: {
+    name: 'Elite',
+    minXP: 1500,
+    color: '#9C27B0',
+    perks: ['15% Discount', 'VIP Support', 'Early Access'],
+  },
+  5: {
+    name: 'Legend',
+    minXP: 5000,
+    color: '#FF9800',
+    perks: ['20% Discount', 'Dedicated Manager', 'Beta Features'],
+  },
 };
 
 export const mockUser = {
@@ -301,7 +325,7 @@ export const mockUser = {
   loginStreak: 7,
   lastSpinDate: '2024-01-15', // Last weekly spin
   bonusSpinAvailable: false, // Bonus spin after purchase
-  referralCode: 'PROGAMER24'
+  referralCode: 'PROGAMER24',
 };
 
 // Achievements System
@@ -316,7 +340,7 @@ export const achievements = [
     unlocked: true,
     unlockedDate: '2024-01-15',
     xpReward: 100,
-    category: 'purchase'
+    category: 'purchase',
   },
   {
     id: 'ach-002',
@@ -328,7 +352,7 @@ export const achievements = [
     unlocked: true,
     unlockedDate: '2024-01-20',
     xpReward: 150,
-    category: 'social'
+    category: 'social',
   },
   {
     id: 'ach-003',
@@ -340,7 +364,7 @@ export const achievements = [
     unlocked: true,
     unlockedDate: '2024-01-22',
     xpReward: 200,
-    category: 'streak'
+    category: 'streak',
   },
   {
     id: 'ach-004',
@@ -353,7 +377,7 @@ export const achievements = [
     progress: 650,
     total: 1000,
     xpReward: 500,
-    category: 'purchase'
+    category: 'purchase',
   },
   {
     id: 'ach-005',
@@ -366,8 +390,8 @@ export const achievements = [
     progress: 1,
     total: 3,
     xpReward: 300,
-    category: 'social'
-  }
+    category: 'social',
+  },
 ];
 
 // Daily Quests
@@ -382,7 +406,7 @@ export const dailyQuests = [
     progress: 3,
     total: 5,
     xpReward: 50,
-    completed: false
+    completed: false,
   },
   {
     id: 'quest-002',
@@ -394,7 +418,7 @@ export const dailyQuests = [
     progress: 1,
     total: 1,
     xpReward: 25,
-    completed: true
+    completed: true,
   },
   {
     id: 'quest-003',
@@ -406,8 +430,8 @@ export const dailyQuests = [
     progress: 2,
     total: 3,
     xpReward: 75,
-    completed: false
-  }
+    completed: false,
+  },
 ];
 
 // Inventory Items
@@ -421,7 +445,7 @@ export const inventoryItems = [
     value: '10%',
     code: 'SAVE10',
     expiresAt: '2024-02-15',
-    usable: true
+    usable: true,
   },
   {
     id: 'item-002',
@@ -432,7 +456,7 @@ export const inventoryItems = [
     value: 'Free',
     code: 'FREESHIP',
     expiresAt: '2024-02-10',
-    usable: true
+    usable: true,
   },
   {
     id: 'item-003',
@@ -442,18 +466,66 @@ export const inventoryItems = [
     icon: '⚡',
     value: '2x XP',
     duration: '24h',
-    usable: true
-  }
+    usable: true,
+  },
 ];
 
 // Spin Wheel Prizes
 export const spinPrizes = [
-  { id: 1, name: '50 Coins', nameRu: '50 монет', type: 'coins', value: 50, color: '#FFD700', probability: 0.3 },
-  { id: 2, name: '100 XP', nameRu: '100 опыта', type: 'xp', value: 100, color: '#4CAF50', probability: 0.25 },
-  { id: 3, name: '5% Discount', nameRu: 'Скидка 5%', type: 'discount', value: 5, color: '#2196F3', probability: 0.2 },
-  { id: 4, name: 'Free Shipping', nameRu: 'Бесплатная доставка', type: 'shipping', value: 1, color: '#9C27B0', probability: 0.15 },
-  { id: 5, name: '200 Coins', nameRu: '200 монет', type: 'coins', value: 200, color: '#FF9800', probability: 0.08 },
-  { id: 6, name: '10% Discount', nameRu: 'Скидка 10%', type: 'discount', value: 10, color: '#F44336', probability: 0.02 }
+  {
+    id: 1,
+    name: '50 Coins',
+    nameRu: '50 монет',
+    type: 'coins',
+    value: 50,
+    color: '#FFD700',
+    probability: 0.3,
+  },
+  {
+    id: 2,
+    name: '100 XP',
+    nameRu: '100 опыта',
+    type: 'xp',
+    value: 100,
+    color: '#4CAF50',
+    probability: 0.25,
+  },
+  {
+    id: 3,
+    name: '5% Discount',
+    nameRu: 'Скидка 5%',
+    type: 'discount',
+    value: 5,
+    color: '#2196F3',
+    probability: 0.2,
+  },
+  {
+    id: 4,
+    name: 'Free Shipping',
+    nameRu: 'Бесплатная доставка',
+    type: 'shipping',
+    value: 1,
+    color: '#9C27B0',
+    probability: 0.15,
+  },
+  {
+    id: 5,
+    name: '200 Coins',
+    nameRu: '200 монет',
+    type: 'coins',
+    value: 200,
+    color: '#FF9800',
+    probability: 0.08,
+  },
+  {
+    id: 6,
+    name: '10% Discount',
+    nameRu: 'Скидка 10%',
+    type: 'discount',
+    value: 10,
+    color: '#F44336',
+    probability: 0.02,
+  },
 ];
 
 // Recent Orders (Quick Actions)
@@ -463,29 +535,26 @@ export const recentOrders = [
     product: 'Razer DeathAdder V3 Pro',
     date: '2024-01-20',
     status: 'delivered',
-    total: 149.99
+    total: 149.99,
   },
   {
     id: 'order-002',
     product: 'Corsair K100 RGB',
     date: '2024-01-18',
     status: 'shipped',
-    total: 229.99
+    total: 229.99,
   },
   {
     id: 'order-003',
     product: 'Samsung Odyssey G9',
     date: '2024-01-15',
     status: 'delivered',
-    total: 1299.99
-  }
+    total: 1299.99,
+  },
 ];
 
 // Wishlist
-export const wishlist = [
-  'keyboard-002',
-  'monitor-002'
-];
+export const wishlist = ['keyboard-002', 'monitor-002'];
 
 // Leaderboard
 export const leaderboard = [
@@ -493,5 +562,5 @@ export const leaderboard = [
   { rank: 2, username: 'EliteShooter', level: 4, xp: 3200 },
   { rank: 3, username: 'ProGamer_2024', level: 3, xp: 1250 }, // Current user
   { rank: 4, username: 'TechMaster99', level: 3, xp: 1100 },
-  { rank: 5, username: 'SpeedRunner', level: 3, xp: 950 }
+  { rank: 5, username: 'SpeedRunner', level: 3, xp: 950 },
 ];

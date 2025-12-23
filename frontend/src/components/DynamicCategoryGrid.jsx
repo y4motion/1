@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 /**
  * DynamicCategoryGrid - Компонент для крупных модульных карточек-категорий
  * Вдохновлен дизайном PMM с наложенными текстами на изображения товаров
- * 
+ *
  * @param {Array} categories - Массив категорий с полями:
  *   - title: string - Название категории (заглавными буквами)
  *   - image: string - URL изображения
@@ -21,10 +21,10 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
   return (
     <div className="w-full py-12">
       {title && (
-        <h2 
+        <h2
           className="text-3xl font-bold text-center mb-8"
           style={{
-            fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
+            fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
           }}
         >
           {title}
@@ -32,10 +32,10 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
       )}
 
       {/* Grid of category cards */}
-      <div 
+      <div
         className="grid gap-6 max-w-7xl mx-auto px-4"
         style={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(${columns === 4 ? '280px' : '350px'}, 1fr))`
+          gridTemplateColumns: `repeat(auto-fit, minmax(${columns === 4 ? '280px' : '350px'}, 1fr))`,
         }}
       >
         {categories.map((category, index) => (
@@ -56,7 +56,7 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
             />
 
             {/* Dark Overlay */}
-            <div 
+            <div
               className="absolute inset-0 bg-black transition-opacity duration-300"
               style={{ opacity: 0.4 }}
             />
@@ -64,11 +64,11 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
             {/* Content Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
               {/* Category Title */}
-              <h3 
+              <h3
                 className="text-white text-4xl font-bold text-center tracking-wider mb-2"
                 style={{
                   textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
-                  fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
+                  fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
                 }}
               >
                 {category.title}
@@ -76,10 +76,10 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
 
               {/* Optional Description */}
               {category.description && (
-                <p 
+                <p
                   className="text-white/80 text-sm text-center mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    textShadow: '1px 1px 4px rgba(0,0,0,0.8)'
+                    textShadow: '1px 1px 4px rgba(0,0,0,0.8)',
                   }}
                 >
                   {category.description}
@@ -88,7 +88,7 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
             </div>
 
             {/* Hover Border Effect */}
-            <div 
+            <div
               className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
               style={{
                 borderRadius: theme === 'minimal-mod' ? '0' : '16px',
@@ -100,10 +100,8 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
 
       {/* Optional Quote/Testimonial Section */}
       {categories.length > 0 && (
-        <div 
-          className="mt-12 max-w-7xl mx-auto px-4"
-        >
-          <div 
+        <div className="mt-12 max-w-7xl mx-auto px-4">
+          <div
             className="relative overflow-hidden"
             style={{
               height: '400px',
@@ -123,15 +121,15 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
             {/* Quote Content */}
             <div className="absolute inset-0 flex items-center justify-center p-12">
               <blockquote className="text-white text-center max-w-3xl">
-                <p 
+                <p
                   className="text-xl md:text-2xl italic mb-4"
                   style={{
                     textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
-                    fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit'
+                    fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
                   }}
                 >
-                  "Наши продукты - результат бесчисленных часов тестирования, 
-                  реальных отзывов геймеров и глубокой страсти к тому, что мы делаем."
+                  "Наши продукты - результат бесчисленных часов тестирования, реальных отзывов
+                  геймеров и глубокой страсти к тому, что мы делаем."
                 </p>
               </blockquote>
             </div>

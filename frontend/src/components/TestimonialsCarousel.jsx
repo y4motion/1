@@ -26,10 +26,8 @@ function TestimonialsCarousel() {
 
   const fetchTopReviews = async () => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/reviews/top?limit=12`
-      );
-      
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/top?limit=12`);
+
       if (response.ok) {
         const data = await response.json();
         setReviews(data.length > 0 ? data : mockReviews);
@@ -48,7 +46,7 @@ function TestimonialsCarousel() {
     if (carouselRef.current) {
       const newPosition = carouselRef.current.scrollLeft + amount;
       const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-      
+
       // Loop back to start if reached end
       if (newPosition >= maxScroll) {
         carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
@@ -60,9 +58,10 @@ function TestimonialsCarousel() {
 
   const updateScrollPosition = () => {
     if (carouselRef.current) {
-      const scrollPercentage = 
-        (carouselRef.current.scrollLeft / 
-        (carouselRef.current.scrollWidth - carouselRef.current.clientWidth)) * 100;
+      const scrollPercentage =
+        (carouselRef.current.scrollLeft /
+          (carouselRef.current.scrollWidth - carouselRef.current.clientWidth)) *
+        100;
       setScrollPosition(scrollPercentage);
     }
   };
@@ -79,11 +78,11 @@ function TestimonialsCarousel() {
     <div className="w-full py-16">
       {/* Section Title - with padding */}
       <div style={{ padding: '0 2.5rem', marginBottom: '3rem' }}>
-        <h2 
+        <h2
           className="text-4xl font-bold"
           style={{
             fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
-            letterSpacing: '1px'
+            letterSpacing: '1px',
           }}
         >
           WHAT PEOPLE SAY
@@ -101,7 +100,7 @@ function TestimonialsCarousel() {
             scrollBehavior: 'smooth',
             scrollSnapType: 'x mandatory',
             paddingLeft: '2.5rem',
-            paddingRight: '2.5rem'
+            paddingRight: '2.5rem',
           }}
         >
           {reviews.map((review, index) => (
@@ -114,19 +113,30 @@ function TestimonialsCarousel() {
                 borderRadius: theme === 'minimal-mod' ? '0' : '3px',
                 minHeight: '190px',
                 width: '500px',
-                scrollSnapAlign: 'start'
+                scrollSnapAlign: 'start',
               }}
             >
-              <p className="text-white mb-4 leading-relaxed" style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+              <p
+                className="text-white mb-4 leading-relaxed"
+                style={{ fontSize: '0.95rem', lineHeight: '1.6' }}
+              >
                 {review.comment || review.content}
               </p>
-              <p className="text-white/70 text-sm" style={{ fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit' }}>
+              <p
+                className="text-white/70 text-sm"
+                style={{ fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit' }}
+              >
                 -{review.username} {review.source && `[${review.source}]`}
               </p>
               {review.rating && (
                 <div className="flex items-center gap-1 mt-2">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className={i < review.rating ? 'text-yellow-400' : 'text-white/20'}>★</span>
+                    <span
+                      key={i}
+                      className={i < review.rating ? 'text-yellow-400' : 'text-white/20'}
+                    >
+                      ★
+                    </span>
                   ))}
                 </div>
               )}
@@ -138,7 +148,7 @@ function TestimonialsCarousel() {
         <div className="flex items-center gap-4 mt-8" style={{ padding: '0 2.5rem' }}>
           {/* Progress Bar */}
           <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-white transition-all duration-300"
               style={{ width: `${scrollPosition}%` }}
             />
@@ -151,7 +161,7 @@ function TestimonialsCarousel() {
               className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-white/10 transition-all"
               style={{
                 backgroundColor: 'transparent',
-                borderRadius: theme === 'minimal-mod' ? '0' : '50%'
+                borderRadius: theme === 'minimal-mod' ? '0' : '50%',
               }}
               aria-label="Previous"
             >
@@ -162,7 +172,7 @@ function TestimonialsCarousel() {
               onClick={() => handleScroll(500)}
               className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-all"
               style={{
-                borderRadius: theme === 'minimal-mod' ? '0' : '50%'
+                borderRadius: theme === 'minimal-mod' ? '0' : '50%',
               }}
               aria-label="Next"
             >
@@ -190,12 +200,13 @@ function TestimonialsCarousel() {
 const mockReviews = [
   {
     id: '1',
-    comment: 'This is unbelievably great! The product exceeded my expectations. Highly recommended for anyone looking for quality.',
+    comment:
+      'This is unbelievably great! The product exceeded my expectations. Highly recommended for anyone looking for quality.',
     username: 'TechEnthusiast',
     source: 'MARKETPLACE',
     rating: 5,
     product_id: 'mock-1',
-    likes: 45
+    likes: 45,
   },
   {
     id: '2',
@@ -204,7 +215,7 @@ const mockReviews = [
     source: 'REVIEWS',
     rating: 5,
     product_id: 'mock-2',
-    likes: 38
+    likes: 38,
   },
   {
     id: '3',
@@ -213,7 +224,7 @@ const mockReviews = [
     source: 'ARTICLES',
     rating: 5,
     product_id: 'mock-3',
-    likes: 32
+    likes: 32,
   },
   {
     id: '4',
@@ -222,7 +233,7 @@ const mockReviews = [
     source: 'MARKETPLACE',
     rating: 5,
     product_id: 'mock-4',
-    likes: 28
+    likes: 28,
   },
   {
     id: '5',
@@ -231,7 +242,7 @@ const mockReviews = [
     source: 'REVIEWS',
     rating: 5,
     product_id: 'mock-5',
-    likes: 25
+    likes: 25,
   },
   {
     id: '6',
@@ -240,8 +251,8 @@ const mockReviews = [
     source: 'FEED',
     rating: 5,
     product_id: 'mock-6',
-    likes: 22
-  }
+    likes: 22,
+  },
 ];
 
 export default TestimonialsCarousel;

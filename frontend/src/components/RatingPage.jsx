@@ -49,7 +49,10 @@ function RatingPage() {
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 hover:bg-white/5 rounded-lg transition-all"
+          >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -59,7 +62,8 @@ function RatingPage() {
 
         {/* Info */}
         <p className="text-white/70 max-w-3xl mb-6">
-          Топ-10 пользователей месяца получают Легендарное Достижение и доступ к Видео Ховеру Профиля.
+          Топ-10 пользователей месяца получают Легендарное Достижение и доступ к Видео Ховеру
+          Профиля.
         </p>
 
         {/* Period Toggle */}
@@ -99,7 +103,13 @@ function RatingPage() {
                   className={`glass-strong p-6 ${isTop3 ? 'border-2' : ''}`}
                   style={{
                     borderRadius: theme === 'minimal-mod' ? '0' : '16px',
-                    borderColor: isTop3 ? (rank === 1 ? '#fbbf24' : rank === 2 ? '#9ca3af' : '#fb923c') : 'transparent'
+                    borderColor: isTop3
+                      ? rank === 1
+                        ? '#fbbf24'
+                        : rank === 2
+                          ? '#9ca3af'
+                          : '#fb923c'
+                      : 'transparent',
                   }}
                 >
                   <div className="flex items-center gap-4">
@@ -120,9 +130,7 @@ function RatingPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-lg font-bold">{user.username}</span>
-                        {user.has_video_hover && (
-                          <span className="text-sm">🎥</span>
-                        )}
+                        {user.has_video_hover && <span className="text-sm">🎥</span>}
                       </div>
                       <div className="flex items-center gap-3 text-sm text-white/70">
                         <div className="flex items-center gap-1">
@@ -147,9 +155,7 @@ function RatingPage() {
                         </>
                       ) : (
                         <>
-                          <div className="text-2xl font-bold text-blue-400">
-                            {user.total_xp}
-                          </div>
+                          <div className="text-2xl font-bold text-blue-400">{user.total_xp}</div>
                           <div className="text-xs text-white/50">XP</div>
                         </>
                       )}
@@ -157,20 +163,22 @@ function RatingPage() {
                   </div>
 
                   {/* Legendary Achievements (Top 10) */}
-                  {rank <= 10 && user.legendary_achievements && user.legendary_achievements.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {user.legendary_achievements.map((achievement, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs px-2 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-full"
-                          >
-                            {achievement}
-                          </span>
-                        ))}
+                  {rank <= 10 &&
+                    user.legendary_achievements &&
+                    user.legendary_achievements.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-white/10">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {user.legendary_achievements.map((achievement, idx) => (
+                            <span
+                              key={idx}
+                              className="text-xs px-2 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-full"
+                            >
+                              {achievement}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               );
             })}

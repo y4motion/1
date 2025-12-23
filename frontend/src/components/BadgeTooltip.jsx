@@ -21,13 +21,19 @@ const BadgeTooltip = ({ children, content }) => {
             transform: 'translateX(-50%)',
             width: '280px',
             padding: '0.875rem 1rem',
-            background: theme === 'minimal-mod'
-              ? 'rgba(0, 0, 0, 0.98)'
-              : (theme === 'dark' ? 'rgba(5, 5, 10, 0.98)' : 'rgba(255, 255, 255, 0.98)'),
+            background:
+              theme === 'minimal-mod'
+                ? 'rgba(0, 0, 0, 0.98)'
+                : theme === 'dark'
+                  ? 'rgba(5, 5, 10, 0.98)'
+                  : 'rgba(255, 255, 255, 0.98)',
             backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(20px)',
-            border: theme === 'minimal-mod'
-              ? '1px solid rgba(241, 241, 241, 0.25)'
-              : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.2)'),
+            border:
+              theme === 'minimal-mod'
+                ? '1px solid rgba(241, 241, 241, 0.25)'
+                : theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)',
             borderRadius: theme === 'minimal-mod' ? '0' : '8px',
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
             zIndex: 10001,
@@ -36,7 +42,8 @@ const BadgeTooltip = ({ children, content }) => {
             color: theme === 'dark' ? '#fff' : '#1a1a1a',
             animation: 'scaleIn 0.15s ease-out',
             pointerEvents: 'none',
-            fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit'
+            fontFamily:
+              theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
           }}
         >
           {content}
@@ -51,7 +58,7 @@ const BadgeTooltip = ({ children, content }) => {
               height: 0,
               borderLeft: '6px solid transparent',
               borderRight: '6px solid transparent',
-              borderBottom: `6px solid ${theme === 'minimal-mod' ? 'rgba(241, 241, 241, 0.25)' : (theme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)')}`
+              borderBottom: `6px solid ${theme === 'minimal-mod' ? 'rgba(241, 241, 241, 0.25)' : theme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)'}`,
             }}
           />
         </div>

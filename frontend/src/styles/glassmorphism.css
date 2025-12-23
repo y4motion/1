@@ -26,8 +26,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
@@ -42,11 +46,13 @@
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
-
-
 
 /* Grain/Noise texture overlay */
 .grain-overlay {
@@ -133,7 +139,8 @@
 
 /* Pulsing animation for logo and hero text */
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
   }
@@ -149,7 +156,8 @@
 
 /* Enhanced pulsing animation for logo - more pronounced breathe effect */
 @keyframes pulse-glow-enhanced {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
     transform: scale(1);
@@ -175,7 +183,8 @@
 }
 
 @keyframes pulse-glow-enhanced-light {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.2));
     transform: scale(1);
@@ -281,57 +290,56 @@
   transition: all 0.3s ease;
   position: relative;
 
+  /* LVL button with permanent glassmorphism background - stands out as focal point */
+  [data-theme='dark'] .lvl-button-permanent {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* LVL button with permanent glassmorphism background - stands out as focal point */
-[data-theme='dark'] .lvl-button-permanent {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
+  [data-theme='light'] .lvl-button-permanent {
+    background: rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    color: #1a1a1a;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
 
-[data-theme='light'] .lvl-button-permanent {
-  background: rgba(0, 0, 0, 0.06);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  color: #1a1a1a;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
+  [data-theme='dark'] .lvl-button-permanent:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+  }
 
-[data-theme='dark'] .lvl-button-permanent:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
-}
-
-[data-theme='light'] .lvl-button-permanent:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
+  [data-theme='light'] .lvl-button-permanent:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
 
   overflow: hidden;
 }
@@ -367,8 +375,6 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-
-
 /* Search dialog styling - Theme aware */
 [data-theme='dark'] .search-input {
   color: white;
@@ -378,10 +384,10 @@
   color: #1a1a1a;
 }
 
-
 /* Ice crystal shimmer effect */
 @keyframes ice-shimmer {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -391,7 +397,8 @@
 
 /* Pulse animation for notifications */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -403,11 +410,16 @@
 
 /* Soft pulsing glow for price tags and buttons */
 @keyframes pulseSoft {
-  0%, 100% {
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
+  0%,
+  100% {
+    box-shadow:
+      0 4px 20px rgba(255, 255, 255, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.3);
   }
   50% {
-    box-shadow: 0 6px 32px rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 6px 32px rgba(255, 255, 255, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -514,7 +526,6 @@
   pointer-events: none;
   border-radius: inherit;
 }
-
 
 [data-theme='dark'] .search-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
@@ -658,7 +669,8 @@
 }
 
 /* Prevent transition on transforms */
-img, .no-transform-transition {
+img,
+.no-transform-transition {
   transition-property: opacity, box-shadow;
 }
 
@@ -694,31 +706,31 @@ img, .no-transform-transition {
 
 .status-approved {
   background: rgba(76, 175, 80, 0.15);
-  color: #4CAF50;
+  color: #4caf50;
   border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
 .status-pending {
   background: rgba(255, 152, 0, 0.15);
-  color: #FF9800;
+  color: #ff9800;
   border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
 .status-rejected {
   background: rgba(244, 67, 54, 0.15);
-  color: #F44336;
+  color: #f44336;
   border: 1px solid rgba(244, 67, 54, 0.3);
 }
 
 .status-draft {
   background: rgba(158, 158, 158, 0.15);
-  color: #9E9E9E;
+  color: #9e9e9e;
   border: 1px solid rgba(158, 158, 158, 0.3);
 }
 
 /* Persona Vertical Scroll */
 .persona-scroll-vertical {
-  -ms-overflow-style: none;  /* IE and Edge */
+  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: thin;
 }
 
@@ -748,7 +760,6 @@ img, .no-transform-transition {
 [data-theme='light'] .persona-scroll-vertical::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
 }
-
 
 /* Catalog Mega Menu - Elegant Thin Scrollbar */
 .catalog-sidebar-scroll {
@@ -853,4 +864,3 @@ img, .no-transform-transition {
 [data-theme='minimal-mod'] .catalog-content-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(241, 241, 241, 0.3);
 }
-

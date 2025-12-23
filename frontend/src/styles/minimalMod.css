@@ -3,24 +3,24 @@
  * Inspired by pmm.gg - Premium minimal monochrome design
  */
 
-[data-theme="minimal-mod"] {
+[data-theme='minimal-mod'] {
   /* Core Colors */
   --bg-primary: #000000;
   --bg-secondary: #0a0a0a;
   --bg-tertiary: #141414;
-  
+
   --text-primary: #f1f1f1;
   --text-secondary: #b0b0b0;
   --text-muted: #707070;
-  
+
   --border-color: rgba(241, 241, 241, 0.12);
   --border-hover: rgba(241, 241, 241, 0.24);
-  
+
   /* Accent */
   --accent-primary: #ffffff;
   --accent-hover: rgba(255, 255, 255, 0.08);
   --accent-active: rgba(255, 255, 255, 0.16);
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.8);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
@@ -28,10 +28,12 @@
 }
 
 /* Global Minimal Mod Styles */
-[data-theme="minimal-mod"] body {
+[data-theme='minimal-mod'] body {
   background-color: var(--bg-primary) !important;
   color: var(--text-primary) !important;
-  font-family: 'SF Mono', 'Menlo', 'Consolas', 'Monaco', 'Liberation Mono', 'Lucida Console', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+  font-family:
+    'SF Mono', 'Menlo', 'Consolas', 'Monaco', 'Liberation Mono', 'Lucida Console', monospace,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
   font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -39,32 +41,32 @@
 }
 
 /* Apply monospace to all text elements in minimal-mod */
-[data-theme="minimal-mod"] * {
+[data-theme='minimal-mod'] * {
   font-family: 'SF Mono', 'Menlo', 'Consolas', 'Monaco', monospace !important;
 }
 
 /* Buttons in Minimal Mod - No background shapes, only text */
-[data-theme="minimal-mod"] button:not(.no-minimal-mod) {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod) {
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-[data-theme="minimal-mod"] button:not(.no-minimal-mod):hover {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod):hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   transform: none;
 }
 
-[data-theme="minimal-mod"] button:not(.no-minimal-mod):active {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod):active {
   background-color: rgba(255, 255, 255, 0.08) !important;
   transform: none;
 }
 
 /* Cards/Panels in Minimal Mod - No background shapes */
-[data-theme="minimal-mod"] .glass,
-[data-theme="minimal-mod"] .glass-strong,
-[data-theme="minimal-mod"] .glass-subtle {
+[data-theme='minimal-mod'] .glass,
+[data-theme='minimal-mod'] .glass-strong,
+[data-theme='minimal-mod'] .glass-subtle {
   background: rgba(0, 0, 0, 0.95) !important;
   border: 1px solid rgba(241, 241, 241, 0.12) !important;
   border-radius: 0 !important;
@@ -75,84 +77,84 @@
 }
 
 /* Override ALL divs with inline styles in minimal-mod */
-[data-theme="minimal-mod"] * {
+[data-theme='minimal-mod'] * {
   border-radius: 0 !important;
 }
 
-[data-theme="minimal-mod"] .glass:hover,
-[data-theme="minimal-mod"] .glass-strong:hover,
-[data-theme="minimal-mod"] .glass-subtle:hover {
+[data-theme='minimal-mod'] .glass:hover,
+[data-theme='minimal-mod'] .glass-strong:hover,
+[data-theme='minimal-mod'] .glass-subtle:hover {
   background: rgba(255, 255, 255, 0.05) !important;
 }
 
 /* Input fields */
-[data-theme="minimal-mod"] input,
-[data-theme="minimal-mod"] textarea,
-[data-theme="minimal-mod"] select {
+[data-theme='minimal-mod'] input,
+[data-theme='minimal-mod'] textarea,
+[data-theme='minimal-mod'] select {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   transition: all 0.2s ease;
 }
 
-[data-theme="minimal-mod"] input:focus,
-[data-theme="minimal-mod"] textarea:focus,
-[data-theme="minimal-mod"] select:focus {
+[data-theme='minimal-mod'] input:focus,
+[data-theme='minimal-mod'] textarea:focus,
+[data-theme='minimal-mod'] select:focus {
   border-color: var(--border-hover);
   background-color: var(--bg-tertiary);
   outline: none;
 }
 
-[data-theme="minimal-mod"] input::placeholder,
-[data-theme="minimal-mod"] textarea::placeholder {
+[data-theme='minimal-mod'] input::placeholder,
+[data-theme='minimal-mod'] textarea::placeholder {
   color: var(--text-muted);
 }
 
 /* Links */
-[data-theme="minimal-mod"] a {
+[data-theme='minimal-mod'] a {
   color: var(--text-primary);
   transition: opacity 0.2s ease;
 }
 
-[data-theme="minimal-mod"] a:hover {
+[data-theme='minimal-mod'] a:hover {
   opacity: 0.7;
 }
 
 /* Scrollbar */
-[data-theme="minimal-mod"] ::-webkit-scrollbar {
+[data-theme='minimal-mod'] ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-[data-theme="minimal-mod"] ::-webkit-scrollbar-track {
+[data-theme='minimal-mod'] ::-webkit-scrollbar-track {
   background: var(--bg-secondary);
 }
 
-[data-theme="minimal-mod"] ::-webkit-scrollbar-thumb {
+[data-theme='minimal-mod'] ::-webkit-scrollbar-thumb {
   background: var(--text-muted);
   border-radius: 4px;
 }
 
-[data-theme="minimal-mod"] ::-webkit-scrollbar-thumb:hover {
+[data-theme='minimal-mod'] ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
 
 /* Product Cards - No borders or shapes, no hover effects */
-[data-theme="minimal-mod"] .product-card {
+[data-theme='minimal-mod'] .product-card {
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   transition: none;
 }
 
-[data-theme="minimal-mod"] .product-card:hover {
+[data-theme='minimal-mod'] .product-card:hover {
   background: transparent !important;
   transform: none;
   box-shadow: none;
 }
 
 /* Backdrop */
-[data-theme="minimal-mod"] .backdrop {
+[data-theme='minimal-mod'] .backdrop {
   background: rgba(0, 0, 0, 0.85) !important;
   backdrop-filter: blur(8px);
 }
@@ -169,6 +171,6 @@
   }
 }
 
-[data-theme="minimal-mod"] .animate-in {
+[data-theme='minimal-mod'] .animate-in {
   animation: minimal-fade-in 0.3s ease-out;
 }

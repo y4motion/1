@@ -19,11 +19,11 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
   const [showSessionMenu, setShowSessionMenu] = useState(null);
   const [managerRequested, setManagerRequested] = useState(false);
   const [hasPersonalManager, setHasPersonalManager] = useState(false);
-  
+
   const wsRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
-  
+
   // Get current language
   const currentLang = localStorage.getItem('language') || 'en';
   const t = translations[currentLang];
@@ -45,8 +45,10 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
         if (user?.token) {
           headers['Authorization'] = `Bearer ${user.token}`;
         }
-        
-        const response = await fetch(`${API_URL}/api/support-chat/check-manager-access`, { headers });
+
+        const response = await fetch(`${API_URL}/api/support-chat/check-manager-access`, {
+          headers,
+        });
         if (response.ok) {
           const data = await response.json();
           setHasPersonalManager(data.has_access);
@@ -55,7 +57,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
         console.error('Failed to check manager access:', error);
       }
     };
-    
+
     checkManagerAccess();
   }, [user]);
 
@@ -63,43 +65,50 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
   useEffect(() => {
     // Generate or get session ID
     const storedSessionId = localStorage.getItem('current_chat_session');
-    const newSessionId = storedSessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+    const newSessionId =
+      storedSessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
     if (!storedSessionId) {
       localStorage.setItem('current_chat_session', newSessionId);
     }
-    
+
     setSessionId(newSessionId);
 
     // Connect to WebSocket
     const ws = new WebSocket(`${WS_URL}/api/ws/support-chat/${newSessionId}`);
-    
+
     ws.onopen = () => {
       console.log('WebSocket connected');
     };
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      
+
       if (data.type === 'system') {
-        setMessages(prev => [...prev, {
-          id: Date.now(),
-          sender: 'bot',
-          text: data.message,
-          timestamp: new Date(data.timestamp)
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            sender: 'bot',
+            text: data.message,
+            timestamp: new Date(data.timestamp),
+          },
+        ]);
       } else if (data.type === 'user_message') {
-        setMessages(prev => [...prev, {
-          ...data.message,
-          timestamp: new Date(data.message.timestamp)
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            ...data.message,
+            timestamp: new Date(data.message.timestamp),
+          },
+        ]);
       } else if (data.type === 'bot_message') {
         setIsTyping(false);
         const botMsg = {
           ...data.message,
-          timestamp: new Date(data.message.timestamp)
+          timestamp: new Date(data.message.timestamp),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
         onNewMessage?.(botMsg);
       }
     };
@@ -126,7 +135,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
       if (user?.token) {
         headers['Authorization'] = `Bearer ${user.token}`;
       }
-      
+
       const response = await fetch(`${API_URL}/api/support-chat/sessions`, { headers });
       if (response.ok) {
         const sessions = await response.json();
@@ -144,15 +153,15 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
       if (user?.token) {
         headers['Authorization'] = `Bearer ${user.token}`;
       }
-      
+
       const response = await fetch(`${API_URL}/api/support-chat/sessions/${sessionIdToDelete}`, {
         method: 'DELETE',
-        headers
+        headers,
       });
-      
+
       if (response.ok) {
-        setChatSessions(prev => prev.filter(s => s.id !== sessionIdToDelete));
-        
+        setChatSessions((prev) => prev.filter((s) => s.id !== sessionIdToDelete));
+
         // If deleting current session, create new one
         if (sessionIdToDelete === sessionId) {
           localStorage.removeItem('current_chat_session');
@@ -171,7 +180,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
     const message = {
       message: inputText,
       user_id: user?.id || null,
-      language: currentLang
+      language: currentLang,
     };
 
     wsRef.current.send(JSON.stringify(message));
@@ -183,46 +192,55 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
   const requestManager = async () => {
     try {
       setManagerRequested(true);
-      
+
       const headers = { 'Content-Type': 'application/json' };
       if (user?.token) {
         headers['Authorization'] = `Bearer ${user.token}`;
       }
-      
+
       const response = await fetch(`${API_URL}/api/support-chat/request-manager`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
           session_id: sessionId,
           user_id: user?.id || null,
-          language: currentLang
-        })
+          language: currentLang,
+        }),
       });
 
       if (response.ok) {
         // Add system message
-        setMessages(prev => [...prev, {
-          id: Date.now(),
-          sender: 'bot',
-          text: t.chat.managerRequested,
-          timestamp: new Date()
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            sender: 'bot',
+            text: t.chat.managerRequested,
+            timestamp: new Date(),
+          },
+        ]);
       } else {
-        setMessages(prev => [...prev, {
-          id: Date.now(),
-          sender: 'bot',
-          text: t.chat.managerRequestError,
-          timestamp: new Date()
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            sender: 'bot',
+            text: t.chat.managerRequestError,
+            timestamp: new Date(),
+          },
+        ]);
       }
     } catch (error) {
       console.error('Failed to request manager:', error);
-      setMessages(prev => [...prev, {
-        id: Date.now(),
-        sender: 'bot',
-        text: t.chat.managerRequestError,
-        timestamp: new Date()
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          sender: 'bot',
+          text: t.chat.managerRequestError,
+          timestamp: new Date(),
+        },
+      ]);
     }
   };
 
@@ -252,24 +270,31 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
         flexDirection: 'column',
         overflow: 'hidden',
         boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.3)',
-        fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+        fontFamily:
+          theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
         animation: 'slideUp 0.3s ease-out',
-        border: theme === 'minimal-mod'
-          ? '1px solid rgba(241, 241, 241, 0.12)'
-          : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)')
+        border:
+          theme === 'minimal-mod'
+            ? '1px solid rgba(241, 241, 241, 0.12)'
+            : theme === 'dark'
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.1)',
       }}
     >
       {/* Header */}
       <div
         style={{
           padding: '1rem',
-          borderBottom: theme === 'minimal-mod'
-            ? '1px solid rgba(241, 241, 241, 0.12)'
-            : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+          borderBottom:
+            theme === 'minimal-mod'
+              ? '1px solid rgba(241, 241, 241, 0.12)'
+              : theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.1)'
+                : '1px solid rgba(0, 0, 0, 0.1)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          color: theme === 'minimal-mod' ? '#f1f1f1' : (theme === 'dark' ? '#fff' : '#1a1a1a')
+          color: theme === 'minimal-mod' ? '#f1f1f1' : theme === 'dark' ? '#fff' : '#1a1a1a',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -280,19 +305,17 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               borderRadius: '50%',
               background: '#10b981',
               boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)',
-              animation: 'pulse-dot 2s ease-in-out infinite'
+              animation: 'pulse-dot 2s ease-in-out infinite',
             }}
           />
           <div>
-            <h3 style={{ fontSize: '1rem', fontWeight: '600', margin: 0 }}>
-              {t.chat.title}
-            </h3>
+            <h3 style={{ fontSize: '1rem', fontWeight: '600', margin: 0 }}>{t.chat.title}</h3>
             <p style={{ fontSize: '0.75rem', opacity: 0.7, margin: 0 }}>
               {t.chat.aiAssistant} • {t.chat.online}
             </p>
           </div>
         </div>
-        
+
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button
             onClick={() => {
@@ -310,15 +333,15 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               justifyContent: 'center',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              color: theme === 'dark' ? '#fff' : '#1a1a1a'
+              color: theme === 'dark' ? '#fff' : '#1a1a1a',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = theme === 'dark'
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.05)';
-              e.currentTarget.style.border = theme === 'dark'
-                ? '1px solid rgba(255, 255, 255, 0.2)'
-                : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background =
+                theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.border =
+                theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent';
@@ -327,7 +350,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           >
             <Folder size={18} />
           </button>
-          
+
           <button
             onClick={onClose}
             style={{
@@ -341,15 +364,15 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               justifyContent: 'center',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              color: theme === 'dark' ? '#fff' : '#1a1a1a'
+              color: theme === 'dark' ? '#fff' : '#1a1a1a',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = theme === 'dark'
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.05)';
-              e.currentTarget.style.border = theme === 'dark'
-                ? '1px solid rgba(255, 255, 255, 0.2)'
-                : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background =
+                theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.border =
+                theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent';
@@ -370,22 +393,22 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: theme === 'dark' 
-              ? 'rgba(20, 20, 30, 0.98)' 
-              : 'rgba(255, 255, 255, 0.98)',
+            background: theme === 'dark' ? 'rgba(20, 20, 30, 0.98)' : 'rgba(255, 255, 255, 0.98)',
             backdropFilter: 'blur(10px)',
             zIndex: 10,
             padding: '1rem',
-            overflowY: 'auto'
+            overflowY: 'auto',
           }}
         >
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '1rem',
-            color: theme === 'dark' ? '#fff' : '#1a1a1a'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1rem',
+              color: theme === 'dark' ? '#fff' : '#1a1a1a',
+            }}
+          >
             <h3 style={{ fontSize: '1.125rem', fontWeight: '600', margin: 0 }}>
               {t.chat.chatHistory}
             </h3>
@@ -395,7 +418,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                color: theme === 'dark' ? '#fff' : '#1a1a1a'
+                color: theme === 'dark' ? '#fff' : '#1a1a1a',
               }}
             >
               <X size={20} />
@@ -403,12 +426,14 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           </div>
 
           {chatSessions.length === 0 ? (
-            <p style={{
-              textAlign: 'center',
-              opacity: 0.6,
-              fontSize: '0.875rem',
-              color: theme === 'dark' ? '#fff' : '#1a1a1a'
-            }}>
+            <p
+              style={{
+                textAlign: 'center',
+                opacity: 0.6,
+                fontSize: '0.875rem',
+                color: theme === 'dark' ? '#fff' : '#1a1a1a',
+              }}
+            >
               {t.chat.noPreviousChats}
             </p>
           ) : (
@@ -419,23 +444,22 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                   style={{
                     padding: '0.875rem',
                     borderRadius: '8px',
-                    border: session.id === sessionId
-                      ? '1px solid rgba(139, 92, 246, 0.5)'
-                      : theme === 'dark'
-                        ? '1px solid rgba(255, 255, 255, 0.1)'
-                        : '1px solid rgba(0, 0, 0, 0.1)',
-                    background: session.id === sessionId
-                      ? 'rgba(139, 92, 246, 0.1)'
-                      : 'transparent',
+                    border:
+                      session.id === sessionId
+                        ? '1px solid rgba(139, 92, 246, 0.5)'
+                        : theme === 'dark'
+                          ? '1px solid rgba(255, 255, 255, 0.1)'
+                          : '1px solid rgba(0, 0, 0, 0.1)',
+                    background:
+                      session.id === sessionId ? 'rgba(139, 92, 246, 0.1)' : 'transparent',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    position: 'relative'
+                    position: 'relative',
                   }}
                   onMouseEnter={(e) => {
                     if (session.id !== sessionId) {
-                      e.currentTarget.style.background = theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.05)'
-                        : 'rgba(0, 0, 0, 0.05)';
+                      e.currentTarget.style.background =
+                        theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -444,36 +468,49 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                     }
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    }}
+                  >
                     <div style={{ flex: 1 }}>
-                      <div style={{
-                        fontSize: '0.875rem',
-                        fontWeight: '600',
-                        marginBottom: '0.25rem',
-                        color: theme === 'dark' ? '#fff' : '#1a1a1a'
-                      }}>
+                      <div
+                        style={{
+                          fontSize: '0.875rem',
+                          fontWeight: '600',
+                          marginBottom: '0.25rem',
+                          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                        }}
+                      >
                         {session.title}
                       </div>
-                      <div style={{
-                        fontSize: '0.75rem',
-                        opacity: 0.7,
-                        marginBottom: '0.25rem',
-                        color: theme === 'dark' ? '#fff' : '#1a1a1a',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
+                      <div
+                        style={{
+                          fontSize: '0.75rem',
+                          opacity: 0.7,
+                          marginBottom: '0.25rem',
+                          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
                         {session.last_message || t.chat.noMessages}
                       </div>
-                      <div style={{
-                        fontSize: '0.7rem',
-                        opacity: 0.5,
-                        color: theme === 'dark' ? '#fff' : '#1a1a1a'
-                      }}>
-                        {session.messages_count} {t.chat.messages} • {new Date(session.updated_at).toLocaleDateString()}
+                      <div
+                        style={{
+                          fontSize: '0.7rem',
+                          opacity: 0.5,
+                          color: theme === 'dark' ? '#fff' : '#1a1a1a',
+                        }}
+                      >
+                        {session.messages_count} {t.chat.messages} •{' '}
+                        {new Date(session.updated_at).toLocaleDateString()}
                       </div>
                     </div>
-                    
+
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -485,10 +522,10 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
                         cursor: 'pointer',
                         color: '#ef4444',
                         opacity: 0.7,
-                        transition: 'opacity 0.3s ease'
+                        transition: 'opacity 0.3s ease',
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                      onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.7')}
                     >
                       <Trash2 size={16} />
                     </button>
@@ -508,7 +545,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
           padding: '1rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem'
+          gap: '1rem',
         }}
       >
         {messages.map((message) => (
@@ -517,57 +554,68 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
             style={{
               display: 'flex',
               justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
-              animation: 'fadeIn 0.3s ease-out'
+              animation: 'fadeIn 0.3s ease-out',
             }}
           >
             <div
               style={{
                 maxWidth: '75%',
                 padding: '0.75rem 1rem',
-                borderRadius: message.sender === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: message.sender === 'user'
-                  ? 'rgba(139, 92, 246, 0.2)'
-                  : theme === 'dark'
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.05)',
+                borderRadius:
+                  message.sender === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                background:
+                  message.sender === 'user'
+                    ? 'rgba(139, 92, 246, 0.2)'
+                    : theme === 'dark'
+                      ? 'rgba(255, 255, 255, 0.1)'
+                      : 'rgba(0, 0, 0, 0.05)',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.875rem',
                 lineHeight: '1.5',
-                wordWrap: 'break-word'
+                wordWrap: 'break-word',
               }}
             >
               {message.text}
-              <div style={{
-                fontSize: '0.7rem',
-                opacity: 0.6,
-                marginTop: '0.25rem'
-              }}>
-                {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              <div
+                style={{
+                  fontSize: '0.7rem',
+                  opacity: 0.6,
+                  marginTop: '0.25rem',
+                }}
+              >
+                {new Date(message.timestamp).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </div>
             </div>
           </div>
         ))}
-        
+
         {isTyping && (
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             <div
               style={{
                 padding: '0.75rem 1rem',
                 borderRadius: '16px 16px 16px 4px',
-                background: theme === 'dark'
-                  ? 'rgba(255, 255, 255, 0.1)'
-                  : 'rgba(0, 0, 0, 0.05)',
+                background: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
                 display: 'flex',
-                gap: '0.25rem'
+                gap: '0.25rem',
               }}
             >
-              <span className="typing-dot" style={{ animationDelay: '0s' }}>•</span>
-              <span className="typing-dot" style={{ animationDelay: '0.2s' }}>•</span>
-              <span className="typing-dot" style={{ animationDelay: '0.4s' }}>•</span>
+              <span className="typing-dot" style={{ animationDelay: '0s' }}>
+                •
+              </span>
+              <span className="typing-dot" style={{ animationDelay: '0.2s' }}>
+                •
+              </span>
+              <span className="typing-dot" style={{ animationDelay: '0.4s' }}>
+                •
+              </span>
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -575,9 +623,10 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
       <div
         style={{
           padding: '1rem',
-          borderTop: theme === 'dark'
-            ? '1px solid rgba(255, 255, 255, 0.1)'
-            : '1px solid rgba(0, 0, 0, 0.1)'
+          borderTop:
+            theme === 'dark'
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.1)',
         }}
       >
         {/* Request Personal Manager Button - Only if user has access */}
@@ -599,7 +648,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '0.5rem'
+              gap: '0.5rem',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
@@ -614,7 +663,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
             {t.chat.requestManager}
           </button>
         )}
-        
+
         {/* Message Input */}
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <input
@@ -633,22 +682,22 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               color: theme === 'dark' ? '#fff' : '#1a1a1a',
               fontSize: '0.875rem',
               outline: 'none',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
             }}
             onFocus={(e) => {
-              e.currentTarget.style.border = theme === 'dark'
-                ? '1px solid rgba(255, 255, 255, 0.2)'
-                : '1px solid rgba(0, 0, 0, 0.2)';
-              e.currentTarget.style.background = theme === 'dark'
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.border =
+                theme === 'dark'
+                  ? '1px solid rgba(255, 255, 255, 0.2)'
+                  : '1px solid rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.background =
+                theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
             }}
             onBlur={(e) => {
               e.currentTarget.style.border = '1px solid transparent';
               e.currentTarget.style.background = 'transparent';
             }}
           />
-          
+
           <button
             onClick={sendMessage}
             disabled={!inputText.trim()}
@@ -663,7 +712,7 @@ const ChatWindow = ({ onClose, onNewMessage }) => {
               transition: 'all 0.3s ease',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
             onMouseEnter={(e) => {
               if (inputText.trim()) {

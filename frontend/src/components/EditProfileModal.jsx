@@ -6,16 +6,32 @@ import { useLanguage } from '../contexts/LanguageContext';
 const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
   const { theme } = useTheme();
   const { language } = useLanguage();
-  
+
   const [formData, setFormData] = useState({
     username: currentUser?.username || '',
     bio: currentUser?.bio || '',
     location: currentUser?.location || '',
     website: currentUser?.website || '',
-    avatar: currentUser?.avatar || '👤'
+    avatar: currentUser?.avatar || '👤',
   });
 
-  const avatarOptions = ['👤', '🎮', '🎯', '🚀', '⚡', '🔥', '💎', '🎨', '🦾', '🤖', '👾', '🎪', '🌟', '💫', '🌈'];
+  const avatarOptions = [
+    '👤',
+    '🎮',
+    '🎯',
+    '🚀',
+    '⚡',
+    '🔥',
+    '💎',
+    '🎨',
+    '🦾',
+    '🤖',
+    '👾',
+    '🎪',
+    '🌟',
+    '💫',
+    '🌈',
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +55,7 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '2rem',
-        animation: 'fadeIn 0.2s ease-out'
+        animation: 'fadeIn 0.2s ease-out',
       }}
       onClick={onClose}
     >
@@ -50,26 +66,38 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
           width: '100%',
           maxWidth: '550px',
           borderRadius: theme === 'minimal-mod' ? '0' : '16px',
-          background: theme === 'minimal-mod'
-            ? 'rgba(0, 0, 0, 0.98)'
-            : (theme === 'dark' ? 'rgba(10, 10, 15, 0.98)' : 'rgba(255, 255, 255, 0.98)'),
+          background:
+            theme === 'minimal-mod'
+              ? 'rgba(0, 0, 0, 0.98)'
+              : theme === 'dark'
+                ? 'rgba(10, 10, 15, 0.98)'
+                : 'rgba(255, 255, 255, 0.98)',
           backdropFilter: theme === 'minimal-mod' ? 'none' : 'blur(30px)',
-          border: theme === 'minimal-mod'
-            ? '1px solid rgba(241, 241, 241, 0.12)'
-            : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+          border:
+            theme === 'minimal-mod'
+              ? '1px solid rgba(241, 241, 241, 0.12)'
+              : theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.1)'
+                : '1px solid rgba(0, 0, 0, 0.1)',
           boxShadow: theme === 'minimal-mod' ? 'none' : '0 8px 32px rgba(0, 0, 0, 0.4)',
-          fontFamily: theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
-          animation: 'scaleIn 0.3s ease-out'
+          fontFamily:
+            theme === 'minimal-mod' ? '"SF Mono", Menlo, Consolas, Monaco, monospace' : 'inherit',
+          animation: 'scaleIn 0.3s ease-out',
         }}
       >
         {/* Header */}
-        <div style={{
-          padding: '1.5rem',
-          borderBottom: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
+        <div
+          style={{
+            padding: '1.5rem',
+            borderBottom:
+              theme === 'dark'
+                ? '1px solid rgba(255, 255, 255, 0.1)'
+                : '1px solid rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700' }}>
             {language === 'ru' ? 'Редактировать профиль' : 'Edit Profile'}
           </h2>
@@ -85,10 +113,13 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'background 0.2s ease',
-              color: theme === 'dark' ? '#fff' : '#1a1a1a'
+              color: theme === 'dark' ? '#fff' : '#1a1a1a',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background =
+                theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
             <X size={20} />
           </button>
@@ -98,20 +129,24 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
         <form onSubmit={handleSubmit} style={{ padding: '1.5rem' }}>
           {/* Avatar Selection */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              marginBottom: '0.75rem',
-              opacity: 0.8
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                marginBottom: '0.75rem',
+                opacity: 0.8,
+              }}
+            >
               {language === 'ru' ? 'Аватар' : 'Avatar'}
             </label>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(8, 1fr)',
-              gap: '0.5rem'
-            }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(8, 1fr)',
+                gap: '0.5rem',
+              }}
+            >
               {avatarOptions.map((emoji) => (
                 <button
                   key={emoji}
@@ -121,18 +156,24 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                     width: '48px',
                     height: '48px',
                     borderRadius: '50%',
-                    background: formData.avatar === emoji
-                      ? 'rgba(139, 92, 246, 0.2)'
-                      : (theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)'),
-                    border: formData.avatar === emoji
-                      ? '2px solid #8b5cf6'
-                      : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                    background:
+                      formData.avatar === emoji
+                        ? 'rgba(139, 92, 246, 0.2)'
+                        : theme === 'dark'
+                          ? 'rgba(255, 255, 255, 0.05)'
+                          : 'rgba(0, 0, 0, 0.03)',
+                    border:
+                      formData.avatar === emoji
+                        ? '2px solid #8b5cf6'
+                        : theme === 'dark'
+                          ? '1px solid rgba(255, 255, 255, 0.1)'
+                          : '1px solid rgba(0, 0, 0, 0.1)',
                     cursor: 'pointer',
                     fontSize: '1.5rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {
                     if (formData.avatar !== emoji) {
@@ -151,13 +192,15 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
 
           {/* Username */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              opacity: 0.8
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                marginBottom: '0.5rem',
+                opacity: 0.8,
+              }}
+            >
               {language === 'ru' ? 'Имя пользователя' : 'Username'}
             </label>
             <input
@@ -168,30 +211,38 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 width: '100%',
                 padding: '0.75rem 1rem',
                 background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-                border: theme === 'minimal-mod'
-                  ? '1px solid rgba(241, 241, 241, 0.2)'
-                  : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                border:
+                  theme === 'minimal-mod'
+                    ? '1px solid rgba(241, 241, 241, 0.2)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.9375rem',
                 outline: 'none',
                 fontFamily: 'inherit',
-                transition: 'border-color 0.2s ease'
+                transition: 'border-color 0.2s ease',
               }}
-              onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#8b5cf6')}
+              onBlur={(e) =>
+                (e.currentTarget.style.borderColor =
+                  theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+              }
             />
           </div>
 
           {/* Bio */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              opacity: 0.8
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                marginBottom: '0.5rem',
+                opacity: 0.8,
+              }}
+            >
               {language === 'ru' ? 'О себе' : 'Bio'}
             </label>
             <textarea
@@ -204,34 +255,49 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 width: '100%',
                 padding: '0.75rem 1rem',
                 background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-                border: theme === 'minimal-mod'
-                  ? '1px solid rgba(241, 241, 241, 0.2)'
-                  : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                border:
+                  theme === 'minimal-mod'
+                    ? '1px solid rgba(241, 241, 241, 0.2)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.9375rem',
                 resize: 'none',
                 outline: 'none',
                 fontFamily: 'inherit',
-                transition: 'border-color 0.2s ease'
+                transition: 'border-color 0.2s ease',
               }}
-              onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#8b5cf6')}
+              onBlur={(e) =>
+                (e.currentTarget.style.borderColor =
+                  theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+              }
             />
-            <div style={{ fontSize: '0.75rem', opacity: 0.5, textAlign: 'right', marginTop: '0.25rem' }}>
+            <div
+              style={{
+                fontSize: '0.75rem',
+                opacity: 0.5,
+                textAlign: 'right',
+                marginTop: '0.25rem',
+              }}
+            >
               {formData.bio.length}/160
             </div>
           </div>
 
           {/* Location */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              opacity: 0.8
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                marginBottom: '0.5rem',
+                opacity: 0.8,
+              }}
+            >
               {language === 'ru' ? 'Местоположение' : 'Location'}
             </label>
             <input
@@ -243,30 +309,38 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 width: '100%',
                 padding: '0.75rem 1rem',
                 background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-                border: theme === 'minimal-mod'
-                  ? '1px solid rgba(241, 241, 241, 0.2)'
-                  : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                border:
+                  theme === 'minimal-mod'
+                    ? '1px solid rgba(241, 241, 241, 0.2)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.9375rem',
                 outline: 'none',
                 fontFamily: 'inherit',
-                transition: 'border-color 0.2s ease'
+                transition: 'border-color 0.2s ease',
               }}
-              onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#8b5cf6')}
+              onBlur={(e) =>
+                (e.currentTarget.style.borderColor =
+                  theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+              }
             />
           </div>
 
           {/* Website */}
           <div style={{ marginBottom: '2rem' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              opacity: 0.8
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                marginBottom: '0.5rem',
+                opacity: 0.8,
+              }}
+            >
               {language === 'ru' ? 'Веб-сайт' : 'Website'}
             </label>
             <input
@@ -278,18 +352,24 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 width: '100%',
                 padding: '0.75rem 1rem',
                 background: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-                border: theme === 'minimal-mod'
-                  ? '1px solid rgba(241, 241, 241, 0.2)'
-                  : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)'),
+                border:
+                  theme === 'minimal-mod'
+                    ? '1px solid rgba(241, 241, 241, 0.2)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
                 fontSize: '0.9375rem',
                 outline: 'none',
                 fontFamily: 'inherit',
-                transition: 'border-color 0.2s ease'
+                transition: 'border-color 0.2s ease',
               }}
-              onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#8b5cf6')}
+              onBlur={(e) =>
+                (e.currentTarget.style.borderColor =
+                  theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+              }
             />
           </div>
 
@@ -302,18 +382,22 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 flex: 1,
                 padding: '0.875rem',
                 background: 'transparent',
-                border: theme === 'minimal-mod'
-                  ? '1px solid rgba(241, 241, 241, 0.2)'
-                  : (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.2)'),
+                border:
+                  theme === 'minimal-mod'
+                    ? '1px solid rgba(241, 241, 241, 0.2)'
+                    : theme === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.2)'
+                      : '1px solid rgba(0, 0, 0, 0.2)',
                 borderRadius: theme === 'minimal-mod' ? '0' : '8px',
                 cursor: 'pointer',
                 fontSize: '0.9375rem',
                 fontWeight: '600',
                 color: theme === 'dark' ? '#fff' : '#1a1a1a',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+                e.currentTarget.style.background =
+                  theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = 'transparent';
@@ -333,7 +417,7 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onSave }) => {
                 fontSize: '0.9375rem',
                 fontWeight: '600',
                 color: '#fff',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';

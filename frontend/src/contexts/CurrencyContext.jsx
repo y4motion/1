@@ -15,7 +15,7 @@ const EXCHANGE_RATES = {
   USD: 1,
   RUB: 95.5,
   CNY: 7.24,
-  EUR: 0.92
+  EUR: 0.92,
 };
 
 export const CurrencyProvider = ({ children }) => {
@@ -43,7 +43,7 @@ export const CurrencyProvider = ({ children }) => {
   // Format price with currency symbol
   const formatPrice = (priceUSD) => {
     const converted = convertPrice(priceUSD);
-    
+
     switch (currency) {
       case 'USD':
         return `$${converted}`;
@@ -82,7 +82,7 @@ export const CurrencyProvider = ({ children }) => {
         convertPrice,
         formatPrice,
         getCurrencySymbol,
-        rates: EXCHANGE_RATES
+        rates: EXCHANGE_RATES,
       }}
     >
       {children}

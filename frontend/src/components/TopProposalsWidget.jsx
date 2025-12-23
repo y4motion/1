@@ -35,7 +35,10 @@ function TopProposalsWidget() {
   if (proposals.length === 0) return null;
 
   return (
-    <div className="glass-strong p-6" style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}>
+    <div
+      className="glass-strong p-6"
+      style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+    >
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">🗳️ Топ-3 Активных Запроса</h2>
         <button

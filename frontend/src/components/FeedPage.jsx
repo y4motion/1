@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { ArrowLeft, Heart, Repeat2, MessageCircle, Share2, Plus, Image as ImageIcon } from 'lucide-react';
+import {
+  ArrowLeft,
+  Heart,
+  Repeat2,
+  MessageCircle,
+  Share2,
+  Plus,
+  Image as ImageIcon,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 function FeedPage() {
@@ -19,12 +27,9 @@ function FeedPage() {
 
   const fetchFeed = async () => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/feed`,
-        {
-          headers: user ? { 'Authorization': `Bearer ${localStorage.getItem('token')}` } : {}
-        }
-      );
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/feed`, {
+        headers: user ? { Authorization: `Bearer ${localStorage.getItem('token')}` } : {},
+      });
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
@@ -38,20 +43,17 @@ function FeedPage() {
 
   const createPost = async () => {
     if (!newPostContent.trim()) return;
-    
+
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/feed`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify({ content: newPostContent })
-        }
-      );
-      
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/feed`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ content: newPostContent }),
+      });
+
       if (response.ok) {
         setNewPostContent('');
         setShowCreateModal(false);
@@ -64,13 +66,10 @@ function FeedPage() {
 
   const toggleLike = async (postId) => {
     try {
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/feed/${postId}/like`,
-        {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        }
-      );
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/feed/${postId}/like`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
       fetchFeed();
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -83,7 +82,10 @@ function FeedPage() {
       <div className="max-w-3xl mx-auto px-4 mb-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-white/5 rounded-lg transition-all"
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -105,8 +107,14 @@ function FeedPage() {
 
       {/* Create Post Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backdropFilter: 'blur(10px)' }}>
-          <div className="glass-strong p-6 w-full max-w-2xl rounded-2xl" style={{ borderRadius: theme === 'minimal-mod' ? '0' : '24px' }}>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backdropFilter: 'blur(10px)' }}
+        >
+          <div
+            className="glass-strong p-6 w-full max-w-2xl rounded-2xl"
+            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '24px' }}
+          >
             <h2 className="text-xl font-bold mb-4">Создать пост</h2>
             <textarea
               value={newPostContent}
@@ -150,8 +158,12 @@ function FeedPage() {
           <div className="text-center py-12 text-white/50">Пока нет постов</div>
         ) : (
           <div className="space-y-4">
-            {posts.map(post => (
-              <div key={post.id} className="glass-strong p-6 rounded-2xl" style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}>
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="glass-strong p-6 rounded-2xl"
+                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+              >
                 {/* Post Header */}
                 <div className="flex items-start gap-3 mb-4">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-xl">
@@ -160,7 +172,9 @@ function FeedPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-bold">{post.username}</span>
-                      <span className="text-xs px-2 py-0.5 bg-purple-500/20 rounded-full">LVL {post.user_level}</span>
+                      <span className="text-xs px-2 py-0.5 bg-purple-500/20 rounded-full">
+                        LVL {post.user_level}
+                      </span>
                     </div>
                     <span className="text-sm text-white/50">
                       {new Date(post.created_at).toLocaleString('ru-RU')}
@@ -192,7 +206,9 @@ function FeedPage() {
                     onClick={() => user && toggleLike(post.id)}
                     className="flex items-center gap-2 hover:text-red-400 transition-all"
                   >
-                    <Heart className={`w-5 h-5 ${user && post.liked_by?.includes(user.id) ? 'fill-red-400 text-red-400' : ''}`} />
+                    <Heart
+                      className={`w-5 h-5 ${user && post.liked_by?.includes(user.id) ? 'fill-red-400 text-red-400' : ''}`}
+                    />
                     <span>{post.likes}</span>
                   </button>
                   <button className="flex items-center gap-2 hover:text-green-400 transition-all">

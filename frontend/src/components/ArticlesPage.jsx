@@ -18,10 +18,11 @@ function ArticlesPage() {
 
   const fetchArticles = async () => {
     try {
-      const url = filter === 'featured'
-        ? `${process.env.REACT_APP_BACKEND_URL}/api/articles?featured_only=true`
-        : `${process.env.REACT_APP_BACKEND_URL}/api/articles`;
-      
+      const url =
+        filter === 'featured'
+          ? `${process.env.REACT_APP_BACKEND_URL}/api/articles?featured_only=true`
+          : `${process.env.REACT_APP_BACKEND_URL}/api/articles`;
+
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
@@ -40,7 +41,10 @@ function ArticlesPage() {
       <div className="max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-white/5 rounded-lg transition-all"
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -86,7 +90,7 @@ function ArticlesPage() {
           <div className="text-center py-12 text-white/50">Пока нет статей</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map(article => (
+            {articles.map((article) => (
               <div
                 key={article.id}
                 onClick={() => navigate(`/articles/${article.id}`)}
@@ -111,15 +115,11 @@ function ArticlesPage() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold mb-2 line-clamp-2">
-                    {article.title}
-                  </h3>
+                  <h3 className="text-xl font-bold mb-2 line-clamp-2">{article.title}</h3>
 
                   {/* Subtitle */}
                   {article.subtitle && (
-                    <p className="text-sm text-white/70 mb-4 line-clamp-2">
-                      {article.subtitle}
-                    </p>
+                    <p className="text-sm text-white/70 mb-4 line-clamp-2">{article.subtitle}</p>
                   )}
 
                   {/* Author & Stats */}
@@ -128,9 +128,7 @@ function ArticlesPage() {
                       <span className="text-xs px-2 py-0.5 bg-blue-500/20 rounded-full">
                         {article.username}
                       </span>
-                      {article.is_verified_creator && (
-                        <span className="text-xs">✓</span>
-                      )}
+                      {article.is_verified_creator && <span className="text-xs">✓</span>}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-white/50">
                       <Clock className="w-3 h-3" />

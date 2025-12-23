@@ -13,16 +13,16 @@ export const translations = {
       settings: 'Settings',
       shoppingCart: 'Shopping Cart',
       account: 'Account',
-      login: 'Login'
+      login: 'Login',
     },
     hero: {
       title: 'RUNNING TO UPGRADE...',
-      searchPlaceholder: 'Search for gaming gear, components, or builds...'
+      searchPlaceholder: 'Search for gaming gear, components, or builds...',
     },
     home: {
       exploreTitle: 'Explore the most popular products',
       featuredDeals: 'Featured Deals',
-      copyright: '© 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED'
+      copyright: '© 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED',
     },
     categories: {
       mouse: 'MOUSE',
@@ -33,7 +33,7 @@ export const translations = {
       monitor: 'MONITOR',
       audio: 'AUDIO',
       ergonomics: 'ERGONOMICS',
-      custom: 'CUSTOM'
+      custom: 'CUSTOM',
     },
     footer: {
       bestProducts: 'BEST PRODUCTS',
@@ -43,7 +43,7 @@ export const translations = {
       personalDevelopments: 'PERSONAL DEVELOPMENTS',
       contactInformation: 'CONTACT INFORMATION',
       support: 'SUPPORT',
-      suggestIdea: 'SUGGEST AN IDEA'
+      suggestIdea: 'SUGGEST AN IDEA',
     },
     user: {
       level: 'LVL',
@@ -100,7 +100,7 @@ export const translations = {
       signInWith: 'Sign in with',
       authFailed: 'Authentication failed',
       unexpectedError: 'An unexpected error occurred',
-      comingSoon: 'OAuth coming soon! Use email/password for now.'
+      comingSoon: 'OAuth coming soon! Use email/password for now.',
     },
     product: {
       backTo: 'Back to',
@@ -118,7 +118,7 @@ export const translations = {
       approved: 'APPROVED',
       pending: 'PENDING REVIEW',
       rejected: 'REJECTED',
-      draft: 'DRAFT'
+      draft: 'DRAFT',
     },
     placeholder: {
       underDevelopment: 'This section is under development. Check back soon for amazing features!',
@@ -126,14 +126,14 @@ export const translations = {
       notFound: 'not found',
       noProducts: 'No products available yet',
       categoryBeingStocked: 'This category is being stocked. Check back soon!',
-      exploreOther: 'Explore Other Categories'
+      exploreOther: 'Explore Other Categories',
     },
     moderation: {
       title: 'Content Management Info (Demo)',
       status: 'Status',
       submittedBy: 'Submitted by',
       moderatedBy: 'Moderated by',
-      created: 'Created'
+      created: 'Created',
     },
     chat: {
       title: 'Support Chat',
@@ -146,8 +146,8 @@ export const translations = {
       typePlaceholder: 'Type your message...',
       requestManager: 'Contact Personal Manager',
       managerRequested: 'Request received. Your personal manager will contact you soon.',
-      managerRequestError: 'Failed to send manager request. Please try again.'
-    }
+      managerRequestError: 'Failed to send manager request. Please try again.',
+    },
   },
   ru: {
     nav: {
@@ -163,16 +163,16 @@ export const translations = {
       settings: 'Настройки',
       shoppingCart: 'Корзина',
       account: 'Аккаунт',
-      login: 'Войти'
+      login: 'Войти',
     },
     hero: {
       title: 'БЕЖИМ АПГРЕЙДИТЬСЯ...',
-      searchPlaceholder: 'Поиск игрового оборудования, компонентов или сборок...'
+      searchPlaceholder: 'Поиск игрового оборудования, компонентов или сборок...',
     },
     home: {
       exploreTitle: 'Ознакомьтесь с самыми популярными продуктами',
       featuredDeals: 'Избранные предложения',
-      copyright: '© 2024 GAMING MARKETPLACE • ВСЕ ПРАВА ЗАЩИЩЕНЫ'
+      copyright: '© 2024 GAMING MARKETPLACE • ВСЕ ПРАВА ЗАЩИЩЕНЫ',
     },
     categories: {
       mouse: 'МЫШЬ',
@@ -183,7 +183,7 @@ export const translations = {
       monitor: 'МОНИТОР',
       audio: 'АУДИО',
       ergonomics: 'ЭРГОНОМИКА',
-      custom: 'КАСТОМ'
+      custom: 'КАСТОМ',
     },
     footer: {
       bestProducts: 'ЛУЧШИЕ ПРОДУКТЫ',
@@ -193,7 +193,7 @@ export const translations = {
       personalDevelopments: 'ЛИЧНОЕ РАЗВИТИЕ',
       contactInformation: 'КОНТАКТНАЯ ИНФОРМАЦИЯ',
       support: 'ПОДДЕРЖКА',
-      suggestIdea: 'ПРЕДЛОЖИТЬ ИДЕЮ'
+      suggestIdea: 'ПРЕДЛОЖИТЬ ИДЕЮ',
     },
     user: {
       level: 'УРВ',
@@ -250,7 +250,7 @@ export const translations = {
       signInWith: 'Войти через',
       authFailed: 'Ошибка аутентификации',
       unexpectedError: 'Произошла непредвиденная ошибка',
-      comingSoon: 'OAuth скоро появится! Используйте email/пароль.'
+      comingSoon: 'OAuth скоро появится! Используйте email/пароль.',
     },
     product: {
       backTo: 'Назад к',
@@ -268,22 +268,23 @@ export const translations = {
       approved: 'ОДОБРЕНО',
       pending: 'НА ПРОВЕРКЕ',
       rejected: 'ОТКЛОНЕНО',
-      draft: 'ЧЕРНОВИК'
+      draft: 'ЧЕРНОВИК',
     },
     placeholder: {
-      underDevelopment: 'Этот раздел находится в разработке. Заходите позже за потрясающими функциями!',
+      underDevelopment:
+        'Этот раздел находится в разработке. Заходите позже за потрясающими функциями!',
       returnHome: 'Вернуться на главную',
       notFound: 'не найден',
       noProducts: 'Товары пока недоступны',
       categoryBeingStocked: 'Эта категория пополняется. Загляните позже!',
-      exploreOther: 'Изучить другие категории'
+      exploreOther: 'Изучить другие категории',
     },
     moderation: {
       title: 'Информация об управлении контентом (Демо)',
       status: 'Статус',
       submittedBy: 'Отправлено',
       moderatedBy: 'Модерировано',
-      created: 'Создано'
+      created: 'Создано',
     },
     chat: {
       title: 'Чат поддержки',
@@ -296,8 +297,8 @@ export const translations = {
       typePlaceholder: 'Введите сообщение...',
       requestManager: 'Связаться с личным менеджером',
       managerRequested: 'Запрос получен. Ваш личный менеджер свяжется с вами в ближайшее время.',
-      managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.'
-    }
+      managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.',
+    },
   },
   advanced: {
     // ADVANCED/MIXED MODE: UI elements in English, content in Russian
@@ -314,16 +315,16 @@ export const translations = {
       settings: 'Settings',
       shoppingCart: 'Shopping Cart',
       account: 'Account',
-      login: 'Login'
+      login: 'Login',
     },
     hero: {
       title: 'RUNNING TO UPGRADE...',
-      searchPlaceholder: 'Поиск игрового оборудования, компонентов или сборок...'
+      searchPlaceholder: 'Поиск игрового оборудования, компонентов или сборок...',
     },
     home: {
       exploreTitle: 'Изучите самые популярные товары',
       featuredDeals: 'Featured Deals',
-      copyright: '© 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED'
+      copyright: '© 2024 GAMING MARKETPLACE • ALL RIGHTS RESERVED',
     },
     categories: {
       mouse: 'MOUSE',
@@ -334,7 +335,7 @@ export const translations = {
       monitor: 'MONITOR',
       audio: 'AUDIO',
       ergonomics: 'ERGONOMICS',
-      custom: 'CUSTOM'
+      custom: 'CUSTOM',
     },
     footer: {
       bestProducts: 'BEST PRODUCTS',
@@ -344,7 +345,7 @@ export const translations = {
       personalDevelopments: 'PERSONAL DEVELOPMENTS',
       contactInformation: 'CONTACT INFORMATION',
       support: 'SUPPORT',
-      suggestIdea: 'SUGGEST AN IDEA'
+      suggestIdea: 'SUGGEST AN IDEA',
     },
     user: {
       level: 'LVL',
@@ -404,7 +405,7 @@ export const translations = {
       signInWith: 'Sign in with',
       authFailed: 'Ошибка аутентификации',
       unexpectedError: 'Произошла непредвиденная ошибка',
-      comingSoon: 'OAuth coming soon! Use email/password for now.'
+      comingSoon: 'OAuth coming soon! Use email/password for now.',
     },
     product: {
       backTo: 'Назад к',
@@ -419,7 +420,7 @@ export const translations = {
       specifications: 'Specifications',
       description: 'Description',
       shipping: 'Shipping',
-      returns: 'Returns'
+      returns: 'Returns',
     },
     cart: {
       title: 'Shopping Cart',
@@ -428,14 +429,14 @@ export const translations = {
       subtotal: 'Subtotal',
       shipping: 'Shipping',
       total: 'Total',
-      checkout: 'Checkout'
+      checkout: 'Checkout',
     },
     moderation: {
       title: 'Content Management Info (Demo)',
       status: 'Status',
       submittedBy: 'Submitted by',
       moderatedBy: 'Moderated by',
-      created: 'Created'
+      created: 'Created',
     },
     chat: {
       title: 'Support Chat',
@@ -448,7 +449,7 @@ export const translations = {
       typePlaceholder: 'Type your message...',
       requestManager: 'Contact Personal Manager',
       managerRequested: 'Запрос получен. Ваш личный менеджер свяжется с вами в ближайшее время.',
-      managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.'
-    }
-  }
+      managerRequestError: 'Не удалось отправить запрос. Попробуйте снова.',
+    },
+  },
 };

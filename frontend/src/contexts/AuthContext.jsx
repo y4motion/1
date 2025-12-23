@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch(`${API_URL}/api/auth/me`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -46,9 +46,9 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -71,9 +71,9 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, username, password })
+        body: JSON.stringify({ email, username, password }),
       });
 
       if (!response.ok) {
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -40,7 +40,10 @@ function TopUsersWidget() {
   if (topUsers.length === 0) return null;
 
   return (
-    <div className="glass-strong p-6" style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}>
+    <div
+      className="glass-strong p-6"
+      style={{ borderRadius: theme === 'minimal-mod' ? '0' : '16px' }}
+    >
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">🏆 Топ-3 Месяца</h2>
         <button
@@ -59,9 +62,7 @@ function TopUsersWidget() {
             style={{ borderRadius: theme === 'minimal-mod' ? '0' : '12px' }}
           >
             {/* Rank */}
-            <div className="text-2xl font-bold">
-              {getMedal(index + 1)}
-            </div>
+            <div className="text-2xl font-bold">{getMedal(index + 1)}</div>
 
             {/* Avatar */}
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-xl">

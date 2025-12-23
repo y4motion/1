@@ -24,12 +24,12 @@ const MouseFollower = () => {
       // Smooth follow effect
       const dx = mouseX - followerX;
       const dy = mouseY - followerY;
-      
+
       followerX += dx * 0.1;
       followerY += dy * 0.1;
 
       follower.style.transform = `translate(${followerX - 150}px, ${followerY - 150}px)`;
-      
+
       requestAnimationFrame(animate);
     };
 
@@ -41,12 +41,7 @@ const MouseFollower = () => {
     };
   }, []);
 
-  return (
-    <div 
-      ref={followerRef}
-      className={`mouse-follower ${theme}`}
-    />
-  );
+  return <div ref={followerRef} className={`mouse-follower ${theme}`} />;
 };
 
 export default MouseFollower;

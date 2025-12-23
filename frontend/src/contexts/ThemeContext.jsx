@@ -25,7 +25,7 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => {
+    setTheme((prev) => {
       const next = prev === 'dark' ? 'light' : prev === 'light' ? 'minimal-mod' : 'dark';
       console.log('Toggle theme from', prev, 'to', next);
       return next;

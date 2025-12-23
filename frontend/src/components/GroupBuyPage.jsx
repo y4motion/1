@@ -38,21 +38,31 @@ function GroupBuyPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'bg-blue-500/20 text-blue-400';
-      case 'successful': return 'bg-green-500/20 text-green-400';
-      case 'failed': return 'bg-red-500/20 text-red-400';
-      case 'completed': return 'bg-purple-500/20 text-purple-400';
-      default: return 'bg-white/10';
+      case 'active':
+        return 'bg-blue-500/20 text-blue-400';
+      case 'successful':
+        return 'bg-green-500/20 text-green-400';
+      case 'failed':
+        return 'bg-red-500/20 text-red-400';
+      case 'completed':
+        return 'bg-purple-500/20 text-purple-400';
+      default:
+        return 'bg-white/10';
     }
   };
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'active': return 'Активна';
-      case 'successful': return 'Цель достигнута';
-      case 'failed': return 'Не состоялась';
-      case 'completed': return 'Завершена';
-      default: return status;
+      case 'active':
+        return 'Активна';
+      case 'successful':
+        return 'Цель достигнута';
+      case 'failed':
+        return 'Не состоялась';
+      case 'completed':
+        return 'Завершена';
+      default:
+        return status;
     }
   };
 
@@ -62,7 +72,10 @@ function GroupBuyPage() {
       <div className="max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate(-1)} className="p-2 hover:bg-white/5 rounded-lg transition-all">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-white/5 rounded-lg transition-all"
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className={theme === 'minimal-mod' ? 'text-2xl font-bold' : 'text-3xl font-bold'}>
@@ -88,7 +101,7 @@ function GroupBuyPage() {
 
         {/* Filters */}
         <div className="flex gap-2">
-          {['active', 'successful', 'failed'].map(status => (
+          {['active', 'successful', 'failed'].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -109,9 +122,11 @@ function GroupBuyPage() {
           <div className="text-center py-12 text-white/50">Пока нет закупок</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupbuys.map(gb => {
+            {groupbuys.map((gb) => {
               const progress = getProgress(gb.current_participants, gb.min_participants);
-              const daysLeft = Math.ceil((new Date(gb.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+              const daysLeft = Math.ceil(
+                (new Date(gb.deadline) - new Date()) / (1000 * 60 * 60 * 24)
+              );
 
               return (
                 <div
@@ -130,7 +145,9 @@ function GroupBuyPage() {
                   <div className="p-6">
                     {/* Status Badge */}
                     <div className="mb-3">
-                      <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(gb.status)}`}>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${getStatusColor(gb.status)}`}
+                      >
                         {getStatusText(gb.status)}
                       </span>
                     </div>

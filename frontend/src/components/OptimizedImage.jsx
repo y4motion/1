@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function OptimizedImage({ 
-  src, 
-  alt, 
-  width, 
+export default function OptimizedImage({
+  src,
+  alt,
+  width,
   height,
   className,
   style,
   priority = false,
-  onClick
+  onClick,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
@@ -37,7 +37,7 @@ export default function OptimizedImage({
   // Get optimized URL (WebP if supported)
   const getOptimizedUrl = (url) => {
     if (!url) return url;
-    
+
     // For Unsplash images, use their optimization params
     if (url.includes('unsplash.com')) {
       const urlObj = new URL(url);
@@ -46,28 +46,28 @@ export default function OptimizedImage({
       urlObj.searchParams.set('q', '80'); // Quality 80%
       return urlObj.toString();
     }
-    
+
     return url;
   };
 
   const optimizedSrc = getOptimizedUrl(src);
 
   return (
-    <div 
+    <div
       ref={imgRef}
       className={`optimized-image-wrapper ${className || ''}`}
-      style={{ 
-        width: width || '100%', 
+      style={{
+        width: width || '100%',
         height: height || 'auto',
         position: 'relative',
         overflow: 'hidden',
-        ...style
+        ...style,
       }}
       onClick={onClick}
     >
       {/* Blur placeholder while loading */}
       {!isLoaded && isInView && (
-        <div 
+        <div
           className="image-placeholder"
           style={{
             position: 'absolute',
@@ -77,11 +77,11 @@ export default function OptimizedImage({
             height: '100%',
             background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1))',
             backdropFilter: 'blur(10px)',
-            animation: 'shimmer 1.5s infinite'
+            animation: 'shimmer 1.5s infinite',
           }}
         />
       )}
-      
+
       {/* Actual image */}
       {isInView && (
         <img
@@ -96,7 +96,7 @@ export default function OptimizedImage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            display: 'block'
+            display: 'block',
           }}
         />
       )}
