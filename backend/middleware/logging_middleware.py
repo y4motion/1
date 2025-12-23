@@ -92,5 +92,6 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         
         # Add custom header with response time
         response.headers["X-Response-Time"] = f"{duration:.3f}s"
+        response.headers["X-Request-ID"] = str(id(request))
         
         return response
