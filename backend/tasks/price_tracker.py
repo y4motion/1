@@ -3,6 +3,7 @@ from database import get_database
 from datetime import datetime, timezone
 from utils.logger import logger
 import asyncio
+import uuid
 
 
 async def track_product_prices():
