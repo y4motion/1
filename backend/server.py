@@ -37,6 +37,10 @@ from routes.voting_routes import router as voting_router
 from routes.rating_routes import router as rating_router
 from routes.groupbuy_routes import router as groupbuy_router
 from routes.logging_routes import router as logging_router
+from routes.monitoring_routes import router as monitoring_router
+
+# Import middleware
+from middleware.logging_middleware import RequestLoggingMiddleware
 
 
 ROOT_DIR = Path(__file__).parent
