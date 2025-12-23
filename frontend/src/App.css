@@ -11,20 +11,15 @@
   box-sizing: border-box;
 }
 
-/* Main content area */
+/* Main content area - no padding by default */
 .main-content {
   min-height: calc(100vh - 200px);
 }
 
-/* Add padding only for pages that need it (not homepage) */
-.main-content:not(.no-padding) {
-  padding-top: 80px;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .main-content:not(.no-padding) {
-    padding-top: 60px;
+  .main-content {
+    min-height: calc(100vh - 150px);
   }
 }
 
