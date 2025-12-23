@@ -31,7 +31,9 @@ export default function Breadcrumbs() {
   };
   
   // Don't show breadcrumbs on home page or certain pages
-  if (pathnames.length === 0 || location.pathname === '/') return null;
+  if (pathnames.length === 0 || location.pathname === '/') {
+    return null; // Return null instead of empty div
+  }
   
   return (
     <nav 
