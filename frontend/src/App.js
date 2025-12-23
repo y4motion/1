@@ -14,6 +14,7 @@ import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import Breadcrumbs from './components/Breadcrumbs';
 import PageTransition from './components/PageTransition';
+import MobileBottomNav from './components/MobileBottomNav';
 
 // Lazy load all page components for code splitting
 const HomePage = React.lazy(() => import('./components/HomePage'));
