@@ -14,12 +14,16 @@
 /* Main content area */
 .main-content {
   min-height: calc(100vh - 200px);
-  padding-top: 80px; /* Height of header */
+}
+
+/* Add padding only for pages that need it (not homepage) */
+.main-content:not(.no-padding) {
+  padding-top: 80px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .main-content {
+  .main-content:not(.no-padding) {
     padding-top: 60px;
   }
 }
