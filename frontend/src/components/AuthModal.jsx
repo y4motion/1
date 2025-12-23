@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { X } from 'lucide-react';
+import { validateEmail, validateUsername, validatePassword, getPasswordStrength } from '../utils/validation';
 import '../styles/glassmorphism.css';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
@@ -18,8 +19,16 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(null);
 
   if (!isOpen) return null;
+
+  const handlePasswordChange = (password) => {
+    setFormData({ ...formData, password });
+    if (mode === 'register' && password) {
+      setPasswordStrength(getPasswordStrength(password));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +36,31 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     setLoading(true);
 
     try {
+      // Frontend validation
+      if (!validateEmail(formData.email)) {
+        setError('Please enter a valid email address');
+        setLoading(false);
+        return;
+      }
+
+      if (mode === 'register') {
+        // Validate username
+        const usernameCheck = validateUsername(formData.username);
+        if (!usernameCheck.valid) {
+          setError(usernameCheck.error);
+          setLoading(false);
+          return;
+        }
+
+        // Validate password
+        const passwordCheck = validatePassword(formData.password);
+        if (!passwordCheck.valid) {
+          setError(passwordCheck.error);
+          setLoading(false);
+          return;
+        }
+      }
+
       let result;
       if (mode === 'login') {
         result = await login(formData.email, formData.password, rememberMe);
