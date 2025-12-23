@@ -39,11 +39,12 @@ function App() {
       <LanguageProvider>
         <CurrencyProvider>
           <AuthProvider>
-            <div className="App">
-              <BrowserRouter>
-                <Header />
-                <FloatingChatWidget />
-                <Suspense fallback={<LoadingScreen />}>
+            <ErrorBoundary>
+              <div className="App">
+                <BrowserRouter>
+                  <Header />
+                  <FloatingChatWidget />
+                  <Suspense fallback={<LoadingScreen />}>
                   <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/category/:slug" element={<CategoryPage />} />
