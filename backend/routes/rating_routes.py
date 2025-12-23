@@ -92,6 +92,7 @@ async def get_leaderboard(
 
 
 @router.get("/top-monthly", response_model=List[UserStats])
+@cache_response(ttl_seconds=60)  # 1 minute cache
 async def get_top_monthly(
     limit: int = Query(10, ge=1, le=10)
 ):
