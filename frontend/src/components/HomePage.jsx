@@ -23,7 +23,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   // Full greeting text
-  const greetingText = `System online.\nПривет, ${user?.username || 'Гость'}.\nГотов помочь с железом мечты.`;
+  const greetingText = "System online.\nПривет, Гость.\nГотов помочь с железом мечты.";
 
   // Initialize Core AI
   useEffect(() => {
@@ -31,26 +31,34 @@ const HomePage = () => {
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter effect - simple character-by-character
+  // Typewriter + phase management - single effect
   useEffect(() => {
     if (phase !== 'greeting') return;
-
-    let charIndex = 0;
-    const fullText = greetingText;
     
-    const typeInterval = setInterval(() => {
-      if (charIndex <= fullText.length) {
-        setDisplayText(fullText.slice(0, charIndex));
+    let charIndex = 0;
+    const text = greetingText;
+    let isActive = true;
+    
+    const typeChar = () => {
+      if (!isActive) return;
+      
+      if (charIndex <= text.length) {
+        setDisplayText(text.substring(0, charIndex));
         charIndex++;
+        setTimeout(typeChar, 45);
       } else {
-        clearInterval(typeInterval);
-        // Start fadeout after 1 second
-        setTimeout(() => setPhase('fadeout'), 1000);
+        // Typing complete - wait then fadeout
+        setTimeout(() => {
+          if (isActive) setPhase('fadeout');
+        }, 800);
       }
-    }, 40);
-
-    return () => clearInterval(typeInterval);
-  }, [phase, greetingText]);
+    };
+    
+    // Start typing after small delay
+    setTimeout(typeChar, 200);
+    
+    return () => { isActive = false; };
+  }, []); // No dependencies - run once on mount
 
   // Handle fadeout transition
   useEffect(() => {
