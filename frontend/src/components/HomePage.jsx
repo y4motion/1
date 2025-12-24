@@ -119,15 +119,22 @@ const HomePage = () => {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
-  // Rotating suggestions - держатся 4-5 секунд с анимацией
+  // Rotating suggestions - первая держится дольше
   useEffect(() => {
     if (!greetingDone || suggestions.length === 0) return;
-    const interval = setInterval(() => {
-      setPlaceholderKey(prev => prev + 1); // триггер анимации
+    
+    const getDelay = () => {
+      // Первая подсказка держится 7 сек, остальные 4.5 сек
+      return activeSuggestion === 0 ? 7000 : 4500;
+    };
+    
+    const timeout = setTimeout(() => {
+      setPlaceholderKey(prev => prev + 1);
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [greetingDone, suggestions.length]);
+    }, getDelay());
+    
+    return () => clearTimeout(timeout);
+  }, [greetingDone, suggestions.length, activeSuggestion]);
 
   const handleSearch = useCallback((query) => {
     if (!query.trim()) return;
@@ -159,8 +166,8 @@ const HomePage = () => {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes suggestionIn {
-          from { opacity: 0; transform: translateY(15px); }
-          to { opacity: 0.7; transform: translateY(0); }
+          from { opacity: 0; }
+          to { opacity: 0.5; }
         }
         @keyframes suggestionOut {
           from { opacity: 0.7; transform: translateY(0); }
@@ -333,7 +340,7 @@ const HomePage = () => {
                       color: 'rgba(255, 255, 255, 0.5)',
                       textShadow: '0 0 15px rgba(255,255,255,0.3)',
                       pointerEvents: 'none',
-                      animation: 'suggestionIn 0.6s ease forwards'
+                      animation: 'suggestionIn 1s ease forwards'
                     }}
                   >
                     {suggestions[activeSuggestion] || 'Ищи железо, сборку или спроси меня...'}
