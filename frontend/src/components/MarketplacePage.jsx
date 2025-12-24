@@ -1437,6 +1437,18 @@ const ProductCard = ({ product, theme, onToggleWishlist, index = 0 }) => {
 
       {/* Quick Buy Modal */}
       {showQuickBuy && <QuickBuyModal product={product} onClose={() => setShowQuickBuy(false)} />}
+
+      {/* Quick View Modal */}
+      {showQuickView && (
+        <QuickViewModal 
+          product={{ 
+            ...product, 
+            name: product.title, 
+            image: product.images?.[0]?.url 
+          }} 
+          onClose={() => setShowQuickView(false)} 
+        />
+      )}
     </>
   );
 };
