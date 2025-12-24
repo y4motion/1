@@ -185,15 +185,11 @@ async def check_price_alerts_for_product(product: dict, current_price: float):
 
 
 async def send_price_alert_notification(alert: dict, product: dict, new_price: float):
-    """Send price alert notification via configured methods"""
+    """Send price alert notification via configured methods - using NotificationService"""
     try:
-        db = await get_database()
+        from services.notification_service import notification_service
         
-        methods = alert.get("notification_methods", {})
-        user = await db.users.find_one({"id": alert["user_id"]})
-        
-        if not user:
-            return
+        methods = alert.get("notification_methods", {"push": True, "email": False, "sms": False})
         
         product_name = product.get('title', product.get('name', 'Product'))
         original_price = alert.get("original_price", 0)
@@ -206,39 +202,25 @@ async def send_price_alert_notification(alert: dict, product: dict, new_price: f
             savings = 0
             drop_percent = 0
         
-        # Push notification (in-app)
-        if methods.get("push", True):
-            notification_dict = {
-                'id': str(uuid.uuid4()),
-                'user_id': user['id'],
-                'type': 'price_alert',
-                'title': '🔥 Price Drop Alert!',
-                'message': f"{product_name} is now ${new_price:.2f}! Save ${savings:.2f} ({drop_percent:.0f}% off)",
-                'link': f"/product/{product['id']}",
-                'is_read': False,
-                'created_at': datetime.now(timezone.utc).isoformat(),
-                'metadata': {
-                    'product_id': product['id'],
-                    'original_price': original_price,
-                    'new_price': new_price,
-                    'savings': savings,
-                    'drop_percent': drop_percent,
-                    'alert_id': alert['id']
-                }
-            }
-            
-            await db.notifications.insert_one(notification_dict)
-            logger.info(f"📬 Sent push notification to user {user['id']} for price alert")
+        # Send via NotificationService (handles all channels)
+        await notification_service.send_notification(
+            user_id=alert["user_id"],
+            notification_type='price_alert',
+            title='🔥 Price Drop Alert!',
+            message=f"{product_name} is now ${new_price:.2f}! Save ${savings:.2f} ({drop_percent:.0f}% off)",
+            link=f"/product/{product['id']}",
+            metadata={
+                'product_id': product['id'],
+                'original_price': original_price,
+                'new_price': new_price,
+                'savings': savings,
+                'drop_percent': drop_percent,
+                'alert_id': alert['id']
+            },
+            methods=methods
+        )
         
-        # Email notification
-        if methods.get("email") and user.get("email"):
-            # TODO: Integrate with email service (SendGrid, etc.)
-            logger.info(f"📧 Email notification queued for {user['email']} (not implemented)")
-        
-        # SMS notification (premium feature)
-        if methods.get("sms") and user.get("phone"):
-            # TODO: Integrate with SMS service (Twilio, etc.)
-            logger.info(f"📱 SMS notification queued for {user['phone']} (not implemented)")
+        logger.info(f"📬 Price alert notification sent to user {alert['user_id']}")
         
     except Exception as e:
         logger.error(f"Error sending price alert notification: {e}")
