@@ -63,13 +63,17 @@ async def track_product_prices():
                             
                             price_changes += 1
                             logger.info(
-                                f"💰 Price change detected: {product['name']} "
+                                f"💰 Price change detected: {product.get('name', product.get('title', 'Unknown'))} "
                                 f"${last_price:.2f} → ${current_price:.2f}"
                             )
                             
                             # If price dropped, notify users with this in wishlist
                             if current_price < last_price:
-                                await notify_price_drop(product['id'], product['name'], last_price, current_price)
+                                await notify_price_drop(product['id'], product.get('name', product.get('title', 'Product')), last_price, current_price)
+                            
+                            # Check price alerts for this product
+                            if current_price < last_price:
+                                await check_price_alerts_for_product(product, current_price)
                 
                 except Exception as e:
                     logger.error(f"Error tracking price for product {product.get('id')}: {e}")
@@ -125,3 +129,119 @@ async def notify_price_drop(product_id: str, product_name: str, old_price: float
         
     except Exception as e:
         logger.error(f"Error sending price drop notifications: {e}")
+
+
+async def check_price_alerts_for_product(product: dict, current_price: float):
+    """Check and trigger price alerts for a specific product"""
+    try:
+        db = await get_database()
+        
+        # Get all active alerts for this product
+        alerts = await db.price_alerts.find({
+            "product_id": product['id'],
+            "enabled": True,
+            "triggered": False
+        }).to_list(length=None)
+        
+        if not alerts:
+            return
+        
+        triggered_count = 0
+        
+        for alert in alerts:
+            should_trigger = False
+            
+            # Check target price condition
+            if alert.get("target_price"):
+                if current_price <= alert["target_price"]:
+                    should_trigger = True
+            
+            # Check price drop percentage condition
+            elif alert.get("price_drop_percent"):
+                original_price = alert.get("original_price", 0)
+                if original_price > 0:
+                    price_drop = ((original_price - current_price) / original_price) * 100
+                    if price_drop >= alert["price_drop_percent"]:
+                        should_trigger = True
+            
+            if should_trigger:
+                # Send notifications based on user preferences
+                await send_price_alert_notification(alert, product, current_price)
+                
+                # Mark alert as triggered
+                await db.price_alerts.update_one(
+                    {"id": alert["id"]},
+                    {"$set": {
+                        "triggered": True,
+                        "triggered_at": datetime.now(timezone.utc).isoformat(),
+                        "triggered_price": current_price
+                    }}
+                )
+                
+                triggered_count += 1
+        
+        if triggered_count > 0:
+            logger.info(f"🔔 Triggered {triggered_count} price alerts for product {product.get('title', product['id'])}")
+        
+    except Exception as e:
+        logger.error(f"Error checking price alerts: {e}")
+
+
+async def send_price_alert_notification(alert: dict, product: dict, new_price: float):
+    """Send price alert notification via configured methods"""
+    try:
+        db = await get_database()
+        
+        methods = alert.get("notification_methods", {})
+        user = await db.users.find_one({"id": alert["user_id"]})
+        
+        if not user:
+            return
+        
+        product_name = product.get('title', product.get('name', 'Product'))
+        original_price = alert.get("original_price", 0)
+        
+        # Calculate savings
+        if original_price > 0:
+            savings = original_price - new_price
+            drop_percent = ((original_price - new_price) / original_price) * 100
+        else:
+            savings = 0
+            drop_percent = 0
+        
+        # Push notification (in-app)
+        if methods.get("push", True):
+            notification_dict = {
+                'id': str(uuid.uuid4()),
+                'user_id': user['id'],
+                'type': 'price_alert',
+                'title': '🔥 Price Drop Alert!',
+                'message': f"{product_name} is now ${new_price:.2f}! Save ${savings:.2f} ({drop_percent:.0f}% off)",
+                'link': f"/product/{product['id']}",
+                'is_read': False,
+                'created_at': datetime.now(timezone.utc).isoformat(),
+                'metadata': {
+                    'product_id': product['id'],
+                    'original_price': original_price,
+                    'new_price': new_price,
+                    'savings': savings,
+                    'drop_percent': drop_percent,
+                    'alert_id': alert['id']
+                }
+            }
+            
+            await db.notifications.insert_one(notification_dict)
+            logger.info(f"📬 Sent push notification to user {user['id']} for price alert")
+        
+        # Email notification
+        if methods.get("email") and user.get("email"):
+            # TODO: Integrate with email service (SendGrid, etc.)
+            logger.info(f"📧 Email notification queued for {user['email']} (not implemented)")
+        
+        # SMS notification (premium feature)
+        if methods.get("sms") and user.get("phone"):
+            # TODO: Integrate with SMS service (Twilio, etc.)
+            logger.info(f"📱 SMS notification queued for {user['phone']} (not implemented)")
+        
+    except Exception as e:
+        logger.error(f"Error sending price alert notification: {e}")
