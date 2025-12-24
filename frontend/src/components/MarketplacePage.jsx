@@ -1364,6 +1364,40 @@ const ProductCard = ({ product, theme, onToggleWishlist, index = 0 }) => {
                     <span>{product.wishlist_count || 0}</span>
                   )}
                 </button>
+
+                {/* Quick View Button */}
+                <button
+                  onClick={handleQuickView}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.3rem 0.55rem',
+                    borderRadius: '8px',
+                    background: 'rgba(0, 0, 0, 0.75)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontSize: '0.6875rem',
+                    fontWeight: '700',
+                    color: '#fff',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+                    opacity: isHovered ? 1 : 0,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(168, 85, 247, 0.9)';
+                    e.currentTarget.style.border = '1px solid rgba(168, 85, 247, 0.6)';
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.75)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <Eye size={10} strokeWidth={2.5} />
+                </button>
               </div>
             </div>
           </div>
