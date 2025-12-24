@@ -24,15 +24,15 @@ const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // JARVIS loading sequence
-  const jarvisSequence = [
-    { text: 'System initializing...', delay: 0, duration: 1000, pauseAfter: 0 },
-    { text: ' Online.', delay: 1000, duration: 500, pauseAfter: 500 },
-    { text: `Привет, ${user?.username || 'Гость'}.`, delay: 2000, duration: 1500, pauseAfter: 0 },
-    { text: 'Готов помочь с железом мечты. С чего начнём?', delay: 3500, duration: 500, pauseAfter: 0 }
-  ];
-
   useEffect(() => {
+    // JARVIS loading sequence
+    const jarvisSequence = [
+      { text: 'System initializing...', delay: 0, duration: 1000, pauseAfter: 0 },
+      { text: ' Online.', delay: 1000, duration: 500, pauseAfter: 500 },
+      { text: `Привет, ${user?.username || 'Гость'}.`, delay: 2000, duration: 1500, pauseAfter: 0 },
+      { text: 'Готов помочь с железом мечты. С чего начнём?', delay: 3500, duration: 500, pauseAfter: 0 }
+    ];
+
     let lineIndex = 0;
     let charIndex = 0;
     let timeoutId;
