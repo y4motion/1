@@ -91,8 +91,9 @@ async def track_product_prices():
 
 
 async def notify_price_drop(product_id: str, product_name: str, old_price: float, new_price: float):
-    """Notify users when price drops"""
+    """Notify users when price drops - using NotificationService"""
     try:
+        from services.notification_service import notification_service
         db = await get_database()
         
         # Find all users with this product in wishlist
@@ -106,24 +107,20 @@ async def notify_price_drop(product_id: str, product_name: str, old_price: float
         drop_percent = ((old_price - new_price) / old_price) * 100
         
         for user in users_with_product:
-            notification_dict = {
-                'id': str(uuid.uuid4()),
-                'user_id': user['id'],
-                'type': 'price_drop',
-                'title': f'Price Drop Alert! 🔥',
-                'message': f"{product_name} dropped {drop_percent:.0f}% to ${new_price:.2f}",
-                'link': f'/product/{product_id}',
-                'is_read': False,
-                'created_at': datetime.now(timezone.utc).isoformat(),
-                'metadata': {
+            await notification_service.send_notification(
+                user_id=user['id'],
+                notification_type='price_drop',
+                title='Price Drop Alert! 🔥',
+                message=f"{product_name} dropped {drop_percent:.0f}% to ${new_price:.2f}",
+                link=f'/product/{product_id}',
+                metadata={
                     'product_id': product_id,
                     'old_price': old_price,
                     'new_price': new_price,
                     'drop_percent': drop_percent
-                }
-            }
-            
-            await db.notifications.insert_one(notification_dict)
+                },
+                methods={"push": True, "email": False, "sms": False}
+            )
         
         logger.info(f"📬 Sent price drop notifications to {len(users_with_product)} users")
         
