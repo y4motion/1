@@ -135,6 +135,7 @@ api_router.include_router(logging_router)
 api_router.include_router(monitoring_router)
 api_router.include_router(notification_router)
 api_router.include_router(search_router)
+api_router.include_router(recommendation_router)
 
 # Include the router in the main app
 app.include_router(api_router)
