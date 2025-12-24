@@ -49,20 +49,108 @@ const HomePage = () => {
   const [currentLine, setCurrentLine] = useState(0);
   const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
   
-  // Фиксированные позиции частиц (не пересоздаются при ре-рендере)
-  const particles = React.useMemo(() => 
+  // Интерактивные частицы с отталкиванием от курсора
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const [particlePositions, setParticlePositions] = useState([]);
+  const heroRef = React.useRef(null);
+  
+  // Инициализация частиц
+  const particlesConfig = React.useMemo(() => 
     [...Array(35)].map((_, i) => ({
       id: i,
       size: 1 + Math.random() * 3,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
+      baseX: Math.random() * 100,
+      baseY: Math.random() * 100,
       moveDuration: 8 + Math.random() * 12,
       fadeDuration: 4 + Math.random() * 8,
-      moveDelay: Math.random() * 5,
       fadeDelay: Math.random() * 6,
-      animationType: Math.random() > 0.5 ? 'particleFloat' : 'particleDrift'
     })), []
   );
+
+  // Инициализация позиций
+  React.useEffect(() => {
+    setParticlePositions(particlesConfig.map(p => ({ x: p.baseX, y: p.baseY, vx: 0, vy: 0 })));
+  }, [particlesConfig]);
+
+  // Отслеживание мыши
+  React.useEffect(() => {
+    if (!greetingDone) return;
+    
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePos({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100
+        });
+      }
+    };
+    
+    const handleMouseLeave = () => {
+      setMousePos({ x: -1000, y: -1000 });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [greetingDone]);
+
+  // Физика отталкивания
+  React.useEffect(() => {
+    if (!greetingDone || particlePositions.length === 0) return;
+    
+    let animationId;
+    const pushRadius = 15; // радиус отталкивания в %
+    const pushStrength = 0.8;
+    const returnSpeed = 0.02;
+    const friction = 0.95;
+    
+    const animate = () => {
+      setParticlePositions(prev => prev.map((pos, i) => {
+        const config = particlesConfig[i];
+        let { x, y, vx, vy } = pos;
+        
+        // Расстояние до курсора
+        const dx = x - mousePos.x;
+        const dy = y - mousePos.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Отталкивание от курсора
+        if (dist < pushRadius && dist > 0) {
+          const force = (pushRadius - dist) / pushRadius * pushStrength;
+          vx += (dx / dist) * force;
+          vy += (dy / dist) * force;
+        }
+        
+        // Возврат к базовой позиции
+        vx += (config.baseX - x) * returnSpeed;
+        vy += (config.baseY - y) * returnSpeed;
+        
+        // Применяем трение
+        vx *= friction;
+        vy *= friction;
+        
+        // Обновляем позицию
+        x += vx;
+        y += vy;
+        
+        // Ограничиваем границами
+        x = Math.max(0, Math.min(100, x));
+        y = Math.max(0, Math.min(100, y));
+        
+        return { x, y, vx, vy };
+      }));
+      
+      animationId = requestAnimationFrame(animate);
+    };
+    
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
+  }, [greetingDone, mousePos, particlesConfig, particlePositions.length]);
 
   useEffect(() => {
     coreAI.init(user);
