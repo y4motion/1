@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ShoppingBag, ShoppingCart, MessageCircle } from 'lucide-react';
-import { useCart } from '../contexts/CartContext';
 
 export default function MobileBottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartItems } = useCart();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -45,12 +43,10 @@ export default function MobileBottomNav() {
   // Не рендерим на десктопе
   if (!isMobile) return null;
 
-  const cartCount = cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0;
-
   const navItems = [
     { path: '/', icon: Home, label: 'Главная' },
     { path: '/marketplace', icon: ShoppingBag, label: 'Магазин' },
-    { path: '/cart', icon: ShoppingCart, label: 'Корзина', badge: cartCount },
+    { path: '/cart', icon: ShoppingCart, label: 'Корзина' },
     { path: '/chat', icon: MessageCircle, label: 'Чат' }
   ];
 
@@ -117,25 +113,6 @@ export default function MobileBottomNav() {
                       filter: active ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : 'none'
                     }}
                   />
-                  {item.badge > 0 && (
-                    <span style={{
-                      position: 'absolute',
-                      top: '-5px',
-                      right: '-8px',
-                      background: '#ef4444',
-                      color: 'white',
-                      fontSize: '0.6rem',
-                      fontWeight: '600',
-                      width: '16px',
-                      height: '16px',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      {item.badge > 9 ? '9+' : item.badge}
-                    </span>
-                  )}
                 </div>
                 <span style={{
                   fontSize: '0.65rem',
