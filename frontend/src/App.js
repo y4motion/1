@@ -124,6 +124,7 @@ function App() {
               </BrowserRouter>
             </div>
             </ErrorBoundary>
+            </ToastProvider>
           </AuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
