@@ -908,12 +908,13 @@ const MarketplacePage = () => {
                 gap: '1rem',
               }}
             >
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <ProductCard
                   key={product.id}
                   product={product}
                   theme={theme}
                   onToggleWishlist={handleToggleWishlist}
+                  index={index}
                 />
               ))}
             </div>
