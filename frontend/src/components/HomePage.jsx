@@ -12,7 +12,6 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [greetingDone, setGreetingDone] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -22,6 +21,26 @@ const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // Проверяем нужно ли показывать приветствие
+  const shouldShowGreeting = () => {
+    // Если уже показывали в этой сессии - не показываем
+    if (sessionStorage.getItem('greetingShown')) {
+      return false;
+    }
+    
+    // Проверяем время последнего визита
+    const lastVisit = localStorage.getItem('lastGreetingTime');
+    if (lastVisit) {
+      const hourAgo = Date.now() - (60 * 60 * 1000); // 1 час
+      if (parseInt(lastVisit) > hourAgo) {
+        return false;
+      }
+    }
+    
+    return true;
+  };
+
+  const [greetingDone, setGreetingDone] = useState(!shouldShowGreeting());
   const [greetingLines, setGreetingLines] = useState([
     "System online.",
     "Привет, Гость.",
@@ -45,7 +64,8 @@ const HomePage = () => {
 
   // Typewriter effect - одна строка, сменяется следующей
   useEffect(() => {
-    if (greetingLines.length === 0) return;
+    // Если приветствие уже было показано - не запускаем
+    if (greetingDone || greetingLines.length === 0) return;
     
     let charIndex = 0;
     let isActive = true;
@@ -55,9 +75,13 @@ const HomePage = () => {
     
     const typeLine = (lineIndex) => {
       if (!isActive || lineIndex >= greetingLines.length) {
-        // Все строки показаны - переход к поиску
+        // Все строки показаны - сохраняем в storage и переход к поиску
         setTimeout(() => {
-          if (isActive) setGreetingDone(true);
+          if (isActive) {
+            sessionStorage.setItem('greetingShown', 'true');
+            localStorage.setItem('lastGreetingTime', Date.now().toString());
+            setGreetingDone(true);
+          }
         }, 800);
         return;
       }
@@ -90,7 +114,7 @@ const HomePage = () => {
     setTimeout(() => typeLine(0), 1000);
     
     return () => { isActive = false; };
-  }, [greetingLines]);
+  }, [greetingLines, greetingDone]);
 
   // Rotating suggestions
   useEffect(() => {
