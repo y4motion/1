@@ -162,26 +162,21 @@ const HomePage = () => {
           padding: '2rem',
           textAlign: 'center'
         }}>
-          {/* AI Greeting - всегда отображается, но fade out когда done */}
-          <div style={{ 
-            marginBottom: '1.5rem',
-            opacity: showSearchBar ? 0 : 1,
-            maxHeight: showSearchBar ? 0 : '200px',
-            overflow: 'hidden',
-            transition: 'opacity 0.5s ease, max-height 0.5s ease'
-          }}>
-            <pre style={{
-              fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-              color: '#ffffff',
-              textShadow: '0 0 30px rgba(255,255,255,0.5)',
-              lineHeight: '2.2',
-              letterSpacing: '0.03em',
-              margin: 0,
-              whiteSpace: 'pre-wrap'
-            }}>
-              {displayText}
-              {!showSearchBar && (
+          {/* Show either greeting OR search bar */}
+          {!showSearchBar ? (
+            // AI Greeting
+            <div style={{ marginBottom: '1.5rem' }}>
+              <pre style={{
+                fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
+                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                color: '#ffffff',
+                textShadow: '0 0 30px rgba(255,255,255,0.5)',
+                lineHeight: '2.2',
+                letterSpacing: '0.03em',
+                margin: 0,
+                whiteSpace: 'pre-wrap'
+              }}>
+                {displayText}
                 <span style={{
                   display: 'inline-block',
                   width: '10px',
@@ -192,17 +187,11 @@ const HomePage = () => {
                   animation: 'blink 1s step-end infinite',
                   boxShadow: '0 0 12px rgba(255,255,255,0.5)'
                 }} />
-              )}
-            </pre>
-          </div>
-
-          {/* Search Bar - fade in when greeting done */}
-          <div style={{
-            opacity: showSearchBar ? 1 : 0,
-            transform: showSearchBar ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s',
-            pointerEvents: showSearchBar ? 'auto' : 'none'
-          }}>
+              </pre>
+            </div>
+          ) : (
+            // Search Bar + CTAs
+            <div>
             <div style={{ position: 'relative' }}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.03)',
