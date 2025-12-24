@@ -12,7 +12,7 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [greetingPhase, setGreetingPhase] = useState('typing'); // 'typing' | 'done'
+  const [greetingDone, setGreetingDone] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -43,7 +43,7 @@ const HomePage = () => {
         setTimeout(typeChar, 45);
       } else {
         setTimeout(() => {
-          if (isActive) setGreetingPhase('done');
+          if (isActive) setGreetingDone(true);
         }, 600);
       }
     };
@@ -54,12 +54,12 @@ const HomePage = () => {
 
   // Rotating suggestions
   useEffect(() => {
-    if (greetingPhase !== 'done' || suggestions.length === 0) return;
+    if (!greetingDone || suggestions.length === 0) return;
     const interval = setInterval(() => {
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
     }, 3500);
     return () => clearInterval(interval);
-  }, [greetingPhase, suggestions.length]);
+  }, [greetingDone, suggestions.length]);
 
   const handleSearch = useCallback((query) => {
     if (!query.trim()) return;
@@ -68,7 +68,6 @@ const HomePage = () => {
   }, [navigate]);
 
   const featured = products.filter(p => p.originalPrice).slice(0, 3);
-  const showSearchBar = greetingPhase === 'done';
 
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
@@ -82,8 +81,14 @@ const HomePage = () => {
           50% { opacity: 0; }
         }
         @keyframes particleFloat {
-          0%, 100% { transform: translateY(0); opacity: 0.3; }
-          50% { transform: translateY(-30px); opacity: 0.6; }
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+          25% { transform: translateY(-25px) translateX(8px); opacity: 0.5; }
+          50% { transform: translateY(-15px) translateX(-5px); opacity: 0.3; }
+          75% { transform: translateY(-35px) translateX(12px); opacity: 0.4; }
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; pointer-events: none; }
         }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(25px); }
@@ -121,56 +126,53 @@ const HomePage = () => {
           <source src="https://cdn.coverr.co/videos/coverr-typing-on-a-keyboard-in-the-dark-5378/1080p.mp4" type="video/mp4" />
         </video>
 
-        {/* Dark gradient */}
+        {/* Dark gradient base */}
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: videoLoaded 
-            ? 'radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%)'
-            : 'radial-gradient(ellipse at center, rgba(8,8,12,1) 0%, rgba(0,0,0,1) 100%)',
+          background: 'radial-gradient(ellipse at center, rgba(8,8,12,1) 0%, rgba(0,0,0,1) 100%)',
           zIndex: 1
         }} />
 
-        {/* Particles */}
-        {!videoLoaded && (
-          <div style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  width: '2px',
-                  height: '2px',
-                  background: 'rgba(255,255,255,0.5)',
-                  borderRadius: '50%',
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animation: `particleFloat ${4 + Math.random() * 4}s ease-in-out infinite`,
-                  animationDelay: `${Math.random() * 3}s`
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {/* === GREETING OVERLAY (внутри hero, поверх поиска) === */}
+        {!greetingDone && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.92)',
+            zIndex: 20,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            animation: greetingDone ? 'fadeOut 0.7s ease forwards' : 'none'
+          }}>
+            {/* Floating particles */}
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+              {[...Array(30)].map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    width: `${2 + Math.random() * 2}px`,
+                    height: `${2 + Math.random() * 2}px`,
+                    background: 'rgba(255,255,255,0.6)',
+                    borderRadius: '50%',
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    animation: `particleFloat ${5 + Math.random() * 5}s ease-in-out infinite`,
+                    animationDelay: `${Math.random() * 4}s`
+                  }}
+                />
+              ))}
+            </div>
 
-        {/* HERO CONTENT */}
-        <div style={{
-          position: 'relative',
-          zIndex: 10,
-          width: '100%',
-          maxWidth: '700px',
-          padding: '2rem',
-          textAlign: 'center'
-        }}>
-          {/* Show either greeting OR search bar */}
-          {!showSearchBar ? (
-            // AI Greeting
-            <div style={{ marginBottom: '1.5rem' }}>
+            {/* Greeting text */}
+            <div style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px', zIndex: 1 }}>
               <pre style={{
                 fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
                 fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
                 color: '#ffffff',
-                textShadow: '0 0 30px rgba(255,255,255,0.5)',
+                textShadow: '0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.2)',
                 lineHeight: '2.2',
                 letterSpacing: '0.03em',
                 margin: 0,
@@ -189,9 +191,21 @@ const HomePage = () => {
                 }} />
               </pre>
             </div>
-          ) : (
-            // Search Bar + CTAs
-            <div>
+          </div>
+        )}
+
+        {/* === SEARCH BAR & CTAs (под overlay, появляется после) === */}
+        {greetingDone && (
+          <div style={{
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            maxWidth: '700px',
+            padding: '2rem',
+            textAlign: 'center',
+            animation: 'fadeInUp 0.7s ease forwards'
+          }}>
+            {/* Search Bar */}
             <div style={{ position: 'relative' }}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.03)',
@@ -291,7 +305,7 @@ const HomePage = () => {
                 </div>
               </div>
 
-              {/* Suggestions */}
+              {/* Suggestions dropdown */}
               {showSuggestions && suggestions.length > 0 && (
                 <div style={{
                   position: 'absolute',
@@ -351,7 +365,7 @@ const HomePage = () => {
               )}
             </div>
 
-            {/* Floating suggestion */}
+            {/* Floating suggestion pill */}
             {!showSuggestions && suggestions.length > 0 && (
               <div style={{ marginTop: '1.5rem', minHeight: '32px' }}>
                 <button
@@ -434,8 +448,7 @@ const HomePage = () => {
               ))}
             </div>
           </div>
-          )}
-        </div>
+        )}
       </div>
 
       {/* === CONTENT BLOCKS === */}
