@@ -281,10 +281,10 @@ const HomePage = () => {
           zIndex: 1
         }} />
 
-        {/* Floating particles - свободно витают, мышь минимально влияет */}
-        {greetingDone && particlePositions.length > 0 && (
+        {/* Floating particles - чистый CSS, максимальная плавность */}
+        {greetingDone && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
-            {particlesConfig.map((p, i) => (
+            {particles.map((p) => (
               <div
                 key={p.id}
                 style={{
@@ -293,11 +293,11 @@ const HomePage = () => {
                   height: `${p.size}px`,
                   background: 'rgba(255,255,255,0.6)',
                   borderRadius: '50%',
-                  left: `${particlePositions[i]?.x ?? 50}%`,
-                  top: `${particlePositions[i]?.y ?? 50}%`,
-                  animation: `particleFade ${p.fadeDuration}s ease-in-out infinite`,
-                  animationDelay: `${p.fadeDelay}s`,
-                  willChange: 'left, top'
+                  left: `${p.startX}%`,
+                  top: `${p.startY}%`,
+                  animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
+                  animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
+                  willChange: 'transform, opacity'
                 }}
               />
             ))}
