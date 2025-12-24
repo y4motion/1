@@ -3,7 +3,6 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from utils.logger import logger
 from utils.metrics import metrics
 import time
-import json
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
@@ -20,34 +19,6 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         logger.info(
             f"➡️  {request.method:6} {request.url.path:50} | Client: {client_host}"
         )
-        
-        # Log request body for POST/PUT (excluding sensitive endpoints)
-        if request.method in ["POST", "PUT"]:
-            sensitive_paths = ["/auth/login", "/auth/register", "/payment"]
-            is_sensitive = any(path in request.url.path for path in sensitive_paths)
-            
-            if not is_sensitive and logger.level <= 10:  # DEBUG level
-                try:
-                    body = await request.body()
-                    if body:
-                        # Parse body
-                        body_str = body.decode('utf-8')
-                        try:
-                            body_json = json.loads(body_str)
-                            # Remove password if present
-                            if 'password' in body_json:
-                                body_json['password'] = '***'
-                            logger.debug(f"   Body: {json.dumps(body_json, ensure_ascii=False)[:200]}")
-                        except json.JSONDecodeError:
-                            logger.debug(f"   Body: {body_str[:200]}")
-                        
-                        # Need to create new request with body for next middleware
-                        async def receive():
-                            return {"type": "http.request", "body": body}
-                        
-                        request._receive = receive
-                except Exception as e:
-                    logger.debug(f"   Could not read body: {e}")
         
         # Process request
         try:
