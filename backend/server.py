@@ -41,6 +41,7 @@ from routes.monitoring_routes import router as monitoring_router
 from routes.notification_routes import router as notification_router
 from routes.search_routes import router as search_router
 from routes.recommendation_routes import router as recommendation_router
+from routes.price_alert_routes import router as price_alert_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
@@ -136,6 +137,7 @@ api_router.include_router(monitoring_router)
 api_router.include_router(notification_router)
 api_router.include_router(search_router)
 api_router.include_router(recommendation_router)
+api_router.include_router(price_alert_router)
 
 # Include the router in the main app
 app.include_router(api_router)
