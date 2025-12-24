@@ -196,7 +196,7 @@ const HomePage = () => {
         }}
       >
         {/* Search Bar - Always Visible After Loading */}
-        {!isJarvisLoading && (
+        {!showAIGreeting && (
           <div
             style={{
               position: 'relative',
