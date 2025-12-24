@@ -317,11 +317,11 @@ const HomePage = () => {
               >
                 <input
                   type="text"
-                  placeholder="Ищи железо, сборку или спроси меня..."
+                  placeholder={suggestions.length > 0 ? suggestions[activeSuggestion] : "Ищи железо, сборку или спроси меня..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => { setIsSearchFocused(true); setShowSuggestions(true); }}
-                  onBlur={() => { setIsSearchFocused(false); setTimeout(() => setShowSuggestions(false), 300); }}
+                  onFocus={() => { setIsSearchFocused(true); }}
+                  onBlur={() => { setIsSearchFocused(false); }}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                   style={{
                     background: 'transparent',
@@ -332,7 +332,7 @@ const HomePage = () => {
                     textShadow: '0 0 20px rgba(255,255,255,0.4)',
                     outline: 'none',
                     textAlign: 'center',
-                    width: '400px',
+                    width: '450px',
                     padding: '0.5rem 0'
                   }}
                 />
@@ -417,41 +417,6 @@ const HomePage = () => {
                   transition: 'width 0.4s ease, opacity 0.3s ease',
                   animation: isSearchFocused ? 'underlineExpand 0.5s ease forwards' : 'none'
                 }} />
-              </div>
-
-              {/* Dynamic Suggestions */}
-              <div style={{ 
-                marginTop: '1.5rem', 
-                minHeight: '40px',
-                position: 'relative'
-              }}>
-                {suggestions.length > 0 && (
-                  <div
-                    key={activeSuggestion}
-                    onClick={() => { setSearchQuery(suggestions[activeSuggestion]); handleSearch(suggestions[activeSuggestion]); }}
-                    style={{
-                      display: 'inline-block',
-                      fontFamily: '"SF Mono", Monaco, monospace',
-                      fontSize: '0.9rem',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      textShadow: '0 0 15px rgba(255,255,255,0.3)',
-                      cursor: 'pointer',
-                      padding: '0.4rem 0.8rem',
-                      transition: 'all 0.3s ease',
-                      animation: 'suggestionIn 0.5s ease forwards'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'white';
-                      e.currentTarget.style.textShadow = '0 0 25px rgba(255,255,255,0.6)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
-                      e.currentTarget.style.textShadow = '0 0 15px rgba(255,255,255,0.3)';
-                    }}
-                  >
-                    {suggestions[activeSuggestion]}
-                  </div>
-                )}
               </div>
             </div>
 
