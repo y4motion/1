@@ -70,6 +70,8 @@ class MarketplaceTestSuite:
         self.product_id = None
         self.review_id = None
         self.question_id = None
+        self.alert_user_token = None
+        self.alert_id = None
         
         print(f"🔧 Testing backend at: {self.api_url}")
         print(f"👤 Normal user: {self.normal_user_data['email']}")
