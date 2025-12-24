@@ -282,257 +282,234 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* === SEARCH BAR & CTAs (под overlay, появляется после) === */}
+        {/* === SEARCH BAR & CTAs (после приветствия) === */}
         {greetingDone && (
           <div style={{
             position: 'relative',
             zIndex: 10,
             width: '100%',
-            maxWidth: '700px',
+            maxWidth: '800px',
             padding: '2rem',
             textAlign: 'center',
-            animation: 'fadeInUp 0.7s ease forwards'
+            animation: 'crtGlitch 0.4s ease-out, fadeInUp 0.8s ease 0.3s both'
           }}>
-            {/* Search Bar */}
-            <div style={{ position: 'relative' }}>
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                backdropFilter: 'blur(20px)',
-                border: isSearchFocused 
-                  ? '1px solid rgba(255, 255, 255, 0.25)' 
-                  : '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '14px',
-                transition: 'all 0.3s ease',
-                boxShadow: isSearchFocused ? '0 0 40px rgba(255, 255, 255, 0.1)' : 'none'
-              }}>
+            {/* CRT Scanline overlay на появлении */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
+              pointerEvents: 'none',
+              opacity: 0.5,
+              animation: 'scanline 0.1s linear 2'
+            }} />
+
+            {/* Search Zone */}
+            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+              {/* Main search text/input */}
+              <div 
+                style={{ 
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  cursor: 'text'
+                }}
+              >
                 <input
                   type="text"
                   placeholder="Ищи железо, сборку или спроси меня..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => { setIsSearchFocused(true); setShowSuggestions(true); }}
-                  onBlur={() => { setIsSearchFocused(false); setTimeout(() => setShowSuggestions(false), 200); }}
+                  onBlur={() => { setIsSearchFocused(false); setTimeout(() => setShowSuggestions(false), 300); }}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                   style={{
-                    width: '100%',
-                    padding: '1.1rem 5.5rem 1.1rem 1.5rem',
                     background: 'transparent',
                     border: 'none',
                     color: 'white',
-                    fontSize: '1rem',
+                    fontSize: '1.1rem',
+                    fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+                    textShadow: '0 0 20px rgba(255,255,255,0.4)',
                     outline: 'none',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    width: '400px',
+                    padding: '0.5rem 0'
                   }}
                 />
                 
                 {/* Icons */}
-                <div style={{
-                  position: 'absolute',
-                  right: '1rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  display: 'flex',
-                  gap: '0.6rem',
-                  alignItems: 'center'
-                }}>
+                <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
                   <button
                     style={{
                       background: 'none',
                       border: 'none',
-                      color: 'rgba(255, 255, 255, 0.35)',
+                      color: 'rgba(255, 255, 255, 0.5)',
                       cursor: 'pointer',
-                      padding: '0.3rem',
-                      transition: 'color 0.2s',
-                      display: 'flex'
+                      padding: '0.2rem',
+                      transition: 'all 0.3s',
+                      display: 'flex',
+                      textShadow: '0 0 10px rgba(255,255,255,0.3)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.35)'}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.textShadow = '0 0 20px rgba(255,255,255,0.6)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)';
+                      e.currentTarget.style.textShadow = '0 0 10px rgba(255,255,255,0.3)';
+                    }}
                   >
-                    <Mic size={18} />
+                    <Mic size={16} />
                   </button>
 
                   <div style={{ position: 'relative' }}>
                     <button
                       style={{
-                        width: '34px',
-                        height: '34px',
-                        borderRadius: '50%',
-                        background: 'rgba(255, 255, 255, 0.06)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                        color: 'rgba(255, 255, 255, 0.6)',
+                        background: 'none',
+                        border: 'none',
+                        color: 'rgba(255, 255, 255, 0.5)',
                         cursor: 'pointer',
+                        padding: '0.2rem',
+                        transition: 'all 0.3s',
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.3s'
+                        textShadow: '0 0 10px rgba(255,255,255,0.3)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
                         e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.textShadow = '0 0 20px rgba(255,255,255,0.6)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
-                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)';
+                        e.currentTarget.style.textShadow = '0 0 10px rgba(255,255,255,0.3)';
                       }}
                       title="Core AI online"
                     >
-                      <Sparkles size={14} />
+                      <Sparkles size={16} />
                     </button>
-                    <div style={{
-                      position: 'absolute',
-                      top: '-3px',
-                      right: '-3px',
-                      width: '10px',
-                      height: '10px',
-                      borderRadius: '50%',
-                      background: '#4ade80',
-                      border: '2px solid rgba(0, 0, 0, 0.9)',
-                      animation: 'pulseGlow 2s ease-in-out infinite'
-                    }} />
+                    {/* Green pulsing dot */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '-4px',
+                        right: '-4px',
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        background: '#4ade80',
+                        animation: 'pulseGlow 2s ease-in-out infinite'
+                      }}
+                      title="Core AI online"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Suggestions dropdown */}
-              {showSuggestions && suggestions.length > 0 && (
+                {/* Animated underline on focus */}
                 <div style={{
                   position: 'absolute',
-                  top: 'calc(100% + 0.75rem)',
-                  left: 0,
-                  right: 0,
-                  background: 'rgba(8, 8, 12, 0.95)',
-                  backdropFilter: 'blur(25px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  boxShadow: '0 15px 50px rgba(0, 0, 0, 0.6)'
-                }}>
-                  <div style={{
-                    fontSize: '0.7rem',
-                    color: 'rgba(255, 255, 255, 0.4)',
-                    marginBottom: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <Sparkles size={12} />
-                    Core AI предлагает:
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  height: '1px',
+                  background: 'white',
+                  boxShadow: '0 0 10px rgba(255,255,255,0.5)',
+                  width: isSearchFocused ? '100%' : '0',
+                  opacity: isSearchFocused ? 1 : 0,
+                  transition: 'width 0.4s ease, opacity 0.3s ease',
+                  animation: isSearchFocused ? 'underlineExpand 0.5s ease forwards' : 'none'
+                }} />
+              </div>
+
+              {/* Dynamic Suggestions */}
+              <div style={{ 
+                marginTop: '1.5rem', 
+                minHeight: '40px',
+                position: 'relative'
+              }}>
+                {suggestions.length > 0 && (
+                  <div
+                    key={activeSuggestion}
+                    onClick={() => { setSearchQuery(suggestions[activeSuggestion]); handleSearch(suggestions[activeSuggestion]); }}
+                    style={{
+                      display: 'inline-block',
+                      fontFamily: '"SF Mono", Monaco, monospace',
+                      fontSize: '0.9rem',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      textShadow: '0 0 15px rgba(255,255,255,0.3)',
+                      cursor: 'pointer',
+                      padding: '0.4rem 0.8rem',
+                      transition: 'all 0.3s ease',
+                      animation: 'suggestionIn 0.5s ease forwards'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.textShadow = '0 0 25px rgba(255,255,255,0.6)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                      e.currentTarget.style.textShadow = '0 0 15px rgba(255,255,255,0.3)';
+                    }}
+                  >
+                    {suggestions[activeSuggestion]}
                   </div>
-                  {suggestions.slice(0, 5).map((s, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setSearchQuery(s); handleSearch(s); }}
-                      style={{
-                        width: '100%',
-                        padding: '0.65rem 0.8rem',
-                        background: 'transparent',
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: 'rgba(255, 255, 255, 0.65)',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem',
-                        transition: 'all 0.2s',
-                        marginBottom: '0.2rem'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
-                      }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
-            {/* Floating suggestion pill */}
-            {!showSuggestions && suggestions.length > 0 && (
-              <div style={{ marginTop: '1.5rem', minHeight: '32px' }}>
-                <button
-                  onClick={() => { setSearchQuery(suggestions[activeSuggestion]); handleSearch(suggestions[activeSuggestion]); }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.5rem 1.2rem',
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: '20px',
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)';
-                  }}
-                >
-                  <Sparkles size={12} />
-                  {suggestions[activeSuggestion]}
-                </button>
-              </div>
-            )}
-
-            {/* CTA Buttons */}
+            {/* CTA Links - чистый текст */}
             <div style={{
               display: 'flex',
-              gap: '0.75rem',
-              marginTop: '2rem',
+              gap: '0.5rem',
               justifyContent: 'center',
-              flexWrap: 'wrap'
+              alignItems: 'center',
+              marginTop: '2rem'
             }}>
               {[
-                { label: 'Начать сборку', path: '/pc-builder', icon: '⚡' },
-                { label: 'Готовые билды', path: '/marketplace', icon: '🎮' },
-                { label: 'Сообщество', path: '/feed', icon: '💬' }
-              ].map((btn, i) => (
-                <button
-                  key={i}
-                  onClick={() => navigate(btn.path)}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '10px',
-                    color: 'rgba(255, 255, 255, 0.75)',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
-                    fontSize: '0.9rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                    e.currentTarget.style.color = 'white';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.75)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <span>{btn.icon}</span>
-                  {btn.label}
-                </button>
+                { label: 'Начать сборку', path: '/pc-builder' },
+                { label: 'Готовые билды', path: '/marketplace' },
+                { label: 'Сообщество', path: '/feed' }
+              ].map((btn, i, arr) => (
+                <React.Fragment key={i}>
+                  <button
+                    onClick={() => navigate(btn.path)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      fontSize: '0.9rem',
+                      fontFamily: '"SF Mono", Monaco, monospace',
+                      cursor: 'pointer',
+                      padding: '0.3rem 0.5rem',
+                      position: 'relative',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.textShadow = '0 0 15px rgba(255,255,255,0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)';
+                      e.currentTarget.style.textShadow = 'none';
+                    }}
+                  >
+                    {btn.label}
+                    {/* Underline on hover */}
+                    <span style={{
+                      position: 'absolute',
+                      bottom: '2px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '0',
+                      height: '1px',
+                      background: 'white',
+                      transition: 'width 0.3s ease'
+                    }} 
+                    className="cta-underline"
+                    />
+                  </button>
+                  {i < arr.length - 1 && (
+                    <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.7rem' }}>·</span>
+                  )}
+                </React.Fragment>
               ))}
             </div>
           </div>
