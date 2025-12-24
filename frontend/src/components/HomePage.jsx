@@ -47,7 +47,7 @@ const HomePage = () => {
         // Все строки показаны - переход к поиску
         setTimeout(() => {
           if (isActive) setGreetingDone(true);
-        }, 600);
+        }, 800);
         return;
       }
       
@@ -60,15 +60,15 @@ const HomePage = () => {
         if (charIndex <= line.length) {
           setDisplayText(line.substring(0, charIndex));
           charIndex++;
-          setTimeout(typeChar, 70);
+          setTimeout(typeChar, 65);
         } else {
-          // Строка напечатана - пауза, потом следующая
+          // Строка напечатана - долгая пауза для фиксации, потом следующая
           setTimeout(() => {
             if (isActive) {
               setCurrentLine(lineIndex + 1);
               typeLine(lineIndex + 1);
             }
-          }, 800);
+          }, 1800);
         }
       };
       
@@ -76,7 +76,7 @@ const HomePage = () => {
     };
     
     // Пауза с терминальным символом, потом первая строка
-    setTimeout(() => typeLine(0), 1000);
+    setTimeout(() => typeLine(0), 1200);
     
     return () => { isActive = false; };
   }, []);
