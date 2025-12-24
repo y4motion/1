@@ -57,6 +57,19 @@ class Settings(BaseSettings):
     S3_ACCESS_KEY: Optional[str] = None
     S3_SECRET_KEY: Optional[str] = None
     
+    # Push Notifications (VAPID)
+    VAPID_PUBLIC_KEY: Optional[str] = None
+    VAPID_PRIVATE_KEY: Optional[str] = None
+    NOTIFICATION_EMAIL: str = "noreply@glassy-market.com"
+    
+    # SMS (Twilio)
+    TWILIO_ACCOUNT_SID: Optional[str] = None
+    TWILIO_AUTH_TOKEN: Optional[str] = None
+    TWILIO_PHONE_NUMBER: Optional[str] = None
+    
+    # Email (SendGrid)
+    SENDGRID_API_KEY: Optional[str] = None
+    
     # Rate Limiting
     RATE_LIMIT_ENABLED: bool = True
     RATE_LIMIT_STORAGE: str = "memory"
