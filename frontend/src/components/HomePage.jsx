@@ -352,10 +352,10 @@ const HomePage = () => {
           zIndex: 1
         }} />
 
-        {/* Floating particles - видны после приветствия */}
-        {greetingDone && (
+        {/* Floating particles - интерактивные, реагируют на курсор */}
+        {greetingDone && particlePositions.length > 0 && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
-            {particles.map((p) => (
+            {particlesConfig.map((p, i) => (
               <div
                 key={p.id}
                 style={{
@@ -364,10 +364,12 @@ const HomePage = () => {
                   height: `${p.size}px`,
                   background: 'rgba(255,255,255,0.6)',
                   borderRadius: '50%',
-                  top: `${p.top}%`,
-                  left: `${p.left}%`,
-                  animation: `${p.animationType} ${p.moveDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
-                  animationDelay: `${p.moveDelay}s, ${p.fadeDelay}s`
+                  left: `${particlePositions[i]?.x || p.baseX}%`,
+                  top: `${particlePositions[i]?.y || p.baseY}%`,
+                  transition: 'none',
+                  animation: `particleFade ${p.fadeDuration}s ease-in-out infinite`,
+                  animationDelay: `${p.fadeDelay}s`,
+                  willChange: 'left, top'
                 }}
               />
             ))}
