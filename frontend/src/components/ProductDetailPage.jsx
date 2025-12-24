@@ -625,6 +625,9 @@ const ProductDetailPage = () => {
                 <div style={{ fontSize: '0.8125rem', fontWeight: '600' }}>24/7 Support</div>
               </div>
             </div>
+
+            {/* Price Drop Alert */}
+            <PriceAlertSettings product={product} currentPrice={product.price} />
           </div>
         </div>
 
