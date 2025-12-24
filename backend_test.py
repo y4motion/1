@@ -1059,6 +1059,327 @@ class MarketplaceTestSuite:
             print(f"❌ {len(test_cases) - success_count} backward compatibility tests failed")
             return False
     
+    # ==================== PRICE ALERT TESTS ====================
+    
+    async def test_price_alert_login_with_existing_user(self):
+        """Test login with existing test credentials"""
+        print("\n🧪 Testing Price Alert Login (Existing User)...")
+        
+        # Use existing test credentials
+        login_data = {
+            "email": "testalert@example.com",
+            "password": "TestAlert123"
+        }
+        
+        try:
+            async with self.session.post(
+                f"{self.api_url}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Login status: {status}")
+                
+                if status == 200:
+                    self.alert_user_token = data["access_token"]
+                    print(f"✅ Logged in as testalert@example.com")
+                    print(f"   User ID: {data['user']['id']}")
+                    return True
+                else:
+                    print(f"❌ Login failed: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Login error: {e}")
+            return False
+    
+    async def test_create_price_alert_target_price(self):
+        """Test creating price alert with target price"""
+        print("\n🧪 Testing Create Price Alert (Target Price)...")
+        
+        if not hasattr(self, 'alert_user_token'):
+            print("❌ No alert user token available")
+            return False
+        
+        # Test product ID from review request
+        test_product_id = "8529f6c3-b561-462c-a602-f6fcb66edddc"
+        
+        alert_data = {
+            "product_id": test_product_id,
+            "target_price": 350.00,
+            "notification_methods": {
+                "push": True,
+                "email": True,
+                "sms": False
+            },
+            "enabled": True
+        }
+        
+        try:
+            async with self.session.post(
+                f"{self.api_url}/price-alerts/",
+                json=alert_data,
+                headers={
+                    "Authorization": f"Bearer {self.alert_user_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Create alert status: {status}")
+                
+                if status == 201:
+                    self.alert_id = data["id"]
+                    print(f"✅ Price alert created with target price $350.00")
+                    print(f"   Alert ID: {self.alert_id}")
+                    return True
+                else:
+                    print(f"❌ Failed to create price alert: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Create price alert error: {e}")
+            return False
+    
+    async def test_update_price_alert_to_percentage(self):
+        """Test updating price alert to use percentage drop"""
+        print("\n🧪 Testing Update Price Alert (Percentage Drop)...")
+        
+        if not hasattr(self, 'alert_user_token'):
+            print("❌ No alert user token available")
+            return False
+        
+        test_product_id = "8529f6c3-b561-462c-a602-f6fcb66edddc"
+        
+        # Update to use percentage drop instead of target price
+        alert_data = {
+            "product_id": test_product_id,
+            "target_price": None,
+            "price_drop_percent": 15,
+            "notification_methods": {
+                "push": True,
+                "email": True,
+                "sms": False
+            },
+            "enabled": True
+        }
+        
+        try:
+            async with self.session.post(
+                f"{self.api_url}/price-alerts/",
+                json=alert_data,
+                headers={
+                    "Authorization": f"Bearer {self.alert_user_token}",
+                    "Content-Type": "application/json"
+                }
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Update alert status: {status}")
+                
+                if status == 201:
+                    print(f"✅ Price alert updated to 15% price drop")
+                    print(f"   Message: {data.get('message', 'Updated')}")
+                    return True
+                else:
+                    print(f"❌ Failed to update price alert: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Update price alert error: {e}")
+            return False
+    
+    async def test_get_all_user_alerts(self):
+        """Test getting all user alerts with product enrichment"""
+        print("\n🧪 Testing Get All User Alerts...")
+        
+        if not hasattr(self, 'alert_user_token'):
+            print("❌ No alert user token available")
+            return False
+        
+        try:
+            async with self.session.get(
+                f"{self.api_url}/price-alerts/",
+                headers={"Authorization": f"Bearer {self.alert_user_token}"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Get alerts status: {status}")
+                
+                if status == 200:
+                    alerts = data.get("data", [])
+                    print(f"✅ Retrieved {len(alerts)} price alerts")
+                    
+                    if alerts:
+                        alert = alerts[0]
+                        print(f"   First alert: {alert.get('price_drop_percent', alert.get('target_price'))}% drop / ${alert.get('target_price', 'N/A')} target")
+                        
+                        # Check product enrichment
+                        if "product" in alert:
+                            product = alert["product"]
+                            print(f"   Product enriched: {product.get('title', 'Unknown')} - ${product.get('price', 0)}")
+                        else:
+                            print(f"   ❌ Product data not enriched")
+                            return False
+                    
+                    return True
+                else:
+                    print(f"❌ Failed to get alerts: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Get alerts error: {e}")
+            return False
+    
+    async def test_get_alert_for_specific_product(self):
+        """Test getting alert for specific product"""
+        print("\n🧪 Testing Get Alert for Specific Product...")
+        
+        if not hasattr(self, 'alert_user_token'):
+            print("❌ No alert user token available")
+            return False
+        
+        test_product_id = "8529f6c3-b561-462c-a602-f6fcb66edddc"
+        
+        try:
+            async with self.session.get(
+                f"{self.api_url}/price-alerts/product/{test_product_id}",
+                headers={"Authorization": f"Bearer {self.alert_user_token}"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Get product alert status: {status}")
+                
+                if status == 200:
+                    alert = data.get("data")
+                    if alert:
+                        print(f"✅ Found alert for product: {alert.get('price_drop_percent', 'N/A')}% drop / ${alert.get('target_price', 'N/A')} target")
+                        print(f"   Alert enabled: {alert.get('enabled', False)}")
+                        return True
+                    else:
+                        print(f"✅ No alert found for product (valid response)")
+                        return True
+                else:
+                    print(f"❌ Failed to get product alert: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Get product alert error: {e}")
+            return False
+    
+    async def test_toggle_alert_enabled_status(self):
+        """Test toggling alert enabled status"""
+        print("\n🧪 Testing Toggle Alert Enabled Status...")
+        
+        if not hasattr(self, 'alert_user_token') or not hasattr(self, 'alert_id'):
+            print("❌ No alert user token or alert ID available")
+            return False
+        
+        try:
+            async with self.session.patch(
+                f"{self.api_url}/price-alerts/{self.alert_id}/toggle",
+                headers={"Authorization": f"Bearer {self.alert_user_token}"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Toggle alert status: {status}")
+                
+                if status == 200:
+                    enabled = data.get("enabled", False)
+                    print(f"✅ Alert toggled to: {'Enabled' if enabled else 'Disabled'}")
+                    
+                    # Toggle back
+                    async with self.session.patch(
+                        f"{self.api_url}/price-alerts/{self.alert_id}/toggle",
+                        headers={"Authorization": f"Bearer {self.alert_user_token}"}
+                    ) as response2:
+                        
+                        if response2.status == 200:
+                            data2 = await response2.json()
+                            enabled2 = data2.get("enabled", False)
+                            print(f"✅ Alert toggled back to: {'Enabled' if enabled2 else 'Disabled'}")
+                            return True
+                        else:
+                            print(f"❌ Failed to toggle back")
+                            return False
+                else:
+                    print(f"❌ Failed to toggle alert: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Toggle alert error: {e}")
+            return False
+    
+    async def test_delete_price_alert(self):
+        """Test deleting price alert"""
+        print("\n🧪 Testing Delete Price Alert...")
+        
+        if not hasattr(self, 'alert_user_token') or not hasattr(self, 'alert_id'):
+            print("❌ No alert user token or alert ID available")
+            return False
+        
+        try:
+            async with self.session.delete(
+                f"{self.api_url}/price-alerts/{self.alert_id}",
+                headers={"Authorization": f"Bearer {self.alert_user_token}"}
+            ) as response:
+                
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Delete alert status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Price alert deleted successfully")
+                    print(f"   Message: {data.get('message', 'Deleted')}")
+                    return True
+                else:
+                    print(f"❌ Failed to delete alert: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Delete alert error: {e}")
+            return False
+    
+    async def test_verify_test_product_exists(self):
+        """Verify the test product exists"""
+        print("\n🧪 Testing Verify Test Product Exists...")
+        
+        test_product_id = "8529f6c3-b561-462c-a602-f6fcb66edddc"
+        
+        try:
+            async with self.session.get(f"{self.api_url}/products/{test_product_id}/") as response:
+                status = response.status
+                data = await response.json()
+                
+                print(f"   Product lookup status: {status}")
+                
+                if status == 200:
+                    print(f"✅ Test product found: {data.get('title', 'Unknown')}")
+                    print(f"   Current price: ${data.get('price', 0)}")
+                    print(f"   Product ID: {data.get('id', 'Unknown')}")
+                    return True
+                else:
+                    print(f"❌ Test product not found: {data}")
+                    return False
+                    
+        except Exception as e:
+            print(f"❌ Product lookup error: {e}")
+            return False
+    
     async def run_all_tests(self):
         """Run complete marketplace API test suite"""
         print("🚀 Starting Marketplace Backend API Tests")
