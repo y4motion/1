@@ -106,7 +106,8 @@ async def create_notification(
     link: str = None,
     metadata: dict = None
 ):
-    \"\"\"Helper function to create notification\"\"\"\n    db = await get_database()
+    """Helper function to create notification"""
+    db = await get_database()
     
     notification = Notification(
         user_id=user_id,
