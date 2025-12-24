@@ -22,20 +22,31 @@ const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const greetingLines = [
+  const [greetingLines, setGreetingLines] = useState([
     "System online.",
     "Привет, Гость.",
     "Готов помочь с железом мечты."
-  ];
+  ]);
   const [currentLine, setCurrentLine] = useState(0);
 
   useEffect(() => {
     coreAI.init(user);
     setSuggestions(coreAI.getSearchSuggestions());
+    
+    // Получаем персонализированное приветствие от Core AI
+    const initGreeting = async () => {
+      const greeting = await coreAI.generateGreeting();
+      if (greeting.lines && greeting.lines.length > 0) {
+        setGreetingLines(greeting.lines);
+      }
+    };
+    initGreeting();
   }, [user]);
 
   // Typewriter effect - одна строка, сменяется следующей
   useEffect(() => {
+    if (greetingLines.length === 0) return;
+    
     let charIndex = 0;
     let isActive = true;
     
@@ -62,24 +73,24 @@ const HomePage = () => {
           charIndex++;
           setTimeout(typeChar, 65);
         } else {
-          // Строка напечатана - долгая пауза для фиксации, потом следующая
+          // Строка напечатана - пауза для фиксации, потом следующая
           setTimeout(() => {
             if (isActive) {
               setCurrentLine(lineIndex + 1);
               typeLine(lineIndex + 1);
             }
-          }, 1800);
+          }, 1200);
         }
       };
       
       typeChar();
     };
     
-    // Пауза с терминальным символом, потом первая строка
-    setTimeout(() => typeLine(0), 1200);
+    // Начальная пауза с терминальным символом
+    setTimeout(() => typeLine(0), 1000);
     
     return () => { isActive = false; };
-  }, []);
+  }, [greetingLines]);
 
   // Rotating suggestions
   useEffect(() => {
