@@ -136,8 +136,8 @@ const HomePage = () => {
     <div className="dark-bg" style={{ minHeight: '100vh' }}>
       <div className="grain-overlay" />
 
-      {/* JARVIS Loading Screen */}
-      {isJarvisLoading && (
+      {/* AI Greeting Overlay */}
+      {showAIGreeting && aiGreeting && (
         <div
           style={{
             position: 'fixed',
@@ -150,7 +150,7 @@ const HomePage = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            animation: isJarvisLoading ? 'none' : 'fadeOut 0.5s ease forwards',
+            animation: typingComplete ? 'fadeOut 0.5s ease forwards' : 'none',
           }}
         >
           <div
@@ -165,8 +165,8 @@ const HomePage = () => {
               padding: '2rem',
             }}
           >
-            {currentText}
-            {showCursor && (
+            {greetingText}
+            {showCursor && !typingComplete && (
               <span
                 style={{
                   display: 'inline-block',
