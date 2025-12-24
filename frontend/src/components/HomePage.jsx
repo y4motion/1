@@ -51,14 +51,16 @@ const HomePage = () => {
   
   // Фиксированные позиции частиц (не пересоздаются при ре-рендере)
   const particles = React.useMemo(() => 
-    [...Array(25)].map((_, i) => ({
+    [...Array(35)].map((_, i) => ({
       id: i,
-      width: 2 + Math.random() * 2,
-      height: 2 + Math.random() * 2,
+      size: 1 + Math.random() * 3,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      duration: 5 + Math.random() * 5,
-      delay: Math.random() * 4
+      moveDuration: 8 + Math.random() * 12,
+      fadeDuration: 4 + Math.random() * 8,
+      moveDelay: Math.random() * 5,
+      fadeDelay: Math.random() * 6,
+      animationType: Math.random() > 0.5 ? 'particleFloat' : 'particleDrift'
     })), []
   );
 
@@ -169,10 +171,24 @@ const HomePage = () => {
           50% { opacity: 0; }
         }
         @keyframes particleFloat {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-          25% { transform: translateY(-25px) translateX(8px); opacity: 0.5; }
-          50% { transform: translateY(-15px) translateX(-5px); opacity: 0.3; }
-          75% { transform: translateY(-35px) translateX(12px); opacity: 0.4; }
+          0% { transform: translate(0, 0); }
+          25% { transform: translate(15px, -30px); }
+          50% { transform: translate(-10px, -15px); }
+          75% { transform: translate(20px, -45px); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes particleFade {
+          0%, 100% { opacity: 0.15; }
+          20% { opacity: 0.5; }
+          40% { opacity: 0.1; }
+          60% { opacity: 0.6; }
+          80% { opacity: 0.2; }
+        }
+        @keyframes particleDrift {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(-25px, -40px) scale(0.8); }
+          66% { transform: translate(30px, -20px) scale(1.2); }
+          100% { transform: translate(0, 0) scale(1); }
         }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(25px); }
@@ -253,14 +269,14 @@ const HomePage = () => {
                 key={p.id}
                 style={{
                   position: 'absolute',
-                  width: `${p.width}px`,
-                  height: `${p.height}px`,
-                  background: 'rgba(255,255,255,0.5)',
+                  width: `${p.size}px`,
+                  height: `${p.size}px`,
+                  background: 'rgba(255,255,255,0.6)',
                   borderRadius: '50%',
                   top: `${p.top}%`,
                   left: `${p.left}%`,
-                  animation: `particleFloat ${p.duration}s ease-in-out infinite`,
-                  animationDelay: `${p.delay}s`
+                  animation: `${p.animationType} ${p.moveDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
+                  animationDelay: `${p.moveDelay}s, ${p.fadeDelay}s`
                 }}
               />
             ))}
