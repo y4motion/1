@@ -43,7 +43,8 @@ function App() {
       <LanguageProvider>
         <CurrencyProvider>
           <AuthProvider>
-            <ErrorBoundary>
+            <ToastProvider>
+              <ErrorBoundary>
               <div className="App">
                 <BrowserRouter>
                   <Header />
