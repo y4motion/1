@@ -116,12 +116,12 @@ const HomePage = () => {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
-  // Rotating suggestions
+  // Rotating suggestions - держатся 4-5 секунд
   useEffect(() => {
     if (!greetingDone || suggestions.length === 0) return;
     const interval = setInterval(() => {
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
-    }, 3500);
+    }, 4500);
     return () => clearInterval(interval);
   }, [greetingDone, suggestions.length]);
 
