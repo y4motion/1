@@ -75,12 +75,18 @@ async def general_exception_handler(request: Request, exc: Exception):
             "type": type(exc).__name__
         }
     
+    error_response = ErrorResponse(
+        error="Internal server error",
+        error_code="INTERNAL_ERROR",
+        details=details,
+        timestamp=datetime.now(timezone.utc)
+    )
+    
+    # Convert to dict and serialize datetime
+    content = error_response.dict()
+    content['timestamp'] = content['timestamp'].isoformat()
+    
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content=ErrorResponse(
-            error="Internal server error",
-            error_code="INTERNAL_ERROR",
-            details=details,
-            timestamp=datetime.now(timezone.utc)
-        ).dict()
+        content=content
     )
