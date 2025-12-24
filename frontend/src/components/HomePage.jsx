@@ -12,7 +12,7 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [greetingComplete, setGreetingComplete] = useState(false);
+  const [greetingPhase, setGreetingPhase] = useState('typing'); // 'typing' | 'done'
   const [displayText, setDisplayText] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -29,7 +29,7 @@ const HomePage = () => {
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter + phase management
+  // Typewriter effect
   useEffect(() => {
     let charIndex = 0;
     let isActive = true;
@@ -42,28 +42,24 @@ const HomePage = () => {
         charIndex++;
         setTimeout(typeChar, 45);
       } else {
-        // Typing complete - show search bar
         setTimeout(() => {
-          if (isActive) {
-            console.log('Greeting complete, showing search');
-            setGreetingComplete(true);
-          }
-        }, 800);
+          if (isActive) setGreetingPhase('done');
+        }, 600);
       }
     };
     
-    setTimeout(typeChar, 300);
+    setTimeout(typeChar, 400);
     return () => { isActive = false; };
-  }, [greetingText]);
+  }, []);
 
   // Rotating suggestions
   useEffect(() => {
-    if (!greetingComplete || suggestions.length === 0) return;
+    if (greetingPhase !== 'done' || suggestions.length === 0) return;
     const interval = setInterval(() => {
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
     }, 3500);
     return () => clearInterval(interval);
-  }, [greetingComplete, suggestions.length]);
+  }, [greetingPhase, suggestions.length]);
 
   const handleSearch = useCallback((query) => {
     if (!query.trim()) return;
@@ -72,6 +68,7 @@ const HomePage = () => {
   }, [navigate]);
 
   const featured = products.filter(p => p.originalPrice).slice(0, 3);
+  const showSearchBar = greetingPhase === 'done';
 
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
@@ -88,12 +85,16 @@ const HomePage = () => {
           0%, 100% { transform: translateY(0); opacity: 0.3; }
           50% { transform: translateY(-30px); opacity: 0.6; }
         }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(25px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         input::placeholder { color: rgba(255, 255, 255, 0.35); }
       `}</style>
 
-      {/* === HERO SECTION (с приветствием внутри) === */}
+      {/* === HERO SECTION === */}
       <div style={{
-        minHeight: '100vh',
+        height: '100vh',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -132,8 +133,8 @@ const HomePage = () => {
 
         {/* Particles */}
         {!videoLoaded && (
-          <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
-            {[...Array(25)].map((_, i) => (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
+            {[...Array(20)].map((_, i) => (
               <div
                 key={i}
                 style={{
@@ -152,7 +153,7 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* HERO CONTENT - всегда видим */}
+        {/* HERO CONTENT */}
         <div style={{
           position: 'relative',
           zIndex: 10,
@@ -161,45 +162,47 @@ const HomePage = () => {
           padding: '2rem',
           textAlign: 'center'
         }}>
-          {/* AI Greeting - внутри hero */}
-          {!greetingComplete && (
-            <div style={{ marginBottom: '2rem' }}>
-              <pre style={{
-                fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                color: '#ffffff',
-                textShadow: '0 0 30px rgba(255,255,255,0.5)',
-                lineHeight: '2.2',
-                letterSpacing: '0.03em',
-                margin: 0,
-                whiteSpace: 'pre-wrap'
-              }}>
-                {displayText}
+          {/* AI Greeting - всегда отображается, но fade out когда done */}
+          <div style={{ 
+            marginBottom: '1.5rem',
+            opacity: showSearchBar ? 0 : 1,
+            maxHeight: showSearchBar ? 0 : '200px',
+            overflow: 'hidden',
+            transition: 'opacity 0.5s ease, max-height 0.5s ease'
+          }}>
+            <pre style={{
+              fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+              color: '#ffffff',
+              textShadow: '0 0 30px rgba(255,255,255,0.5)',
+              lineHeight: '2.2',
+              letterSpacing: '0.03em',
+              margin: 0,
+              whiteSpace: 'pre-wrap'
+            }}>
+              {displayText}
+              {!showSearchBar && (
                 <span style={{
                   display: 'inline-block',
-                  width: '12px',
-                  height: '1.2em',
+                  width: '10px',
+                  height: '1.1em',
                   background: '#fff',
-                  marginLeft: '3px',
+                  marginLeft: '2px',
                   verticalAlign: 'text-bottom',
                   animation: 'blink 1s step-end infinite',
-                  boxShadow: '0 0 15px rgba(255,255,255,0.6)'
+                  boxShadow: '0 0 12px rgba(255,255,255,0.5)'
                 }} />
-              </pre>
-            </div>
-          )}
+              )}
+            </pre>
+          </div>
 
-          {/* Search Bar - появляется после приветствия */}
-          {greetingComplete && (
-            <div style={{
-              animation: 'fadeInUp 0.6s ease forwards'
-            }}>
-              <style>{`
-                @keyframes fadeInUp {
-                  from { opacity: 0; transform: translateY(20px); }
-                  to { opacity: 1; transform: translateY(0); }
-                }
-              `}</style>
+          {/* Search Bar - fade in when greeting done */}
+          <div style={{
+            opacity: showSearchBar ? 1 : 0,
+            transform: showSearchBar ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s',
+            pointerEvents: showSearchBar ? 'auto' : 'none'
+          }}>
             <div style={{ position: 'relative' }}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.03)',
@@ -248,7 +251,7 @@ const HomePage = () => {
                       color: 'rgba(255, 255, 255, 0.35)',
                       cursor: 'pointer',
                       padding: '0.3rem',
-                      transition: 'all 0.2s',
+                      transition: 'color 0.2s',
                       display: 'flex'
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'}
@@ -299,7 +302,7 @@ const HomePage = () => {
                 </div>
               </div>
 
-              {/* Suggestions dropdown */}
+              {/* Suggestions */}
               {showSuggestions && suggestions.length > 0 && (
                 <div style={{
                   position: 'absolute',
@@ -442,11 +445,10 @@ const HomePage = () => {
               ))}
             </div>
           </div>
-          )}
         </div>
       </div>
 
-      {/* === CONTENT BLOCKS - всегда видны === */}
+      {/* === CONTENT BLOCKS === */}
       <div style={{ padding: '0 2.5rem', marginBottom: '4rem' }}>
         <div style={{
           display: 'grid',
@@ -517,12 +519,11 @@ const HomePage = () => {
       <div style={{ padding: '0 2.5rem' }}>
         <div style={{
           marginTop: '4rem',
-          marginBottom: '4rem',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
           gap: '2rem',
           maxWidth: '1840px',
-          margin: '0 auto'
+          margin: '4rem auto'
         }}>
           <TopArticlesWidget />
           <TopUsersWidget />
