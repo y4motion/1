@@ -41,34 +41,43 @@ const HomePage = () => {
     initGreeting();
   }, [user]);
 
-  // Typewriter effect
+  // Typewriter effect - simplified and reliable
   useEffect(() => {
-    if (greetingLines.length === 0) return;
+    if (greetingLines.length === 0 || showOverlay === false) return;
 
-    const typeInterval = setInterval(() => {
-      if (currentLineIndex >= greetingLines.length) {
-        clearInterval(typeInterval);
-        // Fade out overlay after typing completes
-        setTimeout(() => setShowOverlay(false), 1200);
+    const totalChars = greetingLines.reduce((sum, line) => sum + line.length, 0);
+    let currentChar = 0;
+    let lineIdx = 0;
+    let charIdx = 0;
+
+    const typeTimer = setInterval(() => {
+      if (lineIdx >= greetingLines.length) {
+        clearInterval(typeTimer);
+        // Wait a bit then fade out
+        setTimeout(() => {
+          setShowOverlay(false);
+        }, 1000);
         return;
       }
 
-      const currentLine = greetingLines[currentLineIndex];
-      
-      if (currentCharIndex < currentLine.length) {
-        setCurrentCharIndex(prev => prev + 1);
+      const line = greetingLines[lineIdx];
+      if (charIdx < line.length) {
+        charIdx++;
+        setCurrentLineIndex(lineIdx);
+        setCurrentCharIndex(charIdx);
       } else {
         // Move to next line
-        setTimeout(() => {
-          setCurrentLineIndex(prev => prev + 1);
+        lineIdx++;
+        charIdx = 0;
+        if (lineIdx < greetingLines.length) {
+          setCurrentLineIndex(lineIdx);
           setCurrentCharIndex(0);
-        }, 300);
-        clearInterval(typeInterval);
+        }
       }
-    }, 45);
+    }, 50);
 
-    return () => clearInterval(typeInterval);
-  }, [greetingLines, currentLineIndex, currentCharIndex]);
+    return () => clearInterval(typeTimer);
+  }, [greetingLines]);
 
   // Cursor blink
   useEffect(() => {
