@@ -29,26 +29,38 @@ const HomePage = () => {
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter effect - медленный, ~6 секунд на весь текст
+  // Typewriter effect - с терминальной заставкой
   useEffect(() => {
     let charIndex = 0;
     let isActive = true;
     
-    const typeChar = () => {
+    // Сначала показываем терминальный символ
+    setDisplayText('> _');
+    
+    const startTyping = () => {
       if (!isActive) return;
+      setDisplayText('');
       
-      if (charIndex <= greetingText.length) {
-        setDisplayText(greetingText.substring(0, charIndex));
-        charIndex++;
-        setTimeout(typeChar, 95); // ~6 секунд на 60 символов
-      } else {
-        setTimeout(() => {
-          if (isActive) setGreetingDone(true);
-        }, 800);
-      }
+      const typeChar = () => {
+        if (!isActive) return;
+        
+        if (charIndex <= greetingText.length) {
+          setDisplayText(greetingText.substring(0, charIndex));
+          charIndex++;
+          setTimeout(typeChar, 75);
+        } else {
+          setTimeout(() => {
+            if (isActive) setGreetingDone(true);
+          }, 800);
+        }
+      };
+      
+      typeChar();
     };
     
-    setTimeout(typeChar, 500);
+    // Пауза с терминальным символом, потом начинаем печать
+    setTimeout(startTyping, 1200);
+    
     return () => { isActive = false; };
   }, []);
 
