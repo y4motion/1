@@ -1412,6 +1412,15 @@ class MarketplaceTestSuite:
             ("Product Filtering by Specific Attributes", self.test_product_filtering_by_specific_attributes),
             ("Combined Persona + Specific Filters", self.test_combined_persona_and_specific_filters),
             ("Backward Compatibility Filters", self.test_backward_compatibility_filters),
+            # PRICE ALERT SYSTEM TESTS
+            ("Verify Test Product Exists", self.test_verify_test_product_exists),
+            ("Price Alert Login (Existing User)", self.test_price_alert_login_with_existing_user),
+            ("Create Price Alert (Target Price)", self.test_create_price_alert_target_price),
+            ("Update Price Alert (Percentage Drop)", self.test_update_price_alert_to_percentage),
+            ("Get All User Alerts", self.test_get_all_user_alerts),
+            ("Get Alert for Specific Product", self.test_get_alert_for_specific_product),
+            ("Toggle Alert Enabled Status", self.test_toggle_alert_enabled_status),
+            ("Delete Price Alert", self.test_delete_price_alert),
         ]
         
         for test_name, test_func in tests:
