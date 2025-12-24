@@ -227,18 +227,20 @@ const HomePage = () => {
           }
         `}</style>
 
-        {/* === HERO CONTENT === */}
-        {phase === 'hero' && (
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 10,
-              width: '100%',
-              maxWidth: '700px',
-              padding: '2rem',
-              animation: 'fadeInUp 0.8s ease forwards'
-            }}
-          >
+        {/* === HERO CONTENT - ALWAYS RENDERED === */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            maxWidth: '700px',
+            padding: '2rem',
+            opacity: phase === 'hero' ? 1 : 0,
+            transform: phase === 'hero' ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            pointerEvents: phase === 'hero' ? 'auto' : 'none'
+          }}
+        >
             {/* Search Bar */}
             <div style={{ position: 'relative' }}>
               <div style={{
