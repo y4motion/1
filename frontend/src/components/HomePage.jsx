@@ -15,44 +15,80 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isJarvisLoading, setIsJarvisLoading] = useState(true);
+  const [currentText, setCurrentText] = useState('');
+  const [currentLine, setCurrentLine] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const { user } = useAuth();
   const navigate = useNavigate();
+
+  // JARVIS loading sequence
+  const jarvisSequence = [
+    { text: 'System initializing...', delay: 0, duration: 1000, pauseAfter: 0 },
+    { text: ' Online.', delay: 1000, duration: 500, pauseAfter: 500 },
+    { text: `Привет, ${user?.username || 'Гость'}.`, delay: 2000, duration: 1500, pauseAfter: 0 },
+    { text: 'Готов помочь с железом мечты. С чего начнём?', delay: 3500, duration: 500, pauseAfter: 0 }
+  ];
+
+  useEffect(() => {
+    let lineIndex = 0;
+    let charIndex = 0;
+    let timeoutId;
+    let completedLines = [];
+
+    const typeCharacter = () => {
+      if (lineIndex >= jarvisSequence.length) {
+        // Animation complete, fade out
+        setTimeout(() => {
+          setIsJarvisLoading(false);
+        }, 500);
+        return;
+      }
+
+      const currentSequence = jarvisSequence[lineIndex];
+      
+      if (charIndex < currentSequence.text.length) {
+        const fullText = completedLines.join('\n') + 
+          (completedLines.length > 0 ? '\n' : '') + 
+          currentSequence.text.substring(0, charIndex + 1);
+        setCurrentText(fullText);
+        setCurrentLine(lineIndex);
+        charIndex++;
+        timeoutId = setTimeout(typeCharacter, 60); // 60ms per character
+      } else {
+        // Line complete
+        completedLines.push(currentSequence.text);
+        lineIndex++;
+        charIndex = 0;
+        
+        const nextSequence = jarvisSequence[lineIndex];
+        if (nextSequence) {
+          const waitTime = nextSequence.delay - (jarvisSequence[lineIndex - 1]?.delay + jarvisSequence[lineIndex - 1]?.duration || 0);
+          timeoutId = setTimeout(typeCharacter, Math.max(0, waitTime));
+        } else {
+          // All done, wait then fade out
+          setTimeout(() => setIsJarvisLoading(false), 1000);
+        }
+      }
+    };
+
+    timeoutId = setTimeout(typeCharacter, 100);
+
+    // Cursor blink
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(cursorInterval);
+    };
+  }, [user]);
 
   // Get featured products (products with originalPrice - on sale)
   const featuredProducts = products.filter((p) => p.originalPrice).slice(0, 3);
-
-  // Loading animation effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLoadingProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setIsLoaded(true), 500); // Wait 500ms then transform
-          return 100;
-        }
-        return prev + 2; // Increment by 2% every 50ms = 2.5 seconds total
-      });
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Prefetch critical routes after page loads
-  useEffect(() => {
-    if (isLoaded) {
-      // Prefetch marketplace and feed after 2 seconds (most visited pages)
-      const prefetchTimer = setTimeout(() => {
-        import('./MarketplacePage').catch(() => {});
-        import('./FeedPage').catch(() => {});
-        import('./ArticlesPage').catch(() => {});
-      }, 2000);
-
-      return () => clearTimeout(prefetchTimer);
-    }
-  }, [isLoaded]);
 
   // Top 4 square blocks (PMM.gg style) - Angry Miao images
   const topCategories = [
