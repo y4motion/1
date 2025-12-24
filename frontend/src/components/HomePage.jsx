@@ -49,27 +49,31 @@ const HomePage = () => {
   const [currentLine, setCurrentLine] = useState(0);
   const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
   
-  // Интерактивные частицы с отталкиванием от курсора
+  // Интерактивные частицы - свободно витают, мышь минимально влияет
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
   const [particlePositions, setParticlePositions] = useState([]);
   const heroRef = React.useRef(null);
   
-  // Инициализация частиц
+  // Конфиг частиц с направлениями движения
   const particlesConfig = React.useMemo(() => 
     [...Array(35)].map((_, i) => ({
       id: i,
       size: 1 + Math.random() * 3,
-      baseX: Math.random() * 100,
-      baseY: Math.random() * 100,
-      moveDuration: 8 + Math.random() * 12,
       fadeDuration: 4 + Math.random() * 8,
       fadeDelay: Math.random() * 6,
+      speed: 0.02 + Math.random() * 0.04, // скорость движения
+      directionChangeSpeed: 0.005 + Math.random() * 0.01, // как быстро меняет направление
     })), []
   );
 
-  // Инициализация позиций
+  // Инициализация позиций с углами движения
   React.useEffect(() => {
-    setParticlePositions(particlesConfig.map(p => ({ x: p.baseX, y: p.baseY, vx: 0, vy: 0 })));
+    setParticlePositions(particlesConfig.map(() => ({ 
+      x: Math.random() * 100, 
+      y: Math.random() * 100, 
+      angle: Math.random() * Math.PI * 2,
+      targetAngle: Math.random() * Math.PI * 2
+    })));
   }, [particlesConfig]);
 
   // Отслеживание мыши
@@ -86,63 +90,58 @@ const HomePage = () => {
       }
     };
     
-    const handleMouseLeave = () => {
-      setMousePos({ x: -1000, y: -1000 });
-    };
-    
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', handleMouseLeave);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [greetingDone]);
 
-  // Физика отталкивания
+  // Физика свободного движения
   React.useEffect(() => {
     if (!greetingDone || particlePositions.length === 0) return;
     
     let animationId;
-    const pushRadius = 15; // радиус отталкивания в %
-    const pushStrength = 0.8;
-    const returnSpeed = 0.02;
-    const friction = 0.95;
+    const mouseInfluence = 0.15; // супер минимальное влияние мыши
+    const mouseRadius = 12;
     
     const animate = () => {
       setParticlePositions(prev => prev.map((pos, i) => {
         const config = particlesConfig[i];
-        let { x, y, vx, vy } = pos;
+        let { x, y, angle, targetAngle } = pos;
         
-        // Расстояние до курсора
+        // Плавно меняем направление к целевому углу
+        const angleDiff = targetAngle - angle;
+        angle += angleDiff * config.directionChangeSpeed;
+        
+        // Случайно меняем целевой угол
+        if (Math.random() < 0.005) {
+          targetAngle = Math.random() * Math.PI * 2;
+        }
+        
+        // Движение по текущему углу
+        let vx = Math.cos(angle) * config.speed;
+        let vy = Math.sin(angle) * config.speed;
+        
+        // Минимальное влияние мыши
         const dx = x - mousePos.x;
         const dy = y - mousePos.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         
-        // Отталкивание от курсора
-        if (dist < pushRadius && dist > 0) {
-          const force = (pushRadius - dist) / pushRadius * pushStrength;
+        if (dist < mouseRadius && dist > 0) {
+          const force = ((mouseRadius - dist) / mouseRadius) * mouseInfluence;
           vx += (dx / dist) * force;
           vy += (dy / dist) * force;
         }
-        
-        // Возврат к базовой позиции
-        vx += (config.baseX - x) * returnSpeed;
-        vy += (config.baseY - y) * returnSpeed;
-        
-        // Применяем трение
-        vx *= friction;
-        vy *= friction;
         
         // Обновляем позицию
         x += vx;
         y += vy;
         
-        // Ограничиваем границами
-        x = Math.max(0, Math.min(100, x));
-        y = Math.max(0, Math.min(100, y));
+        // Мягкий wrap по краям (переход на другую сторону)
+        if (x < -5) x = 105;
+        if (x > 105) x = -5;
+        if (y < -5) y = 105;
+        if (y > 105) y = -5;
         
-        return { x, y, vx, vy };
+        return { x, y, angle, targetAngle };
       }));
       
       animationId = requestAnimationFrame(animate);
