@@ -559,16 +559,19 @@ agent_communication:
 
   - task: "Price Drop Alert System"
     implemented: true
-    working: "pending_test"
+    working: false
     files:
       - "/app/backend/routes/price_alert_routes.py"
       - "/app/backend/tasks/price_tracker.py"
       - "/app/frontend/src/components/PriceAlertSettings.jsx"
       - "/app/frontend/src/components/ProductDetailPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "pending_test"
         agent: "main"
         comment: "Implemented complete Price Drop Alert system. Backend: CRUD endpoints for price alerts, integration with price tracker for automatic triggering. Frontend: PriceAlertSettings component with toggle, target price, percentage drop options, notification method selection. Integrated into product detail page."
+      - working: false
+        agent: "testing"
+        comment: "PRICE DROP ALERT SYSTEM TESTING COMPLETED - PARTIAL SUCCESS ✅ WORKING ENDPOINTS: GET /api/price-alerts/ (retrieve all user alerts with product enrichment), GET /api/price-alerts/product/{product_id} (get specific alert), PATCH /api/price-alerts/{alert_id}/toggle (toggle enabled status), DELETE /api/price-alerts/{alert_id} (delete alert). ✅ Test product verified: Sony WH-1000XM5 ($399.99) exists. ✅ Authentication working with testalert@example.com credentials. ❌ CRITICAL ISSUE: POST /api/price-alerts/ endpoint failing with 503 'upstream connect error or disconnect/reset before headers' - users CANNOT CREATE new price alerts. This is a BLOCKING issue preventing core functionality. Fixed datetime serialization issue in exception handlers but POST endpoint still has connection termination problems. Root cause appears to be in the POST request handler specifically, as GET endpoints work perfectly. 6/7 endpoints working, but alert creation is broken."
