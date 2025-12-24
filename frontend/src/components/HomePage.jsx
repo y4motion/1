@@ -29,7 +29,7 @@ const HomePage = () => {
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter effect - runs once
+  // Typewriter + phase management
   useEffect(() => {
     let charIndex = 0;
     let isActive = true;
@@ -42,15 +42,19 @@ const HomePage = () => {
         charIndex++;
         setTimeout(typeChar, 45);
       } else {
+        // Typing complete - show search bar
         setTimeout(() => {
-          if (isActive) setGreetingComplete(true);
+          if (isActive) {
+            console.log('Greeting complete, showing search');
+            setGreetingComplete(true);
+          }
         }, 800);
       }
     };
     
     setTimeout(typeChar, 300);
     return () => { isActive = false; };
-  }, []);
+  }, [greetingText]);
 
   // Rotating suggestions
   useEffect(() => {
@@ -157,20 +161,26 @@ const HomePage = () => {
           padding: '2rem',
           textAlign: 'center'
         }}>
-          {/* AI Greeting - внутри hero, не overlay */}
-          {!greetingComplete && (
-            <div style={{ marginBottom: '2rem' }}>
-              <pre style={{
-                fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                color: '#ffffff',
-                textShadow: '0 0 30px rgba(255,255,255,0.5)',
-                lineHeight: '2.2',
-                letterSpacing: '0.03em',
-                margin: 0,
-                whiteSpace: 'pre-wrap'
-              }}>
-                {displayText}
+          {/* AI Greeting - внутри hero */}
+          <div style={{ 
+            marginBottom: '2rem',
+            opacity: greetingComplete ? 0 : 1,
+            height: greetingComplete ? 0 : 'auto',
+            overflow: 'hidden',
+            transition: 'opacity 0.5s ease, height 0.5s ease'
+          }}>
+            <pre style={{
+              fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+              color: '#ffffff',
+              textShadow: '0 0 30px rgba(255,255,255,0.5)',
+              lineHeight: '2.2',
+              letterSpacing: '0.03em',
+              margin: 0,
+              whiteSpace: 'pre-wrap'
+            }}>
+              {displayText}
+              {!greetingComplete && (
                 <span style={{
                   display: 'inline-block',
                   width: '12px',
@@ -181,9 +191,9 @@ const HomePage = () => {
                   animation: 'blink 1s step-end infinite',
                   boxShadow: '0 0 15px rgba(255,255,255,0.6)'
                 }} />
-              </pre>
-            </div>
-          )}
+              )}
+            </pre>
+          </div>
 
           {/* Search Bar - появляется после приветствия */}
           <div style={{
