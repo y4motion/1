@@ -137,8 +137,8 @@ const HomePage = () => {
     <div style={{ minHeight: '100vh', background: '#000' }}>
       <style>{`
         @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
-          50% { box-shadow: 0 0 16px rgba(74, 222, 128, 0.7); }
+          0%, 100% { box-shadow: 0 0 6px rgba(74, 222, 128, 0.4); }
+          50% { box-shadow: 0 0 12px rgba(74, 222, 128, 0.8); }
         }
         @keyframes blink {
           0%, 100% { opacity: 1; }
@@ -150,15 +150,38 @@ const HomePage = () => {
           50% { transform: translateY(-15px) translateX(-5px); opacity: 0.3; }
           75% { transform: translateY(-35px) translateX(12px); opacity: 0.4; }
         }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; pointer-events: none; }
-        }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(25px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        input::placeholder { color: rgba(255, 255, 255, 0.35); }
+        @keyframes suggestionIn {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 0.7; transform: translateY(0); }
+        }
+        @keyframes suggestionOut {
+          from { opacity: 0.7; transform: translateY(0); }
+          to { opacity: 0; transform: translateY(-20px); }
+        }
+        @keyframes underlineExpand {
+          0% { width: 0; opacity: 0; }
+          10% { opacity: 1; }
+          15% { opacity: 0.3; }
+          20% { opacity: 1; }
+          100% { width: 100%; opacity: 1; }
+        }
+        @keyframes crtGlitch {
+          0% { opacity: 0; transform: translateX(-2px); }
+          10% { opacity: 1; transform: translateX(2px); }
+          20% { opacity: 0.5; transform: translateX(-1px); }
+          30% { opacity: 1; transform: translateX(0); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scanline {
+          0% { background-position: 0 0; }
+          100% { background-position: 0 100%; }
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        input:focus::placeholder { color: rgba(255, 255, 255, 0.7); }
       `}</style>
 
       {/* === HERO SECTION === */}
