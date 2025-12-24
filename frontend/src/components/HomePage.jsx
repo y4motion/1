@@ -49,107 +49,22 @@ const HomePage = () => {
   const [currentLine, setCurrentLine] = useState(0);
   const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
   
-  // Интерактивные частицы - свободно витают, мышь минимально влияет
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-  const [particlePositions, setParticlePositions] = useState([]);
-  const heroRef = React.useRef(null);
-  
-  // Конфиг частиц с направлениями движения
-  const particlesConfig = React.useMemo(() => 
+  // Частицы - чисто CSS анимация для максимальной плавности
+  const particles = React.useMemo(() => 
     [...Array(35)].map((_, i) => ({
       id: i,
       size: 1 + Math.random() * 3,
-      fadeDuration: 4 + Math.random() * 8,
-      fadeDelay: Math.random() * 6,
-      speed: 0.02 + Math.random() * 0.04, // скорость движения
-      directionChangeSpeed: 0.005 + Math.random() * 0.01, // как быстро меняет направление
+      startX: Math.random() * 100,
+      startY: Math.random() * 100,
+      fadeDuration: 5 + Math.random() * 10,
+      fadeDelay: Math.random() * 8,
+      driftDuration: 20 + Math.random() * 40, // очень медленное движение
+      driftDelay: Math.random() * 10,
+      driftIndex: Math.floor(Math.random() * 4) // выбор одной из 4 траекторий
     })), []
   );
-
-  // Инициализация позиций с углами движения
-  React.useEffect(() => {
-    setParticlePositions(particlesConfig.map(() => ({ 
-      x: Math.random() * 100, 
-      y: Math.random() * 100, 
-      angle: Math.random() * Math.PI * 2,
-      targetAngle: Math.random() * Math.PI * 2
-    })));
-  }, [particlesConfig]);
-
-  // Отслеживание мыши
-  React.useEffect(() => {
-    if (!greetingDone) return;
-    
-    const handleMouseMove = (e) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        setMousePos({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100
-        });
-      }
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [greetingDone]);
-
-  // Физика свободного движения
-  React.useEffect(() => {
-    if (!greetingDone || particlePositions.length === 0) return;
-    
-    let animationId;
-    const mouseInfluence = 0.15; // супер минимальное влияние мыши
-    const mouseRadius = 12;
-    
-    const animate = () => {
-      setParticlePositions(prev => prev.map((pos, i) => {
-        const config = particlesConfig[i];
-        let { x, y, angle, targetAngle } = pos;
-        
-        // Плавно меняем направление к целевому углу
-        const angleDiff = targetAngle - angle;
-        angle += angleDiff * config.directionChangeSpeed;
-        
-        // Случайно меняем целевой угол
-        if (Math.random() < 0.005) {
-          targetAngle = Math.random() * Math.PI * 2;
-        }
-        
-        // Движение по текущему углу
-        let vx = Math.cos(angle) * config.speed;
-        let vy = Math.sin(angle) * config.speed;
-        
-        // Минимальное влияние мыши
-        const dx = x - mousePos.x;
-        const dy = y - mousePos.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < mouseRadius && dist > 0) {
-          const force = ((mouseRadius - dist) / mouseRadius) * mouseInfluence;
-          vx += (dx / dist) * force;
-          vy += (dy / dist) * force;
-        }
-        
-        // Обновляем позицию
-        x += vx;
-        y += vy;
-        
-        // Мягкий wrap по краям (переход на другую сторону)
-        if (x < -5) x = 105;
-        if (x > 105) x = -5;
-        if (y < -5) y = 105;
-        if (y > 105) y = -5;
-        
-        return { x, y, angle, targetAngle };
-      }));
-      
-      animationId = requestAnimationFrame(animate);
-    };
-    
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
-  }, [greetingDone, mousePos, particlesConfig, particlePositions.length]);
+  
+  const heroRef = React.useRef(null);
 
   useEffect(() => {
     coreAI.init(user);
