@@ -49,18 +49,18 @@ const HomePage = () => {
   const [currentLine, setCurrentLine] = useState(0);
   const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
   
-  // Частицы - чисто CSS анимация для максимальной плавности
+  // Частицы - лёгкое галактическое движение
   const particles = React.useMemo(() => 
-    [...Array(35)].map((_, i) => ({
+    [...Array(40)].map((_, i) => ({
       id: i,
-      size: 1 + Math.random() * 3,
+      size: 1 + Math.random() * 2.5,
       startX: Math.random() * 100,
       startY: Math.random() * 100,
-      fadeDuration: 5 + Math.random() * 10,
-      fadeDelay: Math.random() * 8,
-      driftDuration: 20 + Math.random() * 40, // очень медленное движение
-      driftDelay: Math.random() * 10,
-      driftIndex: Math.floor(Math.random() * 4) // выбор одной из 4 траекторий
+      fadeDuration: 6 + Math.random() * 8,
+      fadeDelay: Math.random() * 10,
+      driftDuration: 15 + Math.random() * 25,
+      driftDelay: Math.random() * 15,
+      driftIndex: Math.floor(Math.random() * 4)
     })), []
   );
   
@@ -173,39 +173,24 @@ const HomePage = () => {
           50% { opacity: 0; }
         }
         @keyframes particleFade {
-          0%, 100% { opacity: 0.1; }
-          30% { opacity: 0.5; }
-          50% { opacity: 0.15; }
-          70% { opacity: 0.6; }
-          90% { opacity: 0.2; }
+          0%, 100% { opacity: 0.15; }
+          50% { opacity: 0.5; }
         }
         @keyframes drift1 {
-          0% { transform: translate(0, 0); }
-          25% { transform: translate(30vw, -20vh); }
-          50% { transform: translate(-10vw, 15vh); }
-          75% { transform: translate(20vw, 25vh); }
-          100% { transform: translate(0, 0); }
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(8px, -12px); }
         }
         @keyframes drift2 {
-          0% { transform: translate(0, 0); }
-          25% { transform: translate(-25vw, 30vh); }
-          50% { transform: translate(15vw, -10vh); }
-          75% { transform: translate(-20vw, -25vh); }
-          100% { transform: translate(0, 0); }
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-10px, 6px); }
         }
         @keyframes drift3 {
-          0% { transform: translate(0, 0); }
-          33% { transform: translate(40vw, 10vh); }
-          66% { transform: translate(-30vw, -20vh); }
-          100% { transform: translate(0, 0); }
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(6px, 10px); }
         }
         @keyframes drift4 {
-          0% { transform: translate(0, 0); }
-          20% { transform: translate(-15vw, -30vh); }
-          40% { transform: translate(25vw, 5vh); }
-          60% { transform: translate(-5vw, 35vh); }
-          80% { transform: translate(10vw, -15vh); }
-          100% { transform: translate(0, 0); }
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-8px, -8px); }
         }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(25px); }
