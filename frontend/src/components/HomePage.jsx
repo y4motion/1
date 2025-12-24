@@ -313,15 +313,18 @@ const HomePage = () => {
       `}</style>
 
       {/* === HERO SECTION === */}
-      <div style={{
-        height: '100vh',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden'
-      }}>
+      <div 
+        ref={heroRef}
+        style={{
+          height: '100vh',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden'
+        }}
+      >
         {/* Video Background */}
         <video
           autoPlay muted loop playsInline
