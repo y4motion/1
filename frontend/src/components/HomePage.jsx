@@ -134,7 +134,53 @@ const HomePage = () => {
     <div className="dark-bg" style={{ minHeight: '100vh' }}>
       <div className="grain-overlay" />
 
-      {/* Hero Section with Video Background */}
+      {/* JARVIS Loading Screen */}
+      {isJarvisLoading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: '#000',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            animation: isJarvisLoading ? 'none' : 'fadeOut 0.5s ease forwards',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: '"SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace',
+              fontSize: '1.25rem',
+              color: '#fff',
+              whiteSpace: 'pre-wrap',
+              textAlign: 'left',
+              lineHeight: '1.8',
+              maxWidth: '800px',
+              padding: '2rem',
+            }}
+          >
+            {currentText}
+            {showCursor && (
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: '10px',
+                  height: '20px',
+                  backgroundColor: '#fff',
+                  marginLeft: '2px',
+                  verticalAlign: 'middle',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section - Minimalist Gradient */}
       <div
         style={{
           position: 'relative',
@@ -144,101 +190,30 @@ const HomePage = () => {
           justifyContent: 'center',
           minHeight: '100vh',
           overflow: 'hidden',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)',
         }}
       >
-        {/* Background Image - Mount Fuji / Torii / Sakura */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1578637387939-43c525550085?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxtb3VudCUyMGZ1aml8ZW58MHx8fHwxNzYyNTQ1ODMxfDA&ixlib=rb-4.1.0&q=85&w=1920)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            zIndex: 0,
-            opacity: 0.6,
-          }}
-        />
-
-        {/* Dark Overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 1,
-          }}
-        />
-
-        {/* Search in Center with Loading Animation */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            textAlign: 'center',
-            padding: '2rem',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {!isLoaded ? (
-            /* Loading Bar Animation */
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: '1200px',
-                height: '2px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {/* Progress Line */}
-              <div
-                style={{
-                  width: `${loadingProgress}%`,
-                  height: '2px',
-                  background: 'white',
-                  transition: 'width 0.05s linear',
-                  boxShadow: '0 0 10px rgba(255,255,255,0.5)',
-                }}
-              />
-              {/* Loading Percentage */}
-              <span
-                style={{
-                  position: 'absolute',
-                  left: `${loadingProgress}%`,
-                  transform: 'translateX(-50%)',
-                  top: '-30px',
-                  color: 'white',
-                  fontSize: '1.5rem',
-                  fontWeight: '700',
-                  textShadow: '0 0 10px rgba(255,255,255,0.8)',
-                  transition: 'left 0.05s linear',
-                }}
-              >
-                {loadingProgress}%
-              </span>
-            </div>
-          ) : (
-            /* Search Bar After Loading - Compact, No Border */
+        {/* Search Bar - Always Visible After Loading */}
+        {!isJarvisLoading && (
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 2,
+              textAlign: 'center',
+              padding: '2rem',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: 'fadeIn 0.8s ease forwards',
+            }}
+          >
             <div
               className="search-container"
               style={{
                 position: 'relative',
                 maxWidth: '780px',
-                width: '130%',
-                animation: 'searchShrink 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                width: '100%',
               }}
             >
               {/* Search Icon Above */}
@@ -248,14 +223,12 @@ const HomePage = () => {
                   top: '-40px',
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  opacity: 0,
-                  animation: 'fadeInIcon 0.5s ease 0.8s forwards',
                 }}
               >
                 <Search size={24} style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
               </div>
 
-              {/* Search Input - No Border */}
+              {/* Search Input */}
               <input
                 type="text"
                 placeholder="Search for products..."
@@ -282,86 +255,82 @@ const HomePage = () => {
                 }}
               />
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Scroll Hint Arrows - Strobe Effect */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '3rem',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.5rem',
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 1s ease 1s',
-          }}
-        >
-          {/* First Arrow - No vertical line, just chevron */}
+        {/* Scroll Hint Arrows */}
+        {!isJarvisLoading && (
           <div
             style={{
-              animation: 'strobeArrow 2s ease-in-out infinite',
-              animationDelay: '0s',
+              position: 'absolute',
+              bottom: '3rem',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.5rem',
+              animation: 'fadeIn 1s ease 1s forwards',
+              opacity: 0,
             }}
           >
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
+            <div
+              style={{
+                animation: 'strobeArrow 2s ease-in-out infinite',
+                animationDelay: '0s',
+              }}
             >
-              <path d="M19 12l-7 7-7-7" />
-            </svg>
-          </div>
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M19 12l-7 7-7-7" />
+              </svg>
+            </div>
 
-          {/* Second Arrow */}
-          <div
-            style={{
-              marginTop: '-1.5rem',
-              animation: 'strobeArrow 2s ease-in-out infinite',
-              animationDelay: '0.3s',
-            }}
-          >
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
+            <div
+              style={{
+                marginTop: '-1.5rem',
+                animation: 'strobeArrow 2s ease-in-out infinite',
+                animationDelay: '0.3s',
+              }}
             >
-              <path d="M19 12l-7 7-7-7" />
-            </svg>
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M19 12l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* CSS Animations */}
         <style jsx>{`
-          @keyframes searchShrink {
+          @keyframes fadeIn {
             from {
-              transform: scaleX(2);
               opacity: 0;
             }
             to {
-              transform: scaleX(1);
               opacity: 1;
             }
           }
 
-          @keyframes fadeInIcon {
+          @keyframes fadeOut {
             from {
-              opacity: 0;
-              transform: translateX(-50%) translateY(10px);
+              opacity: 1;
             }
             to {
-              opacity: 1;
-              transform: translateX(-50%) translateY(0);
+              opacity: 0;
             }
           }
 
