@@ -146,6 +146,28 @@ const HomePage = () => {
           zIndex: 1
         }} />
 
+        {/* Floating particles - видны после приветствия */}
+        {greetingDone && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
+            {[...Array(25)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  width: `${2 + Math.random() * 2}px`,
+                  height: `${2 + Math.random() * 2}px`,
+                  background: 'rgba(255,255,255,0.5)',
+                  borderRadius: '50%',
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  animation: `particleFloat ${5 + Math.random() * 5}s ease-in-out infinite`,
+                  animationDelay: `${Math.random() * 4}s`
+                }}
+              />
+            ))}
+          </div>
+        )}
+
         {/* === GREETING OVERLAY (внутри hero, поверх поиска) === */}
         {!greetingDone && (
           <div style={{
