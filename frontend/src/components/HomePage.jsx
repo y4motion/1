@@ -177,8 +177,8 @@ const HomePage = () => {
           {/* Search Input */}
           <div style={{ position: 'relative' }}>
             <input
-              type=\"text\"
-              placeholder=\"\u0418\u0449\u0438 \u0436\u0435\u043b\u0435\u0437\u043e, \u0441\u0431\u043e\u0440\u043a\u0443 \u0438\u043b\u0438 \u0441\u043f\u0440\u043e\u0441\u0438 \u043c\u0435\u043d\u044f...\"
+              type="text"
+              placeholder="Ищи железо, сборку или спроси меня..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowSuggestions(true)}
