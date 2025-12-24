@@ -351,7 +351,7 @@ const HomePage = () => {
           zIndex: 1
         }} />
 
-        {/* Floating particles - интерактивные, реагируют на курсор */}
+        {/* Floating particles - свободно витают, мышь минимально влияет */}
         {greetingDone && particlePositions.length > 0 && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
             {particlesConfig.map((p, i) => (
@@ -363,9 +363,8 @@ const HomePage = () => {
                   height: `${p.size}px`,
                   background: 'rgba(255,255,255,0.6)',
                   borderRadius: '50%',
-                  left: `${particlePositions[i]?.x || p.baseX}%`,
-                  top: `${particlePositions[i]?.y || p.baseY}%`,
-                  transition: 'none',
+                  left: `${particlePositions[i]?.x ?? 50}%`,
+                  top: `${particlePositions[i]?.y ?? 50}%`,
                   animation: `particleFade ${p.fadeDuration}s ease-in-out infinite`,
                   animationDelay: `${p.fadeDelay}s`,
                   willChange: 'left, top'
