@@ -1,21 +1,22 @@
-// Core AI Assistant System for personalized onboarding
+// Core AI Assistant System for personalized onboarding and continuous assistance
 
 class CoreAI {
   constructor() {
     this.userName = null;
     this.userContext = {};
+    this.conversationHistory = [];
   }
 
   // Initialize AI with user data
   init(user) {
     this.userName = user?.username || 'Гость';
     this.loadUserContext();
+    this.loadConversationHistory();
   }
 
   // Load user context from localStorage and user data
   loadUserContext() {
     try {
-      // Get from localStorage
       const viewedProducts = JSON.parse(localStorage.getItem('viewedProducts') || '[]');
       const savedBuilds = JSON.parse(localStorage.getItem('savedBuilds') || '[]');
       const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
@@ -32,7 +33,6 @@ class CoreAI {
         daysSinceLastVisit: lastVisit ? Math.floor((Date.now() - new Date(lastVisit)) / (1000 * 60 * 60 * 24)) : 0
       };
 
-      // Update last visit
       localStorage.setItem('lastVisit', new Date().toISOString());
     } catch (error) {
       console.error('Failed to load user context:', error);
@@ -40,64 +40,129 @@ class CoreAI {
     }
   }
 
-  // Generate personalized greeting based on context
+  // Load conversation history
+  loadConversationHistory() {
+    try {
+      this.conversationHistory = JSON.parse(localStorage.getItem('aiConversationHistory') || '[]');
+    } catch (error) {
+      this.conversationHistory = [];
+    }
+  }
+
+  // Save conversation
+  saveConversation(message, role = 'user') {
+    this.conversationHistory.push({
+      role,
+      message,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('aiConversationHistory', JSON.stringify(this.conversationHistory.slice(-50)));
+  }
+
+  // Generate personalized greeting
   async generateGreeting() {
     const ctx = this.userContext;
-
-    // System online header
     const greetingLines = ['System online.', `Привет, ${this.userName}.`];
 
-    // Determine context-based message
     let contextMessage = '';
 
-    // New user
     if (ctx.isNewUser) {
       contextMessage = 'Готов помочь собрать то, что нужно именно тебе.';
-    }
-    // Has incomplete build
-    else if (ctx.savedBuilds && ctx.savedBuilds.length > 0) {
+    } else if (ctx.savedBuilds && ctx.savedBuilds.length > 0) {
       const build = ctx.savedBuilds[0];
       contextMessage = `У тебя есть сохранённая сборка${build.price ? ` за ${Math.round(build.price / 1000)}к` : ''}. Довести до идеала?`;
-    }
-    // Recently viewed specific category
-    else if (ctx.viewedProducts && ctx.viewedProducts.length > 0) {
-      const recentCategory = ctx.viewedProducts[0].category;
-      if (recentCategory?.includes('GPU') || recentCategory?.includes('видеокарт')) {
+    } else if (ctx.viewedProducts && ctx.viewedProducts.length > 0) {
+      const recent = ctx.viewedProducts[0];
+      if (recent.category?.toLowerCase().includes('gpu') || recent.category?.toLowerCase().includes('видеокарт')) {
         contextMessage = 'Вижу, ты интересовался видеокартами. Продолжим подбор под твои игры?';
-      } else if (recentCategory?.includes('монитор') || recentCategory?.includes('monitor')) {
-        contextMessage = 'Замечаю интерес к мониторам. Показать новые OLED и high refresh?';
+      } else if (recent.category?.toLowerCase().includes('монитор') || recent.category?.toLowerCase().includes('monitor')) {
+        contextMessage = 'Замечаю интерес к мониторам. Показать новые OLED?';
       } else {
-        contextMessage = 'Продолжим подбор компонентов для твоей идеальной сборки?';
+        contextMessage = 'Продолжим подбор компонентов?';
       }
-    }
-    // Returning after long time
-    else if (ctx.daysSinceLastVisit > 30) {
-      contextMessage = 'Соскучился. Появились новые OLED-мониторы и RTX 50-series — показать лучшее?';
-    }
-    // Returning user, no specific context
-    else if (ctx.daysSinceLastVisit > 1) {
+    } else if (ctx.daysSinceLastVisit > 30) {
+      contextMessage = 'Соскучился. Появились новые OLED-мониторы и RTX 50-series — показать?';
+    } else if (ctx.daysSinceLastVisit > 1) {
       const messages = [
         'Давай найдём то, что поднимет твой сетап на новый уровень.',
         'Здесь я помогу избежать ошибок и выбрать лучшее.',
-        'Анализирую твои предпочтения... Готов предложить идеальное.',
         'Готов помочь с железом мечты. С чего начнём?'
       ];
       contextMessage = messages[Math.floor(Math.random() * messages.length)];
-    }
-    // Very active user
-    else {
+    } else {
       contextMessage = 'С возвращением. Что на этот раз ищем?';
     }
 
     greetingLines.push(contextMessage);
+    return { lines: greetingLines };
+  }
+
+  // Generate smart search suggestions based on context
+  getSearchSuggestions() {
+    const ctx = this.userContext;
+    const suggestions = [];
+
+    // Based on saved builds
+    if (ctx.savedBuilds && ctx.savedBuilds.length > 0) {
+      suggestions.push('Продолжим твою сборку?');
+    }
+
+    // Based on viewed products
+    if (ctx.viewedProducts && ctx.viewedProducts.length > 0) {
+      const recent = ctx.viewedProducts[0];
+      suggestions.push(`Похожее на ${recent.name?.substring(0, 30)}...`);
+    }
+
+    // Based on search history
+    if (ctx.searchHistory && ctx.searchHistory.length > 0) {
+      suggestions.push(`"${ctx.searchHistory[0]}" — найти ещё?`);
+    }
+
+    // Contextual suggestions
+    suggestions.push(
+      'Лучшие мониторы для 4K гейминга 2025',
+      'Сборка до 150к с высоким FPS',
+      'Покажи новые OLED-панели',
+      'RTX 5090 — цены и наличие'
+    );
+
+    return suggestions.slice(0, 6);
+  }
+
+  // Generate proactive message after inactivity
+  getProactiveMessage() {
+    const ctx = this.userContext;
+
+    if (ctx.savedBuilds && ctx.savedBuilds.length > 0) {
+      return {
+        message: 'У тебя есть незавершённая сборка. Продолжим?',
+        actions: [
+          { label: 'Да, продолжим', path: '/pc-builder' },
+          { label: 'Не сейчас', dismiss: true }
+        ]
+      };
+    }
+
+    if (ctx.viewedProducts && ctx.viewedProducts.length > 0) {
+      return {
+        message: 'Кстати, вышла новая RTX 50-series. Показать оптимальные сборки?',
+        actions: [
+          { label: 'Показать', path: '/marketplace?category=gpu' },
+          { label: 'Не сейчас', dismiss: true }
+        ]
+      };
+    }
 
     return {
-      lines: greetingLines,
-      totalDuration: greetingLines.reduce((sum, line) => sum + (line.length * 60), 0) + 1500 // 60ms per char + pauses
+      message: 'Нужна помощь с выбором? Могу подобрать идеальную сборку под твои задачи.',
+      actions: [
+        { label: 'Да, помоги', path: '/pc-builder' },
+        { label: 'Сам справлюсь', dismiss: true }
+      ]
     };
   }
 
-  // Track user action
+  // Track action
   trackAction(action, data) {
     try {
       switch (action) {
@@ -120,8 +185,10 @@ class CoreAI {
 
         case 'search':
           const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-          searchHistory.unshift(data.query);
-          localStorage.setItem('searchHistory', JSON.stringify(searchHistory.slice(0, 20)));
+          if (!searchHistory.includes(data.query)) {
+            searchHistory.unshift(data.query);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory.slice(0, 20)));
+          }
           break;
 
         case 'set_preference':
@@ -135,7 +202,7 @@ class CoreAI {
     }
   }
 
-  // Get recommendations based on context
+  // Get quick actions
   getQuickActions() {
     const ctx = this.userContext;
     const actions = [];
@@ -147,7 +214,7 @@ class CoreAI {
     }
 
     actions.push(
-      { label: 'Готовые билды', path: '/marketplace?featured=builds', icon: '🎮' },
+      { label: 'Готовые билды', path: '/marketplace', icon: '🎮' },
       { label: 'Сообщество', path: '/feed', icon: '💬' }
     );
 
@@ -156,3 +223,4 @@ class CoreAI {
 }
 
 export default new CoreAI();
+
