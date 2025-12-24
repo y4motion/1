@@ -44,7 +44,7 @@ const CatalogMega = ({
 
   const fetchCatalog = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/marketplace/catalog`);
+      const response = await fetch(`${API_URL}/catalog/categories`);
       const data = await response.json();
       setCatalog(data.catalog || {});
 
