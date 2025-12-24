@@ -502,7 +502,6 @@ const HomePage = () => {
               ))}
             </div>
           </div>
-        )}
       </div>
 
       {/* === CONTENT BLOCKS (only show after hero phase) === */}
