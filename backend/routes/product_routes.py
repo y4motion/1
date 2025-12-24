@@ -11,6 +11,61 @@ from database import db
 router = APIRouter(prefix="/products", tags=["products"])
 
 
+@router.get("/facets")
+@cache_response(ttl_seconds=300)  # Cache for 5 minutes
+async def get_product_facets():
+    """Get dynamic facets for filtering"""
+    from collections import defaultdict
+    
+    # Get all approved products
+    products = await db.products.find({"status": "approved"}).to_list(length=None)
+    
+    facets = {
+        "categories": defaultdict(lambda: {"count": 0, "name": ""}),
+        "brands": defaultdict(lambda: {"count": 0}),
+        "ratings": {5: 0, 4: 0, 3: 0, 2: 0, 1: 0}
+    }
+    
+    for product in products:
+        # Category facets
+        cat_id = product.get("category_id")
+        if cat_id:
+            facets["categories"][cat_id]["count"] += 1
+            facets["categories"][cat_id]["id"] = cat_id
+            facets["categories"][cat_id]["name"] = cat_id
+        
+        # Brand facets (if exists)
+        brand = product.get("brand", product.get("seller_id", ""))[:20]  # Limit brand name
+        if brand:
+            facets["brands"][brand]["count"] += 1
+            facets["brands"][brand]["id"] = brand
+            facets["brands"][brand]["name"] = brand
+        
+        # Rating facets
+        rating = int(product.get("rating", 0))
+        if rating >= 1:
+            for r in range(1, rating + 1):
+                facets["ratings"][r] += 1
+    
+    return {
+        "success": True,
+        "data": {
+            "categories": [
+                {**v, "id": k} 
+                for k, v in facets["categories"].items()
+            ],
+            "brands": sorted(
+                [{"id": k, "name": k, "count": v["count"]} for k, v in facets["brands"].items()],
+                key=lambda x: x["count"],
+                reverse=True
+            )[:20],  # Top 20 brands
+            "ratings": facets["ratings"]
+        }
+    }
+
+
+
+
 @router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 async def create_product(product_data: ProductCreate, current_user: dict = Depends(get_current_user)):
     """
