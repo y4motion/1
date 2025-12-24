@@ -182,7 +182,7 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* Hero Section - Minimalist Gradient */}
+      {/* Hero Section - Minimalist Futuristic Gradient */}
       <div
         style={{
           position: 'relative',
@@ -192,7 +192,7 @@ const HomePage = () => {
           justifyContent: 'center',
           minHeight: '100vh',
           overflow: 'hidden',
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #141414 25%, #1a1a1a 50%, #0f0f0f 75%, #0a0a0a 100%)',
         }}
       >
         {/* Search Bar - Always Visible After Loading */}
