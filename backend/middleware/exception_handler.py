@@ -46,11 +46,13 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     if isinstance(exc.detail, dict) and 'error' in exc.detail:
         content = exc.detail
     else:
-        content = ErrorResponse(
+        error_response = ErrorResponse(
             error=exc.detail if isinstance(exc.detail, str) else str(exc.detail),
             error_code=f"HTTP_{exc.status_code}",
             timestamp=datetime.now(timezone.utc)
-        ).dict()
+        )
+        content = error_response.dict()
+        content['timestamp'] = content['timestamp'].isoformat()
     
     return JSONResponse(
         status_code=exc.status_code,
