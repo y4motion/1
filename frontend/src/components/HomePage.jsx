@@ -276,18 +276,20 @@ const HomePage = () => {
               style={{
                 textAlign: 'center',
                 padding: '2rem',
-                maxWidth: '600px'
+                maxWidth: '700px',
+                width: '100%'
               }}
             >
               {/* Terminal-style greeting */}
               <div
                 style={{
                   fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
-                  fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
+                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
                   color: '#ffffff',
-                  textShadow: '0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,255,255,0.1)',
-                  lineHeight: '2',
-                  letterSpacing: '0.02em'
+                  textShadow: '0 0 25px rgba(255,255,255,0.4), 0 0 50px rgba(255,255,255,0.15)',
+                  lineHeight: '2.2',
+                  letterSpacing: '0.03em',
+                  textAlign: 'center'
                 }}
               >
                 {displayedText.map((line, idx) => (
@@ -320,9 +322,9 @@ const HomePage = () => {
             maxWidth: '700px',
             padding: '2rem',
             opacity: showOverlay ? 0 : 1,
-            transform: showOverlay ? 'translateY(20px)' : 'translateY(0)',
-            transition: 'opacity 0.8s ease, transform 0.8s ease',
-            transitionDelay: '0.3s'
+            visibility: showOverlay ? 'hidden' : 'visible',
+            transform: showOverlay ? 'translateY(30px)' : 'translateY(0)',
+            transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s, visibility 0s linear 0.2s'
           }}
         >
           {/* Search Bar - Ultra Minimal Glassmorphism */}
