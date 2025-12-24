@@ -22,35 +22,52 @@ const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const greetingText = "System online.\nПривет, Гость.\nГотов помочь с железом мечты.";
+  const greetingLines = [
+    "System online.",
+    "Привет, Гость.",
+    "Готов помочь с железом мечты."
+  ];
+  const [currentLine, setCurrentLine] = useState(0);
 
   useEffect(() => {
     coreAI.init(user);
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter effect - с терминальной заставкой
+  // Typewriter effect - одна строка, сменяется следующей
   useEffect(() => {
     let charIndex = 0;
     let isActive = true;
     
-    // Сначала показываем терминальный символ
+    // Начальная пауза с терминальным символом
     setDisplayText('> _');
     
-    const startTyping = () => {
-      if (!isActive) return;
-      setDisplayText('');
+    const typeLine = (lineIndex) => {
+      if (!isActive || lineIndex >= greetingLines.length) {
+        // Все строки показаны - переход к поиску
+        setTimeout(() => {
+          if (isActive) setGreetingDone(true);
+        }, 600);
+        return;
+      }
+      
+      charIndex = 0;
+      const line = greetingLines[lineIndex];
       
       const typeChar = () => {
         if (!isActive) return;
         
-        if (charIndex <= greetingText.length) {
-          setDisplayText(greetingText.substring(0, charIndex));
+        if (charIndex <= line.length) {
+          setDisplayText(line.substring(0, charIndex));
           charIndex++;
-          setTimeout(typeChar, 75);
+          setTimeout(typeChar, 70);
         } else {
+          // Строка напечатана - пауза, потом следующая
           setTimeout(() => {
-            if (isActive) setGreetingDone(true);
+            if (isActive) {
+              setCurrentLine(lineIndex + 1);
+              typeLine(lineIndex + 1);
+            }
           }, 800);
         }
       };
@@ -58,8 +75,8 @@ const HomePage = () => {
       typeChar();
     };
     
-    // Пауза с терминальным символом, потом начинаем печать
-    setTimeout(startTyping, 1200);
+    // Пауза с терминальным символом, потом первая строка
+    setTimeout(() => typeLine(0), 1000);
     
     return () => { isActive = false; };
   }, []);
