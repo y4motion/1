@@ -29,7 +29,7 @@ const HomePage = () => {
     setSuggestions(coreAI.getSearchSuggestions());
   }, [user]);
 
-  // Typewriter effect
+  // Typewriter effect - медленный, ~6 секунд на весь текст
   useEffect(() => {
     let charIndex = 0;
     let isActive = true;
@@ -40,15 +40,15 @@ const HomePage = () => {
       if (charIndex <= greetingText.length) {
         setDisplayText(greetingText.substring(0, charIndex));
         charIndex++;
-        setTimeout(typeChar, 45);
+        setTimeout(typeChar, 95); // ~6 секунд на 60 символов
       } else {
         setTimeout(() => {
           if (isActive) setGreetingDone(true);
-        }, 600);
+        }, 800);
       }
     };
     
-    setTimeout(typeChar, 400);
+    setTimeout(typeChar, 500);
     return () => { isActive = false; };
   }, []);
 
@@ -139,35 +139,14 @@ const HomePage = () => {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.92)',
+            background: '#000000',
             zIndex: 20,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            animation: greetingDone ? 'fadeOut 0.7s ease forwards' : 'none'
+            justifyContent: 'center'
           }}>
-            {/* Floating particles */}
-            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-              {[...Array(30)].map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    position: 'absolute',
-                    width: `${2 + Math.random() * 2}px`,
-                    height: `${2 + Math.random() * 2}px`,
-                    background: 'rgba(255,255,255,0.6)',
-                    borderRadius: '50%',
-                    top: `${Math.random() * 100}%`,
-                    left: `${Math.random() * 100}%`,
-                    animation: `particleFloat ${5 + Math.random() * 5}s ease-in-out infinite`,
-                    animationDelay: `${Math.random() * 4}s`
-                  }}
-                />
-              ))}
-            </div>
-
             {/* Greeting text */}
-            <div style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px', zIndex: 1 }}>
+            <div style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px' }}>
               <pre style={{
                 fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
                 fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
