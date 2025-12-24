@@ -258,64 +258,18 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* Scroll Hint Arrows */}
-        {!isJarvisLoading && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '3rem',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '0.5rem',
-              animation: 'fadeIn 1s ease 1s forwards',
-              opacity: 0,
-            }}
-          >
-            <div
-              style={{
-                animation: 'strobeArrow 2s ease-in-out infinite',
-                animationDelay: '0s',
-              }}
-            >
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <path d="M19 12l-7 7-7-7" />
-              </svg>
-            </div>
-
-            <div
-              style={{
-                marginTop: '-1.5rem',
-                animation: 'strobeArrow 2s ease-in-out infinite',
-                animationDelay: '0.3s',
-              }}
-            >
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <path d="M19 12l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-        )}
-
         {/* CSS Animations */}
         <style>{`
+          @keyframes fadeOut {
+            from {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+              pointer-events: none;
+            }
+          }
+
           @keyframes fadeIn {
             from {
               opacity: 0;
@@ -325,24 +279,14 @@ const HomePage = () => {
             }
           }
 
-          @keyframes fadeOut {
+          @keyframes fadeInIcon {
             from {
-              opacity: 1;
+              opacity: 0;
+              transform: translateX(-50%) translateY(10px);
             }
             to {
-              opacity: 0;
-            }
-          }
-
-          @keyframes strobeArrow {
-            0%,
-            100% {
-              opacity: 0.2;
-              transform: translateY(0);
-            }
-            50% {
               opacity: 1;
-              transform: translateY(8px);
+              transform: translateX(-50%) translateY(0);
             }
           }
 
