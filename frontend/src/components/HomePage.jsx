@@ -172,25 +172,40 @@ const HomePage = () => {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
         }
-        @keyframes particleFloat {
+        @keyframes particleFade {
+          0%, 100% { opacity: 0.1; }
+          30% { opacity: 0.5; }
+          50% { opacity: 0.15; }
+          70% { opacity: 0.6; }
+          90% { opacity: 0.2; }
+        }
+        @keyframes drift1 {
           0% { transform: translate(0, 0); }
-          25% { transform: translate(15px, -30px); }
-          50% { transform: translate(-10px, -15px); }
-          75% { transform: translate(20px, -45px); }
+          25% { transform: translate(30vw, -20vh); }
+          50% { transform: translate(-10vw, 15vh); }
+          75% { transform: translate(20vw, 25vh); }
           100% { transform: translate(0, 0); }
         }
-        @keyframes particleFade {
-          0%, 100% { opacity: 0.15; }
-          20% { opacity: 0.5; }
-          40% { opacity: 0.1; }
-          60% { opacity: 0.6; }
-          80% { opacity: 0.2; }
+        @keyframes drift2 {
+          0% { transform: translate(0, 0); }
+          25% { transform: translate(-25vw, 30vh); }
+          50% { transform: translate(15vw, -10vh); }
+          75% { transform: translate(-20vw, -25vh); }
+          100% { transform: translate(0, 0); }
         }
-        @keyframes particleDrift {
-          0% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(-25px, -40px) scale(0.8); }
-          66% { transform: translate(30px, -20px) scale(1.2); }
-          100% { transform: translate(0, 0) scale(1); }
+        @keyframes drift3 {
+          0% { transform: translate(0, 0); }
+          33% { transform: translate(40vw, 10vh); }
+          66% { transform: translate(-30vw, -20vh); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes drift4 {
+          0% { transform: translate(0, 0); }
+          20% { transform: translate(-15vw, -30vh); }
+          40% { transform: translate(25vw, 5vh); }
+          60% { transform: translate(-5vw, 35vh); }
+          80% { transform: translate(10vw, -15vh); }
+          100% { transform: translate(0, 0); }
         }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(25px); }
