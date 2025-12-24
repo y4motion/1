@@ -996,12 +996,13 @@ const CollapsibleFilter = ({ title, id, children }) => {
 };
 
 // Pinterest-Style Product Card Component with Carousel
-const ProductCard = ({ product, theme, onToggleWishlist }) => {
+const ProductCard = ({ product, theme, onToggleWishlist, index = 0 }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showQuickBuy, setShowQuickBuy] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPriceTag, setShowPriceTag] = useState(true);
+  const [showQuickView, setShowQuickView] = useState(false);
 
   const images =
     product.images && product.images.length > 0
@@ -1018,6 +1019,12 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handleQuickView = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowQuickView(true);
   };
 
   return (
@@ -1055,7 +1062,7 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                   : 'inherit',
             }}
           >
-            {/* Image Container with Carousel */}
+            {/* Image Container with OptimizedImage */}
             <div
               style={{
                 position: 'relative',
@@ -1068,21 +1075,20 @@ const ProductCard = ({ product, theme, onToggleWishlist }) => {
                 borderRadius: theme === 'minimal-mod' ? '0' : '20px',
               }}
             >
-              {/* Carousel Image */}
-              <img
+              {/* OptimizedImage with lazy loading */}
+              <OptimizedImage
                 src={
                   (!imageError && images[currentImageIndex]?.url) ||
                   'https://via.placeholder.com/300x400?text=No+Image'
                 }
                 alt={images[currentImageIndex]?.alt || product.title}
-                onError={() => setImageError(true)}
+                priority={index < 4}
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
                   width: '100%',
                   height: '100%',
-                  objectFit: 'cover',
                   transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
                   transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                 }}
