@@ -47,10 +47,13 @@ const HomePage = () => {
     "Готов помочь с железом мечты."
   ]);
   const [currentLine, setCurrentLine] = useState(0);
+  const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
 
   useEffect(() => {
     coreAI.init(user);
-    setSuggestions(coreAI.getSearchSuggestions());
+    // Первая фраза - дефолтная, остальные от Core AI
+    const aiSuggestions = coreAI.getSearchSuggestions();
+    setSuggestions(['Ищи железо, сборку или спроси меня...', ...aiSuggestions]);
     
     // Получаем персонализированное приветствие от Core AI
     const initGreeting = async () => {
@@ -116,10 +119,11 @@ const HomePage = () => {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
-  // Rotating suggestions - держатся 4-5 секунд
+  // Rotating suggestions - держатся 4-5 секунд с анимацией
   useEffect(() => {
     if (!greetingDone || suggestions.length === 0) return;
     const interval = setInterval(() => {
+      setPlaceholderKey(prev => prev + 1); // триггер анимации
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
     }, 4500);
     return () => clearInterval(interval);
@@ -315,9 +319,29 @@ const HomePage = () => {
                   cursor: 'text'
                 }}
               >
+                {/* Animated placeholder overlay */}
+                {!searchQuery && (
+                  <div
+                    key={placeholderKey}
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      right: '60px',
+                      textAlign: 'center',
+                      fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+                      fontSize: '1.1rem',
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      textShadow: '0 0 15px rgba(255,255,255,0.3)',
+                      pointerEvents: 'none',
+                      animation: 'suggestionIn 0.6s ease forwards'
+                    }}
+                  >
+                    {suggestions[activeSuggestion] || 'Ищи железо, сборку или спроси меня...'}
+                  </div>
+                )}
+                
                 <input
                   type="text"
-                  placeholder={suggestions.length > 0 ? suggestions[activeSuggestion] : "Ищи железо, сборку или спроси меня..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => { setIsSearchFocused(true); }}
