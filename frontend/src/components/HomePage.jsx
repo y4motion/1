@@ -15,66 +15,68 @@ import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isJarvisLoading, setIsJarvisLoading] = useState(true);
-  const [currentText, setCurrentText] = useState('');
-  const [currentLine, setCurrentLine] = useState(0);
+  const [showAIGreeting, setShowAIGreeting] = useState(true);
+  const [greetingText, setGreetingText] = useState('');
+  const [aiGreeting, setAiGreeting] = useState(null);
   const [showCursor, setShowCursor] = useState(true);
+  const [typingComplete, setTypingComplete] = useState(false);
   const { t } = useLanguage();
   const { theme } = useTheme();
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // Initialize Core AI and get greeting
   useEffect(() => {
-    // JARVIS loading sequence
-    const jarvisSequence = [
-      { text: 'System initializing...', delay: 0, duration: 1000, pauseAfter: 0 },
-      { text: ' Online.', delay: 1000, duration: 500, pauseAfter: 500 },
-      { text: `Привет, ${user?.username || 'Гость'}.`, delay: 2000, duration: 1500, pauseAfter: 0 },
-      { text: 'Готов помочь с железом мечты. С чего начнём?', delay: 3500, duration: 500, pauseAfter: 0 }
-    ];
+    const initCoreAI = async () => {
+      const CoreAI = (await import('../utils/coreAI')).default;
+      CoreAI.init(user);
+      const greeting = await CoreAI.generateGreeting();
+      setAiGreeting(greeting);
+    };
+
+    initCoreAI();
+  }, [user]);
+
+  // Typewriter animation for AI greeting
+  useEffect(() => {
+    if (!aiGreeting || !showAIGreeting) return;
 
     let lineIndex = 0;
     let charIndex = 0;
     let timeoutId;
-    let completedLines = [];
+    let currentOutput = '';
 
-    const typeCharacter = () => {
-      if (lineIndex >= jarvisSequence.length) {
-        // Animation complete, fade out
+    const typeNextCharacter = () => {
+      if (lineIndex >= aiGreeting.lines.length) {
+        setTypingComplete(true);
+        // Fade out after 2 seconds
         setTimeout(() => {
-          setIsJarvisLoading(false);
-        }, 500);
+          setShowAIGreeting(false);
+        }, 2000);
         return;
       }
 
-      const currentSequence = jarvisSequence[lineIndex];
+      const currentLine = aiGreeting.lines[lineIndex];
       
-      if (charIndex < currentSequence.text.length) {
-        const fullText = completedLines.join('\n') + 
-          (completedLines.length > 0 ? '\n' : '') + 
-          currentSequence.text.substring(0, charIndex + 1);
-        setCurrentText(fullText);
-        setCurrentLine(lineIndex);
+      if (charIndex < currentLine.length) {
+        currentOutput += currentLine[charIndex];
+        setGreetingText(currentOutput);
         charIndex++;
-        timeoutId = setTimeout(typeCharacter, 60); // 60ms per character
+        timeoutId = setTimeout(typeNextCharacter, 50); // 50ms per character
       } else {
-        // Line complete
-        completedLines.push(currentSequence.text);
+        // Line complete, move to next
+        currentOutput += '\n';
+        setGreetingText(currentOutput);
         lineIndex++;
         charIndex = 0;
         
-        const nextSequence = jarvisSequence[lineIndex];
-        if (nextSequence) {
-          const waitTime = nextSequence.delay - (jarvisSequence[lineIndex - 1]?.delay + jarvisSequence[lineIndex - 1]?.duration || 0);
-          timeoutId = setTimeout(typeCharacter, Math.max(0, waitTime));
-        } else {
-          // All done, wait then fade out
-          setTimeout(() => setIsJarvisLoading(false), 1000);
-        }
+        // Pause between lines
+        const pauseDuration = lineIndex === 1 ? 300 : 150;
+        timeoutId = setTimeout(typeNextCharacter, pauseDuration);
       }
     };
 
-    timeoutId = setTimeout(typeCharacter, 100);
+    timeoutId = setTimeout(typeNextCharacter, 300);
 
     // Cursor blink
     const cursorInterval = setInterval(() => {
@@ -85,9 +87,9 @@ const HomePage = () => {
       clearTimeout(timeoutId);
       clearInterval(cursorInterval);
     };
-  }, [user]);
+  }, [aiGreeting, showAIGreeting]);
 
-  // Get featured products (products with originalPrice - on sale)
+  // Get featured products
   const featuredProducts = products.filter((p) => p.originalPrice).slice(0, 3);
 
   // Top 4 square blocks (PMM.gg style) - Angry Miao images
