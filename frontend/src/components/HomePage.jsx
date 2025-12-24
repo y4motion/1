@@ -1,143 +1,113 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search } from 'lucide-react';
-import { categories, products } from '../mockData';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { useNavigate } from 'react-router-dom';
+import { Search, Mic } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import TopArticlesWidget from './TopArticlesWidget';
 import TopUsersWidget from './TopUsersWidget';
 import TopProposalsWidget from './TopProposalsWidget';
 import TestimonialsCarousel from './TestimonialsCarousel';
-import DynamicCategoryGrid from './DynamicCategoryGrid';
-import OptimizedImage from './OptimizedImage';
+import AIFloatingButton from './AIFloatingButton';
+import AIStatusIndicator from './AIStatusIndicator';
+import { categories, products } from '../mockData';
 import '../styles/glassmorphism.css';
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAIGreeting, setShowAIGreeting] = useState(true);
-  const [greetingText, setGreetingText] = useState('');
-  const [aiGreeting, setAiGreeting] = useState(null);
+  const [showAIOverlay, setShowAIOverlay] = useState(true);
+  const [aiText, setAiText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
-  const [typingComplete, setTypingComplete] = useState(false);
-  const { t } = useLanguage();
-  const { theme } = useTheme();
+  const [showAIModal, setShowAIModal] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const { user } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
-  // Initialize Core AI and get greeting
+  const featuredProducts = products.filter(p => p.originalPrice).slice(0, 3);
+
+  // Core AI greeting animation
   useEffect(() => {
-    const initCoreAI = async () => {
+    const initAI = async () => {
       const CoreAI = (await import('../utils/coreAI')).default;
       CoreAI.init(user);
       const greeting = await CoreAI.generateGreeting();
-      setAiGreeting(greeting);
+      
+      let fullText = '';
+      let lineIndex = 0;
+      let charIndex = 0;
+
+      const typeChar = () => {
+        if (lineIndex >= greeting.lines.length) {
+          setTimeout(() => setShowAIOverlay(false), 2000);
+          return;
+        }
+
+        const line = greeting.lines[lineIndex];
+        if (charIndex < line.length) {
+          fullText += line[charIndex];
+          setAiText(fullText);
+          charIndex++;
+          setTimeout(typeChar, 50);
+        } else {
+          fullText += '\\n';
+          setAiText(fullText);
+          lineIndex++;
+          charIndex = 0;
+          setTimeout(typeChar, lineIndex === 1 ? 300 : 150);
+        }
+      };
+
+      setTimeout(typeChar, 300);
     };
 
-    initCoreAI();
+    initAI();
+
+    const cursorBlink = setInterval(() => setShowCursor(prev => !prev), 530);
+    return () => clearInterval(cursorBlink);
   }, [user]);
 
-  // Typewriter animation for AI greeting
-  useEffect(() => {
-    if (!aiGreeting || !showAIGreeting) return;
+  // AI suggestions
+  const aiSuggestions = [
+    'Продолжим твою сборку?',
+    'Лучшие мониторы для 4K гейминга 2025',
+    'Сборка до 150к с высоким FPS',
+    'Покажи новые OLED-панели',
+    'RTX 5090 — цены и наличие'
+  ];
 
-    let lineIndex = 0;
-    let charIndex = 0;
-    let timeoutId;
-    let currentOutput = '';
-
-    const typeNextCharacter = () => {
-      if (lineIndex >= aiGreeting.lines.length) {
-        setTypingComplete(true);
-        // Fade out after 2 seconds
-        setTimeout(() => {
-          setShowAIGreeting(false);
-        }, 2000);
-        return;
-      }
-
-      const currentLine = aiGreeting.lines[lineIndex];
-      
-      if (charIndex < currentLine.length) {
-        currentOutput += currentLine[charIndex];
-        setGreetingText(currentOutput);
-        charIndex++;
-        timeoutId = setTimeout(typeNextCharacter, 50); // 50ms per character
-      } else {
-        // Line complete, move to next
-        currentOutput += '\n';
-        setGreetingText(currentOutput);
-        lineIndex++;
-        charIndex = 0;
-        
-        // Pause between lines
-        const pauseDuration = lineIndex === 1 ? 300 : 150;
-        timeoutId = setTimeout(typeNextCharacter, pauseDuration);
-      }
-    };
-
-    timeoutId = setTimeout(typeNextCharacter, 300);
-
-    // Cursor blink
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530);
-
-    return () => {
-      clearTimeout(timeoutId);
-      clearInterval(cursorInterval);
-    };
-  }, [aiGreeting, showAIGreeting]);
-
-  // Get featured products
-  const featuredProducts = products.filter((p) => p.originalPrice).slice(0, 3);
-
-  // Top 4 square blocks (PMM.gg style) - Angry Miao images
   const topCategories = [
     {
       title: 'RATING',
-      image:
-        'https://images.unsplash.com/photo-1602025882379-e01cf08baa51?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwxfHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
-      link: '/rating',
-      description: 'Рейтинг сообщества',
+      image: 'https://images.unsplash.com/photo-1602025882379-e01cf08baa51?w=800&q=80',
+      link: '/rating'
     },
     {
       title: 'ARTICLES',
-      image:
-        'https://images.unsplash.com/photo-1626958390898-162d3577f293?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwyfHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
-      link: '/articles',
-      description: 'Обзоры и аналитика',
+      image: 'https://images.unsplash.com/photo-1626958390898-162d3577f293?w=800&q=80',
+      link: '/articles'
     },
     {
       title: 'CREATORS',
-      image:
-        'https://images.unsplash.com/photo-1618586810102-aaa7049200c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHw0fHxtZWNoYW5pY2FsJTIwa2V5Ym9hcmR8ZW58MHx8fHwxNzYyNTQxOTA0fDA&ixlib=rb-4.1.0&q=85',
-      link: '/creators',
-      description: 'Хаб креаторов',
+      image: 'https://images.unsplash.com/photo-1618586810102-aaa7049200c0?w=800&q=80',
+      link: '/creators'
     },
     {
       title: 'GROUP BUY',
-      image: 'https://images.pexels.com/photos/34563105/pexels-photo-34563105.jpeg',
-      link: '/groupbuy',
-      description: 'Групповые закупки',
-    },
+      image: 'https://images.pexels.com/photos/34563105/pexels-photo-34563105.jpeg?w=800',
+      link: '/groupbuy'
+    }
   ];
 
-  // Large bottom block for FEED - Angry Miao image
   const bottomBlock = {
     title: 'FEED',
-    image:
-      'https://images.unsplash.com/photo-1615031465602-20f3ff3ca279?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwzfHxhbmdyeSUyMG1pYW8lMjBrZXlib2FyZHxlbnwwfHx8fDE3NjI1NDIyOTF8MA&ixlib=rb-4.1.0&q=85',
-    link: '/feed',
-    description: 'Лента постов и новостей сообщества',
+    image: 'https://images.unsplash.com/photo-1615031465602-20f3ff3ca279?w=1600&q=80',
+    link: '/feed'
   };
 
   return (
-    <div className="dark-bg" style={{ minHeight: '100vh' }}>
-      <div className="grain-overlay" />
-
-      {/* AI Greeting Overlay */}
-      {showAIGreeting && aiGreeting && (
+    <div style={{ minHeight: '100vh', background: '#000' }}>
+      {/* AI Greeting Overlay - только полупрозрачный overlay */}
+      {showAIOverlay && (
         <div
           style={{
             position: 'fixed',
@@ -145,467 +115,370 @@ const HomePage = () => {
             left: 0,
             width: '100vw',
             height: '100vh',
-            backgroundColor: '#000',
-            zIndex: 9999,
+            background: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 9998,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            animation: typingComplete ? 'fadeOut 0.5s ease forwards' : 'none',
+            animation: 'fadeOut 0.7s ease 4.5s forwards'
           }}
         >
           <div
             style={{
-              fontFamily: '"SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace',
+              fontFamily: '\"SF Mono\", \"Monaco\", \"Inconsolata\", \"Courier New\", monospace',
               fontSize: '1.25rem',
               color: '#fff',
+              textShadow: '0 0 10px rgba(255,255,255,0.5)',
               whiteSpace: 'pre-wrap',
               textAlign: 'left',
               lineHeight: '1.8',
               maxWidth: '800px',
-              padding: '2rem',
+              padding: '2rem'
             }}
           >
-            {greetingText}
-            {showCursor && !typingComplete && (
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '10px',
-                  height: '20px',
-                  backgroundColor: '#fff',
-                  marginLeft: '2px',
-                  verticalAlign: 'middle',
-                }}
-              />
-            )}
+            {aiText}
+            {showCursor && <span style={{ marginLeft: '2px' }}>_</span>}
           </div>
         </div>
       )}
 
-      {/* Hero Section - Minimalist Futuristic Gradient */}
+      {/* Hero Section - сразу видимый */}
       <div
         style={{
           position: 'relative',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: '100vh',
-          overflow: 'hidden',
           background: 'linear-gradient(135deg, #0a0a0a 0%, #141414 25%, #1a1a1a 50%, #0f0f0f 75%, #0a0a0a 100%)',
+          overflow: 'hidden'
         }}
       >
-        {/* Search Bar - Always Visible After Loading */}
-        {!showAIGreeting && (
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 2,
-              textAlign: 'center',
-              padding: '2rem',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              animation: 'fadeIn 0.8s ease forwards',
-            }}
-          >
-            <div
-              className="search-container"
+        {/* Search Section */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            maxWidth: '700px',
+            padding: '2rem',
+            opacity: showAIOverlay ? 0 : 1,
+            transition: 'opacity 0.8s ease',
+            animation: 'fadeIn 0.8s ease 5s forwards'
+          }}
+        >
+          {/* Search Icon Above */}
+          <div style={{ textAlign: 'center', marginBottom: '1rem', opacity: 0, animation: 'fadeIn 0.5s ease 5.5s forwards' }}>
+            <Search size={28} style={{ color: 'rgba(255, 255, 255, 0.6)' }} />
+          </div>
+
+          {/* Search Input */}
+          <div style={{ position: 'relative' }}>
+            <input
+              type=\"text\"
+              placeholder=\"\u0418\u0449\u0438 \u0436\u0435\u043b\u0435\u0437\u043e, \u0441\u0431\u043e\u0440\u043a\u0443 \u0438\u043b\u0438 \u0441\u043f\u0440\u043e\u0441\u0438 \u043c\u0435\u043d\u044f...\"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               style={{
-                position: 'relative',
-                maxWidth: '780px',
                 width: '100%',
+                padding: '1rem 3.5rem 1rem 1.5rem',
+                background: 'rgba(255, 255, 255, 0.03)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '12px',
+                color: 'white',
+                fontSize: '1.1rem',
+                outline: 'none',
+                textAlign: 'center',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
               }}
-            >
-              {/* Search Icon Above */}
+              onMouseEnter={(e) => {
+                e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                e.target.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                e.target.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+              }}
+            />
+            
+            {/* Icons inside search */}
+            <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '0.5rem' }}>
+              <button style={{ background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.5)', cursor: 'pointer', padding: '0.25rem' }}>
+                <Mic size={20} />
+              </button>
+              <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem' }}>
+                AI
+              </div>
+            </div>
+
+            {/* AI Suggestions Dropdown */}
+            {showSuggestions && searchQuery.length === 0 && (
               <div
                 style={{
                   position: 'absolute',
-                  top: '-40px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
+                  top: 'calc(100% + 0.5rem)',
+                  left: 0,
+                  right: 0,
+                  background: 'rgba(10, 10, 10, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                  animation: 'fadeIn 0.3s ease'
                 }}
               >
-                <Search size={24} style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.5)', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Core AI предлагает:
+                </div>
+                {aiSuggestions.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setSearchQuery(suggestion);
+                      setShowSuggestions(false);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      background: 'none',
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.2s',
+                      marginBottom: '0.25rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.target.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'none';
+                      e.target.style.color = 'rgba(255, 255, 255, 0.8)';
+                    }}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
               </div>
-
-              {/* Search Input */}
-              <input
-                type="text"
-                placeholder="Search for products..."
-                className="search-input-minimal"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
-                  color: 'white',
-                  fontSize: '1.1rem',
-                  outline: 'none',
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderBottom = '2px solid rgba(255, 255, 255, 0.6)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderBottom = '1px solid rgba(255, 255, 255, 0.3)';
-                }}
-              />
-            </div>
+            )}
           </div>
-        )}
 
-        {/* CSS Animations */}
-        <style>{`
-          @keyframes fadeOut {
-            from {
-              opacity: 1;
-            }
-            to {
-              opacity: 0;
-              pointer-events: none;
-            }
-          }
-
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-
-          @keyframes fadeInIcon {
-            from {
-              opacity: 0;
-              transform: translateX(-50%) translateY(10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(-50%) translateY(0);
-            }
-          }
-
-          .search-input-minimal::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-            text-align: center;
-          }
-        `}</style>
+          {/* CTA Buttons */}
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '2rem',
+              justifyContent: 'center',
+              opacity: showAIOverlay ? 0 : 1,
+              animation: 'fadeIn 0.8s ease 5.5s forwards',
+              flexWrap: 'wrap'
+            }}
+          >
+            {['⚡ Начать сборку', '🎮 Готовые билды', '💬 Сообщество'].map((label, idx) => (
+              <button
+                key={idx}
+                onClick={() => navigate(['/pc-builder', '/marketplace', '/feed'][idx])}
+                style={{
+                  padding: '0.875rem 1.75rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '8px',
+                  color: 'white',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  fontSize: '0.95rem'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = 'none';
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Divider */}
-      <div
-        style={{
-          width: '100%',
-          height: '1px',
-          background:
-            theme === 'dark'
-              ? 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)'
-              : 'linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent)',
-          margin: '3rem 0',
-        }}
-      />
+      {/* AI Status Indicator */}
+      {!showAIOverlay && <AIStatusIndicator />}
 
-      {/* PMM.gg Style Layout: 4 Squares + 1 Large Rectangle - EXACT SIZES */}
+      {/* AI Floating Button */}
+      {!showAIOverlay && <AIFloatingButton onClick={() => setShowAIModal(true)} />}
+
+      {/* Category Blocks */}
       <div style={{ padding: '0 2.5rem', marginBottom: '4rem' }}>
-        {' '}
-        {/* 40px = 2.5rem padding */}
-        {/* Top 4 Square Blocks - 382px x 382px with 24px gap */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '24px',
-            maxWidth: '1840px',
-            margin: '0 auto',
-            marginBottom: '24px',
-          }}
-        >
-          {topCategories.map((category, index) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1840px', margin: '0 auto', marginBottom: '24px' }}>
+          {topCategories.map((cat, idx) => (
             <div
-              key={index}
-              onClick={() => navigate(category.link)}
-              className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105"
+              key={idx}
+              onClick={() => navigate(cat.link)}
               style={{
                 aspectRatio: '1 / 1',
-                width: '100%',
-                borderRadius: theme === 'minimal-mod' ? '0' : '3px',
+                borderRadius: '3px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                position: 'relative',
+                transition: 'transform 0.3s'
               }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
             >
-              {/* Background Image - Optimized */}
-              <OptimizedImage
-                src={category.image}
-                alt={category.title}
-                priority={index < 2}
-                className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-              />
-
-              {/* Dark Overlay */}
-              <div
-                className="absolute inset-0 bg-black transition-opacity duration-300"
-                style={{ opacity: 0.3 }}
-              />
-
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-                <h3
-                  className="text-white text-4xl font-bold text-center tracking-wider"
-                  style={{
-                    textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
-                    fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
-                  }}
-                >
-                  {category.title}
+              <img src={cat.image} alt={cat.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)' }} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <h3 style={{ color: 'white', fontSize: '2.5rem', fontWeight: '700', textShadow: '2px 2px 8px rgba(0,0,0,0.8)' }}>
+                  {cat.title}
                 </h3>
-                {category.description && (
-                  <p
-                    className="text-white/80 text-sm text-center mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.8)' }}
-                  >
-                    {category.description}
-                  </p>
-                )}
               </div>
-
-              {/* Hover Border */}
-              <div
-                className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-                style={{ borderRadius: theme === 'minimal-mod' ? '0' : '3px' }}
-              />
             </div>
           ))}
         </div>
-        {/* Large Bottom Block for FEED - 1600px x 560px */}
+
         <div
           onClick={() => navigate(bottomBlock.link)}
-          className="relative overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-[1.01]"
           style={{
             height: '560px',
             maxWidth: '1840px',
             margin: '0 auto',
-            borderRadius: theme === 'minimal-mod' ? '0' : '3px',
+            borderRadius: '3px',
+            overflow: 'hidden',
+            cursor: 'pointer',
+            position: 'relative'
           }}
         >
-          {/* Background Image - Optimized */}
-          <OptimizedImage
-            src={bottomBlock.image}
-            alt={bottomBlock.title}
-            priority={true}
-            className="w-full h-full transition-transform duration-500 group-hover:scale-105"
-          />
-
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/50" />
-
-          {/* Content Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center p-12">
-            <div className="text-center max-w-3xl">
-              <h3
-                className="text-white text-6xl font-bold mb-4 tracking-wider"
-                style={{
-                  textShadow: '2px 2px 8px rgba(0,0,0,0.8)',
-                  fontFamily: theme === 'minimal-mod' ? 'SF Mono, monospace' : 'inherit',
-                }}
-              >
-                {bottomBlock.title}
-              </h3>
-              <p
-                className="text-white/90 text-xl"
-                style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.8)' }}
-              >
-                {bottomBlock.description}
-              </p>
-            </div>
+          <img src={bottomBlock.image} alt={bottomBlock.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }} />
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <h3 style={{ color: 'white', fontSize: '4rem', fontWeight: '700', textShadow: '2px 2px 8px rgba(0,0,0,0.8)' }}>
+              {bottomBlock.title}
+            </h3>
           </div>
-
-          {/* Hover Border */}
-          <div
-            className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 transition-all duration-300"
-            style={{ borderRadius: theme === 'minimal-mod' ? '0' : '3px' }}
-          />
         </div>
       </div>
 
-      {/* Testimonials Section (PMM.gg style) */}
       <TestimonialsCarousel />
 
-      {/* Content Container */}
       <div style={{ padding: '0 2.5rem' }}>
-        {' '}
-        {/* 40px padding */}
-        {/* Community Hub Section */}
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-              gap: '2rem',
-              maxWidth: '1840px',
-              margin: '0 auto',
-            }}
-          >
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem', maxWidth: '1840px', margin: '0 auto' }}>
             <TopArticlesWidget />
             <TopUsersWidget />
             <TopProposalsWidget />
           </div>
         </div>
-        {/* Top Categories Section */}
-        <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              marginBottom: '2rem',
-              textAlign: 'center',
-              letterSpacing: '1px',
-            }}
-          >
-            {t('home.exploreTitle') || 'Explore the most popular products'}
-          </h3>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              marginBottom: '4rem',
-            }}
-          >
-            {categories.map((category) => (
-              <Link key={category.id} to={`/category/${category.slug}`} className="text-link">
-                {t(`categories.${category.slug}`)}
-              </Link>
+        <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '2rem', textAlign: 'center', color: 'white' }}>
+            Популярные категории
+          </h3>
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '4rem' }}>
+            {categories.slice(0, 8).map((cat) => (
+              <a
+                key={cat.id}
+                href={`/category/${cat.slug}`}
+                style={{
+                  padding: '0.5rem 1rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '6px',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  textDecoration: 'none',
+                  fontSize: '0.875rem',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.color = 'rgba(255, 255, 255, 0.8)';
+                }}
+              >
+                {cat.name}
+              </a>
             ))}
           </div>
         </div>
-        {/* Featured Products - PMM.gg Style */}
+
         <div style={{ marginTop: '4rem', marginBottom: '4rem' }}>
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              marginBottom: '3rem',
-              textAlign: 'center',
-              letterSpacing: '1px',
-            }}
-          >
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '3rem', textAlign: 'center', color: 'white' }}>
             FEATURED DEALS
           </h3>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '24px',
-              maxWidth: '1840px',
-              margin: '0 auto',
-            }}
-          >
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1840px', margin: '0 auto' }}>
             {featuredProducts.map((product) => (
-              <Link
+              <a
                 key={product.id}
-                to={`/product/${product.id}`}
+                href={`/product/${product.id}`}
                 style={{ textDecoration: 'none' }}
               >
-                <div
-                  className="group cursor-pointer transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: 'rgb(10, 10, 10)',
-                    borderRadius: theme === 'minimal-mod' ? '0' : '3px',
-                    overflow: 'hidden',
-                  }}
+                <div style={{ backgroundColor: 'rgb(10, 10, 10)', borderRadius: '3px', overflow: 'hidden', transition: 'transform 0.3s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                  {/* Product Image */}
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '280px',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <OptimizedImage
-                      src={product.image}
-                      alt={product.name}
-                      width="100%"
-                      height="280px"
-                      className="group-hover:scale-110 transition-transform duration-500"
-                    />
+                  <div style={{ width: '100%', height: '280px' }}>
+                    <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
-
-                  {/* Product Info */}
                   <div style={{ padding: '1.5rem' }}>
-                    <div
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.5)',
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        letterSpacing: '1px',
-                        marginBottom: '0.5rem',
-                        textTransform: 'uppercase',
-                      }}
-                    >
+                    <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                       {product.category}
                     </div>
-
-                    <h4
-                      style={{
-                        fontSize: '1.125rem',
-                        fontWeight: '600',
-                        marginBottom: '0.5rem',
-                        color: 'white',
-                      }}
-                    >
+                    <h4 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.5rem', color: 'white' }}>
                       {product.name}
                     </h4>
-
-                    <p
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.6)',
-                        fontSize: '0.875rem',
-                        lineHeight: '1.4',
-                        marginBottom: '1rem',
-                      }}
-                    >
+                    <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem', marginBottom: '1rem' }}>
                       {product.description}
                     </p>
-
-                    {/* Price */}
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-                      <div
-                        style={{
-                          fontSize: '1.5rem',
-                          fontWeight: '700',
-                          color: 'white',
-                        }}
-                      >
+                      <div style={{ fontSize: '1.5rem', fontWeight: '700', color: 'white' }}>
                         ${product.price}
                       </div>
                       {product.originalPrice && (
-                        <div
-                          style={{
-                            color: 'rgba(255, 255, 255, 0.4)',
-                            fontSize: '0.875rem',
-                            textDecoration: 'line-through',
-                          }}
-                        >
+                        <div style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.875rem', textDecoration: 'line-through' }}>
                           ${product.originalPrice}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; pointer-events: none; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.4); text-align: center; }
+      `}</style>
     </div>
   );
 };
