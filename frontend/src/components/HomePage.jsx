@@ -48,6 +48,19 @@ const HomePage = () => {
   ]);
   const [currentLine, setCurrentLine] = useState(0);
   const [placeholderKey, setPlaceholderKey] = useState(0); // для анимации смены
+  
+  // Фиксированные позиции частиц (не пересоздаются при ре-рендере)
+  const particles = React.useMemo(() => 
+    [...Array(25)].map((_, i) => ({
+      id: i,
+      width: 2 + Math.random() * 2,
+      height: 2 + Math.random() * 2,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      duration: 5 + Math.random() * 5,
+      delay: Math.random() * 4
+    })), []
+  );
 
   useEffect(() => {
     coreAI.init(user);
@@ -235,19 +248,19 @@ const HomePage = () => {
         {/* Floating particles - видны после приветствия */}
         {greetingDone && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
-            {[...Array(25)].map((_, i) => (
+            {particles.map((p) => (
               <div
-                key={i}
+                key={p.id}
                 style={{
                   position: 'absolute',
-                  width: `${2 + Math.random() * 2}px`,
-                  height: `${2 + Math.random() * 2}px`,
+                  width: `${p.width}px`,
+                  height: `${p.height}px`,
                   background: 'rgba(255,255,255,0.5)',
                   borderRadius: '50%',
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animation: `particleFloat ${5 + Math.random() * 5}s ease-in-out infinite`,
-                  animationDelay: `${Math.random() * 4}s`
+                  top: `${p.top}%`,
+                  left: `${p.left}%`,
+                  animation: `particleFloat ${p.duration}s ease-in-out infinite`,
+                  animationDelay: `${p.delay}s`
                 }}
               />
             ))}
