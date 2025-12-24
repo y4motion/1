@@ -22,6 +22,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import FilterPanel from './FilterPanel';
 import CatalogMega from './CatalogMega';
+import OptimizedImage from './OptimizedImage';
+import QuickViewModal from './QuickViewModal';
 import '../styles/glassmorphism.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
