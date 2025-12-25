@@ -10,7 +10,7 @@ import { CurrencyProvider } from './contexts/CurrencyContext';
 import { ToastProvider } from './contexts/ToastContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import FloatingChatWidget from './components/FloatingChatWidget';
+import { GlassyChatBar } from './components/chat';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import Breadcrumbs from './components/Breadcrumbs';
