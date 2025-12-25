@@ -25,6 +25,9 @@ const HomePage = () => {
       {/* Live Activity Feed - FOMO effect */}
       <LiveActivityFeed />
 
+      {/* Trending Chips - Hot searches */}
+      <TrendingChips />
+
       {/* Content Blocks */}
       <div style={{ padding: '0 2.5rem', marginBottom: '4rem' }}>
         {/* Feature Grid */}
