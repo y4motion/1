@@ -528,23 +528,52 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* Greeting Overlay */}
+      {/* Greeting Overlay with smooth transition */}
       {!greetingDone && (
-        <div style={{ 
-          position: 'absolute', inset: 0, background: '#000000', zIndex: 20, 
-          display: 'flex', alignItems: 'center', justifyContent: 'center' 
-        }}>
-          <div style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px' }}>
-            <pre style={{
-              fontFamily: '"SF Mono", Monaco, "Cascadia Code", "Courier New", monospace',
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: '#ffffff',
-              textShadow: '0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.2)',
-              lineHeight: '2.2', letterSpacing: '0.03em', margin: 0, whiteSpace: 'pre-wrap'
+        <div 
+          className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''}`}
+          style={{ 
+            position: 'absolute', inset: 0, background: '#000000', zIndex: 20, 
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexDirection: 'column', gap: '2rem'
+          }}
+        >
+          {/* Greeting text */}
+          <div 
+            className={`greeting-text ${greetingPhase === 'fading' ? 'fade-up' : ''}`}
+            style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px' }}
+          >
+            <span style={{
+              fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+              fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', 
+              color: '#ffffff',
+              textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3)',
+              letterSpacing: '0.02em',
+              display: 'inline'
             }}>
               {displayText}
-              <span className="cursor-blink" />
-            </pre>
+            </span>
+            {greetingPhase === 'typing' && <span className="cursor-blink" />}
           </div>
+
+          {/* Preview of search icon during fade - creates seamless transition */}
+          {greetingPhase === 'fading' && (
+            <div className="search-preview" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
+              <div style={{
+                width: '60px',
+                height: '60px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '50%',
+                color: 'rgba(255, 255, 255, 0.5)'
+              }}>
+                <Search size={24} />
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -566,11 +595,11 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* DYNAMIC SEARCH INTERFACE */}
+      {/* DYNAMIC SEARCH INTERFACE - with entrance animation */}
       {greetingDone && (
         <div 
           ref={searchContainerRef}
-          className="hero-search-container"
+          className="hero-search-container entrance"
           style={{
             position: 'relative', zIndex: 10, width: '100%', maxWidth: '750px',
             padding: '2rem', textAlign: 'center'
