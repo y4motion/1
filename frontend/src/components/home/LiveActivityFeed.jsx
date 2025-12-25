@@ -1,68 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, Eye, Heart, Wrench, Star, AlertCircle } from 'lucide-react';
+import { ShoppingCart, Eye, Heart, Wrench, Star, AlertCircle, Package } from 'lucide-react';
 import './LiveActivityFeed.css';
 
-// Mock data - в будущем WebSocket
-const generateMockActivities = () => [
-  {
-    id: '1',
-    type: 'purchase',
-    user: { name: 'Ivan' },
-    product: { id: '123', name: 'RTX 5090' },
-    timestamp: new Date(Date.now() - 120000).toISOString()
-  },
-  {
-    id: '2',
-    type: 'view',
-    product: { id: '789', name: 'Samsung Odyssey G9' },
-    metadata: { count: 45 },
-    timestamp: new Date(Date.now() - 30000).toISOString()
-  },
-  {
-    id: '3',
-    type: 'cart',
-    user: { name: 'Maria' },
-    product: { id: '456', name: 'Ryzen 9 9950X' },
-    timestamp: new Date(Date.now() - 180000).toISOString()
-  },
-  {
-    id: '4',
-    type: 'build',
-    user: { name: 'Alex' },
-    metadata: { price: '150 000' },
-    timestamp: new Date(Date.now() - 60000).toISOString()
-  },
-  {
-    id: '5',
-    type: 'lowstock',
-    product: { id: '321', name: 'G.Skill DDR5-6400' },
-    metadata: { count: 3 },
-    timestamp: new Date(Date.now() - 45000).toISOString()
-  },
-  {
-    id: '6',
-    type: 'review',
-    user: { name: 'Dmitry' },
-    product: { id: '654', name: 'LG UltraGear' },
-    metadata: { rating: 5 },
-    timestamp: new Date(Date.now() - 90000).toISOString()
-  },
-  {
-    id: '7',
-    type: 'purchase',
-    user: { name: 'Elena' },
-    product: { id: '987', name: 'Intel Core Ultra 9' },
-    timestamp: new Date(Date.now() - 240000).toISOString()
-  },
-  {
-    id: '8',
-    type: 'view',
-    product: { id: '111', name: 'ASUS ROG Swift' },
-    metadata: { count: 28 },
-    timestamp: new Date(Date.now() - 15000).toISOString()
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+// Session ID для трекинга
+const getSessionId = () => {
+  let sessionId = sessionStorage.getItem('activity_session_id');
+  if (!sessionId) {
+    sessionId = `sess_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('activity_session_id', sessionId);
   }
-];
+  return sessionId;
+};
 
 const getIcon = (type) => {
   const icons = {
@@ -71,18 +22,21 @@ const getIcon = (type) => {
     cart: Heart,
     build: Wrench,
     review: Star,
-    lowstock: AlertCircle
+    lowstock: AlertCircle,
+    listing: Package
   };
   return icons[type] || Eye;
 };
 
 const formatTimeAgo = (timestamp) => {
   const seconds = Math.floor((Date.now() - new Date(timestamp)) / 1000);
-  if (seconds < 60) return 'только что';
+  if (seconds < 30) return 'только что';
+  if (seconds < 60) return `${seconds} сек назад`;
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes} мин назад`;
   const hours = Math.floor(minutes / 60);
-  return `${hours} ч назад`;
+  if (hours < 24) return `${hours} ч назад`;
+  return 'давно';
 };
 
 const getActivityText = (activity) => {
@@ -90,47 +44,138 @@ const getActivityText = (activity) => {
   
   switch (type) {
     case 'purchase':
-      return <><strong>{user?.name}</strong> купил <strong>{product?.name}</strong></>;
+      return <><strong>{user?.name || 'Кто-то'}</strong> купил <strong>{product?.name}</strong></>;
     case 'view':
-      return <><strong>{metadata?.count}</strong> человек смотрят <strong>{product?.name}</strong></>;
+      return <><strong>{metadata?.count || '?'}</strong> человек смотрят <strong>{product?.name}</strong></>;
     case 'cart':
-      return <><strong>{user?.name}</strong> добавил в корзину <strong>{product?.name}</strong></>;
+      return <><strong>{user?.name || 'Кто-то'}</strong> добавил в корзину <strong>{product?.name}</strong></>;
     case 'build':
       return <>Новая сборка за <strong>{metadata?.price}₽</strong> опубликована</>;
     case 'lowstock':
       return <><strong>{product?.name}</strong> — только <strong>{metadata?.count}</strong> шт!</>;
     case 'review':
-      return <><strong>{user?.name}</strong> оставил <strong>{metadata?.rating}★</strong> на <strong>{product?.name}</strong></>;
+      return <><strong>{user?.name || 'Кто-то'}</strong> оставил <strong>{metadata?.rating}★</strong> на <strong>{product?.name}</strong></>;
+    case 'listing':
+      return <><strong>{user?.name || 'Кто-то'}</strong> выставил <strong>{product?.name}</strong> на продажу</>;
     default:
-      return 'Активность';
+      return 'Активность на сайте';
   }
 };
 
 const LiveActivityFeed = () => {
   const navigate = useNavigate();
   const [isPaused, setIsPaused] = useState(false);
-  const [onlineCount, setOnlineCount] = useState(2345);
-  const [activities] = useState(() => generateMockActivities());
+  const [onlineCount, setOnlineCount] = useState(234);
+  const [activities, setActivities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const trackRef = useRef(null);
+  const pingIntervalRef = useRef(null);
+  const fetchIntervalRef = useRef(null);
 
-  // Симуляция изменения онлайн счётчика
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setOnlineCount(prev => prev + Math.floor(Math.random() * 21) - 10);
-    }, 5000);
-    return () => clearInterval(interval);
+  // Ping сервер для онлайн счётчика
+  const pingServer = useCallback(async () => {
+    try {
+      await fetch(`${API_URL}/api/activity/ping`, {
+        method: 'POST',
+        headers: {
+          'X-Session-ID': getSessionId()
+        }
+      });
+    } catch (err) {
+      // Silent fail
+    }
   }, []);
+
+  // Получить онлайн статистику
+  const fetchOnlineStats = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/activity/online`);
+      if (res.ok) {
+        const data = await res.json();
+        setOnlineCount(data.online_count);
+      }
+    } catch (err) {
+      // Use last known value
+    }
+  }, []);
+
+  // Получить ленту активности
+  const fetchActivities = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/activity/feed?limit=12`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.length > 0) {
+          setActivities(data);
+        }
+      }
+    } catch (err) {
+      // Keep existing activities
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Initial load + intervals
+  useEffect(() => {
+    // Первичная загрузка
+    pingServer();
+    fetchOnlineStats();
+    fetchActivities();
+
+    // Пинг каждые 30 секунд для онлайн счётчика
+    pingIntervalRef.current = setInterval(() => {
+      pingServer();
+      fetchOnlineStats();
+    }, 30000);
+
+    // Обновление активностей каждые 45 секунд
+    fetchIntervalRef.current = setInterval(() => {
+      fetchActivities();
+    }, 45000);
+
+    return () => {
+      if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
+      if (fetchIntervalRef.current) clearInterval(fetchIntervalRef.current);
+    };
+  }, [pingServer, fetchOnlineStats, fetchActivities]);
 
   const handleItemClick = (activity) => {
     if (activity.product?.id) {
       navigate(`/product/${activity.product.id}`);
     } else if (activity.type === 'build') {
       navigate('/assembly');
+    } else if (activity.type === 'listing') {
+      navigate('/glassy-swap');
     }
   };
 
   // Дублируем для seamless loop
-  const duplicatedActivities = [...activities, ...activities];
+  const duplicatedActivities = activities.length > 0 
+    ? [...activities, ...activities] 
+    : [];
+
+  // Show skeleton while loading
+  if (isLoading && activities.length === 0) {
+    return (
+      <div className="live-activity-feed">
+        <div className="online-indicator">
+          <span className="online-dot" />
+          <span>{onlineCount.toLocaleString('ru-RU')} сейчас на сайте</span>
+        </div>
+        <div className="activity-stream">
+          <div className="activity-track">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="activity-item activity-item--skeleton">
+                <div className="activity-icon" />
+                <div className="skeleton-text" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="live-activity-feed">
@@ -172,6 +217,42 @@ const LiveActivityFeed = () => {
       </div>
     </div>
   );
+};
+
+// Export helper для трекинга активности из других компонентов
+export const trackActivity = async (type, data) => {
+  try {
+    await fetch(`${API_URL}/api/activity/track`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Session-ID': getSessionId()
+      },
+      body: JSON.stringify({
+        type,
+        user_name: data.userName,
+        product_id: data.productId,
+        product_name: data.productName,
+        metadata: data.metadata
+      })
+    });
+  } catch (err) {
+    // Silent fail
+  }
+};
+
+// Export для трекинга просмотра продукта
+export const trackProductView = async (productId, productName) => {
+  try {
+    await fetch(`${API_URL}/api/activity/track/view?product_id=${productId}&product_name=${encodeURIComponent(productName)}`, {
+      method: 'POST',
+      headers: {
+        'X-Session-ID': getSessionId()
+      }
+    });
+  } catch (err) {
+    // Silent fail
+  }
 };
 
 export default LiveActivityFeed;
