@@ -333,9 +333,15 @@ export default function HeroSection() {
     // Save to search history for future placeholders
     saveSearchToHistory(query);
     
+    // If AI mode is active, send to AI instead of navigating
+    if (activeMultiTool === 'ai') {
+      handleAiQuery(query);
+      return;
+    }
+    
     coreAI.trackAction('search', { query });
     navigate(`/marketplace?search=${encodeURIComponent(query)}`);
-  }, [navigate, triggerEasterEgg, saveSearchToHistory]);
+  }, [navigate, triggerEasterEgg, saveSearchToHistory, activeMultiTool, handleAiQuery]);
 
   const handleMultiToolSelect = (tool) => {
     setActiveMultiTool(tool);
