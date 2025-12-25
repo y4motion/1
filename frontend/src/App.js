@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import './App.css';
 import './styles/glassmorphism.css';
 import './styles/minimalMod.css';
+import './styles/layout.css';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
