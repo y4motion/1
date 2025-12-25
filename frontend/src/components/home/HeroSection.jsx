@@ -346,10 +346,79 @@ export default function HeroSection() {
     setActiveMultiTool(tool);
     setShowMultiMenu(false);
     
-    if (tool === 'ai') {
-      window.dispatchEvent(new CustomEvent('openGlassyChat', { detail: { tab: 'ai' } }));
-    }
+    // Execute action immediately after selection
+    executeToolAction(tool);
   };
+
+  // Execute the selected tool's action
+  const executeToolAction = useCallback((tool) => {
+    switch (tool) {
+      case 'voice':
+        startVoiceRecognition();
+        break;
+      case 'ai':
+        window.dispatchEvent(new CustomEvent('openGlassyChat', { detail: { tab: 'ai' } }));
+        break;
+      case 'history':
+        console.log('Show search history');
+        // TODO: Open history panel
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  // Voice recognition
+  const startVoiceRecognition = useCallback(() => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Голосовой ввод не поддерживается в этом браузере');
+      return;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.lang = 'ru-RU';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+    
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setSearchQuery(transcript);
+      setIsListening(false);
+    };
+    
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+    
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    
+    recognition.start();
+  }, []);
+
+  // Handle main button click
+  const handleMultiToolClick = useCallback(() => {
+    if (activeMultiTool) {
+      // Tool selected - execute its action
+      executeToolAction(activeMultiTool);
+    } else {
+      // No tool selected - show menu
+      setShowMultiMenu(prev => !prev);
+    }
+  }, [activeMultiTool, executeToolAction]);
+
+  // Handle chevron click to open menu
+  const handleMenuToggle = useCallback((e) => {
+    e.stopPropagation();
+    setShowMultiMenu(prev => !prev);
+  }, []);
 
   const multiToolConfig = {
     voice: { icon: Mic, label: 'Голосовой поиск' },
@@ -357,7 +426,8 @@ export default function HeroSection() {
     history: { icon: Clock, label: 'История поиска' }
   };
 
-  const ActiveIcon = multiToolConfig[activeMultiTool].icon;
+  // Get current icon - Menu if no tool selected, otherwise the tool icon
+  const CurrentIcon = activeMultiTool ? multiToolConfig[activeMultiTool].icon : Menu;
 
   const quickActions = [
     { text: 'Начать сборку', link: '/assembly' },
