@@ -742,7 +742,6 @@ const heroStyles = `
     border-radius: 20px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
   }
 
   .search-bar::before {
