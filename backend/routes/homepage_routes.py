@@ -265,8 +265,7 @@ async def get_latest_articles(limit: int = 6):
     """
     Get latest articles for LatestArticles component.
     """
-    from server import get_database
-    db = get_database()
+    from database import db
     
     articles = []
     try:
