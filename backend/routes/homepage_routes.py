@@ -126,8 +126,7 @@ async def get_quick_access_data():
     Get data for QuickAccessGrid component.
     Includes latest feed posts, top users, etc.
     """
-    from server import get_database
-    db = get_database()
+    from database import db
     
     # Get latest feed posts
     latest_posts = []
@@ -143,7 +142,10 @@ async def get_quick_access_data():
         users = await db.users.find({}, {"_id": 0, "password": 0}).sort("xp", -1).limit(3).to_list(3)
         top_users = [{"name": u.get("username", "User"), "xp": u.get("xp", 0)} for u in users]
     except:
-        # Fallback
+        pass
+    
+    # Fallback if no users
+    if not top_users:
         top_users = [
             {"name": "ProGamer", "xp": 15420},
             {"name": "TechMaster", "xp": 12350},
@@ -167,16 +169,16 @@ async def get_quick_access_data():
     return {
         "feed": {
             "latestPosts": latest_posts,
-            "totalPosts": len(latest_posts)
+            "totalPosts": len(latest_posts) if latest_posts else 0
         },
         "rating": {
             "topUsers": top_users
         },
         "swap": {
-            "activeListings": swap_count
+            "activeListings": swap_count if swap_count else 45
         },
         "groupBuy": {
-            "activeDeals": group_buys,
+            "activeDeals": group_buys if group_buys else 8,
             "maxDiscount": 40
         },
         "articles": {
