@@ -382,6 +382,116 @@ const GlassyChatBar = () => {
   }, [location.pathname, language]);
 
   // ========================================
+  // PRIVATE CHAT FUNCTIONS (Swap)
+  // ========================================
+
+  // Fetch user's conversations
+  const fetchConversations = useCallback(async () => {
+    if (!user) return;
+    
+    setLoadingConversations(true);
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_URL}/api/swap/chat/conversations`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setConversations(data);
+        
+        // Calculate total unread for messages tab
+        const totalUnread = data.reduce((sum, c) => sum + (c.unread || 0), 0);
+        setUnreadCounts(prev => ({ ...prev, messages: totalUnread }));
+      }
+    } catch (err) {
+      console.error('Error fetching conversations:', err);
+    } finally {
+      setLoadingConversations(false);
+    }
+  }, [user]);
+
+  // Start conversation with seller (from listing page)
+  const startConversation = useCallback(async (listingId) => {
+    if (!user) {
+      alert(language === 'ru' ? 'Войдите, чтобы написать продавцу' : 'Login to message seller');
+      return null;
+    }
+    
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_URL}/api/swap/chat/conversations/${listingId}/start`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const conv = await res.json();
+        setActiveConversation(conv);
+        await fetchConversationMessages(conv.id);
+        return conv;
+      }
+    } catch (err) {
+      console.error('Error starting conversation:', err);
+    }
+    return null;
+  }, [user, language]);
+
+  // Fetch messages for a conversation
+  const fetchConversationMessages = useCallback(async (conversationId) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_URL}/api/swap/chat/conversations/${conversationId}/messages`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const msgs = await res.json();
+        setConversationMessages(msgs);
+      }
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+    }
+  }, []);
+
+  // Send private message
+  const sendPrivateMessage = useCallback(async () => {
+    if (!inputMessage.trim() || !activeConversation) return;
+    
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`${API_URL}/api/swap/chat/conversations/${activeConversation.id}/send`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: inputMessage })
+      });
+      
+      if (res.ok) {
+        const msg = await res.json();
+        setConversationMessages(prev => [...prev, msg]);
+        setInputMessage('');
+      }
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  }, [inputMessage, activeConversation]);
+
+  // Fetch conversations when Messages tab is opened
+  useEffect(() => {
+    if (activeTab === 'messages' && user) {
+      fetchConversations();
+    }
+  }, [activeTab, user, fetchConversations]);
+
+  // Auto-start conversation on swap listing page
+  useEffect(() => {
+    const context = getPageContext();
+    if (activeTab === 'messages' && context.type === 'swap_listing' && user && !activeConversation) {
+      startConversation(context.id);
+    }
+  }, [activeTab, getPageContext, user, activeConversation, startConversation]);
+
+  // ========================================
   // MESSAGE HANDLERS
   // ========================================
 
