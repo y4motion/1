@@ -74,13 +74,12 @@ async def get_trending_searches(limit: int = 12):
 # =============================================
 
 @router.get("/category-stats")
-async def get_category_stats(db=None):
+async def get_category_stats():
     """
     Get category statistics for ShopByCategory component.
     Returns product counts and trending status.
     """
-    from server import get_database
-    db = get_database()
+    from database import db
     
     categories_config = [
         {"id": "gpu", "name": "Видеокарты", "icon": "Cpu", "baseCount": 1234, "trending": True, "growth": 12},
