@@ -625,7 +625,7 @@ const SwapDetailPage = ({ id }) => {
   
   if (loading) {
     return (
-      <div className="dark-bg min-h-screen flex items-center justify-center" style={{ paddingTop: '80px' }} data-theme={theme}>
+      <div className="dark-bg min-h-screen flex items-center justify-center" style={{ paddingTop: '80px' }}>
         <div className="w-8 h-8 border-2 border-current/20 border-t-current/60 rounded-full animate-spin" />
       </div>
     );
@@ -633,7 +633,7 @@ const SwapDetailPage = ({ id }) => {
   
   if (!listing) {
     return (
-      <div className="dark-bg min-h-screen flex flex-col items-center justify-center" style={{ paddingTop: '80px' }} data-theme={theme}>
+      <div className="dark-bg min-h-screen flex flex-col items-center justify-center" style={{ paddingTop: '80px' }}>
         <p className="opacity-60">{t('swap.listingNotFound')}</p>
         <button onClick={() => navigate('/glassy-swap')} className="mt-4 text-sm" style={{ color: '#8b5cf6' }}>
           ← {t('swap.back')}
@@ -645,7 +645,7 @@ const SwapDetailPage = ({ id }) => {
   const images = listing.images || [];
   
   return (
-    <div className="dark-bg min-h-screen" style={{ paddingTop: '80px' }} data-theme={theme}>
+    <div className="dark-bg min-h-screen" style={{ paddingTop: '80px' }}>
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Back Button */}
         <button 
@@ -950,7 +950,6 @@ const CreateWizard = ({ isMinimalMod, t, categories, onClose, onSuccess }) => {
       <div 
         className="dark-bg w-full max-w-lg max-h-[90vh] overflow-y-auto"
         style={{ borderRadius: isMinimalMod ? '0' : '20px 20px 0 0' }}
-        data-theme={theme}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Progress */}
