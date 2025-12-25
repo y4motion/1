@@ -996,7 +996,10 @@ const SwapDetailPage = ({ id }) => {
             {/* Actions */}
             <div className="flex gap-3">
               <button
-                onClick={() => setShowChat(true)}
+                onClick={() => {
+                  // Open GlassyChatBar with Messages tab
+                  window.dispatchEvent(new CustomEvent('openGlassyChat', { detail: { tab: 'messages' } }));
+                }}
                 className="flex-1 flex items-center justify-center gap-2 py-3 font-medium transition-all"
                 style={{
                   background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
