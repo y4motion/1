@@ -153,6 +153,7 @@ api_router.include_router(ai_router)
 api_router.include_router(swap_router)
 api_router.include_router(swap_chat_router)
 api_router.include_router(upload_router)
+api_router.include_router(activity_router)
 
 # Include the router in the main app
 app.include_router(api_router)
