@@ -889,11 +889,6 @@ const heroStyles = `
     transform: translateY(-2px);
   }
 
-  /* Particles */
-  .hero-particle {
-    transition: transform 0.3s ease-out;
-  }
-
   /* ANIMATIONS */
   @keyframes breathe {
     0%, 100% {
