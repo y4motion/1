@@ -22,6 +22,11 @@ export default function HeroSection() {
   // Easter egg state
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   
+  // Response bubble state (for AI and History)
+  const [showBubble, setShowBubble] = useState(false);
+  const [bubbleContent, setBubbleContent] = useState({ type: null, data: null });
+  const [isAiThinking, setIsAiThinking] = useState(false);
+  
   const searchInputRef = useRef(null);
   const multiMenuRef = useRef(null);
   const searchContainerRef = useRef(null);
