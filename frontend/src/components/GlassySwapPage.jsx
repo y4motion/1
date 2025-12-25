@@ -1246,28 +1246,121 @@ const CreateWizard = ({ isDark, isMinimalMod, language, categories, onClose, onS
           {step === 2 && (
             <div className="space-y-4">
               <label className="block text-sm mb-2" style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)' }}>
-                {language === 'ru' ? 'Фотографии (URL)' : 'Photos (URLs)'}
+                {language === 'ru' ? 'Фотографии' : 'Photos'}
               </label>
-              {[0, 1, 2].map(i => (
+              
+              {/* Upload Area */}
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={(e) => { e.preventDefault(); e.currentTarget.style.borderColor = '#8b5cf6'; }}
+                onDragLeave={(e) => { e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'; }}
+                onDrop={async (e) => {
+                  e.preventDefault();
+                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+                  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+                  if (files.length > 0) await handleFileUpload(files);
+                }}
+                className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all"
+                style={{
+                  borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                  background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+                }}
+              >
                 <input
-                  key={i}
-                  type="text"
-                  value={formData.images[i] || ''}
-                  onChange={(e) => {
-                    const newImages = [...formData.images];
-                    newImages[i] = e.target.value;
-                    setFormData(prev => ({ ...prev, images: newImages.filter(Boolean) }));
-                  }}
-                  placeholder={`${language === 'ru' ? 'Ссылка на фото' : 'Photo URL'} ${i + 1}`}
-                  className="w-full px-4 py-3 outline-none"
-                  style={{
-                    background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
-                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                    borderRadius: isMinimalMod ? '0' : '10px',
-                    color: isDark ? '#fff' : '#1a1a1a'
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={async (e) => {
+                    const files = Array.from(e.target.files || []);
+                    if (files.length > 0) await handleFileUpload(files);
                   }}
                 />
-              ))}
+                {uploading ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-sm" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
+                      {language === 'ru' ? 'Загрузка...' : 'Uploading...'}
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <ImageIcon size={32} style={{ color: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)', margin: '0 auto 8px' }} />
+                    <p className="text-sm" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
+                      {language === 'ru' ? 'Перетащите фото или нажмите для выбора' : 'Drag photos here or click to select'}
+                    </p>
+                    <p className="text-xs mt-1" style={{ color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)' }}>
+                      {language === 'ru' ? 'До 5 фото, макс 10MB каждое' : 'Up to 5 photos, max 10MB each'}
+                    </p>
+                  </>
+                )}
+              </div>
+              
+              {/* Uploaded Images Preview */}
+              {uploadedImages.length > 0 && (
+                <div className="flex gap-2 flex-wrap">
+                  {uploadedImages.map((img, i) => (
+                    <div 
+                      key={i} 
+                      className="relative w-20 h-20 rounded-lg overflow-hidden"
+                      style={{ border: i === 0 ? '2px solid #8b5cf6' : '2px solid transparent' }}
+                    >
+                      <img src={`${API_URL}${img.url}`} alt="" className="w-full h-full object-cover" />
+                      <button
+                        onClick={() => {
+                          setUploadedImages(prev => prev.filter((_, idx) => idx !== i));
+                          setFormData(prev => ({ ...prev, images: prev.images.filter((_, idx) => idx !== i) }));
+                        }}
+                        className="absolute top-1 right-1 w-5 h-5 flex items-center justify-center bg-black/60 rounded-full text-white text-xs"
+                      >
+                        ×
+                      </button>
+                      {i === 0 && (
+                        <span className="absolute bottom-0 left-0 right-0 bg-purple-600/80 text-white text-xs py-0.5 text-center">
+                          {language === 'ru' ? 'Главное' : 'Main'}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* Or use URL */}
+              <div className="relative">
+                <div className="absolute inset-x-0 top-1/2 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }} />
+                <span 
+                  className="relative px-3 text-xs mx-auto block w-fit"
+                  style={{ 
+                    background: isDark ? '#15151a' : '#fff',
+                    color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'
+                  }}
+                >
+                  {language === 'ru' ? 'или вставьте ссылку' : 'or paste URL'}
+                </span>
+              </div>
+              
+              <input
+                type="text"
+                placeholder={language === 'ru' ? 'https://example.com/photo.jpg' : 'https://example.com/photo.jpg'}
+                className="w-full px-4 py-3 outline-none text-sm"
+                style={{
+                  background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                  borderRadius: isMinimalMod ? '0' : '10px',
+                  color: isDark ? '#fff' : '#1a1a1a'
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.target.value.trim()) {
+                    const url = e.target.value.trim();
+                    if (url.startsWith('http')) {
+                      setUploadedImages(prev => [...prev, { url }]);
+                      setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
+                      e.target.value = '';
+                    }
+                  }
+                }}
+              />
             </div>
           )}
           
