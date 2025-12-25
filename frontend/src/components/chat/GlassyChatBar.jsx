@@ -65,6 +65,12 @@ const GlassyChatBar = () => {
   const [unreadCounts, setUnreadCounts] = useState({ ai: 0, messages: 0, community: 0, support: 0 });
   const [lastMessageSource, setLastMessageSource] = useState(null);
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  
+  // Private Chat State (for Swap)
+  const [conversations, setConversations] = useState([]);
+  const [activeConversation, setActiveConversation] = useState(null);
+  const [conversationMessages, setConversationMessages] = useState([]);
+  const [loadingConversations, setLoadingConversations] = useState(false);
 
   // Refs
   const wsRef = useRef(null);
