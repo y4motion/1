@@ -1506,4 +1506,551 @@ const heroStyles = `
       padding: 0.5rem 1rem;
     }
   }
+
+  /* ============================================
+     IDLE ANIMATIONS - Secret Life of Search Icon
+     ============================================ */
+
+  /* Rarity Badge */
+  .idle-rarity-badge {
+    margin-top: 1rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 20px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    animation: fadeInUp 0.3s ease-out, pulse 1.5s ease-in-out infinite;
+  }
+
+  .rarity-common {
+    background: rgba(156, 163, 175, 0.2);
+    color: #9ca3af;
+    border: 1px solid rgba(156, 163, 175, 0.3);
+  }
+
+  .rarity-uncommon {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .rarity-rare {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .rarity-epic {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+
+  .rarity-legendary {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3));
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    animation: fadeInUp 0.3s ease-out, legendaryGlow 1.5s ease-in-out infinite;
+  }
+
+  @keyframes legendaryGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.6); }
+  }
+
+  /* === 1. THE EYE ANIMATION === */
+  .idle-eye-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .idle-eye {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    animation: eyeAppear 0.3s ease-out;
+  }
+
+  @keyframes eyeAppear {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .idle-eye-white {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #fff 0%, #e5e5e5 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .idle-eye-pupil {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%, #333, #000);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: eyeLook 4s ease-in-out forwards;
+  }
+
+  @keyframes eyeLook {
+    0% { transform: translate(-50%, -50%); }
+    15% { transform: translate(calc(-50% - 8px), -50%); }
+    30% { transform: translate(calc(-50% + 8px), -50%); }
+    45% { transform: translate(-50%, calc(-50% - 6px)); }
+    55% { transform: translate(-50%, -50%); }
+    /* Blink 1 */
+    60% { transform: translate(-50%, -50%); }
+    62% { transform: translate(-50%, -50%) scaleY(0.1); }
+    64% { transform: translate(-50%, -50%); }
+    /* Blink 2 */
+    75% { transform: translate(-50%, -50%); }
+    77% { transform: translate(-50%, -50%) scaleY(0.1); }
+    79% { transform: translate(-50%, -50%); }
+    100% { transform: translate(-50%, -50%); }
+  }
+
+  .idle-eye-lid-top, .idle-eye-lid-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+  }
+
+  .idle-eye-lid-top {
+    top: 0;
+    border-radius: 50% 50% 0 0;
+    animation: eyeBlinkTop 4s ease-in-out forwards;
+  }
+
+  .idle-eye-lid-bottom {
+    bottom: 0;
+    border-radius: 0 0 50% 50%;
+    animation: eyeBlinkBottom 4s ease-in-out forwards;
+  }
+
+  @keyframes eyeBlinkTop {
+    0%, 59%, 65%, 74%, 80%, 100% { transform: translateY(-100%); }
+    62%, 77% { transform: translateY(0); }
+  }
+
+  @keyframes eyeBlinkBottom {
+    0%, 59%, 65%, 74%, 80%, 100% { transform: translateY(100%); }
+    62%, 77% { transform: translateY(0); }
+  }
+
+  /* === 2. VIBRATION ANIMATION === */
+  .idle-vibration {
+    animation: vibrate 0.5s linear 2;
+  }
+
+  @keyframes vibrate {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2px, -1px); }
+    20% { transform: translate(2px, 1px); }
+    30% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    50% { transform: translate(-1px, -2px); }
+    60% { transform: translate(1px, 2px); }
+    70% { transform: translate(-2px, 1px); }
+    80% { transform: translate(2px, -1px); }
+    90% { transform: translate(-1px, -1px); }
+  }
+
+  /* === 3. POKEBALL ANIMATION === */
+  .idle-pokeball-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .idle-pokeball {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    animation: pokeballShake 5s ease-in-out forwards;
+  }
+
+  .pokeball-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    border-radius: 50% 50% 0 0;
+    animation: pokeballOpenTop 5s ease-in-out forwards;
+    transform-origin: bottom center;
+  }
+
+  .pokeball-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+    border-radius: 0 0 50% 50%;
+    animation: pokeballOpenBottom 5s ease-in-out forwards;
+    transform-origin: top center;
+  }
+
+  .pokeball-center {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #333;
+    transform: translateY(-50%);
+  }
+
+  .pokeball-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 3px solid #333;
+    border-radius: 50%;
+    z-index: 2;
+    animation: pokeballButton 5s ease-in-out forwards;
+  }
+
+  @keyframes pokeballShake {
+    0%, 10% { transform: rotate(0); }
+    12% { transform: rotate(-10deg); }
+    14% { transform: rotate(10deg); }
+    16% { transform: rotate(-10deg); }
+    18%, 100% { transform: rotate(0); }
+  }
+
+  @keyframes pokeballOpenTop {
+    0%, 20% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(-8px) rotate(-20deg); }
+    70% { transform: translateY(-8px) rotate(-20deg); }
+    80%, 100% { transform: translateY(0) rotate(0); }
+  }
+
+  @keyframes pokeballOpenBottom {
+    0%, 20% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(4px) rotate(5deg); }
+    70% { transform: translateY(4px) rotate(5deg); }
+    80%, 100% { transform: translateY(0) rotate(0); }
+  }
+
+  @keyframes pokeballButton {
+    0%, 20% { box-shadow: none; }
+    25% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+    70% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.9); }
+    80%, 100% { box-shadow: none; }
+  }
+
+  .mew-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .mew-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    animation: mewEscape 5s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.05s);
+    --angle: calc(var(--i) * 30deg);
+  }
+
+  @keyframes mewEscape {
+    0%, 25% { 
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(20px);
+    }
+    60% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(50px);
+    }
+    75%, 100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(70px);
+    }
+  }
+
+  /* === 4. GRAVITY DROP ANIMATION === */
+  .idle-gravity {
+    animation: gravityDrop 4s ease-in-out forwards;
+  }
+
+  @keyframes gravityDrop {
+    0% { transform: translateY(0); }
+    15% { transform: translateY(150px); }
+    20% { transform: translateY(120px); }
+    25% { transform: translateY(150px); }
+    30% { transform: translateY(140px) translateX(0) rotate(0deg); }
+    40% { transform: translateY(150px) translateX(30px) rotate(180deg); }
+    50% { transform: translateY(150px) translateX(60px) rotate(360deg); }
+    55% { transform: translateY(140px) translateX(60px) rotate(360deg); }
+    60% { transform: translateY(150px) translateX(40px) rotate(360deg); }
+    70% { transform: translateY(150px) translateX(0px) rotate(360deg); }
+    75% { transform: translateY(100px) rotate(360deg); }
+    80% { transform: translateY(0) scale(0.9) rotate(360deg); }
+    85% { transform: translateY(0) scale(1.1) rotate(360deg); }
+    90% { transform: translateY(0) scale(0.95) rotate(360deg); }
+    100% { transform: translateY(0) scale(1) rotate(360deg); }
+  }
+
+  /* === 5. SPIN ANIMATION === */
+  .idle-spin {
+    animation: spinFast 3s ease-in-out forwards;
+  }
+
+  @keyframes spinFast {
+    0% { transform: rotate(0deg); filter: blur(0); }
+    10% { transform: rotate(180deg); filter: blur(0); }
+    20% { transform: rotate(540deg); filter: blur(1px); }
+    40% { transform: rotate(1080deg); filter: blur(3px); }
+    60% { transform: rotate(1620deg); filter: blur(2px); }
+    80% { transform: rotate(2160deg); filter: blur(1px); }
+    90% { transform: rotate(2340deg); filter: blur(0); }
+    100% { transform: rotate(2520deg); filter: blur(0); }
+  }
+
+  /* === 6. TELEPORT ANIMATION === */
+  .idle-teleport {
+    position: relative;
+    animation: teleportSequence 3.5s ease-in-out forwards;
+  }
+
+  @keyframes teleportSequence {
+    0% { opacity: 1; transform: translate(0, 0); }
+    10% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+    20% { opacity: 0; transform: translate(100px, -50px) scale(0.5); }
+    30% { opacity: 1; transform: translate(100px, -50px) scale(1.1); }
+    35% { transform: translate(100px, -50px) scale(1); }
+    40% { transform: translate(100px, -60px); }
+    45% { transform: translate(100px, -50px); }
+    50% { transform: translate(100px, -55px); }
+    55% { opacity: 1; transform: translate(100px, -50px); }
+    65% { opacity: 0; transform: translate(100px, -50px) scale(0.5); }
+    75% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+    85% { opacity: 1; transform: translate(0, 0) scale(1.1); }
+    100% { opacity: 1; transform: translate(0, 0) scale(1); }
+  }
+
+  .teleport-particles {
+    position: absolute;
+    inset: -20px;
+    pointer-events: none;
+  }
+
+  .teleport-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    animation: teleportParticle 3.5s ease-out forwards;
+    --angle: calc(var(--i) * 45deg);
+  }
+
+  @keyframes teleportParticle {
+    0%, 5% { 
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0);
+    }
+    10% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(15px);
+    }
+    20% {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(30px);
+    }
+    60%, 65% { 
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0);
+    }
+    70% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(15px);
+    }
+    80%, 100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(30px);
+    }
+  }
+
+  /* === 7. BUBBLE ANIMATION === */
+  .idle-bubble {
+    position: relative;
+    animation: bubbleFloat 4.5s ease-in-out forwards;
+  }
+
+  .bubble-icon {
+    animation: bubbleTransform 4.5s ease-in-out forwards;
+  }
+
+  @keyframes bubbleFloat {
+    0% { transform: translateY(0); }
+    20% { transform: translateY(-5px); }
+    40% { transform: translateY(-30px); }
+    60% { transform: translateY(-60px); }
+    70% { transform: translateY(-70px); }
+    75% { transform: translateY(-70px) scale(1.2); }
+    80% { transform: translateY(-70px) scale(0); }
+    85% { transform: translateY(0) scale(0); }
+    100% { transform: translateY(0) scale(1); }
+  }
+
+  @keyframes bubbleTransform {
+    0% { 
+      filter: none;
+      opacity: 1;
+    }
+    20% { 
+      filter: drop-shadow(0 0 10px rgba(100, 200, 255, 0.5));
+      border-radius: 50%;
+    }
+    40% {
+      filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.7)) 
+             drop-shadow(2px 2px 4px rgba(255, 100, 255, 0.3));
+    }
+    70% {
+      filter: drop-shadow(0 0 25px rgba(100, 200, 255, 0.8))
+             drop-shadow(-2px -2px 6px rgba(255, 200, 100, 0.4));
+      opacity: 0.9;
+    }
+    78% { opacity: 1; }
+    80% { opacity: 0; }
+    85% { opacity: 0; }
+    100% { opacity: 1; filter: none; }
+  }
+
+  .bubble-pop-particles {
+    position: absolute;
+    inset: -30px;
+    pointer-events: none;
+  }
+
+  .pop-particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.9), rgba(255, 100, 255, 0.9));
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    animation: popParticle 4.5s ease-out forwards;
+    --angle: calc(var(--i) * 22.5deg);
+    --distance: calc(30px + var(--i) * 5px);
+  }
+
+  @keyframes popParticle {
+    0%, 75% {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% - 70px)) rotate(var(--angle)) translateX(0);
+    }
+    78% {
+      opacity: 1;
+      transform: translate(-50%, calc(-50% - 70px)) rotate(var(--angle)) translateX(calc(var(--distance) * 0.5));
+    }
+    90% {
+      opacity: 0.5;
+      transform: translate(-50%, calc(-50% - 70px)) rotate(var(--angle)) translateX(var(--distance));
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% - 70px)) rotate(var(--angle)) translateX(calc(var(--distance) * 1.2));
+    }
+  }
+
+  /* === 8. SOUNDWAVE ANIMATION === */
+  .idle-soundwave {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .idle-soundwave svg {
+    animation: soundwavePulse 2.5s ease-in-out forwards;
+  }
+
+  @keyframes soundwavePulse {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(0.95); }
+    50% { transform: scale(1.05); }
+    75% { transform: scale(0.98); }
+  }
+
+  .soundwave-rings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .soundwave-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: soundWaveExpand 2.5s ease-out forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes soundWaveExpand {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(3);
+      opacity: 0;
+    }
+  }
+
+  /* Stop breathing animation during idle animations */
+  .search-icon-initial.idle-eye,
+  .search-icon-initial.idle-vibration,
+  .search-icon-initial.idle-pokeball,
+  .search-icon-initial.idle-gravity,
+  .search-icon-initial.idle-spin,
+  .search-icon-initial.idle-teleport,
+  .search-icon-initial.idle-bubble,
+  .search-icon-initial.idle-soundwave {
+    animation: none !important;
+  }
 `;
