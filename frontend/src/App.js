@@ -35,6 +35,7 @@ const CreatorsPage = React.lazy(() => import('./components/CreatorsPage'));
 const VotingPage = React.lazy(() => import('./components/VotingPage'));
 const RatingPage = React.lazy(() => import('./components/RatingPage'));
 const GroupBuyPage = React.lazy(() => import('./components/GroupBuyPage'));
+const GlassySwapPage = React.lazy(() => import('./components/GlassySwapPage'));
 
 // Redirect component for /chat routes - opens GlassyChatBar on home
 const ChatRedirect = () => {
@@ -95,7 +96,7 @@ function App() {
                     <Route path="/pro-gamer" element={<PlaceholderPage title="PRO GAMER" />} />
                     <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
                     <Route path="/user" element={<PlaceholderPage title="USER" />} />
-                    <Route path="/glassy-swap" element={<PlaceholderPage title="GLASSY SWAP" />} />
+                    <Route path="/glassy-swap" element={<GlassySwapPage />} />
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}
