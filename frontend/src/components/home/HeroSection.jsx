@@ -795,7 +795,17 @@ export default function HeroSection() {
                     ref={searchInputRef}
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      // Trigger typing animation
+                      setIsTyping(true);
+                      if (typingTimeoutRef.current) {
+                        clearTimeout(typingTimeoutRef.current);
+                      }
+                      typingTimeoutRef.current = setTimeout(() => {
+                        setIsTyping(false);
+                      }, 150);
+                    }}
                     onFocus={handleSearchFocus}
                     onBlur={handleSearchBlur}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
