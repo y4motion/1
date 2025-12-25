@@ -191,6 +191,17 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.category-card__trending-label {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+}
+
 /* Animation */
 @keyframes categoryFadeIn {
   from {
