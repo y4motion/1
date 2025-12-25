@@ -570,39 +570,49 @@ const GlassyChatBar = () => {
               ))}
             </div>
             
-            {/* Menu Button */}
-            <div className="panel-menu">
+            {/* Collapse Button + Menu Button */}
+            <div className="panel-controls">
               <button 
-                className="menu-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMenu(!showMenu);
+                className="collapse-btn"
+                onClick={() => {
+                  setPanelMode(PANEL_MODES.COLLAPSED);
+                  setCustomHeight(null);
+                  handleInteraction();
                 }}
+                title={language === 'ru' ? 'Свернуть' : 'Collapse'}
               >
-                <MoreVertical size={18} />
+                <Minimize2 size={18} />
               </button>
               
-              {showMenu && (
-                <div className="menu-dropdown">
-                  <button onClick={() => handleMenuAction('collapse')}>
-                    <Minimize2 size={14} />
-                    <span>{language === 'ru' ? 'Свернуть' : 'Collapse'}</span>
-                  </button>
-                  <button onClick={() => handleMenuAction('mini')}>
-                    <span className="mini-icon">½</span>
-                    <span>{language === 'ru' ? 'Мини-режим' : 'Mini Mode'}</span>
-                  </button>
-                  <button onClick={() => handleMenuAction('fullscreen')}>
-                    <Maximize2 size={14} />
-                    <span>{language === 'ru' ? 'На весь экран' : 'Full Screen'}</span>
-                  </button>
-                  <div className="menu-divider" />
-                  <button onClick={() => handleMenuAction('popout')}>
-                    <ExternalLink size={14} />
-                    <span>{language === 'ru' ? 'Открепить' : 'Pop Out'}</span>
-                  </button>
-                </div>
-              )}
+              <div className="panel-menu">
+                <button 
+                  className="menu-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowMenu(!showMenu);
+                  }}
+                >
+                  <MoreVertical size={18} />
+                </button>
+                
+                {showMenu && (
+                  <div className="menu-dropdown">
+                    <button onClick={() => handleMenuAction('mini')}>
+                      <span className="mini-icon">½</span>
+                      <span>{language === 'ru' ? 'Мини-режим' : 'Mini Mode'}</span>
+                    </button>
+                    <button onClick={() => handleMenuAction('fullscreen')}>
+                      <Maximize2 size={14} />
+                      <span>{language === 'ru' ? 'На весь экран' : 'Full Screen'}</span>
+                    </button>
+                    <div className="menu-divider" />
+                    <button onClick={() => handleMenuAction('popout')}>
+                      <ExternalLink size={14} />
+                      <span>{language === 'ru' ? 'Открепить' : 'Pop Out'}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
