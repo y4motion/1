@@ -529,11 +529,6 @@ const GlassyChatBar = () => {
       )}
 
       {/* ========== EXPANDED PANEL ========== */}
-          )}
-        </div>
-      )}
-
-      {/* ========== EXPANDED PANEL ========== */}
       {!isCollapsed && (
         <div 
           ref={panelRef}
