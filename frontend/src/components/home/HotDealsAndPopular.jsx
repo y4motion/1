@@ -104,7 +104,7 @@ export default function HotDealsAndPopular() {
         <div className="hot-deals-grid">
           
           {/* LEFT: Popular */}
-          <div className="popular-column">
+          <div className="popular-column scroll-reveal">
             <div className="column-header">
               <div className="column-icon">
                 <TrendingUp size={20} />
@@ -139,7 +139,7 @@ export default function HotDealsAndPopular() {
           </div>
           
           {/* RIGHT: Deals */}
-          <div className="deals-column">
+          <div className="deals-column scroll-reveal">
             <div className="column-header">
               <div className="column-icon">
                 <Zap size={20} />
