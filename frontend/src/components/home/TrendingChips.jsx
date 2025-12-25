@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
-import { useStaggerReveal } from '../../hooks/useScrollReveal';
 import './TrendingChips.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
+// Fallback данные
+const fallbackTrending = [
+  { id: '1', rank: 1, name: 'RTX 5090', growth: '+156%', isHot: true },
+  { id: '2', rank: 2, name: 'Ryzen 9 9950X', growth: '+89%', isHot: true },
+  { id: '3', rank: 3, name: 'DDR5 64GB', growth: '+67%', isHot: true },
+  { id: '4', rank: 4, name: 'Samsung 990 Pro', growth: '+45%', isHot: false },
+  { id: '5', rank: 5, name: 'RTX 4090', growth: '+34%', isHot: false },
+  { id: '6', rank: 6, name: 'i9-14900K', growth: '+28%', isHot: false },
+  { id: '7', rank: 7, name: 'ROG Strix Z790', growth: '+23%', isHot: false },
+  { id: '8', rank: 8, name: 'Corsair 7000D', growth: '+19%', isHot: false },
+];
+
 const TrendingChips = () => {
-  const [trendingItems, setTrendingItems] = useState([]);
+  const [trendingItems, setTrendingItems] = useState(fallbackTrending);
   const [isLoading, setIsLoading] = useState(true);
-  const containerRef = useStaggerReveal('.trending-chip', 50);
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -17,10 +27,12 @@ const TrendingChips = () => {
         const res = await fetch(`${API_URL}/api/homepage/trending-searches?limit=12`);
         if (res.ok) {
           const data = await res.json();
-          setTrendingItems(data);
+          if (data && data.length > 0) {
+            setTrendingItems(data);
+          }
         }
       } catch (err) {
-        console.error('Failed to fetch trending:', err);
+        console.log('Using fallback trending data');
       } finally {
         setIsLoading(false);
       }
