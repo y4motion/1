@@ -180,7 +180,7 @@
 }
 
 /* ========================================
-   CENTER SECTION - DOT & TEXT
+   CENTER SECTION - TEXT ONLY
    ======================================== */
 
 .bar-center {
@@ -191,62 +191,22 @@
   z-index: 2;
 }
 
-/* Always visible green dot */
-.online-dot {
-  width: 8px;
-  height: 8px;
-  background: #10b981;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-  animation: dot-pulse 8s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.online-dot.pulse-strong {
-  animation: dot-pulse-strong 1s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 90%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-  }
-  95% {
-    opacity: 0.8;
-    transform: scale(1.3);
-    box-shadow: 0 0 16px rgba(16, 185, 129, 0.8);
-  }
-}
-
-@keyframes dot-pulse-strong {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.5);
-    box-shadow: 0 0 20px rgba(16, 185, 129, 1);
-  }
-}
-
 /* Status text - hidden by default, fade in on hover */
 .status-text {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateY(5px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
 .status-text.visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 /* Unread badge - hidden by default */
