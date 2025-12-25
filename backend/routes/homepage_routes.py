@@ -197,8 +197,7 @@ async def get_trending_products(limit: int = 8):
     Get trending products for TrendingSection component.
     Based on views, purchases, and activity.
     """
-    from server import get_database
-    db = get_database()
+    from database import db
     
     products = []
     try:
