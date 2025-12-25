@@ -144,7 +144,7 @@
     90deg,
     transparent 0%,
     rgba(255, 255, 255, 0.15) 20%,
-    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.25) 50%,
     rgba(255, 255, 255, 0.15) 80%,
     transparent 100%
   );
@@ -166,7 +166,7 @@
     90deg,
     transparent 0%,
     rgba(255, 255, 255, 0.2) 15%,
-    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.4) 50%,
     rgba(255, 255, 255, 0.2) 85%,
     transparent 100%
   );
@@ -177,22 +177,6 @@
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.3),
     0 0 20px rgba(255, 255, 255, 0.05);
-}
-
-/* New message pulse effect */
-.glassy-chat-bar.has-new-message .chat-collapsed-bar {
-  animation: bar-pulse 2s ease-in-out infinite;
-}
-
-@keyframes bar-pulse {
-  0%, 100% {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  50% {
-    box-shadow: 
-      0 4px 20px rgba(139, 92, 246, 0.3),
-      0 0 30px rgba(139, 92, 246, 0.1);
-  }
 }
 
 /* ========================================
