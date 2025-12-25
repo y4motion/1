@@ -541,24 +541,34 @@ export default function HeroSection() {
           {/* Greeting text */}
           <div 
             className={`greeting-text ${greetingPhase === 'fading' ? 'fade-up' : ''}`}
-            style={{ textAlign: 'center', padding: '2rem', maxWidth: '700px' }}
+            style={{ textAlign: 'center', padding: '2rem' }}
           >
             <span style={{
               fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
-              fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', 
+              fontSize: '2rem', 
               color: '#ffffff',
-              textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3)',
-              letterSpacing: '0.02em',
-              display: 'inline'
+              textShadow: '0 0 40px rgba(255,255,255,0.8), 0 0 80px rgba(255,255,255,0.4)',
+              letterSpacing: '0.02em'
             }}>
-              {displayText}
+              {displayText || ''}
             </span>
-            {greetingPhase === 'typing' && <span className="cursor-blink" />}
+            {greetingPhase === 'typing' && (
+              <span style={{
+                display: 'inline-block',
+                width: '3px',
+                height: '1.8rem',
+                background: '#fff',
+                marginLeft: '4px',
+                verticalAlign: 'middle',
+                animation: 'blink 1s step-end infinite',
+                boxShadow: '0 0 15px rgba(255,255,255,0.8)'
+              }} />
+            )}
           </div>
 
-          {/* Preview of search icon during fade - creates seamless transition */}
+          {/* Preview of search icon during fade */}
           {greetingPhase === 'fading' && (
-            <div className="search-preview" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
+            <div style={{ animation: 'fadeInUp 0.6s ease-out' }}>
               <div style={{
                 width: '60px',
                 height: '60px',
