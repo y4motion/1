@@ -70,20 +70,19 @@ const TrendingChips = () => {
 
   return (
     <section className="trending-chips">
-      <div className="trending-chips__container">
-        <div className="trending-chips__header">
+      <div ref={containerRef} className="trending-chips__container">
+        <div className="trending-chips__header scroll-reveal">
           <TrendingUp size={20} className="trending-chips__icon" />
           <h2 className="trending-chips__title">Горячее прямо сейчас</h2>
           <span className="trending-chips__live-badge">LIVE</span>
         </div>
         
         <div className="trending-chips__scroll">
-          {trendingItems.map((item, index) => (
+          {trendingItems.map((item) => (
             <Link
               key={item.id}
               to={`/marketplace?search=${encodeURIComponent(item.name)}`}
-              className={`trending-chip ${item.rank <= 3 ? 'trending-chip--top' : ''} ${item.isHot ? 'trending-chip--hot' : ''}`}
-              style={{ animationDelay: `${index * 0.05}s` }}
+              className={`trending-chip stagger-item ${item.rank <= 3 ? 'trending-chip--top' : ''} ${item.isHot ? 'trending-chip--hot' : ''}`}
               onClick={() => handleChipClick(item)}
             >
               <span className="trending-chip__rank">#{item.rank}</span>
