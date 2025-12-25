@@ -351,8 +351,22 @@ const GlassyChatBar = () => {
     if (path.startsWith('/marketplace')) {
       return { type: 'marketplace', label: language === 'ru' ? 'Обсуждение маркетплейса' : 'Marketplace Discussion' };
     }
+    if (path.match(/^\/glassy-swap\/[^/]+$/)) {
+      // On specific listing page - extract listing ID
+      const listingId = path.split('/')[2];
+      return { 
+        type: 'swap_listing', 
+        id: listingId, 
+        label: language === 'ru' ? 'Обсуждение объявления' : 'Listing Discussion',
+        icon: 'listing'
+      };
+    }
     if (path.startsWith('/glassy-swap')) {
-      return { type: 'swap', label: language === 'ru' ? 'Обмен и продажа' : 'Swap & Trade' };
+      return { 
+        type: 'swap', 
+        label: language === 'ru' ? 'Swap Сообщество' : 'Swap Community',
+        icon: 'swap'
+      };
     }
     if (path.startsWith('/pc-builder')) {
       return { type: 'pcbuilder', label: language === 'ru' ? 'Помощь со сборкой' : 'Build Help' };
