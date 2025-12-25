@@ -511,7 +511,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Price Drop Alert System - NEW FEATURE"
+    - "GlassyChatBar Bug Fixes (Fork)"
   stuck_tasks:
     - "Theme Switching System - CRITICAL BUGS"
   test_all: false
