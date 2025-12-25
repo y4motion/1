@@ -1095,6 +1095,45 @@ const CreateWizard = ({ isDark, isMinimalMod, language, categories, onClose, onS
     3: language === 'ru' ? 'Подробное описание повышает доверие покупателей' : 'Detailed description builds buyer trust',
     4: language === 'ru' ? 'Отличная работа! Объявление готово к публикации' : 'Great work! Your listing is ready',
   };
+
+  // Handle file upload
+  const handleFileUpload = async (files) => {
+    if (uploadedImages.length + files.length > 5) {
+      alert(language === 'ru' ? 'Максимум 5 фото' : 'Maximum 5 photos');
+      return;
+    }
+    
+    setUploading(true);
+    const token = localStorage.getItem('auth_token');
+    
+    for (const file of files) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert(language === 'ru' ? `${file.name} слишком большой` : `${file.name} is too large`);
+        continue;
+      }
+      
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+      
+      try {
+        const res = await fetch(`${API_URL}/api/upload/image`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formDataUpload
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          setUploadedImages(prev => [...prev, data]);
+          setFormData(prev => ({ ...prev, images: [...prev.images, data.url] }));
+        }
+      } catch (err) {
+        console.error('Upload error:', err);
+      }
+    }
+    
+    setUploading(false);
+  };
   
   const handleSubmit = async () => {
     if (!user) {
