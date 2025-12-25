@@ -163,8 +163,10 @@ const GlassyChatBar = () => {
             timestamp: new Date(data.message.timestamp),
           });
           
-          // Update unread if not expanded
+          // Update unread if not expanded + trigger new message animation
           setUnreadCounts(prev => ({ ...prev, ai: prev.ai + 1 }));
+          setHasNewMessage(true);
+          setTimeout(() => setHasNewMessage(false), 3000);
         }
       };
       
