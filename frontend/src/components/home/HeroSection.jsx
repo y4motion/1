@@ -191,58 +191,6 @@ export default function HeroSection() {
     };
   }, [placeholderIndex, isTypingPlaceholder, isSearchActive, searchQuery, placeholders]);
 
-  // Magnetic cursor effect - particles react to mouse
-  useEffect(() => {
-    if (!greetingDone) return;
-    
-    let rafId;
-    const handleMouseMove = (e) => {
-      rafId = requestAnimationFrame(() => {
-        const particles = document.querySelectorAll('.hero-particle');
-        particles.forEach((particle) => {
-          const rect = particle.getBoundingClientRect();
-          const dx = e.clientX - (rect.left + rect.width / 2);
-          const dy = e.clientY - (rect.top + rect.height / 2);
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 150) {
-            const force = (150 - distance) / 150;
-            const translateX = -dx * force * 0.15;
-            const translateY = -dy * force * 0.15;
-            particle.style.transform = `translate(${translateX}px, ${translateY}px)`;
-          } else {
-            particle.style.transform = 'translate(0, 0)';
-          }
-        });
-      });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [greetingDone]);
-
-  // Parallax scroll effect
-  useEffect(() => {
-    if (!greetingDone) return;
-    
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const particles = document.querySelectorAll('.hero-particle');
-      particles.forEach((particle, i) => {
-        const speed = 0.03 + (i % 5) * 0.01;
-        const currentTransform = particle.style.transform || '';
-        const baseTranslate = currentTransform.includes('translate') ? '' : '';
-        particle.style.transform = `${baseTranslate} translateY(${scrollY * speed}px)`;
-      });
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [greetingDone]);
-
   // Hide hint after timeout
   useEffect(() => {
     if (showHint && !isSearchActive) {
