@@ -9,37 +9,32 @@ import HotDealsAndPopular from './home/HotDealsAndPopular';
 import LatestArticles from './home/LatestArticles';
 import '../styles/glassmorphism.css';
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
-      {/* Hero Section */}
+      {/* 1. Hero */}
       <HeroSection />
 
-      {/* Live Activity Feed - FOMO effect */}
+      {/* 2. Live Activity Feed */}
       <LiveActivityFeed />
 
-      {/* Trending Chips - Hot searches */}
+      {/* 3. Trending Chips */}
       <TrendingChips />
 
-      {/* Quick Access Grid - Navigation cards */}
+      {/* 4. Quick Access Grid */}
       <QuickAccessGrid />
 
-      {/* Testimonials */}
+      {/* 5. Testimonials */}
       <TestimonialsCarousel />
 
-      {/* Content Sections */}
-      <div style={{ padding: '0 2rem' }}>
-        {/* Shop By Category */}
-        <ShopByCategory />
+      {/* 6. Shop by Category */}
+      <ShopByCategory />
 
-        {/* Hot Deals & Popular - заменяет TrendingSection + Featured Deals */}
-        <HotDealsAndPopular />
+      {/* 7. Hot Deals & Popular */}
+      <HotDealsAndPopular />
 
-        {/* Latest Articles */}
-        <LatestArticles />
-      </div>
+      {/* 8. Latest Articles */}
+      <LatestArticles />
     </div>
   );
-};
-
-export default HomePage;
+}
