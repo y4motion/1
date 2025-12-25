@@ -98,6 +98,14 @@ const GlassyChatBar = () => {
     }
   }, [language]);
 
+  // Add message to specific tab (defined before WebSocket useEffect)
+  const addMessage = useCallback((tab, message) => {
+    setMessages(prev => ({
+      ...prev,
+      [tab]: [...(prev[tab] || []), message]
+    }));
+  }, []);
+
   // Initialize WebSocket
   useEffect(() => {
     const storedSessionId = localStorage.getItem('glassy_chat_session');
@@ -130,16 +138,13 @@ const GlassyChatBar = () => {
           // Already added locally
         } else if (data.type === 'bot_message') {
           setIsTyping(false);
-          const tab = activeTab === 'support' ? 'support' : 'ai';
-          addMessage(tab, {
+          addMessage('ai', {
             ...data.message,
             timestamp: new Date(data.message.timestamp),
           });
           
-          // Update unread if not on this tab
-          if (!isExpanded || activeTab !== tab) {
-            setUnreadCounts(prev => ({ ...prev, [tab]: prev[tab] + 1 }));
-          }
+          // Update unread if not expanded
+          setUnreadCounts(prev => ({ ...prev, ai: prev.ai + 1 }));
         }
       };
       
@@ -162,15 +167,7 @@ const GlassyChatBar = () => {
         wsRef.current.close();
       }
     };
-  }, []);
-
-  // Add message to specific tab
-  const addMessage = useCallback((tab, message) => {
-    setMessages(prev => ({
-      ...prev,
-      [tab]: [...(prev[tab] || []), message]
-    }));
-  }, []);
+  }, [addMessage]);
 
   // Scroll to bottom
   useEffect(() => {
