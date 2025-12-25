@@ -400,6 +400,32 @@
   justify-content: center;
 }
 
+/* Panel Controls - Collapse + Menu */
+.panel-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.collapse-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--chat-text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--chat-text);
+}
+
 /* Panel Menu */
 .panel-menu {
   position: relative;
