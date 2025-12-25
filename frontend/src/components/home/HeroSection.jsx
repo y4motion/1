@@ -56,6 +56,170 @@ export default function HeroSection() {
     })), []
   );
 
+  // === IDLE ANIMATIONS CONFIG ===
+  const idleAnimations = useMemo(() => [
+    { id: 'eye', name: 'The Eye', rarity: 'rare', duration: 4000, emoji: '👁️' },
+    { id: 'vibration', name: 'Vibration', rarity: 'common', duration: 1000, emoji: '📳' },
+    { id: 'pokeball', name: 'Pokeball', rarity: 'legendary', duration: 5000, emoji: '⚪' },
+    { id: 'gravity', name: 'Gravity Drop', rarity: 'uncommon', duration: 4000, emoji: '⬇️' },
+    { id: 'spin', name: 'Spin', rarity: 'common', duration: 3000, emoji: '🌀' },
+    { id: 'teleport', name: 'Teleport', rarity: 'rare', duration: 3500, emoji: '✨' },
+    { id: 'bubble', name: 'Bubble', rarity: 'epic', duration: 4500, emoji: '🫧' },
+    { id: 'soundwave', name: 'Sound Wave', rarity: 'uncommon', duration: 2500, emoji: '🔊' }
+  ], []);
+
+  const rarityWeights = useMemo(() => ({
+    common: 35,
+    uncommon: 25,
+    rare: 20,
+    epic: 15,
+    legendary: 5
+  }), []);
+
+  // Select random animation based on rarity
+  const selectRandomAnimation = useCallback(() => {
+    const totalWeight = Object.values(rarityWeights).reduce((a, b) => a + b, 0);
+    let random = Math.random() * totalWeight;
+    
+    let selectedRarity;
+    for (const [rarity, weight] of Object.entries(rarityWeights)) {
+      random -= weight;
+      if (random <= 0) {
+        selectedRarity = rarity;
+        break;
+      }
+    }
+    
+    const availableAnimations = idleAnimations.filter(
+      anim => anim.rarity === selectedRarity
+    );
+    
+    return availableAnimations[Math.floor(Math.random() * availableAnimations.length)];
+  }, [idleAnimations, rarityWeights]);
+
+  // Track discovered easter eggs
+  const trackEasterEggDiscovery = useCallback((animationId) => {
+    const discovered = JSON.parse(localStorage.getItem('easterEggsFound') || '{}');
+    discovered[animationId] = (discovered[animationId] || 0) + 1;
+    localStorage.setItem('easterEggsFound', JSON.stringify(discovered));
+    
+    // Check if all 8 discovered - achievement!
+    if (Object.keys(discovered).length === 8) {
+      console.log('🏆 Achievement Unlocked: Easter Egg Hunter!');
+    }
+  }, []);
+
+  // Reset idle timer on user interaction
+  const resetIdleTimer = useCallback(() => {
+    setIdleTime(0);
+    setActiveIdleAnimation(null);
+    setIdleAnimationPhase(null);
+    
+    if (idleTimerRef.current) {
+      clearInterval(idleTimerRef.current);
+    }
+    
+    // Only start timer if search is not active
+    if (!isSearchActive) {
+      idleTimerRef.current = setInterval(() => {
+        setIdleTime(prev => prev + 1);
+      }, 1000);
+    }
+  }, [isSearchActive]);
+
+  // Trigger all animations (Konami code)
+  const triggerAllEasterEggs = useCallback(() => {
+    console.log('🎮 KONAMI CODE ACTIVATED! Playing all animations...');
+    let index = 0;
+    
+    const playNext = () => {
+      if (index < idleAnimations.length) {
+        const anim = idleAnimations[index];
+        setActiveIdleAnimation(anim);
+        trackEasterEggDiscovery(anim.id);
+        
+        setTimeout(() => {
+          setActiveIdleAnimation(null);
+          index++;
+          setTimeout(playNext, 500);
+        }, anim.duration);
+      }
+    };
+    
+    playNext();
+  }, [idleAnimations, trackEasterEggDiscovery]);
+
+  // Idle timer effect
+  useEffect(() => {
+    if (idleTime >= 30 && !activeIdleAnimation && !isSearchActive) {
+      // Wait random time (5-15 sec) before animation
+      const randomDelay = 5000 + Math.random() * 10000;
+      
+      const timeout = setTimeout(() => {
+        const animation = selectRandomAnimation();
+        setActiveIdleAnimation(animation);
+        trackEasterEggDiscovery(animation.id);
+        
+        console.log(`🎭 Easter Egg: ${animation.name} (${animation.rarity}) ${animation.emoji}`);
+        
+        // Remove animation after duration
+        setTimeout(() => {
+          setActiveIdleAnimation(null);
+          resetIdleTimer();
+        }, animation.duration);
+      }, randomDelay);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [idleTime, activeIdleAnimation, isSearchActive, selectRandomAnimation, trackEasterEggDiscovery, resetIdleTimer]);
+
+  // Setup idle detection
+  useEffect(() => {
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    
+    const handleActivity = () => {
+      if (!activeIdleAnimation) {
+        resetIdleTimer();
+      }
+    };
+    
+    events.forEach(event => {
+      window.addEventListener(event, handleActivity, { passive: true });
+    });
+    
+    // Initial timer
+    resetIdleTimer();
+    
+    return () => {
+      events.forEach(event => {
+        window.removeEventListener(event, handleActivity);
+      });
+      if (idleTimerRef.current) {
+        clearInterval(idleTimerRef.current);
+      }
+    };
+  }, [resetIdleTimer, activeIdleAnimation]);
+
+  // Konami Code detection
+  useEffect(() => {
+    const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    
+    const handleKeyDown = (e) => {
+      konamiCodeRef.current.push(e.key);
+      if (konamiCodeRef.current.length > 10) {
+        konamiCodeRef.current.shift();
+      }
+      
+      if (konamiCodeRef.current.join(',') === konamiSequence.join(',')) {
+        triggerAllEasterEggs();
+        konamiCodeRef.current = [];
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [triggerAllEasterEggs]);
+
   // Default placeholder suggestions
   const defaultPlaceholders = useMemo(() => [
     'RTX 5090 — цены и наличие',
