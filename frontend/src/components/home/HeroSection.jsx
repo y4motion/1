@@ -649,7 +649,7 @@ export default function HeroSection() {
             color: 'rgba(255,255,255,0.9)', fontSize: '1.25rem', 
             fontFamily: '"SF Mono", monospace', textAlign: 'center'
           }}>
-            Okay! Here's your sandwich!
+            Okay! Here&apos;s your sandwich!
           </div>
         </div>
       )}
