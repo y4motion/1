@@ -139,6 +139,7 @@ api_router.include_router(notification_router)
 api_router.include_router(search_router)
 api_router.include_router(recommendation_router)
 api_router.include_router(price_alert_router)
+api_router.include_router(ai_router)
 
 # Include the router in the main app
 app.include_router(api_router)
