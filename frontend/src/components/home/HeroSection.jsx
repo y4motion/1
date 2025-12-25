@@ -535,8 +535,7 @@ export default function HeroSection() {
                 top: `${p.startY}%`,
                 animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
                 animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
-                willChange: 'transform, opacity',
-                transition: 'transform 0.3s ease-out'
+                willChange: 'opacity'
               }}
             />
           ))}
