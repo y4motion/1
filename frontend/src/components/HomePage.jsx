@@ -7,10 +7,13 @@ import TestimonialsCarousel from './TestimonialsCarousel';
 import ShopByCategory from './home/ShopByCategory';
 import HotDealsAndPopular from './home/HotDealsAndPopular';
 import LatestArticles from './home/LatestArticles';
+import { useScrollRevealInit } from '../hooks/useScrollRevealInit';
 import '../styles/glassmorphism.css';
 import '../styles/animations.css';
 
 export default function HomePage() {
+  // Initialize scroll reveal animations
+  useScrollRevealInit();
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
       {/* 1. Hero */}
