@@ -887,12 +887,12 @@ const heroStyles = `
     min-width: 220px;
     background: rgba(8, 8, 12, 0.98);
     backdrop-filter: blur(32px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
     padding: 0.5rem;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
     animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 100;
+    z-index: 9999;
   }
 
   .multi-tool-option {
