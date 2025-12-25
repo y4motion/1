@@ -163,10 +163,11 @@ const GlassyChatBar = () => {
             timestamp: new Date(data.message.timestamp),
           });
           
-          // Update unread if not expanded + trigger new message animation
+          // Update unread if not expanded + set message source for indicator
           setUnreadCounts(prev => ({ ...prev, ai: prev.ai + 1 }));
-          setHasNewMessage(true);
-          setTimeout(() => setHasNewMessage(false), 3000);
+          setLastMessageSource('ai');
+          // Clear indicator after 5 seconds
+          setTimeout(() => setLastMessageSource(null), 5000);
         }
       };
       
