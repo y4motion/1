@@ -802,7 +802,7 @@ const heroStyles = `
   .cursor-blink {
     display: inline-block;
     width: 3px;
-    height: 1.2em;
+    height: 1.8rem;
     background: #fff;
     margin-left: 4px;
     vertical-align: text-bottom;
@@ -810,34 +810,52 @@ const heroStyles = `
     box-shadow: 0 0 15px rgba(255,255,255,0.8);
   }
 
+  /* Particles container transition */
+  .particles-container {
+    opacity: 0;
+    transition: opacity 1.2s ease-out;
+  }
+
+  .particles-container.appearing {
+    opacity: 0.5;
+  }
+
+  .particles-container.visible {
+    opacity: 1;
+  }
+
   /* Greeting Overlay Transitions */
   .greeting-overlay {
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: background 1s ease-out;
   }
 
   .greeting-overlay.fading {
+    background: transparent !important;
+  }
+
+  .greeting-overlay.done {
     opacity: 0;
-    transform: scale(1.02);
+    pointer-events: none;
   }
 
   .greeting-text {
-    transition: all 0.6s ease-out;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .greeting-text.fade-up {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-40px) scale(0.95);
   }
 
   /* Search container entrance */
   .hero-search-container.entrance {
-    animation: searchEntrance 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: searchEntrance 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   @keyframes searchEntrance {
     from {
       opacity: 0;
-      transform: translateY(20px) scale(0.95);
+      transform: translateY(30px) scale(0.9);
     }
     to {
       opacity: 1;
