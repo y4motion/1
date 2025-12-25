@@ -53,8 +53,8 @@
 /* Grid */
 .shop-by-category__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
 }
 
 /* Category Card */
