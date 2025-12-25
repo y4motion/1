@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Zap } from 'lucide-react';
+import { TrendingUp, Zap, Clock } from 'lucide-react';
 import './HotDealsAndPopular.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
@@ -23,7 +23,9 @@ const fallbackDeals = [
     currentPrice: 149.99,
     originalPrice: 199.99,
     discount: 25,
-    stock: 5
+    stock: 5,
+    endDate: new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(),
+    isNew: false
   },
   {
     id: '2',
@@ -33,7 +35,9 @@ const fallbackDeals = [
     currentPrice: 179.99,
     originalPrice: 229.99,
     discount: 22,
-    stock: 8
+    stock: 8,
+    endDate: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString(),
+    isNew: false
   },
   {
     id: '3',
@@ -43,7 +47,9 @@ const fallbackDeals = [
     currentPrice: 299.99,
     originalPrice: 349.99,
     discount: 14,
-    stock: 3
+    stock: 3,
+    endDate: new Date(Date.now() + 1.5 * 60 * 60 * 1000).toISOString(),
+    isNew: true
   }
 ];
 
@@ -51,11 +57,19 @@ export default function HotDealsAndPopular() {
   const [popularProducts, setPopularProducts] = useState(fallbackPopular);
   const [deals, setDeals] = useState(fallbackDeals);
   const [loading, setLoading] = useState(true);
+  const [timeNow, setTimeNow] = useState(Date.now());
+
+  // Update timer every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeNow(Date.now());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch popular products
         const popularRes = await fetch(`${API_URL}/api/analytics/popular?period=month&limit=5`);
         if (popularRes.ok) {
           const data = await popularRes.json();
@@ -68,7 +82,6 @@ export default function HotDealsAndPopular() {
       }
 
       try {
-        // Fetch deals
         const dealsRes = await fetch(`${API_URL}/api/products/deals?active=true&limit=3`);
         if (dealsRes.ok) {
           const data = await dealsRes.json();
@@ -97,6 +110,48 @@ export default function HotDealsAndPopular() {
     if (rank <= 3) return `popular-item--top-${rank}`;
     return '';
   };
+
+  const getTimeRemaining = (endDate) => {
+    if (!endDate) return null;
+    
+    const end = new Date(endDate);
+    const diff = end - timeNow;
+    
+    if (diff <= 0) return null;
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (hours > 24) {
+      const days = Math.floor(hours / 24);
+      return `${days}д ${hours % 24}ч`;
+    }
+    
+    return `${hours}ч ${minutes}м`;
+  };
+
+  if (loading) {
+    return (
+      <section className="hot-deals-section">
+        <div className="hot-deals-container">
+          <div className="hot-deals-grid">
+            <div className="popular-column">
+              <div className="skeleton skeleton-header" />
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="skeleton skeleton-item" />
+              ))}
+            </div>
+            <div className="deals-column">
+              <div className="skeleton skeleton-header" />
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="skeleton skeleton-deal" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="hot-deals-section">
