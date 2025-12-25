@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
-  MessageCircle,
-  ChevronUp,
-  ChevronDown,
   Mic,
   MicOff,
   Send,
   Paperclip,
-  X,
   Bot,
   Users,
   MessageSquare,
   Headphones,
-  Maximize2,
-  Minimize2,
   Sparkles,
+  MoreVertical,
+  Minimize2,
+  Maximize2,
+  GripHorizontal,
+  ExternalLink,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -33,18 +32,29 @@ const TABS = [
   { id: 'support', icon: Headphones, label: { en: 'Support', ru: 'Поддержка' } },
 ];
 
+// Panel modes
+const PANEL_MODES = {
+  COLLAPSED: 'collapsed',
+  MINI: 'mini',      // 50% height
+  EXPANDED: 'expanded', // 75% height
+  FULLSCREEN: 'fullscreen', // 100% height
+};
+
 const GlassyChatBar = () => {
   const { theme } = useTheme();
   const { language } = useLanguage();
   const { user } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
 
-  // State
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  // Panel State
+  const [panelMode, setPanelMode] = useState(PANEL_MODES.COLLAPSED);
+  const [customHeight, setCustomHeight] = useState(null); // For drag resize
   const [isHovered, setIsHovered] = useState(false);
-  const [lastMessageSource, setLastMessageSource] = useState(null); // 'ai', 'user', 'support', 'community'
+  const [isDragging, setIsDragging] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [peekMessage, setPeekMessage] = useState(null);
+  
+  // Chat State
   const [activeTab, setActiveTab] = useState('ai');
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -53,6 +63,8 @@ const GlassyChatBar = () => {
   const [sessionId, setSessionId] = useState(null);
   const [messages, setMessages] = useState({});
   const [unreadCounts, setUnreadCounts] = useState({ ai: 0, messages: 0, community: 0, support: 0 });
+  const [lastMessageSource, setLastMessageSource] = useState(null);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
 
   // Refs
   const wsRef = useRef(null);
@@ -60,21 +72,152 @@ const GlassyChatBar = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
+  const panelRef = useRef(null);
+  const lastInteractionRef = useRef(Date.now());
+  const autoCollapseTimerRef = useRef(null);
+  const dragStartY = useRef(0);
+  const dragStartHeight = useRef(0);
 
-  // Listen for external open events (from /chat redirect)
+  // ========================================
+  // AUTO-COLLAPSE LOGIC
+  // ========================================
+  
+  const resetAutoCollapseTimer = useCallback(() => {
+    lastInteractionRef.current = Date.now();
+    if (autoCollapseTimerRef.current) {
+      clearTimeout(autoCollapseTimerRef.current);
+    }
+  }, []);
+
+  // Track user interaction
+  const handleInteraction = useCallback(() => {
+    resetAutoCollapseTimer();
+  }, [resetAutoCollapseTimer]);
+
+  // Auto-collapse on scroll after 15s of inactivity
+  useEffect(() => {
+    if (panelMode === PANEL_MODES.COLLAPSED) return;
+
+    const handleScroll = () => {
+      const timeSinceLastInteraction = Date.now() - lastInteractionRef.current;
+      if (timeSinceLastInteraction > 15000) { // 15 seconds
+        setPanelMode(PANEL_MODES.COLLAPSED);
+        setCustomHeight(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [panelMode]);
+
+  // ========================================
+  // GESTURE HANDLERS
+  // ========================================
+
+  // Touch start for swipe detection
+  const touchStartRef = useRef({ y: 0, time: 0 });
+
+  const handleTouchStart = (e) => {
+    touchStartRef.current = {
+      y: e.touches[0].clientY,
+      time: Date.now()
+    };
+  };
+
+  const handleTouchEnd = (e) => {
+    const deltaY = touchStartRef.current.y - e.changedTouches[0].clientY;
+    const deltaTime = Date.now() - touchStartRef.current.time;
+    
+    // Swipe up from collapsed bar
+    if (panelMode === PANEL_MODES.COLLAPSED && deltaY > 50 && deltaTime < 300) {
+      setPanelMode(PANEL_MODES.EXPANDED);
+      handleInteraction();
+    }
+    // Swipe down from expanded panel
+    else if (panelMode !== PANEL_MODES.COLLAPSED && deltaY < -50 && deltaTime < 300) {
+      setPanelMode(PANEL_MODES.COLLAPSED);
+      setCustomHeight(null);
+    }
+  };
+
+  // Double tap to toggle mini/fullscreen
+  const lastTapRef = useRef(0);
+  
+  const handleHeaderDoubleTap = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      // Double tap detected
+      if (panelMode === PANEL_MODES.FULLSCREEN) {
+        setPanelMode(PANEL_MODES.MINI);
+      } else {
+        setPanelMode(PANEL_MODES.FULLSCREEN);
+      }
+      setCustomHeight(null);
+      handleInteraction();
+    }
+    lastTapRef.current = now;
+  };
+
+  // ========================================
+  // DRAG RESIZE
+  // ========================================
+
+  const handleDragStart = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+    dragStartY.current = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    dragStartHeight.current = panelRef.current?.offsetHeight || window.innerHeight * 0.75;
+    
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchmove', handleDragMove);
+    document.addEventListener('touchend', handleDragEnd);
+  };
+
+  const handleDragMove = useCallback((e) => {
+    if (!isDragging) return;
+    
+    const currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    const deltaY = dragStartY.current - currentY;
+    const newHeight = Math.min(
+      Math.max(dragStartHeight.current + deltaY, window.innerHeight * 0.3),
+      window.innerHeight * 0.95
+    );
+    
+    setCustomHeight(newHeight);
+    setPanelMode(PANEL_MODES.EXPANDED); // Switch to expanded mode when dragging
+  }, [isDragging]);
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+    document.removeEventListener('mousemove', handleDragMove);
+    document.removeEventListener('mouseup', handleDragEnd);
+    document.removeEventListener('touchmove', handleDragMove);
+    document.removeEventListener('touchend', handleDragEnd);
+    handleInteraction();
+  }, [handleDragMove, handleInteraction]);
+
+  // ========================================
+  // EXTERNAL OPEN EVENT
+  // ========================================
+
   useEffect(() => {
     const handleOpenChat = (event) => {
-      setIsExpanded(true);
+      setPanelMode(PANEL_MODES.EXPANDED);
       if (event.detail?.tab) {
         setActiveTab(event.detail.tab);
       }
+      handleInteraction();
     };
     
     window.addEventListener('openGlassyChat', handleOpenChat);
     return () => window.removeEventListener('openGlassyChat', handleOpenChat);
-  }, []);
+  }, [handleInteraction]);
 
-  // Check Web Speech API support
+  // ========================================
+  // SPEECH RECOGNITION
+  // ========================================
+
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     setSpeechSupported(!!SpeechRecognition);
@@ -91,34 +234,26 @@ const GlassyChatBar = () => {
         setIsRecording(false);
       };
       
-      recognitionRef.current.onerror = () => {
-        setIsRecording(false);
-      };
-      
-      recognitionRef.current.onend = () => {
-        setIsRecording(false);
-      };
+      recognitionRef.current.onerror = () => setIsRecording(false);
+      recognitionRef.current.onend = () => setIsRecording(false);
     }
   }, [language]);
 
-  // Add message to specific tab (with deduplication)
+  // ========================================
+  // WEBSOCKET
+  // ========================================
+
   const addMessage = useCallback((tab, message) => {
     setMessages(prev => {
       const tabMessages = prev[tab] || [];
-      // Prevent duplicate messages by checking id
       if (message.id && tabMessages.some(m => m.id === message.id)) {
         return prev;
       }
-      return {
-        ...prev,
-        [tab]: [...tabMessages, message]
-      };
+      return { ...prev, [tab]: [...tabMessages, message] };
     });
   }, []);
 
-  // Initialize WebSocket
   useEffect(() => {
-    // Prevent double initialization in StrictMode
     if (wsInitialized.current) return;
     wsInitialized.current = true;
     
@@ -130,21 +265,17 @@ const GlassyChatBar = () => {
     }
     setSessionId(newSessionId);
 
-    // Connect WebSocket
     let systemMessageReceived = false;
     
     const connectWebSocket = () => {
       const ws = new WebSocket(`${WS_URL}/api/ws/support-chat/${newSessionId}`);
       
-      ws.onopen = () => {
-        console.log('GlassyChatBar WebSocket connected');
-      };
+      ws.onopen = () => console.log('GlassyChatBar WebSocket connected');
       
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
         
         if (data.type === 'system') {
-          // Prevent duplicate system messages on reconnect
           if (!systemMessageReceived) {
             systemMessageReceived = true;
             addMessage('ai', {
@@ -154,43 +285,42 @@ const GlassyChatBar = () => {
               timestamp: new Date(data.timestamp),
             });
           }
-        } else if (data.type === 'user_message') {
-          // Already added locally
         } else if (data.type === 'bot_message') {
           setIsTyping(false);
-          addMessage('ai', {
+          const newMsg = {
             ...data.message,
             timestamp: new Date(data.message.timestamp),
-          });
+          };
+          addMessage('ai', newMsg);
           
-          // Update unread if not expanded + set message source for indicator
+          // Update unread + indicators
           setUnreadCounts(prev => ({ ...prev, ai: prev.ai + 1 }));
           setLastMessageSource('ai');
-          // Clear indicator after 5 seconds
-          setTimeout(() => setLastMessageSource(null), 5000);
+          setHasNewMessage(true);
+          
+          // Show peek preview if collapsed
+          if (panelMode === PANEL_MODES.COLLAPSED) {
+            setPeekMessage(data.message.text?.substring(0, 60) + '...');
+            setTimeout(() => setPeekMessage(null), 3000);
+          }
+          
+          setTimeout(() => {
+            setLastMessageSource(null);
+            setHasNewMessage(false);
+          }, 5000);
         }
       };
       
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-      
-      ws.onclose = () => {
-        console.log('WebSocket disconnected, reconnecting...');
-        setTimeout(connectWebSocket, 3000);
-      };
+      ws.onerror = (error) => console.error('WebSocket error:', error);
+      ws.onclose = () => setTimeout(connectWebSocket, 3000);
       
       wsRef.current = ws;
     };
     
     connectWebSocket();
     
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, [addMessage]);
+    return () => wsRef.current?.close();
+  }, [addMessage, panelMode]);
 
   // Scroll to bottom
   useEffect(() => {
@@ -199,12 +329,15 @@ const GlassyChatBar = () => {
 
   // Clear unread when tab is active
   useEffect(() => {
-    if (isExpanded) {
+    if (panelMode !== PANEL_MODES.COLLAPSED) {
       setUnreadCounts(prev => ({ ...prev, [activeTab]: 0 }));
     }
-  }, [activeTab, isExpanded]);
+  }, [activeTab, panelMode]);
 
-  // Get context based on current page
+  // ========================================
+  // CONTEXT DETECTION
+  // ========================================
+
   const getPageContext = useCallback(() => {
     const path = location.pathname;
     
@@ -225,7 +358,10 @@ const GlassyChatBar = () => {
     return { type: 'general', label: language === 'ru' ? 'Общий чат' : 'General Chat' };
   }, [location.pathname, language]);
 
-  // Send message
+  // ========================================
+  // MESSAGE HANDLERS
+  // ========================================
+
   const handleSendMessage = () => {
     if (!inputMessage.trim() || !wsRef.current) return;
     
@@ -236,25 +372,20 @@ const GlassyChatBar = () => {
       timestamp: new Date(),
     };
     
-    // Add to current tab
     addMessage(activeTab, userMessage);
     
-    // Send via WebSocket
     wsRef.current.send(JSON.stringify({
       message: inputMessage,
       user_id: user?.id || null,
       language: language,
-      context: {
-        tab: activeTab,
-        page: getPageContext()
-      }
+      context: { tab: activeTab, page: getPageContext() }
     }));
     
     setInputMessage('');
     setIsTyping(true);
+    handleInteraction();
   };
 
-  // Handle voice input
   const handleVoiceInput = () => {
     if (!speechSupported) return;
     
@@ -266,9 +397,9 @@ const GlassyChatBar = () => {
       recognitionRef.current?.start();
       setIsRecording(true);
     }
+    handleInteraction();
   };
 
-  // Handle key press
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -276,22 +407,58 @@ const GlassyChatBar = () => {
     }
   };
 
-  // Total unread count
+  // ========================================
+  // MENU ACTIONS
+  // ========================================
+
+  const handleMenuAction = (action) => {
+    setShowMenu(false);
+    switch (action) {
+      case 'collapse':
+        setPanelMode(PANEL_MODES.COLLAPSED);
+        setCustomHeight(null);
+        break;
+      case 'mini':
+        setPanelMode(PANEL_MODES.MINI);
+        setCustomHeight(null);
+        break;
+      case 'fullscreen':
+        setPanelMode(PANEL_MODES.FULLSCREEN);
+        setCustomHeight(null);
+        break;
+      case 'popout':
+        // Open in new window (if supported)
+        const chatUrl = `${window.location.origin}/chat?popout=true`;
+        window.open(chatUrl, 'GlassyChat', 'width=400,height=600,resizable=yes');
+        break;
+      default:
+        break;
+    }
+    handleInteraction();
+  };
+
+  // Close menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (showMenu && !e.target.closest('.panel-menu')) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [showMenu]);
+
+  // ========================================
+  // COMPUTED VALUES
+  // ========================================
+
   const totalUnread = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
-
-  // Current tab messages
   const currentMessages = messages[activeTab] || [];
-  
-  // Page context for community tab
   const pageContext = getPageContext();
-
   const isMinimalMod = theme === 'minimal-mod';
   const isDark = theme === 'dark' || isMinimalMod;
+  const showElements = isHovered || totalUnread > 0 || hasNewMessage;
   
-  // Show elements when hovered or has unread messages
-  const showElements = isHovered || totalUnread > 0;
-  
-  // Get indicator class based on last message source (priority: support > ai > community > user)
   const getIndicatorClass = () => {
     if (unreadCounts.support > 0) return 'indicator-support';
     if (unreadCounts.ai > 0 || lastMessageSource === 'ai') return 'indicator-ai';
@@ -300,95 +467,154 @@ const GlassyChatBar = () => {
     return '';
   };
 
+  const getPanelHeight = () => {
+    if (customHeight) return `${customHeight}px`;
+    switch (panelMode) {
+      case PANEL_MODES.MINI: return '50vh';
+      case PANEL_MODES.FULLSCREEN: return '100vh';
+      case PANEL_MODES.EXPANDED: return '75vh';
+      default: return 'auto';
+    }
+  };
+
+  const isCollapsed = panelMode === PANEL_MODES.COLLAPSED;
+
+  // ========================================
+  // RENDER
+  // ========================================
+
   return (
     <div
-      className={`glassy-chat-bar ${isExpanded ? 'expanded' : 'collapsed'} ${isFullscreen ? 'fullscreen' : ''} ${isMinimalMod ? 'minimal-mod' : ''} ${getIndicatorClass()}`}
+      className={`glassy-chat-bar ${panelMode} ${isMinimalMod ? 'minimal-mod' : ''} ${getIndicatorClass()} ${hasNewMessage ? 'has-new-message' : ''} ${isDragging ? 'dragging' : ''}`}
       style={{
         '--chat-bg': isDark ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         '--chat-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
         '--chat-text': isDark ? '#ffffff' : '#1a1a1a',
         '--chat-text-muted': isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
         '--chat-accent': '#8b5cf6',
+        '--panel-height': getPanelHeight(),
       }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* Ultra-Minimal Collapsed Bar */}
-      <div 
-        className={`chat-collapsed-bar ${showElements ? 'show-elements' : ''}`}
-        onClick={() => !isExpanded && setIsExpanded(true)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Thin white line across */}
-        <div className="thin-line" />
-        
-        {/* Center section - text only */}
-        <div className="bar-center">
-          {/* Text "Chat" appears on hover */}
-          <span className={`status-text ${showElements ? 'visible' : ''}`}>
-            Chat
-          </span>
+      {/* ========== COLLAPSED BAR ========== */}
+      {isCollapsed && (
+        <div 
+          className={`chat-collapsed-bar ${showElements ? 'show-elements' : ''}`}
+          onClick={() => {
+            setPanelMode(PANEL_MODES.EXPANDED);
+            handleInteraction();
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="thin-line" />
           
-          {/* Badge appears when unread */}
-          {totalUnread > 0 && (
-            <span className={`unread-badge ${showElements ? 'visible' : ''}`}>
-              {totalUnread > 9 ? '9+' : totalUnread}
+          <div className="bar-center">
+            <span className={`status-text ${showElements ? 'visible' : ''}`}>
+              Chat
             </span>
-          )}
-        </div>
-        
-        {/* Right section - appears on hover */}
-        <div className={`bar-right ${showElements ? 'visible' : ''}`}>
-          <button
-            className={`voice-btn ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleVoiceInput();
-            }}
-            title={!speechSupported ? (language === 'ru' ? 'Голосовой ввод недоступен' : 'Voice input not available') : ''}
-          >
-            {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Expanded Panel */}
-      {isExpanded && (
-        <div className="chat-expanded-panel">
-          {/* Drag Handle */}
-          <div className="drag-handle">
-            <div className="handle-bar" />
+            {totalUnread > 0 && (
+              <span className={`unread-badge ${showElements ? 'visible' : ''}`}>
+                {totalUnread > 9 ? '9+' : totalUnread}
+              </span>
+            )}
           </div>
           
-          {/* Tabs */}
-          <div className="chat-tabs">
-            {TABS.map(tab => (
-              <button
-                key={tab.id}
-                className={`chat-tab ${activeTab === tab.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                <tab.icon size={16} />
-                <span>{tab.label[language] || tab.label.en}</span>
-                {unreadCounts[tab.id] > 0 && (
-                  <span className="tab-badge">{unreadCounts[tab.id]}</span>
-                )}
-              </button>
-            ))}
+          <div className={`bar-right ${showElements ? 'visible' : ''}`}>
+            <button
+              className={`voice-btn ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleVoiceInput();
+              }}
+            >
+              {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+            </button>
+          </div>
+          
+          {/* Peek Preview */}
+          {peekMessage && (
+            <div className="peek-preview">
+              <Bot size={14} />
+              <span>{peekMessage}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ========== EXPANDED PANEL ========== */}
+      {!isCollapsed && (
+        <div 
+          ref={panelRef}
+          className="chat-expanded-panel"
+          style={{ height: getPanelHeight() }}
+          onClick={handleInteraction}
+        >
+          {/* Drag Handle */}
+          <div 
+            className={`drag-handle ${isDragging ? 'active' : ''}`}
+            onMouseDown={handleDragStart}
+            onTouchStart={handleDragStart}
+            onClick={handleHeaderDoubleTap}
+          >
+            <GripHorizontal size={20} className="grip-icon" />
+          </div>
+          
+          {/* Header with Tabs */}
+          <div className="chat-header">
+            <div className="chat-tabs">
+              {TABS.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`chat-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    handleInteraction();
+                  }}
+                >
+                  <tab.icon size={16} />
+                  <span>{tab.label[language] || tab.label.en}</span>
+                  {unreadCounts[tab.id] > 0 && (
+                    <span className="tab-badge">{unreadCounts[tab.id]}</span>
+                  )}
+                </button>
+              ))}
+            </div>
             
-            <div className="tab-actions">
-              <button
-                className="fullscreen-btn"
-                onClick={() => setIsFullscreen(!isFullscreen)}
-                title={isFullscreen ? 'Minimize' : 'Maximize'}
+            {/* Menu Button */}
+            <div className="panel-menu">
+              <button 
+                className="menu-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(!showMenu);
+                }}
               >
-                {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                <MoreVertical size={18} />
               </button>
-              <button
-                className="close-btn"
-                onClick={() => setIsExpanded(false)}
-              >
-                <X size={16} />
-              </button>
+              
+              {showMenu && (
+                <div className="menu-dropdown">
+                  <button onClick={() => handleMenuAction('collapse')}>
+                    <Minimize2 size={14} />
+                    <span>{language === 'ru' ? 'Свернуть' : 'Collapse'}</span>
+                  </button>
+                  <button onClick={() => handleMenuAction('mini')}>
+                    <span className="mini-icon">½</span>
+                    <span>{language === 'ru' ? 'Мини-режим' : 'Mini Mode'}</span>
+                  </button>
+                  <button onClick={() => handleMenuAction('fullscreen')}>
+                    <Maximize2 size={14} />
+                    <span>{language === 'ru' ? 'На весь экран' : 'Full Screen'}</span>
+                  </button>
+                  <div className="menu-divider" />
+                  <button onClick={() => handleMenuAction('popout')}>
+                    <ExternalLink size={14} />
+                    <span>{language === 'ru' ? 'Открепить' : 'Pop Out'}</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -417,8 +643,8 @@ const GlassyChatBar = () => {
               </div>
             </div>
           ) : (
-            /* Chat Area */
             <>
+              {/* Chat Area */}
               <div className="chat-messages">
                 {currentMessages.length === 0 && (
                   <div className="empty-chat">
@@ -446,9 +672,7 @@ const GlassyChatBar = () => {
                       {msg.sender === 'bot' ? <Bot size={18} /> : <span>👤</span>}
                     </div>
                     <div className="message-content">
-                      <div className="message-bubble">
-                        {msg.text}
-                      </div>
+                      <div className="message-bubble">{msg.text}</div>
                       <div className="message-time">
                         {new Date(msg.timestamp).toLocaleTimeString(language === 'ru' ? 'ru-RU' : 'en-US', {
                           hour: '2-digit',
@@ -486,7 +710,10 @@ const GlassyChatBar = () => {
                 <textarea
                   ref={inputRef}
                   value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
+                  onChange={(e) => {
+                    setInputMessage(e.target.value);
+                    handleInteraction();
+                  }}
                   onKeyPress={handleKeyPress}
                   placeholder={language === 'ru' ? 'Напишите сообщение...' : 'Type a message...'}
                   rows={1}
@@ -495,7 +722,6 @@ const GlassyChatBar = () => {
                 <button
                   className={`voice-btn-input ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
                   onClick={handleVoiceInput}
-                  title={!speechSupported ? (language === 'ru' ? 'Голосовой ввод недоступен' : 'Voice input not available') : ''}
                 >
                   {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
                 </button>
