@@ -69,6 +69,11 @@ load_dotenv(ROOT_DIR / '.env')
 # Create the main app without a prefix
 app = FastAPI()
 
+# Mount static files for uploads
+UPLOAD_DIR = "/app/backend/static/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/static", StaticFiles(directory="/app/backend/static"), name="static")
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
