@@ -596,14 +596,27 @@ export default function HeroSection() {
 
                 {/* Multi-Tool Button */}
                 <div ref={multiMenuRef} style={{ position: 'relative' }}>
-                  <button
-                    onClick={() => setShowMultiMenu(!showMultiMenu)}
-                    className="multi-tool-btn"
-                  >
-                    <ActiveIcon size={18} />
-                    {activeMultiTool === 'ai' && <span className="ai-indicator" />}
-                    <ChevronDown size={10} className="chevron-icon" />
-                  </button>
+                  <div className="multi-tool-wrapper">
+                    {/* Main action button */}
+                    <button
+                      onClick={handleMultiToolClick}
+                      className={`multi-tool-btn ${isListening ? 'listening' : ''}`}
+                      title={activeMultiTool ? multiToolConfig[activeMultiTool].label : 'Выбрать инструмент'}
+                    >
+                      <CurrentIcon size={18} />
+                      {activeMultiTool === 'ai' && <span className="ai-indicator" />}
+                      {isListening && <span className="listening-indicator" />}
+                    </button>
+                    
+                    {/* Menu toggle button */}
+                    <button
+                      onClick={handleMenuToggle}
+                      className="multi-tool-chevron"
+                      title="Выбрать инструмент"
+                    >
+                      <ChevronDown size={12} />
+                    </button>
+                  </div>
 
                   {/* Multi-Tool Menu */}
                   {showMultiMenu && (
