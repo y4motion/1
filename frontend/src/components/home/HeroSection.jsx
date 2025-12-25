@@ -59,19 +59,9 @@ export default function HeroSection() {
     return greetings.night[Math.floor(Math.random() * greetings.night.length)];
   }, [user]);
 
-  // Greeting state
-  const shouldShowGreeting = () => {
-    if (sessionStorage.getItem('greetingShown')) return false;
-    const lastGreeting = localStorage.getItem('lastGreetingTime');
-    if (lastGreeting) {
-      const hourAgo = Date.now() - (60 * 60 * 1000);
-      if (parseInt(lastGreeting) > hourAgo) return false;
-    }
-    return true;
-  };
-
-  const [greetingDone, setGreetingDone] = useState(!shouldShowGreeting());
-  const [greetingLines, setGreetingLines] = useState([
+  // Greeting state - show on each new page load
+  const [greetingDone, setGreetingDone] = useState(false);
+  const [greetingLines] = useState([
     "System online.",
     getSmartGreeting(),
     "Готов помочь с железом мечты."
