@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
+import { useStaggerReveal } from '../../hooks/useScrollReveal';
 import './TrendingChips.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
@@ -8,6 +9,7 @@ const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 const TrendingChips = () => {
   const [trendingItems, setTrendingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useStaggerReveal('.trending-chip', 50);
 
   useEffect(() => {
     const fetchTrending = async () => {
