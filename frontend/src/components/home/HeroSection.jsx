@@ -81,8 +81,8 @@ export default function HeroSection() {
     })), []
   );
 
-  // Placeholder texts for typewriter effect - expandable list
-  const placeholders = useMemo(() => [
+  // Default placeholder suggestions
+  const defaultPlaceholders = useMemo(() => [
     'RTX 5090 — цены и наличие',
     'Сборка до 150k с высоким FPS',
     'Лучший процессор для игр 2025',
@@ -99,6 +99,56 @@ export default function HeroSection() {
     'Монитор 240Hz для CS2',
     'Оперативка для Ryzen — какую?'
   ], []);
+
+  // Dynamic placeholders: user history + popular + defaults
+  const [placeholders, setPlaceholders] = useState(defaultPlaceholders);
+
+  // Load user search history and popular queries
+  useEffect(() => {
+    const loadDynamicPlaceholders = async () => {
+      const combined = [];
+      
+      // 1. User's recent searches (from localStorage)
+      const userHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+      if (userHistory.length > 0) {
+        // Take last 5 unique searches
+        const recentSearches = [...new Set(userHistory)].slice(0, 5);
+        combined.push(...recentSearches);
+      }
+      
+      // 2. Try to get popular searches from API
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || ''}/api/homepage/data`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data['trending-searches']?.length > 0) {
+            const popularTerms = data['trending-searches'].map(t => t.term).slice(0, 5);
+            combined.push(...popularTerms);
+          }
+        }
+      } catch (error) {
+        console.log('Using default placeholders');
+      }
+      
+      // 3. Add defaults to fill the rest
+      combined.push(...defaultPlaceholders);
+      
+      // Remove duplicates and set
+      const unique = [...new Set(combined)];
+      setPlaceholders(unique);
+    };
+    
+    loadDynamicPlaceholders();
+  }, [defaultPlaceholders]);
+
+  // Save search to history
+  const saveSearchToHistory = useCallback((query) => {
+    if (!query.trim()) return;
+    const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    // Add to beginning, remove duplicates, keep max 20
+    const updated = [query, ...history.filter(h => h !== query)].slice(0, 20);
+    localStorage.setItem('searchHistory', JSON.stringify(updated));
+  }, []);
 
   // Init
   useEffect(() => {
