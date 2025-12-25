@@ -74,8 +74,8 @@ function App() {
                     <Route path="/mod" element={<ModPage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route path="/chat" element={<ChatFullPage />} />
-                    <Route path="/chat/:conversationId" element={<ChatFullPage />} />
+                    <Route path="/chat" element={<ChatRedirect />} />
+                    <Route path="/chat/:conversationId" element={<ChatRedirect />} />
                     <Route path="/profile" element={<UserProfilePage />} />
                     <Route path="/notifications" element={<NotificationsPage />} />
 
