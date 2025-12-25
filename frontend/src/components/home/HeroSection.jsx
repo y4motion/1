@@ -65,11 +65,8 @@ export default function HeroSection() {
 
   // Greeting state - show on each new page load
   const [greetingDone, setGreetingDone] = useState(false);
-  const [greetingLines] = useState([
-    "System online.",
-    getSmartGreeting(),
-    "Готов помочь с железом мечты."
-  ]);
+  const [greetingPhase, setGreetingPhase] = useState('typing'); // 'typing' | 'fading' | 'done'
+  const greetingText = getSmartGreeting();
 
   // Particles with enhanced data
   const particles = useMemo(() => 
