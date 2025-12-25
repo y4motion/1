@@ -21,6 +21,9 @@ const HomePage = () => {
       {/* Hero Section - extracted component */}
       <HeroSection />
 
+      {/* Live Activity Feed - FOMO effect */}
+      <LiveActivityFeed />
+
       {/* Content Blocks */}
       <div style={{ padding: '0 2.5rem', marginBottom: '4rem' }}>
         {/* Feature Grid */}
