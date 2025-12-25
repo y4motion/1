@@ -111,6 +111,13 @@ const ProductDetailPage = () => {
 
       if (response.ok) {
         alert('Added to cart!');
+        // Track cart activity for LiveActivityFeed
+        const { trackActivity } = await import('./home/LiveActivityFeed');
+        trackActivity('cart', {
+          userName: user?.name || user?.username,
+          productId: id,
+          productName: product?.name || product?.title
+        });
       }
     } catch (error) {
       console.error('Failed to add to cart:', error);
