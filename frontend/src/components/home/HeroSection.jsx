@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Mic, Sparkles, Clock, ChevronDown, Menu } from 'lucide-react';
+import { Search, Mic, Sparkles, Clock, ChevronDown, Menu, Eye } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import coreAI from '../../utils/coreAI';
 
@@ -25,6 +25,13 @@ export default function HeroSection() {
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleContent, setBubbleContent] = useState({ type: null, data: null });
   const [isAiThinking, setIsAiThinking] = useState(false);
+  
+  // === IDLE ANIMATION STATE ===
+  const [idleTime, setIdleTime] = useState(0);
+  const [activeIdleAnimation, setActiveIdleAnimation] = useState(null);
+  const [idleAnimationPhase, setIdleAnimationPhase] = useState(null);
+  const idleTimerRef = useRef(null);
+  const konamiCodeRef = useRef([]);
   
   const searchInputRef = useRef(null);
   const multiMenuRef = useRef(null);
