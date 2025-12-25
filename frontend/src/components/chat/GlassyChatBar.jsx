@@ -452,20 +452,10 @@ const GlassyChatBar = () => {
   // COMPUTED VALUES
   // ========================================
 
-  const totalUnread = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
   const currentMessages = messages[activeTab] || [];
   const pageContext = getPageContext();
   const isMinimalMod = theme === 'minimal-mod';
   const isDark = theme === 'dark' || isMinimalMod;
-  const showElements = isHovered || totalUnread > 0 || hasNewMessage;
-  
-  const getIndicatorClass = () => {
-    if (unreadCounts.support > 0) return 'indicator-support';
-    if (unreadCounts.ai > 0 || lastMessageSource === 'ai') return 'indicator-ai';
-    if (unreadCounts.community > 0 || lastMessageSource === 'community') return 'indicator-community';
-    if (lastMessageSource === 'user') return 'indicator-user';
-    return '';
-  };
 
   const getPanelHeight = () => {
     if (customHeight) return `${customHeight}px`;
