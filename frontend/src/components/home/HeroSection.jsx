@@ -1080,6 +1080,80 @@ const heroStyles = `
     left: 100%;
   }
 
+  /* === TYPING REACTION EFFECT === */
+  .search-bar.typing {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 0 20px rgba(255, 255, 255, 0.1),
+      0 0 40px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Soft pulse on border while typing */
+  .search-bar.typing::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: typingPulse 0.15s ease-out forwards;
+    pointer-events: none;
+  }
+
+  /* Traveling wave along the border */
+  .typing-wave {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .typing-wave::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 10%,
+      transparent 20%,
+      transparent 100%
+    );
+    animation: typingWaveRotate 0.8s linear forwards;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+  }
+
+  @keyframes typingPulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.02);
+      opacity: 0;
+    }
+  }
+
+  @keyframes typingWaveRotate {
+    0% {
+      transform: rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(180deg);
+      opacity: 0;
+    }
+  }
+
   /* Search Input */
   .search-input {
     width: 100%;
