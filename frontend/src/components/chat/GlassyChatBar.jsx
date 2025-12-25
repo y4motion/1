@@ -58,6 +58,19 @@ const GlassyChatBar = () => {
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
 
+  // Listen for external open events (from /chat redirect)
+  useEffect(() => {
+    const handleOpenChat = (event) => {
+      setIsExpanded(true);
+      if (event.detail?.tab) {
+        setActiveTab(event.detail.tab);
+      }
+    };
+    
+    window.addEventListener('openGlassyChat', handleOpenChat);
+    return () => window.removeEventListener('openGlassyChat', handleOpenChat);
+  }, []);
+
   // Check Web Speech API support
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
