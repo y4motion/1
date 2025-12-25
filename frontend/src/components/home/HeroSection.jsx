@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Mic, Sparkles, Clock, ChevronDown } from 'lucide-react';
+import { Search, Mic, Sparkles, Clock, ChevronDown, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import coreAI from '../../utils/coreAI';
 
@@ -9,7 +9,8 @@ export default function HeroSection() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showMultiMenu, setShowMultiMenu] = useState(false);
-  const [activeMultiTool, setActiveMultiTool] = useState('voice');
+  const [activeMultiTool, setActiveMultiTool] = useState(null); // null = menu icon
+  const [isListening, setIsListening] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [showHint, setShowHint] = useState(!localStorage.getItem('searchHintShown'));
   const [videoLoaded, setVideoLoaded] = useState(false);
