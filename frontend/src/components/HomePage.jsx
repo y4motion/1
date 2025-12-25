@@ -29,8 +29,8 @@ const HomePage = () => {
 
       {/* Content Sections */}
       <div style={{ padding: '0 2rem' }}>
-        {/* Featured Categories */}
-        <FeaturedCategories />
+        {/* Shop By Category */}
+        <ShopByCategory />
 
         {/* Trending Products */}
         <TrendingSection />
