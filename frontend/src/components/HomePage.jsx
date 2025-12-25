@@ -4,7 +4,7 @@ import LiveActivityFeed from './home/LiveActivityFeed';
 import TrendingChips from './home/TrendingChips';
 import QuickAccessGrid from './home/QuickAccessGrid';
 import TestimonialsCarousel from './TestimonialsCarousel';
-import FeaturedCategories from './home/FeaturedCategories';
+import ShopByCategory from './home/ShopByCategory';
 import TrendingSection from './home/TrendingSection';
 import LatestArticles from './home/LatestArticles';
 import '../styles/glassmorphism.css';
