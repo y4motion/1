@@ -26,6 +26,10 @@ export default function HeroSection() {
   const [bubbleContent, setBubbleContent] = useState({ type: null, data: null });
   const [isAiThinking, setIsAiThinking] = useState(false);
   
+  // === TYPING REACTION STATE ===
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimeoutRef = useRef(null);
+  
   // === IDLE ANIMATION STATE ===
   const [idleTime, setIdleTime] = useState(0);
   const [activeIdleAnimation, setActiveIdleAnimation] = useState(null);
