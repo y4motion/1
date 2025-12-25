@@ -384,6 +384,11 @@ export default function HeroSection() {
     setActiveMultiTool(tool);
     setShowMultiMenu(false);
     
+    // Hide bubble when switching tools (except for history)
+    if (tool !== 'history') {
+      setShowBubble(false);
+    }
+    
     // Show bubble for history immediately
     if (tool === 'history') {
       showSearchHistory();
