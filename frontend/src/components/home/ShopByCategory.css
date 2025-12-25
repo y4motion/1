@@ -1,0 +1,237 @@
+/* ShopByCategory - Category Cards Grid */
+
+.shop-by-category {
+  max-width: 1440px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+/* Header */
+.shop-by-category__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.shop-by-category__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.shop-by-category__see-all {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.shop-by-category__see-all:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.shop-by-category__see-all svg {
+  transition: transform 0.3s ease;
+}
+
+.shop-by-category__see-all:hover svg {
+  transform: translateX(4px);
+}
+
+/* Grid */
+.shop-by-category__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* Category Card */
+.category-card {
+  position: relative;
+  aspect-ratio: 1.2 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: categoryFadeIn 0.5s ease-out backwards;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Background */
+.category-card__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.category-card__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.category-card:hover .category-card__bg img {
+  transform: scale(1.1);
+}
+
+.category-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  transition: background 0.3s ease;
+}
+
+.category-card:hover .category-card__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* Icon */
+.category-card__icon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-card__icon {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+/* Badges */
+.category-card__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.category-card__badge--hot {
+  background: rgba(255, 255, 255, 0.95);
+  color: #000;
+}
+
+.category-card__badge--trending {
+  background: rgba(100, 255, 150, 0.15);
+  border: 1px solid rgba(100, 255, 150, 0.3);
+  color: rgba(150, 255, 180, 0.9);
+}
+
+/* Content */
+.category-card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem;
+  z-index: 2;
+}
+
+.category-card__name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.25rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.category-card__count {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Animation */
+@keyframes categoryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .shop-by-category__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .shop-by-category__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .shop-by-category {
+    padding: 0 1rem;
+    margin: 3rem auto;
+  }
+  
+  .shop-by-category__header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .shop-by-category__title {
+    font-size: 1.25rem;
+  }
+  
+  .shop-by-category__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .category-card {
+    aspect-ratio: 1 / 1;
+  }
+  
+  .category-card__icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .category-card__name {
+    font-size: 1rem;
+  }
+  
+  .category-card__content {
+    padding: 1rem;
+  }
+}
