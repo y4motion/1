@@ -1,0 +1,51 @@
+/* Layout Utilities - Responsive Container Widths */
+
+/* Full Width - 100% экрана */
+.container-full {
+  width: 100%;
+  /* NO max-width */
+}
+
+/* Wide - для визуальных элементов */
+.container-wide {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-left: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
+  padding-right: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
+}
+
+/* Standard - стандартная ширина */
+.container-standard {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: max(2rem, calc((100vw - 1440px) / 2 + 2rem));
+  padding-right: max(2rem, calc((100vw - 1440px) / 2 + 2rem));
+}
+
+/* Comfortable - узкий для чтения */
+.container-comfortable {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(2rem, calc((100vw - 1200px) / 2 + 2rem));
+  padding-right: max(2rem, calc((100vw - 1200px) / 2 + 2rem));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container-wide,
+  .container-standard,
+  .container-comfortable {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container-wide {
+    max-width: 1800px;
+  }
+  
+  .container-standard {
+    max-width: 1600px;
+  }
+}
