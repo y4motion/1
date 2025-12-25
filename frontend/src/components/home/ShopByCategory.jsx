@@ -13,6 +13,7 @@ const categories = [
     icon: Cpu, 
     count: 1234,
     trending: '+12%',
+    isTrending: true,
     image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80'
   },
   { 
@@ -21,6 +22,7 @@ const categories = [
     icon: Monitor, 
     count: 856,
     hot: true,
+    isTrending: true,
     image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80'
   },
   { 
@@ -65,6 +67,7 @@ const categories = [
     icon: Fan, 
     count: 1123,
     hot: true,
+    isTrending: true,
     image: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80'
   }
 ];
