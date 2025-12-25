@@ -4,6 +4,7 @@ import {
   Cpu, Monitor, Keyboard, Headphones, Mouse, HardDrive,
   Zap, Fan, ArrowRight
 } from 'lucide-react';
+import { useStaggerReveal } from '../../hooks/useScrollReveal';
 import './ShopByCategory.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
