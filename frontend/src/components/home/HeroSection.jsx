@@ -321,6 +321,35 @@ export default function HeroSection() {
     }, 200);
   };
 
+  // Show search history in bubble
+  const showSearchHistory = useCallback(() => {
+    const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    setBubbleContent({ type: 'history', data: history });
+    setShowBubble(true);
+  }, []);
+
+  // Handle AI query
+  const handleAiQuery = useCallback(async (query) => {
+    if (!query.trim()) return;
+    
+    setIsAiThinking(true);
+    setBubbleContent({ type: 'ai', data: null });
+    setShowBubble(true);
+    
+    try {
+      // Simulate AI response (replace with real API call)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const aiResponse = `Отличный вопрос про "${query}"! Вот что я нашёл:\n\n• Проверьте раздел Marketplace для актуальных цен\n• Посмотрите готовые сборки в разделе Builds\n• Задайте вопрос сообществу для живого обсуждения`;
+      
+      setBubbleContent({ type: 'ai', data: aiResponse });
+    } catch (error) {
+      setBubbleContent({ type: 'ai', data: 'Не удалось получить ответ. Попробуйте ещё раз.' });
+    } finally {
+      setIsAiThinking(false);
+    }
+  }, []);
+
   const handleSearch = useCallback((query) => {
     if (!query.trim()) return;
     
@@ -352,35 +381,6 @@ export default function HeroSection() {
       showSearchHistory();
     }
   };
-
-  // Show search history in bubble
-  const showSearchHistory = useCallback(() => {
-    const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-    setBubbleContent({ type: 'history', data: history });
-    setShowBubble(true);
-  }, []);
-
-  // Handle AI query
-  const handleAiQuery = useCallback(async (query) => {
-    if (!query.trim()) return;
-    
-    setIsAiThinking(true);
-    setBubbleContent({ type: 'ai', data: null });
-    setShowBubble(true);
-    
-    try {
-      // Simulate AI response (replace with real API call)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const aiResponse = `Отличный вопрос про "${query}"! Вот что я нашёл:\n\n• Проверьте раздел Marketplace для актуальных цен\n• Посмотрите готовые сборки в разделе Builds\n• Задайте вопрос сообществу для живого обсуждения`;
-      
-      setBubbleContent({ type: 'ai', data: aiResponse });
-    } catch (error) {
-      setBubbleContent({ type: 'ai', data: 'Не удалось получить ответ. Попробуйте ещё раз.' });
-    } finally {
-      setIsAiThinking(false);
-    }
-  }, []);
 
   // Execute the selected tool's action
   const executeToolAction = useCallback((tool) => {
