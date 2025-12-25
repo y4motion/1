@@ -1082,74 +1082,65 @@ const heroStyles = `
 
   /* === TYPING REACTION EFFECT === */
   .search-bar.typing {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.25);
     box-shadow: 
-      0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 0 20px rgba(255, 255, 255, 0.1),
-      0 0 40px rgba(255, 255, 255, 0.05);
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 0 25px rgba(255, 255, 255, 0.12),
+      0 0 50px rgba(255, 255, 255, 0.06);
+    animation: typingGlow 0.2s ease-out;
   }
 
-  /* Soft pulse on border while typing */
-  .search-bar.typing::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 22px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    animation: typingPulse 0.15s ease-out forwards;
-    pointer-events: none;
+  @keyframes typingGlow {
+    0% {
+      box-shadow: 
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 0 30px rgba(255, 255, 255, 0.15),
+        0 0 60px rgba(255, 255, 255, 0.08);
+    }
+    100% {
+      box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 25px rgba(255, 255, 255, 0.12),
+        0 0 50px rgba(255, 255, 255, 0.06);
+    }
   }
 
   /* Traveling wave along the border */
   .typing-wave {
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
+    inset: -1px;
+    border-radius: 21px;
     pointer-events: none;
+    z-index: 10;
   }
 
   .typing-wave::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    inset: 0;
     border-radius: inherit;
-    background: conic-gradient(
-      from 0deg,
+    padding: 1px;
+    background: linear-gradient(
+      90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.3) 10%,
-      transparent 20%,
+      rgba(255, 255, 255, 0.4) 50%,
       transparent 100%
     );
-    animation: typingWaveRotate 0.8s linear forwards;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: xor;
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
     mask-composite: exclude;
-    padding: 1px;
+    animation: typingWaveMove 0.4s ease-out forwards;
   }
 
-  @keyframes typingPulse {
+  @keyframes typingWaveMove {
     0% {
-      transform: scale(1);
-      opacity: 0.8;
-    }
-    100% {
-      transform: scale(1.02);
-      opacity: 0;
-    }
-  }
-
-  @keyframes typingWaveRotate {
-    0% {
-      transform: rotate(0deg);
+      background-position: -200% 0;
       opacity: 1;
     }
     100% {
-      transform: rotate(180deg);
+      background-position: 200% 0;
       opacity: 0;
     }
   }
