@@ -141,12 +141,14 @@ export default function HeroSection() {
       {/* Dark gradient base */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(8,8,12,1) 0%, rgba(0,0,0,1) 100%)', zIndex: 1 }} />
 
-      {/* Floating particles */}
+      {/* Floating particles with parallax */}
       {greetingDone && (
         <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
           {particles.map((p) => (
             <div
               key={p.id}
+              className="hero-particle"
+              data-speed={0.05 + (p.id % 3) * 0.02}
               style={{
                 position: 'absolute', width: `${p.size}px`, height: `${p.size}px`,
                 background: 'rgba(255,255,255,0.6)', borderRadius: '50%',
