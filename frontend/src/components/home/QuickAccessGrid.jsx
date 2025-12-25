@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { 
   Cpu, Activity, Users, Trophy, Star, BookOpen, ArrowRight 
 } from 'lucide-react';
+import { useStaggerReveal } from '../../hooks/useScrollReveal';
 import './QuickAccessGrid.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
