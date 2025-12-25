@@ -1,18 +1,16 @@
 /* ========================================
-   GLASSY CHAT BAR - Core UI Component
+   GLASSY CHAT BAR - Ultra-Minimal Design
    ======================================== */
 
 /* Base Container */
 .glassy-chat-bar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   z-index: 1000;
   font-family: inherit;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  /* Space for Emergent badge */
-  padding-right: 200px;
 }
 
 .glassy-chat-bar.minimal-mod {
@@ -20,21 +18,22 @@
 }
 
 /* ========================================
-   COLLAPSED BAR
+   ULTRA-MINIMAL COLLAPSED BAR
    ======================================== */
 
 .chat-collapsed-bar {
-  height: 48px;
+  height: 36px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  background: var(--chat-bg);
-  backdrop-filter: blur(30px) saturate(180%);
-  border-top: 1px solid var(--chat-border);
+  justify-content: center;
+  position: relative;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  animation: subtle-pulse 10s ease-in-out infinite;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .glassy-chat-bar.minimal-mod .chat-collapsed-bar {
@@ -42,82 +41,196 @@
   border-radius: 0;
 }
 
-.chat-collapsed-bar:hover {
-  background: rgba(139, 92, 246, 0.05);
-  border-top-color: rgba(139, 92, 246, 0.3);
-}
-
-/* Left Section */
-.chat-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.chat-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--chat-text);
-}
-
-.unread-badge {
+/* Thin white line across the bar */
+.thin-line {
   position: absolute;
-  top: -6px;
-  right: -8px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  border-radius: 9px;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent 100%
+  );
+  transform: translateY(-50%);
+  transition: all 0.4s ease;
+}
+
+/* Hover effects on bar */
+.chat-collapsed-bar:hover {
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+.chat-collapsed-bar:hover .thin-line {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 15%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.2) 85%,
+    transparent 100%
+  );
+}
+
+/* Glow effect on hover */
+.chat-collapsed-bar.show-elements {
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* New message pulse effect */
+.glassy-chat-bar.has-new-message .chat-collapsed-bar {
+  animation: bar-pulse 2s ease-in-out infinite;
+}
+
+@keyframes bar-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 4px 20px rgba(139, 92, 246, 0.3),
+      0 0 30px rgba(139, 92, 246, 0.1);
+  }
+}
+
+/* ========================================
+   CENTER SECTION - DOT & TEXT
+   ======================================== */
+
+.bar-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: badge-pulse 2s ease-in-out infinite;
+  gap: 8px;
+  z-index: 2;
 }
 
-/* Center Section */
-.chat-bar-center {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--chat-text-muted);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
+/* Always visible green dot */
 .online-dot {
   width: 8px;
   height: 8px;
   background: #10b981;
   border-radius: 50%;
-  animation: online-pulse 2s ease-in-out infinite;
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  animation: dot-pulse 8s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
+.online-dot.pulse-strong {
+  animation: dot-pulse-strong 1s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 90%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  }
+  95% {
+    opacity: 0.8;
+    transform: scale(1.3);
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.8);
+  }
+}
+
+@keyframes dot-pulse-strong {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.5);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 1);
+  }
+}
+
+/* Status text - hidden by default, fade in on hover */
 .status-text {
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
 }
 
-/* Right Section */
-.chat-bar-right {
+.status-text.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Unread badge - hidden by default */
+.unread-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 9px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.voice-btn,
-.expand-btn {
-  width: 36px;
-  height: 36px;
+.unread-badge.visible {
+  opacity: 1;
+  transform: scale(1);
+  animation: badge-bounce 0.5s ease;
+}
+
+@keyframes badge-bounce {
+  0% { transform: scale(0.5); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ========================================
+   RIGHT SECTION - MIC BUTTON
+   ======================================== */
+
+.bar-right {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+}
+
+.bar-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.voice-btn {
+  width: 28px;
+  height: 28px;
   border: none;
-  background: transparent;
-  color: var(--chat-text-muted);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -125,15 +238,9 @@
   transition: all 0.2s ease;
 }
 
-.glassy-chat-bar.minimal-mod .voice-btn,
-.glassy-chat-bar.minimal-mod .expand-btn {
-  border-radius: 0;
-}
-
-.voice-btn:hover,
-.expand-btn:hover {
-  background: rgba(139, 92, 246, 0.1);
-  color: var(--chat-accent);
+.voice-btn:hover {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
 }
 
 .voice-btn.recording {
@@ -147,12 +254,21 @@
   cursor: not-allowed;
 }
 
+@keyframes recording-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* ========================================
-   EXPANDED PANEL
+   EXPANDED STATE
    ======================================== */
 
 .glassy-chat-bar.expanded {
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 75vh;
+  border-radius: 0;
 }
 
 .glassy-chat-bar.expanded.fullscreen {
@@ -161,22 +277,48 @@
 }
 
 .glassy-chat-bar.expanded .chat-collapsed-bar {
-  cursor: default;
-  animation: none;
+  display: none;
 }
 
+/* Expanded Panel */
 .chat-expanded-panel {
-  height: calc(100% - 48px);
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--chat-bg);
   backdrop-filter: blur(30px) saturate(180%);
-  border-top: 1px solid var(--chat-border);
   animation: slide-up-glitch 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
 }
 
 .glassy-chat-bar.minimal-mod .chat-expanded-panel {
   backdrop-filter: none;
+  border-radius: 0;
+}
+
+/* Drag Handle */
+.drag-handle {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  background: transparent;
+}
+
+.handle-bar {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.drag-handle:hover .handle-bar {
+  width: 60px;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* ========================================
@@ -186,7 +328,7 @@
 .chat-tabs {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem 0.5rem 1rem;
   gap: 0.25rem;
   border-bottom: 1px solid var(--chat-border);
   overflow-x: auto;
@@ -621,44 +763,6 @@
    ANIMATIONS
    ======================================== */
 
-@keyframes subtle-pulse {
-  0%, 100% {
-    box-shadow: inset 0 1px 0 rgba(139, 92, 246, 0);
-  }
-  50% {
-    box-shadow: inset 0 1px 0 rgba(139, 92, 246, 0.3);
-  }
-}
-
-@keyframes badge-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes online-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes recording-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 @keyframes slide-up-glitch {
   0% {
     opacity: 0;
@@ -717,9 +821,18 @@
    ======================================== */
 
 @media (max-width: 768px) {
+  .glassy-chat-bar {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+  
   .glassy-chat-bar.expanded {
     height: 100vh;
     height: 100dvh;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
   
   .chat-tab span {
@@ -740,12 +853,8 @@
 }
 
 @media (max-width: 480px) {
-  .chat-collapsed-bar {
-    padding: 0 1rem;
-  }
-  
   .status-text {
-    font-size: 0.8125rem;
+    font-size: 0.7rem;
   }
   
   .chat-input-area {
