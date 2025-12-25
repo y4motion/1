@@ -289,11 +289,20 @@ const GlassyChatBar = () => {
   const isDark = theme === 'dark' || isMinimalMod;
   
   // Show elements when hovered or has unread messages
-  const showElements = isHovered || totalUnread > 0 || hasNewMessage;
+  const showElements = isHovered || totalUnread > 0;
+  
+  // Get indicator class based on last message source (priority: support > ai > community > user)
+  const getIndicatorClass = () => {
+    if (unreadCounts.support > 0) return 'indicator-support';
+    if (unreadCounts.ai > 0 || lastMessageSource === 'ai') return 'indicator-ai';
+    if (unreadCounts.community > 0 || lastMessageSource === 'community') return 'indicator-community';
+    if (lastMessageSource === 'user') return 'indicator-user';
+    return '';
+  };
 
   return (
     <div
-      className={`glassy-chat-bar ${isExpanded ? 'expanded' : 'collapsed'} ${isFullscreen ? 'fullscreen' : ''} ${isMinimalMod ? 'minimal-mod' : ''} ${hasNewMessage ? 'has-new-message' : ''}`}
+      className={`glassy-chat-bar ${isExpanded ? 'expanded' : 'collapsed'} ${isFullscreen ? 'fullscreen' : ''} ${isMinimalMod ? 'minimal-mod' : ''} ${getIndicatorClass()}`}
       style={{
         '--chat-bg': isDark ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         '--chat-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
@@ -312,16 +321,14 @@ const GlassyChatBar = () => {
         {/* Thin white line across */}
         <div className="thin-line" />
         
-        {/* Center section - always visible dot */}
+        {/* Center section - text only */}
         <div className="bar-center">
-          <span className={`online-dot ${hasNewMessage ? 'pulse-strong' : ''}`} />
-          
-          {/* Text appears on hover */}
+          {/* Text "Chat" appears on hover */}
           <span className={`status-text ${showElements ? 'visible' : ''}`}>
-            Core AI {language === 'ru' ? 'онлайн' : 'online'}
+            Chat
           </span>
           
-          {/* Badge appears on hover or when unread */}
+          {/* Badge appears when unread */}
           {totalUnread > 0 && (
             <span className={`unread-badge ${showElements ? 'visible' : ''}`}>
               {totalUnread > 9 ? '9+' : totalUnread}
