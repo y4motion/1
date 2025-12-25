@@ -66,6 +66,7 @@ const cardConfigs = [
 const QuickAccessGrid = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const gridRef = useStaggerReveal('.quick-access-card', 80);
 
   useEffect(() => {
     const fetchData = async () => {
