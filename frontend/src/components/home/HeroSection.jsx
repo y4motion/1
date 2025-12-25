@@ -82,14 +82,23 @@ export default function HeroSection() {
     })), []
   );
 
-  // Placeholder texts for typewriter effect
+  // Placeholder texts for typewriter effect - expandable list
   const placeholders = useMemo(() => [
     'RTX 5090 — цены и наличие',
     'Сборка до 150k с высоким FPS',
-    'Лучший процессор для игр',
+    'Лучший процессор для игр 2025',
     'Совместимость DDR5 с материнкой',
-    'Готовая сборка для рендеринга',
-    'Тихое охлаждение для дома'
+    'Готовая сборка для стриминга',
+    'Тихое охлаждение для дома',
+    'Ryzen 9 9950X vs Intel i9-14900K',
+    'Видеокарта для 4K гейминга',
+    'Бюджетный ПК для работы',
+    'Материнка с Wi-Fi 7',
+    'SSD NVMe 2TB — что выбрать?',
+    'Корпус с хорошим airflow',
+    'БП 1000W модульный',
+    'Монитор 240Hz для CS2',
+    'Оперативка для Ryzen — какую?'
   ], []);
 
   // Init
