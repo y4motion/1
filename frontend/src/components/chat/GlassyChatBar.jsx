@@ -485,7 +485,7 @@ const GlassyChatBar = () => {
 
   return (
     <div
-      className={`glassy-chat-bar ${panelMode} ${isMinimalMod ? 'minimal-mod' : ''} ${getIndicatorClass()} ${hasNewMessage ? 'has-new-message' : ''} ${isDragging ? 'dragging' : ''}`}
+      className={`glassy-chat-bar ${panelMode} ${isMinimalMod ? 'minimal-mod' : ''} ${hasNewMessage ? 'has-new-message' : ''} ${isTyping ? 'ai-typing' : ''} ${isDragging ? 'dragging' : ''}`}
       style={{
         '--chat-bg': isDark ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         '--chat-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
@@ -500,7 +500,7 @@ const GlassyChatBar = () => {
       {/* ========== COLLAPSED BAR ========== */}
       {isCollapsed && (
         <div 
-          className={`chat-collapsed-bar ${showElements ? 'show-elements' : ''}`}
+          className="chat-collapsed-bar"
           onClick={() => {
             setPanelMode(PANEL_MODES.EXPANDED);
             handleInteraction();
@@ -508,16 +508,35 @@ const GlassyChatBar = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="thin-line" />
-          
+          {/* Center section - text only on hover */}
           <div className="bar-center">
-            <span className={`status-text ${showElements ? 'visible' : ''}`}>
+            <span className={`status-text ${isHovered ? 'visible' : ''}`}>
               Chat
             </span>
-            {totalUnread > 0 && (
-              <span className={`unread-badge ${showElements ? 'visible' : ''}`}>
-                {totalUnread > 9 ? '9+' : totalUnread}
-              </span>
+          </div>
+          
+          {/* Right section - mic only on hover */}
+          <div className={`bar-right ${isHovered ? 'visible' : ''}`}>
+            <button
+              className={`voice-btn ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleVoiceInput();
+              }}
+            >
+              {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+            </button>
+          </div>
+          
+          {/* Peek Preview */}
+          {peekMessage && (
+            <div className="peek-preview">
+              <Bot size={14} />
+              <span>{peekMessage}</span>
+            </div>
+          )}
+        </div>
+      )}
             )}
           </div>
           
