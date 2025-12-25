@@ -96,14 +96,6 @@ export default function HeroSection() {
   useEffect(() => {
     coreAI.init(user);
     localStorage.setItem('lastVisit', Date.now().toString());
-    
-    const initGreeting = async () => {
-      const greeting = await coreAI.generateGreeting();
-      if (greeting.lines && greeting.lines.length > 0) {
-        setGreetingLines(greeting.lines);
-      }
-    };
-    initGreeting();
   }, [user]);
 
   // Typewriter greeting effect
