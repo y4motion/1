@@ -203,49 +203,62 @@ export default function HotDealsAndPopular() {
             </div>
             
             <div className="deals-list">
-              {deals.map((deal) => (
-                <Link
-                  key={deal.id}
-                  to={`/product/${deal.id}`}
-                  className="deal-card"
-                >
-                  <div className="deal-image">
-                    {deal.image ? (
-                      <img src={deal.image} alt={deal.name} />
-                    ) : (
-                      <div className="deal-image__placeholder">
-                        <Zap size={24} />
+              {deals.map((deal) => {
+                const timeLeft = getTimeRemaining(deal.endDate);
+                
+                return (
+                  <Link
+                    key={deal.id}
+                    to={`/product/${deal.id}`}
+                    className="deal-card"
+                  >
+                    <div className="deal-image">
+                      {deal.image ? (
+                        <img src={deal.image} alt={deal.name} />
+                      ) : (
+                        <div className="deal-image__placeholder">
+                          <Zap size={24} />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="deal-content">
+                      <div className="deal-header">
+                        <h3 className="deal-name">{deal.name}</h3>
+                        <span className={`deal-badge ${deal.isNew ? 'deal-badge--new' : ''}`}>
+                          {deal.isNew ? 'NEW!' : `-${deal.discount}%`}
+                        </span>
                       </div>
-                    )}
-                  </div>
-                  
-                  <div className="deal-content">
-                    <div className="deal-header">
-                      <h3 className="deal-name">{deal.name}</h3>
-                      <span className="deal-badge">
-                        -{deal.discount}%
-                      </span>
+                      
+                      <p className="deal-description">{deal.description}</p>
+                      
+                      <div className="deal-footer">
+                        <div className="deal-price">
+                          <span className="deal-current-price">
+                            ${deal.currentPrice?.toFixed(2)}
+                          </span>
+                          <span className="deal-original-price">
+                            ${deal.originalPrice?.toFixed(2)}
+                          </span>
+                        </div>
+                        
+                        {deal.stock && deal.stock < 10 && (
+                          <span className="deal-stock">
+                            Только {deal.stock} шт!
+                          </span>
+                        )}
+                        
+                        {timeLeft && (
+                          <div className="deal-timer">
+                            <Clock size={14} />
+                            <span>{timeLeft}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    
-                    <p className="deal-description">{deal.description}</p>
-                    
-                    <div className="deal-price">
-                      <span className="deal-current-price">
-                        ${deal.currentPrice?.toFixed(2)}
-                      </span>
-                      <span className="deal-original-price">
-                        ${deal.originalPrice?.toFixed(2)}
-                      </span>
-                    </div>
-                    
-                    {deal.stock && deal.stock < 10 && (
-                      <span className="deal-stock">
-                        Только {deal.stock} шт!
-                      </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           
