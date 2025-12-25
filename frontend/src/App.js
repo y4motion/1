@@ -87,7 +87,7 @@ function App() {
                     <Route path="/pro-gamer" element={<PlaceholderPage title="PRO GAMER" />} />
                     <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
                     <Route path="/user" element={<PlaceholderPage title="USER" />} />
-                    <Route path="/restock" element={<PlaceholderPage title="RESTOCK" />} />
+                    <Route path="/glassy-swap" element={<PlaceholderPage title="GLASSY SWAP" />} />
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}

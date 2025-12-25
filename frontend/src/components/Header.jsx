@@ -81,7 +81,7 @@ const Header = () => {
 
   const navLinks = [
     { name: t('nav.marketplace'), path: '/marketplace', key: 'marketplace' },
-    { name: t('nav.restock'), path: '/restock', key: 'restock' },
+    { name: t('nav.glassySwap'), path: '/glassy-swap', key: 'glassy-swap' },
     { name: language === 'ru' ? 'СБОРОЧНАЯ' : 'ASSEMBLY', path: '/pc-builder', key: 'pc-builder' },
     { name: t('nav.mod'), path: '/mod', key: 'mod' },
   ];
