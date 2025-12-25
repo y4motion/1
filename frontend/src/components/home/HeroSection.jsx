@@ -66,7 +66,17 @@ export default function HeroSection() {
   // Greeting state - show on each new page load
   const [greetingDone, setGreetingDone] = useState(false);
   const [greetingPhase, setGreetingPhase] = useState('typing'); // 'typing' | 'fading' | 'done'
-  const greetingText = getSmartGreeting();
+  
+  // Simple greeting based on time
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Доброе утро';
+    if (hour < 18) return 'Добрый день';
+    if (hour < 22) return 'Добрый вечер';
+    return 'Доброй ночи';
+  };
+  
+  const greetingText = getGreeting();
 
   // Particles with enhanced data
   const particles = useMemo(() => 
