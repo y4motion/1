@@ -518,48 +518,19 @@ export default function HeroSection() {
         zIndex: 1 
       }} />
 
-      {/* Floating particles - always visible, fade in during greeting */}
-      <div 
-        className={`particles-container ${greetingDone ? 'visible' : ''} ${greetingPhase === 'fading' ? 'appearing' : ''}`}
-        style={{ 
-          position: 'absolute', inset: 0, zIndex: 2, 
-          overflow: 'hidden', pointerEvents: 'none'
-        }}
-      >
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            className="hero-particle"
-            style={{
-              position: 'absolute',
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-              background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
-              borderRadius: '50%',
-              left: `${p.startX}%`,
-              top: `${p.startY}%`,
-              animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
-              animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
-              willChange: 'opacity'
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Greeting Overlay with smooth transition */}
-      <div 
-        className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''} ${greetingDone ? 'done' : ''}`}
-        style={{ 
-          position: 'absolute', inset: 0, 
-          background: greetingPhase === 'fading' ? 'transparent' : '#000000', 
-          zIndex: 20, 
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexDirection: 'column', gap: '2rem',
-          pointerEvents: greetingDone ? 'none' : 'auto'
-        }}
-      >
-        {/* Greeting text */}
-        {!greetingDone && (
+      {/* Greeting Overlay - covers everything during greeting */}
+      {!greetingDone && (
+        <div 
+          className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''}`}
+          style={{ 
+            position: 'absolute', inset: 0, 
+            background: '#000000',
+            zIndex: 30, 
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'opacity 0.8s ease-out, background 0.8s ease-out'
+          }}
+        >
+          {/* Greeting text */}
           <div 
             className={`greeting-text ${greetingPhase === 'fading' ? 'fade-up' : ''}`}
             style={{ textAlign: 'center', padding: '2rem' }}
@@ -586,8 +557,39 @@ export default function HeroSection() {
               }} />
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Floating particles - appear after greeting */}
+      {greetingDone && (
+        <div 
+          className="particles-container"
+          style={{ 
+            position: 'absolute', inset: 0, zIndex: 2, 
+            overflow: 'hidden', pointerEvents: 'none',
+            animation: 'fadeIn 1s ease-out'
+          }}
+        >
+          {particles.map((p) => (
+            <div
+              key={p.id}
+              className="hero-particle"
+              style={{
+                position: 'absolute',
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
+                borderRadius: '50%',
+                left: `${p.startX}%`,
+                top: `${p.startY}%`,
+                animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
+                animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
+                willChange: 'opacity'
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Easter Egg Message */}
       {showEasterEgg && (
