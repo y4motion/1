@@ -44,6 +44,7 @@ from routes.recommendation_routes import router as recommendation_router
 from routes.price_alert_routes import router as price_alert_router
 from routes.ai_routes import router as ai_router
 from routes.swap_routes import router as swap_router
+from routes.swap_chat_routes import router as swap_chat_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
@@ -142,6 +143,7 @@ api_router.include_router(recommendation_router)
 api_router.include_router(price_alert_router)
 api_router.include_router(ai_router)
 api_router.include_router(swap_router)
+api_router.include_router(swap_chat_router)
 
 # Include the router in the main app
 app.include_router(api_router)
