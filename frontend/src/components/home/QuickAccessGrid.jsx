@@ -132,7 +132,7 @@ const QuickAccessGrid = () => {
             <Link
               key={card.id}
               to={card.link}
-              className={`quick-access-card ${isLoading ? 'quick-access-card--loading' : ''}`}
+              className={`quick-access-card scroll-reveal ${isLoading ? 'quick-access-card--loading' : ''}`}
               style={{ animationDelay: `${index * 0.08}s` }}
             >
               <div className="card-header">
