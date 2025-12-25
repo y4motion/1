@@ -42,6 +42,7 @@ from routes.notification_routes import router as notification_router
 from routes.search_routes import router as search_router
 from routes.recommendation_routes import router as recommendation_router
 from routes.price_alert_routes import router as price_alert_router
+from routes.ai_routes import router as ai_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
