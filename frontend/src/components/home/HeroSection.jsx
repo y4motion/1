@@ -433,77 +433,33 @@ export default function HeroSection() {
         zIndex: 1 
       }} />
 
-      {/* Greeting Overlay - covers everything during greeting */}
-      {!greetingDone && (
-        <div 
-          className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''}`}
-          style={{ 
-            position: 'absolute', inset: 0, 
-            background: '#000000',
-            zIndex: 30, 
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'opacity 0.8s ease-out, background 0.8s ease-out'
-          }}
-        >
-          {/* Greeting text */}
-          <div 
-            className={`greeting-text ${greetingPhase === 'fading' ? 'fade-up' : ''}`}
-            style={{ textAlign: 'center', padding: '2rem' }}
-          >
-            <span style={{
-              fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
-              fontSize: '2rem', 
-              color: '#ffffff',
-              textShadow: '0 0 40px rgba(255,255,255,0.8), 0 0 80px rgba(255,255,255,0.4)',
-              letterSpacing: '0.02em'
-            }}>
-              {displayText || ''}
-            </span>
-            {greetingPhase === 'typing' && (
-              <span style={{
-                display: 'inline-block',
-                width: '3px',
-                height: '1.8rem',
-                background: '#fff',
-                marginLeft: '4px',
-                verticalAlign: 'middle',
-                animation: 'blink 1s step-end infinite',
-                boxShadow: '0 0 15px rgba(255,255,255,0.8)'
-              }} />
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Floating particles - appear after greeting */}
-      {greetingDone && (
-        <div 
-          className="particles-container"
-          style={{ 
-            position: 'absolute', inset: 0, zIndex: 2, 
-            overflow: 'hidden', pointerEvents: 'none'
-          }}
-        >
-          {particles.map((p) => (
-            <div
-              key={p.id}
-              className="hero-particle"
-              style={{
-                position: 'absolute',
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
-                borderRadius: '50%',
-                left: `${p.startX}%`,
-                top: `${p.startY}%`,
-                animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
-                animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
-                willChange: 'opacity'
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Floating particles - always visible */}
+      <div 
+        className="particles-container"
+        style={{ 
+          position: 'absolute', inset: 0, zIndex: 2, 
+          overflow: 'hidden', pointerEvents: 'none'
+        }}
+      >
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="hero-particle"
+            style={{
+              position: 'absolute',
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
+              borderRadius: '50%',
+              left: `${p.startX}%`,
+              top: `${p.startY}%`,
+              animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
+              animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
+              willChange: 'opacity'
+            }}
+          />
+        ))}
+      </div>
 
       {/* Easter Egg Message */}
       {showEasterEgg && (
@@ -523,11 +479,10 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* DYNAMIC SEARCH INTERFACE - with entrance animation */}
-      {greetingDone && (
-        <div 
-          ref={searchContainerRef}
-          className="hero-search-container entrance"
+      {/* DYNAMIC SEARCH INTERFACE */}
+      <div 
+        ref={searchContainerRef}
+        className="hero-search-container entrance"
           style={{
             position: 'relative', zIndex: 10, width: '100%', maxWidth: '750px',
             padding: '2rem', textAlign: 'center'
