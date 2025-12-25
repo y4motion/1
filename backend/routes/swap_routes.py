@@ -12,7 +12,7 @@ from models.swap_transaction import (
     SwapTransaction, SwapTransactionCreate, SwapTransactionUpdate,
     SwapReview, SwapReviewCreate, TransactionStatus
 )
-from utils.auth_utils import get_current_user, get_optional_user
+from utils.auth_utils import get_current_user, get_current_user_optional
 
 router = APIRouter(prefix="/swap", tags=["Glassy Swap"])
 
