@@ -79,7 +79,7 @@ const ShopByCategory = () => {
 
   return (
     <section className="shop-by-category">
-      <div className="shop-by-category__header">
+      <div className="shop-by-category__header scroll-reveal">
         <h2 className="shop-by-category__title">Категории магазина</h2>
         <Link to="/marketplace" className="shop-by-category__see-all">
           Все товары
@@ -87,16 +87,15 @@ const ShopByCategory = () => {
         </Link>
       </div>
 
-      <div className="shop-by-category__grid">
-        {categories.map((category, index) => {
+      <div ref={gridRef} className="shop-by-category__grid">
+        {categories.map((category) => {
           const Icon = iconMap[category.icon] || Cpu;
           
           return (
             <Link
               key={category.id}
               to={`/marketplace?category=${category.id}`}
-              className={`category-card scroll-reveal ${isLoading ? 'category-card--loading' : ''}`}
-              style={{ animationDelay: `${index * 0.06}s` }}
+              className={`shop-by-category__card stagger-item hover-lift ${isLoading ? 'category-card--loading' : ''}`}
               onClick={() => handleCategoryClick(category)}
             >
               {/* Background Image */}
