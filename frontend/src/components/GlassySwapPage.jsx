@@ -784,7 +784,15 @@ const SwapDetailPage = ({ id }) => {
   const conditionLabel = CONDITION_LABELS[listing.condition]?.[language] || listing.condition;
   
   return (
-    <div className="min-h-screen" style={{ paddingTop: '80px' }}>
+    <div 
+      className="min-h-screen" 
+      style={{ 
+        paddingTop: '80px',
+        background: isDark 
+          ? 'linear-gradient(180deg, rgba(10,10,15,1) 0%, rgba(15,15,20,1) 100%)'
+          : 'linear-gradient(180deg, rgba(250,250,255,1) 0%, rgba(245,245,250,1) 100%)'
+      }}
+    >
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Back Button */}
         <button 
