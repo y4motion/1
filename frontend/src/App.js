@@ -61,7 +61,7 @@ function App() {
                   {/* Main content area */}
                   <main className="main-content">
                     <Breadcrumbs />
-                    <FloatingChatWidget />
+                    <GlassyChatBar />
                     
                     <Suspense fallback={<LoadingScreen />}>
                       <PageTransition>
