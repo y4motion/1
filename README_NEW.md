@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://trendy-marketplace-5.preview.emergentagent.com/
-- **Backend API:** https://trendy-marketplace-5.preview.emergentagent.com/api
-- **Превью японских фото:** https://trendy-marketplace-5.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://futuristic-search-ui.preview.emergentagent.com/
+- **Backend API:** https://futuristic-search-ui.preview.emergentagent.com/api
+- **Превью японских фото:** https://futuristic-search-ui.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 

@@ -9,7 +9,7 @@ import aiohttp
 import json
 
 # Backend URL
-API_URL = "https://trendy-marketplace-5.preview.emergentagent.com/api"
+API_URL = "https://futuristic-search-ui.preview.emergentagent.com/api"
 
 class PriceAlertTest:
     def __init__(self):
