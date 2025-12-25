@@ -812,52 +812,46 @@ const heroStyles = `
     box-shadow: 0 0 15px rgba(255,255,255,0.8);
   }
 
-  /* Particles container transition */
-  .particles-container {
-    opacity: 0;
-    transition: opacity 1.2s ease-out;
-  }
-
-  .particles-container.appearing {
-    opacity: 0.5;
-  }
-
-  .particles-container.visible {
-    opacity: 1;
-  }
-
-  /* Greeting Overlay Transitions */
+  /* Greeting Overlay */
   .greeting-overlay {
-    transition: background 1s ease-out;
+    transition: opacity 0.8s ease-out;
   }
 
   .greeting-overlay.fading {
-    background: transparent !important;
-  }
-
-  .greeting-overlay.done {
     opacity: 0;
-    pointer-events: none;
   }
 
   .greeting-text {
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .greeting-text.fade-up {
     opacity: 0;
-    transform: translateY(-40px) scale(0.95);
+    transform: translateY(-30px) scale(0.98);
+  }
+
+  /* Particles fade in */
+  .particles-container {
+    opacity: 0;
+    animation: particlesFadeIn 1.2s ease-out forwards;
+  }
+
+  @keyframes particlesFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   /* Search container entrance */
   .hero-search-container.entrance {
-    animation: searchEntrance 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: searchEntrance 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
   }
 
   @keyframes searchEntrance {
     from {
       opacity: 0;
-      transform: translateY(30px) scale(0.9);
+      transform: translateY(20px) scale(0.95);
     }
     to {
       opacity: 1;
