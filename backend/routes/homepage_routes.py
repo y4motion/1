@@ -400,8 +400,7 @@ async def get_swap_highlights(limit: int = 4):
     """
     Get highlighted Glassy Swap listings for homepage.
     """
-    from server import get_database
-    db = get_database()
+    from database import db
     
     listings = []
     try:
