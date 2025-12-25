@@ -15,10 +15,14 @@ export default function TrendingSection() {
 
   const fetchTrending = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/recommendations/trending?limit=6`);
+      // Try homepage API first, fallback to recommendations
+      let response = await fetch(`${API_URL}/api/homepage/trending-products?limit=6`);
+      if (!response.ok) {
+        response = await fetch(`${API_URL}/api/recommendations/trending?limit=6`);
+      }
       if (response.ok) {
         const data = await response.json();
-        setProducts(data.data || data.products || []);
+        setProducts(data.data || data.products || data || []);
       }
     } catch (error) {
       console.error('Failed to fetch trending:', error);
