@@ -1040,6 +1040,16 @@ const heroStyles = `
     100% { transform: translate(var(--vx), var(--vy)); opacity: 0; }
   }
 
+  @keyframes listeningPulse {
+    0%, 100% { background: rgba(255, 100, 100, 0.15); }
+    50% { background: rgba(255, 100, 100, 0.25); }
+  }
+
+  @keyframes listeningRing {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.3); opacity: 0; }
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .search-icon-initial {
