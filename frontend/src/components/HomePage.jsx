@@ -5,7 +5,7 @@ import TrendingChips from './home/TrendingChips';
 import QuickAccessGrid from './home/QuickAccessGrid';
 import TestimonialsCarousel from './TestimonialsCarousel';
 import ShopByCategory from './home/ShopByCategory';
-import TrendingSection from './home/TrendingSection';
+import HotDealsAndPopular from './home/HotDealsAndPopular';
 import LatestArticles from './home/LatestArticles';
 import '../styles/glassmorphism.css';
 
@@ -32,8 +32,8 @@ const HomePage = () => {
         {/* Shop By Category */}
         <ShopByCategory />
 
-        {/* Trending Products */}
-        <TrendingSection />
+        {/* Hot Deals & Popular - заменяет TrendingSection + Featured Deals */}
+        <HotDealsAndPopular />
 
         {/* Latest Articles */}
         <LatestArticles />
