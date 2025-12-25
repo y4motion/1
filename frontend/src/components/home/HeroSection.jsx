@@ -18,7 +18,6 @@ export default function HeroSection() {
   // Typewriter placeholder state
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [displayedPlaceholder, setDisplayedPlaceholder] = useState('');
-  const [isTypingPlaceholder, setIsTypingPlaceholder] = useState(true);
   
   // Easter egg state
   const [showEasterEgg, setShowEasterEgg] = useState(false);
