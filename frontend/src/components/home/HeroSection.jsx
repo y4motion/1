@@ -198,12 +198,11 @@ export default function HeroSection() {
 
   // Typewriter placeholder effect - fixed cycling
   useEffect(() => {
-    if (!isSearchActive || searchQuery) return;
+    if (!isSearchActive || searchQuery || placeholders.length === 0) return;
     
     let charIdx = 0;
     let isActive = true;
-    let currentIdx = placeholderIndex;
-    const currentText = placeholders[currentIdx];
+    const currentText = placeholders[placeholderIndex % placeholders.length];
     
     // Reset placeholder
     setDisplayedPlaceholder('');
@@ -229,7 +228,7 @@ export default function HeroSection() {
     setTimeout(typeChar, 300);
     
     return () => { isActive = false; };
-  }, [placeholderIndex, isSearchActive, searchQuery, placeholders]);
+  }, [placeholderIndex, isSearchActive, searchQuery, placeholders.length]);
 
   // Hide hint after timeout
   useEffect(() => {
