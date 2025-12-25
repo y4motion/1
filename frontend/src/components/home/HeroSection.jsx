@@ -785,7 +785,10 @@ export default function HeroSection() {
           {isSearchActive && (
             <div className="search-bar-container">
               {/* Search Bar */}
-              <div className={`search-bar ${isSearchFocused ? 'focused' : ''}`}>
+              <div className={`search-bar ${isSearchFocused ? 'focused' : ''} ${isTyping ? 'typing' : ''}`}>
+                {/* Typing wave effect */}
+                {isTyping && <div className="typing-wave" />}
+                
                 {/* Search Icon */}
                 <Search size={20} style={{ color: 'rgba(255, 255, 255, 0.4)', flexShrink: 0 }} />
 
