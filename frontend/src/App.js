@@ -27,7 +27,6 @@ const ModPage = React.lazy(() => import('./components/ModPage'));
 const ProductDetailPage = React.lazy(() => import('./components/ProductDetailPage'));
 const CartPage = React.lazy(() => import('./components/CartPage'));
 const CheckoutPage = React.lazy(() => import('./components/CheckoutPage'));
-const ChatFullPage = React.lazy(() => import('./components/ChatFullPage'));
 const UserProfilePage = React.lazy(() => import('./components/UserProfilePage'));
 const NotificationsPage = React.lazy(() => import('./components/NotificationsPage'));
 const FeedPage = React.lazy(() => import('./components/FeedPage'));
