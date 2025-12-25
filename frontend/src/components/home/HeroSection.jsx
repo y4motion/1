@@ -1042,6 +1042,11 @@ const heroStyles = `
     animation: expandSearch 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
+  /* Search Bar Wrapper - for typing wave effect */
+  .search-bar-wrapper {
+    position: relative;
+  }
+
   /* Search Bar */
   .search-bar {
     display: flex;
