@@ -831,7 +831,6 @@ const heroStyles = `
 
   /* Particles fade in */
   .particles-container {
-    opacity: 0;
     animation: particlesFadeIn 1.2s ease-out forwards;
   }
 
