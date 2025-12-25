@@ -7,7 +7,7 @@ import random
 
 from models.activity import ActivityCreate, ActivityResponse, ActivityType, OnlineStatsResponse
 
-router = APIRouter(prefix="/api/activity", tags=["activity"])
+router = APIRouter(prefix="/activity", tags=["activity"])
 
 # In-memory storage for demo (в продакшене - Redis/MongoDB)
 # Это будет работать сразу, а данные будут накапливаться
