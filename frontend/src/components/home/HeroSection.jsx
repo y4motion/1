@@ -682,6 +682,74 @@ export default function HeroSection() {
                   </a>
                 ))}
               </div>
+
+              {/* Response Bubble - AI responses & History */}
+              {showBubble && (
+                <div className="response-bubble">
+                  {/* AI Response */}
+                  {bubbleContent.type === 'ai' && (
+                    <div className="bubble-content bubble-ai">
+                      <div className="bubble-header">
+                        <Sparkles size={16} />
+                        <span>CORE AI</span>
+                      </div>
+                      {isAiThinking ? (
+                        <div className="bubble-thinking">
+                          <span className="thinking-dot" />
+                          <span className="thinking-dot" />
+                          <span className="thinking-dot" />
+                        </div>
+                      ) : (
+                        <div className="bubble-text">
+                          {bubbleContent.data?.split('\n').map((line, i) => (
+                            <p key={i}>{line}</p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Search History */}
+                  {bubbleContent.type === 'history' && (
+                    <div className="bubble-content bubble-history">
+                      <div className="bubble-header">
+                        <Clock size={16} />
+                        <span>История поиска</span>
+                      </div>
+                      {bubbleContent.data?.length > 0 ? (
+                        <div className="history-list">
+                          {bubbleContent.data.slice(0, 8).map((query, i) => (
+                            <button
+                              key={i}
+                              className="history-item"
+                              onClick={() => {
+                                setSearchQuery(query);
+                                setShowBubble(false);
+                                searchInputRef.current?.focus();
+                              }}
+                            >
+                              <Search size={14} />
+                              <span>{query}</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="bubble-empty">
+                          История пуста. Начни искать!
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Close button */}
+                  <button 
+                    className="bubble-close"
+                    onClick={() => setShowBubble(false)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
