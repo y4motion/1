@@ -99,12 +99,19 @@ const GlassyChatBar = () => {
     }
   }, [language]);
 
-  // Add message to specific tab (defined before WebSocket useEffect)
+  // Add message to specific tab (with deduplication)
   const addMessage = useCallback((tab, message) => {
-    setMessages(prev => ({
-      ...prev,
-      [tab]: [...(prev[tab] || []), message]
-    }));
+    setMessages(prev => {
+      const tabMessages = prev[tab] || [];
+      // Prevent duplicate messages by checking id
+      if (message.id && tabMessages.some(m => m.id === message.id)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [tab]: [...tabMessages, message]
+      };
+    });
   }, []);
 
   // Initialize WebSocket
