@@ -862,8 +862,7 @@
 @media (max-width: 768px) {
   .glassy-chat-bar {
     bottom: 12px;
-    left: 12px;
-    right: 12px;
+    width: 80%;
   }
   
   .glassy-chat-bar.expanded {
@@ -872,6 +871,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
   }
   
   .chat-tab span {
@@ -892,6 +892,10 @@
 }
 
 @media (max-width: 480px) {
+  .glassy-chat-bar {
+    width: 90%;
+  }
+  
   .status-text {
     font-size: 0.7rem;
   }
