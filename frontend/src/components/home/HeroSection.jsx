@@ -104,6 +104,24 @@ export default function HeroSection() {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
+  // Parallax scroll effect for particles
+  useEffect(() => {
+    if (!greetingDone) return;
+    
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const particles = document.querySelectorAll('.hero-particle');
+      
+      particles.forEach((particle) => {
+        const speed = parseFloat(particle.dataset.speed) || 0.05;
+        particle.style.transform = `translateY(${scrollY * speed}px)`;
+      });
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [greetingDone]);
+
   // Rotating suggestions
   useEffect(() => {
     if (!greetingDone || suggestions.length === 0) return;
