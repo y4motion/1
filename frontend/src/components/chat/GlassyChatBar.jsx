@@ -77,6 +77,7 @@ const GlassyChatBar = () => {
   const autoCollapseTimerRef = useRef(null);
   const dragStartY = useRef(0);
   const dragStartHeight = useRef(0);
+  const isDraggingRef = useRef(false); // Ref for drag state to avoid closure issues
 
   // ========================================
   // AUTO-COLLAPSE LOGIC
@@ -130,7 +131,7 @@ const GlassyChatBar = () => {
     
     // Swipe up from collapsed bar
     if (panelMode === PANEL_MODES.COLLAPSED && deltaY > 50 && deltaTime < 300) {
-      setPanelMode(PANEL_MODES.EXPANDED);
+      setPanelMode(PANEL_MODES.MINI); // Open in Mini Mode (50% height) by default
       handleInteraction();
     }
     // Swipe down from expanded panel
@@ -162,20 +163,8 @@ const GlassyChatBar = () => {
   // DRAG RESIZE
   // ========================================
 
-  const handleDragStart = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-    dragStartY.current = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-    dragStartHeight.current = panelRef.current?.offsetHeight || window.innerHeight * 0.75;
-    
-    document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('touchmove', handleDragMove);
-    document.addEventListener('touchend', handleDragEnd);
-  };
-
   const handleDragMove = useCallback((e) => {
-    if (!isDragging) return;
+    if (!isDraggingRef.current) return;
     
     const currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
     const deltaY = dragStartY.current - currentY;
@@ -186,9 +175,10 @@ const GlassyChatBar = () => {
     
     setCustomHeight(newHeight);
     setPanelMode(PANEL_MODES.EXPANDED); // Switch to expanded mode when dragging
-  }, [isDragging]);
+  }, []);
 
   const handleDragEnd = useCallback(() => {
+    isDraggingRef.current = false;
     setIsDragging(false);
     document.removeEventListener('mousemove', handleDragMove);
     document.removeEventListener('mouseup', handleDragEnd);
@@ -197,13 +187,26 @@ const GlassyChatBar = () => {
     handleInteraction();
   }, [handleDragMove, handleInteraction]);
 
+  const handleDragStart = (e) => {
+    e.preventDefault();
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    dragStartY.current = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    dragStartHeight.current = panelRef.current?.offsetHeight || window.innerHeight * 0.5;
+    
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchmove', handleDragMove);
+    document.addEventListener('touchend', handleDragEnd);
+  };
+
   // ========================================
   // EXTERNAL OPEN EVENT
   // ========================================
 
   useEffect(() => {
     const handleOpenChat = (event) => {
-      setPanelMode(PANEL_MODES.EXPANDED);
+      setPanelMode(PANEL_MODES.MINI); // Open in Mini Mode (50% height) by default
       if (event.detail?.tab) {
         setActiveTab(event.detail.tab);
       }
@@ -492,7 +495,7 @@ const GlassyChatBar = () => {
         <div 
           className="chat-collapsed-bar"
           onClick={() => {
-            setPanelMode(PANEL_MODES.EXPANDED);
+            setPanelMode(PANEL_MODES.MINI); // Open in Mini Mode (50% height) by default
             handleInteraction();
           }}
           onMouseEnter={() => setIsHovered(true)}
