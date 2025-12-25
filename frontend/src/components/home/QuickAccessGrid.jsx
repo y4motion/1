@@ -126,16 +126,15 @@ const QuickAccessGrid = () => {
 
   return (
     <section className="quick-access-section">
-      <div className="quick-access-grid">
-        {cardConfigs.map((card, index) => {
+      <div ref={gridRef} className="quick-access-grid">
+        {cardConfigs.map((card) => {
           const Icon = card.icon;
           
           return (
             <Link
               key={card.id}
               to={card.link}
-              className={`quick-access-card scroll-reveal ${isLoading ? 'quick-access-card--loading' : ''}`}
-              style={{ animationDelay: `${index * 0.08}s` }}
+              className={`quick-access-card stagger-item hover-lift ${isLoading ? 'quick-access-card--loading' : ''}`}
             >
               <div className="card-header">
                 <div className="card-icon">
