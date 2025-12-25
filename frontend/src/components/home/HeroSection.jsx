@@ -799,16 +799,23 @@ const heroStyles = `
     margin-left: 1px;
   }
 
+  /* Multi-Tool Wrapper */
+  .multi-tool-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
   /* Multi-Tool Button */
   .multi-tool-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    border-radius: 10px 0 0 10px;
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -820,12 +827,38 @@ const heroStyles = `
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
     color: rgba(255, 255, 255, 0.95);
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
   .multi-tool-btn:active {
     transform: scale(0.95);
+  }
+
+  .multi-tool-btn.listening {
+    background: rgba(255, 100, 100, 0.15);
+    border-color: rgba(255, 100, 100, 0.3);
+    animation: listeningPulse 1.5s ease-in-out infinite;
+  }
+
+  /* Chevron button */
+  .multi-tool-chevron {
+    width: 24px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .multi-tool-chevron:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .ai-indicator {
@@ -839,11 +872,12 @@ const heroStyles = `
     animation: pulseGlow 2s ease infinite;
   }
 
-  .chevron-icon {
+  .listening-indicator {
     position: absolute;
-    bottom: 3px;
-    right: 3px;
-    color: rgba(255,255,255,0.3);
+    inset: -3px;
+    border: 2px solid rgba(255, 100, 100, 0.5);
+    border-radius: 12px;
+    animation: listeningRing 1s ease-out infinite;
   }
 
   /* Multi-Tool Menu */
