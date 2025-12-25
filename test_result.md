@@ -559,9 +559,23 @@ agent_communication:
   - agent: "testing"
     message: "🔔 PRICE DROP ALERT SYSTEM TESTING COMPLETED - CRITICAL ISSUE FOUND ❌ **BACKEND API TESTING RESULTS**: ✅ WORKING ENDPOINTS (6/7): GET /api/price-alerts/ (retrieve all user alerts with product enrichment working perfectly), GET /api/price-alerts/product/{product_id} (get specific alert working), PATCH /api/price-alerts/{alert_id}/toggle (toggle enabled status working), DELETE /api/price-alerts/{alert_id} (delete alert working). ✅ Test product Sony WH-1000XM5 ($399.99) verified existing. ✅ Authentication with testalert@example.com working correctly. ❌ **CRITICAL BLOCKING ISSUE**: POST /api/price-alerts/ endpoint COMPLETELY BROKEN - returns 503 'upstream connect error or disconnect/reset before headers. reset reason: connection termination'. Users CANNOT CREATE new price alerts, which is the core functionality. **ROOT CAUSE**: Fixed datetime serialization issues in exception handlers, but POST endpoint still has connection termination problems. Issue appears specific to POST request handler as all GET/PATCH/DELETE endpoints work perfectly. **IMPACT**: Price alert system is 85% functional but users cannot create alerts, making it unusable. **RECOMMENDATION**: Debug POST endpoint handler in price_alert_routes.py, check for validation issues, request parsing problems, or database connection issues specific to alert creation."
 
+  - task: "GlassyChatBar Bug Fixes (Fork)"
+    implemented: true
+    working: "pending_test"
+    files:
+      - "/app/frontend/src/components/chat/GlassyChatBar.jsx"
+      - "/app/frontend/src/components/chat/GlassyChatBar.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "Fixed 3 critical bugs in GlassyChatBar: 1) Drag-to-resize now works with mouse (added isDraggingRef to fix closure issue), 2) Chat panel opens in Mini Mode (50vh) by default instead of Expanded (75vh), 3) Collapse button moved next to the ⋮ menu for easier access. Initial screenshot testing shows all fixes working: drag increased panel from 400px to 600px, panel opens at 50vh, collapse button visible."
+
   - task: "Price Drop Alert System"
     implemented: true
-    working: false
+    working: true
     files:
       - "/app/backend/routes/price_alert_routes.py"
       - "/app/backend/tasks/price_tracker.py"
