@@ -6,8 +6,11 @@
 .glassy-chat-bar {
   position: fixed;
   bottom: 16px;
-  left: 16px;
-  right: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  max-width: 900px;
+  min-width: 320px;
   z-index: 1000;
   font-family: inherit;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -29,7 +32,7 @@
   position: relative;
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px) saturate(150%);
-  border-radius: 6px;
+  border-radius: 18px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -39,6 +42,95 @@
 .glassy-chat-bar.minimal-mod .chat-collapsed-bar {
   backdrop-filter: none;
   border-radius: 0;
+}
+
+/* Bar glow indicator - replaces green dot */
+.chat-collapsed-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 18px;
+  opacity: 0.6;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+/* Default: soft white pulse */
+.chat-collapsed-bar::before {
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+  animation: bar-pulse-white 8s ease-in-out infinite;
+}
+
+/* User messages: green glow */
+.glassy-chat-bar.indicator-user .chat-collapsed-bar::before {
+  box-shadow: inset 0 0 25px rgba(16, 185, 129, 0.3);
+  animation: bar-pulse-green 2s ease-in-out infinite;
+}
+
+/* Support messages: purple glow */
+.glassy-chat-bar.indicator-support .chat-collapsed-bar::before {
+  box-shadow: inset 0 0 25px rgba(139, 92, 246, 0.4);
+  animation: bar-pulse-purple 2s ease-in-out infinite;
+}
+
+/* AI messages: blue glow */
+.glassy-chat-bar.indicator-ai .chat-collapsed-bar::before {
+  box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.3);
+  animation: bar-pulse-blue 2s ease-in-out infinite;
+}
+
+/* Community messages: cyan glow */
+.glassy-chat-bar.indicator-community .chat-collapsed-bar::before {
+  box-shadow: inset 0 0 25px rgba(6, 182, 212, 0.3);
+  animation: bar-pulse-cyan 2s ease-in-out infinite;
+}
+
+@keyframes bar-pulse-white {
+  0%, 100% {
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes bar-pulse-green {
+  0%, 100% {
+    box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    box-shadow: inset 0 0 35px rgba(16, 185, 129, 0.5);
+  }
+}
+
+@keyframes bar-pulse-purple {
+  0%, 100% {
+    box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.25);
+  }
+  50% {
+    box-shadow: inset 0 0 35px rgba(139, 92, 246, 0.6);
+  }
+}
+
+@keyframes bar-pulse-blue {
+  0%, 100% {
+    box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    box-shadow: inset 0 0 35px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes bar-pulse-cyan {
+  0%, 100% {
+    box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+  50% {
+    box-shadow: inset 0 0 35px rgba(6, 182, 212, 0.5);
+  }
 }
 
 /* Thin white line across the bar */
