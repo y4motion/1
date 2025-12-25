@@ -43,6 +43,8 @@ const GlassyChatBar = () => {
   // State
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
   const [activeTab, setActiveTab] = useState('ai');
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
