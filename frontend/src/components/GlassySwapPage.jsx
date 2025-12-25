@@ -1065,6 +1065,9 @@ const CreateWizard = ({ isDark, isMinimalMod, language, categories, onClose, onS
   const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const fileInputRef = React.useRef(null);
   
   const [formData, setFormData] = useState({
     title: '',
