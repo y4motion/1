@@ -123,7 +123,7 @@ const TestimonialsCarousel = () => {
             {reviews.map((review, index) => (
               <div 
                 key={review.id || index}
-                className="testimonial-card"
+                className="testimonial-card scroll-reveal"
                 onClick={() => handleReviewClick(review)}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
