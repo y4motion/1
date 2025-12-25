@@ -659,21 +659,119 @@ export default function HeroSection() {
             padding: '2rem', textAlign: 'center'
           }}
         >
-          {/* INITIAL STATE: Only Search Icon */}
+          {/* INITIAL STATE: Search Icon with Idle Animations */}
           {!isSearchActive && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <button
                 onClick={handleSearchActivate}
-                className="search-icon-initial"
+                className={`search-icon-initial ${activeIdleAnimation ? `idle-${activeIdleAnimation.id}` : ''}`}
                 aria-label="Открыть поиск"
               >
-                <Search size={32} strokeWidth={1.5} />
+                {/* Render different content based on active idle animation */}
+                {!activeIdleAnimation && (
+                  <Search size={32} strokeWidth={1.5} />
+                )}
+                
+                {/* THE EYE Animation */}
+                {activeIdleAnimation?.id === 'eye' && (
+                  <div className="idle-eye-container">
+                    <div className="idle-eye">
+                      <div className="idle-eye-white" />
+                      <div className="idle-eye-pupil" />
+                      <div className="idle-eye-lid-top" />
+                      <div className="idle-eye-lid-bottom" />
+                    </div>
+                  </div>
+                )}
+                
+                {/* VIBRATION Animation */}
+                {activeIdleAnimation?.id === 'vibration' && (
+                  <div className="idle-vibration">
+                    <Search size={32} strokeWidth={1.5} />
+                  </div>
+                )}
+                
+                {/* POKEBALL Animation */}
+                {activeIdleAnimation?.id === 'pokeball' && (
+                  <div className="idle-pokeball-container">
+                    <div className="idle-pokeball">
+                      <div className="pokeball-top" />
+                      <div className="pokeball-bottom" />
+                      <div className="pokeball-center" />
+                      <div className="pokeball-button" />
+                    </div>
+                    <div className="mew-particles">
+                      {[...Array(12)].map((_, i) => (
+                        <div key={i} className="mew-particle" style={{ '--i': i }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* GRAVITY DROP Animation */}
+                {activeIdleAnimation?.id === 'gravity' && (
+                  <div className="idle-gravity">
+                    <Search size={32} strokeWidth={1.5} />
+                  </div>
+                )}
+                
+                {/* SPIN Animation */}
+                {activeIdleAnimation?.id === 'spin' && (
+                  <div className="idle-spin">
+                    <Search size={32} strokeWidth={1.5} />
+                  </div>
+                )}
+                
+                {/* TELEPORT Animation */}
+                {activeIdleAnimation?.id === 'teleport' && (
+                  <div className="idle-teleport">
+                    <Search size={32} strokeWidth={1.5} />
+                    <div className="teleport-particles">
+                      {[...Array(8)].map((_, i) => (
+                        <div key={i} className="teleport-particle" style={{ '--i': i }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* BUBBLE Animation */}
+                {activeIdleAnimation?.id === 'bubble' && (
+                  <div className="idle-bubble">
+                    <div className="bubble-icon">
+                      <Search size={32} strokeWidth={1.5} />
+                    </div>
+                    <div className="bubble-pop-particles">
+                      {[...Array(16)].map((_, i) => (
+                        <div key={i} className="pop-particle" style={{ '--i': i }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* SOUNDWAVE Animation */}
+                {activeIdleAnimation?.id === 'soundwave' && (
+                  <div className="idle-soundwave">
+                    <Search size={32} strokeWidth={1.5} />
+                    <div className="soundwave-rings">
+                      <div className="soundwave-ring" style={{ '--delay': '0s' }} />
+                      <div className="soundwave-ring" style={{ '--delay': '0.4s' }} />
+                      <div className="soundwave-ring" style={{ '--delay': '0.8s' }} />
+                    </div>
+                  </div>
+                )}
               </button>
 
               {/* Hint */}
-              {showHint && (
+              {showHint && !activeIdleAnimation && (
                 <div className="search-hint">
                   Нажми для поиска
+                </div>
+              )}
+              
+              {/* Animation rarity badge (only during animation) */}
+              {activeIdleAnimation && (
+                <div className={`idle-rarity-badge rarity-${activeIdleAnimation.rarity}`}>
+                  {activeIdleAnimation.emoji} {activeIdleAnimation.rarity.toUpperCase()}
                 </div>
               )}
             </div>
