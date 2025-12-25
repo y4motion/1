@@ -54,6 +54,7 @@ const GlassyChatBar = () => {
 
   // Refs
   const wsRef = useRef(null);
+  const wsInitialized = useRef(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
