@@ -1,17 +1,25 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mic, Sparkles } from 'lucide-react';
+import { Search, Mic, Sparkles, Clock, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import coreAI from '../../utils/coreAI';
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [showMultiMenu, setShowMultiMenu] = useState(false);
+  const [activeMultiTool, setActiveMultiTool] = useState('voice');
   const [displayText, setDisplayText] = useState('');
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [suggestions, setSuggestions] = useState([]);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [placeholderKey, setPlaceholderKey] = useState(0);
+  const [showHint, setShowHint] = useState(!localStorage.getItem('searchHintShown'));
+  
+  const searchInputRef = useRef(null);
+  const multiMenuRef = useRef(null);
+  const searchContainerRef = useRef(null);
+  
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -33,7 +41,7 @@ export default function HeroSection() {
     "Готов помочь с железом мечты."
   ]);
 
-  // Particles - galaxy-like motion
+  // Particles
   const particles = useMemo(() => 
     [...Array(40)].map((_, i) => ({
       id: i,
@@ -48,6 +56,7 @@ export default function HeroSection() {
     })), []
   );
 
+  // Init
   useEffect(() => {
     coreAI.init(user);
     const aiSuggestions = coreAI.getSearchSuggestions();
@@ -104,7 +113,7 @@ export default function HeroSection() {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
-  // Parallax scroll effect for particles
+  // Parallax scroll effect
   useEffect(() => {
     if (!greetingDone) return;
     
@@ -124,20 +133,91 @@ export default function HeroSection() {
 
   // Rotating suggestions
   useEffect(() => {
-    if (!greetingDone || suggestions.length === 0) return;
+    if (!greetingDone || !isSearchActive || suggestions.length === 0) return;
     const getDelay = () => activeSuggestion === 0 ? 7000 : 4500;
     const timeout = setTimeout(() => {
-      setPlaceholderKey(prev => prev + 1);
       setActiveSuggestion(prev => (prev + 1) % suggestions.length);
     }, getDelay());
     return () => clearTimeout(timeout);
-  }, [greetingDone, suggestions.length, activeSuggestion]);
+  }, [greetingDone, isSearchActive, suggestions.length, activeSuggestion]);
+
+  // Hide hint after timeout
+  useEffect(() => {
+    if (showHint && !isSearchActive) {
+      const timer = setTimeout(() => {
+        setShowHint(false);
+        localStorage.setItem('searchHintShown', 'true');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showHint, isSearchActive]);
+
+  // Close multi menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (multiMenuRef.current && !multiMenuRef.current.contains(e.target)) {
+        setShowMultiMenu(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearchActivate = () => {
+    setIsSearchActive(true);
+    setShowHint(false);
+    localStorage.setItem('searchHintShown', 'true');
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 400);
+  };
+
+  const handleSearchFocus = () => {
+    setIsSearchFocused(true);
+  };
+
+  const handleSearchBlur = () => {
+    setTimeout(() => {
+      if (!searchQuery && searchContainerRef.current && 
+          !searchContainerRef.current.contains(document.activeElement)) {
+        setIsSearchFocused(false);
+      }
+    }, 200);
+  };
 
   const handleSearch = useCallback((query) => {
     if (!query.trim()) return;
     coreAI.trackAction('search', { query });
     navigate(`/marketplace?search=${encodeURIComponent(query)}`);
   }, [navigate]);
+
+  const handleMultiToolSelect = (tool) => {
+    setActiveMultiTool(tool);
+    setShowMultiMenu(false);
+    
+    if (tool === 'voice') {
+      console.log('Voice search activated');
+    } else if (tool === 'ai') {
+      window.dispatchEvent(new CustomEvent('openGlassyChat', { detail: { tab: 'ai' } }));
+    } else if (tool === 'history') {
+      console.log('Search history');
+    }
+  };
+
+  const multiToolConfig = {
+    voice: { icon: Mic, label: 'Голосовой поиск' },
+    ai: { icon: Sparkles, label: 'Спросить CORE AI' },
+    history: { icon: Clock, label: 'История поиска' }
+  };
+
+  const ActiveIcon = multiToolConfig[activeMultiTool].icon;
+
+  const quickActions = [
+    { text: 'Начать сборку', link: '/assembly' },
+    { text: 'Готовые билды', link: '/builds' },
+    { text: 'Сообщество', link: '/community' }
+  ];
 
   return (
     <div style={{ height: '100vh', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
@@ -159,7 +239,7 @@ export default function HeroSection() {
       {/* Dark gradient base */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(8,8,12,1) 0%, rgba(0,0,0,1) 100%)', zIndex: 1 }} />
 
-      {/* Floating particles with parallax */}
+      {/* Floating particles */}
       {greetingDone && (
         <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
           {particles.map((p) => (
@@ -200,98 +280,249 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* Search Bar & CTAs */}
+      {/* DYNAMIC SEARCH INTERFACE */}
       {greetingDone && (
-        <div style={{
-          position: 'relative', zIndex: 10, width: '100%', maxWidth: '800px',
-          padding: '2rem', textAlign: 'center', animation: 'crtGlitch 0.4s ease-out, fadeInUp 0.8s ease 0.3s both'
-        }}>
-          {/* CRT Scanline overlay */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
-            pointerEvents: 'none', opacity: 0.5, animation: 'scanline 0.1s linear 2'
-          }} />
+        <div 
+          ref={searchContainerRef}
+          className="hero-search-container"
+          style={{
+            position: 'relative', zIndex: 10, width: '100%', maxWidth: '800px',
+            padding: '2rem', textAlign: 'center'
+          }}
+        >
+          {/* INITIAL STATE: Only Search Icon */}
+          {!isSearchActive && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeInScale 0.6s ease-out' }}>
+              <button
+                onClick={handleSearchActivate}
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '50%',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  cursor: 'pointer',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  animation: 'floatSearch 4s ease-in-out infinite'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                  e.currentTarget.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                aria-label="Открыть поиск"
+              >
+                <Search size={32} />
+              </button>
 
-          {/* Search Zone */}
-          <div style={{ position: 'relative', marginBottom: '2rem' }}>
-            <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', gap: '1rem', cursor: 'text' }}>
-              {/* Animated placeholder */}
-              {!searchQuery && (
-                <div key={placeholderKey} style={{
-                  position: 'absolute', left: 0, right: '60px', textAlign: 'center',
-                  fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace', fontSize: '1.1rem',
-                  color: 'rgba(255, 255, 255, 0.5)', textShadow: '0 0 15px rgba(255,255,255,0.3)',
-                  pointerEvents: 'none', animation: 'suggestionIn 1s ease forwards'
+              {/* Hint */}
+              {showHint && (
+                <div style={{
+                  marginTop: '1.5rem',
+                  fontSize: '0.875rem',
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  animation: 'fadeIn 0.5s ease-out, pulse 2s ease-in-out infinite'
                 }}>
-                  {suggestions[activeSuggestion] || 'Ищи железо, сборку или спроси меня...'}
+                  Нажми для поиска
                 </div>
               )}
-              
-              <input
-                type="text" value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
-                style={{
-                  background: 'transparent', border: 'none', color: 'white', fontSize: '1.1rem',
-                  fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
-                  textShadow: '0 0 20px rgba(255,255,255,0.4)', outline: 'none', textAlign: 'center',
-                  minWidth: '400px', padding: '0.5rem'
-                }}
-              />
+            </div>
+          )}
 
-              {/* Action buttons */}
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button style={actionBtnStyle} aria-label="Voice search">
-                  <Mic size={18} />
-                </button>
-                <button style={{ ...actionBtnStyle, position: 'relative' }} aria-label="AI search">
-                  <Sparkles size={18} />
-                  <span style={{
-                    position: 'absolute', top: '4px', right: '4px', width: '6px', height: '6px',
-                    background: '#4ade80', borderRadius: '50%', animation: 'pulseGlow 2s ease infinite'
-                  }} />
-                </button>
+          {/* ACTIVE STATE: Search Bar + Actions */}
+          {isSearchActive && (
+            <div style={{ animation: 'slideInSearch 0.5s ease-out' }}>
+              {/* Search Bar */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                padding: '0.75rem 1rem',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                transition: 'all 0.3s ease',
+                ...(isSearchFocused && {
+                  borderColor: 'rgba(168, 85, 247, 0.4)',
+                  boxShadow: '0 0 30px rgba(168, 85, 247, 0.15)'
+                })
+              }}>
+                {/* Search Icon (small, left) */}
+                <Search size={20} style={{ color: 'rgba(255, 255, 255, 0.5)', flexShrink: 0 }} />
+
+                {/* Input */}
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={handleSearchFocus}
+                  onBlur={handleSearchBlur}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
+                  placeholder={suggestions[activeSuggestion] || 'Ищи железо, сборку или спроси меня...'}
+                  style={{
+                    flex: 1,
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'white',
+                    fontSize: '1rem',
+                    fontFamily: '"SF Mono", Monaco, "Cascadia Code", monospace',
+                    outline: 'none'
+                  }}
+                />
+
+                {/* Multi-Tool Button */}
+                <div ref={multiMenuRef} style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setShowMultiMenu(!showMultiMenu)}
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    }}
+                  >
+                    <ActiveIcon size={18} />
+                    {activeMultiTool === 'ai' && (
+                      <span style={{
+                        position: 'absolute', top: '4px', right: '4px', width: '6px', height: '6px',
+                        background: '#4ade80', borderRadius: '50%', animation: 'pulseGlow 2s ease infinite'
+                      }} />
+                    )}
+                    <ChevronDown size={12} style={{ 
+                      position: 'absolute', bottom: '2px', right: '2px',
+                      color: 'rgba(255,255,255,0.4)'
+                    }} />
+                  </button>
+
+                  {/* Multi-Tool Menu */}
+                  {showMultiMenu && (
+                    <div style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 8px)',
+                      right: 0,
+                      minWidth: '200px',
+                      background: 'rgba(20, 20, 25, 0.95)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '12px',
+                      padding: '0.5rem',
+                      animation: 'fadeInDown 0.2s ease-out',
+                      zIndex: 50
+                    }}>
+                      {Object.entries(multiToolConfig).map(([key, { icon: Icon, label }]) => (
+                        <button
+                          key={key}
+                          onClick={() => handleMultiToolSelect(key)}
+                          style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            padding: '0.75rem',
+                            background: activeMultiTool === key ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                            border: 'none',
+                            borderRadius: '8px',
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            fontSize: '0.875rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            textAlign: 'left'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (activeMultiTool !== key) {
+                              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (activeMultiTool !== key) {
+                              e.currentTarget.style.background = 'transparent';
+                            }
+                          }}
+                        >
+                          <Icon size={18} />
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Quick Actions (appear on focus) */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '1rem',
+                marginTop: '1.5rem',
+                opacity: isSearchFocused ? 1 : 0,
+                transform: isSearchFocused ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'all 0.3s ease',
+                pointerEvents: isSearchFocused ? 'auto' : 'none'
+              }}>
+                {quickActions.map((action, i) => (
+                  <a
+                    key={i}
+                    href={action.link}
+                    style={{
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      textDecoration: 'none',
+                      fontSize: '0.9375rem',
+                      fontFamily: '"SF Mono", monospace',
+                      transition: 'all 0.2s',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '8px',
+                      background: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#fff';
+                      e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.target.style.textShadow = '0 0 20px rgba(168,85,247,0.6)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = 'rgba(255, 255, 255, 0.7)';
+                      e.target.style.background = 'transparent';
+                      e.target.style.textShadow = 'none';
+                    }}
+                  >
+                    {action.text}
+                  </a>
+                ))}
               </div>
             </div>
-
-            {/* Underline */}
-            <div style={{
-              position: 'absolute', bottom: '-8px', left: '50%', transform: 'translateX(-50%)',
-              height: '2px', background: isSearchFocused ? '#a855f7' : 'rgba(255,255,255,0.2)',
-              width: isSearchFocused ? '100%' : '60%', transition: 'all 0.3s ease',
-              boxShadow: isSearchFocused ? '0 0 15px rgba(168, 85, 247, 0.5)' : 'none'
-            }} />
-          </div>
-
-          {/* CTA Links */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-            {['Начать сборку', 'Готовые билды', 'Сообщество'].map((text, i) => (
-              <a key={i} href={['#pc-builder', '/builds', '/community'][i]}
-                style={{
-                  color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.95rem',
-                  fontFamily: '"SF Mono", monospace', transition: 'all 0.2s'
-                }}
-                onMouseEnter={(e) => { e.target.style.color = '#fff'; e.target.style.textShadow = '0 0 20px rgba(168,85,247,0.8)'; }}
-                onMouseLeave={(e) => { e.target.style.color = 'rgba(255,255,255,0.7)'; e.target.style.textShadow = 'none'; }}
-              >
-                {text}
-              </a>
-            ))}
-          </div>
+          )}
         </div>
       )}
     </div>
   );
 }
-
-const actionBtnStyle = {
-  width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-  background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '8px', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', transition: 'all 0.2s'
-};
 
 const heroStyles = `
   @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 6px rgba(74, 222, 128, 0.4); } 50% { box-shadow: 0 0 12px rgba(74, 222, 128, 0.8); } }
@@ -302,8 +533,11 @@ const heroStyles = `
   @keyframes drift3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(6px, 10px); } }
   @keyframes drift4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-8px, -8px); } }
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes suggestionIn { from { opacity: 0; } to { opacity: 0.5; } }
-  @keyframes crtGlitch { 0% { opacity: 0; transform: translateX(-2px); } 10% { opacity: 1; transform: translateX(2px); } 20% { opacity: 0.5; transform: translateX(-1px); } 30% { opacity: 1; transform: translateX(0); } 100% { opacity: 1; transform: translateX(0); } }
-  @keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-  input::placeholder { color: rgba(255, 255, 255, 0.5); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  @keyframes floatSearch { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+  @keyframes slideInSearch { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  input::placeholder { color: rgba(255, 255, 255, 0.4); }
 `;
