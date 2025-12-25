@@ -537,27 +537,8 @@ const GlassyChatBar = () => {
           )}
         </div>
       )}
-            )}
-          </div>
-          
-          <div className={`bar-right ${showElements ? 'visible' : ''}`}>
-            <button
-              className={`voice-btn ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleVoiceInput();
-              }}
-            >
-              {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
-            </button>
-          </div>
-          
-          {/* Peek Preview */}
-          {peekMessage && (
-            <div className="peek-preview">
-              <Bot size={14} />
-              <span>{peekMessage}</span>
-            </div>
+
+      {/* ========== EXPANDED PANEL ========== */}
           )}
         </div>
       )}
