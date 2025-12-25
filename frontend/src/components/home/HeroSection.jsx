@@ -104,14 +104,12 @@ export default function HeroSection() {
     
     let charIndex = 0;
     let isActive = true;
-    setDisplayText('> _');
+    setDisplayText('');
     
     const typeLine = (lineIndex) => {
       if (!isActive || lineIndex >= greetingLines.length) {
         setTimeout(() => {
           if (isActive) {
-            sessionStorage.setItem('greetingShown', 'true');
-            localStorage.setItem('lastGreetingTime', Date.now().toString());
             setGreetingDone(true);
           }
         }, 800);
@@ -136,7 +134,7 @@ export default function HeroSection() {
       typeChar();
     };
     
-    setTimeout(() => typeLine(0), 1000);
+    setTimeout(() => typeLine(0), 500);
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
