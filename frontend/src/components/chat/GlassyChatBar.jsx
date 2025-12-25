@@ -117,6 +117,8 @@ const GlassyChatBar = () => {
     setSessionId(newSessionId);
 
     // Connect WebSocket
+    let systemMessageReceived = false;
+    
     const connectWebSocket = () => {
       const ws = new WebSocket(`${WS_URL}/api/ws/support-chat/${newSessionId}`);
       
@@ -128,12 +130,16 @@ const GlassyChatBar = () => {
         const data = JSON.parse(event.data);
         
         if (data.type === 'system') {
-          addMessage('ai', {
-            id: Date.now(),
-            sender: 'bot',
-            text: data.message,
-            timestamp: new Date(data.timestamp),
-          });
+          // Prevent duplicate system messages on reconnect
+          if (!systemMessageReceived) {
+            systemMessageReceived = true;
+            addMessage('ai', {
+              id: Date.now(),
+              sender: 'bot',
+              text: data.message,
+              timestamp: new Date(data.timestamp),
+            });
+          }
         } else if (data.type === 'user_message') {
           // Already added locally
         } else if (data.type === 'bot_message') {
