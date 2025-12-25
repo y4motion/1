@@ -286,10 +286,13 @@ const GlassyChatBar = () => {
 
   const isMinimalMod = theme === 'minimal-mod';
   const isDark = theme === 'dark' || isMinimalMod;
+  
+  // Show elements when hovered or has unread messages
+  const showElements = isHovered || totalUnread > 0 || hasNewMessage;
 
   return (
     <div
-      className={`glassy-chat-bar ${isExpanded ? 'expanded' : 'collapsed'} ${isFullscreen ? 'fullscreen' : ''} ${isMinimalMod ? 'minimal-mod' : ''}`}
+      className={`glassy-chat-bar ${isExpanded ? 'expanded' : 'collapsed'} ${isFullscreen ? 'fullscreen' : ''} ${isMinimalMod ? 'minimal-mod' : ''} ${hasNewMessage ? 'has-new-message' : ''}`}
       style={{
         '--chat-bg': isDark ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         '--chat-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
@@ -298,28 +301,35 @@ const GlassyChatBar = () => {
         '--chat-accent': '#8b5cf6',
       }}
     >
-      {/* Collapsed Bar */}
+      {/* Ultra-Minimal Collapsed Bar */}
       <div 
-        className="chat-collapsed-bar"
+        className={`chat-collapsed-bar ${showElements ? 'show-elements' : ''}`}
         onClick={() => !isExpanded && setIsExpanded(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="chat-bar-left">
-          <div className="chat-icon-wrapper">
-            <MessageCircle size={20} />
-            {totalUnread > 0 && (
-              <span className="unread-badge">{totalUnread > 9 ? '9+' : totalUnread}</span>
-            )}
-          </div>
-        </div>
+        {/* Thin white line across */}
+        <div className="thin-line" />
         
-        <div className="chat-bar-center">
-          <span className="online-dot" />
-          <span className="status-text">
+        {/* Center section - always visible dot */}
+        <div className="bar-center">
+          <span className={`online-dot ${hasNewMessage ? 'pulse-strong' : ''}`} />
+          
+          {/* Text appears on hover */}
+          <span className={`status-text ${showElements ? 'visible' : ''}`}>
             Core AI {language === 'ru' ? 'онлайн' : 'online'}
           </span>
+          
+          {/* Badge appears on hover or when unread */}
+          {totalUnread > 0 && (
+            <span className={`unread-badge ${showElements ? 'visible' : ''}`}>
+              {totalUnread > 9 ? '9+' : totalUnread}
+            </span>
+          )}
         </div>
         
-        <div className="chat-bar-right">
+        {/* Right section - appears on hover */}
+        <div className={`bar-right ${showElements ? 'visible' : ''}`}>
           <button
             className={`voice-btn ${isRecording ? 'recording' : ''} ${!speechSupported ? 'disabled' : ''}`}
             onClick={(e) => {
@@ -328,16 +338,7 @@ const GlassyChatBar = () => {
             }}
             title={!speechSupported ? (language === 'ru' ? 'Голосовой ввод недоступен' : 'Voice input not available') : ''}
           >
-            {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
-          </button>
-          <button
-            className="expand-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded(!isExpanded);
-            }}
-          >
-            {isExpanded ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+            {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
           </button>
         </div>
       </div>
@@ -345,6 +346,11 @@ const GlassyChatBar = () => {
       {/* Expanded Panel */}
       {isExpanded && (
         <div className="chat-expanded-panel">
+          {/* Drag Handle */}
+          <div className="drag-handle">
+            <div className="handle-bar" />
+          </div>
+          
           {/* Tabs */}
           <div className="chat-tabs">
             {TABS.map(tab => (
