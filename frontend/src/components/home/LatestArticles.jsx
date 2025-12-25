@@ -15,10 +15,14 @@ export default function LatestArticles() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/content/articles?limit=3`);
+      // Try homepage API first
+      let response = await fetch(`${API_URL}/api/homepage/latest-articles?limit=3`);
+      if (!response.ok) {
+        response = await fetch(`${API_URL}/api/content/articles?limit=3`);
+      }
       if (response.ok) {
         const data = await response.json();
-        setArticles(data.data || data.articles || []);
+        setArticles(data.data || data.articles || data || []);
       }
     } catch (error) {
       console.error('Failed to fetch articles:', error);
