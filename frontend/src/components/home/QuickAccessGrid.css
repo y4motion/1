@@ -1,0 +1,246 @@
+/* QuickAccessGrid - Masonry Layout for Quick Navigation */
+
+.quick-access-grid {
+  width: 100%;
+  padding: 1rem 0 3rem;
+}
+
+.quick-access-grid__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Masonry Grid */
+.quick-access-grid__masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  gap: 1rem;
+}
+
+/* Card Base */
+.quick-access-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardFadeIn 0.5s ease-out backwards;
+}
+
+.quick-access-card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Size variants */
+.quick-access-card--large {
+  grid-row: span 2;
+}
+
+.quick-access-card--medium {
+  grid-row: span 1;
+}
+
+/* Background */
+.quick-access-card__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.quick-access-card__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.quick-access-card:hover .quick-access-card__bg img {
+  transform: scale(1.05);
+}
+
+.quick-access-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  transition: background 0.3s ease;
+}
+
+.quick-access-card:hover .quick-access-card__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+}
+
+/* Content */
+.quick-access-card__content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+}
+
+/* Icon */
+.quick-access-card__icon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.quick-access-card:hover .quick-access-card__icon {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Text */
+.quick-access-card__text {
+  margin-top: auto;
+}
+
+.quick-access-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.quick-access-card--medium .quick-access-card__title {
+  font-size: 1.25rem;
+}
+
+.quick-access-card__subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* Stats badge */
+.quick-access-card__stats {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.02em;
+}
+
+/* NEW badge */
+.quick-access-card__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0.05em;
+}
+
+/* Hover glow */
+.quick-access-card__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.quick-access-card:hover .quick-access-card__glow {
+  opacity: 1;
+}
+
+/* Animation */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .quick-access-grid__masonry {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 160px;
+  }
+}
+
+@media (max-width: 900px) {
+  .quick-access-grid__masonry {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+  }
+  
+  .quick-access-card--large {
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .quick-access-grid__container {
+    padding: 0 1rem;
+  }
+  
+  .quick-access-grid__masonry {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 140px;
+    gap: 0.75rem;
+  }
+  
+  .quick-access-card--large {
+    grid-row: span 1;
+  }
+  
+  .quick-access-card__title {
+    font-size: 1.125rem;
+  }
+  
+  .quick-access-card__content {
+    padding: 1rem;
+  }
+  
+  .quick-access-card__icon {
+    width: 36px;
+    height: 36px;
+  }
+}
