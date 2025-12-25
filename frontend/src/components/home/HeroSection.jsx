@@ -566,8 +566,7 @@ export default function HeroSection() {
           className="particles-container"
           style={{ 
             position: 'absolute', inset: 0, zIndex: 2, 
-            overflow: 'hidden', pointerEvents: 'none',
-            animation: 'fadeIn 1s ease-out'
+            overflow: 'hidden', pointerEvents: 'none'
           }}
         >
           {particles.map((p) => (
