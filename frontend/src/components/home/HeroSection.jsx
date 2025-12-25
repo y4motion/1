@@ -326,9 +326,12 @@ export default function HeroSection() {
       return;
     }
     
+    // Save to search history for future placeholders
+    saveSearchToHistory(query);
+    
     coreAI.trackAction('search', { query });
     navigate(`/marketplace?search=${encodeURIComponent(query)}`);
-  }, [navigate, triggerEasterEgg]);
+  }, [navigate, triggerEasterEgg, saveSearchToHistory]);
 
   const handleMultiToolSelect = (tool) => {
     setActiveMultiTool(tool);
