@@ -668,39 +668,9 @@ export default function HeroSection() {
 }
 
 const heroStyles = `
-  /* Cursor blink */
-  .cursor-blink {
-    display: inline-block;
-    width: 3px;
-    height: 1.8rem;
-    background: #fff;
-    margin-left: 4px;
-    vertical-align: text-bottom;
-    animation: blink 1s step-end infinite;
-    box-shadow: 0 0 15px rgba(255,255,255,0.8);
-  }
-
-  /* Greeting Overlay */
-  .greeting-overlay {
-    transition: opacity 0.8s ease-out;
-  }
-
-  .greeting-overlay.fading {
-    opacity: 0;
-  }
-
-  .greeting-text {
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .greeting-text.fade-up {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.98);
-  }
-
   /* Particles fade in */
   .particles-container {
-    animation: particlesFadeIn 1.2s ease-out forwards;
+    animation: particlesFadeIn 1s ease-out forwards;
   }
 
   @keyframes particlesFadeIn {
@@ -711,8 +681,6 @@ const heroStyles = `
   /* Search container entrance */
   .hero-search-container.entrance {
     animation: searchEntrance 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 0.2s;
-    opacity: 0;
   }
 
   @keyframes searchEntrance {
