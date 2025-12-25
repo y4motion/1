@@ -44,7 +44,7 @@
 }
 
 /* ========================================
-   COLLAPSED BAR - Visible thin bar
+   COLLAPSED BAR - Just the thin line
    ======================================== */
 
 .chat-collapsed-bar {
@@ -53,92 +53,95 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(20px) saturate(150%);
-  border-radius: 18px;
+  background: transparent;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: visible;
-  /* No transition on hover - keep it simple */
 }
 
-.glassy-chat-bar.minimal-mod .chat-collapsed-bar {
-  backdrop-filter: none;
-  border-radius: 0;
-}
-
-/* ========================================
-   BAR GLOW INDICATOR - THE ONLY INDICATOR
-   ======================================== */
-
+/* The thin line IS the chat bar */
 .chat-collapsed-bar::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
   right: 0;
-  bottom: 0;
-  border-radius: 18px;
-  pointer-events: none;
-  transition: all 0.4s ease;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 15%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 85%,
+    transparent 100%
+  );
+  border-radius: 1px;
+  animation: line-breathe 14s ease-in-out infinite;
 }
 
-/* Default: very soft white breathing glow (12-15s cycle) */
-.chat-collapsed-bar::before {
-  animation: bar-breathe 14s ease-in-out infinite;
-}
-
-@keyframes bar-breathe {
+/* Soft breathing pulse */
+@keyframes line-breathe {
   0%, 100% {
-    box-shadow: 
-      inset 0 0 8px rgba(255, 255, 255, 0.03),
-      0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0.5;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
   }
   50% {
-    box-shadow: 
-      inset 0 0 15px rgba(255, 255, 255, 0.08),
-      0 0 8px rgba(255, 255, 255, 0.03);
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
   }
 }
 
-/* New message: intense pulse for 4-5 seconds */
+/* New message: intense pulse */
 .glassy-chat-bar.has-new-message .chat-collapsed-bar::before {
-  animation: bar-pulse-intense 1s ease-in-out 4;
+  animation: line-pulse-intense 1s ease-in-out 4;
 }
 
-@keyframes bar-pulse-intense {
+@keyframes line-pulse-intense {
   0%, 100% {
-    box-shadow: 
-      inset 0 0 12px rgba(255, 255, 255, 0.1),
-      0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
   }
   50% {
-    box-shadow: 
-      inset 0 0 30px rgba(255, 255, 255, 0.25),
-      0 0 15px rgba(255, 255, 255, 0.08);
+    opacity: 1;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
   }
 }
 
-/* AI typing: wave glow left to right */
+/* AI typing: wave glow */
 .glassy-chat-bar.ai-typing .chat-collapsed-bar::before {
-  animation: bar-wave 2s ease-in-out infinite;
+  animation: line-wave 2s ease-in-out infinite;
 }
 
-@keyframes bar-wave {
+@keyframes line-wave {
   0% {
-    box-shadow: 
-      inset -100px 0 40px rgba(255, 255, 255, 0.15),
-      inset 0 0 10px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 10%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.15) 70%,
+      transparent 100%
+    );
   }
   50% {
-    box-shadow: 
-      inset 100px 0 40px rgba(255, 255, 255, 0.15),
-      inset 0 0 10px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.15) 70%,
+      rgba(255, 255, 255, 0.4) 90%,
+      transparent 100%
+    );
   }
   100% {
-    box-shadow: 
-      inset -100px 0 40px rgba(255, 255, 255, 0.15),
-      inset 0 0 10px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 10%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.15) 70%,
+      transparent 100%
+    );
   }
 }
 
