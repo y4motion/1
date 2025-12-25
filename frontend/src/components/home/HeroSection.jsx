@@ -158,45 +158,46 @@ export default function HeroSection() {
     localStorage.setItem('lastVisit', Date.now().toString());
   }, [user]);
 
-  // Typewriter greeting effect
+  // Typewriter greeting effect - single line, faster
   useEffect(() => {
-    if (greetingDone || greetingLines.length === 0) return;
+    if (greetingDone) return;
     
     let charIndex = 0;
     let isActive = true;
     setDisplayText('');
     
-    const typeLine = (lineIndex) => {
-      if (!isActive || lineIndex >= greetingLines.length) {
-        setTimeout(() => {
-          if (isActive) {
-            setGreetingDone(true);
-          }
-        }, 800);
-        return;
-      }
-      
-      charIndex = 0;
-      const line = greetingLines[lineIndex];
-      
+    // Start typing after brief pause
+    const startTyping = setTimeout(() => {
       const typeChar = () => {
         if (!isActive) return;
-        if (charIndex <= line.length) {
-          setDisplayText(line.substring(0, charIndex));
+        
+        if (charIndex <= greetingText.length) {
+          setDisplayText(greetingText.substring(0, charIndex));
           charIndex++;
-          setTimeout(typeChar, 65);
+          setTimeout(typeChar, 50); // Faster typing
         } else {
+          // Finished typing - start fade transition
           setTimeout(() => {
-            if (isActive) typeLine(lineIndex + 1);
-          }, 1200);
+            if (isActive) {
+              setGreetingPhase('fading');
+              // Complete transition after animation
+              setTimeout(() => {
+                if (isActive) {
+                  setGreetingDone(true);
+                }
+              }, 800); // Match CSS transition duration
+            }
+          }, 1000); // Hold complete text for 1 second
         }
       };
       typeChar();
-    };
+    }, 300);
     
-    setTimeout(() => typeLine(0), 500);
-    return () => { isActive = false; };
-  }, [greetingLines, greetingDone]);
+    return () => { 
+      isActive = false; 
+      clearTimeout(startTyping);
+    };
+  }, [greetingText, greetingDone]);
 
   // Typewriter placeholder effect - fixed cycling
   useEffect(() => {
