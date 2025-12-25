@@ -93,7 +93,7 @@ const ShopByCategory = () => {
             <Link
               key={category.id}
               to={`/marketplace?category=${category.id}`}
-              className={`category-card ${isLoading ? 'category-card--loading' : ''}`}
+              className={`category-card scroll-reveal ${isLoading ? 'category-card--loading' : ''}`}
               style={{ animationDelay: `${index * 0.06}s` }}
               onClick={() => handleCategoryClick(category)}
             >
