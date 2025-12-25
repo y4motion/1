@@ -8,6 +8,7 @@ import ShopByCategory from './home/ShopByCategory';
 import HotDealsAndPopular from './home/HotDealsAndPopular';
 import LatestArticles from './home/LatestArticles';
 import '../styles/glassmorphism.css';
+import '../styles/animations.css';
 
 export default function HomePage() {
   return (
