@@ -1727,7 +1727,7 @@ SECRET_KEY=your_jwt_secret_key_here
 
 **Frontend (.env):**
 ```
-REACT_APP_BACKEND_URL=https://pricewatch-34.preview.emergentagent.com/api
+REACT_APP_BACKEND_URL=https://smarthub-8.preview.emergentagent.com/api
 ```
 
 ### C. Запуск проекта
