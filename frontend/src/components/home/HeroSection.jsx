@@ -518,29 +518,33 @@ export default function HeroSection() {
         zIndex: 1 
       }} />
 
-      {/* Floating particles */}
-      {greetingDone && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 2, overflow: 'hidden', pointerEvents: 'none' }}>
-          {particles.map((p) => (
-            <div
-              key={p.id}
-              className="hero-particle"
-              style={{
-                position: 'absolute',
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
-                borderRadius: '50%',
-                left: `${p.startX}%`,
-                top: `${p.startY}%`,
-                animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
-                animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
-                willChange: 'opacity'
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Floating particles - always visible, fade in during greeting */}
+      <div 
+        className={`particles-container ${greetingDone ? 'visible' : ''} ${greetingPhase === 'fading' ? 'appearing' : ''}`}
+        style={{ 
+          position: 'absolute', inset: 0, zIndex: 2, 
+          overflow: 'hidden', pointerEvents: 'none'
+        }}
+      >
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="hero-particle"
+            style={{
+              position: 'absolute',
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              background: `rgba(255,255,255,${0.3 + Math.random() * 0.4})`,
+              borderRadius: '50%',
+              left: `${p.startX}%`,
+              top: `${p.startY}%`,
+              animation: `drift${p.driftIndex + 1} ${p.driftDuration}s ease-in-out infinite, particleFade ${p.fadeDuration}s ease-in-out infinite`,
+              animationDelay: `${p.driftDelay}s, ${p.fadeDelay}s`,
+              willChange: 'opacity'
+            }}
+          />
+        ))}
+      </div>
 
       {/* Greeting Overlay with smooth transition */}
       {!greetingDone && (
