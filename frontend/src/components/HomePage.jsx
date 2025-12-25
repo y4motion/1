@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from './home/HeroSection';
+import LiveActivityFeed from './home/LiveActivityFeed';
 import FeaturedCategories from './home/FeaturedCategories';
 import TrendingSection from './home/TrendingSection';
 import LatestArticles from './home/LatestArticles';
