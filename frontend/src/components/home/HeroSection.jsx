@@ -865,6 +865,7 @@ export default function HeroSection() {
                   )}
                 </div>
               </div>
+              </div> {/* Close search-bar-wrapper */}
 
               {/* Quick Actions */}
               <div className={`quick-actions ${isSearchFocused ? 'visible' : ''}`}>
@@ -1083,36 +1084,21 @@ const heroStyles = `
 
   /* === TYPING REACTION EFFECT === */
   .search-bar.typing {
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.12);
     box-shadow: 
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 0 25px rgba(255, 255, 255, 0.12),
-      0 0 50px rgba(255, 255, 255, 0.06);
-    animation: typingGlow 0.2s ease-out;
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 0 15px rgba(255, 255, 255, 0.04);
+    transition: all 0.3s ease-out;
   }
 
-  @keyframes typingGlow {
-    0% {
-      box-shadow: 
-        0 0 0 2px rgba(255, 255, 255, 0.2),
-        0 0 30px rgba(255, 255, 255, 0.15),
-        0 0 60px rgba(255, 255, 255, 0.08);
-    }
-    100% {
-      box-shadow: 
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        0 0 25px rgba(255, 255, 255, 0.12),
-        0 0 50px rgba(255, 255, 255, 0.06);
-    }
-  }
-
-  /* Traveling wave along the border */
+  /* Subtle traveling glow along the border */
   .typing-wave {
     position: absolute;
     inset: -1px;
     border-radius: 21px;
     pointer-events: none;
     z-index: 10;
+    opacity: 0.5;
   }
 
   .typing-wave::before {
@@ -1124,24 +1110,27 @@ const heroStyles = `
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.4) 50%,
+      transparent 40%,
+      rgba(255, 255, 255, 0.15) 50%,
+      transparent 60%,
       transparent 100%
     );
+    background-size: 200% 100%;
     -webkit-mask: 
       linear-gradient(#fff 0 0) content-box, 
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: typingWaveMove 0.4s ease-out forwards;
+    animation: typingWaveMove 0.6s ease-out forwards;
   }
 
   @keyframes typingWaveMove {
     0% {
-      background-position: -200% 0;
-      opacity: 1;
+      background-position: 100% 0;
+      opacity: 0.6;
     }
     100% {
-      background-position: 200% 0;
+      background-position: -100% 0;
       opacity: 0;
     }
   }
