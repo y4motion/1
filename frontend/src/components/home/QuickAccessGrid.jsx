@@ -1,117 +1,96 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Star, FileText, Users, ShoppingBag, 
-  Rss, Award, Zap, TrendingUp 
+  Cpu, Activity, Users, Trophy, Star, BookOpen, ArrowRight 
 } from 'lucide-react';
 import './QuickAccessGrid.css';
 
-const quickAccessItems = [
+const cards = [
   {
-    id: 'marketplace',
-    title: 'MARKETPLACE',
-    subtitle: 'Премиум товары',
-    icon: ShoppingBag,
-    link: '/marketplace',
-    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&q=80',
-    size: 'large',
-    stats: '2,450+ товаров'
-  },
-  {
-    id: 'rating',
-    title: 'RATING',
-    subtitle: 'Топ пользователей',
-    icon: Star,
-    link: '/rating',
-    image: 'https://images.unsplash.com/photo-1602025882379-e01cf08baa51?w=800&q=80',
-    size: 'medium'
-  },
-  {
-    id: 'articles',
-    title: 'ARTICLES',
-    subtitle: 'Статьи и гайды',
-    icon: FileText,
-    link: '/articles',
-    image: 'https://images.unsplash.com/photo-1626958390898-162d3577f293?w=800&q=80',
-    size: 'medium'
+    id: 'builder',
+    icon: Cpu,
+    title: 'Собрать ПК',
+    preview: 'AI поможет подобрать совместимые комплектующие',
+    badge: 'AI-помощник',
+    link: '/assembly'
   },
   {
     id: 'feed',
-    title: 'FEED',
-    subtitle: 'Лента сообщества',
-    icon: Rss,
-    link: '/feed',
-    image: 'https://images.unsplash.com/photo-1615031465602-20f3ff3ca279?w=800&q=80',
-    size: 'large',
-    stats: 'Обновляется live'
-  },
-  {
-    id: 'creators',
-    title: 'CREATORS',
-    subtitle: 'Авторы контента',
-    icon: Users,
-    link: '/creators',
-    image: 'https://images.unsplash.com/photo-1618586810102-aaa7049200c0?w=800&q=80',
-    size: 'medium'
+    icon: Activity,
+    title: 'Лента сообщества',
+    preview: 'Обсуждения, сборки, вопросы энтузиастов',
+    badge: 'LIVE',
+    badgeLive: true,
+    link: '/feed'
   },
   {
     id: 'groupbuy',
-    title: 'GROUP BUY',
-    subtitle: 'Совместные покупки',
-    icon: Award,
-    link: '/groupbuy',
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800',
-    size: 'medium',
-    badge: 'NEW'
+    icon: Users,
+    title: 'Совместные покупки',
+    preview: 'Скидки до 40% при групповом заказе',
+    badge: 'Экономь',
+    link: '/groupbuy'
+  },
+  {
+    id: 'rating',
+    icon: Trophy,
+    title: 'Рейтинг',
+    preview: 'TOP пользователей по XP и активности',
+    link: '/rating'
+  },
+  {
+    id: 'creators',
+    icon: Star,
+    title: 'Контент-мейкеры',
+    preview: 'Популярные авторы и их работы',
+    link: '/creators'
+  },
+  {
+    id: 'articles',
+    icon: BookOpen,
+    title: 'Гайды и обзоры',
+    preview: 'Статьи, руководства и сравнения',
+    link: '/articles'
   }
 ];
 
 const QuickAccessGrid = () => {
   return (
-    <section className="quick-access-grid">
-      <div className="quick-access-grid__container">
-        <div className="quick-access-grid__masonry">
-          {quickAccessItems.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.id}
-                to={item.link}
-                className={`quick-access-card quick-access-card--${item.size}`}
-                style={{ animationDelay: `${index * 0.08}s` }}
-              >
-                {/* Background Image */}
-                <div className="quick-access-card__bg">
-                  <img src={item.image} alt={item.title} loading="lazy" />
-                  <div className="quick-access-card__overlay" />
+    <section className="quick-access-section">
+      <div className="quick-access-grid">
+        {cards.map((card, index) => {
+          const Icon = card.icon;
+          
+          return (
+            <Link
+              key={card.id}
+              to={card.link}
+              className="quick-access-card"
+              style={{ animationDelay: `${index * 0.08}s` }}
+            >
+              <div className="card-header">
+                <div className="card-icon">
+                  <Icon size={24} />
                 </div>
-                
-                {/* Content */}
-                <div className="quick-access-card__content">
-                  <div className="quick-access-card__icon">
-                    <Icon size={20} />
-                  </div>
-                  
-                  <div className="quick-access-card__text">
-                    <h3 className="quick-access-card__title">{item.title}</h3>
-                    <p className="quick-access-card__subtitle">{item.subtitle}</p>
-                  </div>
-                  
-                  {item.stats && (
-                    <span className="quick-access-card__stats">{item.stats}</span>
-                  )}
-                  
-                  {item.badge && (
-                    <span className="quick-access-card__badge">{item.badge}</span>
-                  )}
-                </div>
-                
-                {/* Hover glow */}
-                <div className="quick-access-card__glow" />
-              </Link>
-            );
-          })}
-        </div>
+                {card.badge && (
+                  <span className={`card-badge ${card.badgeLive ? 'card-badge--live' : ''}`}>
+                    {card.badge}
+                  </span>
+                )}
+              </div>
+              
+              <h3 className="card-title">{card.title}</h3>
+              
+              <div className="card-preview">
+                {card.preview}
+              </div>
+              
+              <div className="card-arrow">
+                <ArrowRight size={18} />
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
