@@ -547,16 +547,19 @@ export default function HeroSection() {
       </div>
 
       {/* Greeting Overlay with smooth transition */}
-      {!greetingDone && (
-        <div 
-          className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''}`}
-          style={{ 
-            position: 'absolute', inset: 0, background: '#000000', zIndex: 20, 
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexDirection: 'column', gap: '2rem'
-          }}
-        >
-          {/* Greeting text */}
+      <div 
+        className={`greeting-overlay ${greetingPhase === 'fading' ? 'fading' : ''} ${greetingDone ? 'done' : ''}`}
+        style={{ 
+          position: 'absolute', inset: 0, 
+          background: greetingPhase === 'fading' ? 'transparent' : '#000000', 
+          zIndex: 20, 
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexDirection: 'column', gap: '2rem',
+          pointerEvents: greetingDone ? 'none' : 'auto'
+        }}
+      >
+        {/* Greeting text */}
+        {!greetingDone && (
           <div 
             className={`greeting-text ${greetingPhase === 'fading' ? 'fade-up' : ''}`}
             style={{ textAlign: 'center', padding: '2rem' }}
@@ -583,27 +586,8 @@ export default function HeroSection() {
               }} />
             )}
           </div>
-
-          {/* Preview of search icon during fade */}
-          {greetingPhase === 'fading' && (
-            <div style={{ animation: 'fadeInUp 0.6s ease-out' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '50%',
-                color: 'rgba(255, 255, 255, 0.5)'
-              }}>
-                <Search size={24} />
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Easter Egg Message */}
       {showEasterEgg && (
