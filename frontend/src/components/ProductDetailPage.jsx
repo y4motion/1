@@ -56,6 +56,8 @@ const ProductDetailPage = () => {
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
+        // Track product view for LiveActivityFeed
+        trackProductView(id, data.name || data.title || 'Product');
       }
     } catch (error) {
       console.error('Failed to fetch product:', error);
