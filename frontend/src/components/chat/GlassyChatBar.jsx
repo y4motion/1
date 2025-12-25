@@ -496,6 +496,13 @@ const GlassyChatBar = () => {
   // ========================================
 
   const handleSendMessage = () => {
+    // Handle private chat messages
+    if (activeTab === 'messages' && activeConversation) {
+      sendPrivateMessage();
+      return;
+    }
+    
+    // Handle AI/Community/Support messages via WebSocket
     if (!inputMessage.trim() || !wsRef.current) return;
     
     const userMessage = {
