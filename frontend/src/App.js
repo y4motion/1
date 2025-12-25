@@ -97,6 +97,7 @@ function App() {
                     <Route path="/creator" element={<PlaceholderPage title="CREATOR" />} />
                     <Route path="/user" element={<PlaceholderPage title="USER" />} />
                     <Route path="/glassy-swap" element={<GlassySwapPage />} />
+                    <Route path="/glassy-swap/:id" element={<GlassySwapPage />} />
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}
