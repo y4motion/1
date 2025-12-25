@@ -864,7 +864,6 @@ export default function HeroSection() {
                     </div>
                   )}
                 </div>
-              </div>
               </div> {/* Close search-bar-wrapper */}
 
               {/* Quick Actions */}
