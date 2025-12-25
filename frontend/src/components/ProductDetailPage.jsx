@@ -22,6 +22,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import PriceAlertSettings from './PriceAlertSettings';
+import { trackProductView } from './home/LiveActivityFeed';
 import '../styles/glassmorphism.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
