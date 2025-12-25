@@ -124,47 +124,6 @@ export default function HeroSection() {
     localStorage.setItem('lastVisit', Date.now().toString());
   }, [user]);
 
-  // Typewriter greeting effect - single line, faster
-  useEffect(() => {
-    if (greetingDone) return;
-    
-    let charIndex = 0;
-    let isActive = true;
-    setDisplayText('');
-    
-    // Start typing after brief pause
-    const startTyping = setTimeout(() => {
-      const typeChar = () => {
-        if (!isActive) return;
-        
-        if (charIndex <= greetingText.length) {
-          setDisplayText(greetingText.substring(0, charIndex));
-          charIndex++;
-          setTimeout(typeChar, 50); // Faster typing
-        } else {
-          // Finished typing - start fade transition
-          setTimeout(() => {
-            if (isActive) {
-              setGreetingPhase('fading');
-              // Complete transition after animation
-              setTimeout(() => {
-                if (isActive) {
-                  setGreetingDone(true);
-                }
-              }, 800); // Match CSS transition duration
-            }
-          }, 1000); // Hold complete text for 1 second
-        }
-      };
-      typeChar();
-    }, 300);
-    
-    return () => { 
-      isActive = false; 
-      clearTimeout(startTyping);
-    };
-  }, [greetingText, greetingDone]);
-
   // Typewriter placeholder effect - fixed cycling
   useEffect(() => {
     if (!isSearchActive || searchQuery || placeholders.length === 0) return;
