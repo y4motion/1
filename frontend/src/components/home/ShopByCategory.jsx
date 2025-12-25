@@ -76,9 +76,9 @@ const ShopByCategory = () => {
   return (
     <section className="shop-by-category">
       <div className="shop-by-category__header">
-        <h2 className="shop-by-category__title">Категории</h2>
+        <h2 className="shop-by-category__title">Категории магазина</h2>
         <Link to="/marketplace" className="shop-by-category__see-all">
-          Все категории
+          Все товары
           <ArrowRight size={16} />
         </Link>
       </div>
