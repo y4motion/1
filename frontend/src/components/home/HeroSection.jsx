@@ -789,13 +789,48 @@ const heroStyles = `
   /* Cursor blink */
   .cursor-blink {
     display: inline-block;
-    width: 10px;
-    height: 1.1em;
+    width: 3px;
+    height: 1.2em;
     background: #fff;
-    margin-left: 2px;
+    margin-left: 4px;
     vertical-align: text-bottom;
     animation: blink 1s step-end infinite;
-    box-shadow: 0 0 12px rgba(255,255,255,0.5);
+    box-shadow: 0 0 15px rgba(255,255,255,0.8);
+  }
+
+  /* Greeting Overlay Transitions */
+  .greeting-overlay {
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .greeting-overlay.fading {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  .greeting-text {
+    transition: all 0.6s ease-out;
+  }
+
+  .greeting-text.fade-up {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  /* Search container entrance */
+  .hero-search-container.entrance {
+    animation: searchEntrance 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes searchEntrance {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   /* Search Icon Initial (Zen State) */
