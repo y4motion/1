@@ -109,6 +109,10 @@ const GlassyChatBar = () => {
 
   // Initialize WebSocket
   useEffect(() => {
+    // Prevent double initialization in StrictMode
+    if (wsInitialized.current) return;
+    wsInitialized.current = true;
+    
     const storedSessionId = localStorage.getItem('glassy_chat_session');
     const newSessionId = storedSessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
