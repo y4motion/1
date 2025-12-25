@@ -178,7 +178,7 @@ const SwapMainPage = () => {
   ];
   
   return (
-    <div className="dark-bg min-h-screen" style={{ paddingTop: '80px' }} data-theme={theme}>
+    <div className="dark-bg min-h-screen" style={{ paddingTop: '80px' }}>
       {/* Hero Section */}
       <section className="relative overflow-hidden" style={{ minHeight: '280px' }}>
         {/* Particles */}
