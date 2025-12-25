@@ -37,6 +37,15 @@ const VotingPage = React.lazy(() => import('./components/VotingPage'));
 const RatingPage = React.lazy(() => import('./components/RatingPage'));
 const GroupBuyPage = React.lazy(() => import('./components/GroupBuyPage'));
 
+// Redirect component for /chat routes - opens GlassyChatBar on home
+const ChatRedirect = () => {
+  useEffect(() => {
+    // Dispatch custom event to open chat bar
+    window.dispatchEvent(new CustomEvent('openGlassyChat', { detail: { tab: 'ai' } }));
+  }, []);
+  return <Navigate to="/" replace />;
+};
+
 function App() {
   return (
     <ThemeProvider>
