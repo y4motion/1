@@ -223,3 +223,31 @@
     font-size: 0.75rem;
   }
 }
+
+/* Skeleton loading */
+.activity-item--skeleton {
+  pointer-events: none;
+  min-width: 200px;
+}
+
+.activity-item--skeleton .activity-icon {
+  background: rgba(255, 255, 255, 0.05);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+  width: 150px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
