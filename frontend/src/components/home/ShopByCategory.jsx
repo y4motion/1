@@ -40,7 +40,6 @@ const defaultCategories = [
 const ShopByCategory = () => {
   const [categories, setCategories] = useState(defaultCategories);
   const [isLoading, setIsLoading] = useState(true);
-  const gridRef = useStaggerReveal('.shop-by-category__card', 60);
 
   useEffect(() => {
     const fetchCategories = async () => {
