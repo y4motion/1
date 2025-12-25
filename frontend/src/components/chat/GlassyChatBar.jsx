@@ -767,60 +767,144 @@ const GlassyChatBar = () => {
           {/* Messages Tab - Private Chats */}
           {activeTab === 'messages' ? (
             <div className="messages-container">
-              {/* If on swap listing page - show seller chat option */}
+              {/* If on swap listing page - show chat with seller */}
               {pageContext.type === 'swap_listing' ? (
-                <div className="seller-chat-prompt">
-                  <div className="seller-chat-card">
-                    <div className="seller-avatar">
-                      <MessageSquare size={24} />
+                activeConversation ? (
+                  // Show conversation messages
+                  <div className="private-chat">
+                    <div className="conversation-header">
+                      <button 
+                        className="back-btn"
+                        onClick={() => setActiveConversation(null)}
+                      >
+                        ←
+                      </button>
+                      <span>{language === 'ru' ? 'Чат с продавцом' : 'Chat with Seller'}</span>
                     </div>
-                    <div className="seller-info">
-                      <h4>{language === 'ru' ? 'Написать продавцу' : 'Message Seller'}</h4>
-                      <p>{language === 'ru' 
-                        ? 'Задайте вопрос о товаре или предложите сделку'
-                        : 'Ask about the item or make an offer'}</p>
+                    
+                    <div className="chat-messages">
+                      {conversationMessages.length === 0 ? (
+                        <div className="empty-chat">
+                          <MessageSquare size={32} strokeWidth={1.5} />
+                          <p>{language === 'ru' ? 'Начните диалог с продавцом' : 'Start a conversation with seller'}</p>
+                        </div>
+                      ) : (
+                        conversationMessages.map((msg) => (
+                          <div
+                            key={msg.id}
+                            className={`message ${msg.sender_id === user?.id ? 'user' : 'bot'}`}
+                          >
+                            <div className="message-avatar">
+                              <span>{msg.sender_id === user?.id ? '👤' : '🏪'}</span>
+                            </div>
+                            <div className="message-content">
+                              <div className="message-bubble">{msg.text}</div>
+                              <div className="message-time">
+                                {new Date(msg.created_at).toLocaleTimeString(language === 'ru' ? 'ru-RU' : 'en-US', {
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
-                  
-                  {/* Quick message templates */}
-                  <div className="quick-messages">
-                    <p className="quick-title">{language === 'ru' ? 'Быстрые сообщения:' : 'Quick messages:'}</p>
-                    <button 
-                      className="quick-btn"
-                      onClick={() => setInputMessage(language === 'ru' ? 'Привет! Товар ещё в наличии?' : 'Hi! Is this item still available?')}
-                    >
-                      {language === 'ru' ? '🔍 Ещё в наличии?' : '🔍 Still available?'}
-                    </button>
-                    <button 
-                      className="quick-btn"
-                      onClick={() => setInputMessage(language === 'ru' ? 'Какая минимальная цена?' : 'What\'s the lowest price?')}
-                    >
-                      {language === 'ru' ? '💰 Минимальная цена?' : '💰 Lowest price?'}
-                    </button>
-                    <button 
-                      className="quick-btn"
-                      onClick={() => setInputMessage(language === 'ru' ? 'Готов к обмену на...' : 'Interested in trading for...')}
-                    >
-                      {language === 'ru' ? '🔄 Предложить обмен' : '🔄 Offer trade'}
-                    </button>
+                ) : (
+                  // Show prompt to start conversation
+                  <div className="seller-chat-prompt">
+                    <div className="seller-chat-card">
+                      <div className="seller-avatar">
+                        <MessageSquare size={24} />
+                      </div>
+                      <div className="seller-info">
+                        <h4>{language === 'ru' ? 'Написать продавцу' : 'Message Seller'}</h4>
+                        <p>{language === 'ru' 
+                          ? 'Задайте вопрос о товаре или предложите сделку'
+                          : 'Ask about the item or make an offer'}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Quick message templates */}
+                    <div className="quick-messages">
+                      <p className="quick-title">{language === 'ru' ? 'Быстрые сообщения:' : 'Quick messages:'}</p>
+                      <button 
+                        className="quick-btn"
+                        onClick={() => {
+                          setInputMessage(language === 'ru' ? 'Привет! Товар ещё в наличии?' : 'Hi! Is this item still available?');
+                          startConversation(pageContext.id);
+                        }}
+                      >
+                        {language === 'ru' ? '🔍 Ещё в наличии?' : '🔍 Still available?'}
+                      </button>
+                      <button 
+                        className="quick-btn"
+                        onClick={() => {
+                          setInputMessage(language === 'ru' ? 'Какая минимальная цена?' : 'What\'s the lowest price?');
+                          startConversation(pageContext.id);
+                        }}
+                      >
+                        {language === 'ru' ? '💰 Минимальная цена?' : '💰 Lowest price?'}
+                      </button>
+                      <button 
+                        className="quick-btn"
+                        onClick={() => {
+                          setInputMessage(language === 'ru' ? 'Готов к обмену на...' : 'Interested in trading for...');
+                          startConversation(pageContext.id);
+                        }}
+                      >
+                        {language === 'ru' ? '🔄 Предложить обмен' : '🔄 Offer trade'}
+                      </button>
+                    </div>
                   </div>
-                  
-                  {/* Message input will appear below */}
-                </div>
+                )
               ) : (
-                <div className="coming-soon-container">
-                  <div className="coming-soon-card">
-                    <MessageSquare size={48} strokeWidth={1.5} />
-                    <h3>{language === 'ru' ? 'Личные сообщения' : 'Private Messages'}</h3>
-                    <p>
-                      {language === 'ru' 
-                        ? 'Личные чаты с продавцами и друзьями появятся скоро. Пока можете написать продавцу на странице объявления!'
-                        : 'Private chats with sellers and friends coming soon. For now, message sellers from listing pages!'}
-                    </p>
-                    <div className="coming-soon-badge">
-                      {language === 'ru' ? 'Скоро' : 'Coming Soon'}
+                // Show conversations list
+                <div className="conversations-list">
+                  {loadingConversations ? (
+                    <div className="loading-conversations">
+                      <div className="spinner" />
                     </div>
-                  </div>
+                  ) : conversations.length > 0 ? (
+                    conversations.map(conv => (
+                      <div 
+                        key={conv.id}
+                        className="conversation-item"
+                        onClick={() => {
+                          setActiveConversation(conv);
+                          fetchConversationMessages(conv.id);
+                        }}
+                      >
+                        <div className="conv-image">
+                          {conv.listing_image ? (
+                            <img src={conv.listing_image} alt="" />
+                          ) : (
+                            <MessageSquare size={20} />
+                          )}
+                        </div>
+                        <div className="conv-info">
+                          <div className="conv-title">{conv.listing_title}</div>
+                          <div className="conv-last">{conv.last_message || (language === 'ru' ? 'Нет сообщений' : 'No messages')}</div>
+                        </div>
+                        {conv.unread > 0 && (
+                          <div className="conv-unread">{conv.unread}</div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="coming-soon-container">
+                      <div className="coming-soon-card">
+                        <MessageSquare size={48} strokeWidth={1.5} />
+                        <h3>{language === 'ru' ? 'Нет сообщений' : 'No Messages'}</h3>
+                        <p>
+                          {language === 'ru' 
+                            ? 'Начните чат с продавцом на странице любого объявления в Glassy Swap!'
+                            : 'Start chatting with sellers from any listing page in Glassy Swap!'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
