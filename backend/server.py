@@ -47,6 +47,7 @@ from routes.ai_routes import router as ai_router
 from routes.swap_routes import router as swap_router
 from routes.swap_chat_routes import router as swap_chat_router
 from routes.upload_routes import router as upload_router
+from routes.activity_routes import router as activity_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
