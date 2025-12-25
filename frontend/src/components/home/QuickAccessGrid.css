@@ -5,12 +5,19 @@
 }
 
 .quick-access-grid {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
+}
+
+@media (min-width: 1920px) {
+  .quick-access-grid {
+    max-width: 1800px;
+    gap: 2.5rem;
+  }
 }
 
 /* Masonry offset effect */

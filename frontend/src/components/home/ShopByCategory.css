@@ -1,9 +1,15 @@
 /* ShopByCategory - Category Cards Grid */
 
 .shop-by-category {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 4rem auto;
   padding: 0 2rem;
+}
+
+@media (min-width: 1920px) {
+  .shop-by-category {
+    max-width: 1800px;
+  }
 }
 
 /* Header */

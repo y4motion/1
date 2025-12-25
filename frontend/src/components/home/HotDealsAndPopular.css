@@ -6,9 +6,19 @@
 }
 
 .hot-deals-container {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+@media (min-width: 1920px) {
+  .hot-deals-container {
+    max-width: 1800px;
+  }
+  
+  .hot-deals-grid {
+    gap: 4rem;
+  }
 }
 
 .hot-deals-grid {
