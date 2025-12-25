@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://social-itmarket.preview.emergentagent.com/
-- **Backend API:** https://social-itmarket.preview.emergentagent.com/api
-- **Превью японских фото:** https://social-itmarket.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://glassyswap.preview.emergentagent.com/
+- **Backend API:** https://glassyswap.preview.emergentagent.com/api
+- **Превью японских фото:** https://glassyswap.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
