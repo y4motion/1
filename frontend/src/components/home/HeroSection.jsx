@@ -9,9 +9,8 @@ export default function HeroSection() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showMultiMenu, setShowMultiMenu] = useState(false);
-  const [activeMultiTool, setActiveMultiTool] = useState(null); // null = menu icon
+  const [activeMultiTool, setActiveMultiTool] = useState(null);
   const [isListening, setIsListening] = useState(false);
-  const [displayText, setDisplayText] = useState('');
   const [showHint, setShowHint] = useState(!localStorage.getItem('searchHintShown'));
   const [videoLoaded, setVideoLoaded] = useState(false);
   
@@ -35,50 +34,7 @@ export default function HeroSection() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Smart greeting based on time and user
-  const getSmartGreeting = useCallback(() => {
-    const hour = new Date().getHours();
-    const userName = user?.username || 'Гость';
-    const lastVisit = localStorage.getItem('lastVisit');
-    const isReturning = lastVisit && (Date.now() - parseInt(lastVisit)) < 86400000;
-    
-    const greetings = {
-      morning: [`Доброе утро, ${userName}`, `Привет, ${userName}. Готов к новому дню?`],
-      day: [`Привет, ${userName}`, `Здравствуй, ${userName}. Чем помочь?`],
-      evening: [`Добрый вечер, ${userName}`, `Вечер, ${userName}. Ищешь что-то?`],
-      night: [`Поздний час, ${userName}`, `Ночной сёрфинг, ${userName}?`]
-    };
-    
-    const returning = [
-      `Рад видеть снова, ${userName}`,
-      `С возвращением, ${userName}`,
-      `${userName}, продолжим?`
-    ];
-    
-    if (isReturning) return returning[Math.floor(Math.random() * returning.length)];
-    
-    if (hour < 12) return greetings.morning[Math.floor(Math.random() * greetings.morning.length)];
-    if (hour < 18) return greetings.day[Math.floor(Math.random() * greetings.day.length)];
-    if (hour < 22) return greetings.evening[Math.floor(Math.random() * greetings.evening.length)];
-    return greetings.night[Math.floor(Math.random() * greetings.night.length)];
-  }, [user]);
-
-  // Greeting state - show on each new page load
-  const [greetingDone, setGreetingDone] = useState(false);
-  const [greetingPhase, setGreetingPhase] = useState('typing'); // 'typing' | 'fading' | 'done'
-  
-  // Simple greeting based on time
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Доброе утро';
-    if (hour < 18) return 'Добрый день';
-    if (hour < 22) return 'Добрый вечер';
-    return 'Доброй ночи';
-  };
-  
-  const greetingText = getGreeting();
-
-  // Particles with enhanced data
+  // Particles
   const particles = useMemo(() => 
     [...Array(50)].map((_, i) => ({
       id: i,
