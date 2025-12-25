@@ -1035,6 +1035,7 @@ const heroStyles = `
     border-radius: 20px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    overflow: hidden; /* Prevent shine animation from bleeding outside */
   }
 
   .search-bar::before {
@@ -1046,6 +1047,8 @@ const heroStyles = `
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
     transition: left 0.6s ease;
+    pointer-events: none; /* Don't interfere with clicks */
+    border-radius: inherit; /* Match parent border-radius */
   }
 
   .search-bar.focused {
