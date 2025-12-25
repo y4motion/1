@@ -107,9 +107,9 @@ const ShopByCategory = () => {
               
               {/* Badges */}
               {category.hot && (
-                <span className="category-card__badge category-card__badge--hot">HOT</span>
+                <span className="category-card__badge category-card__badge--hot">🔥 HOT</span>
               )}
-              {category.trending && (
+              {category.trending && !category.hot && (
                 <span className="category-card__badge category-card__badge--trending">
                   {category.trending}
                 </span>
@@ -121,6 +121,9 @@ const ShopByCategory = () => {
                 <span className="category-card__count">
                   {category.count.toLocaleString('ru-RU')} товаров
                 </span>
+                {category.isTrending && !category.hot && (
+                  <span className="category-card__trending-label">В тренде</span>
+                )}
               </div>
             </Link>
           );
