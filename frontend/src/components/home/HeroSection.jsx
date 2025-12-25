@@ -147,38 +147,40 @@ export default function HeroSection() {
     return () => { isActive = false; };
   }, [greetingLines, greetingDone]);
 
-  // Typewriter placeholder effect
+  // Typewriter placeholder effect - fixed cycling
   useEffect(() => {
     if (!isSearchActive || searchQuery) return;
     
-    const currentText = placeholders[placeholderIndex];
     let charIdx = 0;
     let isActive = true;
+    let currentIdx = placeholderIndex;
+    const currentText = placeholders[currentIdx];
     
-    const typeInterval = setInterval(() => {
+    // Reset placeholder
+    setDisplayedPlaceholder('');
+    
+    const typeChar = () => {
       if (!isActive) return;
       
-      if (isTypingPlaceholder) {
-        if (charIdx < currentText.length) {
-          setDisplayedPlaceholder(currentText.slice(0, charIdx + 1));
-          charIdx++;
-        } else {
-          setIsTypingPlaceholder(false);
-          setTimeout(() => {
-            if (isActive) {
-              setIsTypingPlaceholder(true);
-              setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
-            }
-          }, 3000);
-        }
+      if (charIdx < currentText.length) {
+        setDisplayedPlaceholder(currentText.slice(0, charIdx + 1));
+        charIdx++;
+        setTimeout(typeChar, 70);
+      } else {
+        // Finished typing, wait then move to next
+        setTimeout(() => {
+          if (!isActive) return;
+          // Move to next placeholder
+          setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
+        }, 2500);
       }
-    }, 80);
-    
-    return () => {
-      isActive = false;
-      clearInterval(typeInterval);
     };
-  }, [placeholderIndex, isTypingPlaceholder, isSearchActive, searchQuery, placeholders]);
+    
+    // Start typing after small delay
+    setTimeout(typeChar, 300);
+    
+    return () => { isActive = false; };
+  }, [placeholderIndex, isSearchActive, searchQuery, placeholders]);
 
   // Hide hint after timeout
   useEffect(() => {
