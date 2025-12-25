@@ -635,24 +635,78 @@ const GlassyChatBar = () => {
             <div className="context-header">
               <Sparkles size={14} />
               <span>{pageContext.label}</span>
+              {pageContext.type === 'swap' && (
+                <span className="context-badge">
+                  {language === 'ru' ? 'Помощь с обменами' : 'Trade Help'}
+                </span>
+              )}
+              {pageContext.type === 'swap_listing' && (
+                <span className="context-badge">
+                  {language === 'ru' ? 'Вопросы по объявлению' : 'About this listing'}
+                </span>
+              )}
             </div>
           )}
 
-          {/* Messages Tab - Coming Soon */}
+          {/* Messages Tab - Private Chats */}
           {activeTab === 'messages' ? (
-            <div className="coming-soon-container">
-              <div className="coming-soon-card">
-                <MessageSquare size={48} strokeWidth={1.5} />
-                <h3>{language === 'ru' ? 'Личные сообщения' : 'Private Messages'}</h3>
-                <p>
-                  {language === 'ru' 
-                    ? 'Личные чаты с продавцами и друзьями появятся скоро. Следите за обновлениями!'
-                    : 'Private chats with sellers and friends coming soon. Stay tuned!'}
-                </p>
-                <div className="coming-soon-badge">
-                  {language === 'ru' ? 'Скоро' : 'Coming Soon'}
+            <div className="messages-container">
+              {/* If on swap listing page - show seller chat option */}
+              {pageContext.type === 'swap_listing' ? (
+                <div className="seller-chat-prompt">
+                  <div className="seller-chat-card">
+                    <div className="seller-avatar">
+                      <MessageSquare size={24} />
+                    </div>
+                    <div className="seller-info">
+                      <h4>{language === 'ru' ? 'Написать продавцу' : 'Message Seller'}</h4>
+                      <p>{language === 'ru' 
+                        ? 'Задайте вопрос о товаре или предложите сделку'
+                        : 'Ask about the item or make an offer'}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Quick message templates */}
+                  <div className="quick-messages">
+                    <p className="quick-title">{language === 'ru' ? 'Быстрые сообщения:' : 'Quick messages:'}</p>
+                    <button 
+                      className="quick-btn"
+                      onClick={() => setInputMessage(language === 'ru' ? 'Привет! Товар ещё в наличии?' : 'Hi! Is this item still available?')}
+                    >
+                      {language === 'ru' ? '🔍 Ещё в наличии?' : '🔍 Still available?'}
+                    </button>
+                    <button 
+                      className="quick-btn"
+                      onClick={() => setInputMessage(language === 'ru' ? 'Какая минимальная цена?' : 'What\'s the lowest price?')}
+                    >
+                      {language === 'ru' ? '💰 Минимальная цена?' : '💰 Lowest price?'}
+                    </button>
+                    <button 
+                      className="quick-btn"
+                      onClick={() => setInputMessage(language === 'ru' ? 'Готов к обмену на...' : 'Interested in trading for...')}
+                    >
+                      {language === 'ru' ? '🔄 Предложить обмен' : '🔄 Offer trade'}
+                    </button>
+                  </div>
+                  
+                  {/* Message input will appear below */}
                 </div>
-              </div>
+              ) : (
+                <div className="coming-soon-container">
+                  <div className="coming-soon-card">
+                    <MessageSquare size={48} strokeWidth={1.5} />
+                    <h3>{language === 'ru' ? 'Личные сообщения' : 'Private Messages'}</h3>
+                    <p>
+                      {language === 'ru' 
+                        ? 'Личные чаты с продавцами и друзьями появятся скоро. Пока можете написать продавцу на странице объявления!'
+                        : 'Private chats with sellers and friends coming soon. For now, message sellers from listing pages!'}
+                    </p>
+                    <div className="coming-soon-badge">
+                      {language === 'ru' ? 'Скоро' : 'Coming Soon'}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <>
