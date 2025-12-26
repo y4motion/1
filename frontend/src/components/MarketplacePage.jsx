@@ -916,63 +916,53 @@ const MarketplacePage = () => {
           />
         )}
 
-        {/* Products Grid/List */}
-        <div
-          style={{
-            padding: '2rem',
-            maxWidth: '1400px',
-            margin: '0 auto',
-          }}
-        >
-          {loading ? (
-            <div
-              style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}
-            >
-              {language === 'ru' ? 'Загрузка товаров...' : 'Loading products...'}
-            </div>
-          ) : products.length === 0 ? (
-            <div
-              style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}
-            >
-              {language === 'ru' ? 'Товары не найдены' : 'No products found'}
-            </div>
-          ) : viewMode === 'grid' ? (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gap: '1rem',
-              }}
-            >
-              {products.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  theme={theme}
-                  onToggleWishlist={handleToggleWishlist}
-                  index={index}
-                />
-              ))}
-            </div>
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
-              }}
-            >
-              {products.map((product) => (
-                <ProductCardList
-                  key={product.id}
-                  product={product}
-                  theme={theme}
-                  onToggleWishlist={handleToggleWishlist}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Products Grid - New Revolutionary Design */}
+        {loading ? (
+          <div
+            style={{ textAlign: 'center', padding: '3rem', fontSize: '0.875rem', opacity: 0.7 }}
+          >
+            {language === 'ru' ? 'Загрузка товаров...' : 'Loading products...'}
+          </div>
+        ) : viewMode === 'grid' ? (
+          <ProductGrid
+            products={products}
+            filtersOpen={showFilterPanel}
+            onToggleWishlist={handleToggleWishlist}
+            onFastBuy={handleFastBuy}
+          />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              padding: '2rem',
+              maxWidth: '1400px',
+              margin: '0 auto',
+            }}
+          >
+            {products.map((product) => (
+              <ProductCardList
+                key={product.id}
+                product={product}
+                theme={theme}
+                onToggleWishlist={handleToggleWishlist}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Fast Buy Modal */}
+        {showFastBuyModal && fastBuyProduct && (
+          <FastBuyModal
+            product={fastBuyProduct}
+            onClose={() => {
+              setShowFastBuyModal(false);
+              setFastBuyProduct(null);
+            }}
+            onAddToCart={handleAddToCart}
+          />
+        )}
       </div>
     </div>
   );
