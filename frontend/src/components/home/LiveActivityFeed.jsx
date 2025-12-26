@@ -239,6 +239,15 @@ const LiveActivityFeed = () => {
       <div className="online-indicator">
         <span className="online-dot" />
         <span>{onlineCount.toLocaleString('ru-RU')} сейчас на сайте</span>
+        {isWebSocketConnected ? (
+          <span className="connection-status connection-status--live" title="Real-time обновления">
+            <Wifi size={12} />
+          </span>
+        ) : (
+          <span className="connection-status connection-status--polling" title="Polling каждые 30 сек">
+            <WifiOff size={12} />
+          </span>
+        )}
       </div>
 
       {/* Activity stream */}
