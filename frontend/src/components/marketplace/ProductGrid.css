@@ -1,0 +1,137 @@
+/* ============================================
+   PRODUCTS GRID - Adaptive Layout
+   ============================================ */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 32px 40px;
+  max-width: 2200px;
+  margin: 0 auto;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* With filters panel open */
+.products-grid.with-filters {
+  padding-left: 40px;
+}
+
+/* Empty state */
+.products-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  padding: 40px;
+}
+
+.products-empty .empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.products-empty h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 8px 0;
+}
+
+.products-empty p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* 4K - 8 columns */
+@media (min-width: 3840px) {
+  .products-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+/* 2K - 6 columns */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  .products-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Full HD - 5 columns */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .products-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Laptop - 4 columns */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Small Laptop - 3 columns */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 24px 32px;
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet - 3 columns */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 20px 24px;
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Landscape - 2 columns */
+@media (min-width: 480px) and (max-width: 767px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  .products-grid.with-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Portrait - 1-2 columns */
+@media (max-width: 479px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+}
