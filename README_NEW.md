@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://futuristic-search-ui.preview.emergentagent.com/
-- **Backend API:** https://futuristic-search-ui.preview.emergentagent.com/api
-- **Превью японских фото:** https://futuristic-search-ui.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://swap-market-10.preview.emergentagent.com/
+- **Backend API:** https://swap-market-10.preview.emergentagent.com/api
+- **Превью японских фото:** https://swap-market-10.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
