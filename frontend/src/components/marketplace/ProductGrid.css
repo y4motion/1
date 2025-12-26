@@ -1,20 +1,22 @@
-/* ============================================
-   PRODUCTS GRID - Adaptive Layout
-   ============================================ */
-
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  
+  /* Fixed 4 columns on desktop */
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  padding: 32px 40px;
-  max-width: 2200px;
+  padding: 40px;
+  
+  /* Max-width */
+  max-width: 1600px;
   margin: 0 auto;
+  
+  /* Smooth transition */
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* With filters panel open */
+/* With filters - cards shrink but still 4 per row */
 .products-grid.with-filters {
-  padding-left: 40px;
+  padding-left: calc(320px + 40px);
 }
 
 /* Empty state */
@@ -48,90 +50,62 @@
 }
 
 /* ============================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE
    ============================================ */
 
-/* 4K - 8 columns */
-@media (min-width: 3840px) {
-  .products-grid {
-    grid-template-columns: repeat(8, 1fr);
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
-
-/* 2K - 6 columns */
-@media (min-width: 2560px) and (max-width: 3839px) {
-  .products-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-/* Full HD - 5 columns */
-@media (min-width: 1920px) and (max-width: 2559px) {
-  .products-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Laptop - 4 columns */
-@media (min-width: 1440px) and (max-width: 1919px) {
+/* Large Desktop - still 4 columns */
+@media (min-width: 1440px) {
   .products-grid {
     grid-template-columns: repeat(4, 1fr);
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Small Laptop - 3 columns */
-@media (min-width: 1024px) and (max-width: 1439px) {
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 24px 32px;
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
   }
 }
 
 /* Tablet - 3 columns */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (max-width: 1200px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    padding: 20px 24px;
+    gap: 20px;
+    padding: 30px;
   }
+  
   .products-grid.with-filters {
-    grid-template-columns: repeat(2, 1fr);
+    padding-left: 30px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Small Tablet - 3 columns */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 24px;
+  }
+  
+  .products-grid.with-filters {
+    padding-left: 24px;
   }
 }
 
 /* Mobile Landscape - 2 columns */
-@media (min-width: 480px) and (max-width: 767px) {
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .products-grid.with-filters {
+    padding-left: 20px;
+  }
+}
+
+/* Mobile Portrait - 2 columns */
+@media (max-width: 480px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 16px;
-  }
-  .products-grid.with-filters {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Mobile Portrait - 1-2 columns */
-@media (max-width: 479px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 12px;
   }
 }
