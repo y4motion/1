@@ -364,6 +364,37 @@ const MarketplacePage = () => {
     }
   };
 
+  // Fast Buy handler
+  const handleFastBuy = (product) => {
+    setFastBuyProduct(product);
+    setShowFastBuyModal(true);
+  };
+
+  // Add to cart handler
+  const handleAddToCart = async (productId, quantity) => {
+    if (!token) {
+      alert('Please login to add items to cart');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/cart/items/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ product_id: productId, quantity }),
+      });
+
+      if (response.ok) {
+        // Success - modal will close itself
+      }
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    }
+  };
+
   // New filter handlers
   const handlePersonaChange = (personaId) => {
     setSelectedPersona(personaId);
