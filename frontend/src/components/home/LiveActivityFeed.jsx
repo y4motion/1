@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, Eye, Heart, Wrench, Star, AlertCircle, Package } from 'lucide-react';
+import { ShoppingCart, Eye, Heart, Wrench, Star, AlertCircle, Package, Wifi, WifiOff } from 'lucide-react';
+import ws from '../../services/websocket';
 import './LiveActivityFeed.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
