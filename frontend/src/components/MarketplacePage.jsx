@@ -61,6 +61,10 @@ const MarketplacePage = () => {
   const [activeFilters, setActiveFilters] = useState({});
   const [savedFilterSets, setSavedFilterSets] = useState([]);
   const [catalogData, setCatalogData] = useState(null); // Preloaded catalog data
+  
+  // Fast Buy Modal state
+  const [showFastBuyModal, setShowFastBuyModal] = useState(false);
+  const [fastBuyProduct, setFastBuyProduct] = useState(null);
 
   // Refs for click outside detection
   const filterButtonRef = useRef(null);
