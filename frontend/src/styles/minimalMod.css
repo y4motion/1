@@ -46,19 +46,19 @@
 }
 
 /* Buttons in Minimal Mod - No background shapes, only text */
-[data-theme='minimal-mod'] button:not(.no-minimal-mod) {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod):not(.search-icon-initial) {
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-[data-theme='minimal-mod'] button:not(.no-minimal-mod):hover {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod):not(.search-icon-initial):hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   transform: none;
 }
 
-[data-theme='minimal-mod'] button:not(.no-minimal-mod):active {
+[data-theme='minimal-mod'] button:not(.no-minimal-mod):not(.search-icon-initial):active {
   background-color: rgba(255, 255, 255, 0.08) !important;
   transform: none;
 }
