@@ -50,6 +50,28 @@
   }
 }
 
+/* Connection Status */
+.connection-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.connection-status--live {
+  color: rgba(100, 255, 100, 0.9);
+  background: rgba(100, 255, 100, 0.1);
+}
+
+.connection-status--polling {
+  color: rgba(255, 200, 100, 0.7);
+  background: rgba(255, 200, 100, 0.1);
+}
+
 /* Activity Stream */
 .activity-stream {
   width: calc(100% - 220px);
