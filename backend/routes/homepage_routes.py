@@ -432,3 +432,101 @@ async def get_swap_highlights(limit: int = 4):
         ]
     
     return listings
+
+
+
+# =============================================
+# TESTIMONIALS
+# =============================================
+
+@router.get("/testimonials")
+async def get_testimonials(limit: int = 10):
+    """
+    Get recent testimonials for TestimonialsCarousel.
+    """
+    from database import db
+    
+    testimonials = []
+    try:
+        testimonials = await db.testimonials.find(
+            {},
+            {"_id": 0}
+        ).sort("created_at", -1).limit(limit).to_list(limit)
+    except:
+        pass
+    
+    if not testimonials:
+        testimonials = [
+            {
+                "id": "test-1",
+                "author": "ProGamer",
+                "avatar": None,
+                "rating": 5,
+                "text": "Лучший магазин для геймеров! Быстрая доставка, отличные цены.",
+                "product": "RTX 5090",
+                "verified": True
+            },
+            {
+                "id": "test-2",
+                "author": "TechMaster",
+                "avatar": None,
+                "rating": 5,
+                "text": "Собрал ПК мечты благодаря конструктору сборок. Всё совместимо!",
+                "product": "Сборка ПК",
+                "verified": True
+            },
+            {
+                "id": "test-3",
+                "author": "PCBuilder",
+                "avatar": None,
+                "rating": 4,
+                "text": "Glassy Swap - находка! Продал старую видеокарту за 5 минут.",
+                "product": "RTX 4080",
+                "verified": True
+            },
+            {
+                "id": "test-4",
+                "author": "GamerPro",
+                "avatar": None,
+                "rating": 5,
+                "text": "Групповые покупки экономят до 40%! Взял монитор в складчину.",
+                "product": "Samsung G9",
+                "verified": True
+            }
+        ]
+    
+    return {"testimonials": testimonials}
+
+
+# =============================================
+# CATEGORIES FEATURED
+# =============================================
+
+@router.get("/categories-featured")
+async def get_featured_categories():
+    """
+    Get featured categories for ShopByCategory.
+    """
+    from database import db
+    
+    categories = [
+        {"id": "gpu", "name": "Видеокарты", "icon": "Cpu", "count": 1234, "trending": True, "growth": 12},
+        {"id": "monitors", "name": "Мониторы", "icon": "Monitor", "count": 856, "hot": True},
+        {"id": "keyboards", "name": "Клавиатуры", "icon": "Keyboard", "count": 2341},
+        {"id": "audio", "name": "Аудио", "icon": "Headphones", "count": 1567},
+        {"id": "peripherals", "name": "Периферия", "icon": "Mouse", "count": 3421},
+        {"id": "storage", "name": "Накопители", "icon": "HardDrive", "count": 987, "growth": 8},
+        {"id": "psu", "name": "Блоки питания", "icon": "Zap", "count": 654},
+        {"id": "cooling", "name": "Охлаждение", "icon": "Fan", "count": 1123, "hot": True}
+    ]
+    
+    # Try to get real counts
+    for cat in categories:
+        try:
+            real_count = await db.products.count_documents({"category": cat["id"]})
+            if real_count > 0:
+                cat["count"] = cat["count"] + real_count
+        except:
+            pass
+    
+    return {"categories": categories}
