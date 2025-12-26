@@ -927,7 +927,10 @@ const MarketplacePage = () => {
           <ProductGrid
             products={products}
             filtersOpen={showFilterPanel}
-            onToggleWishlist={handleToggleWishlist}
+            onWishlistToggle={handleToggleWishlist}
+            onQuickView={(product) => {
+              // QuickView handled inside ProductCard
+            }}
             onFastBuy={handleFastBuy}
           />
         ) : (
