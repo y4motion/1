@@ -122,6 +122,33 @@ async def get_activity_feed(limit: int = 15):
     return sorted_activities
 
 
+@router.get("/live")
+async def get_live_activity(limit: int = 50):
+    """
+    Get live activity feed with online count for HomePage LiveActivityFeed.
+    """
+    # Get activities
+    sorted_activities = sorted(
+        ACTIVITY_STORE, 
+        key=lambda x: x.get("timestamp", ""), 
+        reverse=True
+    )[:limit]
+    
+    # Get online count
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(minutes=5)
+    active = {k: v for k, v in ONLINE_SESSIONS.items() if v > cutoff}
+    real_sessions = len(active)
+    fluctuation = random.randint(-5, 10)
+    online_count = BASE_ONLINE + real_sessions + fluctuation
+    
+    return {
+        "activities": sorted_activities,
+        "onlineCount": max(online_count, 50),
+        "peakToday": PEAK_TODAY
+    }
+
+
 @router.get("/online", response_model=OnlineStatsResponse)
 async def get_online_stats():
     """
