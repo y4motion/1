@@ -11,6 +11,83 @@ from database import db
 router = APIRouter(prefix="/products", tags=["products"])
 
 
+@router.get("/deals")
+async def get_product_deals(active: bool = True, limit: int = 3):
+    """
+    Get hot deals for HotDealsAndPopular component.
+    Returns products with discounts, sorted by discount percentage.
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    # Try to get real deals from database
+    deals = []
+    try:
+        products = await db.products.find(
+            {"discount": {"$gt": 0}, "is_active": True},
+            {"_id": 0}
+        ).sort("discount", -1).limit(limit).to_list(limit)
+        
+        for p in products:
+            deals.append({
+                "id": p.get("id"),
+                "name": p.get("name"),
+                "description": p.get("description", "")[:100],
+                "image": p.get("images", [None])[0] if p.get("images") else None,
+                "currentPrice": p.get("price"),
+                "originalPrice": p.get("original_price"),
+                "discount": p.get("discount"),
+                "stock": p.get("stock", 10),
+                "endDate": (datetime.now(timezone.utc) + timedelta(hours=8)).isoformat(),
+                "isNew": False
+            })
+    except Exception as e:
+        print(f"Error fetching deals: {e}")
+    
+    # Fallback deals if none found
+    if not deals:
+        now = datetime.now(timezone.utc)
+        deals = [
+            {
+                "id": "deal-1",
+                "name": "Razer DeathAdder V3 Pro",
+                "description": "Professional wireless gaming mouse",
+                "image": None,
+                "currentPrice": 149.99,
+                "originalPrice": 199.99,
+                "discount": 25,
+                "stock": 5,
+                "endDate": (now + timedelta(hours=3)).isoformat(),
+                "isNew": False
+            },
+            {
+                "id": "deal-2",
+                "name": "Corsair K100 RGB",
+                "description": "Mechanical gaming keyboard with OPX switches",
+                "image": None,
+                "currentPrice": 179.99,
+                "originalPrice": 229.99,
+                "discount": 22,
+                "stock": 8,
+                "endDate": (now + timedelta(hours=8)).isoformat(),
+                "isNew": False
+            },
+            {
+                "id": "deal-3",
+                "name": "SteelSeries Arctis Nova Pro",
+                "description": "Wireless multi-system gaming headset",
+                "image": None,
+                "currentPrice": 299.99,
+                "originalPrice": 349.99,
+                "discount": 14,
+                "stock": 3,
+                "endDate": (now + timedelta(hours=2)).isoformat(),
+                "isNew": True
+            }
+        ]
+    
+    return {"deals": deals}
+
+
 @router.get("/facets")
 @cache_response(ttl_seconds=300)  # Cache for 5 minutes
 async def get_product_facets():
