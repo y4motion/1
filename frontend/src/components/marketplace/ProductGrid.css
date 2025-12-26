@@ -1,22 +1,25 @@
 .products-grid {
   display: grid;
   
-  /* Fixed 4 columns on desktop */
+  /* ALWAYS 4 columns */
   grid-template-columns: repeat(4, 1fr);
+  
+  /* Gap between cards */
   gap: 24px;
-  padding: 40px;
   
-  /* Max-width */
-  max-width: 1600px;
-  margin: 0 auto;
+  /* Padding - MINIMAL, cards TO EDGES */
+  padding: 24px;
   
-  /* Smooth transition */
+  /* NO max-width - stretches full width */
+  width: 100%;
+  
+  /* Smooth transition when opening filters */
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* With filters - cards shrink but still 4 per row */
-.products-grid.with-filters {
-  padding-left: calc(320px + 40px);
+/* With open filters - cards shrink but stay 4 per row */
+.products-grid.filters-open {
+  /* Nothing changes! Grid adapts itself */
 }
 
 /* Empty state */
@@ -28,6 +31,7 @@
   min-height: 400px;
   text-align: center;
   padding: 40px;
+  grid-column: 1 / -1;
 }
 
 .products-empty .empty-icon {
@@ -53,59 +57,29 @@
    RESPONSIVE
    ============================================ */
 
-/* Large Desktop - still 4 columns */
-@media (min-width: 1440px) {
-  .products-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 28px;
-  }
-}
-
 /* Tablet - 3 columns */
 @media (max-width: 1200px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding: 30px;
-  }
-  
-  .products-grid.with-filters {
-    padding-left: 30px;
-    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
   }
 }
 
-/* Small Tablet - 3 columns */
-@media (max-width: 1024px) {
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 24px;
-  }
-  
-  .products-grid.with-filters {
-    padding-left: 24px;
-  }
-}
-
-/* Mobile Landscape - 2 columns */
+/* Mobile - 2 columns */
 @media (max-width: 768px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    padding: 20px;
-  }
-  
-  .products-grid.with-filters {
-    padding-left: 20px;
+    padding: 16px;
   }
 }
 
-/* Mobile Portrait - 2 columns */
+/* Small mobile - 1 column */
 @media (max-width: 480px) {
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
-    padding: 16px;
+    padding: 12px;
   }
 }

@@ -2,7 +2,13 @@ import React from 'react';
 import ProductCard from './ProductCard';
 import './ProductGrid.css';
 
-const ProductGrid = ({ products, filtersOpen, onToggleWishlist, onFastBuy }) => {
+const ProductGrid = ({ 
+  products, 
+  filtersOpen,
+  onWishlistToggle,
+  onQuickView,
+  onFastBuy 
+}) => {
   if (!products || products.length === 0) {
     return (
       <div className="products-empty">
@@ -14,13 +20,13 @@ const ProductGrid = ({ products, filtersOpen, onToggleWishlist, onFastBuy }) => 
   }
 
   return (
-    <div className={`products-grid ${filtersOpen ? 'with-filters' : ''}`}>
-      {products.map((product, index) => (
+    <div className={`products-grid ${filtersOpen ? 'filters-open' : ''}`}>
+      {products.map((product) => (
         <ProductCard
           key={product.id}
           product={product}
-          index={index}
-          onToggleWishlist={onToggleWishlist}
+          onWishlistToggle={onWishlistToggle}
+          onQuickView={onQuickView}
           onFastBuy={onFastBuy}
         />
       ))}
