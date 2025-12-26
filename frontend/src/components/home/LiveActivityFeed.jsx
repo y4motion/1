@@ -69,6 +69,7 @@ const LiveActivityFeed = () => {
   const [onlineCount, setOnlineCount] = useState(234);
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
   const trackRef = useRef(null);
   const pingIntervalRef = useRef(null);
   const fetchIntervalRef = useRef(null);
