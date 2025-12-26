@@ -176,7 +176,9 @@
 }
 
 /* Hero Search Icon - Preserve circular shape with pulsing effect */
-[data-theme='minimal-mod'] .search-icon-initial {
+[data-theme='minimal-mod'] .search-icon-initial,
+[data-theme='minimal-mod'] .search-icon-initial::before,
+[data-theme='minimal-mod'] .search-icon-initial::after {
   border-radius: 50% !important;
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
