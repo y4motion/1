@@ -76,7 +76,7 @@ const ShopByCategory = () => {
   };
 
   return (
-    <section className="shop-by-category scroll-reveal">
+    <section className="shop-by-category">
       <div className="shop-by-category__header">
         <h2 className="shop-by-category__title">Категории магазина</h2>
         <Link to="/marketplace" className="shop-by-category__see-all">
@@ -93,7 +93,7 @@ const ShopByCategory = () => {
             <Link
               key={category.id}
               to={`/marketplace?category=${category.id}`}
-              className={`shop-by-category__card hover-lift ${isLoading ? 'category-card--loading' : ''}`}
+              className={`category-card ${isLoading ? 'category-card--loading' : ''}`}
               onClick={() => handleCategoryClick(category)}
             >
               {/* Background Image */}
