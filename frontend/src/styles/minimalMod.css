@@ -76,8 +76,8 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Override ALL divs with inline styles in minimal-mod */
-[data-theme='minimal-mod'] * {
+/* Override most divs in minimal-mod but preserve Hero search icon */
+[data-theme='minimal-mod'] *:not(.search-icon-initial):not(.search-icon-initial *):not(.trending-chip):not(.category-card):not(.popular-rank):not(.deal-badge):not(.soundwave-ring) {
   border-radius: 0 !important;
 }
 
