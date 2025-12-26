@@ -105,7 +105,7 @@ export default function LatestArticles() {
                 <div className="article-meta">
                   <span className="article-date">
                     <Clock size={14} />
-                    {new Date(article.created_at).toLocaleDateString()}
+                    {article.created_at ? new Date(article.created_at).toLocaleDateString() : 'Recent'}
                   </span>
                   {article.views && (
                     <span className="article-views">
