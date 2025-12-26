@@ -118,29 +118,83 @@ const LiveActivityFeed = () => {
     }
   }, []);
 
-  // Initial load + intervals
+  // Handle WebSocket messages
+  const handleWsMessage = useCallback((data) => {
+    if (data.type === 'activity' && data.activity) {
+      setActivities(prev => {
+        const newActivities = [data.activity, ...prev].slice(0, 20);
+        return newActivities;
+      });
+    } else if (data.type === 'online_count') {
+      setOnlineCount(data.count);
+    }
+  }, []);
+
+  // Start polling fallback
+  const startPolling = useCallback(() => {
+    console.log('📡 Starting polling fallback...');
+    // Обновление активностей каждые 30 секунд
+    if (fetchIntervalRef.current) clearInterval(fetchIntervalRef.current);
+    fetchIntervalRef.current = setInterval(() => {
+      fetchActivities();
+      fetchOnlineStats();
+    }, 30000);
+  }, [fetchActivities, fetchOnlineStats]);
+
+  // Initial load + WebSocket connection
   useEffect(() => {
     // Первичная загрузка
     pingServer();
     fetchOnlineStats();
     fetchActivities();
 
+    // Подключение WebSocket
+    ws.connect();
+
+    ws.on('message', handleWsMessage);
+    ws.on('connected', () => {
+      console.log('✅ Live feed WebSocket connected');
+      setIsWebSocketConnected(true);
+      // Отключаем polling при успешном WebSocket
+      if (fetchIntervalRef.current) {
+        clearInterval(fetchIntervalRef.current);
+        fetchIntervalRef.current = null;
+      }
+    });
+    ws.on('disconnected', () => {
+      console.log('⚠️ Live feed WebSocket disconnected');
+      setIsWebSocketConnected(false);
+      startPolling();
+    });
+    ws.on('reconnectFailed', () => {
+      console.warn('❌ WebSocket unavailable, using polling fallback');
+      setIsWebSocketConnected(false);
+      startPolling();
+    });
+
     // Пинг каждые 30 секунд для онлайн счётчика
     pingIntervalRef.current = setInterval(() => {
       pingServer();
-      fetchOnlineStats();
+      if (!ws.isConnected()) {
+        fetchOnlineStats();
+      }
     }, 30000);
 
-    // Обновление активностей каждые 45 секунд
-    fetchIntervalRef.current = setInterval(() => {
-      fetchActivities();
-    }, 45000);
+    // Если WebSocket не подключился за 5 секунд, запускаем polling
+    const wsTimeout = setTimeout(() => {
+      if (!ws.isConnected()) {
+        startPolling();
+      }
+    }, 5000);
 
     return () => {
       if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
       if (fetchIntervalRef.current) clearInterval(fetchIntervalRef.current);
+      clearTimeout(wsTimeout);
+      ws.off('message', handleWsMessage);
+      ws.disconnect();
     };
-  }, [pingServer, fetchOnlineStats, fetchActivities]);
+  }, [pingServer, fetchOnlineStats, fetchActivities, handleWsMessage, startPolling]);
 
   const handleItemClick = (activity) => {
     if (activity.product?.id) {
