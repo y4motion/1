@@ -174,3 +174,33 @@
 [data-theme='minimal-mod'] .animate-in {
   animation: minimal-fade-in 0.3s ease-out;
 }
+
+/* Hero Search Icon - Preserve circular shape with pulsing effect */
+[data-theme='minimal-mod'] .search-icon-initial {
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='minimal-mod'] .search-icon-initial:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Preserve rounded chips and badges */
+[data-theme='minimal-mod'] .trending-chip {
+  border-radius: 20px !important;
+}
+
+[data-theme='minimal-mod'] .category-card {
+  border-radius: 16px !important;
+}
+
+[data-theme='minimal-mod'] .popular-rank {
+  border-radius: 10px !important;
+}
+
+[data-theme='minimal-mod'] .deal-badge {
+  border-radius: 8px !important;
+}
