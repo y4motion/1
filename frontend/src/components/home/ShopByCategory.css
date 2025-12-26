@@ -207,18 +207,6 @@
   letter-spacing: 0.02em;
 }
 
-/* Animation */
-@keyframes categoryFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Responsive */
 @media (max-width: 1200px) {
   .shop-by-category__grid {
