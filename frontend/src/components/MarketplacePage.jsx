@@ -24,6 +24,7 @@ import FilterPanel from './FilterPanel';
 import CatalogMega from './CatalogMega';
 import OptimizedImage from './OptimizedImage';
 import QuickViewModal from './QuickViewModal';
+import { ProductGrid, FastBuyModal } from './marketplace';
 import '../styles/glassmorphism.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
