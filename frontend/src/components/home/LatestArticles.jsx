@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ArrowRight, Clock } from 'lucide-react';
+import { FileText, ArrowRight, Clock, Eye } from 'lucide-react';
 import OptimizedImage from '../OptimizedImage';
+import './LatestArticles.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -15,7 +16,6 @@ export default function LatestArticles() {
 
   const fetchArticles = async () => {
     try {
-      // Try homepage API first
       let response = await fetch(`${API_URL}/api/homepage/latest-articles?limit=3`);
       if (!response.ok) {
         response = await fetch(`${API_URL}/api/content/articles?limit=3`);
@@ -31,46 +31,96 @@ export default function LatestArticles() {
     }
   };
 
-  if (loading || articles.length === 0) return null;
+  // Loading skeleton
+  if (loading) {
+    return (
+      <section className="latest-articles-section">
+        <div className="latest-articles-container">
+          <div className="latest-articles-header">
+            <h2 className="latest-articles-title">
+              <span className="title-icon"><FileText size={20} /></span>
+              Latest Articles
+            </h2>
+          </div>
+          <div className="articles-skeleton">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="article-skeleton-card">
+                <div className="skeleton" style={{ height: '180px', marginBottom: '1.25rem' }} />
+                <div className="skeleton" style={{ height: '24px', marginBottom: '0.75rem', width: '80%' }} />
+                <div className="skeleton" style={{ height: '60px', marginBottom: '1rem' }} />
+                <div className="skeleton" style={{ height: '16px', width: '40%' }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Empty state
+  if (articles.length === 0) {
+    return null;
+  }
 
   return (
-    <section style={{ margin: '4rem 0' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: '700', color: 'white', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <FileText size={28} style={{ color: '#3b82f6' }} /> Latest Articles
-        </h2>
-        <Link to="/articles" style={{ color: '#a855f7', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          View All <ArrowRight size={18} />
-        </Link>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-        {articles.slice(0, 3).map((article) => (
-          <Link key={article.id} to={`/article/${article.id}`}
-            style={{
-              background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '12px', overflow: 'hidden', textDecoration: 'none', transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.05)'; }}
-          >
-            {article.cover_image && (
-              <OptimizedImage src={article.cover_image} alt={article.title} style={{ aspectRatio: '16/9', width: '100%' }} />
-            )}
-            <div style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: 'white', margin: '0 0 0.75rem 0', lineHeight: 1.4 }}>
-                {article.title}
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.6)', margin: '0 0 1rem 0', lineHeight: 1.6, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                {article.excerpt || article.content?.substring(0, 150)}
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)' }}>
-                <Clock size={14} />
-                {new Date(article.created_at).toLocaleDateString()}
-              </div>
-            </div>
+    <section className="latest-articles-section">
+      <div className="latest-articles-container">
+        <div className="latest-articles-header">
+          <h2 className="latest-articles-title">
+            <span className="title-icon"><FileText size={20} /></span>
+            Latest Articles
+          </h2>
+          <Link to="/articles" className="view-all-link">
+            View All <ArrowRight size={18} />
           </Link>
-        ))}
+        </div>
+
+        <div className="articles-grid">
+          {articles.slice(0, 3).map((article) => (
+            <Link key={article.id} to={`/article/${article.id}`} className="article-card">
+              <div className="article-image">
+                {article.cover_image ? (
+                  <OptimizedImage 
+                    src={article.cover_image} 
+                    alt={article.title}
+                  />
+                ) : (
+                  <div className="article-image-placeholder">
+                    <FileText size={32} />
+                  </div>
+                )}
+              </div>
+              
+              <div className="article-content">
+                {article.category && (
+                  <span className="article-category">{article.category}</span>
+                )}
+                <h3 className="article-title">{article.title}</h3>
+                <p className="article-excerpt">
+                  {article.excerpt || article.content?.substring(0, 150)}
+                </p>
+              </div>
+
+              <div className="article-footer">
+                <div className="article-meta">
+                  <span className="article-date">
+                    <Clock size={14} />
+                    {new Date(article.created_at).toLocaleDateString()}
+                  </span>
+                  {article.views && (
+                    <span className="article-views">
+                      <Eye size={14} />
+                      {article.views}
+                    </span>
+                  )}
+                </div>
+                <span className="read-more">
+                  Read <ArrowRight size={14} />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );
