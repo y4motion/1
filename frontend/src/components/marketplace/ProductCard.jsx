@@ -92,6 +92,7 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
                 src={imageUrl} 
                 alt={product.title}
                 className="card-image"
+                style={{ width: '100%', height: '100%' }}
               />
               
               {/* Carousel Controls (only on hover) */}
