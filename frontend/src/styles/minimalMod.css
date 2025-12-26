@@ -76,8 +76,13 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Override most divs in minimal-mod but preserve Hero search icon */
-[data-theme='minimal-mod'] *:not(.search-icon-initial):not(.search-icon-initial *):not(.trending-chip):not(.category-card):not(.popular-rank):not(.deal-badge):not(.soundwave-ring) {
+/* Override most elements in minimal-mod - but NOT search icon */
+[data-theme='minimal-mod'] .glass,
+[data-theme='minimal-mod'] .glass-strong,
+[data-theme='minimal-mod'] .glass-subtle,
+[data-theme='minimal-mod'] .card,
+[data-theme='minimal-mod'] .panel,
+[data-theme='minimal-mod'] .modal {
   border-radius: 0 !important;
 }
 
