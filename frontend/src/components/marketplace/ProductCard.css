@@ -201,19 +201,23 @@
 }
 
 /* ============================================
-   CARD EXPANDED - Slides from main
+   CARD EXPANDED - Absolute positioned overlay
    ============================================ */
 
 .card-expanded {
-  /* Fixed width - always visible */
-  width: 220px;
-  min-width: 220px;
+  /* Absolute position - doesn't affect grid */
+  position: absolute;
+  left: 100%;
+  top: 0;
+  
+  /* Fixed width */
+  width: 240px;
+  
+  /* Full height of card */
+  height: 100%;
   
   /* Padding */
-  padding: 14px;
-  
-  /* Height matches card-main */
-  align-self: stretch;
+  padding: 16px;
   
   /* Glassmorphism */
   background: rgba(0, 0, 0, 0.95);
@@ -224,8 +228,8 @@
   
   /* Shadow */
   box-shadow: 
-    0 12px 48px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    20px 0 60px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
   
   /* Flex layout */
   display: flex;
@@ -233,7 +237,10 @@
   gap: 10px;
   
   /* Animation */
-  animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  
+  /* High z-index */
+  z-index: 1000;
   
   /* Overflow - show all content */
   overflow: visible;
@@ -242,7 +249,7 @@
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-10px);
   }
   to {
     opacity: 1;
