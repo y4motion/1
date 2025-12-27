@@ -1,0 +1,65 @@
+/* Product Reactions - PMM.gg Style */
+
+.product-reactions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reaction-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.reaction-btn.active {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.reaction-btn.animating {
+  animation: bounce 0.3s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.reaction-emoji {
+  font-size: 1rem;
+}
+
+.reaction-count {
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* Light Theme */
+[data-theme="light"] .reaction-btn {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .reaction-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .reaction-btn.active {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+}
