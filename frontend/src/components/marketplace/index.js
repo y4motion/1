@@ -4,3 +4,6 @@ export { default as FastBuyModal } from './FastBuyModal';
 export { default as ProductDetailPage } from './ProductDetailPage';
 export { default as LiveChatWidget } from './LiveChatWidget';
 export { default as ProductReactions } from './ProductReactions';
+export { default as KeySpecs } from './KeySpecs';
+export { default as ExpandableBlock } from './ExpandableBlock';
+export { default as ProductCustomizer } from './ProductCustomizer';
