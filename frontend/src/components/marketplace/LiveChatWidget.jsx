@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { MessageCircle, Send, X, Users } from 'lucide-react';
 import './LiveChatWidget.css';
 
@@ -45,6 +45,15 @@ const LiveChatWidget = ({ productId, productTitle }) => {
   const [newMessage, setNewMessage] = useState('');
   const [onlineCount] = useState(initialData.onlineCount);
   const messagesEndRef = useRef(null);
+
+  // Auto-scroll to bottom on new messages
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
