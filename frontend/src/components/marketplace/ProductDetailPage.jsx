@@ -305,6 +305,9 @@ const ProductDetailPage = () => {
           {/* Title */}
           <h1 className="pdp-title">{product.title}</h1>
 
+          {/* NEW: Key Specs (PMM.gg style) */}
+          <KeySpecs product={product} category={product.category} />
+
           {/* Rating & Stats */}
           <div className="pdp-stats-bar">
             <div className="pdp-rating-display">
