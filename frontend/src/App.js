@@ -26,7 +26,7 @@ const ProductPage = React.lazy(() => import('./components/ProductPage'));
 const MarketplacePage = React.lazy(() => import('./components/MarketplacePage'));
 const PCBuilderPage = React.lazy(() => import('./components/PCBuilderPage'));
 const ModPage = React.lazy(() => import('./components/ModPage'));
-const ProductDetailPage = React.lazy(() => import('./components/ProductDetailPage'));
+const ProductDetailPage = React.lazy(() => import('./components/marketplace/ProductDetailPage'));
 const CartPage = React.lazy(() => import('./components/CartPage'));
 const CheckoutPage = React.lazy(() => import('./components/CheckoutPage'));
 const UserProfilePage = React.lazy(() => import('./components/UserProfilePage'));
