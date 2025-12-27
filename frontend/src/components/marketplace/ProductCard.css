@@ -206,19 +206,17 @@
    ============================================ */
 
 .card-expanded {
-  /* Absolute position - outside card-main */
+  /* Absolute position - aligned with card-main */
   position: absolute;
   left: 100%;
   top: 0;
+  bottom: 0; /* Match height of card-main exactly */
   
   /* Fixed width */
-  width: 240px;
-  
-  /* Full height + extra for buttons */
-  min-height: calc(100% + 40px);
+  width: 220px;
   
   /* Padding */
-  padding: 14px;
+  padding: 12px;
   box-sizing: border-box;
   
   /* Glassmorphism */
@@ -233,16 +231,20 @@
     20px 0 60px rgba(0, 0, 0, 0.8),
     0 0 0 1px rgba(255, 255, 255, 0.08);
   
-  /* Flex layout */
+  /* Flex layout - distribute content */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 8px;
   
   /* Animation */
   animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   
   /* High z-index */
   z-index: 1000;
+  
+  /* Hide overflow */
+  overflow: hidden;
 }
 
 @keyframes slideIn {
