@@ -88,19 +88,27 @@ const LiveChatWidget = ({ productId, productTitle }) => {
   };
 
   return (
-    <div className="live-chat-widget">
-      {!isOpen ? (
-        <button className="chat-toggle-btn" onClick={() => setIsOpen(true)}>
+    <>
+      {/* Collapsed state - floating button */}
+      {!isOpen && (
+        <button 
+          className="live-chat-fab"
+          onClick={() => setIsOpen(true)}
+        >
           <MessageCircle size={20} />
           <span>Live Chat</span>
-          <span className="online-badge">
+          <span className="fab-online">
             <span className="online-dot"></span>
             {onlineCount} online
           </span>
         </button>
-      ) : (
-        <div className="chat-container">
-          <div className="chat-header">
+      )}
+
+      {/* Expanded state - full chat panel */}
+      {isOpen && (
+        <div className="live-chat-panel">
+          {/* Header */}
+          <div className="chat-panel-header">
             <div className="chat-header-left">
               <MessageCircle size={18} />
               <span className="chat-title">Live Chat</span>
@@ -110,13 +118,17 @@ const LiveChatWidget = ({ productId, productTitle }) => {
                 <Users size={14} />
                 {onlineCount} viewing
               </span>
-              <button className="chat-close-btn" onClick={() => setIsOpen(false)}>
+              <button 
+                className="chat-close-btn" 
+                onClick={() => setIsOpen(false)}
+              >
                 <X size={18} />
               </button>
             </div>
           </div>
 
-          <div className="chat-messages">
+          {/* Messages */}
+          <div className="chat-panel-messages">
             <div className="chat-welcome">
               💬 Discuss <strong>{productTitle || 'this product'}</strong> with other viewers
             </div>
@@ -136,7 +148,8 @@ const LiveChatWidget = ({ productId, productTitle }) => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-input-container">
+          {/* Input */}
+          <div className="chat-panel-input">
             <input
               type="text"
               placeholder="Type a message..."
@@ -155,7 +168,7 @@ const LiveChatWidget = ({ productId, productTitle }) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
