@@ -261,23 +261,24 @@
    ============================================ */
 
 .expanded-header {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-bottom: 2px;
 }
 
 .expanded-stats {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 9px;
   font-family: 'SF Mono', Monaco, Consolas, monospace;
 }
 
@@ -294,14 +295,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 8px 0;
+  padding: 6px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .social-badge {
-  font-size: 9px;
-  padding: 3px 6px;
+  font-size: 8px;
+  padding: 2px 5px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
@@ -311,8 +312,8 @@
 .expanded-actions {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 4px;
+  margin-top: 4px;
 }
 
 .action-btn {
