@@ -262,60 +262,62 @@
    EXPANDED CONTENT
    ============================================ */
 
+.expanded-content-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .expanded-header {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 2px;
 }
 
 .expanded-stats {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
-  font-size: 9px;
+  font-size: 11px;
   font-family: 'SF Mono', Monaco, Consolas, monospace;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .stat-value {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
 }
 
-.expanded-social {
+.expanded-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 6px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
 }
 
-.social-badge {
-  font-size: 8px;
-  padding: 2px 5px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.tag-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(139, 92, 246, 0.9);
 }
 
 .expanded-actions {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 4px;
+  gap: 6px;
 }
 
 .action-btn {
