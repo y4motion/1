@@ -51,9 +51,11 @@
     0 2px 8px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   
-  /* Position */
+  /* Position - for absolute expanded */
   position: relative;
-  overflow: hidden;
+  
+  /* CRITICAL: Allow expanded to overflow */
+  overflow: visible;
   
   /* Flex shrink to allow expansion */
   flex-shrink: 0;
