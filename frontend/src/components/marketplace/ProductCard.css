@@ -205,40 +205,49 @@
    ============================================ */
 
 .card-expanded {
-  /* Width of expanded part */
-  width: 0;
-  opacity: 0;
+  /* Fixed width - always visible */
+  width: 220px;
+  min-width: 220px;
   
   /* Padding */
-  padding: 0;
+  padding: 14px;
+  
+  /* Height matches card-main */
+  align-self: stretch;
   
   /* Glassmorphism */
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-left: none; /* Connects with main */
   border-radius: 0 16px 16px 0;
   
   /* Shadow */
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
   
   /* Flex layout */
   display: flex;
   flex-direction: column;
   gap: 10px;
   
-  /* Transitions */
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animation */
+  animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   
-  /* Overflow */
-  overflow: hidden;
+  /* Overflow - show all content */
+  overflow: visible;
 }
 
-/* EXPANDED STATE */
-.product-card.is-expanded .card-expanded {
-  width: 220px;
-  opacity: 1;
-  padding: 14px;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ============================================
