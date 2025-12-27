@@ -213,8 +213,8 @@
   /* Fixed width */
   width: 240px;
   
-  /* Full height of card */
-  height: 100%;
+  /* Min height to fit all content */
+  min-height: 100%;
   
   /* Padding */
   padding: 16px;
@@ -234,7 +234,8 @@
   /* Flex layout */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 8px;
   
   /* Animation */
   animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
