@@ -20,6 +20,7 @@ import {
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useCart } from '../contexts/CartContext';
 import FilterPanel from './FilterPanel';
 import CatalogMega from './CatalogMega';
 import OptimizedImage from './OptimizedImage';
