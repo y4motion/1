@@ -26,9 +26,9 @@
   z-index: 1;
 }
 
-/* Hovered card goes on top */
+/* Hovered card goes on top of everything */
 .product-card:hover {
-  z-index: 100;
+  z-index: 500;
 }
 
 /* ============================================
