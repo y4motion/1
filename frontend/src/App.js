@@ -137,7 +137,8 @@ function App() {
               </BrowserRouter>
             </div>
             </ErrorBoundary>
-            </ToastProvider>
+              </ToastProvider>
+            </CartProvider>
           </AuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
