@@ -161,6 +161,9 @@ api_router.include_router(upload_router)
 api_router.include_router(activity_router)
 api_router.include_router(homepage_router)
 api_router.include_router(analytics_router)
+api_router.include_router(payment_router)
+api_router.include_router(promo_router)
+api_router.include_router(user_address_router)
 
 # Include the router in the main app
 app.include_router(api_router)
