@@ -201,6 +201,7 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
               </div>
             )}
           </div>
+        </div>
         
         {/* INFO outside the card */}
         <div className="card-info-external">
