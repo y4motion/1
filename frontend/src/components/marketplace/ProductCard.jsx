@@ -142,72 +142,65 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
             {product.discount && (
               <div className="badge badge-discount">-{product.discount}%</div>
             )}
-          </div>
-          
-          {/* EXPANDED PART - Slides out RIGHT from main */}
-          {isHovered && canExpand && (
-            <div className="card-expanded">
-              <div className="expanded-header">QUICK STATS</div>
-              
-              <div className="expanded-stats">
-                {product.specifications && product.specifications.slice(0, 4).map((spec, idx) => (
-                  <div className="stat-row" key={idx}>
-                    <span className="stat-label">{spec.name}:</span>
-                    <span className="stat-value">{spec.value}</span>
-                  </div>
-                ))}
-                <div className="stat-row">
-                  <span className="stat-label">Stock:</span>
-                  <span className="stat-value">{product.stock > 0 ? product.stock : 'Out'}</span>
-                </div>
-                {product.average_rating > 0 && (
+            
+            {/* EXPANDED PART - Inside card-main for proper positioning */}
+            {isHovered && canExpand && (
+              <div className="card-expanded">
+                <div className="expanded-header">QUICK STATS</div>
+                
+                <div className="expanded-stats">
+                  {product.specifications && product.specifications.slice(0, 3).map((spec, idx) => (
+                    <div className="stat-row" key={idx}>
+                      <span className="stat-label">{spec.name}:</span>
+                      <span className="stat-value">{spec.value}</span>
+                    </div>
+                  ))}
                   <div className="stat-row">
-                    <span className="stat-label">Rating:</span>
-                    <span className="stat-value">⭐ {product.average_rating.toFixed(1)}</span>
+                    <span className="stat-label">Stock:</span>
+                    <span className="stat-value">{product.stock > 0 ? product.stock : 'Out'}</span>
                   </div>
-                )}
-              </div>
-              
-              <div className="expanded-social">
-                <div className="social-badge">👁 {product.views || 0}</div>
-                <div className="social-badge">💬 {product.total_reviews || 0}</div>
-                <div className="social-badge">❤️ {product.wishlist_count || 0}</div>
-              </div>
-              
-              <div className="expanded-actions">
-                <button 
-                  className="action-btn btn-wishlist"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onWishlistToggle && onWishlistToggle(product.id);
-                  }}
-                >
-                  <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} />
-                  <span>Wishlist</span>
-                </button>
+                </div>
                 
-                <button 
-                  className="action-btn btn-quickview"
-                  onClick={handleQuickViewClick}
-                >
-                  <Eye size={14} />
-                  <span>Quick View</span>
-                </button>
+                <div className="expanded-social">
+                  <div className="social-badge">👁 {product.views || 0}</div>
+                  <div className="social-badge">💬 {product.total_reviews || 0}</div>
+                  <div className="social-badge">❤️ {product.wishlist_count || 0}</div>
+                </div>
                 
-                <button 
-                  className="action-btn btn-fastbuy"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onFastBuy && onFastBuy(product);
-                  }}
-                  disabled={product.stock === 0}
-                >
-                  FAST BUY
-                </button>
+                <div className="expanded-actions">
+                  <button 
+                    className="action-btn btn-wishlist"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onWishlistToggle && onWishlistToggle(product.id);
+                    }}
+                  >
+                    <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} />
+                    <span>Wishlist</span>
+                  </button>
+                  
+                  <button 
+                    className="action-btn btn-quickview"
+                    onClick={handleQuickViewClick}
+                  >
+                    <Eye size={14} />
+                    <span>Quick View</span>
+                  </button>
+                  
+                  <button 
+                    className="action-btn btn-fastbuy"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onFastBuy && onFastBuy(product);
+                    }}
+                    disabled={product.stock === 0}
+                  >
+                    FAST BUY
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
         
         {/* INFO outside the card */}
         <div className="card-info-external">
