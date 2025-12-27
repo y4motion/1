@@ -609,29 +609,49 @@ agent_communication:
         agent: "main"
         comment: "✅ FIXED: POST endpoint was failing with 503 due to logging middleware trying to read request body and recreate receive function. Fixed by simplifying RequestLoggingMiddleware - removed body reading logic that was incompatible with newer Starlette versions. All CRUD operations now working: POST (create/update), GET (list/single), PATCH (toggle), DELETE. Frontend component displays correctly - shows login prompt for unauthenticated users."
 
-## Test Request: Glassy Swap Light Theme and Create Wizard Integration
+## Test Request: Product Detail Page Next-Gen Redesign
 
 ### Context
-- Fixed light theme integration for GlassySwapPage by removing conflicting `data-theme` attributes from component divs
-- Added `!important` to CSS rules for light theme in glassmorphism.css
-- Light theme now correctly applies to GlassySwap page (verified via computed styles and screenshots)
+- Implemented complete redesign of ProductDetailPage with new components
+- New features: Live Chat Widget, Product Reactions, 5 tabs (Overview, Specs, Reviews, Community, Q&A)
+- Glassmorphism styling throughout
+
+### Components Created
+1. `/app/frontend/src/components/marketplace/ProductDetailPage.jsx` - Main page component
+2. `/app/frontend/src/components/marketplace/ProductDetailPage.css` - Styles
+3. `/app/frontend/src/components/marketplace/LiveChatWidget.jsx` - PMM.gg style chat
+4. `/app/frontend/src/components/marketplace/LiveChatWidget.css`
+5. `/app/frontend/src/components/marketplace/ProductReactions.jsx` - Emoji reactions
+6. `/app/frontend/src/components/marketplace/ProductReactions.css`
+7. `/app/frontend/src/components/marketplace/tabs/OverviewTab.jsx`
+8. `/app/frontend/src/components/marketplace/tabs/SpecsTab.jsx`
+9. `/app/frontend/src/components/marketplace/tabs/ReviewsTab.jsx`
+10. `/app/frontend/src/components/marketplace/tabs/CommunityTab.jsx`
+11. `/app/frontend/src/components/marketplace/tabs/QATab.jsx`
+12. `/app/frontend/src/components/marketplace/tabs/TabStyles.css`
 
 ### Tests Needed
-1. **Light Theme Visual Verification**:
-   - Navigate to /glassy-swap
-   - Switch to Light theme via Settings menu
-   - Verify: Header is white, page background is light gradient, text is dark
-   - Verify: Filter bar, cards, and all UI elements are styled correctly
+1. **Product Page Loads**: Navigate to `/product/{id}` and verify:
+   - Breadcrumbs display correctly
+   - Product image, title, price, stock status show
+   - Reactions (👍❤️🔥💡) are interactive
+   - Quantity selector works
+   - Add to Cart/Buy Now buttons visible
 
-2. **Create Listing Wizard Flow**:
-   - Click "+ Create" button to open wizard
-   - Fill in all steps: Category selection, Photo upload (if possible), Details (title, price, condition, location)
-   - Submit the listing (requires authentication)
-   - Verify new listing appears in feed
+2. **Live Chat Widget**:
+   - Chat toggle button shows "X online"
+   - Click opens chat panel with messages
+   - Can send new message
+   - Close button works
 
-3. **Theme Persistence**:
-   - Switch to Light theme, navigate away, return to /glassy-swap
-   - Verify theme is preserved via localStorage
+3. **Tabs Navigation**:
+   - All 5 tabs clickable
+   - Overview shows description and highlights
+   - Community shows User Builds grid
+   - Q&A and Reviews show proper layout
 
-### Test Credentials (if available)
-- If auth is needed for create wizard, use test user or note that feature requires login
+4. **Responsive Design**:
+   - Test on mobile viewport
+
+### Test Product ID
+- `8529f6c3-b561-462c-a602-f6fcb66edddc` (Sony WH-1000XM5)
