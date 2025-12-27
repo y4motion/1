@@ -146,25 +146,34 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
             {/* EXPANDED PART - Inside card-main for proper positioning */}
             {isHovered && canExpand && (
               <div className="card-expanded">
-                <div className="expanded-header">QUICK STATS</div>
-                
-                <div className="expanded-stats">
-                  {product.specifications && product.specifications.slice(0, 3).map((spec, idx) => (
-                    <div className="stat-row" key={idx}>
-                      <span className="stat-label">{spec.name}:</span>
-                      <span className="stat-value">{spec.value}</span>
+                <div className="expanded-content-top">
+                  <div className="expanded-header">INFO</div>
+                  
+                  <div className="expanded-stats">
+                    <div className="stat-row">
+                      <span className="stat-label">Stock:</span>
+                      <span className="stat-value">{product.stock > 0 ? product.stock : 'Out'}</span>
                     </div>
-                  ))}
-                  <div className="stat-row">
-                    <span className="stat-label">Stock:</span>
-                    <span className="stat-value">{product.stock > 0 ? product.stock : 'Out'}</span>
+                    <div className="stat-row">
+                      <span className="stat-label">Views:</span>
+                      <span className="stat-value">{product.views || 0}</span>
+                    </div>
+                    {product.average_rating > 0 && (
+                      <div className="stat-row">
+                        <span className="stat-label">Rating:</span>
+                        <span className="stat-value">⭐ {product.average_rating.toFixed(1)}</span>
+                      </div>
+                    )}
                   </div>
-                </div>
-                
-                <div className="expanded-social">
-                  <div className="social-badge">👁 {product.views || 0}</div>
-                  <div className="social-badge">💬 {product.total_reviews || 0}</div>
-                  <div className="social-badge">❤️ {product.wishlist_count || 0}</div>
+                  
+                  {/* Tags if no specs */}
+                  {product.tags && product.tags.length > 0 && (
+                    <div className="expanded-tags">
+                      {product.tags.slice(0, 3).map((tag, idx) => (
+                        <span key={idx} className="tag-badge">#{tag}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 
                 <div className="expanded-actions">
@@ -175,7 +184,7 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
                       onWishlistToggle && onWishlistToggle(product.id);
                     }}
                   >
-                    <Heart size={14} fill={product.is_wishlisted ? '#ff3b30' : 'none'} />
+                    <Heart size={12} fill={product.is_wishlisted ? '#ff3b30' : 'none'} />
                     <span>Wishlist</span>
                   </button>
                   
@@ -183,7 +192,7 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
                     className="action-btn btn-quickview"
                     onClick={handleQuickViewClick}
                   >
-                    <Eye size={14} />
+                    <Eye size={12} />
                     <span>Quick View</span>
                   </button>
                   
@@ -195,7 +204,7 @@ const ProductCard = ({ product, onWishlistToggle, onQuickView, onFastBuy }) => {
                     }}
                     disabled={product.stock === 0}
                   >
-                    FAST BUY
+                    🛒 FAST BUY
                   </button>
                 </div>
               </div>
