@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { MessageCircle, Send, X, Users } from 'lucide-react';
 import './LiveChatWidget.css';
 
-const LiveChatWidget = ({ productId, productTitle }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [onlineCount, setOnlineCount] = useState(0);
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    // Simulate online count
-    setOnlineCount(Math.floor(Math.random() * 10) + 1);
-
-    // Mock initial messages
-    setMessages([
+// Generate initial data based on productId
+const getInitialData = (productId) => {
+  const hash = (productId || 'default').split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  
+  return {
+    onlineCount: Math.abs(hash % 10) + 1,
+    messages: [
       { 
         id: 1, 
         username: 'GamerPro', 
@@ -36,8 +33,18 @@ const LiveChatWidget = ({ productId, productTitle }) => {
         time: '1 min ago',
         avatar: '👤'
       }
-    ]);
-  }, [productId]);
+    ]
+  };
+};
+
+const LiveChatWidget = ({ productId, productTitle }) => {
+  const initialData = useMemo(() => getInitialData(productId), [productId]);
+  
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState(initialData.messages);
+  const [newMessage, setNewMessage] = useState('');
+  const [onlineCount] = useState(initialData.onlineCount);
+  const messagesEndRef = useRef(null);
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
