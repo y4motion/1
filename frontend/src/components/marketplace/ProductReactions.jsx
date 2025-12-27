@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './ProductReactions.css';
 
 const reactions = [
@@ -8,13 +8,23 @@ const reactions = [
   { id: 'innovative', emoji: '💡', label: 'Innovative' }
 ];
 
+// Generate initial counts deterministically based on productId
+const getInitialCounts = (productId) => {
+  const hash = (productId || 'default').split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  return {
+    helpful: Math.abs(hash % 200) + 50,
+    love: Math.abs((hash >> 4) % 100) + 20,
+    fire: Math.abs((hash >> 8) % 60) + 10,
+    innovative: Math.abs((hash >> 12) % 30) + 5
+  };
+};
+
 const ProductReactions = ({ productId }) => {
-  const [counts, setCounts] = useState({
-    helpful: Math.floor(Math.random() * 200) + 50,
-    love: Math.floor(Math.random() * 100) + 20,
-    fire: Math.floor(Math.random() * 60) + 10,
-    innovative: Math.floor(Math.random() * 30) + 5
-  });
+  const initialCounts = useMemo(() => getInitialCounts(productId), [productId]);
+  const [counts, setCounts] = useState(initialCounts);
   const [userReaction, setUserReaction] = useState(null);
   const [animating, setAnimating] = useState(null);
 
