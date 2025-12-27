@@ -13,7 +13,7 @@ const exampleReviews = [
     rating: 5,
     created_at: '2024-12-20',
     is_verified_purchase: true,
-    title: 'Best headphones I\'ve ever owned!',
+    title: 'Best headphones I have ever owned!',
     comment: 'The noise cancellation is incredible, I can finally focus in my noisy office. The sound quality is also top-notch, with deep bass and clear highs. Battery life easily gets me through a full work week. Highly recommend!',
     helpful_count: 24,
     unhelpful_count: 1
