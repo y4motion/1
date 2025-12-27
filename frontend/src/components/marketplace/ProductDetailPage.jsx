@@ -4,12 +4,14 @@ import {
   Heart, Share2, GitCompare, ShoppingCart, Zap, 
   Truck, Shield, RotateCcw, Star, Eye, MessageCircle,
   ThumbsUp, ChevronLeft, ChevronRight, Home, ChevronRight as Chevron,
-  ZoomIn, X
+  ZoomIn, X, Battery, Scale
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import LiveChatWidget from './LiveChatWidget';
 import ProductReactions from './ProductReactions';
+import KeySpecs from './KeySpecs';
+import ExpandableBlock from './ExpandableBlock';
 import OverviewTab from './tabs/OverviewTab';
 import SpecsTab from './tabs/SpecsTab';
 import ReviewsTab from './tabs/ReviewsTab';
