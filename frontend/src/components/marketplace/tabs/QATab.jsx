@@ -14,7 +14,7 @@ const exampleQuestions = [
     upvotes: 45,
     answers: [
       {
-        content: 'Yes! I wear glasses daily and they\\'re very comfortable. The earcups are soft and don\\'t put excessive pressure on the arms of my glasses. The padding conforms well to different head shapes.',
+        content: 'Yes! I wear glasses daily and they are very comfortable. The earcups are soft and do not put excessive pressure on the arms of my glasses. The padding conforms well to different head shapes.',
         username: 'Sony Support',
         created_at: '2024-12-23',
         is_seller: true
@@ -53,13 +53,13 @@ const exampleQuestions = [
   },
   {
     id: 4,
-    question: 'What\\'s the difference between XM4 and XM5?',
+    question: 'What is the difference between XM4 and XM5?',
     username: 'Daniel Park',
     created_at: '2024-12-15',
     upvotes: 52,
     answers: [
       {
-        content: 'Main improvements: 1) Better ANC with new QN1 + V1 chip combo, 2) Lighter weight (250g vs 254g), 3) New synthetic leather headband, 4) Improved call quality with 4 beamforming mics, 5) Better quick charging (3 min = 3 hours). The XM5 doesn\\'t fold like XM4 though.',
+        content: 'Main improvements: 1) Better ANC with new QN1 + V1 chip combo, 2) Lighter weight (250g vs 254g), 3) New synthetic leather headband, 4) Improved call quality with 4 beamforming mics, 5) Better quick charging (3 min = 3 hours). The XM5 does not fold like XM4 though.',
         username: 'AudiophileMax',
         created_at: '2024-12-16',
         is_seller: false
