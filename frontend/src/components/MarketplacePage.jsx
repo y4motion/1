@@ -372,28 +372,19 @@ const MarketplacePage = () => {
     setShowFastBuyModal(true);
   };
 
-  // Add to cart handler
-  const handleAddToCart = async (productId, quantity) => {
+  // Add to cart handler - uses CartContext
+  const handleAddToCart = async (productId, quantity, variantId = null) => {
     if (!token) {
       alert('Please login to add items to cart');
       return;
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/cart/items/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ product_id: productId, quantity }),
-      });
-
-      if (response.ok) {
-        // Success - modal will close itself
-      }
+      await addToCart(productId, quantity, variantId);
+      // Success - modal will close itself
     } catch (error) {
       console.error('Failed to add to cart:', error);
+      alert(error.message || 'Failed to add to cart');
     }
   };
 
