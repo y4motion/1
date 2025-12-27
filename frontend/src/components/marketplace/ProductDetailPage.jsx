@@ -279,9 +279,6 @@ const ProductDetailPage = () => {
               </div>
             )}
           </div>
-
-          {/* Live Chat Widget */}
-          <LiveChatWidget productId={product.id} productTitle={product.title} />
         </div>
 
         {/* RIGHT: Product Info */}
