@@ -14,7 +14,7 @@ import SpecsTab from './tabs/SpecsTab';
 import ReviewsTab from './tabs/ReviewsTab';
 import CommunityTab from './tabs/CommunityTab';
 import QATab from './tabs/QATab';
-import { ProductCard } from './index';
+import ProductCard from './ProductCard';
 import './ProductDetailPage.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
