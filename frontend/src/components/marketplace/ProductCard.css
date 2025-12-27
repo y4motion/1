@@ -216,7 +216,7 @@
 .card-expanded {
   /* Absolute position - aligned with card-main */
   position: absolute;
-  left: 100%;
+  left: calc(100% - 1px); /* Отрицательный margin для seamless слияния */
   top: 0;
   bottom: 0; /* Match height of card-main exactly */
   
@@ -227,17 +227,21 @@
   padding: 12px;
   box-sizing: border-box;
   
-  /* Glassmorphism */
-  background: rgba(0, 0, 0, 0.95);
+  /* Glassmorphism - matching card-main */
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  
+  /* КРИТИЧНО: Border БЕЗ левого */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-left: none;
+  
+  /* КРИТИЧНО: Border-radius только справа */
   border-radius: 0 16px 16px 0;
   
   /* Shadow */
   box-shadow: 
-    20px 0 60px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+    12px 0 48px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
   
   /* Flex layout - distribute content */
   display: flex;
