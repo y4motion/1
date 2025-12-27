@@ -517,6 +517,21 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Create Listing Wizard on Glassy Swap Page"
+    implemented: true
+    working: true
+    files:
+      - "/app/frontend/src/components/swap/SwapMainPage.jsx"
+      - "/app/frontend/src/components/swap/CreateWizard.jsx"
+      - "/app/frontend/src/components/GlassySwapPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 CREATE LISTING WIZARD COMPREHENSIVE TESTING COMPLETED ✅ All 8 test scenarios verified successfully: 1) **Open Create Wizard**: Modal opens with glassmorphism styling, step progress indicator shows 4 steps (Category, Photos, Details, Done), close button (X) present in header. 2) **Step 1 - Category**: Title input field accepts text ('Test RTX 4090 Listing'), category dropdown functional with options (Видеокарты/Graphics Cards selected), AI tip visible ('Right category increases views by 60%'), Next button validation working (disabled until both fields filled). 3) **Step 2 - Photos**: Drag-and-drop upload area present, URL input field for pasting image links, AI tip visible ('Listings with 3+ photos sell 40% faster'), Next button allows skipping photos (optional step). 4) **Step 3 - Details**: All form fields working - Price input (number type), Condition dropdown with options, Location input ('Moscow'), Description textarea, 'Open to trade' checkbox, AI tip visible ('Detailed description builds buyer trust'). 5) **Step 4 - Confirmation**: 'All Set' confirmation message displayed, Publish button visible, AI tip visible ('Great work! Your listing is ready'). 6) **Navigation**: Back button works at each step, step progress indicator updates correctly (1/4, 2/4, 3/4, 4/4), modal can be closed with X button. 7) **User Experience**: Glassmorphism design consistent with site theme, AI tips provide contextual guidance, form validation prevents progression without required fields, smooth transitions between steps. 8) **Technical Implementation**: CreateWizard component properly integrated into SwapMainPage, modal overlay working, form state management functional, category selection from backend API working. Create Listing Wizard is fully functional and production-ready with excellent user experience."
+
 agent_communication:
   - agent: "main"
     message: "Phase 2A implementation complete. Backend authentication system ready for testing. Please test: 1) User registration with email/username/password, 2) Login with email/password and JWT token generation, 3) Protected endpoint /api/auth/me with Bearer token. User model includes gamification fields for future LVL system integration. Backend URL: process.env.REACT_APP_BACKEND_URL from frontend .env"
