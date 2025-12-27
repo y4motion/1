@@ -50,6 +50,9 @@ from routes.upload_routes import router as upload_router
 from routes.activity_routes import router as activity_router
 from routes.homepage_routes import router as homepage_router
 from routes.analytics_routes import router as analytics_router
+from routes.payment_routes import router as payment_router
+from routes.promo_routes import router as promo_router
+from routes.user_address_routes import router as user_address_router
 
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
