@@ -626,49 +626,64 @@ agent_communication:
         agent: "main"
         comment: "✅ FIXED: POST endpoint was failing with 503 due to logging middleware trying to read request body and recreate receive function. Fixed by simplifying RequestLoggingMiddleware - removed body reading logic that was incompatible with newer Starlette versions. All CRUD operations now working: POST (create/update), GET (list/single), PATCH (toggle), DELETE. Frontend component displays correctly - shows login prompt for unauthenticated users."
 
-## Test Request: Product Detail Page Next-Gen Redesign
+## Test Request: FastBuyModal Stripe Flow + Create Listing Wizard
 
 ### Context
-- Implemented complete redesign of ProductDetailPage with new components
-- New features: Live Chat Widget, Product Reactions, 5 tabs (Overview, Specs, Reviews, Community, Q&A)
-- Glassmorphism styling throughout
+- FastBuyModal is integrated in MarketplacePage for quick checkout
+- Uses Stripe for payments (currently mock mode as no real keys)
+- Backend routes: /api/payments/create-intent, /api/promo/validate, /api/user/addresses
 
-### Components Created
-1. `/app/frontend/src/components/marketplace/ProductDetailPage.jsx` - Main page component
-2. `/app/frontend/src/components/marketplace/ProductDetailPage.css` - Styles
-3. `/app/frontend/src/components/marketplace/LiveChatWidget.jsx` - PMM.gg style chat
-4. `/app/frontend/src/components/marketplace/LiveChatWidget.css`
-5. `/app/frontend/src/components/marketplace/ProductReactions.jsx` - Emoji reactions
-6. `/app/frontend/src/components/marketplace/ProductReactions.css`
-7. `/app/frontend/src/components/marketplace/tabs/OverviewTab.jsx`
-8. `/app/frontend/src/components/marketplace/tabs/SpecsTab.jsx`
-9. `/app/frontend/src/components/marketplace/tabs/ReviewsTab.jsx`
-10. `/app/frontend/src/components/marketplace/tabs/CommunityTab.jsx`
-11. `/app/frontend/src/components/marketplace/tabs/QATab.jsx`
-12. `/app/frontend/src/components/marketplace/tabs/TabStyles.css`
+### Tests Needed for FastBuyModal:
 
-### Tests Needed
-1. **Product Page Loads**: Navigate to `/product/{id}` and verify:
-   - Breadcrumbs display correctly
-   - Product image, title, price, stock status show
-   - Reactions (👍❤️🔥💡) are interactive
-   - Quantity selector works
-   - Add to Cart/Buy Now buttons visible
+1. **Open FastBuyModal from ProductCard**:
+   - Navigate to /marketplace
+   - Hover over a product card
+   - Click "FAST BUY" button in expanded panel
+   - Verify FastBuyModal opens with product info
 
-2. **Live Chat Widget**:
-   - Chat toggle button shows "X online"
-   - Click opens chat panel with messages
-   - Can send new message
-   - Close button works
+2. **FastBuyModal UI Elements**:
+   - Product image displays
+   - Title and price show correctly
+   - Variant selector works (if variants exist)
+   - Quantity controls (+/-) work
+   - Stock status displays
+   - Delivery address dropdown loads
+   - Promo code input exists
+   - "Continue to Payment" button visible
 
-3. **Tabs Navigation**:
-   - All 5 tabs clickable
-   - Overview shows description and highlights
-   - Community shows User Builds grid
-   - Q&A and Reviews show proper layout
+3. **Promo Code Flow**:
+   - Enter "SAVE10" in promo code field
+   - Click Apply button
+   - Verify discount appears in price breakdown
 
-4. **Responsive Design**:
-   - Test on mobile viewport
+4. **Payment Flow (Mock Mode)**:
+   - Click "Continue to Payment"
+   - Verify Stripe card input appears
+   - Verify "Pay $X" button visible
 
-### Test Product ID
-- `8529f6c3-b561-462c-a602-f6fcb66edddc` (Sony WH-1000XM5)
+5. **Add to Cart from Modal**:
+   - Click "Add to Cart" button
+   - Verify button shows loading state
+   - Verify modal closes
+
+### Tests Needed for Create Listing Wizard:
+
+1. **Open Create Wizard**:
+   - Navigate to /glassy-swap
+   - Click "+ Create" button
+   - Verify wizard modal opens
+
+2. **Wizard Steps**:
+   - Step 1: Category selection
+   - Step 2: Photo upload
+   - Step 3: Details (title, price, condition, location, description)
+   - Step 4: Preview and submit
+
+### Test Product
+- Use any product from /marketplace for FastBuyModal test
+
+### Promo Codes Available:
+- SAVE10 = 10% off
+- SAVE20 = 20% off (min $50)
+- FLAT15 = $15 off (min $100)
+- WELCOME = 15% off
