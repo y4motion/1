@@ -70,12 +70,7 @@ const LiveChatWidget = ({ productId, productTitle }) => {
     setMessages(prev => [...prev, message]);
     setNewMessage('');
 
-    // Scroll to bottom
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-
-    // Simulate response
+    // Simulate response after 2 seconds
     setTimeout(() => {
       const responses = [
         'Great question!',
