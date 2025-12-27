@@ -509,6 +509,9 @@ const ProductDetailPage = () => {
           </div>
         </div>
       )}
+
+      {/* Floating Live Chat Widget */}
+      <LiveChatWidget productId={product.id} productTitle={product.title} />
     </div>
   );
 };
