@@ -325,7 +325,7 @@
   padding: 8px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -345,15 +345,16 @@
 }
 
 .btn-fastbuy {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
   color: #000;
   border: none;
-  margin-top: 4px;
+  font-weight: 800;
 }
 
 .btn-fastbuy:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #fff, #f0f0f0);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
 }
 
 .btn-fastbuy:disabled {
