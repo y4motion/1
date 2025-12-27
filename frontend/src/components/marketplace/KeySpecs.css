@@ -1,0 +1,59 @@
+/* Key Specs - PMM.gg Style */
+
+.key-specs {
+  margin: 1rem 0 1.5rem;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 2;
+}
+
+.spec-line {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.spec-label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 120px;
+}
+
+.spec-separator {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 400;
+}
+
+.spec-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Neon accent for important values */
+.spec-value.highlight {
+  color: var(--neon-green, #00ff88);
+}
+
+/* Light Theme */
+[data-theme="light"] .spec-label {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .spec-separator {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .spec-value {
+  color: #1a1a1a;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .key-specs {
+    font-size: 0.8125rem;
+  }
+  
+  .spec-label {
+    min-width: 100px;
+  }
+}
