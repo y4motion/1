@@ -1,0 +1,149 @@
+/* ==========================================
+   GLASSY MARKET - REFINED COLOR SYSTEM
+   Ultra-Minimal • Acrylic • Cosmic • Calm
+   NO NEON GREEN - ONLY SOFT ACCENTS
+   ========================================== */
+
+:root {
+  /* ==========================================
+     BASE COLORS - Deep Space
+     ========================================== */
+  --bg-primary: #000000;
+  --bg-elevated: #0a0a0f;
+  --bg-depth: #050508;
+  
+  /* Cosmic Gradients */
+  --gradient-cosmic: linear-gradient(180deg, #000000 0%, #0a0515 50%, #000000 100%);
+  --gradient-aurora: linear-gradient(135deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 50%, rgba(139, 92, 246, 0.03) 100%);
+
+  /* ==========================================
+     ACRYLIC GLASS - Core Design Language
+     ========================================== */
+  --glass-clear: rgba(255, 255, 255, 0.02);
+  --glass-light: rgba(255, 255, 255, 0.04);
+  --glass-medium: rgba(255, 255, 255, 0.06);
+  --glass-strong: rgba(255, 255, 255, 0.08);
+  
+  /* Glass Borders */
+  --glass-border-subtle: rgba(255, 255, 255, 0.06);
+  --glass-border-visible: rgba(255, 255, 255, 0.12);
+  --glass-border-bright: rgba(255, 255, 255, 0.18);
+  
+  /* Blur Levels */
+  --blur-soft: blur(20px);
+  --blur-medium: blur(40px);
+  --blur-strong: blur(60px);
+
+  /* ==========================================
+     TEXT COLORS - Readable, Never Harsh
+     ========================================== */
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-tertiary: rgba(255, 255, 255, 0.45);
+  --text-disabled: rgba(255, 255, 255, 0.25);
+
+  /* ==========================================
+     ACCENT COLORS - Use Sparingly!
+     ========================================== */
+  /* Primary: Soft Purple */
+  --accent-primary: #8b5cf6;
+  --accent-primary-hover: #9d6fff;
+  --accent-primary-glow: rgba(139, 92, 246, 0.2);
+  --accent-primary-subtle: rgba(139, 92, 246, 0.08);
+  
+  /* Secondary: Calm Blue */
+  --accent-secondary: #3b82f6;
+  --accent-secondary-hover: #60a5fa;
+  --accent-secondary-glow: rgba(59, 130, 246, 0.15);
+  
+  /* Success: Soft Teal (NOT bright green!) */
+  --success-color: #14b8a6;
+  --success-hover: #2dd4bf;
+  --success-glow: rgba(20, 184, 166, 0.15);
+  --success-subtle: rgba(20, 184, 166, 0.06);
+  
+  /* Warning: Warm Amber */
+  --warning-color: #f59e0b;
+  --warning-glow: rgba(245, 158, 11, 0.15);
+  
+  /* Error: Soft Red */
+  --error-color: #ef4444;
+  --error-glow: rgba(239, 68, 68, 0.15);
+
+  /* ==========================================
+     INTERACTION STATES
+     ========================================== */
+  --hover-overlay: rgba(255, 255, 255, 0.03);
+  --hover-border: rgba(255, 255, 255, 0.15);
+  --active-border: rgba(139, 92, 246, 0.4);
+  --active-glow: 0 0 16px rgba(139, 92, 246, 0.15);
+  --focus-ring: rgba(139, 92, 246, 0.5);
+
+  /* ==========================================
+     SHADOWS & GLOWS - Subtle Only!
+     ========================================== */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --glow-subtle: 0 0 24px rgba(139, 92, 246, 0.1);
+  --glow-medium: 0 0 32px rgba(139, 92, 246, 0.15);
+
+  /* ==========================================
+     SPACING - Generous (Site Should Breathe)
+     ========================================== */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* ==========================================
+     REMOVE OLD NEON GREEN VARIABLES
+     ========================================== */
+  /* DEPRECATED - DO NOT USE:
+   * --neon-green: #00ff88;
+   * --neon-green-dim: rgba(0, 255, 136, 0.3);
+   * --border-glow: rgba(0, 255, 136, 0.3);
+   * --shadow-glow: 0 0 20px rgba(0, 255, 136, 0.2);
+   */
+}
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+
+/* Glass Card - Most Common Pattern */
+.glass-card {
+  background: var(--glass-light);
+  backdrop-filter: var(--blur-soft);
+  border: 1px solid var(--glass-border-subtle);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--glass-medium);
+  border-color: var(--glass-border-visible);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-card.active {
+  background: var(--glass-medium);
+  border-color: var(--glass-border-bright);
+  box-shadow: var(--glow-subtle);
+}
+
+/* Text Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-disabled { color: var(--text-disabled); }
+
+/* Accent Classes */
+.text-accent { color: var(--accent-primary); }
+.text-success { color: var(--success-color); }
+.text-warning { color: var(--warning-color); }
+.text-error { color: var(--error-color); }
