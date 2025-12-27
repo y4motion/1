@@ -5,19 +5,16 @@
 .product-card-wrapper {
   display: flex;
   flex-direction: column;
-  /* Allow wrapper to grow when card expands */
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  /* Allow expanded to overflow */
+  overflow: visible;
 }
 
 .product-card {
-  /* Flex container for main + expanded */
-  display: flex;
+  /* Block for positioning */
   position: relative;
   
-  /* Transition for smooth expansion */
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Overflow visible so expanded is visible */
+  /* Allow expanded to overflow */
   overflow: visible;
   
   cursor: pointer;
