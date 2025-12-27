@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Image, Video, Users } from 'lucide-react';
 import './TabStyles.css';
 
+// Generate initial data based on productId
+const getInitialCommunityData = () => ({
+  builds: [
+    { 
+      id: 1, 
+      title: 'My Ultimate Gaming Setup', 
+      image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=400', 
+      author: 'GamerPro',
+      likes: 234
+    },
+    { 
+      id: 2, 
+      title: 'Minimalist Workstation', 
+      image: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=400', 
+      author: 'TechDesigner',
+      likes: 189
+    },
+    { 
+      id: 3, 
+      title: 'RGB Paradise', 
+      image: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=400', 
+      author: 'LightMaster',
+      likes: 156
+    }
+  ],
+  photos: [
+    { id: 1, url: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=300', author: 'User1' },
+    { id: 2, url: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=300', author: 'User2' },
+    { id: 3, url: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=300', author: 'User3' },
+    { id: 4, url: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=300', author: 'User4' }
+  ],
+  videos: [
+    { id: 1, title: 'Full Review & Unboxing', author: 'TechReviewer', views: '12K', thumbnail: '🎥' },
+    { id: 2, title: 'Comparison with Competitors', author: 'GearHead', views: '8.5K', thumbnail: '🎥' }
+  ]
+});
+
 const CommunityTab = ({ productId }) => {
   const [activeSection, setActiveSection] = useState('builds');
-  const [builds, setBuilds] = useState([]);
-  const [photos, setPhotos] = useState([]);
-  const [videos, setVideos] = useState([]);
-
-  useEffect(() => {
-    // Mock community content
-    setBuilds([
-      { 
-        id: 1, 
-        title: 'My Ultimate Gaming Setup', 
-        image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=400', 
-        author: 'GamerPro',
-        likes: 234
-      },
-      { 
-        id: 2, 
-        title: 'Minimalist Workstation', 
-        image: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=400', 
-        author: 'TechDesigner',
-        likes: 189
-      },
-      { 
-        id: 3, 
-        title: 'RGB Paradise', 
-        image: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=400', 
-        author: 'LightMaster',
-        likes: 156
-      }
-    ]);
-
-    setPhotos([
-      { id: 1, url: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=300', author: 'User1' },
-      { id: 2, url: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=300', author: 'User2' },
-      { id: 3, url: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=300', author: 'User3' },
-      { id: 4, url: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=300', author: 'User4' }
-    ]);
-
-    setVideos([
-      { id: 1, title: 'Full Review & Unboxing', author: 'TechReviewer', views: '12K', thumbnail: '🎥' },
-      { id: 2, title: 'Comparison with Competitors', author: 'GearHead', views: '8.5K', thumbnail: '🎥' }
-    ]);
-  }, [productId]);
+  const initialData = useMemo(() => getInitialCommunityData(), []);
+  const { builds, photos, videos } = initialData;
 
   const sections = [
     { id: 'builds', label: 'User Builds', icon: <Users size={16} /> },
