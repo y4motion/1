@@ -4,8 +4,9 @@
   /* ALWAYS 4 columns */
   grid-template-columns: repeat(4, 1fr);
   
-  /* Gap between cards */
+  /* Gap between cards - enough for expanded panel */
   gap: 24px;
+  row-gap: 40px;
   
   /* Padding - MINIMAL, cards TO EDGES */
   padding: 24px;
@@ -15,6 +16,9 @@
   
   /* Smooth transition when opening filters */
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Allow overflow for expanded panels */
+  overflow: visible;
 }
 
 /* With open filters - cards shrink but stay 4 per row */
