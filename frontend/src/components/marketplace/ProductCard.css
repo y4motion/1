@@ -213,11 +213,13 @@
   /* Fixed width */
   width: 240px;
   
-  /* Min height to fit all content */
+  /* Auto height - grows with content */
+  height: auto;
   min-height: 100%;
   
   /* Padding */
   padding: 16px;
+  box-sizing: border-box;
   
   /* Glassmorphism */
   background: rgba(0, 0, 0, 0.95);
@@ -231,20 +233,16 @@
     20px 0 60px rgba(0, 0, 0, 0.8),
     0 0 0 1px rgba(255, 255, 255, 0.08);
   
-  /* Flex layout */
+  /* Flex layout - space content properly */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
   
   /* Animation */
   animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   
   /* High z-index */
   z-index: 1000;
-  
-  /* Overflow - show all content */
-  overflow: visible;
 }
 
 @keyframes slideIn {
