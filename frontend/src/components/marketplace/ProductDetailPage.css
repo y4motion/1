@@ -357,6 +357,11 @@
   gap: 0.375rem;
 }
 
+/* Expandable Blocks Container */
+.pdp-expandable-blocks {
+  margin: 1rem 0;
+}
+
 /* Price Section */
 .pdp-price-section {
   display: flex;
