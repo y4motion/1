@@ -54,11 +54,12 @@ function App() {
       <LanguageProvider>
         <CurrencyProvider>
           <AuthProvider>
-            <ToastProvider>
-              <ErrorBoundary>
-              <div className="App">
-                <BrowserRouter>
-                  <Header />
+            <CartProvider>
+              <ToastProvider>
+                <ErrorBoundary>
+                <div className="App">
+                  <BrowserRouter>
+                    <Header />
                   
                   {/* Main content area */}
                   <main className="main-content">
