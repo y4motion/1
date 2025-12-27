@@ -28,7 +28,7 @@ const OverviewTab = ({ product }) => {
         <div className="tab-section">
           <h3 className="tab-section-title">
             <Package size={20} style={{ marginRight: '0.5rem' }} />
-            What's in the Box
+            What&apos;s in the Box
           </h3>
           <ul className="tab-box-list">
             {product.whats_in_box.map((item, index) => (
