@@ -5,6 +5,8 @@
 .product-card-wrapper {
   display: flex;
   flex-direction: column;
+  /* Allow wrapper to grow when card expands */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-card {
@@ -19,6 +21,14 @@
   overflow: visible;
   
   cursor: pointer;
+  
+  /* Z-index for hover state */
+  z-index: 1;
+}
+
+/* Hovered card goes on top */
+.product-card:hover {
+  z-index: 100;
 }
 
 /* ============================================
