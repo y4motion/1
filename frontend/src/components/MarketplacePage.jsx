@@ -34,6 +34,7 @@ const MarketplacePage = () => {
   const { t, language } = useLanguage();
   const { user, token } = useAuth();
   const { theme } = useTheme();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
