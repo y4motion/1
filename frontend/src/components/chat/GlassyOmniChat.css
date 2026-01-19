@@ -157,7 +157,7 @@
   overflow: visible;
 }
 
-/* Левая грань - fade out вверх */
+/* Левая грань - "вырастает" из центра низа */
 .u-left {
   position: absolute;
   left: 0;
@@ -166,18 +166,21 @@
   height: 100%;
   background: linear-gradient(
     to top,
-    rgba(var(--dock-glow-rgb), 0.6) 0%,
-    rgba(var(--dock-glow-rgb), 0.3) 30%,
-    rgba(var(--dock-glow-rgb), 0.1) 60%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.05) 70%,
     transparent 100%
   );
   box-shadow: 
-    0 0 15px rgba(var(--dock-glow-rgb), 0.3),
-    0 0 30px rgba(var(--dock-glow-rgb), 0.15);
-  animation: border-appear-left 0.6s ease-out forwards;
+    0 0 12px rgba(255, 255, 255, 0.15),
+    -2px 0 20px rgba(255, 255, 255, 0.08);
+  transform-origin: bottom;
+  animation: border-grow-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.15s;
+  opacity: 0;
 }
 
-/* Правая грань - fade out вверх */
+/* Правая грань - "вырастает" из центра низа */
 .u-right {
   position: absolute;
   right: 0;
@@ -186,18 +189,21 @@
   height: 100%;
   background: linear-gradient(
     to top,
-    rgba(var(--dock-glow-rgb), 0.6) 0%,
-    rgba(var(--dock-glow-rgb), 0.3) 30%,
-    rgba(var(--dock-glow-rgb), 0.1) 60%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.05) 70%,
     transparent 100%
   );
   box-shadow: 
-    0 0 15px rgba(var(--dock-glow-rgb), 0.3),
-    0 0 30px rgba(var(--dock-glow-rgb), 0.15);
-  animation: border-appear-right 0.6s ease-out forwards;
+    0 0 12px rgba(255, 255, 255, 0.15),
+    2px 0 20px rgba(255, 255, 255, 0.08);
+  transform-origin: bottom;
+  animation: border-grow-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.15s;
+  opacity: 0;
 }
 
-/* Нижняя грань - яркая, жесткая */
+/* Нижняя грань - "разбегается" из центра */
 .u-bottom {
   position: absolute;
   bottom: 0;
@@ -206,23 +212,22 @@
   height: 2px;
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    rgba(var(--dock-glow-rgb), 0.5) 10%,
-    rgba(var(--dock-glow-rgb), 0.8) 50%,
-    rgba(var(--dock-glow-rgb), 0.5) 90%,
-    transparent 100%
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.3) 100%
   );
   box-shadow: 
-    0 0 20px rgba(var(--dock-glow-rgb), 0.5),
-    0 0 40px rgba(var(--dock-glow-rgb), 0.25);
-  animation: border-appear-bottom 0.4s ease-out forwards;
+    0 0 15px rgba(255, 255, 255, 0.2),
+    0 2px 25px rgba(255, 255, 255, 0.1);
+  transform-origin: center;
+  animation: border-spread 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Анимации появления света из центра */
-@keyframes border-appear-bottom {
+/* Анимация: низ разбегается из центра */
+@keyframes border-spread {
   from {
-    transform: scaleX(0);
-    opacity: 0;
+    transform: scaleX(0.3);
+    opacity: 0.5;
   }
   to {
     transform: scaleX(1);
@@ -230,22 +235,10 @@
   }
 }
 
-@keyframes border-appear-left {
+/* Анимация: бока растут вверх */
+@keyframes border-grow-up {
   from {
     transform: scaleY(0);
-    transform-origin: bottom;
-    opacity: 0;
-  }
-  to {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-
-@keyframes border-appear-right {
-  from {
-    transform: scaleY(0);
-    transform-origin: bottom;
     opacity: 0;
   }
   to {
