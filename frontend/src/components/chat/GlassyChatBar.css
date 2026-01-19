@@ -113,59 +113,55 @@
 }
 
 /* ========================================
-   AGENT STATUS ANIMATIONS (Living Bar)
+   AGENT STATUS ANIMATIONS (Living Bar) - Subtle & Elegant
    ======================================== */
 
-/* Idle: slow subtle breathing (default) */
+/* Idle: barely visible, calm breathing */
 .glassy-chat-bar.agent-idle .chat-collapsed-bar::before {
   animation: line-breathe 14s ease-in-out infinite;
 }
 
-/* Analyzing: soft purple pulsing glow - AI is thinking */
+/* Analyzing: soft purple undertone - AI is thinking */
 .glassy-chat-bar.agent-analyzing .chat-collapsed-bar::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(139, 92, 246, 0.2) 15%,
-    rgba(139, 92, 246, 0.5) 50%,
-    rgba(139, 92, 246, 0.2) 85%,
+    rgba(139, 92, 246, 0.1) 20%,
+    rgba(139, 92, 246, 0.2) 50%,
+    rgba(139, 92, 246, 0.1) 80%,
     transparent 100%
   );
-  animation: line-analyzing 2s ease-in-out infinite;
+  animation: line-analyzing-subtle 3s ease-in-out infinite;
 }
 
-@keyframes line-analyzing {
+@keyframes line-analyzing-subtle {
   0%, 100% {
-    opacity: 0.6;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    opacity: 0.5;
   }
   50% {
-    opacity: 1;
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    opacity: 0.8;
   }
 }
 
-/* Ready to suggest: bright purple accent with glow flash */
+/* Ready to suggest: gentle accent, not aggressive */
 .glassy-chat-bar.agent-ready_to_suggest .chat-collapsed-bar::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(139, 92, 246, 0.4) 20%,
-    rgba(168, 85, 247, 0.8) 50%,
-    rgba(139, 92, 246, 0.4) 80%,
+    rgba(139, 92, 246, 0.15) 25%,
+    rgba(139, 92, 246, 0.3) 50%,
+    rgba(139, 92, 246, 0.15) 75%,
     transparent 100%
   );
-  animation: line-ready 1.5s ease-in-out infinite;
+  animation: line-ready-subtle 2.5s ease-in-out infinite;
 }
 
-@keyframes line-ready {
+@keyframes line-ready-subtle {
   0%, 100% {
-    opacity: 0.8;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
+    opacity: 0.6;
   }
   50% {
-    opacity: 1;
-    box-shadow: 0 0 35px rgba(139, 92, 246, 0.6), 0 0 60px rgba(168, 85, 247, 0.3);
+    opacity: 0.9;
   }
 }
 
