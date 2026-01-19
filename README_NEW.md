@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://omnichat-app-2.preview.emergentagent.com/
-- **Backend API:** https://omnichat-app-2.preview.emergentagent.com/api
-- **Превью японских фото:** https://omnichat-app-2.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://acrylic-ui.preview.emergentagent.com/
+- **Backend API:** https://acrylic-ui.preview.emergentagent.com/api
+- **Превью японских фото:** https://acrylic-ui.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
