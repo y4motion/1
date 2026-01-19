@@ -24,6 +24,33 @@ Full-stack gaming marketplace with React + FastAPI + MongoDB. The project evolve
 
 ## What's Been Implemented
 
+### January 19, 2026 - Session 4: MongoDB Persistence + Deepseek AI + A/B Testing
+- **MongoDB Persistence for Observer:**
+  - Sessions stored in `user_sessions` collection
+  - Events stored in `behavior_events` collection
+  - Automatic indexes for efficient queries
+  - Fallback to in-memory if MongoDB unavailable
+
+- **Deepseek AI Integration:**
+  - `chat_agent.py` — Full AI chat with context-aware responses
+  - System prompt includes product info, user context, and knowledge base
+  - Fallback to rule-based quick tips if API unavailable
+  - A/B test different suggestion styles
+
+- **A/B Testing System:**
+  - Users assigned to group A or B based on user_id hash
+  - Group A: Direct product recommendations
+  - Group B: Question-based engagement
+  - Endpoints: `/api/mind/ab-test/results`, `/api/mind/ab-test/my-group`
+  - Conversion tracking (views → cart adds)
+
+- **New API Endpoints:**
+  - `POST /api/mind/chat` — AI chat with Deepseek
+  - `POST /api/mind/quick-tip` — Fast rule-based tips
+  - `GET /api/mind/ab-test/results` — A/B test analytics
+  - `GET /api/mind/ab-test/my-group` — User's test group
+  - `GET /api/mind/analytics/events` — Recent behavior events
+
 ### January 19, 2026 - Session 3: Glassy Mind AI Brain + Full Integration
 - **Created `/app/backend/glassy_mind/` module:**
   - `observer.py` — Отслеживание поведения пользователей (views, cart, dwell time)
