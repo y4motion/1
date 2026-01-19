@@ -213,13 +213,21 @@ export default function GlassyOmniChat() {
         {/* === ACTIVE: Ghost Dock === */}
         {isOpen && (
           <motion.div
-            key="ghost-dock"
+            key="ghost-dock-wrapper"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 30, opacity: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="ghost-dock"
+            className="ghost-dock-wrapper"
           >
+            {/* Status Indicator - НАД окном чата */}
+            <div className={`dock-status ${statusType}`}>
+              <div className="status-dot" />
+              <span className="status-text">{getStatusText()}</span>
+            </div>
+
+            {/* Main Dock */}
+            <div className="ghost-dock">
             {/* Messages - растворяются вверх */}
             {currentMessages.length > 0 && (
               <div className="dock-messages">
