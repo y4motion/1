@@ -132,7 +132,7 @@
 .emergent-chat-window {
   position: relative;
   width: 95%;
-  max-width: 700px;
+  max-width: 910px; /* +30% от 700px */
   margin-bottom: 24px;
   
   /* Глубокий чёрный фон */
@@ -141,8 +141,9 @@
   /* Скруглённые углы */
   border-radius: 16px;
   
-  /* Тиловая/синяя граница */
-  border: 1px solid var(--emergent-border);
+  /* Liquid Glass обводка */
+  border: 1px solid transparent;
+  background-clip: padding-box;
   
   /* Тень для глубины */
   box-shadow: 
@@ -151,7 +152,42 @@
   
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Liquid Glass border effect */
+.emergent-chat-window::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(120, 200, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: liquid-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes liquid-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.7;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
@@ -218,12 +254,12 @@
 .emergent-content {
   display: flex;
   flex-direction: column;
-  min-height: 180px;
+  min-height: 140px; /* -10% тоньше */
 }
 
 /* ==================== INPUT AREA (TOP) ==================== */
 .emergent-input-area {
-  padding: 48px 20px 16px;
+  padding: 42px 20px 12px; /* -10% тоньше */
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -245,12 +281,12 @@
 /* ==================== MESSAGES ==================== */
 .emergent-messages {
   flex: 1;
-  max-height: 280px;
+  max-height: 250px; /* -10% тоньше */
   overflow-y: auto;
-  padding: 16px 20px;
+  padding: 12px 20px; /* -10% тоньше */
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -338,8 +374,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 32px 20px;
+  gap: 8px;
+  padding: 24px 20px; /* -10% тоньше */
   color: var(--emergent-text-muted);
   font-size: 14px;
 }
@@ -354,7 +390,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 10px 16px; /* -10% тоньше */
   background: var(--emergent-bg);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
