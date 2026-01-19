@@ -380,12 +380,14 @@ async def get_mind_status():
         "features": {
             "mongodb_persistence": global_stats.get("storage") == "mongodb",
             "deepseek_ai": mind_chat_agent.enabled,
-            "ab_testing": True
+            "ab_testing": True,
+            "living_bar": True
         },
         "endpoints": [
             "POST /api/mind/track/view",
             "POST /api/mind/track/cart",
             "POST /api/mind/track/dwell",
+            "POST /api/mind/event",
             "POST /api/mind/analyze",
             "POST /api/mind/compatibility",
             "POST /api/mind/chat",
@@ -396,7 +398,8 @@ async def get_mind_status():
             "GET /api/mind/context",
             "GET /api/mind/ab-test/results",
             "GET /api/mind/ab-test/my-group"
-        ]
+        ],
+        "state_manager_stats": state_manager.get_stats()
     }
 
 
@@ -410,6 +413,7 @@ async def get_agent_status(
     Возвращает:
     - status: 'idle' | 'analyzing' | 'ready_to_suggest'
     - suggestion: текст подсказки (если status == 'ready_to_suggest')
+    - action_count: количество действий пользователя
     - updated_at: время последнего обновления
     
     Фронтенд опрашивает каждые 10 секунд для анимации полоски.
@@ -419,13 +423,14 @@ async def get_agent_status(
     # Попробуем проанализировать и предложить что-то
     await observer.analyze_and_maybe_suggest(user_id)
     
-    # Получаем текущий статус
+    # Получаем текущий статус (теперь включает action_count)
     agent_state = await observer.get_agent_status(user_id)
     
     return {
         "success": True,
         "status": agent_state.get("status", AgentStatus.IDLE),
         "suggestion": agent_state.get("suggestion"),
+        "action_count": agent_state.get("action_count", 0),
         "updated_at": agent_state.get("updated_at")
     }
 
