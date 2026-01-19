@@ -146,24 +146,28 @@ async def track_event(
     """
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    # Обрабатываем событие через observer
-    new_status = await observer.process_event(
+    # Получаем контекст пользователя для RulesEngine
+    user_context = await observer.get_user_context(user_id)
+    user_context["user_id"] = user_id
+    user_context["current_page"] = event.metadata.get("page", "")
+    
+    # Обрабатываем событие через observer с контекстом
+    result = await observer.process_event(
         user_id=user_id,
         event_type=event.event_type,
-        metadata=event.metadata
+        metadata=event.metadata,
+        user_context=user_context
     )
     
-    # Получаем полное состояние
-    state = state_manager.get_user_state(user_id)
-    
-    logger.info(f"📡 Event tracked: {event.event_type} from {user_id} -> status: {new_status}")
+    logger.info(f"📡 Event tracked: {event.event_type} from {user_id} -> status: {result.get('status')}, rule: {result.get('rule_triggered')}")
     
     return {
         "success": True,
         "status": "recorded",
-        "current_mind_state": new_status,
-        "action_count": state.get("action_count", 0),
-        "suggestion": state.get("suggestion") if new_status == AgentStatus.READY_TO_SUGGEST else None
+        "current_mind_state": result.get("status"),
+        "action_count": result.get("action_count", 0),
+        "suggestion": result.get("suggestion"),
+        "rule_triggered": result.get("rule_triggered", False)
     }
 
 
