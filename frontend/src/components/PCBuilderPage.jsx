@@ -138,6 +138,101 @@ const PCBuilderPage = () => {
     setTotalPrice(total);
   }, [selectedComponents]);
 
+  // Real-time API Compatibility Validation
+  const validateBuildAPI = useCallback(async () => {
+    // Collect all selected component IDs (if they have real DB IDs)
+    const selectedParts = Object.entries(selectedComponents)
+      .filter(([_, comp]) => comp !== null && comp.dbId)
+      .map(([category, comp]) => ({
+        id: comp.dbId,
+        title: comp.name,
+        category,
+        specs: comp
+      }));
+
+    // Skip if less than 2 components with DB IDs
+    if (selectedParts.length < 2) {
+      setValidationResult(null);
+      return;
+    }
+
+    setIsValidating(true);
+    
+    try {
+      const productIds = selectedParts.map(p => p.id);
+      const response = await fetch(`${API_URL}/api/builder/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_ids: productIds })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setValidationResult(data.report);
+        
+        // Trigger Glassy Mind if build is perfect
+        if (data.report.is_compatible && data.report.errors.length === 0) {
+          triggerGlassyMindSuccess();
+        }
+      }
+    } catch (error) {
+      console.error('Validation API error:', error);
+    } finally {
+      setIsValidating(false);
+    }
+  }, [selectedComponents]);
+
+  // Debounced validation - run when components change
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      validateBuildAPI();
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [validateBuildAPI]);
+
+  // Trigger Glassy Mind success message
+  const triggerGlassyMindSuccess = async () => {
+    try {
+      await fetch(`${API_URL}/api/mind/event`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
+        },
+        body: JSON.stringify({
+          event_type: 'build_complete',
+          metadata: { 
+            message: 'Отличная сборка! Все компоненты совместимы.',
+            total_price: totalPrice
+          }
+        })
+      });
+    } catch (e) {
+      // Silent fail
+    }
+  };
+
+  // Handle swap product from CompatibilityResolver
+  const handleSwapProduct = (newProduct, error) => {
+    // Determine which category to swap based on error
+    const category = newProduct.category || 
+      (error.issue_type === 'socket_mismatch' ? 'motherboard' : 
+       error.issue_type === 'ram_type_mismatch' ? 'ram' :
+       error.issue_type === 'psu_insufficient' ? 'psu' : null);
+    
+    if (category && newProduct) {
+      setSelectedComponents(prev => ({
+        ...prev,
+        [category]: {
+          ...newProduct,
+          dbId: newProduct._id || newProduct.id,
+          name: newProduct.title,
+        }
+      }));
+    }
+  };
+
   // Mock component data with enhanced details including filters
   const components = {
     cpu: [
