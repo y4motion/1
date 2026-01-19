@@ -40,37 +40,36 @@
   cursor: pointer;
 }
 
-/* Базовая линия - 100% ширины */
+/* Базовая линия - 100% ширины, ярче */
 .ghost-line::before {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 5%;
-  right: 5%;
+  left: 0;
+  right: 0;
   height: 2px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.08) 10%,
-    rgba(255, 255, 255, 0.15) 30%,
-    rgba(255, 255, 255, 0.25) 50%,
-    rgba(255, 255, 255, 0.15) 70%,
-    rgba(255, 255, 255, 0.08) 90%,
+    rgba(255, 255, 255, 0.1) 5%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    rgba(255, 255, 255, 0.1) 95%,
     transparent 100%
   );
-  animation: line-breathe 8s ease-in-out infinite;
+  animation: line-breathe 6s ease-in-out infinite;
 }
 
 /* Дыхание - более заметное */
 @keyframes line-breathe {
   0%, 100% {
-    opacity: 0.5;
-    filter: blur(0px);
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
   50% {
     opacity: 1;
-    filter: blur(0.5px);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -144,12 +143,10 @@
 
 /* ==================== ACTIVE: GHOST DOCK (U-SHAPE) ==================== */
 .ghost-dock {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
-  max-width: 800px;
+  left: 0;
+  right: 0;
   height: 320px;
   
   /* Темный центр - почти черный */
