@@ -24,7 +24,20 @@ Full-stack gaming marketplace with React + FastAPI + MongoDB. The project evolve
 
 ## What's Been Implemented
 
-### January 19, 2026 - Calm Premium Tech Design System
+### January 19, 2026 - Session 2: Dynamic Components
+- **Made ExpandableBlocks dynamic:**
+  - Now shows category-specific content based on product tags
+  - Headphones: Battery Details + Weight Breakdown
+  - Mouse: Sensor + Weight
+  - Keyboard: Switches + Battery
+  - Monitor: Panel + Color specs
+  - GPU: Performance + Power requirements
+
+- **Made KeySpecs dynamic:**
+  - Now reads product.tags to determine category
+  - Shows appropriate specs for each product type
+
+### January 19, 2026 - Session 1: Calm Premium Tech Design System
 - **Applied new color palette site-wide:**
   - Replaced all `#00ff88` (neon green) with `#8b5cf6` (soft purple) and `#14b8a6` (teal)
   - Updated CSS variables in all marketplace components
