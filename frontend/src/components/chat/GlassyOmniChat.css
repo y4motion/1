@@ -353,30 +353,32 @@
 }
 
 .dock-tab {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .dock-tab:hover:not(.locked) {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 .dock-tab.active {
   color: var(--dock-glow);
-  background: rgba(var(--dock-glow-rgb), 0.1);
-  border-color: rgba(var(--dock-glow-rgb), 0.2);
-  box-shadow: 0 0 20px rgba(var(--dock-glow-rgb), 0.15);
+  background: rgba(var(--dock-glow-rgb), 0.15);
+  box-shadow: 0 2px 12px rgba(var(--dock-glow-rgb), 0.2);
 }
 
 .dock-tab.locked {
