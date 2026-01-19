@@ -236,7 +236,7 @@ export default function GlassyOmniChat() {
             data-testid="chat-expanded"
           >
             {/* Акриловая шапка - НАД input */}
-            <div className="acrylic-header glass-strong">
+            <div className="acrylic-header glass-strong ice-effect">
               <div className={`emergent-status ${statusType}`}>
                 <div className="status-dot" />
                 <span>{getStatusText()}</span>
