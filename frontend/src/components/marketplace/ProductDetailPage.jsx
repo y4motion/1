@@ -22,6 +22,210 @@ import './ProductDetailPage.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
+// Dynamic expandable blocks based on product category
+const DynamicExpandableBlocks = ({ product }) => {
+  const category = (product.category || '').toLowerCase();
+  
+  // Define category-specific blocks
+  const categoryBlocks = {
+    headphones: [
+      {
+        title: `BATTERY DETAILS: ${product.battery_life || '30 hours'}`,
+        icon: '🔋',
+        content: (
+          <>
+            <h4>Battery Includes:</h4>
+            <ul>
+              <li>{product.battery_capacity || '4000mAh Li-ion battery'}</li>
+              <li>{product.charging_cable || 'USB-C charging cable'}</li>
+            </ul>
+            <h4>Charging Options:</h4>
+            <ul>
+              <li>Standard [{product.charging_time || '3.5hrs'} full charge]</li>
+              <li>Quick Charge [{product.quick_charge || '3min = 3hrs playback'}]</li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: `WEIGHT BREAKDOWN: ${product.weight || '250g'}`,
+        icon: '⚖️',
+        content: (
+          <>
+            <h4>Weight Includes:</h4>
+            <ul>
+              <li>Headband & Earcups</li>
+              <li>Electronics & Drivers</li>
+              <li>Battery</li>
+            </ul>
+          </>
+        )
+      }
+    ],
+    mouse: [
+      {
+        title: `SENSOR: ${product.sensor || 'Optical 25,600 DPI'}`,
+        icon: '🎯',
+        content: (
+          <>
+            <h4>Sensor Details:</h4>
+            <ul>
+              <li>DPI Range: {product.dpi_range || '100 - 25,600'}</li>
+              <li>Polling Rate: {product.polling_rate || '8000Hz'}</li>
+              <li>Tracking Speed: {product.tracking_speed || '650 IPS'}</li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: `WEIGHT: ${product.weight || '63g'}`,
+        icon: '⚖️',
+        content: (
+          <>
+            <h4>Weight Breakdown:</h4>
+            <ul>
+              <li>Shell & Components</li>
+              <li>Sensor & PCB</li>
+              <li>Battery (if wireless)</li>
+            </ul>
+          </>
+        )
+      }
+    ],
+    keyboard: [
+      {
+        title: `SWITCHES: ${product.switch_type || 'Mechanical'}`,
+        icon: '⌨️',
+        content: (
+          <>
+            <h4>Switch Details:</h4>
+            <ul>
+              <li>Type: {product.switch_type || 'Mechanical'}</li>
+              <li>Actuation: {product.actuation_force || '45g'}</li>
+              <li>Travel: {product.key_travel || '4mm'}</li>
+              <li>Lifespan: {product.switch_lifespan || '100M keypresses'}</li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: `BATTERY: ${product.battery_life || '200 hours'}`,
+        icon: '🔋',
+        content: (
+          <>
+            <h4>Power Options:</h4>
+            <ul>
+              <li>Wireless: {product.battery_life || '200 hours'}</li>
+              <li>Wired: USB-C pass-through</li>
+              <li>Quick Charge support</li>
+            </ul>
+          </>
+        )
+      }
+    ],
+    monitor: [
+      {
+        title: `PANEL: ${product.panel_type || 'IPS'} ${product.resolution || '4K'}`,
+        icon: '🖥️',
+        content: (
+          <>
+            <h4>Display Details:</h4>
+            <ul>
+              <li>Resolution: {product.resolution || '3840 x 2160'}</li>
+              <li>Refresh Rate: {product.refresh_rate || '144Hz'}</li>
+              <li>Response Time: {product.response_time || '1ms GTG'}</li>
+              <li>HDR: {product.hdr_support || 'HDR400'}</li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: `COLOR: ${product.color_accuracy || 'sRGB 100%'}`,
+        icon: '🎨',
+        content: (
+          <>
+            <h4>Color Specs:</h4>
+            <ul>
+              <li>sRGB: {product.srgb_coverage || '100%'}</li>
+              <li>DCI-P3: {product.dcip3_coverage || '95%'}</li>
+              <li>Brightness: {product.brightness || '400 nits'}</li>
+            </ul>
+          </>
+        )
+      }
+    ],
+    gpu: [
+      {
+        title: `PERFORMANCE: ${product.vram || '12GB GDDR6X'}`,
+        icon: '🔥',
+        content: (
+          <>
+            <h4>GPU Specs:</h4>
+            <ul>
+              <li>VRAM: {product.vram || '12GB GDDR6X'}</li>
+              <li>Boost Clock: {product.boost_clock || '2.5 GHz'}</li>
+              <li>CUDA Cores: {product.cuda_cores || '16,384'}</li>
+              <li>RT Cores: {product.rt_cores || '3rd Gen'}</li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: `POWER: ${product.tdp || '320W TDP'}`,
+        icon: '⚡',
+        content: (
+          <>
+            <h4>Power Requirements:</h4>
+            <ul>
+              <li>TDP: {product.tdp || '320W'}</li>
+              <li>Recommended PSU: {product.psu_rec || '850W'}</li>
+              <li>Power Connectors: {product.power_connectors || '1x 16-pin'}</li>
+            </ul>
+          </>
+        )
+      }
+    ],
+    default: [
+      {
+        title: `SPECIFICATIONS`,
+        icon: '📋',
+        content: (
+          <>
+            <h4>Key Features:</h4>
+            <ul>
+              <li>Premium build quality</li>
+              <li>Industry-leading performance</li>
+              <li>Warranty included</li>
+            </ul>
+          </>
+        )
+      }
+    ]
+  };
+
+  // Determine which blocks to show
+  const getBlocks = () => {
+    if (category.includes('headphone') || category.includes('audio')) return categoryBlocks.headphones;
+    if (category.includes('mouse') || category.includes('mice')) return categoryBlocks.mouse;
+    if (category.includes('keyboard')) return categoryBlocks.keyboard;
+    if (category.includes('monitor') || category.includes('display')) return categoryBlocks.monitor;
+    if (category.includes('gpu') || category.includes('graphics')) return categoryBlocks.gpu;
+    return categoryBlocks.default;
+  };
+
+  const blocks = getBlocks();
+
+  return (
+    <div className="pdp-expandable-blocks">
+      {blocks.map((block, index) => (
+        <ExpandableBlock key={index} title={block.title} icon={block.icon}>
+          {block.content}
+        </ExpandableBlock>
+      ))}
+    </div>
+  );
+};
+
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
