@@ -22,11 +22,6 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  pointer-events: none;
-}
-
-.ghost-deck-container > * {
-  pointer-events: auto;
 }
 
 /* ==================== STATE 1: IDLE - Тончайшая линия ==================== */
@@ -35,11 +30,17 @@
   bottom: 0;
   left: 10%;
   right: 10%;
-  height: 2px;
+  height: 3px;
   cursor: pointer;
   
+  /* Увеличенная зона клика */
+  padding: 15px 0;
+  margin-bottom: -15px;
+  background-clip: content-box;
+  
   /* Градиентная линия с янтарным акцентом */
-  background: linear-gradient(
+  background-color: transparent;
+  background-image: linear-gradient(
     90deg, 
     transparent 0%,
     rgba(255, 159, 67, 0.3) 20%,
@@ -48,13 +49,22 @@
     transparent 100%
   );
   
+  /* Пульсация */
+  animation: line-breathe 3s ease-in-out infinite;
+}
+
+.ghost-line::after {
+  content: '';
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  
   /* Свечение */
   box-shadow: 
     0 0 10px var(--amber-glow),
     0 0 20px rgba(255, 159, 67, 0.2);
-  
-  /* Пульсация */
-  animation: line-breathe 3s ease-in-out infinite;
 }
 
 @keyframes line-breathe {
