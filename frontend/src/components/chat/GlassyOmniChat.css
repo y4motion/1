@@ -153,7 +153,7 @@
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
-/* Акриловая шапка - использует glass-strong стиль из glassmorphism.css */
+/* Акриловая шапка - glass-strong + ice-effect как у сайта */
 .acrylic-header {
   position: relative;
   display: flex;
@@ -161,9 +161,8 @@
   justify-content: space-between;
   padding: 14px 18px;
   border-radius: 16px 16px 0 0;
-  overflow: hidden;
   
-  /* glass-strong эффект */
+  /* glass-strong стиль как в Header.jsx */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(30px) saturate(200%);
   -webkit-backdrop-filter: blur(30px) saturate(200%);
@@ -172,23 +171,26 @@
   box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* Световое пятно для видимости glassmorphism */
+/* ice-effect shimmer как на сайте */
 .acrylic-header::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: linear-gradient(
-    120deg,
-    rgba(80, 160, 140, 0.15) 0%,
+    135deg,
+    rgba(200, 230, 255, 0.08) 0%,
     transparent 40%,
-    rgba(100, 140, 180, 0.1) 70%,
-    transparent 100%
+    rgba(150, 200, 255, 0.06) 100%
   );
+  background-size: 200% 200%;
+  animation: ice-shimmer 8s ease infinite;
   pointer-events: none;
-  z-index: 0;
+  border-radius: inherit;
+}
+
+@keyframes ice-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .emergent-status {
