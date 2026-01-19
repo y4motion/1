@@ -301,23 +301,48 @@ class TechExpert:
         if gpus:
             gpu = gpus[0]
             gpu_name = gpu.get("name", "")
-            required_power = self._knowledge_base["power_requirements"].get(
-                gpu_name, 
-                self._knowledge_base["power_requirements"]["default"]
-            )
+            
+            # Get power requirements from extended knowledge base
+            power_info = self._knowledge_base["power_requirements"].get(gpu_name)
+            if not power_info:
+                # Try partial match
+                for key, val in self._knowledge_base["power_requirements"].items():
+                    if key != "default" and key.lower() in gpu_name.lower():
+                        power_info = val
+                        break
+            if not power_info:
+                power_info = self._knowledge_base["power_requirements"]["default"]
+            
+            # Handle both old format (int) and new format (dict)
+            if isinstance(power_info, dict):
+                required_power = power_info.get("tdp", 150)
+                recommended_psu = power_info.get("recommended_psu", required_power + 200)
+                connectors = power_info.get("connectors", "1x 8-pin")
+            else:
+                required_power = power_info
+                recommended_psu = required_power + 200
+                connectors = "1x 8-pin"
             
             details["gpu_power_required"] = required_power
+            details["recommended_psu"] = recommended_psu
+            details["power_connectors"] = connectors
             
             if psus:
                 psu = psus[0]
                 psu_wattage = psu.get("specs", {}).get("wattage", 0)
                 
-                if psu_wattage < required_power + 200:
-                    issues.append(f"⚠️ БП может быть недостаточно мощным для {gpu_name}")
-                    suggestions.append(f"Рекомендуем БП от {required_power + 250}W")
-                    score -= 0.2
+                if psu_wattage < recommended_psu:
+                    if psu_wattage < required_power:
+                        issues.append(f"❌ БП ({psu_wattage}W) критически недостаточен для {gpu_name} ({required_power}W TDP)")
+                        score -= 0.4
+                    else:
+                        issues.append(f"⚠️ БП ({psu_wattage}W) может быть недостаточно мощным для {gpu_name}")
+                        score -= 0.2
+                    suggestions.append(f"Рекомендуем БП от {recommended_psu}W для стабильной работы")
+                else:
+                    suggestions.append(f"✅ БП ({psu_wattage}W) достаточен для {gpu_name}")
             else:
-                suggestions.append(f"Добавьте БП от {required_power + 250}W для {gpu_name}")
+                suggestions.append(f"💡 Добавьте БП от {recommended_psu}W для {gpu_name} (разъём: {connectors})")
         
         # Проверка 2: CPU + Motherboard socket
         cpus = [p for p in products_list if "cpu" in p.get("category", "").lower()]
