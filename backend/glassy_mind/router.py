@@ -329,7 +329,7 @@ async def get_mind_status():
             "expert": tech_expert.get_expert_status(),
             "ai_chat": {
                 "enabled": mind_chat_agent.enabled,
-                "model": mind_chat_agent.model if mind_chat_agent.enabled else None
+                "model": f"{mind_chat_agent.model_provider}/{mind_chat_agent.model_name}" if mind_chat_agent.enabled else None
             }
         },
         "features": {
