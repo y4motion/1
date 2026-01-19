@@ -11,6 +11,7 @@ import logging
 
 from utils.auth_utils import get_current_user, get_current_user_optional as get_optional_user
 from .observer import observer, AgentStatus
+from .state_manager import state_manager, MindStateManager
 from .expert_brain import tech_expert
 from .chat_agent import mind_chat_agent
 from .abandoned_cart import abandoned_cart_webhook
@@ -21,6 +22,12 @@ router = APIRouter(prefix="/mind", tags=["glassy-mind"])
 
 
 # ==================== Pydantic Models ====================
+
+class EventRequest(BaseModel):
+    """Запрос на отслеживание события для Living Bar"""
+    event_type: str = Field(..., description="Тип события: view, click, filter, cart_add, search, compare")
+    metadata: Optional[Dict] = Field(default={}, description="Дополнительные данные")
+
 
 class TrackViewRequest(BaseModel):
     """Запрос на отслеживание просмотра"""
