@@ -17,14 +17,81 @@ from typing import Dict, List, Optional, Any
 from collections import defaultdict
 import asyncio
 
+from .state_manager import MindStateManager, AgentStatus, state_manager
+
 logger = logging.getLogger(__name__)
 
 
-class AgentStatus:
-    """Статусы агента для "живой полоски" UI"""
-    IDLE = "idle"                    # Агент в режиме ожидания
-    ANALYZING = "analyzing"          # Агент анализирует поведение
-    READY_TO_SUGGEST = "ready_to_suggest"  # Агент готов дать совет
+class MarketObserver:
+    """
+    Наблюдатель за событиями маркетплейса.
+    Отслеживает действия и управляет переключением статусов агента.
+    """
+    
+    def __init__(self):
+        self.state_manager = MindStateManager.get_instance()
+        logger.info("👁️ MarketObserver initialized")
+    
+    async def process_event(
+        self, 
+        user_id: str, 
+        event_type: str, 
+        metadata: Optional[Dict] = None
+    ) -> str:
+        """
+        Анализирует событие пользователя.
+        Если накопилось 3+ действий -> меняет статус на ready_to_suggest.
+        
+        Args:
+            user_id: ID пользователя
+            event_type: Тип события (view, click, filter, cart_add, etc.)
+            metadata: Дополнительные данные о событии
+            
+        Returns:
+            Текущий статус агента после обработки события
+        """
+        # 1. Обновляем счётчик действий
+        current_state = self.state_manager.update_state(user_id, increment_action=True)
+        count = current_state["action_count"]
+        
+        logger.info(f"📡 Event: {event_type} from {user_id} (action #{count})")
+        
+        # 2. Логика переключения состояний
+        if count == 1:
+            # Первое действие - начинаем анализ
+            self.state_manager.update_state(user_id, status=AgentStatus.ANALYZING)
+            return AgentStatus.ANALYZING
+        
+        elif count >= self.state_manager.ACTION_THRESHOLD:
+            # Порог достигнут - Агент готов помочь
+            suggestion = self._generate_suggestion(event_type, metadata)
+            self.state_manager.update_state(
+                user_id, 
+                status=AgentStatus.READY_TO_SUGGEST,
+                suggestion=suggestion
+            )
+            logger.info(f"🎯 User {user_id} reached threshold! Suggestion ready.")
+            return AgentStatus.READY_TO_SUGGEST
+        
+        # Продолжаем анализ
+        return AgentStatus.ANALYZING
+    
+    def _generate_suggestion(self, event_type: str, metadata: Optional[Dict] = None) -> str:
+        """Генерирует контекстную подсказку на основе события"""
+        suggestions = {
+            "view": "Вижу, что вы изучаете товары. Могу помочь с выбором!",
+            "filter": "Много фильтруете? Давайте подберу оптимальные варианты!",
+            "cart_add": "Отличный выбор! Хотите проверить совместимость?",
+            "compare": "Сравниваете варианты? Могу подсказать ключевые отличия!",
+            "search": "Не можете найти? Опишите что ищете, помогу!",
+        }
+        
+        # Если есть category в metadata - персонализируем
+        if metadata and metadata.get("category"):
+            category = metadata["category"]
+            return f"Интересуетесь {category}? Есть пара советов для вас!"
+        
+        return suggestions.get(event_type, "Есть идея! Могу помочь с выбором.")
 
 
 class Observer:
@@ -40,8 +107,9 @@ class Observer:
         self._global_stats: Dict[str, Any] = defaultdict(int)
         self._db = None
         self._initialized = False
-        # Agent status tracking for UI "pulse bar"
-        self._agent_statuses: Dict[str, Dict] = {}  # user_id -> {status, updated_at, suggestion}
+        # Используем централизованный state_manager
+        self.state_manager = MindStateManager.get_instance()
+        self.market_observer = MarketObserver()
         logger.info("🔭 Observer initialized (MongoDB persistence enabled)")
     
     async def _ensure_db(self):
