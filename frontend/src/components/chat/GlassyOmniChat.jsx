@@ -1,10 +1,8 @@
 /**
- * GlassyOmniChat - Ghost Deck Concept
+ * GlassyOmniChat - Ghost Deck + Thin Line Concept
  * 
- * Концепция "Призрачная Дека":
- * - IDLE: Тончайшая (2px) пульсирующая линия внизу экрана
- * - HOVER: Линия вырастает в статус-бар (40px)
- * - ACTIVE: Панель выезжает снизу (~300px), как выдвижной ящик
+ * IDLE: Тончайшая (2px) едва заметная пульсирующая линия + "Chat" при hover
+ * ACTIVE: Панель выезжает снизу (~280px), как твоё окно чата Emergent
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -21,7 +19,6 @@ import {
   Sparkles,
   AlertTriangle,
   Headphones,
-  ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -39,8 +36,8 @@ const TABS = [
 const API_URL = '';
 
 export default function GlassyOmniChat() {
-  // States: 'idle' | 'hover' | 'active'
-  const [deckState, setDeckState] = useState('idle');
+  const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [activeTab, setActiveTab] = useState('ai');
   const [aiStatus, setAiStatus] = useState('idle'); // idle | analyzing
   const [messages, setMessages] = useState({});
@@ -51,7 +48,6 @@ export default function GlassyOmniChat() {
   const { user } = useAuth();
   const { language } = useLanguage();
   const messagesEndRef = useRef(null);
-  const hoverTimeoutRef = useRef(null);
 
   // Context Awareness
   useEffect(() => {
@@ -70,7 +66,7 @@ export default function GlassyOmniChat() {
   // Support Trigger
   const triggerSupport = useCallback((reason = 'User requested support') => {
     setActiveTab('support');
-    setDeckState('active');
+    setIsOpen(true);
   }, []);
 
   useEffect(() => {
@@ -82,27 +78,6 @@ export default function GlassyOmniChat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, activeTab]);
-
-  // Handle hover zone
-  const handleMouseEnter = () => {
-    if (deckState === 'idle') {
-      setDeckState('hover');
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (deckState === 'hover') {
-      setDeckState('idle');
-    }
-  };
-
-  const handleClick = () => {
-    setDeckState('active');
-  };
-
-  const handleClose = () => {
-    setDeckState('idle');
-  };
 
   // Send message
   const sendMessage = useCallback(async () => {
@@ -167,177 +142,123 @@ export default function GlassyOmniChat() {
     <div 
       className="ghost-deck-container"
       data-testid="glassy-omni-chat"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <AnimatePresence mode="wait">
         
-        {/* === STATE 1: IDLE - Тончайшая пульсирующая линия === */}
-        {deckState === 'idle' && (
+        {/* === IDLE: Тонкая пульсирующая линия с "Chat" === */}
+        {!isOpen && (
           <motion.div
-            key="idle-line"
+            key="thin-line"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, height: 0 }}
-            className="ghost-line"
-            onClick={handleClick}
-          />
-        )}
-
-        {/* === STATE 2: HOVER - Линия вырастает в статус-бар === */}
-        {deckState === 'hover' && (
-          <motion.div
-            key="hover-bar"
-            initial={{ height: 2, opacity: 0.5 }}
-            animate={{ height: 44, opacity: 1 }}
-            exit={{ height: 2, opacity: 0.5 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="ghost-status-bar"
-            onClick={handleClick}
+            exit={{ opacity: 0, y: 20 }}
+            className={`thin-chat-line ${aiStatus === 'analyzing' ? 'analyzing' : ''} ${isHovered ? 'hovered' : ''}`}
+            onClick={() => setIsOpen(true)}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="status-bar-content">
-              <div className="status-left">
-                <div 
-                  className={`status-dot ${aiStatus === 'analyzing' ? 'analyzing' : ''}`}
-                />
-                <span className="status-text">
-                  {aiStatus === 'analyzing' ? 'AI PROCESSING' : 'SYSTEM ONLINE'}
-                </span>
-              </div>
-              <div className="status-hint">
-                <span>Click to open</span>
-                <ChevronDown size={14} className="animate-bounce" />
-              </div>
-            </div>
+            {/* Центр - текст Chat */}
+            <span className="line-text">
+              {aiStatus === 'analyzing' 
+                ? (language === 'ru' ? 'Анализирую...' : 'Analyzing...') 
+                : 'Chat'}
+            </span>
           </motion.div>
         )}
 
-        {/* === STATE 3: ACTIVE - Панель выезжает снизу === */}
-        {deckState === 'active' && (
+        {/* === ACTIVE: Компактная панель снизу === */}
+        {isOpen && (
           <motion.div
-            key="active-deck"
-            initial={{ y: 300, opacity: 0 }}
+            key="chat-panel"
+            initial={{ y: 280, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 300, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="ghost-deck-panel"
+            exit={{ y: 280, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="chat-panel"
           >
-            {/* Верхняя грань панели */}
-            <div className="deck-top-edge" />
+            {/* Верхняя грань */}
+            <div className="panel-top-edge" />
             
-            {/* Основной контент */}
-            <div className="deck-content">
-              
-              {/* Левая колонка: Tabs + Navigation */}
-              <div className="deck-sidebar">
-                {/* Close button */}
-                <button 
-                  className="deck-close-btn"
-                  onClick={handleClose}
-                >
-                  <X size={18} />
-                </button>
+            {/* Header с tabs */}
+            <div className="panel-header">
+              <div className="panel-tabs">
+                {TABS.map((tab) => {
+                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => !isLocked && setActiveTab(tab.id)}
+                      disabled={isLocked}
+                      className={`panel-tab ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                      style={{ '--tab-color': tab.color }}
+                    >
+                      <tab.icon size={16} />
+                      <span>{language === 'ru' ? tab.labelRu : tab.label}</span>
+                      {isLocked && <span className="lock">🔒</span>}
+                    </button>
+                  );
+                })}
+              </div>
+              <button className="panel-close" onClick={() => setIsOpen(false)}>
+                <X size={18} />
+              </button>
+            </div>
 
-                {/* Tabs */}
-                <div className="deck-tabs">
-                  {TABS.map((tab) => {
-                    const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
-                    const isActive = activeTab === tab.id;
-                    return (
-                      <button
-                        key={tab.id}
-                        onClick={() => !isLocked && setActiveTab(tab.id)}
-                        disabled={isLocked}
-                        className={`deck-tab ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                        style={{ '--tab-color': tab.color }}
-                      >
-                        <tab.icon size={18} />
-                        <span className="tab-label">
-                          {language === 'ru' ? tab.labelRu : tab.label}
-                        </span>
-                        {isLocked && <span className="lock-icon">🔒</span>}
-                      </button>
-                    );
-                  })}
+            {/* Messages */}
+            <div className="panel-messages">
+              {currentMessages.length === 0 ? (
+                <div className="panel-empty">
+                  <Sparkles size={20} className="text-amber-400/60" />
+                  <p>
+                    {activeTab === 'ai' 
+                      ? (language === 'ru' ? 'Спросите о ПК' : 'Ask about PC')
+                      : (language === 'ru' ? 'Нет сообщений' : 'No messages')
+                    }
+                  </p>
                 </div>
-
-                {/* Channel Switcher for Guilds/Trade */}
-                {(activeTab === 'guilds' || activeTab === 'trade') && (
-                  <div className="deck-channels">
-                    <SmartChannelSwitcher
-                      mode={activeTab}
-                      activeChannel={null}
-                      onChannelChange={() => {}}
-                      userLevel={userLevel}
-                    />
+              ) : (
+                currentMessages.map((msg) => (
+                  <div key={msg.id} className={`panel-message ${msg.type}`}>
+                    {msg.type === 'bot' && (
+                      <div className="msg-avatar">
+                        <Bot size={12} />
+                      </div>
+                    )}
+                    <div className="msg-bubble">
+                      <p>{msg.text}</p>
+                    </div>
                   </div>
-                )}
-              </div>
-
-              {/* Правая колонка: Chat */}
-              <div className="deck-chat">
-                {/* Messages */}
-                <div className="deck-messages">
-                  {currentMessages.length === 0 ? (
-                    <div className="deck-empty">
-                      <Sparkles size={24} className="text-amber-400/60" />
-                      <p>
-                        {activeTab === 'ai' 
-                          ? (language === 'ru' ? 'Спросите о совместимости ПК' : 'Ask about PC compatibility')
-                          : (language === 'ru' ? 'Нет сообщений' : 'No messages yet')
-                        }
-                      </p>
-                    </div>
-                  ) : (
-                    currentMessages.map((msg) => (
-                      <div key={msg.id} className={`deck-message ${msg.type}`}>
-                        {msg.type === 'bot' && (
-                          <div className="message-avatar">
-                            <Bot size={14} />
-                          </div>
-                        )}
-                        <div className="message-bubble">
-                          <p>{msg.text}</p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                  
-                  {isTyping && (
-                    <div className="deck-message bot">
-                      <div className="message-avatar">
-                        <Bot size={14} />
-                      </div>
-                      <div className="typing-dots">
-                        <span /><span /><span />
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div ref={messagesEndRef} />
+                ))
+              )}
+              
+              {isTyping && (
+                <div className="panel-message bot">
+                  <div className="msg-avatar"><Bot size={12} /></div>
+                  <div className="typing-dots"><span /><span /><span /></div>
                 </div>
+              )}
+              
+              <div ref={messagesEndRef} />
+            </div>
 
-                {/* Input - встроен в панель */}
-                <div className="deck-input">
-                  <button className="input-action">
-                    <Mic size={18} />
-                  </button>
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    placeholder={language === 'ru' ? 'Введите сообщение...' : 'Type a message...'}
-                  />
-                  <button 
-                    className="input-send"
-                    onClick={sendMessage}
-                    disabled={!inputValue.trim()}
-                  >
-                    <Send size={18} />
-                  </button>
-                </div>
-              </div>
+            {/* Input */}
+            <div className="panel-input">
+              <button className="input-mic"><Mic size={16} /></button>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
+              />
+              <button 
+                className="input-send"
+                onClick={sendMessage}
+                disabled={!inputValue.trim()}
+              >
+                <Send size={16} />
+              </button>
             </div>
           </motion.div>
         )}
