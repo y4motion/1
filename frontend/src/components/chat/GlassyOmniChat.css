@@ -30,17 +30,17 @@
 /* ==================== IDLE: ТОНЧАЙШАЯ НИТЬ ==================== */
 .ghost-line {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
+  bottom: 16px;
+  left: 20%;
+  right: 20%;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 
-/* Базовая линия - 100% ширины, ярче */
+/* Базовая линия - 60% ширины (20% отступы), мягкий белый */
 .ghost-line::before {
   content: '';
   position: absolute;
@@ -51,72 +51,59 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.1) 5%,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.35) 50%,
-    rgba(255, 255, 255, 0.2) 80%,
-    rgba(255, 255, 255, 0.1) 95%,
+    rgba(255, 255, 255, 0.15) 15%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 85%,
     transparent 100%
   );
-  animation: line-breathe 6s ease-in-out infinite;
+  animation: line-breathe 10s ease-in-out infinite;
 }
 
-/* Дыхание - более заметное */
+/* Мягкое белое дыхание */
 @keyframes line-breathe {
   0%, 100% {
-    opacity: 0.6;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    opacity: 0.5;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
   }
   50% {
-    opacity: 1;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+    opacity: 0.85;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.2);
   }
 }
 
-/* Импульс - бегает по центру */
+/* Импульс - только при активности (AI analyzing) */
 .line-pulse {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 120px;
+  width: 100px;
   height: 2px;
   transform: translateX(-50%);
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(var(--dock-glow-rgb), 0.6),
+    rgba(var(--dock-glow-rgb), 0.5),
     transparent
   );
-  animation: pulse-run 3s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-@keyframes pulse-run {
-  0%, 100% {
-    opacity: 0.3;
-    transform: translateX(-50%) scaleX(0.5);
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(-50%) scaleX(1.5);
-    box-shadow: 0 0 30px rgba(var(--dock-glow-rgb), 0.4);
-  }
-}
-
-/* AI Analyzing - более яркий импульс */
+/* AI Analyzing - показываем янтарный импульс */
 .ghost-line.analyzing .line-pulse {
-  animation: pulse-analyzing 2s ease-in-out infinite;
+  opacity: 1;
+  animation: pulse-analyzing 2.5s ease-in-out infinite;
 }
 
 @keyframes pulse-analyzing {
   0%, 100% {
-    opacity: 0.5;
-    transform: translateX(-50%) scaleX(0.8);
-    box-shadow: 0 0 15px rgba(var(--dock-glow-rgb), 0.3);
+    transform: translateX(-50%) scaleX(0.6);
+    opacity: 0.4;
   }
   50% {
+    transform: translateX(-50%) scaleX(1.8);
     opacity: 1;
-    transform: translateX(-50%) scaleX(2);
-    box-shadow: 0 0 40px rgba(var(--dock-glow-rgb), 0.6);
+    box-shadow: 0 0 25px rgba(var(--dock-glow-rgb), 0.5);
   }
 }
 
@@ -145,9 +132,9 @@
 .ghost-dock {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 320px;
+  left: 20%;
+  right: 20%;
+  height: 340px;
   
   /* Темный центр - почти черный */
   background: var(--dock-bg);
