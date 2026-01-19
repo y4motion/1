@@ -709,7 +709,7 @@ const GlassyChatBar = () => {
 
   return (
     <div
-      className={`glassy-chat-bar ${panelMode} ${isMinimalMod ? 'minimal-mod' : ''} ${hasNewMessage ? 'has-new-message' : ''} ${isTyping ? 'ai-typing' : ''} ${isDragging ? 'dragging' : ''}`}
+      className={`glassy-chat-bar ${panelMode} ${isMinimalMod ? 'minimal-mod' : ''} ${hasNewMessage ? 'has-new-message' : ''} ${isTyping ? 'ai-typing' : ''} ${isDragging ? 'dragging' : ''} agent-${agentStatus}`}
       style={{
         '--chat-bg': isDark ? 'rgba(10, 10, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         '--chat-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
