@@ -69,6 +69,11 @@ const PCBuilderPage = () => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [savedBuildId, setSavedBuildId] = useState(null);
 
+  // API Compatibility Validation State
+  const [validationResult, setValidationResult] = useState(null);
+  const [isValidating, setIsValidating] = useState(false);
+  const [showCompatibilityPanel, setShowCompatibilityPanel] = useState(true);
+
   // Smart filter toggle (global)
   const [smartFilter, setSmartFilter] = useState(true);
 
