@@ -75,6 +75,11 @@ const GlassyChatBar = () => {
   const [lastMessageSource, setLastMessageSource] = useState(null);
   const [hasNewMessage, setHasNewMessage] = useState(false);
   
+  // Agent Status State (for "Living Bar" feature)
+  const [agentStatus, setAgentStatus] = useState(AGENT_STATUS.IDLE);
+  const [agentSuggestion, setAgentSuggestion] = useState(null);
+  const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
+  
   // Private Chat State (for Swap)
   const [conversations, setConversations] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
