@@ -18,6 +18,7 @@ from collections import defaultdict
 import asyncio
 
 from .state_manager import MindStateManager, AgentStatus, state_manager
+from .rules_engine import rules_engine, TriggerType, RuleReaction
 
 logger = logging.getLogger(__name__)
 
@@ -26,11 +27,13 @@ class MarketObserver:
     """
     Наблюдатель за событиями маркетплейса.
     Отслеживает действия и управляет переключением статусов агента.
+    Интегрирован с RulesEngine для умного вмешательства.
     """
     
     def __init__(self):
         self.state_manager = MindStateManager.get_instance()
-        logger.info("👁️ MarketObserver initialized")
+        self.rules_engine = rules_engine
+        logger.info("👁️ MarketObserver initialized with RulesEngine")
     
     async def process_event(
         self, 
