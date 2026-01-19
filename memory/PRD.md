@@ -90,10 +90,12 @@ Full-stack gaming marketplace with React + FastAPI + MongoDB. The project evolve
 
 ### P0 - Critical
 - [x] Apply "Calm Premium Tech" design system ✅ DONE
+- [x] Make ExpandableBlocks dynamic (category-aware) ✅ DONE
+- [x] Make KeySpecs dynamic (uses tags) ✅ DONE
 
 ### P1 - High Priority
-- [ ] Make ProductDetailPage fully API-driven (replace hardcoded mock data)
-- [ ] Verify ProductCard expanded panel robustness
+- [ ] Make ProductDetailPage tabs fully API-driven (replace remaining mock data)
+- [x] Verify ProductCard expanded panel robustness ✅ VERIFIED (visual check)
 
 ### P2 - Medium Priority
 - [ ] Test authenticated chat for "Glassy Swap"
