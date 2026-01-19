@@ -124,13 +124,13 @@
 
 /* ==================== ACTIVE: КОМПАКТНАЯ ПАНЕЛЬ ==================== */
 .chat-panel {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 700px;
-  height: 280px;
+  max-width: 650px;
+  height: 300px;
   
   /* Стекло */
   background: var(--ghost-bg);
