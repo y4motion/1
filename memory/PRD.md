@@ -24,6 +24,28 @@ Full-stack gaming marketplace with React + FastAPI + MongoDB. The project evolve
 
 ## What's Been Implemented
 
+### January 19, 2026 - Session 5: AI + Dashboard + Webhooks
+- **GPT Integration via emergentintegrations:**
+  - Updated `chat_agent.py` to use `emergentintegrations.llm.chat`
+  - Model: `openai/gpt-4.1-mini` via Emergent LLM Key
+  - Context-aware responses with product info and user history
+  - Tested: "Подойдет ли RTX 4070 для игр в 1440p?" → AI ответ ✅
+
+- **Mind Dashboard (`/admin/mind`):**
+  - Real-time stats: views, cart adds, sessions, events
+  - Feature status: MongoDB, AI Chat, A/B Testing (all ON)
+  - A/B Test visualization with conversion bars
+  - Recent events table with filtering
+  - Auto-refresh toggle (10s interval)
+  - Knowledge base categories display
+
+- **Abandoned Cart Webhook System:**
+  - `abandoned_cart.py` — full webhook implementation
+  - Tracks cart activity for abandonment detection
+  - Configurable reminder delay (default 30 min)
+  - Endpoints: track, converted, check-abandoned, stats
+  - MongoDB persistence for cart data
+
 ### January 19, 2026 - Session 4: MongoDB Persistence + Deepseek AI + A/B Testing
 - **MongoDB Persistence for Observer:**
   - Sessions stored in `user_sessions` collection
