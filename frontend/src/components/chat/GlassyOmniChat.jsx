@@ -279,50 +279,50 @@ export default function GlassyOmniChat() {
                     <div ref={messagesEndRef} />
                   </div>
                 )}
+
+                {/* TOOLBAR внутри чёрной зоны */}
+                <div className="acrylic-footer">
+                  <div className="toolbar-left">
+                    <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
+                      <Paperclip size={18} />
+                    </button>
+                    
+                    {NAV_TABS.map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => !isLocked && setActiveTab(tab.id)}
+                          className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                          title={tab.label}
+                          data-testid={`tab-${tab.id}`}
+                        >
+                          <tab.icon size={18} />
+                          {isLocked && <span className="lock-badge">🔒</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="toolbar-right">
+                    <button className="toolbar-btn" title="Voice">
+                      <Mic size={18} />
+                    </button>
+                    <button 
+                      className="toolbar-btn send"
+                      onClick={sendMessage}
+                      disabled={!inputValue.trim()}
+                      data-testid="send-btn"
+                    >
+                      <ArrowUp size={18} />
+                    </button>
+                  </div>
+                </div>
               </div>
               
               {/* Правая акриловая полоса */}
               <div className="acrylic-border-right" />
-            </div>
-
-            {/* АКРИЛОВЫЙ FOOTER с кнопками */}
-            <div className="acrylic-footer">
-              <div className="toolbar-left">
-                <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
-                  <Paperclip size={18} />
-                </button>
-                
-                {NAV_TABS.map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => !isLocked && setActiveTab(tab.id)}
-                      className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                      title={tab.label}
-                      data-testid={`tab-${tab.id}`}
-                    >
-                      <tab.icon size={18} />
-                      {isLocked && <span className="lock-badge">🔒</span>}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="toolbar-right">
-                <button className="toolbar-btn" title="Voice">
-                  <Mic size={18} />
-                </button>
-                <button 
-                  className="toolbar-btn send"
-                  onClick={sendMessage}
-                  disabled={!inputValue.trim()}
-                  data-testid="send-btn"
-                >
-                  <ArrowUp size={18} />
-                </button>
-              </div>
             </div>
           </motion.div>
         )}
