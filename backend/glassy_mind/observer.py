@@ -58,7 +58,7 @@ class Observer:
         await self._ensure_db()
         
         # Try to get from MongoDB
-        if self._db:
+        if self._db is not None:
             session = await self._db.user_sessions.find_one(
                 {"user_id": user_id},
                 {"_id": 0}
@@ -106,7 +106,7 @@ class Observer:
         """Save event to MongoDB for analytics"""
         await self._ensure_db()
         
-        if self._db:
+        if self._db is not None:
             event = {
                 "event_type": event_type,
                 "user_id": user_id,
@@ -121,7 +121,7 @@ class Observer:
         
         updates["updated_at"] = datetime.now(timezone.utc).isoformat()
         
-        if self._db:
+        if self._db is not None:
             await self._db.user_sessions.update_one(
                 {"user_id": user_id},
                 {"$set": updates}
