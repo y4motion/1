@@ -136,8 +136,10 @@
   margin-bottom: 24px;
   border-radius: 16px;
   
-  /* Глубокий чёрный фон */
-  background: var(--emergent-bg-deep);
+  /* Полупрозрачный фон с blur - настоящий glassmorphism */
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   
   /* Тень */
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
@@ -185,7 +187,7 @@
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
-/* Акриловая шапка - glass-strong + ice-effect как у сайта */
+/* Акриловая шапка - glass-strong как у сайта */
 .acrylic-header {
   position: relative;
   display: flex;
@@ -194,13 +196,11 @@
   padding: 14px 18px;
   border-radius: 16px 16px 0 0;
   
-  /* glass-strong стиль как в Header.jsx */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px) saturate(200%);
-  -webkit-backdrop-filter: blur(30px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+  /* Более яркий glass эффект */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ice-effect shimmer как на сайте */
@@ -233,10 +233,10 @@
   bottom: 0;
   width: 3px;
   
-  /* Glass эффект */
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* Glass эффект - более яркий */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
   
   z-index: 2;
 }
