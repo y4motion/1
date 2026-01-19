@@ -394,3 +394,90 @@ async def get_recent_events(
         "events": events,
         "count": len(events)
     }
+
+
+
+# ==================== Abandoned Cart Endpoints ====================
+
+class TrackCartForAbandonmentRequest(BaseModel):
+    """Request to track cart for abandonment detection"""
+    products: List[Dict]
+    user_email: Optional[str] = None
+
+
+@router.post("/cart/track-abandonment")
+async def track_cart_for_abandonment(
+    request: TrackCartForAbandonmentRequest,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    Track cart contents for abandonment detection.
+    Called when cart is updated.
+    """
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    user_email = request.user_email or (current_user.get("email") if current_user else None)
+    
+    await abandoned_cart_webhook.track_cart_activity(
+        user_id=user_id,
+        products=request.products,
+        user_email=user_email
+    )
+    
+    return {
+        "success": True,
+        "message": "Cart tracked for abandonment detection",
+        "products_count": len(request.products)
+    }
+
+
+@router.post("/cart/converted")
+async def mark_cart_converted(
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Mark cart as converted (purchase completed)."""
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    await abandoned_cart_webhook.mark_cart_converted(user_id)
+    
+    return {
+        "success": True,
+        "message": "Cart marked as converted"
+    }
+
+
+@router.post("/cart/check-abandoned")
+async def check_abandoned_carts(background_tasks: BackgroundTasks):
+    """
+    Check for abandoned carts and trigger webhooks.
+    Can be called manually or via cron job.
+    """
+    triggered = await abandoned_cart_webhook.check_abandoned_carts()
+    
+    return {
+        "success": True,
+        "abandoned_carts_found": len(triggered),
+        "details": triggered
+    }
+
+
+@router.get("/cart/abandoned-stats")
+async def get_abandoned_cart_stats():
+    """Get statistics about abandoned carts."""
+    stats = await abandoned_cart_webhook.get_abandoned_cart_stats()
+    
+    return {
+        "success": True,
+        "stats": stats
+    }
+
+
+@router.get("/cart/recent-abandoned")
+async def get_recent_abandoned_carts(limit: int = 10):
+    """Get recent abandoned carts for dashboard."""
+    carts = await abandoned_cart_webhook.get_recent_abandoned(limit)
+    
+    return {
+        "success": True,
+        "abandoned_carts": carts,
+        "count": len(carts)
+    }
