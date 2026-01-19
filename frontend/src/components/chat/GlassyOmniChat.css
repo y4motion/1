@@ -1,17 +1,15 @@
 /**
- * GlassyOmniChat - Ghost Deck Design System
+ * GlassyOmniChat - Thin Line + Compact Panel
  * 
- * Концепция: "Призрачная Дека" (Ghost Deck)
- * - Тончайшая линия в idle
- * - Статус-бар при hover  
- * - Выезжающая панель снизу при active
+ * IDLE: Тончайшая (2px) едва заметная линия с "Chat" при hover
+ * ACTIVE: Компактная панель снизу (~280px)
  */
 
 /* ==================== CSS VARIABLES ==================== */
 :root {
   --amber-accent: #FF9F43;
   --amber-glow: rgba(255, 159, 67, 0.5);
-  --ghost-bg: rgba(20, 20, 25, 0.4);
+  --ghost-bg: rgba(18, 18, 22, 0.92);
   --ghost-border: rgba(255, 255, 255, 0.08);
 }
 
@@ -22,172 +20,144 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
 }
 
-/* ==================== STATE 1: IDLE - Тончайшая линия ==================== */
-.ghost-line {
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 3px;
+/* ==================== IDLE: ТОНКАЯ ЛИНИЯ ==================== */
+.thin-chat-line {
+  position: relative;
+  width: 60%;
+  max-width: 600px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  
-  /* Увеличенная зона клика */
-  padding: 15px 0;
-  margin-bottom: -15px;
-  background-clip: content-box;
-  
-  /* Градиентная линия с янтарным акцентом */
-  background-color: transparent;
-  background-image: linear-gradient(
-    90deg, 
-    transparent 0%,
-    rgba(255, 159, 67, 0.3) 20%,
-    rgba(255, 159, 67, 0.6) 50%,
-    rgba(255, 159, 67, 0.3) 80%,
-    transparent 100%
-  );
-  
-  /* Пульсация */
-  animation: line-breathe 3s ease-in-out infinite;
+  margin-bottom: 12px;
 }
 
-.ghost-line::after {
+/* Сама линия - тончайшая, едва заметная */
+.thin-chat-line::before {
   content: '';
   position: absolute;
-  bottom: 15px;
+  top: 50%;
   left: 0;
   right: 0;
-  height: 3px;
-  
-  /* Свечение */
-  box-shadow: 
-    0 0 10px var(--amber-glow),
-    0 0 20px rgba(255, 159, 67, 0.2);
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.12) 80%,
+    transparent 100%
+  );
+  border-radius: 1px;
+  animation: line-breathe 12s ease-in-out infinite;
+  transition: all 0.4s ease;
 }
 
+/* Дыхание линии */
 @keyframes line-breathe {
-  0%, 100% { 
+  0%, 100% {
     opacity: 0.4;
-    box-shadow: 
-      0 0 8px rgba(255, 159, 67, 0.3),
-      0 0 16px rgba(255, 159, 67, 0.15);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
   }
-  50% { 
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* AI Analyzing - янтарное свечение */
+.thin-chat-line.analyzing::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 159, 67, 0.15) 20%,
+    rgba(255, 159, 67, 0.35) 50%,
+    rgba(255, 159, 67, 0.15) 80%,
+    transparent 100%
+  );
+  animation: line-analyzing 3s ease-in-out infinite;
+}
+
+@keyframes line-analyzing {
+  0%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 8px rgba(255, 159, 67, 0.2);
+  }
+  50% {
     opacity: 0.9;
-    box-shadow: 
-      0 0 15px var(--amber-glow),
-      0 0 30px rgba(255, 159, 67, 0.3);
+    box-shadow: 0 0 18px rgba(255, 159, 67, 0.4);
   }
 }
 
-/* ==================== STATE 2: HOVER - Статус-бар ==================== */
-.ghost-status-bar {
-  position: absolute;
-  bottom: 0;
-  left: 5%;
-  right: 5%;
-  cursor: pointer;
-  
-  /* Ethereal glass */
-  background: var(--ghost-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  
-  /* Только верхние скругления */
-  border-radius: 1rem 1rem 0 0;
-  border: 1px solid var(--ghost-border);
-  border-bottom: none;
-  
-  /* Верхнее свечение */
-  box-shadow: 
-    0 -5px 30px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+/* Hover - линия становится чуть заметнее */
+.thin-chat-line.hovered::before {
+  opacity: 0.9;
+  height: 3px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-.status-bar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 0 1.5rem;
-}
-
-.status-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-  transition: all 0.3s ease;
-}
-
-.status-dot.analyzing {
-  background: var(--amber-accent);
-  box-shadow: 0 0 12px var(--amber-accent);
-  animation: dot-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-}
-
-.status-text {
+/* Текст "Chat" - появляется при hover */
+.line-text {
+  font-size: 11px;
   font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
-.status-hint {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.35);
+.thin-chat-line.hovered .line-text {
+  color: rgba(255, 255, 255, 0.5);
 }
 
-/* ==================== STATE 3: ACTIVE - Выезжающая панель ==================== */
-.ghost-deck-panel {
+.thin-chat-line.analyzing .line-text {
+  color: rgba(255, 159, 67, 0.6);
+}
+
+/* ==================== ACTIVE: КОМПАКТНАЯ ПАНЕЛЬ ==================== */
+.chat-panel {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 320px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 700px;
+  height: 280px;
   
-  /* Ethereal glass - более плотный для панели */
-  background: rgba(15, 15, 20, 0.85);
-  backdrop-filter: blur(30px) saturate(120%);
-  -webkit-backdrop-filter: blur(30px) saturate(120%);
+  /* Стекло */
+  background: var(--ghost-bg);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
   
-  /* Только верхние скругления */
-  border-radius: 1.5rem 1.5rem 0 0;
+  /* Форма */
+  border-radius: 20px 20px 0 0;
   border: 1px solid var(--ghost-border);
   border-bottom: none;
   
-  /* Глубокая тень вверх */
+  /* Тень */
   box-shadow: 
-    0 -10px 60px rgba(0, 0, 0, 0.5),
+    0 -8px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
 /* Верхняя светящаяся грань */
-.deck-top-edge {
+.panel-top-edge {
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
+  left: 15%;
+  right: 15%;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -197,27 +167,58 @@
   );
 }
 
-/* Основной layout */
-.deck-content {
+/* Header */
+.panel-header {
   display: flex;
-  height: 100%;
-  padding: 1rem;
-  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-/* ==================== SIDEBAR (Tabs) ==================== */
-.deck-sidebar {
-  width: 180px;
+.panel-tabs {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding-right: 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 4px;
 }
 
-.deck-close-btn {
-  width: 32px;
-  height: 32px;
+.panel-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panel-tab:hover:not(.locked) {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.panel-tab.active {
+  background: rgba(255, 159, 67, 0.12);
+  border-color: rgba(255, 159, 67, 0.25);
+  color: var(--amber-accent);
+}
+
+.panel-tab.locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.panel-tab .lock {
+  font-size: 9px;
+}
+
+.panel-close {
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -227,127 +228,63 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  margin-bottom: 0.5rem;
 }
 
-.deck-close-btn:hover {
+.panel-close:hover {
   background: rgba(255, 255, 255, 0.08);
   color: white;
 }
 
-.deck-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.deck-tab {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.625rem 0.875rem;
-  border-radius: 10px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
-}
-
-.deck-tab:hover:not(.locked) {
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.deck-tab.active {
-  background: rgba(255, 159, 67, 0.1);
-  border-color: rgba(255, 159, 67, 0.2);
-  color: var(--amber-accent);
-  box-shadow: 
-    inset 0 0 15px rgba(255, 159, 67, 0.08),
-    0 0 20px rgba(255, 159, 67, 0.1);
-}
-
-.deck-tab.locked {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.tab-label {
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.lock-icon {
-  font-size: 0.6rem;
-  margin-left: auto;
-}
-
-.deck-channels {
+/* Messages */
+.panel-messages {
   flex: 1;
   overflow-y: auto;
-  margin-top: 0.5rem;
-}
-
-/* ==================== CHAT AREA ==================== */
-.deck-chat {
-  flex: 1;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-}
-
-.deck-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
+  gap: 8px;
   
-  /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-.deck-messages::-webkit-scrollbar {
+.panel-messages::-webkit-scrollbar {
   width: 4px;
 }
 
-.deck-messages::-webkit-scrollbar-thumb {
+.panel-messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
 }
 
-.deck-empty {
+.panel-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.85rem;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 13px;
 }
 
 /* Messages */
-.deck-message {
+.panel-message {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  max-width: 80%;
+  gap: 8px;
+  max-width: 85%;
 }
 
-.deck-message.user {
+.panel-message.user {
   margin-left: auto;
   flex-direction: row-reverse;
 }
 
-.message-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+.msg-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background: rgba(255, 159, 67, 0.15);
   border: 1px solid rgba(255, 159, 67, 0.2);
   display: flex;
@@ -357,38 +294,38 @@
   flex-shrink: 0;
 }
 
-.message-bubble {
-  padding: 0.625rem 0.875rem;
-  border-radius: 12px;
+.msg-bubble {
+  padding: 8px 12px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.45;
   color: rgba(255, 255, 255, 0.9);
 }
 
-.deck-message.user .message-bubble {
+.panel-message.user .msg-bubble {
   background: rgba(255, 159, 67, 0.12);
   border-color: rgba(255, 159, 67, 0.2);
 }
 
-.message-bubble p {
+.msg-bubble p {
   margin: 0;
 }
 
-/* Typing indicator */
+/* Typing */
 .typing-dots {
   display: flex;
   gap: 4px;
-  padding: 0.75rem;
+  padding: 10px 14px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .typing-dots span {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background: var(--amber-accent);
   border-radius: 50%;
   animation: typing-bounce 1.2s ease-in-out infinite;
@@ -399,36 +336,41 @@
 
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-6px); }
+  30% { transform: translateY(-5px); }
 }
 
-/* ==================== INPUT ==================== */
-.deck-input {
+/* Input */
+.panel-input {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  margin-top: 0.75rem;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.deck-input input {
+.panel-input input {
   flex: 1;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 14px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 13px;
   outline: none;
-  padding: 0.375rem 0.5rem;
+  transition: all 0.2s ease;
 }
 
-.deck-input input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+.panel-input input:focus {
+  border-color: rgba(255, 159, 67, 0.3);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.input-action,
+.panel-input input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.input-mic,
 .input-send {
   width: 36px;
   height: 36px;
@@ -441,12 +383,12 @@
   transition: all 0.2s ease;
 }
 
-.input-action {
+.input-mic {
   background: transparent;
   color: rgba(255, 255, 255, 0.4);
 }
 
-.input-action:hover {
+.input-mic:hover {
   background: rgba(255, 255, 255, 0.06);
   color: white;
 }
@@ -459,7 +401,6 @@
 .input-send:hover:not(:disabled) {
   background: var(--amber-accent);
   color: white;
-  box-shadow: 0 0 20px rgba(255, 159, 67, 0.4);
 }
 
 .input-send:disabled {
@@ -468,59 +409,24 @@
 }
 
 /* ==================== MOBILE ==================== */
-@media (max-width: 768px) {
-  .ghost-line {
-    left: 5%;
-    right: 5%;
+@media (max-width: 640px) {
+  .thin-chat-line {
+    width: 80%;
   }
   
-  .ghost-status-bar {
-    left: 0;
-    right: 0;
-    border-radius: 1rem 1rem 0 0;
-  }
-  
-  .ghost-deck-panel {
-    height: 50vh;
-    border-radius: 1.25rem 1.25rem 0 0;
-  }
-  
-  .deck-content {
-    flex-direction: column;
-    padding: 0.75rem;
-  }
-  
-  .deck-sidebar {
+  .chat-panel {
     width: 100%;
-    flex-direction: row;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-right: 0;
-    padding-bottom: 0.75rem;
+    max-width: none;
+    height: 50vh;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .panel-tabs {
     overflow-x: auto;
-    gap: 0.5rem;
+    flex-wrap: nowrap;
   }
   
-  .deck-close-btn {
-    flex-shrink: 0;
-  }
-  
-  .deck-tabs {
-    flex-direction: row;
-    flex: 1;
-  }
-  
-  .deck-tab {
-    flex-direction: column;
-    padding: 0.5rem 0.75rem;
-    gap: 0.25rem;
-  }
-  
-  .tab-label {
-    font-size: 0.65rem;
-  }
-  
-  .deck-channels {
+  .panel-tab span {
     display: none;
   }
 }
