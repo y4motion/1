@@ -467,6 +467,7 @@ class Observer:
         }
     
     # ==================== Agent Status Management ====================
+    # Теперь используем централизованный state_manager
     
     async def set_agent_status(
         self, 
@@ -476,56 +477,54 @@ class Observer:
     ):
         """
         Установить статус агента для пользователя.
-        
-        Args:
-            user_id: ID пользователя
-            status: один из AgentStatus (idle, analyzing, ready_to_suggest)
-            suggestion: текст подсказки (для ready_to_suggest)
+        Делегирует в state_manager.
         """
-        valid_statuses = [AgentStatus.IDLE, AgentStatus.ANALYZING, AgentStatus.READY_TO_SUGGEST]
-        if status not in valid_statuses:
-            status = AgentStatus.IDLE
-        
-        self._agent_statuses[user_id] = {
-            "status": status,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "suggestion": suggestion
-        }
-        
+        self.state_manager.update_state(user_id, status=status, suggestion=suggestion)
         logger.info(f"🎯 Agent status for {user_id}: {status}" + (f" - '{suggestion[:50]}...'" if suggestion else ""))
     
     async def get_agent_status(self, user_id: str) -> Dict:
         """
         Получить текущий статус агента для пользователя.
-        
-        Returns:
-            Dict с полями: status, updated_at, suggestion
         """
-        if user_id in self._agent_statuses:
-            return self._agent_statuses[user_id]
-        
+        state = self.state_manager.get_user_state(user_id)
         return {
-            "status": AgentStatus.IDLE,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "suggestion": None
+            "status": state.get("status", AgentStatus.IDLE),
+            "updated_at": state.get("last_active", datetime.now(timezone.utc)).isoformat() if state.get("last_active") else datetime.now(timezone.utc).isoformat(),
+            "suggestion": state.get("suggestion"),
+            "action_count": state.get("action_count", 0)
         }
+    
+    async def process_event(self, user_id: str, event_type: str, metadata: Optional[Dict] = None) -> str:
+        """
+        Обработать событие пользователя через MarketObserver.
+        Автоматически управляет переключением статусов.
+        """
+        return await self.market_observer.process_event(user_id, event_type, metadata)
     
     async def analyze_and_maybe_suggest(self, user_id: str) -> Optional[str]:
         """
         Анализирует контекст пользователя и решает, нужно ли дать совет.
         
-        Вызывается периодически или после определённых действий.
-        Возвращает текст подсказки если агент готов дать совет.
+        Теперь также учитывает action_count из state_manager.
         """
-        # Устанавливаем статус "analyzing"
-        await self.set_agent_status(user_id, AgentStatus.ANALYZING)
+        state = self.state_manager.get_user_state(user_id)
         
+        # Если уже есть подсказка готова — возвращаем её
+        if state.get("status") == AgentStatus.READY_TO_SUGGEST and state.get("suggestion"):
+            return state["suggestion"]
+        
+        # Если action_count >= threshold — генерируем подсказку
+        if state.get("action_count", 0) >= self.state_manager.ACTION_THRESHOLD:
+            context = await self.get_user_context(user_id)
+            suggestion = self._generate_context_suggestion(context)
+            self.state_manager.set_suggestion(user_id, suggestion)
+            return suggestion
+        
+        # Иначе анализируем контекст
         context = await self.get_user_context(user_id)
-        
-        # Логика принятия решения
         suggestion = None
         
-        # 1. Пользователь долго на одной странице (> 30 сек) - предложить помощь
+        # 1. Пользователь долго на одной странице (> 30 сек)
         top_dwell = context.get("top_dwell_pages", {})
         if top_dwell:
             max_dwell = max(top_dwell.values()) if top_dwell.values() else 0
@@ -545,15 +544,27 @@ class Observer:
         
         # Устанавливаем финальный статус
         if suggestion:
-            await self.set_agent_status(user_id, AgentStatus.READY_TO_SUGGEST, suggestion)
+            self.state_manager.set_suggestion(user_id, suggestion)
         else:
-            await self.set_agent_status(user_id, AgentStatus.IDLE)
+            self.state_manager.update_state(user_id, status=AgentStatus.IDLE)
         
         return suggestion
     
+    def _generate_context_suggestion(self, context: Dict) -> str:
+        """Генерирует подсказку на основе контекста пользователя"""
+        categories = context.get("viewed_categories", [])
+        if categories:
+            return f"Интересуетесь {categories[0]}? У меня есть несколько советов!"
+        
+        cart_products = context.get("cart_products", [])
+        if cart_products:
+            return "Хотите проверить совместимость товаров в корзине?"
+        
+        return "Могу помочь с выбором! Спросите меня о чём угодно."
+    
     async def clear_suggestion(self, user_id: str):
         """Сбрасывает статус обратно в idle после показа подсказки"""
-        await self.set_agent_status(user_id, AgentStatus.IDLE)
+        self.state_manager.clear_suggestion(user_id)
 
 
 # Singleton instance
