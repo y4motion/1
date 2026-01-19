@@ -735,7 +735,7 @@ const GlassyChatBar = () => {
           {/* Center section - text only on hover */}
           <div className="bar-center">
             <span className={`status-text ${isHovered ? 'visible' : ''}`}>
-              Chat
+              {agentStatus === AGENT_STATUS.ANALYZING ? (language === 'ru' ? 'Анализирую...' : 'Analyzing...') : 'Chat'}
             </span>
           </div>
           
@@ -757,6 +757,34 @@ const GlassyChatBar = () => {
             <div className="peek-preview">
               <Bot size={14} />
               <span>{peekMessage}</span>
+            </div>
+          )}
+          
+          {/* Agent Suggestion Popup - "Есть идея!" */}
+          {showSuggestionPopup && agentSuggestion && (
+            <div className="agent-suggestion-popup" data-testid="agent-suggestion-popup">
+              <button 
+                className="suggestion-close"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dismissSuggestion();
+                }}
+              >
+                <X size={14} />
+              </button>
+              <div 
+                className="suggestion-content"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openChatWithSuggestion();
+                }}
+              >
+                <Lightbulb size={16} className="suggestion-icon" />
+                <span className="suggestion-title">
+                  {language === 'ru' ? 'Есть идея!' : 'Got an idea!'}
+                </span>
+                <span className="suggestion-text">{agentSuggestion}</span>
+              </div>
             </div>
           )}
         </div>
