@@ -198,14 +198,17 @@ const GlassyChatBar = () => {
     setShowSuggestionPopup(false);
     handleInteraction();
     
-    // Add suggestion as bot message
+    // Add suggestion as bot message (using setMessages directly to avoid circular dep)
     if (agentSuggestion) {
-      addMessage('ai', {
-        id: Date.now(),
-        sender: 'bot',
-        text: `💡 ${agentSuggestion}`,
-        timestamp: new Date(),
-      });
+      setMessages(prev => ({
+        ...prev,
+        ai: [...(prev.ai || []), {
+          id: Date.now(),
+          sender: 'bot',
+          text: `💡 ${agentSuggestion}`,
+          timestamp: new Date(),
+        }]
+      }));
     }
     
     dismissSuggestion();
