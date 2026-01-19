@@ -20,7 +20,14 @@ import QATab from './tabs/QATab';
 import ProductCard from './ProductCard';
 import './ProductDetailPage.css';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+const API_URL = (() => {
+  const url = process.env.REACT_APP_BACKEND_URL || '';
+  // Ensure HTTPS in production
+  if (url && window.location.protocol === 'https:' && url.startsWith('http://')) {
+    return url.replace('http://', 'https://');
+  }
+  return url;
+})();
 
 // Dynamic expandable blocks based on product category
 const DynamicExpandableBlocks = ({ product }) => {
