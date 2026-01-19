@@ -102,6 +102,7 @@ function App() {
                     <Route path="/user" element={<PlaceholderPage title="USER" />} />
                     <Route path="/glassy-swap" element={<GlassySwapPage />} />
                     <Route path="/glassy-swap/:id" element={<GlassySwapPage />} />
+                    <Route path="/admin/mind" element={<MindDashboard />} />
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}
