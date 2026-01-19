@@ -229,12 +229,12 @@
 .glass-border-left,
 .glass-border-right {
   position: absolute;
-  top: 50px; /* После шапки */
+  top: 0;
   bottom: 0;
-  width: 3px;
+  width: 4px;
   
-  /* Glass эффект - более яркий */
-  background: rgba(255, 255, 255, 0.1);
+  /* Glass эффект - яркий */
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(30px) saturate(200%);
   -webkit-backdrop-filter: blur(30px) saturate(200%);
   
@@ -243,12 +243,12 @@
 
 .glass-border-left {
   left: 0;
-  border-radius: 0 0 0 16px;
+  border-radius: 16px 0 0 16px;
 }
 
 .glass-border-right {
   right: 0;
-  border-radius: 0 0 16px 0;
+  border-radius: 0 16px 16px 0;
 }
 
 .emergent-status {
