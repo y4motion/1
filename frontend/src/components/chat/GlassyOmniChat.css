@@ -161,6 +161,7 @@
   justify-content: space-between;
   padding: 14px 18px;
   border-radius: 16px 16px 0 0;
+  overflow: hidden;
   
   /* glass-strong эффект */
   background: rgba(255, 255, 255, 0.05);
@@ -169,6 +170,25 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Световое пятно для видимости glassmorphism */
+.acrylic-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(80, 160, 140, 0.15) 0%,
+    transparent 40%,
+    rgba(100, 140, 180, 0.1) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .emergent-status {
