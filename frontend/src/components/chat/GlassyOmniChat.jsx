@@ -15,9 +15,10 @@ import {
   Globe,
   Shield,
   ShoppingBag,
-  Send,
+  ArrowUp,
   Mic,
   Sparkles,
+  Paperclip,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -231,6 +232,9 @@ export default function GlassyOmniChat() {
 
               {/* Input - справа, прозрачное */}
               <div className="dock-input">
+                <button className="input-btn attach" title="Attach file">
+                  <Paperclip size={18} />
+                </button>
                 <input
                   ref={inputRef}
                   type="text"
@@ -245,7 +249,7 @@ export default function GlassyOmniChat() {
                   onClick={sendMessage}
                   disabled={!inputValue.trim()}
                 >
-                  <Send size={18} />
+                  <ArrowUp size={18} />
                 </button>
               </div>
             </div>
