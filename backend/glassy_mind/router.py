@@ -1,10 +1,10 @@
 """
 Glassy Mind - API Router
 Эндпоинты для взаимодействия фронтенда с "мозгом".
-Includes A/B testing and Deepseek AI integration.
+Includes A/B testing, Deepseek AI integration, and Abandoned Cart webhooks.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, BackgroundTasks
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional, Any
 import logging
@@ -13,6 +13,7 @@ from utils.auth_utils import get_current_user, get_current_user_optional as get_
 from .observer import observer
 from .expert_brain import tech_expert
 from .chat_agent import mind_chat_agent
+from .abandoned_cart import abandoned_cart_webhook
 
 logger = logging.getLogger(__name__)
 
