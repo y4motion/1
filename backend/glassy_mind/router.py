@@ -1,6 +1,7 @@
 """
 Glassy Mind - API Router
 Эндпоинты для взаимодействия фронтенда с "мозгом".
+Includes A/B testing and Deepseek AI integration.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Body
@@ -11,6 +12,7 @@ import logging
 from utils.auth_utils import get_current_user, get_current_user_optional as get_optional_user
 from .observer import observer
 from .expert_brain import tech_expert
+from .chat_agent import mind_chat_agent
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +52,12 @@ class AnalyzeRequest(BaseModel):
     products_for_compatibility: Optional[List[Dict]] = None
 
 
+class ChatRequest(BaseModel):
+    """Запрос на AI чат"""
+    message: str = Field(..., min_length=1, max_length=500)
+    product_info: Optional[Dict] = None
+
+
 # ==================== Tracking Endpoints ====================
 
 @router.post("/track/view")
@@ -57,14 +65,10 @@ async def track_view(
     request: TrackViewRequest,
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Отслеживание просмотра товара.
-    
-    Работает как для авторизованных, так и для гостей.
-    """
+    """Отслеживание просмотра товара с сохранением в MongoDB."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    result = observer.track_user_view(
+    result = await observer.track_user_view(
         user_id=user_id,
         product_id=request.product_id,
         product_data=request.product_data
@@ -81,12 +85,10 @@ async def track_cart_add(
     request: TrackCartRequest,
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Отслеживание добавления в корзину.
-    """
+    """Отслеживание добавления в корзину."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    result = observer.track_cart_add(
+    result = await observer.track_cart_add(
         user_id=user_id,
         product_id=request.product_id,
         quantity=request.quantity,
@@ -104,15 +106,10 @@ async def track_dwell_time(
     request: DwellTimeRequest,
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Отслеживание времени на странице.
-    
-    Вызывается при входе на страницу (action="enter")
-    и при уходе (action="leave").
-    """
+    """Отслеживание времени на странице."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    result = observer.analyze_dwell_time(
+    result = await observer.analyze_dwell_time(
         user_id=user_id,
         page_id=request.page_id,
         action=request.action
@@ -131,23 +128,17 @@ async def analyze_user_behavior(
     request: AnalyzeRequest = Body(default=AnalyzeRequest()),
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Полный анализ поведения пользователя.
-    
-    Возвращает:
-    - Контекст пользователя (просмотры, корзина, dwell time)
-    - Персональные предложения (если include_suggestions=true)
-    - Проверка совместимости (если include_compatibility=true)
-    """
+    """Полный анализ поведения пользователя с учётом A/B группы."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
     # Получаем контекст
-    user_context = observer.get_user_context(user_id)
+    user_context = await observer.get_user_context(user_id)
     
     response = {
         "success": True,
         "user_id": user_id,
-        "context": user_context
+        "context": user_context,
+        "ab_group": user_context.get("ab_group", "A")
     }
     
     # Генерируем предложения
@@ -168,18 +159,14 @@ async def analyze_user_behavior(
             "details": compatibility.details
         }
     
-    logger.info(f"🔮 Full analysis for user {user_id}")
+    logger.info(f"🔮 Full analysis for user {user_id} (AB group: {user_context.get('ab_group')})")
     
     return response
 
 
 @router.post("/compatibility")
 async def check_compatibility(request: CompatibilityRequest):
-    """
-    Проверка совместимости списка компонентов.
-    
-    Не требует авторизации — можно использовать в конфигураторе.
-    """
+    """Проверка совместимости списка компонентов."""
     result = tech_expert.evaluate_compatibility(request.products)
     
     return {
@@ -198,14 +185,10 @@ async def check_compatibility(request: CompatibilityRequest):
 async def get_suggestions(
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Получить персональные предложения.
-    
-    Быстрый эндпоинт для получения только рекомендаций.
-    """
+    """Получить персональные предложения."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    user_context = observer.get_user_context(user_id)
+    user_context = await observer.get_user_context(user_id)
     suggestions = tech_expert.generate_suggestion(user_context)
     
     return {
@@ -214,19 +197,144 @@ async def get_suggestions(
     }
 
 
+# ==================== AI Chat Endpoints ====================
+
+@router.post("/chat")
+async def ai_chat(
+    request: ChatRequest,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    AI-powered chat endpoint using Deepseek.
+    
+    Generates contextual responses based on:
+    - User's message
+    - Current product info
+    - User's browsing history
+    - A/B test group
+    """
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    # Get user context
+    user_context = await observer.get_user_context(user_id)
+    
+    # Product info (from request or default)
+    product_info = request.product_info or {}
+    
+    # Generate AI response
+    result = await mind_chat_agent.generate_response(
+        user_message=request.message,
+        product_info=product_info,
+        user_context=user_context
+    )
+    
+    if result["success"]:
+        return {
+            "success": True,
+            "response": result["response"],
+            "is_ai": True,
+            "model": result.get("model"),
+            "tokens_used": result.get("tokens_used", 0),
+            "ab_group": user_context.get("ab_group", "A")
+        }
+    else:
+        # Fallback to quick suggestion
+        quick_response = await mind_chat_agent.get_quick_suggestion(
+            product_info=product_info,
+            user_context=user_context
+        )
+        
+        return {
+            "success": True,
+            "response": quick_response or "Извините, не могу ответить на этот вопрос. Обратитесь в поддержку.",
+            "is_ai": False,
+            "fallback": True,
+            "error": result.get("error")
+        }
+
+
+@router.post("/quick-tip")
+async def get_quick_tip(
+    product_info: Dict = Body(default={}),
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Get quick contextual tip without full AI call."""
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    user_context = await observer.get_user_context(user_id)
+    
+    tip = await mind_chat_agent.get_quick_suggestion(
+        product_info=product_info,
+        user_context=user_context
+    )
+    
+    return {
+        "success": True,
+        "tip": tip,
+        "ab_group": user_context.get("ab_group", "A")
+    }
+
+
+# ==================== A/B Testing Endpoints ====================
+
+@router.get("/ab-test/results")
+async def get_ab_test_results():
+    """
+    Get A/B test results for recommendation strategies.
+    
+    Compares conversion rates between groups A and B.
+    """
+    results = await observer.get_ab_test_results()
+    
+    return {
+        "success": True,
+        "results": results,
+        "description": {
+            "group_a": "Direct product recommendations",
+            "group_b": "Question-based engagement"
+        }
+    }
+
+
+@router.get("/ab-test/my-group")
+async def get_my_ab_group(
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Get current user's A/B test group."""
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    user_context = await observer.get_user_context(user_id)
+    
+    return {
+        "success": True,
+        "user_id": user_id,
+        "ab_group": user_context.get("ab_group", "A"),
+        "strategy": "direct_recommendations" if user_context.get("ab_group") == "A" else "question_engagement"
+    }
+
+
 # ==================== Status & Debug Endpoints ====================
 
 @router.get("/status")
 async def get_mind_status():
-    """
-    Получить статус Glassy Mind.
-    """
+    """Получить статус Glassy Mind."""
+    global_stats = await observer.get_global_stats()
+    
     return {
         "success": True,
         "status": "operational",
         "components": {
-            "observer": observer.get_global_stats(),
-            "expert": tech_expert.get_expert_status()
+            "observer": global_stats,
+            "expert": tech_expert.get_expert_status(),
+            "ai_chat": {
+                "enabled": mind_chat_agent.enabled,
+                "model": mind_chat_agent.model if mind_chat_agent.enabled else None
+            }
+        },
+        "features": {
+            "mongodb_persistence": global_stats.get("storage") == "mongodb",
+            "deepseek_ai": mind_chat_agent.enabled,
+            "ab_testing": True
         },
         "endpoints": [
             "POST /api/mind/track/view",
@@ -234,9 +342,13 @@ async def get_mind_status():
             "POST /api/mind/track/dwell",
             "POST /api/mind/analyze",
             "POST /api/mind/compatibility",
+            "POST /api/mind/chat",
+            "POST /api/mind/quick-tip",
             "GET /api/mind/suggestions",
             "GET /api/mind/status",
-            "GET /api/mind/context"
+            "GET /api/mind/context",
+            "GET /api/mind/ab-test/results",
+            "GET /api/mind/ab-test/my-group"
         ]
     }
 
@@ -245,16 +357,39 @@ async def get_mind_status():
 async def get_user_context(
     current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    """
-    Получить сырой контекст пользователя.
-    
-    Полезно для отладки и понимания, что видит система.
-    """
+    """Получить сырой контекст пользователя."""
     user_id = current_user["id"] if current_user else "guest_anonymous"
     
-    context = observer.get_user_context(user_id)
+    context = await observer.get_user_context(user_id)
     
     return {
         "success": True,
         "context": context
+    }
+
+
+@router.get("/analytics/events")
+async def get_recent_events(
+    limit: int = 50,
+    event_type: Optional[str] = None
+):
+    """Get recent behavior events for analytics."""
+    await observer._ensure_db()
+    
+    if not observer._db:
+        return {"success": False, "error": "MongoDB required"}
+    
+    query = {}
+    if event_type:
+        query["event_type"] = event_type
+    
+    events = await observer._db.behavior_events.find(
+        query,
+        {"_id": 0}
+    ).sort("timestamp", -1).limit(limit).to_list(limit)
+    
+    return {
+        "success": True,
+        "events": events,
+        "count": len(events)
     }
