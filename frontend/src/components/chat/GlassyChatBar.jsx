@@ -15,6 +15,8 @@ import {
   Maximize2,
   GripHorizontal,
   ExternalLink,
+  Lightbulb,
+  X,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -23,6 +25,13 @@ import './GlassyChatBar.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 const WS_URL = API_URL.replace('http', 'ws');
+
+// Agent status constants (from backend)
+const AGENT_STATUS = {
+  IDLE: 'idle',
+  ANALYZING: 'analyzing',
+  READY_TO_SUGGEST: 'ready_to_suggest'
+};
 
 // Tab configuration
 const TABS = [
