@@ -1,12 +1,50 @@
 /**
- * GlassyOmniChat - Deep Acrylic Design System
+ * GlassyOmniChat - Agar Acrylic Design System
  * 
  * Inspired by: Agar60 Acrylic Keyboard, Sci-Fi HUDs
  * Philosophy: "Frosted Depth" - light lives INSIDE the material
  * 
- * NOT: flat admin dashboard
- * YES: floating crystal interface
+ * Features:
+ * - Breathing Strip with morphing transition
+ * - Deep acrylic material with noise texture
+ * - Detached Input Island
  */
+
+/* ==================== AGAR ACRYLIC MATERIAL ==================== */
+.agar-acrylic {
+  background: rgba(15, 15, 20, 0.65); /* Глубокий темный */
+  backdrop-filter: blur(24px) saturate(160%); /* Сильный блюр */
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Тонкая грань */
+  box-shadow: 
+    0 20px 60px -10px rgba(0, 0, 0, 0.7), /* Глубокая тень */
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1), /* Верхний блик */
+    inset 0 0 20px rgba(0, 0, 0, 0.5); /* Внутренняя глубина */
+}
+
+/* Анимация пульсации для полоски */
+@keyframes deep-breathe {
+  0%, 100% { 
+    border-color: rgba(255, 255, 255, 0.08); 
+    box-shadow: 
+      0 20px 60px -10px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 20px rgba(0, 0, 0, 0.5),
+      0 0 0 rgba(168, 85, 247, 0); 
+  }
+  50% { 
+    border-color: rgba(168, 85, 247, 0.4); 
+    box-shadow: 
+      0 20px 60px -10px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 20px rgba(0, 0, 0, 0.5),
+      0 0 25px rgba(168, 85, 247, 0.3); 
+  }
+}
+
+.breathing-border {
+  animation: deep-breathe 4s infinite ease-in-out;
+}
 
 /* ==================== NOISE TEXTURE (SVG Data URI) ==================== */
 :root {

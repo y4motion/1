@@ -1,37 +1,29 @@
 /**
- * GlassyOmniChat - The Ultimate Chat Hub
+ * GlassyOmniChat - "Дышащая полоска" с морфингом
  * 
- * Единый центр коммуникации:
- * - AI Assistant (PC Builder advisor)
- * - Community (Global + Guilds)
- * - Commerce (Sellers + Swap users)
- * - Support (Red Line - emergency)
+ * Agar Acrylic Style - глубокий матовый пластик с подсветкой
  * 
- * Features:
- * - Collapsible status bar ↔ full window
- * - Smart channel switching with bubbles
- * - Context-aware auto-switching
- * - Glassmorphism design
+ * STATE 1: Breathing Strip (Idle) - широкая пульсирующая полоска
+ * STATE 2: Expanded HUD - "вырастает" из полоски с плавным морфингом
+ * INPUT ISLAND: Отдельный "островок" для ввода
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import {
   Bot,
   Globe,
   Shield,
   ShoppingBag,
-  Headphones,
-  ChevronUp,
-  ChevronDown,
+  Cpu,
+  Activity,
+  X,
   Send,
   Mic,
-  Paperclip,
-  X,
   Sparkles,
-  Users,
-  MessageCircle,
   AlertTriangle,
+  Headphones,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -39,190 +31,95 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import SmartChannelSwitcher from './SmartChannelSwitcher';
 import './GlassyOmniChat.css';
 
-// Chat modes
-const CHAT_MODES = {
-  AI: 'ai',
-  GLOBAL: 'global',
-  GUILDS: 'guilds',
-  TRADE: 'trade',
-  SUPPORT: 'support',
-};
-
-// Mode configurations
-const MODE_CONFIG = {
-  [CHAT_MODES.AI]: {
-    icon: Bot,
-    label: 'AI Assistant',
-    labelRu: 'ИИ Помощник',
-    color: '#8b5cf6',
-    description: 'Tech advisor & compatibility expert',
-  },
-  [CHAT_MODES.GLOBAL]: {
-    icon: Globe,
-    label: 'Global Chat',
-    labelRu: 'Общий чат',
-    color: '#22c55e',
-    description: 'Community discussions',
-  },
-  [CHAT_MODES.GUILDS]: {
-    icon: Shield,
-    label: 'Guilds',
-    labelRu: 'Гильдии',
-    color: '#3b82f6',
-    description: 'Your private groups',
-    requiresLevel: 5,
-  },
-  [CHAT_MODES.TRADE]: {
-    icon: ShoppingBag,
-    label: 'Trade',
-    labelRu: 'Торговля',
-    color: '#f59e0b',
-    description: 'Seller & buyer chats',
-  },
-  [CHAT_MODES.SUPPORT]: {
-    icon: Headphones,
-    label: 'Support',
-    labelRu: 'Поддержка',
-    color: '#ef4444',
-    description: 'Emergency assistance',
-    hidden: true,
-  },
-};
+// --- TAB DEFINITIONS ---
+const TABS = [
+  { id: 'ai', icon: Bot, label: 'Glassy AI', labelRu: 'ИИ Помощник', color: 'text-purple-400', bgColor: '#8b5cf6' },
+  { id: 'global', icon: Globe, label: 'Global', labelRu: 'Общий', color: 'text-blue-400', bgColor: '#3b82f6' },
+  { id: 'guilds', icon: Shield, label: 'Guilds', labelRu: 'Гильдии', color: 'text-amber-400', bgColor: '#f59e0b', requiresLevel: 5 },
+  { id: 'trade', icon: ShoppingBag, label: 'Trade', labelRu: 'Торговля', color: 'text-emerald-400', bgColor: '#22c55e' },
+  { id: 'support', icon: Headphones, label: 'Support', labelRu: 'Поддержка', color: 'text-red-400', bgColor: '#ef4444', hidden: true },
+];
 
 // API URL
 const API_URL = '';
 
-const GlassyOmniChat = () => {
-  const location = useLocation();
-  const { user } = useAuth();
-  const { theme } = useTheme();
-  const { language } = useLanguage();
-  const isDark = theme === 'dark';
-  
-  // Core states
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [activeMode, setActiveMode] = useState(CHAT_MODES.AI);
-  const [activeChannel, setActiveChannel] = useState(null); // For guilds/trade sub-channels
-  
-  // Chat states
+export default function GlassyOmniChat() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('ai');
+  const [aiStatus, setAiStatus] = useState('idle'); // idle, analyzing, ready
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [statusText, setStatusText] = useState('Ready');
-  
-  // Refs
+  const location = useLocation();
+  const { user } = useAuth();
+  const { language } = useLanguage();
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
-  
-  // Status bar animation state
-  const [statusDots, setStatusDots] = useState([false, false, false]);
-  
-  // ==================== CONTEXT AWARENESS ====================
-  
+
+  // Context Awareness Logic
   useEffect(() => {
     const path = location.pathname.toLowerCase();
-    
-    // Auto-switch based on route
-    if (path.includes('/pc-builder') || path.includes('/assembly')) {
-      setActiveMode(CHAT_MODES.AI);
-      setStatusText('AI: Ready to help');
-    } else if (path.includes('/marketplace') || path.includes('/product')) {
-      setActiveMode(CHAT_MODES.TRADE);
-      setStatusText('Trade: Browse sellers');
-    } else if (path.includes('/mod') || path.includes('/mods')) {
-      // Check level for mods section
+    if (path.includes('pc-builder') || path.includes('assembly')) {
+      setActiveTab('ai');
+      setAiStatus('analyzing');
+    } else if (path.includes('marketplace') || path.includes('product')) {
+      setActiveTab('trade');
+      setAiStatus('idle');
+    } else if (path.includes('glassy-swap')) {
+      setActiveTab('trade');
+      setAiStatus('idle');
+    } else if (path.includes('mod') || path.includes('mods')) {
       const userLevel = user?.level || 0;
-      if (userLevel >= 10) {
-        setActiveMode(CHAT_MODES.GUILDS);
-        setStatusText('Guilds: Mod community');
-      } else {
-        setActiveMode(CHAT_MODES.GLOBAL);
-        setStatusText('Level 10+ required for Guilds');
-      }
-    } else if (path.includes('/feed') || path.includes('/community')) {
-      setActiveMode(CHAT_MODES.GLOBAL);
-      setStatusText('Global: Community chat');
-    } else if (path.includes('/glassy-swap')) {
-      setActiveMode(CHAT_MODES.TRADE);
-      setStatusText('Trade: Swap negotiations');
+      setActiveTab(userLevel >= 5 ? 'guilds' : 'global');
+      setAiStatus('idle');
+    } else {
+      setAiStatus('idle');
     }
-  }, [location.pathname, user?.level]);
-  
-  // ==================== STATUS BAR ANIMATION ====================
-  
-  useEffect(() => {
-    if (isExpanded) return;
-    
-    // Animate dots when collapsed
-    const interval = setInterval(() => {
-      setStatusDots(prev => {
-        const newDots = [...prev];
-        const activeIndex = newDots.findIndex(d => d);
-        if (activeIndex === -1) {
-          newDots[0] = true;
-        } else if (activeIndex < 2) {
-          newDots[activeIndex] = false;
-          newDots[activeIndex + 1] = true;
-        } else {
-          newDots[2] = false;
-        }
-        return newDots;
-      });
-    }, 500);
-    
-    return () => clearInterval(interval);
-  }, [isExpanded]);
-  
-  // ==================== SUPPORT TRIGGER ====================
-  
+  }, [location, user?.level]);
+
+  // Support Trigger
   const triggerSupport = useCallback((reason = 'User requested support') => {
-    setActiveMode(CHAT_MODES.SUPPORT);
-    setIsExpanded(true);
-    setStatusText(`Support: ${reason}`);
-    
-    // Add system message
+    setActiveTab('support');
+    setIsOpen(true);
     setMessages(prev => ({
       ...prev,
-      [CHAT_MODES.SUPPORT]: [
-        ...(prev[CHAT_MODES.SUPPORT] || []),
-        {
-          id: Date.now(),
-          type: 'system',
-          text: `Support session started: ${reason}`,
-          timestamp: new Date(),
-        }
+      support: [
+        ...(prev.support || []),
+        { id: Date.now(), type: 'system', text: `Support session started: ${reason}`, timestamp: new Date() }
       ]
     }));
   }, []);
-  
-  // Expose trigger globally for other components
+
+  // Expose trigger globally
   useEffect(() => {
     window.triggerGlassySupport = triggerSupport;
     return () => { delete window.triggerGlassySupport; };
   }, [triggerSupport]);
-  
-  // ==================== MESSAGE HANDLING ====================
-  
+
+  // Scroll to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, activeTab]);
+
+  // Send message
   const sendMessage = useCallback(async () => {
     if (!inputValue.trim()) return;
-    
+
     const newMessage = {
       id: Date.now(),
       type: 'user',
       text: inputValue,
       timestamp: new Date(),
     };
-    
+
     setMessages(prev => ({
       ...prev,
-      [activeMode]: [...(prev[activeMode] || []), newMessage]
+      [activeTab]: [...(prev[activeTab] || []), newMessage]
     }));
-    
+
     setInputValue('');
     setIsTyping(true);
-    
-    // Simulate AI response for AI mode
-    if (activeMode === CHAT_MODES.AI) {
+
+    if (activeTab === 'ai') {
       try {
         const response = await fetch(`${API_URL}/api/mind/chat`, {
           method: 'POST',
@@ -235,17 +132,17 @@ const GlassyOmniChat = () => {
             context: { page: location.pathname }
           })
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setMessages(prev => ({
             ...prev,
-            [activeMode]: [
-              ...(prev[activeMode] || []),
+            [activeTab]: [
+              ...(prev[activeTab] || []),
               {
                 id: Date.now(),
                 type: 'bot',
-                text: data.response || 'I understand. How can I help further?',
+                text: data.response || 'Я понял. Чем ещё могу помочь?',
                 timestamp: new Date(),
               }
             ]
@@ -255,220 +152,225 @@ const GlassyOmniChat = () => {
         console.error('Chat error:', error);
       }
     }
-    
+
     setIsTyping(false);
-  }, [inputValue, activeMode, location.pathname]);
-  
-  // ==================== SCROLL TO BOTTOM ====================
-  
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, activeMode]);
-  
-  // ==================== CHANNEL CHANGE ====================
-  
-  const handleChannelChange = useCallback((channel) => {
-    setActiveChannel(channel);
-    // Could load channel-specific messages here
-  }, []);
-  
-  // ==================== RENDER ====================
-  
-  const currentModeConfig = MODE_CONFIG[activeMode];
-  const CurrentModeIcon = currentModeConfig.icon;
-  const currentMessages = messages[activeMode] || [];
-  
-  // Check if user has access to guilds
+  }, [inputValue, activeTab, location.pathname]);
+
+  const currentTab = TABS.find(t => t.id === activeTab) || TABS[0];
+  const currentMessages = messages[activeTab] || [];
   const userLevel = user?.level || 0;
-  const canAccessGuilds = userLevel >= (MODE_CONFIG[CHAT_MODES.GUILDS].requiresLevel || 0);
-  
+
+  // Activity bars for visual flourish
+  const activityBars = [...Array(5)].map((_, i) => ({
+    height: Math.random() * 100,
+    delay: i * 0.1
+  }));
+
   return (
     <div 
-      className={`glassy-omni-chat ${isExpanded ? 'expanded' : 'collapsed'} mode-${activeMode}`}
+      className="fixed bottom-6 left-0 right-0 z-50 flex justify-center items-end pointer-events-none"
       data-testid="glassy-omni-chat"
     >
-      {/* ==================== COLLAPSED STATE (Status Bar) ==================== */}
-      {!isExpanded && (
-        <div 
-          className="omni-status-bar"
-          onClick={() => setIsExpanded(true)}
-        >
-          <div className="status-left">
-            <CurrentModeIcon size={14} style={{ color: currentModeConfig.color }} />
-            <span className="status-text">{statusText}</span>
-          </div>
-          
-          <div className="status-dots">
-            {statusDots.map((active, i) => (
-              <span 
-                key={i} 
-                className={`dot ${active ? 'active' : ''}`}
-                style={{ backgroundColor: active ? currentModeConfig.color : undefined }}
-              />
-            ))}
-          </div>
-          
-          <div className="status-right">
-            <ChevronUp size={14} />
-          </div>
-        </div>
-      )}
-      
-      {/* ==================== EXPANDED STATE (Full Window) ==================== */}
-      {isExpanded && (
-        <div className="omni-window">
-          {/* Header */}
-          <div className="omni-header">
-            <div className="header-title">
-              <CurrentModeIcon size={18} style={{ color: currentModeConfig.color }} />
-              <span>
-                {language === 'ru' ? currentModeConfig.labelRu : currentModeConfig.label}
-              </span>
-              {activeChannel && (
-                <span className="channel-badge">{activeChannel.name}</span>
-              )}
+      <AnimatePresence mode="wait">
+        
+        {/* === STATE 1: BREATHING STRIP (IDLE) === */}
+        {!isOpen && (
+          <motion.div
+            layoutId="glassy-chat"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            onClick={() => setIsOpen(true)}
+            className="pointer-events-auto cursor-pointer group"
+          >
+            {/* The Strip Container */}
+            <div className="agar-acrylic breathing-border h-12 w-[400px] rounded-full flex items-center justify-between px-6 transition-all duration-300 group-hover:w-[420px] group-hover:scale-[1.02]">
+              
+              {/* Left: Status Indicator */}
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full ${aiStatus === 'analyzing' ? 'bg-purple-500 animate-pulse' : 'bg-emerald-500'}`} 
+                     style={{ boxShadow: aiStatus === 'analyzing' ? '0 0 8px #8b5cf6' : '0 0 8px #22c55e' }} />
+                <span className="text-xs font-mono text-white/60 tracking-widest uppercase">
+                  {aiStatus === 'analyzing' ? 'AI ANALYZING CONTEXT...' : 'SYSTEM ONLINE'}
+                </span>
+              </div>
+
+              {/* Center: Subtle Activity Graph (Visual Flourish) */}
+              <div className="flex gap-1 h-3 items-end opacity-30">
+                {activityBars.map((bar, i) => (
+                  <div 
+                    key={i} 
+                    className="w-1 bg-white rounded-t-sm animate-pulse" 
+                    style={{ height: `${bar.height}%`, animationDelay: `${bar.delay}s` }} 
+                  />
+                ))}
+              </div>
+
+              {/* Right: Context Icon */}
+              <div className="text-white/40">
+                <Cpu size={16} />
+              </div>
             </div>
-            <button 
-              className="close-btn" 
-              onClick={() => setIsExpanded(false)}
+            
+            {/* Hover Glow Effect */}
+            <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+          </motion.div>
+        )}
+
+        {/* === STATE 2: EXPANDED HUD (OPEN) === */}
+        {isOpen && (
+          <div className="pointer-events-auto relative">
+             {/* Main Window */}
+            <motion.div
+              layoutId="glassy-chat"
+              className="agar-acrylic w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col relative mb-4"
             >
-              <ChevronDown size={18} />
-            </button>
-          </div>
-          
-          {/* Mode Tabs */}
-          <div className="omni-tabs">
-            {Object.entries(MODE_CONFIG)
-              .filter(([_, config]) => !config.hidden)
-              .map(([mode, config]) => {
-                const Icon = config.icon;
-                const isActive = activeMode === mode;
-                const isLocked = mode === CHAT_MODES.GUILDS && !canAccessGuilds;
-                
-                return (
-                  <button
-                    key={mode}
-                    className={`tab-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                    onClick={() => !isLocked && setActiveMode(mode)}
-                    disabled={isLocked}
-                    style={{ 
-                      '--tab-color': config.color,
-                      borderColor: isActive ? config.color : 'transparent'
-                    }}
-                    title={isLocked ? `Level ${config.requiresLevel}+ required` : config.description}
-                  >
-                    <Icon size={16} />
-                    {isLocked && <span className="lock-badge">🔒</span>}
-                  </button>
-                );
-              })}
-          </div>
-          
-          {/* Smart Channel Switcher (for Guilds/Trade) */}
-          {(activeMode === CHAT_MODES.GUILDS || activeMode === CHAT_MODES.TRADE) && (
-            <SmartChannelSwitcher
-              mode={activeMode}
-              activeChannel={activeChannel}
-              onChannelChange={handleChannelChange}
-              userLevel={userLevel}
-            />
-          )}
-          
-          {/* Messages Area */}
-          <div className="omni-messages">
-            {currentMessages.length === 0 ? (
-              <div className="empty-state">
-                <Sparkles size={32} style={{ color: currentModeConfig.color }} />
-                <p>
-                  {activeMode === CHAT_MODES.AI 
-                    ? (language === 'ru' ? 'Спросите меня о совместимости ПК' : 'Ask me about PC compatibility')
-                    : (language === 'ru' ? 'Нет сообщений' : 'No messages yet')
-                  }
-                </p>
-              </div>
-            ) : (
-              currentMessages.map((msg) => (
-                <div 
-                  key={msg.id} 
-                  className={`message ${msg.type}`}
+              {/* Header / Tabs */}
+              <div className="h-16 border-b border-white/5 flex items-center justify-between px-4 bg-white/5">
+                <div className="flex gap-2">
+                  {TABS.filter(t => !t.hidden).map((tab) => {
+                    const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => !isLocked && setActiveTab(tab.id)}
+                        disabled={isLocked}
+                        className={`p-2 rounded-xl transition-all relative ${
+                          activeTab === tab.id 
+                            ? 'bg-white/10 text-white' 
+                            : isLocked 
+                              ? 'text-white/20 cursor-not-allowed' 
+                              : 'text-white/40 hover:text-white/70'
+                        }`}
+                      >
+                        <tab.icon size={20} className={activeTab === tab.id ? tab.color : ''} />
+                        {activeTab === tab.id && (
+                          <motion.div 
+                            layoutId="tab-glow" 
+                            className="absolute inset-0 rounded-xl bg-white/5 shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
+                          />
+                        )}
+                        {isLocked && <span className="absolute -top-1 -right-1 text-[8px]">🔒</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+                <button 
+                  onClick={() => setIsOpen(false)} 
+                  className="text-white/30 hover:text-white transition-colors p-2 rounded-xl hover:bg-white/5"
                 >
-                  {msg.type === 'bot' && (
-                    <div className="message-avatar">
-                      <Bot size={14} />
-                    </div>
-                  )}
-                  <div className="message-content">
-                    <p>{msg.text}</p>
-                    <span className="message-time">
-                      {new Date(msg.timestamp).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                      })}
-                    </span>
-                  </div>
-                </div>
-              ))
-            )}
-            
-            {isTyping && (
-              <div className="message bot typing">
-                <div className="message-avatar">
-                  <Bot size={14} />
-                </div>
-                <div className="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
+                  <X size={20} />
+                </button>
               </div>
-            )}
-            
-            <div ref={messagesEndRef} />
+
+              {/* Smart Channel Switcher for Guilds/Trade */}
+              {(activeTab === 'guilds' || activeTab === 'trade') && (
+                <SmartChannelSwitcher
+                  mode={activeTab}
+                  activeChannel={null}
+                  onChannelChange={() => {}}
+                  userLevel={userLevel}
+                />
+              )}
+
+              {/* Content Area */}
+              <div className="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
+                {currentMessages.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
+                    <div className="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                      <Sparkles size={28} className="text-purple-400" />
+                    </div>
+                    <p className="text-white/50 text-sm max-w-[250px]">
+                      {activeTab === 'ai' 
+                        ? (language === 'ru' ? 'Спросите меня о совместимости ПК' : 'Ask me about PC compatibility')
+                        : (language === 'ru' ? 'Нет сообщений' : 'No messages yet')
+                      }
+                    </p>
+                  </div>
+                ) : (
+                  currentMessages.map((msg) => (
+                    <div key={msg.id} className={`flex gap-4 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                      {msg.type === 'bot' && (
+                        <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30 flex-shrink-0">
+                          <Bot size={16} className="text-purple-400" />
+                        </div>
+                      )}
+                      <div className="flex-1 max-w-[80%]">
+                        {msg.type === 'bot' && (
+                          <div className="text-xs text-purple-400/50 mb-1 font-mono">GLASSY MIND</div>
+                        )}
+                        <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                          msg.type === 'user' 
+                            ? 'bg-purple-500/20 border border-purple-500/30 text-white ml-auto' 
+                            : 'bg-white/5 border border-white/5 text-gray-200'
+                        }`}>
+                          {msg.text}
+                        </div>
+                        <span className="text-[10px] text-white/30 mt-1 block">
+                          {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+                
+                {isTyping && (
+                  <div className="flex gap-4">
+                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
+                      <Bot size={16} className="text-purple-400" />
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/5 flex gap-1">
+                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0s' }} />
+                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.4s' }} />
+                    </div>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Support Mode Warning */}
+              {activeTab === 'support' && (
+                <div className="flex items-center justify-center gap-2 py-2 bg-red-500/10 border-t border-red-500/20 text-red-400 text-xs font-semibold">
+                  <AlertTriangle size={14} />
+                  <span>{language === 'ru' ? 'Экстренная линия поддержки' : 'Emergency Support Line'}</span>
+                </div>
+              )}
+
+              {/* Decorative Bottom Gradient */}
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+            </motion.div>
+
+            {/* Input Island (Detached) - Like a Keyboard Spacebar */}
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { delay: 0.1 } }}
+              className="agar-acrylic h-14 w-[480px] mx-auto rounded-full flex items-center px-2 gap-2"
+            >
+               <button className="p-3 rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                 <Mic size={20} />
+               </button>
+               <input 
+                 type="text" 
+                 value={inputValue}
+                 onChange={(e) => setInputValue(e.target.value)}
+                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                 placeholder={language === 'ru' ? 'Спросить Glassy AI или написать в чат...' : 'Ask Glassy AI or chat with guild...'} 
+                 className="flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm"
+               />
+               <button 
+                 onClick={sendMessage}
+                 disabled={!inputValue.trim()}
+                 className="p-3 rounded-full bg-white/10 text-white hover:bg-purple-500 hover:text-white transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)] disabled:opacity-30 disabled:cursor-not-allowed"
+               >
+                 <Send size={18} />
+               </button>
+            </motion.div>
           </div>
-          
-          {/* Input Area */}
-          <div className="omni-input">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-              placeholder={
-                activeMode === CHAT_MODES.AI 
-                  ? (language === 'ru' ? 'Спросить ИИ...' : 'Ask AI...')
-                  : (language === 'ru' ? 'Написать сообщение...' : 'Type a message...')
-              }
-            />
-            <div className="input-actions">
-              <button className="action-btn" title="Attach file">
-                <Paperclip size={16} />
-              </button>
-              <button className="action-btn" title="Voice input">
-                <Mic size={16} />
-              </button>
-              <button 
-                className="send-btn"
-                onClick={sendMessage}
-                disabled={!inputValue.trim()}
-                style={{ backgroundColor: currentModeConfig.color }}
-              >
-                <Send size={16} />
-              </button>
-            </div>
-          </div>
-          
-          {/* Support Mode Warning */}
-          {activeMode === CHAT_MODES.SUPPORT && (
-            <div className="support-banner">
-              <AlertTriangle size={14} />
-              <span>{language === 'ru' ? 'Экстренная линия поддержки' : 'Emergency Support Line'}</span>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+
+      </AnimatePresence>
     </div>
   );
-};
-
-export default GlassyOmniChat;
+}
