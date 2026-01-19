@@ -47,8 +47,7 @@ async def validate_build(
     if not request.product_ids:
         raise HTTPException(status_code=400, detail="No products provided")
     
-    # Fetch products from DB
-    db = await get_database()
+    # Use global db
     if db is None:
         raise HTTPException(status_code=500, detail="Database not available")
     
