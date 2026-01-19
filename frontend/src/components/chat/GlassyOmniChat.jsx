@@ -1,11 +1,10 @@
 /**
- * GlassyOmniChat - "Дышащая полоска" с морфингом
+ * GlassyOmniChat - Ghost Deck Concept
  * 
- * Agar Acrylic Style - глубокий матовый пластик с подсветкой
- * 
- * STATE 1: Breathing Strip (Idle) - широкая пульсирующая полоска
- * STATE 2: Expanded HUD - "вырастает" из полоски с плавным морфингом
- * INPUT ISLAND: Отдельный "островок" для ввода
+ * Концепция "Призрачная Дека":
+ * - IDLE: Тончайшая (2px) пульсирующая линия внизу экрана
+ * - HOVER: Линия вырастает в статус-бар (40px)
+ * - ACTIVE: Панель выезжает снизу (~300px), как выдвижной ящик
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -16,60 +15,52 @@ import {
   Globe,
   Shield,
   ShoppingBag,
-  Cpu,
-  Activity,
   X,
   Send,
   Mic,
   Sparkles,
   AlertTriangle,
   Headphones,
+  ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import SmartChannelSwitcher from './SmartChannelSwitcher';
 import './GlassyOmniChat.css';
 
 // --- TAB DEFINITIONS ---
 const TABS = [
-  { id: 'ai', icon: Bot, label: 'Glassy AI', labelRu: 'ИИ Помощник', color: 'text-purple-400', bgColor: '#8b5cf6' },
-  { id: 'global', icon: Globe, label: 'Global', labelRu: 'Общий', color: 'text-blue-400', bgColor: '#3b82f6' },
-  { id: 'guilds', icon: Shield, label: 'Guilds', labelRu: 'Гильдии', color: 'text-amber-400', bgColor: '#f59e0b', requiresLevel: 5 },
-  { id: 'trade', icon: ShoppingBag, label: 'Trade', labelRu: 'Торговля', color: 'text-emerald-400', bgColor: '#22c55e' },
-  { id: 'support', icon: Headphones, label: 'Support', labelRu: 'Поддержка', color: 'text-red-400', bgColor: '#ef4444', hidden: true },
+  { id: 'ai', icon: Bot, label: 'AI', labelRu: 'ИИ', color: '#FF9F43' },
+  { id: 'global', icon: Globe, label: 'Global', labelRu: 'Общий', color: '#3b82f6' },
+  { id: 'guilds', icon: Shield, label: 'Guilds', labelRu: 'Гильдии', color: '#f59e0b', requiresLevel: 5 },
+  { id: 'trade', icon: ShoppingBag, label: 'Trade', labelRu: 'Торговля', color: '#22c55e' },
 ];
 
-// API URL
 const API_URL = '';
 
 export default function GlassyOmniChat() {
-  const [isOpen, setIsOpen] = useState(false);
+  // States: 'idle' | 'hover' | 'active'
+  const [deckState, setDeckState] = useState('idle');
   const [activeTab, setActiveTab] = useState('ai');
-  const [aiStatus, setAiStatus] = useState('idle'); // idle, analyzing, ready
+  const [aiStatus, setAiStatus] = useState('idle'); // idle | analyzing
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  
   const location = useLocation();
   const { user } = useAuth();
   const { language } = useLanguage();
   const messagesEndRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
 
-  // Context Awareness Logic
+  // Context Awareness
   useEffect(() => {
     const path = location.pathname.toLowerCase();
     if (path.includes('pc-builder') || path.includes('assembly')) {
       setActiveTab('ai');
       setAiStatus('analyzing');
-    } else if (path.includes('marketplace') || path.includes('product')) {
+    } else if (path.includes('marketplace') || path.includes('product') || path.includes('glassy-swap')) {
       setActiveTab('trade');
-      setAiStatus('idle');
-    } else if (path.includes('glassy-swap')) {
-      setActiveTab('trade');
-      setAiStatus('idle');
-    } else if (path.includes('mod') || path.includes('mods')) {
-      const userLevel = user?.level || 0;
-      setActiveTab(userLevel >= 5 ? 'guilds' : 'global');
       setAiStatus('idle');
     } else {
       setAiStatus('idle');
@@ -79,17 +70,9 @@ export default function GlassyOmniChat() {
   // Support Trigger
   const triggerSupport = useCallback((reason = 'User requested support') => {
     setActiveTab('support');
-    setIsOpen(true);
-    setMessages(prev => ({
-      ...prev,
-      support: [
-        ...(prev.support || []),
-        { id: Date.now(), type: 'system', text: `Support session started: ${reason}`, timestamp: new Date() }
-      ]
-    }));
+    setDeckState('active');
   }, []);
 
-  // Expose trigger globally
   useEffect(() => {
     window.triggerGlassySupport = triggerSupport;
     return () => { delete window.triggerGlassySupport; };
@@ -99,6 +82,32 @@ export default function GlassyOmniChat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, activeTab]);
+
+  // Handle hover zone
+  const handleMouseEnter = () => {
+    if (deckState === 'idle') {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setDeckState('hover');
+      }, 100);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(hoverTimeoutRef.current);
+    if (deckState === 'hover') {
+      setDeckState('idle');
+    }
+  };
+
+  const handleClick = () => {
+    if (deckState !== 'active') {
+      setDeckState('active');
+    }
+  };
+
+  const handleClose = () => {
+    setDeckState('idle');
+  };
 
   // Send message
   const sendMessage = useCallback(async () => {
@@ -156,229 +165,186 @@ export default function GlassyOmniChat() {
     setIsTyping(false);
   }, [inputValue, activeTab, location.pathname]);
 
-  const currentTab = TABS.find(t => t.id === activeTab) || TABS[0];
   const currentMessages = messages[activeTab] || [];
   const userLevel = user?.level || 0;
 
-  // Activity bars for visual flourish
-  const activityBars = [...Array(5)].map((_, i) => ({
-    height: Math.random() * 100,
-    delay: i * 0.1
-  }));
-
   return (
     <div 
-      className="fixed bottom-6 left-0 right-0 z-50 flex justify-center items-end pointer-events-none"
+      className="ghost-deck-container"
       data-testid="glassy-omni-chat"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <AnimatePresence mode="wait">
         
-        {/* === STATE 1: BREATHING STRIP (IDLE) === */}
-        {!isOpen && (
+        {/* === STATE 1: IDLE - Тончайшая пульсирующая линия === */}
+        {deckState === 'idle' && (
           <motion.div
-            layoutId="glassy-chat"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            onClick={() => setIsOpen(true)}
-            className="pointer-events-auto cursor-pointer group"
+            key="idle-line"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, height: 0 }}
+            className="ghost-line"
+            onClick={handleClick}
+          />
+        )}
+
+        {/* === STATE 2: HOVER - Линия вырастает в статус-бар === */}
+        {deckState === 'hover' && (
+          <motion.div
+            key="hover-bar"
+            initial={{ height: 2, opacity: 0.5 }}
+            animate={{ height: 44, opacity: 1 }}
+            exit={{ height: 2, opacity: 0.5 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="ghost-status-bar"
+            onClick={handleClick}
           >
-            {/* The Strip Container - Ethereal Artifact */}
-            <div className={`agar-acrylic breathing-border ${aiStatus === 'analyzing' ? 'analyzing' : ''} h-12 w-[420px] rounded-[2rem] flex items-center justify-between px-6 transition-all duration-500 group-hover:w-[440px] group-hover:scale-[1.02]`}>
-              
-              {/* Left: Status Indicator - Amber when thinking */}
-              <div className="flex items-center gap-3">
+            <div className="status-bar-content">
+              <div className="status-left">
                 <div 
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${aiStatus === 'analyzing' ? 'animate-pulse' : ''}`}
-                  style={{ 
-                    backgroundColor: aiStatus === 'analyzing' ? '#FF9F43' : '#22c55e',
-                    boxShadow: aiStatus === 'analyzing' 
-                      ? '0 0 12px #FF9F43, 0 0 24px rgba(255, 159, 67, 0.4)' 
-                      : '0 0 8px #22c55e' 
-                  }} 
+                  className={`status-dot ${aiStatus === 'analyzing' ? 'analyzing' : ''}`}
                 />
-                <span className="text-[11px] font-mono text-white/50 tracking-[0.15em] uppercase">
-                  {aiStatus === 'analyzing' ? 'AI PROCESSING...' : 'ONLINE'}
+                <span className="status-text">
+                  {aiStatus === 'analyzing' ? 'AI PROCESSING' : 'SYSTEM ONLINE'}
                 </span>
               </div>
-
-              {/* Center: Subtle Activity Graph - Amber tint when active */}
-              <div className="flex gap-[3px] h-3 items-end opacity-40">
-                {activityBars.map((bar, i) => (
-                  <div 
-                    key={i} 
-                    className="w-[3px] rounded-t-sm animate-pulse" 
-                    style={{ 
-                      height: `${bar.height}%`, 
-                      animationDelay: `${bar.delay}s`,
-                      backgroundColor: aiStatus === 'analyzing' ? '#FF9F43' : 'rgba(255,255,255,0.6)'
-                    }} 
-                  />
-                ))}
-              </div>
-
-              {/* Right: Context Icon */}
-              <div className="text-white/30">
-                <Cpu size={14} />
+              <div className="status-hint">
+                <span>Click to open</span>
+                <ChevronDown size={14} className="animate-bounce" />
               </div>
             </div>
-            
-            {/* Hover Glow Effect */}
-            <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
           </motion.div>
         )}
 
-        {/* === STATE 2: EXPANDED HUD (OPEN) === */}
-        {isOpen && (
-          <div className="pointer-events-auto relative">
-             {/* Main Window */}
-            <motion.div
-              layoutId="glassy-chat"
-              className="agar-acrylic w-[500px] h-[600px] rounded-[2rem] overflow-hidden flex flex-col relative mb-4"
-            >
-              {/* Header / Tabs - Ethereal style */}
-              <div className="h-16 border-b border-white/[0.06] flex items-center justify-between px-5 bg-white/[0.02]">
-                <div className="flex gap-2">
-                  {TABS.filter(t => !t.hidden).map((tab) => {
+        {/* === STATE 3: ACTIVE - Панель выезжает снизу === */}
+        {deckState === 'active' && (
+          <motion.div
+            key="active-deck"
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 300, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="ghost-deck-panel"
+          >
+            {/* Верхняя грань панели */}
+            <div className="deck-top-edge" />
+            
+            {/* Основной контент */}
+            <div className="deck-content">
+              
+              {/* Левая колонка: Tabs + Navigation */}
+              <div className="deck-sidebar">
+                {/* Close button */}
+                <button 
+                  className="deck-close-btn"
+                  onClick={handleClose}
+                >
+                  <X size={18} />
+                </button>
+
+                {/* Tabs */}
+                <div className="deck-tabs">
+                  {TABS.map((tab) => {
                     const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                    const isActive = activeTab === tab.id;
                     return (
                       <button
                         key={tab.id}
                         onClick={() => !isLocked && setActiveTab(tab.id)}
                         disabled={isLocked}
-                        className={`p-2 rounded-xl transition-all relative ${
-                          activeTab === tab.id 
-                            ? 'bg-white/10 text-white' 
-                            : isLocked 
-                              ? 'text-white/20 cursor-not-allowed' 
-                              : 'text-white/40 hover:text-white/70'
-                        }`}
+                        className={`deck-tab ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                        style={{ '--tab-color': tab.color }}
                       >
-                        <tab.icon size={20} className={activeTab === tab.id ? tab.color : ''} />
-                        {activeTab === tab.id && (
-                          <motion.div 
-                            layoutId="tab-glow" 
-                            className="absolute inset-0 rounded-xl bg-white/5 shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
-                          />
-                        )}
-                        {isLocked && <span className="absolute -top-1 -right-1 text-[8px]">🔒</span>}
+                        <tab.icon size={18} />
+                        <span className="tab-label">
+                          {language === 'ru' ? tab.labelRu : tab.label}
+                        </span>
+                        {isLocked && <span className="lock-icon">🔒</span>}
                       </button>
                     );
                   })}
                 </div>
-                <button 
-                  onClick={() => setIsOpen(false)} 
-                  className="text-white/30 hover:text-white transition-colors p-2 rounded-xl hover:bg-white/5"
-                >
-                  <X size={20} />
-                </button>
+
+                {/* Channel Switcher for Guilds/Trade */}
+                {(activeTab === 'guilds' || activeTab === 'trade') && (
+                  <div className="deck-channels">
+                    <SmartChannelSwitcher
+                      mode={activeTab}
+                      activeChannel={null}
+                      onChannelChange={() => {}}
+                      userLevel={userLevel}
+                    />
+                  </div>
+                )}
               </div>
 
-              {/* Smart Channel Switcher for Guilds/Trade */}
-              {(activeTab === 'guilds' || activeTab === 'trade') && (
-                <SmartChannelSwitcher
-                  mode={activeTab}
-                  activeChannel={null}
-                  onChannelChange={() => {}}
-                  userLevel={userLevel}
-                />
-              )}
-
-              {/* Content Area */}
-              <div className="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
-                {currentMessages.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
-                    <div className="w-16 h-16 rounded-[1.25rem] bg-amber-500/10 border border-amber-500/15 flex items-center justify-center">
-                      <Sparkles size={28} className="text-amber-400/80" />
+              {/* Правая колонка: Chat */}
+              <div className="deck-chat">
+                {/* Messages */}
+                <div className="deck-messages">
+                  {currentMessages.length === 0 ? (
+                    <div className="deck-empty">
+                      <Sparkles size={24} className="text-amber-400/60" />
+                      <p>
+                        {activeTab === 'ai' 
+                          ? (language === 'ru' ? 'Спросите о совместимости ПК' : 'Ask about PC compatibility')
+                          : (language === 'ru' ? 'Нет сообщений' : 'No messages yet')
+                        }
+                      </p>
                     </div>
-                    <p className="text-white/50 text-sm max-w-[250px]">
-                      {activeTab === 'ai' 
-                        ? (language === 'ru' ? 'Спросите меня о совместимости ПК' : 'Ask me about PC compatibility')
-                        : (language === 'ru' ? 'Нет сообщений' : 'No messages yet')
-                      }
-                    </p>
-                  </div>
-                ) : (
-                  currentMessages.map((msg) => (
-                    <div key={msg.id} className={`flex gap-4 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
-                      {msg.type === 'bot' && (
-                        <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20 flex-shrink-0">
-                          <Bot size={16} className="text-amber-400" />
-                        </div>
-                      )}
-                      <div className="flex-1 max-w-[80%]">
+                  ) : (
+                    currentMessages.map((msg) => (
+                      <div key={msg.id} className={`deck-message ${msg.type}`}>
                         {msg.type === 'bot' && (
-                          <div className="text-[10px] text-amber-400/60 mb-1 font-mono tracking-wider">GLASSY MIND</div>
+                          <div className="message-avatar">
+                            <Bot size={14} />
+                          </div>
                         )}
-                        <div className={`p-4 rounded-[1.25rem] text-sm leading-relaxed ${
-                          msg.type === 'user' 
-                            ? 'bg-white/[0.08] border border-white/[0.1] text-white ml-auto' 
-                            : 'bg-white/[0.03] border border-white/[0.06] text-gray-200'
-                        }`}>
-                          {msg.text}
+                        <div className="message-bubble">
+                          <p>{msg.text}</p>
                         </div>
-                        <span className="text-[10px] text-white/30 mt-1 block">
-                          {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
+                      </div>
+                    ))
+                  )}
+                  
+                  {isTyping && (
+                    <div className="deck-message bot">
+                      <div className="message-avatar">
+                        <Bot size={14} />
+                      </div>
+                      <div className="typing-dots">
+                        <span /><span /><span />
                       </div>
                     </div>
-                  ))
-                )}
-                
-                {isTyping && (
-                  <div className="flex gap-4">
-                    <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20">
-                      <Bot size={16} className="text-amber-400" />
-                    </div>
-                    <div className="p-4 rounded-[1.25rem] bg-white/[0.03] border border-white/[0.06] flex gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0s' }} />
-                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
-                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0.4s' }} />
-                    </div>
-                  </div>
-                )}
-                
-                <div ref={messagesEndRef} />
-              </div>
-
-              {/* Support Mode Warning */}
-              {activeTab === 'support' && (
-                <div className="flex items-center justify-center gap-2 py-2 bg-red-500/10 border-t border-red-500/20 text-red-400 text-xs font-semibold">
-                  <AlertTriangle size={14} />
-                  <span>{language === 'ru' ? 'Экстренная линия поддержки' : 'Emergency Support Line'}</span>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
                 </div>
-              )}
 
-              {/* Decorative Bottom Gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
-            </motion.div>
-
-            {/* Input Island (Detached) - Like a Keyboard Spacebar */}
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1, transition: { delay: 0.1 } }}
-              className="agar-acrylic h-14 w-[480px] mx-auto rounded-[2rem] flex items-center px-3 gap-2"
-            >
-               <button className="p-3 rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all">
-                 <Mic size={20} />
-               </button>
-               <input 
-                 type="text" 
-                 value={inputValue}
-                 onChange={(e) => setInputValue(e.target.value)}
-                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                 placeholder={language === 'ru' ? 'Спросить Glassy AI или написать в чат...' : 'Ask Glassy AI or chat with guild...'} 
-                 className="flex-1 bg-transparent border-none outline-none text-white placeholder-white/30 text-sm"
-               />
-               <button 
-                 onClick={sendMessage}
-                 disabled={!inputValue.trim()}
-                 className="p-3 rounded-full bg-white/[0.08] text-white/80 hover:bg-amber-500/80 hover:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,159,67,0.4)] disabled:opacity-30 disabled:cursor-not-allowed"
-               >
-                 <Send size={18} />
-               </button>
-            </motion.div>
-          </div>
+                {/* Input - встроен в панель */}
+                <div className="deck-input">
+                  <button className="input-action">
+                    <Mic size={18} />
+                  </button>
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                    placeholder={language === 'ru' ? 'Введите сообщение...' : 'Type a message...'}
+                  />
+                  <button 
+                    className="input-send"
+                    onClick={sendMessage}
+                    disabled={!inputValue.trim()}
+                  >
+                    <Send size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         )}
 
       </AnimatePresence>

@@ -1,853 +1,516 @@
 /**
- * GlassyOmniChat - Ethereal Acrylic Design System
+ * GlassyOmniChat - Ghost Deck Design System
  * 
- * Inspired by: Toriki's works, Cyber-artifacts
- * Philosophy: "Milky Frost" - glass that glows from within
- * 
- * Features:
- * - Ethereal semi-transparent material
- * - Amber accent for AI status (like cyber-skull eye)
- * - Ultra-soft blur (30px) like fog
- * - Floating artifact aesthetic
+ * Концепция: "Призрачная Дека" (Ghost Deck)
+ * - Тончайшая линия в idle
+ * - Статус-бар при hover  
+ * - Выезжающая панель снизу при active
  */
 
 /* ==================== CSS VARIABLES ==================== */
 :root {
   --amber-accent: #FF9F43;
-  --amber-glow: rgba(255, 159, 67, 0.4);
-  --amber-soft: rgba(255, 159, 67, 0.15);
-  --milky-bg: rgba(20, 20, 25, 0.5);
-  --milky-border: rgba(255, 255, 255, 0.1);
-  --inner-light: rgba(255, 255, 255, 0.03);
-  --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  --amber-glow: rgba(255, 159, 67, 0.5);
+  --ghost-bg: rgba(20, 20, 25, 0.4);
+  --ghost-border: rgba(255, 255, 255, 0.08);
 }
 
-/* ==================== ETHEREAL ACRYLIC MATERIAL ==================== */
-.agar-acrylic {
-  /* Milky Frost - менее плотный, как туман */
-  background: 
-    var(--noise-texture),
-    var(--milky-bg);
-  
-  /* Очень сильное размытие - как туман */
-  backdrop-filter: blur(30px) saturate(120%);
-  -webkit-backdrop-filter: blur(30px) saturate(120%);
-  
-  /* Белая нить - тонкая грань */
-  border: 1px solid var(--milky-border);
-  
-  /* Inner Light - стекло светится изнутри */
-  box-shadow: 
-    0 25px 70px -15px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px var(--inner-light),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-}
-
-/* ==================== BREATHING ANIMATIONS ==================== */
-
-/* Idle state - мягкое белое дыхание */
-@keyframes ethereal-breathe {
-  0%, 100% { 
-    border-color: var(--milky-border);
-    box-shadow: 
-      0 25px 70px -15px rgba(0, 0, 0, 0.5),
-      inset 0 0 20px var(--inner-light),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-      0 0 0 transparent;
-  }
-  50% { 
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 
-      0 25px 70px -15px rgba(0, 0, 0, 0.5),
-      inset 0 0 30px rgba(255, 255, 255, 0.05),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-      0 0 20px rgba(255, 255, 255, 0.05);
-  }
-}
-
-/* AI Thinking state - янтарная пульсация (как глаз кибер-черепа) */
-@keyframes amber-pulse {
-  0%, 100% { 
-    border-color: var(--milky-border);
-    box-shadow: 
-      0 25px 70px -15px rgba(0, 0, 0, 0.5),
-      inset 0 0 20px var(--inner-light),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-      0 0 0 transparent;
-  }
-  50% { 
-    border-color: var(--amber-glow);
-    box-shadow: 
-      0 25px 70px -15px rgba(0, 0, 0, 0.5),
-      inset 0 0 25px var(--amber-soft),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-      0 0 35px var(--amber-glow);
-  }
-}
-
-.breathing-border {
-  animation: ethereal-breathe 4s infinite ease-in-out;
-}
-
-.breathing-border.analyzing {
-  animation: amber-pulse 2.5s infinite ease-in-out;
-}
-
-/* ==================== GLASS AGAR PREMIUM - The Core Material ==================== */
-.glass-agar-premium {
-  /* Deep dark base - not black, but DEEP */
-  background: 
-    var(--noise-texture),
-    linear-gradient(
-      135deg,
-      rgba(15, 15, 22, 0.75) 0%,
-      rgba(10, 10, 18, 0.85) 50%,
-      rgba(8, 8, 15, 0.9) 100%
-    );
-  
-  /* Heavy blur + saturation boost for color play */
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  
-  /* Thin edge highlight - the acrylic edge */
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  
-  /* Complex shadow system */
-  box-shadow: 
-    /* Deep ambient shadow */
-    0 25px 60px -15px rgba(0, 0, 0, 0.6),
-    /* Subtle outer glow */
-    0 0 40px -10px rgba(139, 92, 246, 0.1),
-    /* Inner top highlight - THE THICKNESS */
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-    /* Inner edge glow */
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
-}
-
-/* ==================== GLASS CHIP - For tabs and buttons ==================== */
-.glass-chip {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-chip:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.glass-chip.active {
-  background: rgba(139, 92, 246, 0.12);
-  border-color: rgba(139, 92, 246, 0.25);
-  box-shadow: 
-    0 0 25px rgba(139, 92, 246, 0.2),
-    0 0 50px rgba(139, 92, 246, 0.1),
-    inset 0 0 15px rgba(139, 92, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* ==================== GLOW EFFECTS ==================== */
-.inner-glow-purple {
-  box-shadow: 
-    inset 0 0 20px rgba(139, 92, 246, 0.15),
-    0 0 30px rgba(139, 92, 246, 0.2);
-}
-
-.inner-glow-cyan {
-  box-shadow: 
-    inset 0 0 20px rgba(34, 211, 238, 0.15),
-    0 0 30px rgba(34, 211, 238, 0.2);
-}
-
-.inner-glow-amber {
-  box-shadow: 
-    inset 0 0 20px rgba(251, 191, 36, 0.15),
-    0 0 30px rgba(251, 191, 36, 0.2);
-}
-
-.inner-glow-green {
-  box-shadow: 
-    inset 0 0 20px rgba(34, 197, 94, 0.15),
-    0 0 30px rgba(34, 197, 94, 0.2);
-}
-
-.inner-glow-red {
-  box-shadow: 
-    inset 0 0 20px rgba(239, 68, 68, 0.15),
-    0 0 30px rgba(239, 68, 68, 0.2);
-}
-
-/* ==================== BASE CONTAINER ==================== */
-.glassy-omni-chat {
+/* ==================== CONTAINER ==================== */
+.ghost-deck-container {
   position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring physics */
+  pointer-events: none;
 }
 
-/* ==================== COLLAPSED STATE - The Acrylic Edge Bar ==================== */
-.glassy-omni-chat.collapsed {
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(320px, 45vw, 480px);
+.ghost-deck-container > * {
+  pointer-events: auto;
 }
 
-.omni-status-bar {
+/* ==================== STATE 1: IDLE - Тончайшая линия ==================== */
+.ghost-line {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  cursor: pointer;
+  
+  /* Градиентная линия с янтарным акцентом */
+  background: linear-gradient(
+    90deg, 
+    transparent 0%,
+    rgba(255, 159, 67, 0.3) 20%,
+    rgba(255, 159, 67, 0.6) 50%,
+    rgba(255, 159, 67, 0.3) 80%,
+    transparent 100%
+  );
+  
+  /* Свечение */
+  box-shadow: 
+    0 0 10px var(--amber-glow),
+    0 0 20px rgba(255, 159, 67, 0.2);
+  
+  /* Пульсация */
+  animation: line-breathe 3s ease-in-out infinite;
+}
+
+@keyframes line-breathe {
+  0%, 100% { 
+    opacity: 0.4;
+    box-shadow: 
+      0 0 8px rgba(255, 159, 67, 0.3),
+      0 0 16px rgba(255, 159, 67, 0.15);
+  }
+  50% { 
+    opacity: 0.9;
+    box-shadow: 
+      0 0 15px var(--amber-glow),
+      0 0 30px rgba(255, 159, 67, 0.3);
+  }
+}
+
+/* ==================== STATE 2: HOVER - Статус-бар ==================== */
+.ghost-status-bar {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  cursor: pointer;
+  
+  /* Ethereal glass */
+  background: var(--ghost-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Только верхние скругления */
+  border-radius: 1rem 1rem 0 0;
+  border: 1px solid var(--ghost-border);
+  border-bottom: none;
+  
+  /* Верхнее свечение */
+  box-shadow: 
+    0 -5px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.status-bar-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 44px;
-  padding: 0 1.25rem;
-  
-  /* Premium Acrylic Material */
-  background: 
-    var(--noise-texture),
-    linear-gradient(
-      90deg,
-      rgba(15, 15, 22, 0.7) 0%,
-      rgba(20, 20, 30, 0.75) 50%,
-      rgba(15, 15, 22, 0.7) 100%
-    );
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  
-  /* Pill shape - like acrylic slab edge */
-  border-radius: 100px;
-  
-  /* Multi-layer glow */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 15px 40px -10px rgba(0, 0, 0, 0.5),
-    0 0 60px -20px rgba(139, 92, 246, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  padding: 0 1.5rem;
 }
 
-.omni-status-bar:hover {
-  transform: scale(1.02);
-  box-shadow: 
-    0 20px 50px -10px rgba(0, 0, 0, 0.6),
-    0 0 80px -20px rgba(139, 92, 246, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-/* Status Bar Content */
 .status-left {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.status-indicator {
+.status-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 
-    0 0 8px #22c55e,
-    0 0 16px rgba(34, 197, 94, 0.5);
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.status-indicator.thinking {
-  background: #8b5cf6;
-  box-shadow: 
-    0 0 8px #8b5cf6,
-    0 0 16px rgba(139, 92, 246, 0.5);
-  animation: pulse-glow-purple 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px #22c55e, 0 0 16px rgba(34, 197, 94, 0.5); }
-  50% { box-shadow: 0 0 12px #22c55e, 0 0 24px rgba(34, 197, 94, 0.7); }
-}
-
-@keyframes pulse-glow-purple {
-  0%, 100% { box-shadow: 0 0 8px #8b5cf6, 0 0 16px rgba(139, 92, 246, 0.5); }
-  50% { box-shadow: 0 0 14px #8b5cf6, 0 0 28px rgba(139, 92, 246, 0.7); }
-}
-
-.status-text {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.02em;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.status-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.status-dots .dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  transition: all 0.4s ease;
-}
-
-.status-dots .dot.active {
-  background: rgba(139, 92, 246, 0.8);
-  box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
-  transform: scale(1.3);
-}
-
-.status-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.context-icons {
-  display: flex;
-  gap: 0.375rem;
-}
-
-.context-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.65rem;
-}
-
-.expand-icon {
-  color: rgba(255, 255, 255, 0.5);
-  transition: transform 0.3s ease;
-}
-
-.omni-status-bar:hover .expand-icon {
-  transform: translateY(-2px);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* ==================== EXPANDED STATE - The Floating Crystal ==================== */
-.glassy-omni-chat.expanded {
-  bottom: 24px;
-  right: 24px;
-  width: 400px;
-  height: 580px;
-}
-
-.omni-window {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  
-  /* Premium Acrylic Material */
-  background: 
-    var(--noise-texture),
-    linear-gradient(
-      180deg,
-      rgba(18, 18, 28, 0.85) 0%,
-      rgba(12, 12, 20, 0.92) 50%,
-      rgba(8, 8, 15, 0.95) 100%
-    );
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  
-  /* Soft corners - floating crystal */
-  border-radius: 24px;
-  
-  /* Complex shadow + glow */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 30px 70px -20px rgba(0, 0, 0, 0.6),
-    0 0 80px -30px rgba(139, 92, 246, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
-  
-  overflow: hidden;
-  
-  /* Entry animation */
-  animation: window-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes window-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* ==================== HEADER - Transparent Glass Zone ==================== */
-.omni-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  
-  /* Transparent - just a hint */
-  background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-.header-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  /* Glass chip with inner glow */
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  box-shadow: 
-    inset 0 0 12px rgba(139, 92, 246, 0.15),
-    0 0 20px rgba(139, 92, 246, 0.15);
-  color: #a78bfa;
-}
-
-.header-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-
-.header-sublabel {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 0 8px #22c55e;
   transition: all 0.3s ease;
 }
 
-.close-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.1);
+.status-dot.analyzing {
+  background: var(--amber-accent);
+  box-shadow: 0 0 12px var(--amber-accent);
+  animation: dot-pulse 1.5s ease-in-out infinite;
 }
 
-/* ==================== TABS - Glowing Glyphs ==================== */
-.omni-tabs {
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.status-text {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+.status-hint {
   display: flex;
-  justify-content: center;
-  gap: 0.625rem;
-  padding: 0.875rem 1rem;
-  background: rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
 }
 
-.tab-btn {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.35);
+/* ==================== STATE 3: ACTIVE - Выезжающая панель ==================== */
+.ghost-deck-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  
+  /* Ethereal glass - более плотный для панели */
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(30px) saturate(120%);
+  -webkit-backdrop-filter: blur(30px) saturate(120%);
+  
+  /* Только верхние скругления */
+  border-radius: 1.5rem 1.5rem 0 0;
+  border: 1px solid var(--ghost-border);
+  border-bottom: none;
+  
+  /* Глубокая тень вверх */
+  box-shadow: 
+    0 -10px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  
+  overflow: hidden;
+}
+
+/* Верхняя светящаяся грань */
+.deck-top-edge {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 159, 67, 0.4),
+    transparent
+  );
+}
+
+/* Основной layout */
+.deck-content {
+  display: flex;
+  height: 100%;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+/* ==================== SIDEBAR (Tabs) ==================== */
+.deck-sidebar {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.deck-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
 }
 
-.tab-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.7);
-  transform: translateY(-2px);
+.deck-close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
 }
 
-.tab-btn.active {
-  color: var(--tab-color, #8b5cf6);
-  background: color-mix(in srgb, var(--tab-color, #8b5cf6) 10%, transparent);
-  border-color: color-mix(in srgb, var(--tab-color, #8b5cf6) 30%, transparent);
-  
-  /* Inner glow - THE KEY */
+.deck-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.deck-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.deck-tab:hover:not(.locked) {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.deck-tab.active {
+  background: rgba(255, 159, 67, 0.1);
+  border-color: rgba(255, 159, 67, 0.2);
+  color: var(--amber-accent);
   box-shadow: 
-    inset 0 0 20px color-mix(in srgb, var(--tab-color, #8b5cf6) 20%, transparent),
-    0 0 30px color-mix(in srgb, var(--tab-color, #8b5cf6) 25%, transparent),
-    0 8px 25px -10px color-mix(in srgb, var(--tab-color, #8b5cf6) 40%, transparent);
+    inset 0 0 15px rgba(255, 159, 67, 0.08),
+    0 0 20px rgba(255, 159, 67, 0.1);
 }
 
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -9px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 3px;
-  background: var(--tab-color, #8b5cf6);
-  border-radius: 100px;
-  box-shadow: 0 0 10px var(--tab-color, #8b5cf6);
-}
-
-.tab-btn.locked {
-  opacity: 0.3;
+.deck-tab.locked {
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
-.lock-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  font-size: 0.6rem;
-  filter: grayscale(1);
+.tab-label {
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
-/* ==================== MESSAGES AREA ==================== */
-.omni-messages {
+.lock-icon {
+  font-size: 0.6rem;
+  margin-left: auto;
+}
+
+.deck-channels {
   flex: 1;
   overflow-y: auto;
-  padding: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* ==================== CHAT AREA ==================== */
+.deck-chat {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  min-width: 0;
+}
+
+.deck-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
   
-  /* Subtle inner shadow */
-  background: rgba(0, 0, 0, 0.1);
-  
+  /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-.omni-messages::-webkit-scrollbar {
-  width: 5px;
+.deck-messages::-webkit-scrollbar {
+  width: 4px;
 }
 
-.omni-messages::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.omni-messages::-webkit-scrollbar-thumb {
+.deck-messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
-.empty-state {
-  flex: 1;
+.deck-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
+  height: 100%;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
 }
 
-.empty-state-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.15);
+/* Messages */
+.deck-message {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #8b5cf6;
-  box-shadow: 
-    inset 0 0 20px rgba(139, 92, 246, 0.1),
-    0 0 40px rgba(139, 92, 246, 0.1);
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 80%;
 }
 
-.empty-state p {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  max-width: 250px;
-  line-height: 1.5;
-}
-
-/* Message Bubbles - Glass */
-.message {
-  display: flex;
-  gap: 0.625rem;
-  max-width: 85%;
-  animation: message-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes message-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(15px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.message.user {
+.deck-message.user {
   margin-left: auto;
   flex-direction: row-reverse;
 }
 
 .message-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 159, 67, 0.15);
+  border: 1px solid rgba(255, 159, 67, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a78bfa;
+  color: var(--amber-accent);
   flex-shrink: 0;
-  box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.1);
 }
 
-.message-content {
-  /* Glass bubble */
+.message-bubble {
+  padding: 0.625rem 0.875rem;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  border-top-left-radius: 4px;
-  padding: 0.75rem 1rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.message.user .message-content {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.2);
-  border-top-left-radius: 16px;
-  border-top-right-radius: 4px;
-  box-shadow: 
-    inset 0 0 15px rgba(139, 92, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.message-content p {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.55;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
 }
 
-.message-time {
-  display: block;
-  margin-top: 0.375rem;
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.35);
+.deck-message.user .message-bubble {
+  background: rgba(255, 159, 67, 0.12);
+  border-color: rgba(255, 159, 67, 0.2);
 }
 
-/* Typing Indicator */
-.typing-indicator {
+.message-bubble p {
+  margin: 0;
+}
+
+/* Typing indicator */
+.typing-dots {
   display: flex;
-  gap: 5px;
-  padding: 0.75rem 1rem;
+  gap: 4px;
+  padding: 0.75rem;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  border-top-left-radius: 4px;
+  border-radius: 12px;
 }
 
-.typing-indicator span {
-  width: 7px;
-  height: 7px;
-  background: rgba(139, 92, 246, 0.6);
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  background: var(--amber-accent);
   border-radius: 50%;
-  animation: typing-bounce 1.4s ease-in-out infinite;
-  box-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
+  animation: typing-bounce 1.2s ease-in-out infinite;
 }
 
-.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
 
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-8px); }
+  30% { transform: translateY(-6px); }
 }
 
-/* ==================== INPUT ISLAND - Floating Element ==================== */
-.omni-input-wrapper {
-  padding: 1rem;
-  background: transparent;
-}
-
-.omni-input {
+/* ==================== INPUT ==================== */
+.deck-input {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.625rem 0.875rem;
-  
-  /* Separate floating island */
-  background: 
-    var(--noise-texture),
-    rgba(20, 20, 30, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 100px;
-  box-shadow: 
-    0 10px 30px -10px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  gap: 0.5rem;
+  padding: 0.625rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  margin-top: 0.75rem;
 }
 
-.omni-input input {
+.deck-input input {
   flex: 1;
   background: transparent;
   border: none;
-  color: #fff;
+  color: white;
   font-size: 0.875rem;
   outline: none;
   padding: 0.375rem 0.5rem;
 }
 
-.omni-input input::placeholder {
+.deck-input input::placeholder {
   color: rgba(255, 255, 255, 0.35);
 }
 
-.input-actions {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.action-btn {
+.input-action,
+.input-send {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.input-action {
   background: transparent;
-  border: none;
   color: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
 }
 
-.action-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.8);
+.input-action:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
 }
 
-.send-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  
-  /* Glowing send button */
-  box-shadow: 
-    0 0 20px currentColor,
-    inset 0 0 10px rgba(255, 255, 255, 0.2);
+.input-send {
+  background: rgba(255, 159, 67, 0.15);
+  color: var(--amber-accent);
 }
 
-.send-btn:disabled {
+.input-send:hover:not(:disabled) {
+  background: var(--amber-accent);
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 159, 67, 0.4);
+}
+
+.input-send:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  box-shadow: none;
 }
-
-.send-btn:not(:disabled):hover {
-  transform: scale(1.1);
-  box-shadow: 
-    0 0 30px currentColor,
-    inset 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-/* ==================== SUPPORT MODE - Red Alert Theme ==================== */
-.glassy-omni-chat.mode-support .omni-window {
-  border-color: rgba(239, 68, 68, 0.3);
-  box-shadow: 
-    0 30px 70px -20px rgba(0, 0, 0, 0.6),
-    0 0 100px -30px rgba(239, 68, 68, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.support-banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem;
-  background: rgba(239, 68, 68, 0.1);
-  border-top: 1px solid rgba(239, 68, 68, 0.2);
-  color: #f87171;
-  font-size: 0.75rem;
-  font-weight: 600;
-  animation: support-pulse 2s ease-in-out infinite;
-}
-
-@keyframes support-pulse {
-  0%, 100% { background: rgba(239, 68, 68, 0.1); }
-  50% { background: rgba(239, 68, 68, 0.18); }
-}
-
-/* ==================== MODE THEMES ==================== */
-.mode-ai { --mode-color: #8b5cf6; }
-.mode-global { --mode-color: #22c55e; }
-.mode-guilds { --mode-color: #3b82f6; }
-.mode-trade { --mode-color: #f59e0b; }
-.mode-support { --mode-color: #ef4444; }
 
 /* ==================== MOBILE ==================== */
-@media (max-width: 480px) {
-  .glassy-omni-chat.collapsed {
-    width: calc(100% - 48px);
+@media (max-width: 768px) {
+  .ghost-line {
+    left: 5%;
+    right: 5%;
   }
   
-  .glassy-omni-chat.expanded {
-    bottom: 0;
+  .ghost-status-bar {
+    left: 0;
     right: 0;
+    border-radius: 1rem 1rem 0 0;
+  }
+  
+  .ghost-deck-panel {
+    height: 50vh;
+    border-radius: 1.25rem 1.25rem 0 0;
+  }
+  
+  .deck-content {
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+  
+  .deck-sidebar {
     width: 100%;
-    height: 75vh;
-  }
-  
-  .omni-window {
-    border-radius: 24px 24px 0 0;
-  }
-  
-  .omni-tabs {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-right: 0;
+    padding-bottom: 0.75rem;
+    overflow-x: auto;
     gap: 0.5rem;
   }
   
-  .tab-btn {
-    width: 44px;
-    height: 44px;
+  .deck-close-btn {
+    flex-shrink: 0;
+  }
+  
+  .deck-tabs {
+    flex-direction: row;
+    flex: 1;
+  }
+  
+  .deck-tab {
+    flex-direction: column;
+    padding: 0.5rem 0.75rem;
+    gap: 0.25rem;
+  }
+  
+  .tab-label {
+    font-size: 0.65rem;
+  }
+  
+  .deck-channels {
+    display: none;
   }
 }
