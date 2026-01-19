@@ -132,6 +132,86 @@ const GlassyChatBar = () => {
   }, [panelMode]);
 
   // ========================================
+  // AGENT STATUS POLLING (Living Bar)
+  // ========================================
+  
+  const fetchAgentStatus = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/mind/agent-status`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setAgentStatus(data.status);
+          
+          // If agent has a suggestion, show popup
+          if (data.status === AGENT_STATUS.READY_TO_SUGGEST && data.suggestion) {
+            setAgentSuggestion(data.suggestion);
+            setShowSuggestionPopup(true);
+          }
+        }
+      }
+    } catch (error) {
+      // Silent fail - polling shouldn't break the UI
+      console.debug('Agent status fetch failed:', error);
+    }
+  }, []);
+
+  // Poll every 10 seconds
+  useEffect(() => {
+    // Initial fetch
+    fetchAgentStatus();
+    
+    // Set up interval
+    const intervalId = setInterval(fetchAgentStatus, 10000);
+    
+    return () => clearInterval(intervalId);
+  }, [fetchAgentStatus]);
+
+  // Dismiss suggestion handler
+  const dismissSuggestion = useCallback(async () => {
+    setShowSuggestionPopup(false);
+    setAgentSuggestion(null);
+    setAgentStatus(AGENT_STATUS.IDLE);
+    
+    // Notify backend
+    try {
+      await fetch(`${API_URL}/api/mind/agent-status/dismiss`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
+        }
+      });
+    } catch (e) {
+      // Silent fail
+    }
+  }, []);
+
+  // Open chat with suggestion
+  const openChatWithSuggestion = useCallback(() => {
+    setPanelMode(PANEL_MODES.MINI);
+    setActiveTab('ai');
+    setShowSuggestionPopup(false);
+    handleInteraction();
+    
+    // Add suggestion as bot message
+    if (agentSuggestion) {
+      addMessage('ai', {
+        id: Date.now(),
+        sender: 'bot',
+        text: `💡 ${agentSuggestion}`,
+        timestamp: new Date(),
+      });
+    }
+    
+    dismissSuggestion();
+  }, [agentSuggestion, handleInteraction, dismissSuggestion]);
+
+  // ========================================
   // GESTURE HANDLERS
   // ========================================
 
