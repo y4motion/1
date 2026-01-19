@@ -16,6 +16,7 @@ from .expert_brain import tech_expert
 from .chat_agent import mind_chat_agent
 from .abandoned_cart import abandoned_cart_webhook
 from .rules_engine import rules_engine
+from .notification_service import notification_manager, NotificationTemplate
 
 logger = logging.getLogger(__name__)
 
