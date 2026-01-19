@@ -144,12 +144,14 @@
   -webkit-backdrop-filter: blur(30px) saturate(180%);
 }
 
-/* Чёрная центральная зона */
+/* Чёрная центральная зона - расширена вниз, перекрывает кнопки */
 .chat-content-center {
   flex: 1;
   background: #0a0a0c;
   display: flex;
   flex-direction: column;
+  padding-bottom: 56px; /* Место для кнопок внутри чёрной зоны */
+  position: relative;
 }
 
 /* ==================== INPUT AREA ==================== */
@@ -265,18 +267,20 @@
 
 /* ==================== НИЖНЯЯ АКРИЛОВАЯ ПОЛОСА + TOOLBAR ==================== */
 .acrylic-footer {
+  position: absolute;
+  bottom: 0;
+  left: 4px; /* После левой акриловой полосы */
+  right: 4px; /* До правой акриловой полосы */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
   
-  /* Акрил - более прозрачный */
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  /* Внутри чёрной зоны - без акрила */
+  background: transparent;
   
   /* Граница сверху */
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .toolbar-left,
@@ -371,24 +375,38 @@
   font-weight: 500;
 }
 
-/* ==================== CLOSE BUTTON ==================== */
+/* ==================== CLOSE BUTTON - точка -> X ==================== */
 .emergent-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
+  color: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
+  padding: 0;
+  overflow: hidden;
 }
 
 .emergent-close:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emergent-close svg {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.emergent-close:hover svg {
+  opacity: 1;
 }
 
 /* ==================== MOBILE ==================== */
