@@ -86,23 +86,18 @@ export default function GlassyOmniChat() {
   // Handle hover zone
   const handleMouseEnter = () => {
     if (deckState === 'idle') {
-      hoverTimeoutRef.current = setTimeout(() => {
-        setDeckState('hover');
-      }, 100);
+      setDeckState('hover');
     }
   };
 
   const handleMouseLeave = () => {
-    clearTimeout(hoverTimeoutRef.current);
     if (deckState === 'hover') {
       setDeckState('idle');
     }
   };
 
   const handleClick = () => {
-    if (deckState !== 'active') {
-      setDeckState('active');
-    }
+    setDeckState('active');
   };
 
   const handleClose = () => {
