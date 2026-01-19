@@ -1,14 +1,14 @@
 /**
- * GlassyOmniChat - Ghost Dock (Open U-Console)
+ * GlassyOmniChat - Ghost Dock (Emergent Style)
  * 
- * Вдохновение: Emergent input bar + Deep Acrylic
- * Концепция: U-образная чаша без верхней границы
- * Свет разъезжается из центра по бокам и fade out вверх
+ * - Чат "растворяется" вверх (mask-image)
+ * - Иконки слева, крупные, монохромные
+ * - Автоматическая высота
+ * - Пульсация border-top
  */
 
 /* ==================== VARIABLES ==================== */
 :root {
-  --dock-bg: rgba(10, 10, 12, 0.85);
   --dock-glow: #FF9F43;
   --dock-glow-rgb: 255, 159, 67;
 }
@@ -20,6 +20,8 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
   pointer-events: none;
 }
 
@@ -27,20 +29,20 @@
   pointer-events: auto;
 }
 
-/* ==================== IDLE: ТОНЧАЙШАЯ НИТЬ ==================== */
+/* ==================== IDLE: ТОНКАЯ ЛИНИЯ ==================== */
 .ghost-line {
-  position: absolute;
-  bottom: 16px;
-  left: 20%;
-  right: 20%;
+  position: relative;
+  width: 50%;
+  max-width: 600px;
   height: 36px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 
-/* Базовая линия - 60% ширины (20% отступы), мягкий белый */
+/* Базовая линия */
 .ghost-line::before {
   content: '';
   position: absolute;
@@ -51,32 +53,31 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.15) 15%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.15) 85%,
+    rgba(255, 255, 255, 0.12) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.12) 80%,
     transparent 100%
   );
-  animation: line-breathe 10s ease-in-out infinite;
+  animation: line-breathe 8s ease-in-out infinite;
 }
 
-/* Мягкое белое дыхание */
 @keyframes line-breathe {
   0%, 100% {
     opacity: 0.5;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
   }
   50% {
-    opacity: 0.85;
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.2);
+    opacity: 0.9;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.15);
   }
 }
 
-/* Импульс - только при активности (AI analyzing) */
+/* Импульс при активности AI */
 .line-pulse {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 100px;
+  width: 80px;
   height: 2px;
   transform: translateX(-50%);
   background: linear-gradient(
@@ -86,35 +87,33 @@
     transparent
   );
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
-/* AI Analyzing - показываем янтарный импульс */
 .ghost-line.analyzing .line-pulse {
   opacity: 1;
-  animation: pulse-analyzing 2.5s ease-in-out infinite;
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
-@keyframes pulse-analyzing {
+@keyframes pulse-glow {
   0%, 100% {
-    transform: translateX(-50%) scaleX(0.6);
-    opacity: 0.4;
+    transform: translateX(-50%) scaleX(0.5);
+    opacity: 0.3;
   }
   50% {
-    transform: translateX(-50%) scaleX(1.8);
+    transform: translateX(-50%) scaleX(2);
     opacity: 1;
-    box-shadow: 0 0 25px rgba(var(--dock-glow-rgb), 0.5);
+    box-shadow: 0 0 20px rgba(var(--dock-glow-rgb), 0.5);
   }
 }
 
-/* Chat label */
+/* Label */
 .line-label {
   font-size: 10px;
   font-family: 'SF Mono', monospace;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0);
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   position: relative;
   bottom: 2px;
 }
@@ -123,179 +122,59 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-.ghost-line:hover::before {
-  opacity: 1;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-}
-
-/* ==================== ACTIVE: GHOST DOCK (Emergent Style) ==================== */
+/* ==================== ACTIVE: GHOST DOCK ==================== */
 .ghost-dock {
-  position: fixed;
-  bottom: 0;
-  left: 20%;
-  right: 20%;
-  height: auto;
-  max-height: 400px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 50vh;
   
-  /* Темный фон как у Emergent */
-  background: rgba(30, 32, 38, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Acrylic background */
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   
-  /* Закругленные ВЕРХНИЕ углы как у Emergent */
-  border-radius: 16px 16px 0 0;
+  /* Только верхние скругления */
+  border-radius: 24px 24px 0 0;
   
-  /* Тонкая верхняя граница */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: none;
-  
-  /* Тень */
-  box-shadow: 
-    0 -4px 30px rgba(0, 0, 0, 0.4);
+  /* Пульсирующий верхний бордер */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: border-pulse 4s ease-in-out infinite;
   
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* Верхняя светящаяся линия - как у Emergent */
-.dock-u-border {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.15) 20%,
-    rgba(255, 255, 255, 0.25) 50%,
-    rgba(255, 255, 255, 0.15) 80%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-/* Убираем старые U-shape элементы */
-.u-left, .u-right, .u-bottom {
-  display: none;
-}
-
-/* ==================== U-SHAPE BORDER (The Breath) ==================== */
-.dock-u-border {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-/* Левая грань - "вырастает" из центра низа */
-.u-left {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 0.05) 70%,
-    transparent 100%
-  );
-  box-shadow: 
-    0 0 12px rgba(255, 255, 255, 0.15),
-    -2px 0 20px rgba(255, 255, 255, 0.08);
-  transform-origin: bottom;
-  animation: border-grow-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 0.15s;
-  opacity: 0;
-}
-
-/* Правая грань - "вырастает" из центра низа */
-.u-right {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 0.05) 70%,
-    transparent 100%
-  );
-  box-shadow: 
-    0 0 12px rgba(255, 255, 255, 0.15),
-    2px 0 20px rgba(255, 255, 255, 0.08);
-  transform-origin: bottom;
-  animation: border-grow-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 0.15s;
-  opacity: 0;
-}
-
-/* Нижняя грань - "разбегается" из центра */
-.u-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
-  box-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.2),
-    0 2px 25px rgba(255, 255, 255, 0.1);
-  transform-origin: center;
-  animation: border-spread 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Анимация: низ разбегается из центра */
-@keyframes border-spread {
-  from {
-    transform: scaleX(0.3);
-    opacity: 0.5;
+@keyframes border-pulse {
+  0%, 100% {
+    border-top-color: rgba(255, 255, 255, 0.08);
   }
-  to {
-    transform: scaleX(1);
-    opacity: 1;
+  50% {
+    border-top-color: rgba(var(--dock-glow-rgb), 0.4);
   }
 }
 
-/* Анимация: бока растут вверх */
-@keyframes border-grow-up {
-  from {
-    transform: scaleY(0);
-    opacity: 0;
-  }
-  to {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-
-/* ==================== MESSAGES - Compact ==================== */
+/* ==================== MESSAGES - РАСТВОРЯЮТСЯ ВВЕРХ ==================== */
 .dock-messages {
   flex: 1;
-  min-height: 120px;
-  max-height: 200px;
+  min-height: 80px;
+  max-height: 35vh;
   overflow-y: auto;
-  padding: 16px 20px;
+  padding: 20px 24px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  
+  /* Растворение вверх */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
   
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .dock-messages::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 .dock-messages::-webkit-scrollbar-thumb {
@@ -303,59 +182,59 @@
   border-radius: 2px;
 }
 
+/* Empty state */
 .dock-empty {
+  padding: 16px 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.3);
   font-size: 13px;
 }
 
 .dock-empty svg {
-  color: rgba(var(--dock-glow-rgb), 0.4);
+  color: rgba(var(--dock-glow-rgb), 0.5);
 }
 
 /* Messages */
-.dock-message {
+.dock-msg {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  max-width: 80%;
+  gap: 10px;
+  max-width: 85%;
 }
 
-.dock-message.user {
+.dock-msg.user {
   margin-left: auto;
   flex-direction: row-reverse;
 }
 
-.dock-message.user p {
-  background: rgba(var(--dock-glow-rgb), 0.15);
-  border: 1px solid rgba(var(--dock-glow-rgb), 0.2);
+.dock-msg.user p {
+  background: rgba(var(--dock-glow-rgb), 0.12);
+  border-color: rgba(var(--dock-glow-rgb), 0.2);
 }
 
 .msg-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
-  background: rgba(var(--dock-glow-rgb), 0.1);
-  border: 1px solid rgba(var(--dock-glow-rgb), 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--dock-glow);
+  color: rgba(255, 255, 255, 0.5);
   flex-shrink: 0;
 }
 
-.dock-message p {
+.dock-msg p {
   margin: 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -363,16 +242,16 @@
 .typing-dots {
   display: flex;
   gap: 4px;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
 }
 
 .typing-dots span {
   width: 5px;
   height: 5px;
-  background: var(--dock-glow);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   animation: typing-bounce 1.2s ease-in-out infinite;
 }
@@ -382,32 +261,30 @@
 
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-5px); }
+  30% { transform: translateY(-4px); }
 }
 
-/* ==================== CONTROL BAR - Emergent Style ==================== */
+/* ==================== CONTROL ROW ==================== */
 .dock-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.25);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 12px;
+  padding: 14px 20px 18px;
 }
 
-/* Navigation Cubes - более компактные */
-.nav-cubes {
+/* Tabs - слева, крупные, монохромные */
+.dock-tabs {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
-.nav-cube {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+.dock-tab {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -416,45 +293,40 @@
   transition: all 0.15s ease;
 }
 
-.nav-cube:hover:not(.locked) {
-  background: rgba(255, 255, 255, 0.08);
+.dock-tab:hover:not(.locked) {
+  background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.9);
 }
 
-.nav-cube.active {
-  background: rgba(var(--dock-glow-rgb), 0.12);
-  border-color: rgba(var(--dock-glow-rgb), 0.25);
+.dock-tab.active {
   color: var(--dock-glow);
+  background: rgba(var(--dock-glow-rgb), 0.1);
+  border-color: rgba(var(--dock-glow-rgb), 0.2);
+  box-shadow: 0 0 20px rgba(var(--dock-glow-rgb), 0.15);
 }
 
-.nav-cube.locked {
+.dock-tab.locked {
   opacity: 0.35;
   cursor: not-allowed;
 }
 
-.nav-cube .lock {
+.dock-tab .lock {
   position: absolute;
-  top: -3px;
-  right: -3px;
-  font-size: 7px;
+  top: -2px;
+  right: -2px;
+  font-size: 8px;
 }
 
-/* Input - Emergent style */
+/* Input - справа, прозрачное */
 .dock-input {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 3px 3px 3px 14px;
-  transition: all 0.15s ease;
-}
-
-.dock-input:focus-within {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.07);
+  gap: 8px;
+  height: 48px;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 4px;
 }
 
 .dock-input input {
@@ -462,21 +334,22 @@
   background: transparent;
   border: none;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
-  padding: 8px 0;
+  padding: 0 8px;
 }
 
 .dock-input input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.input-mic,
-.input-send {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+.input-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -484,63 +357,38 @@
   transition: all 0.15s ease;
 }
 
-.input-mic {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.input-mic:hover {
+.input-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   color: white;
 }
 
-.input-send {
-  background: rgba(var(--dock-glow-rgb), 0.15);
+.input-btn.send:not(:disabled):hover {
+  background: rgba(var(--dock-glow-rgb), 0.2);
   color: var(--dock-glow);
 }
 
-.input-send:hover:not(:disabled) {
-  background: var(--dock-glow);
-  color: #000;
-}
-
-.input-send:disabled {
-  opacity: 0.35;
+.input-btn:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
-}
-
-/* Close hint - компактнее */
-.dock-close {
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 10px;
-  font-family: 'SF Mono', monospace;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.dock-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
 }
 
 /* ==================== MOBILE ==================== */
 @media (max-width: 640px) {
-  .ghost-dock {
-    width: 100%;
-    max-width: none;
-    height: 50vh;
+  .ghost-line {
+    width: 70%;
   }
   
-  .nav-cubes {
+  .ghost-dock {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .dock-tabs {
     flex-wrap: wrap;
   }
   
-  .nav-cube {
-    width: 34px;
-    height: 34px;
+  .dock-tab {
+    width: 40px;
+    height: 40px;
   }
 }
