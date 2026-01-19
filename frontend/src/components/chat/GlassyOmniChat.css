@@ -1,301 +1,352 @@
 /**
- * GlassyOmniChat - Thin Line + Compact Panel
+ * GlassyOmniChat - Ghost Dock (Open U-Console)
  * 
- * IDLE: Тончайшая (2px) едва заметная линия с "Chat" при hover
- * ACTIVE: Компактная панель снизу (~280px)
+ * Вдохновение: Emergent input bar + Deep Acrylic
+ * Концепция: U-образная чаша без верхней границы
+ * Свет разъезжается из центра по бокам и fade out вверх
  */
 
-/* ==================== CSS VARIABLES ==================== */
+/* ==================== VARIABLES ==================== */
 :root {
-  --amber-accent: #FF9F43;
-  --amber-glow: rgba(255, 159, 67, 0.5);
-  --ghost-bg: rgba(18, 18, 22, 0.92);
-  --ghost-border: rgba(255, 255, 255, 0.08);
+  --dock-bg: rgba(10, 10, 12, 0.85);
+  --dock-glow: #FF9F43;
+  --dock-glow-rgb: 255, 159, 67;
 }
 
 /* ==================== CONTAINER ==================== */
-.ghost-deck-container {
+.ghost-dock-container {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
   pointer-events: none;
 }
 
-.ghost-deck-container > * {
+.ghost-dock-container > * {
   pointer-events: auto;
 }
 
-/* ==================== IDLE: ТОНКАЯ ЛИНИЯ ==================== */
-.thin-chat-line {
-  position: relative;
-  width: 60%;
-  max-width: 600px;
-  height: 36px;
+/* ==================== IDLE: ТОНЧАЙШАЯ НИТЬ ==================== */
+.ghost-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-bottom: 12px;
 }
 
-/* Сама линия - тончайшая, едва заметная */
-.thin-chat-line::before {
+/* Базовая линия - 100% ширины */
+.ghost-line::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
   height: 2px;
-  transform: translateY(-50%);
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.12) 20%,
+    rgba(255, 255, 255, 0.08) 10%,
+    rgba(255, 255, 255, 0.15) 30%,
     rgba(255, 255, 255, 0.25) 50%,
-    rgba(255, 255, 255, 0.12) 80%,
+    rgba(255, 255, 255, 0.15) 70%,
+    rgba(255, 255, 255, 0.08) 90%,
     transparent 100%
   );
-  border-radius: 1px;
-  animation: line-breathe 12s ease-in-out infinite;
-  transition: all 0.4s ease;
+  animation: line-breathe 8s ease-in-out infinite;
 }
 
-/* Дыхание линии */
+/* Дыхание - более заметное */
 @keyframes line-breathe {
   0%, 100% {
-    opacity: 0.4;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
+    opacity: 0.5;
+    filter: blur(0px);
   }
   50% {
-    opacity: 0.7;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    filter: blur(0.5px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
   }
 }
 
-/* AI Analyzing - янтарное свечение */
-.thin-chat-line.analyzing::before {
+/* Импульс - бегает по центру */
+.line-pulse {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 120px;
+  height: 2px;
+  transform: translateX(-50%);
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    rgba(255, 159, 67, 0.15) 20%,
-    rgba(255, 159, 67, 0.35) 50%,
-    rgba(255, 159, 67, 0.15) 80%,
-    transparent 100%
+    transparent,
+    rgba(var(--dock-glow-rgb), 0.6),
+    transparent
   );
-  animation: line-analyzing 3s ease-in-out infinite;
+  animation: pulse-run 3s ease-in-out infinite;
 }
 
-@keyframes line-analyzing {
+@keyframes pulse-run {
   0%, 100% {
-    opacity: 0.5;
-    box-shadow: 0 0 8px rgba(255, 159, 67, 0.2);
+    opacity: 0.3;
+    transform: translateX(-50%) scaleX(0.5);
   }
   50% {
-    opacity: 0.9;
-    box-shadow: 0 0 18px rgba(255, 159, 67, 0.4);
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.5);
+    box-shadow: 0 0 30px rgba(var(--dock-glow-rgb), 0.4);
   }
 }
 
-/* Hover - линия становится чуть заметнее */
-.thin-chat-line.hovered::before {
-  opacity: 0.9;
-  height: 3px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+/* AI Analyzing - более яркий импульс */
+.ghost-line.analyzing .line-pulse {
+  animation: pulse-analyzing 2s ease-in-out infinite;
 }
 
-/* Текст "Chat" - появляется при hover */
-.line-text {
-  font-size: 11px;
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  letter-spacing: 0.2em;
+@keyframes pulse-analyzing {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scaleX(0.8);
+    box-shadow: 0 0 15px rgba(var(--dock-glow-rgb), 0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(2);
+    box-shadow: 0 0 40px rgba(var(--dock-glow-rgb), 0.6);
+  }
+}
+
+/* Chat label */
+.line-label {
+  font-size: 10px;
+  font-family: 'SF Mono', monospace;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0);
   transition: all 0.3s ease;
   position: relative;
-  z-index: 1;
+  bottom: 2px;
 }
 
-.thin-chat-line.hovered .line-text {
-  color: rgba(255, 255, 255, 0.5);
+.ghost-line:hover .line-label {
+  color: rgba(255, 255, 255, 0.4);
 }
 
-.thin-chat-line.analyzing .line-text {
-  color: rgba(255, 159, 67, 0.6);
+.ghost-line:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* ==================== ACTIVE: КОМПАКТНАЯ ПАНЕЛЬ ==================== */
-.chat-panel {
-  width: 90%;
-  max-width: 600px;
-  height: 260px;
+/* ==================== ACTIVE: GHOST DOCK (U-SHAPE) ==================== */
+.ghost-dock {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 800px;
+  height: 320px;
   
-  /* Стекло */
-  background: var(--ghost-bg);
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  /* Темный центр - почти черный */
+  background: var(--dock-bg);
+  backdrop-filter: blur(30px) saturate(120%);
+  -webkit-backdrop-filter: blur(30px) saturate(120%);
   
-  /* Форма */
-  border-radius: 18px 18px 0 0;
-  border: 1px solid var(--ghost-border);
-  border-bottom: none;
-  
-  /* Тень */
-  box-shadow: 
-    0 -8px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* NO border-radius on top - open U */
+  border-radius: 0;
   
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Верхняя светящаяся грань */
-.panel-top-edge {
+/* ==================== U-SHAPE BORDER (The Breath) ==================== */
+.dock-u-border {
   position: absolute;
-  top: 0;
-  left: 15%;
-  right: 15%;
-  height: 1px;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Левая грань - fade out вверх */
+.u-left {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(var(--dock-glow-rgb), 0.6) 0%,
+    rgba(var(--dock-glow-rgb), 0.3) 30%,
+    rgba(var(--dock-glow-rgb), 0.1) 60%,
+    transparent 100%
+  );
+  box-shadow: 
+    0 0 15px rgba(var(--dock-glow-rgb), 0.3),
+    0 0 30px rgba(var(--dock-glow-rgb), 0.15);
+  animation: border-appear-left 0.6s ease-out forwards;
+}
+
+/* Правая грань - fade out вверх */
+.u-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(var(--dock-glow-rgb), 0.6) 0%,
+    rgba(var(--dock-glow-rgb), 0.3) 30%,
+    rgba(var(--dock-glow-rgb), 0.1) 60%,
+    transparent 100%
+  );
+  box-shadow: 
+    0 0 15px rgba(var(--dock-glow-rgb), 0.3),
+    0 0 30px rgba(var(--dock-glow-rgb), 0.15);
+  animation: border-appear-right 0.6s ease-out forwards;
+}
+
+/* Нижняя грань - яркая, жесткая */
+.u-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
   background: linear-gradient(
     90deg,
-    transparent,
-    rgba(255, 159, 67, 0.4),
-    transparent
+    transparent 0%,
+    rgba(var(--dock-glow-rgb), 0.5) 10%,
+    rgba(var(--dock-glow-rgb), 0.8) 50%,
+    rgba(var(--dock-glow-rgb), 0.5) 90%,
+    transparent 100%
   );
+  box-shadow: 
+    0 0 20px rgba(var(--dock-glow-rgb), 0.5),
+    0 0 40px rgba(var(--dock-glow-rgb), 0.25);
+  animation: border-appear-bottom 0.4s ease-out forwards;
 }
 
-/* Header */
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(255, 255, 255, 0.02);
+/* Анимации появления света из центра */
+@keyframes border-appear-bottom {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
-.panel-tabs {
-  display: flex;
-  gap: 4px;
+@keyframes border-appear-left {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
 
-.panel-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+@keyframes border-appear-right {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
 
-.panel-tab:hover:not(.locked) {
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.panel-tab.active {
-  background: rgba(255, 159, 67, 0.12);
-  border-color: rgba(255, 159, 67, 0.25);
-  color: var(--amber-accent);
-}
-
-.panel-tab.locked {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.panel-tab .lock {
-  font-size: 9px;
-}
-
-.panel-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.panel-close:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-}
-
-/* Messages */
-.panel-messages {
+/* ==================== MESSAGES - FADE TO TOP ==================== */
+.dock-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 12px 16px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  /* Fade to transparent at top */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 100%
+  );
+  
+  scrollbar-width: none;
 }
 
-.panel-messages::-webkit-scrollbar {
-  width: 4px;
+.dock-messages::-webkit-scrollbar {
+  display: none;
 }
 
-.panel-messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-}
-
-.panel-empty {
+.dock-empty {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   height: 100%;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.25);
   font-size: 13px;
 }
 
+.dock-empty svg {
+  color: rgba(var(--dock-glow-rgb), 0.4);
+}
+
 /* Messages */
-.panel-message {
+.dock-message {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  max-width: 85%;
+  max-width: 80%;
 }
 
-.panel-message.user {
+.dock-message.user {
   margin-left: auto;
   flex-direction: row-reverse;
 }
 
-.msg-avatar {
-  width: 24px;
-  height: 24px;
+.dock-message.user p {
+  background: rgba(var(--dock-glow-rgb), 0.15);
+  border: 1px solid rgba(var(--dock-glow-rgb), 0.2);
+}
+
+.msg-icon {
+  width: 22px;
+  height: 22px;
   border-radius: 6px;
-  background: rgba(255, 159, 67, 0.15);
-  border: 1px solid rgba(255, 159, 67, 0.2);
+  background: rgba(var(--dock-glow-rgb), 0.1);
+  border: 1px solid rgba(var(--dock-glow-rgb), 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--amber-accent);
+  color: var(--dock-glow);
   flex-shrink: 0;
 }
 
-.msg-bubble {
+.dock-message p {
+  margin: 0;
   padding: 8px 12px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
@@ -303,15 +354,6 @@
   font-size: 13px;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.9);
-}
-
-.panel-message.user .msg-bubble {
-  background: rgba(255, 159, 67, 0.12);
-  border-color: rgba(255, 159, 67, 0.2);
-}
-
-.msg-bubble p {
-  margin: 0;
 }
 
 /* Typing */
@@ -327,7 +369,7 @@
 .typing-dots span {
   width: 5px;
   height: 5px;
-  background: var(--amber-accent);
+  background: var(--dock-glow);
   border-radius: 50%;
   animation: typing-bounce 1.2s ease-in-out infinite;
 }
@@ -340,42 +382,92 @@
   30% { transform: translateY(-5px); }
 }
 
-/* Input */
-.panel-input {
+/* ==================== CONTROL BAR ==================== */
+.dock-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.panel-input input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* Navigation Cubes */
+.nav-cubes {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-cube {
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
-  padding: 10px 14px;
-  color: white;
-  font-size: 13px;
-  outline: none;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   transition: all 0.2s ease;
 }
 
-.panel-input input:focus {
-  border-color: rgba(255, 159, 67, 0.3);
+.nav-cube:hover:not(.locked) {
   background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.panel-input input::placeholder {
+.nav-cube.active {
+  background: rgba(var(--dock-glow-rgb), 0.15);
+  border-color: rgba(var(--dock-glow-rgb), 0.3);
+  color: var(--dock-glow);
+  box-shadow: 
+    0 0 20px rgba(var(--dock-glow-rgb), 0.2),
+    inset 0 0 10px rgba(var(--dock-glow-rgb), 0.1);
+}
+
+.nav-cube.locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-cube .lock {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  font-size: 8px;
+}
+
+/* Input */
+.dock-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 4px 4px 4px 16px;
+}
+
+.dock-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+.dock-input input::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
 
 .input-mic,
 .input-send {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   display: flex;
@@ -395,13 +487,13 @@
 }
 
 .input-send {
-  background: rgba(255, 159, 67, 0.15);
-  color: var(--amber-accent);
+  background: rgba(var(--dock-glow-rgb), 0.2);
+  color: var(--dock-glow);
 }
 
 .input-send:hover:not(:disabled) {
-  background: var(--amber-accent);
-  color: white;
+  background: var(--dock-glow);
+  color: black;
 }
 
 .input-send:disabled {
@@ -409,25 +501,38 @@
   cursor: not-allowed;
 }
 
+/* Close hint */
+.dock-close {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  font-family: 'SF Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dock-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+}
+
 /* ==================== MOBILE ==================== */
 @media (max-width: 640px) {
-  .thin-chat-line {
-    width: 80%;
-  }
-  
-  .chat-panel {
+  .ghost-dock {
     width: 100%;
     max-width: none;
     height: 50vh;
-    border-radius: 16px 16px 0 0;
   }
   
-  .panel-tabs {
-    overflow-x: auto;
-    flex-wrap: nowrap;
+  .nav-cubes {
+    flex-wrap: wrap;
   }
   
-  .panel-tab span {
-    display: none;
+  .nav-cube {
+    width: 34px;
+    height: 34px;
   }
 }

@@ -1,45 +1,41 @@
 /**
- * GlassyOmniChat - Ghost Deck + Thin Line Concept
+ * GlassyOmniChat - Ghost Dock (Open U-Console)
  * 
- * IDLE: Тончайшая (2px) едва заметная пульсирующая линия + "Chat" при hover
- * ACTIVE: Панель выезжает снизу (~280px), как твоё окно чата Emergent
+ * IDLE: Тончайшая нить (1-2px), 100% ширины, импульс по центру
+ * ACTIVE: U-образная открытая чаша без верхней границы
+ *         Свет разъезжается из центра по бокам
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import {
   Bot,
   Globe,
   Shield,
   ShoppingBag,
-  X,
   Send,
   Mic,
   Sparkles,
-  AlertTriangle,
-  Headphones,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
-import SmartChannelSwitcher from './SmartChannelSwitcher';
 import './GlassyOmniChat.css';
 
-// --- TAB DEFINITIONS ---
-const TABS = [
-  { id: 'ai', icon: Bot, label: 'AI', labelRu: 'ИИ', color: '#FF9F43' },
-  { id: 'global', icon: Globe, label: 'Global', labelRu: 'Общий', color: '#3b82f6' },
-  { id: 'guilds', icon: Shield, label: 'Guilds', labelRu: 'Гильдии', color: '#f59e0b', requiresLevel: 5 },
-  { id: 'trade', icon: ShoppingBag, label: 'Trade', labelRu: 'Торговля', color: '#22c55e' },
+// --- NAV CUBES ---
+const NAV_CUBES = [
+  { id: 'ai', icon: Bot, label: 'AI', color: '#FF9F43' },
+  { id: 'global', icon: Globe, label: 'Global', color: '#3b82f6' },
+  { id: 'guilds', icon: Shield, label: 'Guilds', color: '#f59e0b', requiresLevel: 5 },
+  { id: 'trade', icon: ShoppingBag, label: 'Trade', color: '#22c55e' },
 ];
 
 const API_URL = '';
 
 export default function GlassyOmniChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [activeTab, setActiveTab] = useState('ai');
-  const [aiStatus, setAiStatus] = useState('idle'); // idle | analyzing
+  const [aiStatus, setAiStatus] = useState('idle');
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -48,6 +44,7 @@ export default function GlassyOmniChat() {
   const { user } = useAuth();
   const { language } = useLanguage();
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Context Awareness
   useEffect(() => {
@@ -63,16 +60,12 @@ export default function GlassyOmniChat() {
     }
   }, [location, user?.level]);
 
-  // Support Trigger
-  const triggerSupport = useCallback((reason = 'User requested support') => {
-    setActiveTab('support');
-    setIsOpen(true);
-  }, []);
-
+  // Focus input when opened
   useEffect(() => {
-    window.triggerGlassySupport = triggerSupport;
-    return () => { delete window.triggerGlassySupport; };
-  }, [triggerSupport]);
+    if (isOpen && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isOpen]);
 
   // Scroll to bottom
   useEffect(() => {
@@ -121,7 +114,7 @@ export default function GlassyOmniChat() {
               {
                 id: Date.now(),
                 type: 'bot',
-                text: data.response || 'Я понял. Чем ещё могу помочь?',
+                text: data.response || 'Понял. Чем ещё помочь?',
                 timestamp: new Date(),
               }
             ]
@@ -135,106 +128,82 @@ export default function GlassyOmniChat() {
     setIsTyping(false);
   }, [inputValue, activeTab, location.pathname]);
 
+  // Sort cubes - active first
+  const sortedCubes = [...NAV_CUBES].sort((a, b) => {
+    if (a.id === activeTab) return -1;
+    if (b.id === activeTab) return 1;
+    return 0;
+  });
+
   const currentMessages = messages[activeTab] || [];
   const userLevel = user?.level || 0;
 
   return (
-    <div 
-      className="ghost-deck-container"
-      data-testid="glassy-omni-chat"
-    >
+    <div className="ghost-dock-container" data-testid="glassy-omni-chat">
       <AnimatePresence mode="wait">
         
-        {/* === IDLE: Тонкая пульсирующая линия с "Chat" === */}
+        {/* === IDLE: Тончайшая нить с импульсом === */}
         {!isOpen && (
           <motion.div
-            key="thin-line"
+            key="ghost-line"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: 20 }}
-            className={`thin-chat-line ${aiStatus === 'analyzing' ? 'analyzing' : ''} ${isHovered ? 'hovered' : ''}`}
+            exit={{ opacity: 0 }}
+            className={`ghost-line ${aiStatus === 'analyzing' ? 'analyzing' : ''}`}
             onClick={() => setIsOpen(true)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           >
-            {/* Центр - текст Chat */}
-            <span className="line-text">
-              {aiStatus === 'analyzing' 
-                ? (language === 'ru' ? 'Анализирую...' : 'Analyzing...') 
-                : 'Chat'}
-            </span>
+            {/* Импульс по центру */}
+            <div className="line-pulse" />
+            {/* Текст Chat */}
+            <span className="line-label">Chat</span>
           </motion.div>
         )}
 
-        {/* === ACTIVE: Компактная панель снизу === */}
+        {/* === ACTIVE: Ghost Dock (U-Shape) === */}
         {isOpen && (
           <motion.div
-            key="chat-panel"
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="chat-panel"
+            key="ghost-dock"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="ghost-dock"
           >
-            {/* Верхняя грань */}
-            <div className="panel-top-edge" />
-            
-            {/* Header с tabs */}
-            <div className="panel-header">
-              <div className="panel-tabs">
-                {TABS.map((tab) => {
-                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
-                  const isActive = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => !isLocked && setActiveTab(tab.id)}
-                      disabled={isLocked}
-                      className={`panel-tab ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                      style={{ '--tab-color': tab.color }}
-                    >
-                      <tab.icon size={16} />
-                      <span>{language === 'ru' ? tab.labelRu : tab.label}</span>
-                      {isLocked && <span className="lock">🔒</span>}
-                    </button>
-                  );
-                })}
-              </div>
-              <button className="panel-close" onClick={() => setIsOpen(false)}>
-                <X size={18} />
-              </button>
+            {/* U-Shape Light Border */}
+            <div className="dock-u-border">
+              <div className="u-left" />
+              <div className="u-bottom" />
+              <div className="u-right" />
             </div>
 
-            {/* Messages */}
-            <div className="panel-messages">
+            {/* Chat Messages - fade to top */}
+            <div className="dock-messages">
               {currentMessages.length === 0 ? (
-                <div className="panel-empty">
-                  <Sparkles size={20} className="text-amber-400/60" />
-                  <p>
-                    {activeTab === 'ai' 
-                      ? (language === 'ru' ? 'Спросите о ПК' : 'Ask about PC')
-                      : (language === 'ru' ? 'Нет сообщений' : 'No messages')
-                    }
-                  </p>
+                <div className="dock-empty">
+                  <Sparkles size={18} />
+                  <span>{language === 'ru' ? 'Спросите что угодно' : 'Ask anything'}</span>
                 </div>
               ) : (
                 currentMessages.map((msg) => (
-                  <div key={msg.id} className={`panel-message ${msg.type}`}>
+                  <motion.div 
+                    key={msg.id} 
+                    className={`dock-message ${msg.type}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
                     {msg.type === 'bot' && (
-                      <div className="msg-avatar">
+                      <div className="msg-icon">
                         <Bot size={12} />
                       </div>
                     )}
-                    <div className="msg-bubble">
-                      <p>{msg.text}</p>
-                    </div>
-                  </div>
+                    <p>{msg.text}</p>
+                  </motion.div>
                 ))
               )}
               
               {isTyping && (
-                <div className="panel-message bot">
-                  <div className="msg-avatar"><Bot size={12} /></div>
+                <div className="dock-message bot typing">
+                  <div className="msg-icon"><Bot size={12} /></div>
                   <div className="typing-dots"><span /><span /><span /></div>
                 </div>
               )}
@@ -242,22 +211,55 @@ export default function GlassyOmniChat() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
-            <div className="panel-input">
-              <button className="input-mic"><Mic size={16} /></button>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
-              />
-              <button 
-                className="input-send"
-                onClick={sendMessage}
-                disabled={!inputValue.trim()}
-              >
-                <Send size={16} />
+            {/* Control Bar */}
+            <div className="dock-controls">
+              {/* Navigation Cubes - Dynamic */}
+              <LayoutGroup>
+                <div className="nav-cubes">
+                  {sortedCubes.map((cube) => {
+                    const isActive = activeTab === cube.id;
+                    const isLocked = cube.requiresLevel && userLevel < cube.requiresLevel;
+                    return (
+                      <motion.button
+                        key={cube.id}
+                        layoutId={cube.id}
+                        onClick={() => !isLocked && setActiveTab(cube.id)}
+                        className={`nav-cube ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                        style={{ '--cube-color': cube.color }}
+                        whileHover={{ scale: isLocked ? 1 : 1.1 }}
+                        whileTap={{ scale: isLocked ? 1 : 0.95 }}
+                      >
+                        <cube.icon size={16} />
+                        {isLocked && <span className="lock">🔒</span>}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </LayoutGroup>
+
+              {/* Input */}
+              <div className="dock-input">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
+                />
+                <button className="input-mic"><Mic size={16} /></button>
+                <button 
+                  className="input-send"
+                  onClick={sendMessage}
+                  disabled={!inputValue.trim()}
+                >
+                  <Send size={16} />
+                </button>
+              </div>
+
+              {/* Close hint */}
+              <button className="dock-close" onClick={() => setIsOpen(false)}>
+                Esc
               </button>
             </div>
           </motion.div>
