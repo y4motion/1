@@ -472,6 +472,16 @@ async def get_user_context(
     }
 
 
+@router.get("/rules")
+async def get_rules_info():
+    """Информация о всех правилах RulesEngine."""
+    return {
+        "success": True,
+        "rules": rules_engine.get_rules_info(),
+        "total_rules": len(rules_engine.rules)
+    }
+
+
 @router.get("/analytics/events")
 async def get_recent_events(
     limit: int = 50,
