@@ -159,22 +159,18 @@ export default function GlassyOmniChat() {
           </motion.div>
         )}
 
-        {/* === ACTIVE: Ghost Dock (U-Shape) === */}
+        {/* === ACTIVE: Ghost Dock (Emergent Style) === */}
         {isOpen && (
           <motion.div
             key="ghost-dock"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="ghost-dock"
           >
-            {/* U-Shape Light Border */}
-            <div className="dock-u-border">
-              <div className="u-left" />
-              <div className="u-bottom" />
-              <div className="u-right" />
-            </div>
+            {/* Верхняя светящаяся линия */}
+            <div className="dock-u-border" />
 
             {/* Chat Messages - fade to top */}
             <div className="dock-messages">
