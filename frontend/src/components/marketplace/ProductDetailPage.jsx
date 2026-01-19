@@ -205,13 +205,14 @@ const DynamicExpandableBlocks = ({ product }) => {
     ]
   };
 
-  // Determine which blocks to show
+  // Determine which blocks to show based on category or tags
   const getBlocks = () => {
-    if (category.includes('headphone') || category.includes('audio')) return categoryBlocks.headphones;
-    if (category.includes('mouse') || category.includes('mice')) return categoryBlocks.mouse;
-    if (category.includes('keyboard')) return categoryBlocks.keyboard;
-    if (category.includes('monitor') || category.includes('display')) return categoryBlocks.monitor;
-    if (category.includes('gpu') || category.includes('graphics')) return categoryBlocks.gpu;
+    const searchText = `${category} ${tags}`;
+    if (searchText.includes('headphone') || searchText.includes('audio')) return categoryBlocks.headphones;
+    if (searchText.includes('mouse') || searchText.includes('mice')) return categoryBlocks.mouse;
+    if (searchText.includes('keyboard')) return categoryBlocks.keyboard;
+    if (searchText.includes('monitor') || searchText.includes('display')) return categoryBlocks.monitor;
+    if (searchText.includes('gpu') || searchText.includes('graphics')) return categoryBlocks.gpu;
     return categoryBlocks.default;
   };
 
