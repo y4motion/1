@@ -65,7 +65,11 @@ function App() {
                   {/* Main content area */}
                   <main className="main-content">
                     <Breadcrumbs />
-                    <GlassyChatBar />
+                    {/* Legacy chat bar - keeping for backwards compatibility */}
+                    {/* <GlassyChatBar /> */}
+                    
+                    {/* New Omni Chat - Ultimate chat hub */}
+                    <GlassyOmniChat />
                     
                     <Suspense fallback={<LoadingScreen />}>
                       <PageTransition>
