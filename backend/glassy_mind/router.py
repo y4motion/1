@@ -347,10 +347,58 @@ async def get_mind_status():
             "POST /api/mind/quick-tip",
             "GET /api/mind/suggestions",
             "GET /api/mind/status",
+            "GET /api/mind/agent-status",
             "GET /api/mind/context",
             "GET /api/mind/ab-test/results",
             "GET /api/mind/ab-test/my-group"
         ]
+    }
+
+
+@router.get("/agent-status")
+async def get_agent_status(
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    Получить статус агента для UI "живой полоски".
+    
+    Возвращает:
+    - status: 'idle' | 'analyzing' | 'ready_to_suggest'
+    - suggestion: текст подсказки (если status == 'ready_to_suggest')
+    - updated_at: время последнего обновления
+    
+    Фронтенд опрашивает каждые 10 секунд для анимации полоски.
+    """
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    # Попробуем проанализировать и предложить что-то
+    await observer.analyze_and_maybe_suggest(user_id)
+    
+    # Получаем текущий статус
+    agent_state = await observer.get_agent_status(user_id)
+    
+    return {
+        "success": True,
+        "status": agent_state.get("status", AgentStatus.IDLE),
+        "suggestion": agent_state.get("suggestion"),
+        "updated_at": agent_state.get("updated_at")
+    }
+
+
+@router.post("/agent-status/dismiss")
+async def dismiss_agent_suggestion(
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    Сбросить подсказку агента после показа пользователю.
+    Вызывается когда пользователь закрыл всплывашку.
+    """
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    await observer.clear_suggestion(user_id)
+    
+    return {
+        "success": True,
+        "status": AgentStatus.IDLE
     }
 
 
