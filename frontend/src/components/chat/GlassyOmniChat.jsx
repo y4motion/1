@@ -41,12 +41,61 @@ export default function GlassyOmniChat() {
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [lastActivity, setLastActivity] = useState(Date.now());
+  const [statusText, setStatusText] = useState('');
+  const [statusType, setStatusType] = useState('idle'); // idle, typing, thinking, uploading, away
   
   const location = useLocation();
   const { user } = useAuth();
   const { language } = useLanguage();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Status text based on type
+  const getStatusText = useCallback(() => {
+    const texts = {
+      ru: {
+        idle: 'Готов помочь',
+        typing: 'AI печатает...',
+        thinking: 'AI думает...',
+        uploading: 'Загружает файл...',
+        away: 'Собеседник отошёл',
+        analyzing: 'Анализирует контекст...',
+      },
+      en: {
+        idle: 'Ready to help',
+        typing: 'AI is typing...',
+        thinking: 'AI is thinking...',
+        uploading: 'Uploading file...',
+        away: 'User is away',
+        analyzing: 'Analyzing context...',
+      }
+    };
+    const lang = language === 'ru' ? 'ru' : 'en';
+    return texts[lang][statusType] || texts[lang].idle;
+  }, [statusType, language]);
+
+  // Update status based on isTyping
+  useEffect(() => {
+    if (isTyping) {
+      setStatusType('typing');
+      setLastActivity(Date.now());
+    } else if (aiStatus === 'analyzing') {
+      setStatusType('analyzing');
+    } else {
+      setStatusType('idle');
+    }
+  }, [isTyping, aiStatus]);
+
+  // Check for "away" status (no activity for 2+ minutes)
+  useEffect(() => {
+    const checkAway = setInterval(() => {
+      if (isOpen && Date.now() - lastActivity > 120000) {
+        setStatusType('away');
+      }
+    }, 30000);
+    return () => clearInterval(checkAway);
+  }, [isOpen, lastActivity]);
 
   // Context Awareness
   useEffect(() => {
