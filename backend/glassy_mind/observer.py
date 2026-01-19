@@ -139,6 +139,49 @@ class MarketObserver:
             return f"Интересуетесь {category}? Есть пара советов для вас!"
         
         return suggestions.get(event_type, "Есть идея! Могу помочь с выбором.")
+    
+    async def check_cart_compatibility(self, user_id: str, new_product: Dict, cart_products: List[Dict]) -> Optional[Dict]:
+        """
+        Проверяет совместимость нового товара с корзиной.
+        Вызывается при добавлении в корзину.
+        
+        Returns:
+            Dict с issue если найдена проблема, иначе None
+        """
+        try:
+            from services.compatibility_service import compatibility_service
+            
+            issue = compatibility_service.quick_check(new_product, cart_products)
+            
+            if issue:
+                # Формируем проактивное сообщение
+                message = f"⚠️ {issue.message}"
+                if issue.suggestion:
+                    message += f"\n\n💡 {issue.suggestion}"
+                
+                # Устанавливаем статус агента
+                self.state_manager.update_state(
+                    user_id,
+                    status=AgentStatus.READY_TO_SUGGEST,
+                    suggestion=message
+                )
+                
+                logger.warning(f"🔴 Compatibility issue for {user_id}: {issue.issue_type}")
+                
+                return {
+                    "has_issue": True,
+                    "issue_type": issue.issue_type,
+                    "message": issue.message,
+                    "suggestion": issue.suggestion,
+                    "component1": issue.component1,
+                    "component2": issue.component2
+                }
+        except ImportError:
+            logger.warning("CompatibilityService not available")
+        except Exception as e:
+            logger.error(f"Error checking compatibility: {e}")
+        
+        return None
 
 
 class Observer:
