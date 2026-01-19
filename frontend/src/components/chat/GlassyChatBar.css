@@ -112,6 +112,169 @@
   animation: line-wave 2s ease-in-out infinite;
 }
 
+/* ========================================
+   AGENT STATUS ANIMATIONS (Living Bar)
+   ======================================== */
+
+/* Idle: slow subtle breathing (default) */
+.glassy-chat-bar.agent-idle .chat-collapsed-bar::before {
+  animation: line-breathe 14s ease-in-out infinite;
+}
+
+/* Analyzing: soft purple pulsing glow - AI is thinking */
+.glassy-chat-bar.agent-analyzing .chat-collapsed-bar::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.2) 15%,
+    rgba(139, 92, 246, 0.5) 50%,
+    rgba(139, 92, 246, 0.2) 85%,
+    transparent 100%
+  );
+  animation: line-analyzing 2s ease-in-out infinite;
+}
+
+@keyframes line-analyzing {
+  0%, 100% {
+    opacity: 0.6;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+  }
+}
+
+/* Ready to suggest: bright purple accent with glow flash */
+.glassy-chat-bar.agent-ready_to_suggest .chat-collapsed-bar::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.4) 20%,
+    rgba(168, 85, 247, 0.8) 50%,
+    rgba(139, 92, 246, 0.4) 80%,
+    transparent 100%
+  );
+  animation: line-ready 1.5s ease-in-out infinite;
+}
+
+@keyframes line-ready {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.6), 0 0 60px rgba(168, 85, 247, 0.3);
+  }
+}
+
+/* ========================================
+   AGENT SUGGESTION POPUP
+   ======================================== */
+
+.agent-suggestion-popup {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(20, 20, 30, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  max-width: 320px;
+  min-width: 200px;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(139, 92, 246, 0.2);
+  animation: suggestion-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+@keyframes suggestion-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.suggestion-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.suggestion-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.suggestion-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.suggestion-content:hover {
+  transform: translateY(-2px);
+}
+
+.suggestion-icon {
+  color: #fbbf24;
+  animation: icon-glow 2s ease-in-out infinite;
+}
+
+@keyframes icon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.7));
+  }
+}
+
+.suggestion-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #a78bfa;
+  letter-spacing: 0.02em;
+}
+
+.suggestion-text {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .agent-suggestion-popup {
+    max-width: 280px;
+    padding: 0.875rem 1rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes line-wave {
   0% {
     background: linear-gradient(
