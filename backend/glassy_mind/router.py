@@ -10,7 +10,7 @@ from typing import List, Dict, Optional, Any
 import logging
 
 from utils.auth_utils import get_current_user, get_current_user_optional as get_optional_user
-from .observer import observer
+from .observer import observer, AgentStatus
 from .expert_brain import tech_expert
 from .chat_agent import mind_chat_agent
 from .abandoned_cart import abandoned_cart_webhook
