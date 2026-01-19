@@ -2050,7 +2050,8 @@ const PCBuilderPage = () => {
             {/* Action Buttons */}
             <button
               onClick={() => handleAddToCart(false)}
-              disabled={!isConfigComplete() || isAddingToCart}
+              disabled={!isConfigComplete() || isAddingToCart || (validationResult && !validationResult.is_compatible)}
+              data-testid="add-to-cart-btn"
               style={{
                 width: '100%',
                 padding: '0.875rem',
