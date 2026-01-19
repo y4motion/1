@@ -132,62 +132,67 @@
 .emergent-chat-window {
   position: relative;
   width: 95%;
-  max-width: 910px; /* +30% от 700px */
+  max-width: 910px;
   margin-bottom: 24px;
-  
-  /* Глубокий чёрный фон */
-  background: var(--emergent-bg-deep);
   
   /* Скруглённые углы */
   border-radius: 16px;
   
-  /* Liquid Glass обводка */
-  border: 1px solid transparent;
-  background-clip: padding-box;
+  /* Акриловый фон для всего окна */
+  background: 
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.03) 60px,
+      var(--emergent-bg-deep) 60px,
+      var(--emergent-bg-deep) 100%
+    );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   
   /* Тень для глубины */
   box-shadow: 
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.03);
+    0 4px 32px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
 }
 
-/* Liquid Glass border effect */
+/* Боковые акриловые полосы 2px */
 .emergent-chat-window::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  border-radius: 17px;
-  padding: 1px;
+  top: 60px; /* После акриловой шапки */
+  bottom: 0;
+  left: 0;
+  width: 2px;
   background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 25%,
-    rgba(120, 200, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 75%,
-    rgba(255, 255, 255, 0.15) 100%
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.08)
   );
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
   pointer-events: none;
-  animation: liquid-shimmer 8s ease-in-out infinite;
+  z-index: 1;
 }
 
-@keyframes liquid-shimmer {
-  0%, 100% {
-    background-position: 0% 50%;
-    opacity: 0.7;
-  }
-  50% {
-    background-position: 100% 50%;
-    opacity: 1;
-  }
+.emergent-chat-window::after {
+  content: '';
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.08)
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
@@ -257,10 +262,11 @@
   min-height: 140px; /* -10% тоньше */
 }
 
-/* ==================== INPUT AREA (TOP) ==================== */
+/* ==================== INPUT AREA (TOP) - внутри акриловой шапки ==================== */
 .emergent-input-area {
-  padding: 42px 20px 12px; /* -10% тоньше */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 40px 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent; /* Шапка уже акриловая */
 }
 
 .emergent-input-area input {
