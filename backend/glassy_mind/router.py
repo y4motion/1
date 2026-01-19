@@ -376,7 +376,7 @@ async def get_recent_events(
     """Get recent behavior events for analytics."""
     await observer._ensure_db()
     
-    if not observer._db:
+    if observer._db is None:
         return {"success": False, "error": "MongoDB required"}
     
     query = {}
