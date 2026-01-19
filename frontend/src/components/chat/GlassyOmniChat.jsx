@@ -183,32 +183,43 @@ export default function GlassyOmniChat() {
             onClick={() => setIsOpen(true)}
             className="pointer-events-auto cursor-pointer group"
           >
-            {/* The Strip Container */}
-            <div className="agar-acrylic breathing-border h-12 w-[400px] rounded-full flex items-center justify-between px-6 transition-all duration-300 group-hover:w-[420px] group-hover:scale-[1.02]">
+            {/* The Strip Container - Ethereal Artifact */}
+            <div className={`agar-acrylic breathing-border ${aiStatus === 'analyzing' ? 'analyzing' : ''} h-12 w-[420px] rounded-[2rem] flex items-center justify-between px-6 transition-all duration-500 group-hover:w-[440px] group-hover:scale-[1.02]`}>
               
-              {/* Left: Status Indicator */}
+              {/* Left: Status Indicator - Amber when thinking */}
               <div className="flex items-center gap-3">
-                <div className={`w-2 h-2 rounded-full ${aiStatus === 'analyzing' ? 'bg-purple-500 animate-pulse' : 'bg-emerald-500'}`} 
-                     style={{ boxShadow: aiStatus === 'analyzing' ? '0 0 8px #8b5cf6' : '0 0 8px #22c55e' }} />
-                <span className="text-xs font-mono text-white/60 tracking-widest uppercase">
-                  {aiStatus === 'analyzing' ? 'AI ANALYZING CONTEXT...' : 'SYSTEM ONLINE'}
+                <div 
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${aiStatus === 'analyzing' ? 'animate-pulse' : ''}`}
+                  style={{ 
+                    backgroundColor: aiStatus === 'analyzing' ? '#FF9F43' : '#22c55e',
+                    boxShadow: aiStatus === 'analyzing' 
+                      ? '0 0 12px #FF9F43, 0 0 24px rgba(255, 159, 67, 0.4)' 
+                      : '0 0 8px #22c55e' 
+                  }} 
+                />
+                <span className="text-[11px] font-mono text-white/50 tracking-[0.15em] uppercase">
+                  {aiStatus === 'analyzing' ? 'AI PROCESSING...' : 'ONLINE'}
                 </span>
               </div>
 
-              {/* Center: Subtle Activity Graph (Visual Flourish) */}
-              <div className="flex gap-1 h-3 items-end opacity-30">
+              {/* Center: Subtle Activity Graph - Amber tint when active */}
+              <div className="flex gap-[3px] h-3 items-end opacity-40">
                 {activityBars.map((bar, i) => (
                   <div 
                     key={i} 
-                    className="w-1 bg-white rounded-t-sm animate-pulse" 
-                    style={{ height: `${bar.height}%`, animationDelay: `${bar.delay}s` }} 
+                    className="w-[3px] rounded-t-sm animate-pulse" 
+                    style={{ 
+                      height: `${bar.height}%`, 
+                      animationDelay: `${bar.delay}s`,
+                      backgroundColor: aiStatus === 'analyzing' ? '#FF9F43' : 'rgba(255,255,255,0.6)'
+                    }} 
                   />
                 ))}
               </div>
 
               {/* Right: Context Icon */}
-              <div className="text-white/40">
-                <Cpu size={16} />
+              <div className="text-white/30">
+                <Cpu size={14} />
               </div>
             </div>
             
@@ -223,10 +234,10 @@ export default function GlassyOmniChat() {
              {/* Main Window */}
             <motion.div
               layoutId="glassy-chat"
-              className="agar-acrylic w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col relative mb-4"
+              className="agar-acrylic w-[500px] h-[600px] rounded-[2rem] overflow-hidden flex flex-col relative mb-4"
             >
-              {/* Header / Tabs */}
-              <div className="h-16 border-b border-white/5 flex items-center justify-between px-4 bg-white/5">
+              {/* Header / Tabs - Ethereal style */}
+              <div className="h-16 border-b border-white/[0.06] flex items-center justify-between px-5 bg-white/[0.02]">
                 <div className="flex gap-2">
                   {TABS.filter(t => !t.hidden).map((tab) => {
                     const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
@@ -277,8 +288,8 @@ export default function GlassyOmniChat() {
               <div className="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
                 {currentMessages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
-                    <div className="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                      <Sparkles size={28} className="text-purple-400" />
+                    <div className="w-16 h-16 rounded-[1.25rem] bg-amber-500/10 border border-amber-500/15 flex items-center justify-center">
+                      <Sparkles size={28} className="text-amber-400/80" />
                     </div>
                     <p className="text-white/50 text-sm max-w-[250px]">
                       {activeTab === 'ai' 
@@ -291,18 +302,18 @@ export default function GlassyOmniChat() {
                   currentMessages.map((msg) => (
                     <div key={msg.id} className={`flex gap-4 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
                       {msg.type === 'bot' && (
-                        <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30 flex-shrink-0">
-                          <Bot size={16} className="text-purple-400" />
+                        <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20 flex-shrink-0">
+                          <Bot size={16} className="text-amber-400" />
                         </div>
                       )}
                       <div className="flex-1 max-w-[80%]">
                         {msg.type === 'bot' && (
-                          <div className="text-xs text-purple-400/50 mb-1 font-mono">GLASSY MIND</div>
+                          <div className="text-[10px] text-amber-400/60 mb-1 font-mono tracking-wider">GLASSY MIND</div>
                         )}
-                        <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                        <div className={`p-4 rounded-[1.25rem] text-sm leading-relaxed ${
                           msg.type === 'user' 
-                            ? 'bg-purple-500/20 border border-purple-500/30 text-white ml-auto' 
-                            : 'bg-white/5 border border-white/5 text-gray-200'
+                            ? 'bg-white/[0.08] border border-white/[0.1] text-white ml-auto' 
+                            : 'bg-white/[0.03] border border-white/[0.06] text-gray-200'
                         }`}>
                           {msg.text}
                         </div>
@@ -316,13 +327,13 @@ export default function GlassyOmniChat() {
                 
                 {isTyping && (
                   <div className="flex gap-4">
-                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
-                      <Bot size={16} className="text-purple-400" />
+                    <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20">
+                      <Bot size={16} className="text-amber-400" />
                     </div>
-                    <div className="p-4 rounded-2xl bg-white/5 border border-white/5 flex gap-1">
-                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0s' }} />
-                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
-                      <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0.4s' }} />
+                    <div className="p-4 rounded-[1.25rem] bg-white/[0.03] border border-white/[0.06] flex gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0s' }} />
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '0.4s' }} />
                     </div>
                   </div>
                 )}
@@ -346,7 +357,7 @@ export default function GlassyOmniChat() {
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1, transition: { delay: 0.1 } }}
-              className="agar-acrylic h-14 w-[480px] mx-auto rounded-full flex items-center px-2 gap-2"
+              className="agar-acrylic h-14 w-[480px] mx-auto rounded-[2rem] flex items-center px-3 gap-2"
             >
                <button className="p-3 rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all">
                  <Mic size={20} />
@@ -362,7 +373,7 @@ export default function GlassyOmniChat() {
                <button 
                  onClick={sendMessage}
                  disabled={!inputValue.trim()}
-                 className="p-3 rounded-full bg-white/10 text-white hover:bg-purple-500 hover:text-white transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)] disabled:opacity-30 disabled:cursor-not-allowed"
+                 className="p-3 rounded-full bg-white/[0.08] text-white/80 hover:bg-amber-500/80 hover:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,159,67,0.4)] disabled:opacity-30 disabled:cursor-not-allowed"
                >
                  <Send size={18} />
                </button>

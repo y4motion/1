@@ -1,57 +1,85 @@
-# Glassy.Tech - Product Requirements Document
+# Glassy Marketplace PRD
 
 ## Original Problem Statement
-Full-stack marketplace platform for tech/gaming products with AI-powered assistance, behavior analytics, and "Glassy Mind" intelligent agent system.
+Build a sophisticated multi-purpose chat widget "Glassy Omni-Chat" with "Deep Acrylic" / "Agar Style" aesthetic for a tech marketplace. The widget should feature multiple modes (AI Assistant, Community, Commerce, Support), context-aware behavior, and a "Smart Bubbles" navigation system.
 
-## Core Features
+## Core Features Implemented
 
-### Implemented ✅
-- **Homepage:** Ultra-minimalist "calm premium tech" aesthetic
-- **Marketplace:** Product cards with hover panels, FastBuyModal + Stripe
-- **Product Detail Page:** Dynamic KeySpecs, ExpandableBlocks
-- **Glassy Mind Module:**
-  - User behavior tracking with MongoDB persistence
-  - A/B testing framework
-  - AI chat agent (GPT-4.1-mini)
-  - **Living Bar** — agent status system (idle → analyzing → ready_to_suggest)
-  - **Rules Engine** — 6 behavioral rules (hesitation, big_spender, tech_geek, etc.)
-  - **Notification Service** — email templates (mock), soft push queue
-- **Admin Dashboard:** `/admin/mind`
-- **Cart System:** CartContext + Stripe
+### 1. Glassy Omni-Chat (Deep Acrylic Redesign) ✅
+**Completed: Jan 19, 2026**
+- "Breathing Strip" idle state with pulsing border animation
+- Morphing transition from strip to expanded HUD via framer-motion
+- Context-aware status: "AI ANALYZING CONTEXT..." on Assembly/PC Builder pages
+- Detached "Input Island" below the main window
+- Multi-tab navigation (AI, Global, Guilds, Trade, Support)
+- Smart Channel Switcher for Guilds/Trade sub-navigation
+- Agar Acrylic material: 24px blur, deep shadows, noise texture
 
-### In Progress 🔄
-- Resend integration for real email sending
-- ML predictor for conversion probability
+### 2. AI Rules Engine & State Manager ✅
+- `state_manager.py`: Tracks user action counts and status
+- `rules_engine.py`: Triggers AI interventions based on behavior patterns
+- Proactive AI suggestions based on 'Hesitation' and 'Big Spender' patterns
 
-### Backlog 📋
+### 3. Hardware Compatibility Engine ✅
+- `compatibility_service.py`: Validates CPU socket, GPU size, PSU wattage
+- `/api/builder/validate` endpoint for real-time PC build validation
+- `CompatibilityResolver.jsx` UI component for error display
+
+### 4. Database Seeding ✅
+- `seed_tech_data.py`: Populates database with realistic tech products
+- Products include detailed `specs` for compatibility checks
+
+## Pending Verification (P1)
+- **Mixed Content Error Fix**: ReviewsTab and QATab should load data correctly on product detail pages
+
+## Upcoming Tasks (P2)
+- Voice messages and Screen Share for Support Chat mode
+- Smart PC Builder Start (budget-based recommendations)
+- ProductCard hover panel robustness verification
+
+## Future Tasks (Backlog)
+- Authenticated Chat for "Glassy Swap"
+- "sudo make me a sandwich" Easter Egg
 - User Trust/Rating System
-- Social features (`/feed`, `/articles`, `/creators`)
-- Alternative payments (Tinkoff + Cryptomus)
-- Performance optimization
+- Social features: /feed, /articles, /creators
+- Alternate Payment Systems (Tinkoff + Cryptomus)
+- Performance Optimization (lazy loading, image optimization)
 
-## Technical Architecture
-```
-/app/backend/glassy_mind/
-├── state_manager.py      # Singleton for agent state
-├── observer.py           # User tracking + MarketObserver
-├── rules_engine.py       # 6 behavioral rules
-├── notification_service.py # Email + soft push
-├── expert_brain.py       # Compatibility analysis
-├── chat_agent.py         # GPT-4.1-mini
-└── router.py             # API endpoints
-```
+## Tech Stack
+- Frontend: React + Tailwind CSS + framer-motion + lucide-react
+- Backend: FastAPI + MongoDB
+- AI Integration: OpenAI GPT via emergentintegrations
+- Payments: Stripe (integrated)
 
 ## Key API Endpoints
-- `POST /api/mind/event` — track user events
-- `GET /api/mind/agent-status` — Living Bar status
-- `GET /api/mind/rules` — list all rules
-- `POST /api/mind/notifications/test` — test email
-- `GET /api/mind/notifications/pending` — queued notifications
+- `POST /api/builder/validate` - PC build compatibility check
+- `POST /api/mind/event` - User action tracking
+- `GET /api/mind/agent-status` - AI status polling
+- `POST /api/mind/chat` - AI chat endpoint
 
-## Integrations
-- **Stripe:** Payments
-- **emergentintegrations:** OpenAI GPT-4.1-mini
-- **Resend:** Email (configured, mock mode)
+## Architecture
+```
+/app/backend/
+├── glassy_mind/
+│   ├── state_manager.py
+│   ├── rules_engine.py
+│   └── notification_service.py (MOCK)
+├── services/
+│   └── compatibility_service.py
+└── routes/
+    └── builder_routes.py
 
----
-*Last Updated: January 19, 2025*
+/app/frontend/src/components/
+├── chat/
+│   ├── GlassyOmniChat.jsx (Deep Acrylic Style)
+│   ├── GlassyOmniChat.css
+│   └── SmartChannelSwitcher.jsx
+└── pc-builder/
+    └── CompatibilityResolver.jsx
+```
+
+## 3rd Party Integrations
+- **Stripe**: Payments (tested, working)
+- **emergentintegrations (OpenAI)**: AI Chat (uses Emergent LLM Key)
+- **resend**: Email notifications (MOCKED)
+- **framer-motion**: Animations for chat morphing
