@@ -170,108 +170,128 @@
 }
 
 /* ========================================
-   AGENT SUGGESTION POPUP
+   AGENT SUGGESTION POPUP - Ultra Minimal AI Face
    ======================================== */
 
 .agent-suggestion-popup {
   position: absolute;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(20, 20, 30, 0.95) 100%);
+  
+  /* Ultra minimal glass effect */
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 92, 246, 0.4);
-  border-radius: 16px;
-  padding: 1rem 1.25rem;
-  max-width: 320px;
-  min-width: 200px;
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(139, 92, 246, 0.2);
-  animation: suggestion-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Thin elegant border */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  
+  /* Pill shape - elongated */
+  border-radius: 100px;
+  padding: 0.5rem 1.5rem;
+  
+  /* Constrained width for elegance */
+  max-width: 400px;
+  min-width: 180px;
+  
+  /* Subtle presence */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  
+  animation: suggestion-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 10;
 }
 
-@keyframes suggestion-slide-in {
+@keyframes suggestion-fade-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(15px) scale(0.95);
+    transform: translateX(-50%) translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0);
   }
 }
 
 .suggestion-close {
   position: absolute;
-  top: 8px;
+  top: 50%;
   right: 8px;
-  width: 24px;
-  height: 24px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
   border: none;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  border-radius: 50%;
 }
 
 .suggestion-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .suggestion-content {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
   cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.suggestion-content:hover {
-  transform: translateY(-2px);
+  padding-right: 1.5rem;
 }
 
 .suggestion-icon {
-  color: #fbbf24;
-  animation: icon-glow 2s ease-in-out infinite;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  animation: none; /* Remove aggressive animation */
+  transition: color 0.3s ease;
 }
 
-@keyframes icon-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
-  }
-  50% {
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.7));
-  }
+.suggestion-content:hover .suggestion-icon {
+  color: rgba(139, 92, 246, 0.7);
 }
 
 .suggestion-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #a78bfa;
-  letter-spacing: 0.02em;
+  display: none; /* Hide title for cleaner look */
 }
 
 .suggestion-text {
-  font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
 }
 
-/* Mobile adjustments */
+.suggestion-content:hover .suggestion-text {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Subtle hover glow */
+.agent-suggestion-popup:hover {
+  border-color: rgba(139, 92, 246, 0.15);
+  box-shadow: 0 4px 30px rgba(139, 92, 246, 0.08);
+}
+
+/* Mobile - slightly wider */
 @media (max-width: 480px) {
   .agent-suggestion-popup {
-    max-width: 280px;
-    padding: 0.875rem 1rem;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    max-width: 85vw;
+    padding: 0.5rem 1.25rem;
+  }
+  
+  .suggestion-text {
+    font-size: 0.75rem;
   }
 }
 
