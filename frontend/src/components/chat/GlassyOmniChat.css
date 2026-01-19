@@ -129,8 +129,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 650px;
-  height: 300px;
+  max-width: 600px;
+  height: 260px;
   
   /* Стекло */
   background: var(--ghost-bg);
@@ -138,7 +138,7 @@
   -webkit-backdrop-filter: blur(24px) saturate(120%);
   
   /* Форма */
-  border-radius: 20px 20px 0 0;
+  border-radius: 18px 18px 0 0;
   border: 1px solid var(--ghost-border);
   border-bottom: none;
   
