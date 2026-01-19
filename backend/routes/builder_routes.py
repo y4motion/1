@@ -10,7 +10,7 @@ import logging
 
 from services.compatibility_service import compatibility_service
 from utils.auth_utils import get_current_user_optional
-from utils.database import get_database
+from database import db
 
 logger = logging.getLogger(__name__)
 
