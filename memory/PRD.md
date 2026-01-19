@@ -1,81 +1,57 @@
 # Glassy.Tech - Product Requirements Document
 
 ## Original Problem Statement
-Full-stack marketplace platform for tech/gaming products with AI-powered assistance, user behavior analytics, and "Glassy Mind" intelligent agent system.
+Full-stack marketplace platform for tech/gaming products with AI-powered assistance, behavior analytics, and "Glassy Mind" intelligent agent system.
 
 ## Core Features
 
 ### Implemented ✅
-- **Homepage:** Ultra-minimalist design with "calm premium tech" aesthetic (purple/blue/teal palette)
-- **Marketplace:** Product cards with hover-activated expanded panels, Shopify-style FastBuyModal
-- **Product Detail Page:** Dynamic components (KeySpecs, ExpandableBlocks) based on product tags
-- **Glassy Mind Module:** 
-  - User behavior tracking (views, cart adds, dwell time)
-  - Session management with MongoDB persistence
+- **Homepage:** Ultra-minimalist "calm premium tech" aesthetic
+- **Marketplace:** Product cards with hover panels, FastBuyModal + Stripe
+- **Product Detail Page:** Dynamic KeySpecs, ExpandableBlocks
+- **Glassy Mind Module:**
+  - User behavior tracking with MongoDB persistence
   - A/B testing framework
-  - AI chat agent (GPT-4.1-mini via emergentintegrations)
-  - Product compatibility analyzer
-  - **NEW:** "Living Bar" agent status system (idle → analyzing → ready_to_suggest)
-- **Admin Dashboard:** `/admin/mind` for analytics monitoring
-- **Cart System:** CartContext with Stripe integration
-- **GlassyChatBar:** Collapsible chat bar with WebSocket support, voice input
+  - AI chat agent (GPT-4.1-mini)
+  - **Living Bar** — agent status system (idle → analyzing → ready_to_suggest)
+  - **Rules Engine** — 6 behavioral rules (hesitation, big_spender, tech_geek, etc.)
+  - **Notification Service** — email templates (mock), soft push queue
+- **Admin Dashboard:** `/admin/mind`
+- **Cart System:** CartContext + Stripe
 
 ### In Progress 🔄
-- **Notification System:** Email via Resend, ML predictor, webhooks (Task started, not completed)
-- **Mixed Content Bug Fix:** Reviews/Q&A tabs not loading live data
+- Resend integration for real email sending
+- ML predictor for conversion probability
 
 ### Backlog 📋
-- Authenticated chat testing for Glassy Swap
-- "sudo make me a sandwich" Easter Egg
 - User Trust/Rating System
 - Social features (`/feed`, `/articles`, `/creators`)
 - Alternative payments (Tinkoff + Cryptomus)
-- Performance optimization (lazy loading, image optimization)
+- Performance optimization
 
 ## Technical Architecture
-
 ```
-/app/
-├── backend/
-│   ├── glassy_mind/           # AI/Analytics brain
-│   │   ├── observer.py        # User tracking + Agent Status
-│   │   ├── expert_brain.py    # Compatibility analysis
-│   │   ├── router.py          # API endpoints
-│   │   ├── chat_agent.py      # GPT-4.1-mini integration
-│   │   ├── abandoned_cart.py  # Webhook system
-│   │   └── email_notifications.py
-│   ├── routes/
-│   └── server.py
-└── frontend/
-    └── src/
-        ├── components/
-        │   ├── chat/
-        │   │   ├── GlassyChatBar.jsx  # Living Bar implementation
-        │   │   └── GlassyChatBar.css
-        │   ├── admin/
-        │   └── marketplace/
-        └── contexts/
+/app/backend/glassy_mind/
+├── state_manager.py      # Singleton for agent state
+├── observer.py           # User tracking + MarketObserver
+├── rules_engine.py       # 6 behavioral rules
+├── notification_service.py # Email + soft push
+├── expert_brain.py       # Compatibility analysis
+├── chat_agent.py         # GPT-4.1-mini
+└── router.py             # API endpoints
 ```
 
 ## Key API Endpoints
-
-### Glassy Mind (`/api/mind/*`)
-- `GET /status` - Module status
-- `GET /agent-status` - UI "Living Bar" status (polling every 10s)
-- `POST /agent-status/dismiss` - Clear suggestion
-- `POST /track/view` - Track product view
-- `POST /track/cart` - Track cart add
-- `POST /chat` - AI chat endpoint
-- `GET /ab-test/results` - A/B testing analytics
+- `POST /api/mind/event` — track user events
+- `GET /api/mind/agent-status` — Living Bar status
+- `GET /api/mind/rules` — list all rules
+- `POST /api/mind/notifications/test` — test email
+- `GET /api/mind/notifications/pending` — queued notifications
 
 ## Integrations
-- **Stripe:** Payment processing
-- **emergentintegrations:** OpenAI GPT-4.1-mini for chat
-- **Resend:** Email notifications (configured, not fully implemented)
-
-## Known Issues
-- **P1:** Mixed Content errors preventing Reviews/Q&A tabs from loading
-- **P1:** ProductCard hover panel requires robustness verification
+- **Stripe:** Payments
+- **emergentintegrations:** OpenAI GPT-4.1-mini
+- **Resend:** Email (configured, mock mode)
 
 ---
 *Last Updated: January 19, 2025*
