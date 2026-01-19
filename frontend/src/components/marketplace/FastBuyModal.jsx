@@ -5,7 +5,8 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import OptimizedImage from '../OptimizedImage';
 import './FastBuyModal.css';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+// Use relative URLs to avoid mixed content issues in HTTPS environments
+const API_URL = '';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || 'pk_test_placeholder');
