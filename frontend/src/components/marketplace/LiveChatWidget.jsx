@@ -42,81 +42,48 @@ const getInitialData = (productId) => {
 // AI-powered response generation using Glassy Mind
 const generateAIResponse = async (userMessage, productTitle, productCategory) => {
   try {
-    // First get user context from Mind
-    const contextRes = await fetch(`${API_URL}/api/mind/analyze`, {
+    // Call the new AI chat endpoint
+    const response = await fetch(`${API_URL}/api/mind/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ include_suggestions: true })
+      body: JSON.stringify({
+        message: userMessage,
+        product_info: {
+          title: productTitle,
+          category: productCategory
+        }
+      })
     });
     
-    const contextData = await contextRes.json();
-    
-    // Generate contextual response based on user message and context
-    const lowerMessage = userMessage.toLowerCase();
-    const category = (productCategory || '').toLowerCase();
-    const suggestions = contextData.suggestions?.suggestions || [];
-    
-    // Smart response logic
-    let response = null;
-    let isAI = false;
-    
-    // Questions about compatibility
-    if (lowerMessage.includes('compatible') || lowerMessage.includes('совместим') || 
-        lowerMessage.includes('work with') || lowerMessage.includes('подойдет')) {
-      isAI = true;
-      if (category.includes('gpu') || category.includes('graphics')) {
-        response = `🤖 For GPU compatibility, check your PSU wattage (this card needs 650W+ recommended) and PCIe slot availability. What\'s your current setup?`;
-      } else if (category.includes('headphone') || category.includes('audio')) {
-        response = `🤖 These headphones work with any device with Bluetooth 5.0+ or 3.5mm jack. For best audio quality, consider a DAC/amp combo!`;
-      } else if (category.includes('keyboard') || category.includes('mouse')) {
-        response = `🤖 Works with Windows, Mac, and Linux. The wireless receiver uses a standard USB-A port. Need adapter for USB-C only devices.`;
-      } else {
-        response = `🤖 I can help with compatibility! What device are you planning to use this with?`;
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.response) {
+        return {
+          response: data.is_ai ? `🤖 ${data.response}` : data.response,
+          isAI: data.is_ai || false,
+          abGroup: data.ab_group
+        };
       }
     }
     
-    // Questions about quality/worth
-    else if (lowerMessage.includes('worth') || lowerMessage.includes('стоит') || 
-             lowerMessage.includes('quality') || lowerMessage.includes('качество')) {
-      isAI = true;
-      const viewedCount = contextData.context?.total_views || 0;
-      if (viewedCount > 3) {
-        response = `🤖 I see you\'ve been researching! Based on reviews, this is excellent value. ${productTitle} has a 4.5+ average rating.`;
-      } else {
-        response = `🤖 Great question! Check the Reviews tab for verified buyer feedback. Most users rate the build quality highly.`;
+    // Fallback to quick tip
+    const tipResponse = await fetch(`${API_URL}/api/mind/quick-tip`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: productTitle,
+        category: productCategory
+      })
+    });
+    
+    if (tipResponse.ok) {
+      const tipData = await tipResponse.json();
+      if (tipData.tip) {
+        return { response: tipData.tip, isAI: false, abGroup: tipData.ab_group };
       }
     }
     
-    // Price questions
-    else if (lowerMessage.includes('price') || lowerMessage.includes('цен') || 
-             lowerMessage.includes('discount') || lowerMessage.includes('скидк') ||
-             lowerMessage.includes('deal') || lowerMessage.includes('sale')) {
-      isAI = true;
-      response = `🤖 Pro tip: Add to wishlist to get notified about price drops! We also have promo codes occasionally - check the homepage banner.`;
-    }
-    
-    // Shipping questions
-    else if (lowerMessage.includes('ship') || lowerMessage.includes('доставк') || 
-             lowerMessage.includes('delivery') || lowerMessage.includes('когда приедет')) {
-      isAI = true;
-      response = `🤖 Standard shipping is 3-5 business days. Express available at checkout. Free shipping on orders over $99!`;
-    }
-    
-    // General tech questions - use bundle suggestions
-    else if (lowerMessage.includes('recommend') || lowerMessage.includes('посоветуй') ||
-             lowerMessage.includes('suggest') || lowerMessage.includes('what else')) {
-      isAI = true;
-      const bundleSuggestion = suggestions.find(s => s.type === 'bundle');
-      if (bundleSuggestion) {
-        const accessories = bundleSuggestion.recommended_accessories?.slice(0, 2).join(', ') || 'accessories';
-        response = `🤖 Based on your browsing, I\'d suggest adding a ${accessories} to complete your setup! Perfect combo with ${productTitle}.`;
-      } else {
-        response = `🤖 Check the "Related Products" section below - we've curated items that pair well with this!`;
-      }
-    }
-    
-    // Return AI response or null for community response
-    return { response, isAI };
+    return { response: null, isAI: false };
     
   } catch (error) {
     console.log('AI response generation failed, using fallback');
