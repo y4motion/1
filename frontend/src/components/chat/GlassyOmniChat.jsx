@@ -1,10 +1,10 @@
 /**
  * GlassyOmniChat - Ghost Dock (Emergent Style)
  * 
- * - Чат "растворяется" вверх через mask-image
- * - Иконки слева, крупные, монохромные
- * - Автоматическая высота от контента
- * - Пульсация border-top оранжевым
+ * Структура как у Emergent:
+ * - Статус слева сверху на границе окна
+ * - Input сверху окна
+ * - Tabs снизу
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -17,7 +17,6 @@ import {
   ShoppingBag,
   ArrowUp,
   Mic,
-  Sparkles,
   Paperclip,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -41,9 +40,9 @@ export default function GlassyOmniChat() {
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [lastActivity, setLastActivity] = useState(Date.now());
-  const [statusText, setStatusText] = useState('');
-  const [statusType, setStatusType] = useState('idle'); // idle, typing, thinking, uploading, away
+  const [statusType, setStatusType] = useState('idle');
   
   const location = useLocation();
   const { user } = useAuth();
@@ -51,7 +50,7 @@ export default function GlassyOmniChat() {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Status text based on type
+  // Status text
   const getStatusText = useCallback(() => {
     const texts = {
       ru: {
@@ -60,22 +59,22 @@ export default function GlassyOmniChat() {
         thinking: 'AI думает...',
         uploading: 'Загружает файл...',
         away: 'Собеседник отошёл',
-        analyzing: 'Анализирует контекст...',
+        analyzing: 'Анализирует...',
       },
       en: {
         idle: 'Ready to help',
         typing: 'AI is typing...',
-        thinking: 'AI is thinking...',
-        uploading: 'Uploading file...',
-        away: 'User is away',
-        analyzing: 'Analyzing context...',
+        thinking: 'Thinking...',
+        uploading: 'Uploading...',
+        away: 'Away',
+        analyzing: 'Analyzing...',
       }
     };
     const lang = language === 'ru' ? 'ru' : 'en';
     return texts[lang][statusType] || texts[lang].idle;
   }, [statusType, language]);
 
-  // Update status based on isTyping
+  // Update status
   useEffect(() => {
     if (isTyping) {
       setStatusType('typing');
@@ -86,16 +85,6 @@ export default function GlassyOmniChat() {
       setStatusType('idle');
     }
   }, [isTyping, aiStatus]);
-
-  // Check for "away" status (no activity for 2+ minutes)
-  useEffect(() => {
-    const checkAway = setInterval(() => {
-      if (isOpen && Date.now() - lastActivity > 120000) {
-        setStatusType('away');
-      }
-    }, 30000);
-    return () => clearInterval(checkAway);
-  }, [isOpen, lastActivity]);
 
   // Context Awareness
   useEffect(() => {
@@ -174,7 +163,7 @@ export default function GlassyOmniChat() {
               {
                 id: Date.now(),
                 type: 'bot',
-                text: data.response || 'Понял. Чем помочь?',
+                text: data.response || 'Понял.',
                 timestamp: new Date(),
               }
             ]
@@ -213,22 +202,42 @@ export default function GlassyOmniChat() {
         {/* === ACTIVE: Ghost Dock === */}
         {isOpen && (
           <motion.div
-            key="ghost-dock-wrapper"
+            key="ghost-dock"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 30, opacity: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="ghost-dock-wrapper"
+            className="ghost-dock"
           >
-            {/* Status Indicator - НАД окном чата */}
+            {/* Status - слева сверху на границе окна */}
             <div className={`dock-status ${statusType}`}>
               <div className="status-dot" />
               <span className="status-text">{getStatusText()}</span>
             </div>
 
-            {/* Main Dock */}
-            <div className="ghost-dock">
-            {/* Messages - растворяются вверх */}
+            {/* Input Area - СВЕРХУ */}
+            <div className="dock-input-area">
+              <textarea
+                ref={inputRef}
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  setLastActivity(Date.now());
+                }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
+                placeholder={isFocused ? (language === 'ru' ? 'Введите сообщение...' : 'Type a message...') : ''}
+                rows={1}
+              />
+            </div>
+
+            {/* Messages */}
             {currentMessages.length > 0 && (
               <div className="dock-messages">
                 {currentMessages.map((msg) => (
@@ -258,17 +267,9 @@ export default function GlassyOmniChat() {
               </div>
             )}
 
-            {/* Empty state */}
-            {currentMessages.length === 0 && (
-              <div className="dock-empty">
-                <Sparkles size={16} />
-                <span>{language === 'ru' ? 'Спросите что угодно' : 'Ask anything'}</span>
-              </div>
-            )}
-
-            {/* Control Row: Tabs + Input */}
+            {/* Bottom Controls: Tabs + Actions */}
             <div className="dock-controls">
-              {/* Tabs - слева, крупные, монохромные */}
+              {/* Tabs - слева */}
               <div className="dock-tabs">
                 {NAV_TABS.map((tab) => {
                   const isActive = activeTab === tab.id;
@@ -287,32 +288,26 @@ export default function GlassyOmniChat() {
                 })}
               </div>
 
-              {/* Input - справа, прозрачное */}
-              <div className="dock-input">
-                <button className="input-btn attach" title="Attach file">
+              {/* Spacer */}
+              <div className="dock-spacer" />
+
+              {/* Actions - справа */}
+              <div className="dock-actions">
+                <button className="action-btn" title="Attach">
                   <Paperclip size={18} />
                 </button>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value);
-                    setLastActivity(Date.now());
-                  }}
-                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
-                />
-                <button className="input-btn mic"><Mic size={18} /></button>
+                <button className="action-btn" title="Voice">
+                  <Mic size={18} />
+                </button>
                 <button 
-                  className="input-btn send"
+                  className="action-btn send"
                   onClick={sendMessage}
                   disabled={!inputValue.trim()}
+                  title="Send"
                 >
                   <ArrowUp size={18} />
                 </button>
               </div>
-            </div>
             </div>
           </motion.div>
         )}
