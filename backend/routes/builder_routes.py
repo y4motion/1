@@ -86,7 +86,7 @@ async def quick_compatibility_check(
     
     Используется при добавлении в корзину для проактивного предупреждения.
     """
-    db = await get_database()
+    # Use global db
     if db is None:
         raise HTTPException(status_code=500, detail="Database not available")
     
