@@ -1,244 +1,81 @@
-# Glassy Market - Product Requirements Document
+# Glassy.Tech - Product Requirements Document
 
 ## Original Problem Statement
-Full-stack gaming marketplace with React + FastAPI + MongoDB. The project evolved from initial bug fixes into a major UI/UX redesign with multiple phases:
+Full-stack marketplace platform for tech/gaming products with AI-powered assistance, user behavior analytics, and "Glassy Mind" intelligent agent system.
 
-1. Ultra-minimalist homepage redesign
-2. Shopify-style marketplace with interactive ProductCards
-3. Next-Gen ProductDetailPage with TJExclusives/Gearz.gg style components
-4. **Site-wide "Calm Premium Tech" design system** (Apple Vision Pro + Linear style)
+## Core Features
 
-## User Personas
-- Gaming enthusiasts looking for premium gear
-- PC builders seeking components
-- Tech-savvy users who appreciate minimalist, premium design
+### Implemented ✅
+- **Homepage:** Ultra-minimalist design with "calm premium tech" aesthetic (purple/blue/teal palette)
+- **Marketplace:** Product cards with hover-activated expanded panels, Shopify-style FastBuyModal
+- **Product Detail Page:** Dynamic components (KeySpecs, ExpandableBlocks) based on product tags
+- **Glassy Mind Module:** 
+  - User behavior tracking (views, cart adds, dwell time)
+  - Session management with MongoDB persistence
+  - A/B testing framework
+  - AI chat agent (GPT-4.1-mini via emergentintegrations)
+  - Product compatibility analyzer
+  - **NEW:** "Living Bar" agent status system (idle → analyzing → ready_to_suggest)
+- **Admin Dashboard:** `/admin/mind` for analytics monitoring
+- **Cart System:** CartContext with Stripe integration
+- **GlassyChatBar:** Collapsible chat bar with WebSocket support, voice input
 
-## Core Requirements
-- **Marketplace:** Grid of products with interactive hover panels
-- **Product Detail:** Universal, API-driven page with multi-component layout
-- **Payments:** Stripe integration via FastBuyModal
-- **Listing Creation:** 4-step wizard for sellers
-- **Design Philosophy:** Calm Premium Tech - soft purples, teals, no aggressive neon green
+### In Progress 🔄
+- **Notification System:** Email via Resend, ML predictor, webhooks (Task started, not completed)
+- **Mixed Content Bug Fix:** Reviews/Q&A tabs not loading live data
 
----
-
-## What's Been Implemented
-
-### January 19, 2026 - Session 5: AI + Dashboard + Webhooks
-- **GPT Integration via emergentintegrations:**
-  - Updated `chat_agent.py` to use `emergentintegrations.llm.chat`
-  - Model: `openai/gpt-4.1-mini` via Emergent LLM Key
-  - Context-aware responses with product info and user history
-  - Tested: "Подойдет ли RTX 4070 для игр в 1440p?" → AI ответ ✅
-
-- **Mind Dashboard (`/admin/mind`):**
-  - Real-time stats: views, cart adds, sessions, events
-  - Feature status: MongoDB, AI Chat, A/B Testing (all ON)
-  - A/B Test visualization with conversion bars
-  - Recent events table with filtering
-  - Auto-refresh toggle (10s interval)
-  - Knowledge base categories display
-
-- **Abandoned Cart Webhook System:**
-  - `abandoned_cart.py` — full webhook implementation
-  - Tracks cart activity for abandonment detection
-  - Configurable reminder delay (default 30 min)
-  - Endpoints: track, converted, check-abandoned, stats
-  - MongoDB persistence for cart data
-
-### January 19, 2026 - Session 4: MongoDB Persistence + Deepseek AI + A/B Testing
-- **MongoDB Persistence for Observer:**
-  - Sessions stored in `user_sessions` collection
-  - Events stored in `behavior_events` collection
-  - Automatic indexes for efficient queries
-  - Fallback to in-memory if MongoDB unavailable
-
-- **Deepseek AI Integration:**
-  - `chat_agent.py` — Full AI chat with context-aware responses
-  - System prompt includes product info, user context, and knowledge base
-  - Fallback to rule-based quick tips if API unavailable
-  - A/B test different suggestion styles
-
-- **A/B Testing System:**
-  - Users assigned to group A or B based on user_id hash
-  - Group A: Direct product recommendations
-  - Group B: Question-based engagement
-  - Endpoints: `/api/mind/ab-test/results`, `/api/mind/ab-test/my-group`
-  - Conversion tracking (views → cart adds)
-
-- **New API Endpoints:**
-  - `POST /api/mind/chat` — AI chat with Deepseek
-  - `POST /api/mind/quick-tip` — Fast rule-based tips
-  - `GET /api/mind/ab-test/results` — A/B test analytics
-  - `GET /api/mind/ab-test/my-group` — User's test group
-  - `GET /api/mind/analytics/events` — Recent behavior events
-
-### January 19, 2026 - Session 3: Glassy Mind AI Brain + Full Integration
-- **Created `/app/backend/glassy_mind/` module:**
-  - `observer.py` — Отслеживание поведения пользователей (views, cart, dwell time)
-  - `expert_brain.py` — TechExpert с расширенной базой знаний
-  - `router.py` — FastAPI эндпоинты `/api/mind/*`
-
-- **Frontend Integration:**
-  - `ProductDetailPage.jsx` — Автоматический трекинг просмотров и dwell time при открытии страницы
-  - `LiveChatWidget.jsx` — AI-powered ответы через Glassy Mind API:
-    - Распознаёт вопросы о совместимости, качестве, ценах, доставке
-    - Использует контекст пользователя для персонализации
-    - AI badge и typing indicator
-
-- **Extended Knowledge Base:**
-  - 30+ GPU с TDP и рекомендациями по БП
-  - Socket compatibility (AM5, AM4, LGA1700, LGA1851, LGA1200)
-  - RAM compatibility (DDR4, DDR5)
-  - Peripheral bundles (headphones, keyboards, mice, monitors)
-  - Gaming presets (esports, enthusiast, 4K, budget)
-
-### January 19, 2026 - Session 2: Dynamic Components
-- **Made ExpandableBlocks dynamic:**
-  - Now shows category-specific content based on product tags
-  - Headphones: Battery Details + Weight Breakdown
-  - Mouse: Sensor + Weight
-  - Keyboard: Switches + Battery
-  - Monitor: Panel + Color specs
-  - GPU: Performance + Power requirements
-
-- **Made KeySpecs dynamic:**
-  - Now reads product.tags to determine category
-  - Shows appropriate specs for each product type
-
-### January 19, 2026 - Session 1: Calm Premium Tech Design System
-- **Applied new color palette site-wide:**
-  - Replaced all `#00ff88` (neon green) with `#8b5cf6` (soft purple) and `#14b8a6` (teal)
-  - Updated CSS variables in all marketplace components
-  - Created `/app/frontend/src/styles/refined-colors.css` as the single source of truth
-
-- **Updated CSS Files:**
-  - `ProductDetailPage.css` - Full rewrite with new palette
-  - `tabs/TabStyles.css` - Tabs now use purple/teal accents
-  - `KeySpecs.css` - Highlight values now teal
-  - `ExpandableBlock.css` - Purple accent on expand
-  - `ProductCustomizer.css` - Weight values now purple
-  - `ProductReactions.css` - Active state now purple
-
-### Previously Completed (from handoff)
-- Ultra-minimalist homepage
-- ProductCard with hover-activated expanded panel
-- ProductDetailPage with TJExclusives-style gallery
-- LiveChatWidget (floating panel)
-- ProductReactions component
-- KeySpecs and ExpandableBlock components
-- Tab components (Overview, Specs, Reviews, Community, Q&A)
-- FastBuyModal with Stripe integration ✓ TESTED
-- Create Listing wizard ✓ TESTED
-- CartContext for robust cart functionality
-
----
-
-## Design System Variables (refined-colors.css)
-
-```css
-/* Primary Accents */
---accent-primary: #8b5cf6;      /* Soft Purple */
---accent-secondary: #3b82f6;    /* Calm Blue */
---success-color: #14b8a6;       /* Soft Teal (for stock, verified badges) */
-
-/* Glass Effects */
---glass-light: rgba(255, 255, 255, 0.04);
---glass-medium: rgba(255, 255, 255, 0.06);
---glass-border-subtle: rgba(255, 255, 255, 0.06);
---glass-border-visible: rgba(255, 255, 255, 0.12);
-
-/* Glows */
---glow-subtle: 0 0 24px rgba(139, 92, 246, 0.1);
---glow-medium: 0 0 32px rgba(139, 92, 246, 0.15);
-```
-
----
-
-## Prioritized Backlog
-
-### P0 - Critical
-- [x] Apply "Calm Premium Tech" design system ✅ DONE
-- [x] Make ExpandableBlocks dynamic (category-aware) ✅ DONE
-- [x] Make KeySpecs dynamic (uses tags) ✅ DONE
-
-### P1 - High Priority
-- [ ] Make ProductDetailPage tabs fully API-driven (replace remaining mock data)
-- [x] Verify ProductCard expanded panel robustness ✅ VERIFIED (visual check)
-
-### P2 - Medium Priority
-- [ ] Test authenticated chat for "Glassy Swap"
-- [ ] Implement "sudo make me a sandwich" Easter Egg
-- [ ] Build User Trust/Rating System
-
-### P3 - Future
-- [ ] CORE AI Features with Deepseek (recommendations)
-- [ ] Social features: `/feed`, `/articles`, `/creators`
-- [ ] Alternative payments: Tinkoff + Cryptomus
-- [ ] Performance optimization (lazy loading, image optimization)
-- [ ] A/B Testing setup
-
----
+### Backlog 📋
+- Authenticated chat testing for Glassy Swap
+- "sudo make me a sandwich" Easter Egg
+- User Trust/Rating System
+- Social features (`/feed`, `/articles`, `/creators`)
+- Alternative payments (Tinkoff + Cryptomus)
+- Performance optimization (lazy loading, image optimization)
 
 ## Technical Architecture
 
 ```
 /app/
 ├── backend/
-│   ├── server.py
-│   └── routes/
-│       ├── payment_routes.py
-│       ├── promo_routes.py
-│       ├── swap_routes.py
-│       └── user_address_routes.py
+│   ├── glassy_mind/           # AI/Analytics brain
+│   │   ├── observer.py        # User tracking + Agent Status
+│   │   ├── expert_brain.py    # Compatibility analysis
+│   │   ├── router.py          # API endpoints
+│   │   ├── chat_agent.py      # GPT-4.1-mini integration
+│   │   ├── abandoned_cart.py  # Webhook system
+│   │   └── email_notifications.py
+│   ├── routes/
+│   └── server.py
 └── frontend/
     └── src/
-        ├── App.js
         ├── components/
-        │   ├── marketplace/
-        │   │   ├── ProductDetailPage.jsx/css  ← UPDATED
-        │   │   ├── LiveChatWidget.jsx/css
-        │   │   ├── ProductReactions.jsx/css   ← UPDATED
-        │   │   ├── KeySpecs.jsx/css           ← UPDATED
-        │   │   ├── ExpandableBlock.jsx/css    ← UPDATED
-        │   │   ├── ProductCustomizer.jsx/css  ← UPDATED
-        │   │   └── tabs/
-        │   │       └── TabStyles.css          ← UPDATED
-        │   └── MarketplacePage.jsx
-        ├── contexts/
-        │   └── CartContext.jsx
-        └── styles/
-            └── refined-colors.css             ← SOURCE OF TRUTH
+        │   ├── chat/
+        │   │   ├── GlassyChatBar.jsx  # Living Bar implementation
+        │   │   └── GlassyChatBar.css
+        │   ├── admin/
+        │   └── marketplace/
+        └── contexts/
 ```
 
----
-
 ## Key API Endpoints
-- `GET /api/products/` - List all products
-- `GET /api/products/:id` - Get single product
-- `POST /api/payments/create-payment-intent` - Stripe payment
-- `POST /api/swap/listings` - Create listing
 
----
+### Glassy Mind (`/api/mind/*`)
+- `GET /status` - Module status
+- `GET /agent-status` - UI "Living Bar" status (polling every 10s)
+- `POST /agent-status/dismiss` - Clear suggestion
+- `POST /track/view` - Track product view
+- `POST /track/cart` - Track cart add
+- `POST /chat` - AI chat endpoint
+- `GET /ab-test/results` - A/B testing analytics
 
-## 3rd Party Integrations
-- **Stripe:** Payment processing (tested, working)
-- **Deepseek:** Planned for AI features (not yet integrated)
-
----
+## Integrations
+- **Stripe:** Payment processing
+- **emergentintegrations:** OpenAI GPT-4.1-mini for chat
+- **Resend:** Email notifications (configured, not fully implemented)
 
 ## Known Issues
-- ProductCard expanded panel may need robustness testing
-- ProductDetailPage uses hardcoded mock data (needs API integration)
+- **P1:** Mixed Content errors preventing Reviews/Q&A tabs from loading
+- **P1:** ProductCard hover panel requires robustness verification
 
 ---
-
-## Testing Status
-- FastBuyModal: ✅ E2E tested
-- Create Listing Wizard: ✅ E2E tested
-- Design System Update: ✅ Visual verification done
-
----
-
-## User Language
-Russian (Русский)
+*Last Updated: January 19, 2025*
