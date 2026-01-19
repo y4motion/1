@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://swap-redesign.preview.emergentagent.com/
-- **Backend API:** https://swap-redesign.preview.emergentagent.com/api
-- **Превью японских фото:** https://swap-redesign.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://refined-glassy.preview.emergentagent.com/
+- **Backend API:** https://refined-glassy.preview.emergentagent.com/api
+- **Превью японских фото:** https://refined-glassy.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
