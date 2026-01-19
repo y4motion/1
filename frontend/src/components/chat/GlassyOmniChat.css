@@ -141,9 +141,15 @@
   /* Глубокий чёрный фон */
   background: var(--emergent-bg-deep);
   
+  /* Акриловая рамка: шапка + бока */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top-width: 1px;
+  
   /* Тень для глубины */
   box-shadow: 
-    0 4px 32px rgba(0, 0, 0, 0.5);
+    0 4px 32px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.08),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
   
   display: flex;
   flex-direction: column;
@@ -157,29 +163,18 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 58px; /* До начала текста "Message Agent" */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 56px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px 16px 0 0;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Боковые акриловые полосы */
-.emergent-chat-window::after {
-  content: '';
-  position: absolute;
-  top: 58px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  z-index: 0;
-  box-shadow: 
-    inset 2px 0 0 rgba(255, 255, 255, 0.04),
-    inset -2px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
@@ -362,17 +357,9 @@
   30% { transform: translateY(-4px); }
 }
 
-/* Empty state */
+/* Empty state - скрыт */
 .emergent-empty {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 24px 20px; /* -10% тоньше */
-  color: var(--emergent-text-muted);
-  font-size: 14px;
+  display: none;
 }
 
 .emergent-empty svg {
@@ -450,27 +437,9 @@
   cursor: not-allowed;
 }
 
-/* Text button (Fork) */
+/* Text button (Fork) - скрыт */
 .toolbar-btn-text {
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 18px;
-  border: none;
-  background: var(--emergent-btn-bg);
-  color: var(--emergent-text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-weight: 500;
-  transition: all 0.15s ease;
-}
-
-.toolbar-btn-text:hover {
-  background: var(--emergent-btn-hover);
-  color: var(--emergent-text);
+  display: none;
 }
 
 /* ==================== MOBILE ==================== */
