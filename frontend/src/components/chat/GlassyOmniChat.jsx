@@ -19,6 +19,7 @@ import {
   Mic,
   Sparkles,
   Paperclip,
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -50,6 +51,7 @@ export default function GlassyOmniChat() {
   const { language } = useLanguage();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const dockRef = useRef(null);
 
   // Status text based on type
   const getStatusText = useCallback(() => {
@@ -123,13 +125,22 @@ export default function GlassyOmniChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, activeTab]);
 
-  // Keyboard shortcut
+  // Keyboard shortcut + Click outside
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape' && isOpen) setIsOpen(false);
     };
+    const handleClickOutside = (e) => {
+      if (isOpen && dockRef.current && !dockRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isOpen]);
 
   // Send message
@@ -219,15 +230,20 @@ export default function GlassyOmniChat() {
             exit={{ y: 30, opacity: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="ghost-dock-wrapper"
+            ref={dockRef}
           >
-            {/* Status Indicator - НАД окном чата */}
-            <div className={`dock-status ${statusType}`}>
+            {/* Status Indicator - СНАРУЖИ над чатом */}
+            <div className={`dock-status-external ${statusType}`}>
               <div className="status-dot" />
-              <span className="status-text">{getStatusText()}</span>
+              <span>{getStatusText()}</span>
             </div>
 
             {/* Main Dock */}
             <div className="ghost-dock">
+              {/* Кнопка закрыть */}
+              <button className="dock-close-btn" onClick={() => setIsOpen(false)}>
+                <X size={16} />
+              </button>
             {/* Messages - растворяются вверх */}
             {currentMessages.length > 0 && (
               <div className="dock-messages">
