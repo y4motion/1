@@ -23,8 +23,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import './GlassyChatBar.css';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL || '';
-const WS_URL = API_URL.replace('http', 'ws');
+// Use relative URLs to avoid mixed content issues in HTTPS environments
+const API_URL = '';
+const WS_URL = (process.env.REACT_APP_BACKEND_URL || '').replace('http', 'ws');
 
 // Agent status constants (from backend)
 const AGENT_STATUS = {
