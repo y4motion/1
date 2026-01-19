@@ -146,7 +146,7 @@ async def get_compatible_recommendations(
     
     Например: для CPU вернёт совместимые материнские платы.
     """
-    db = await get_database()
+    # Use global db
     if db is None:
         raise HTTPException(status_code=500, detail="Database not available")
     
