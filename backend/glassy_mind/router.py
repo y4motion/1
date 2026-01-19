@@ -129,6 +129,44 @@ async def track_dwell_time(
     }
 
 
+# ==================== Event Tracking (Living Bar) ====================
+
+@router.post("/event")
+async def track_event(
+    event: EventRequest,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    Трекинг событий для Living Bar.
+    
+    После 3+ событий статус переключается в 'ready_to_suggest'.
+    Фронтенд отправляет события при кликах, просмотрах, фильтрации и т.д.
+    
+    Event types: view, click, filter, cart_add, search, compare
+    """
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    # Обрабатываем событие через observer
+    new_status = await observer.process_event(
+        user_id=user_id,
+        event_type=event.event_type,
+        metadata=event.metadata
+    )
+    
+    # Получаем полное состояние
+    state = state_manager.get_user_state(user_id)
+    
+    logger.info(f"📡 Event tracked: {event.event_type} from {user_id} -> status: {new_status}")
+    
+    return {
+        "success": True,
+        "status": "recorded",
+        "current_mind_state": new_status,
+        "action_count": state.get("action_count", 0),
+        "suggestion": state.get("suggestion") if new_status == AgentStatus.READY_TO_SUGGEST else None
+    }
+
+
 # ==================== Analysis Endpoints ====================
 
 @router.post("/analyze")
