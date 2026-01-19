@@ -39,19 +39,20 @@ class MarketObserver:
         self, 
         user_id: str, 
         event_type: str, 
-        metadata: Optional[Dict] = None
-    ) -> str:
+        metadata: Optional[Dict] = None,
+        user_context: Optional[Dict] = None
+    ) -> Dict:
         """
-        Анализирует событие пользователя.
-        Если накопилось 3+ действий -> меняет статус на ready_to_suggest.
+        Анализирует событие пользователя через RulesEngine.
         
         Args:
             user_id: ID пользователя
             event_type: Тип события (view, click, filter, cart_add, etc.)
             metadata: Дополнительные данные о событии
+            user_context: Полный контекст пользователя (если есть)
             
         Returns:
-            Текущий статус агента после обработки события
+            Dict с status, suggestion, rule_triggered
         """
         # 1. Обновляем счётчик действий
         current_state = self.state_manager.update_state(user_id, increment_action=True)
@@ -59,25 +60,68 @@ class MarketObserver:
         
         logger.info(f"📡 Event: {event_type} from {user_id} (action #{count})")
         
-        # 2. Логика переключения состояний
+        # 2. Прогоняем через RulesEngine если есть контекст
+        rule_reaction = None
+        if user_context:
+            rule_reaction = self.rules_engine.evaluate(user_context)
+        
+        # 3. Если правило сработало — используем его реакцию
+        if rule_reaction:
+            status = self._trigger_type_to_status(rule_reaction.trigger_type)
+            self.state_manager.update_state(
+                user_id,
+                status=status,
+                suggestion=rule_reaction.message
+            )
+            
+            return {
+                "status": status,
+                "suggestion": rule_reaction.message,
+                "rule_triggered": True,
+                "rule_metadata": rule_reaction.metadata,
+                "action_count": count
+            }
+        
+        # 4. Fallback на простую логику по порогу
         if count == 1:
-            # Первое действие - начинаем анализ
             self.state_manager.update_state(user_id, status=AgentStatus.ANALYZING)
-            return AgentStatus.ANALYZING
+            return {
+                "status": AgentStatus.ANALYZING,
+                "suggestion": None,
+                "rule_triggered": False,
+                "action_count": count
+            }
         
         elif count >= self.state_manager.ACTION_THRESHOLD:
-            # Порог достигнут - Агент готов помочь
             suggestion = self._generate_suggestion(event_type, metadata)
             self.state_manager.update_state(
                 user_id, 
                 status=AgentStatus.READY_TO_SUGGEST,
                 suggestion=suggestion
             )
-            logger.info(f"🎯 User {user_id} reached threshold! Suggestion ready.")
-            return AgentStatus.READY_TO_SUGGEST
+            return {
+                "status": AgentStatus.READY_TO_SUGGEST,
+                "suggestion": suggestion,
+                "rule_triggered": False,
+                "action_count": count
+            }
         
-        # Продолжаем анализ
-        return AgentStatus.ANALYZING
+        return {
+            "status": AgentStatus.ANALYZING,
+            "suggestion": None,
+            "rule_triggered": False,
+            "action_count": count
+        }
+    
+    def _trigger_type_to_status(self, trigger_type: TriggerType) -> str:
+        """Конвертация TriggerType в AgentStatus"""
+        mapping = {
+            TriggerType.NONE: AgentStatus.IDLE,
+            TriggerType.ANALYZING: AgentStatus.ANALYZING,
+            TriggerType.READY_TO_SUGGEST: AgentStatus.READY_TO_SUGGEST,
+            TriggerType.SOFT_PUSH: AgentStatus.READY_TO_SUGGEST
+        }
+        return mapping.get(trigger_type, AgentStatus.IDLE)
     
     def _generate_suggestion(self, event_type: str, metadata: Optional[Dict] = None) -> str:
         """Генерирует контекстную подсказку на основе события"""
