@@ -235,6 +235,10 @@ export default function GlassyOmniChat() {
             ref={dockRef}
             data-testid="chat-expanded"
           >
+            {/* Стеклянные боковые полосы */}
+            <div className="glass-border-left" />
+            <div className="glass-border-right" />
+            
             {/* Акриловая шапка - НАД input */}
             <div className="acrylic-header glass-strong ice-effect">
               <div className={`emergent-status ${statusType}`}>
