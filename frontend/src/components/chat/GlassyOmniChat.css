@@ -138,61 +138,48 @@
   /* Скруглённые углы */
   border-radius: 16px;
   
-  /* Акриловый фон для всего окна */
-  background: 
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.03) 60px,
-      var(--emergent-bg-deep) 60px,
-      var(--emergent-bg-deep) 100%
-    );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Глубокий чёрный фон */
+  background: var(--emergent-bg-deep);
   
   /* Тень для глубины */
   box-shadow: 
-    0 4px 32px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    0 4px 32px rgba(0, 0, 0, 0.5);
   
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* Боковые акриловые полосы 2px */
+/* Акриловая шапка сверху */
 .emergent-chat-window::before {
   content: '';
   position: absolute;
-  top: 60px; /* После акриловой шапки */
-  bottom: 0;
+  top: 0;
   left: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.08)
-  );
+  right: 0;
+  height: 58px; /* До начала текста "Message Agent" */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px 16px 0 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
+/* Боковые акриловые полосы */
 .emergent-chat-window::after {
   content: '';
   position: absolute;
-  top: 60px;
+  top: 58px;
   bottom: 0;
+  left: 0;
   right: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.08)
-  );
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  box-shadow: 
+    inset 2px 0 0 rgba(255, 255, 255, 0.04),
+    inset -2px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 /* ==================== STATUS (верхний левый угол) ==================== */
