@@ -397,6 +397,95 @@ class Observer:
             },
             "winner": "A" if (carts_a / max(group_a, 1)) > (carts_b / max(group_b, 1)) else "B"
         }
+    
+    # ==================== Agent Status Management ====================
+    
+    async def set_agent_status(
+        self, 
+        user_id: str, 
+        status: str, 
+        suggestion: Optional[str] = None
+    ):
+        """
+        Установить статус агента для пользователя.
+        
+        Args:
+            user_id: ID пользователя
+            status: один из AgentStatus (idle, analyzing, ready_to_suggest)
+            suggestion: текст подсказки (для ready_to_suggest)
+        """
+        valid_statuses = [AgentStatus.IDLE, AgentStatus.ANALYZING, AgentStatus.READY_TO_SUGGEST]
+        if status not in valid_statuses:
+            status = AgentStatus.IDLE
+        
+        self._agent_statuses[user_id] = {
+            "status": status,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "suggestion": suggestion
+        }
+        
+        logger.info(f"🎯 Agent status for {user_id}: {status}" + (f" - '{suggestion[:50]}...'" if suggestion else ""))
+    
+    async def get_agent_status(self, user_id: str) -> Dict:
+        """
+        Получить текущий статус агента для пользователя.
+        
+        Returns:
+            Dict с полями: status, updated_at, suggestion
+        """
+        if user_id in self._agent_statuses:
+            return self._agent_statuses[user_id]
+        
+        return {
+            "status": AgentStatus.IDLE,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "suggestion": None
+        }
+    
+    async def analyze_and_maybe_suggest(self, user_id: str) -> Optional[str]:
+        """
+        Анализирует контекст пользователя и решает, нужно ли дать совет.
+        
+        Вызывается периодически или после определённых действий.
+        Возвращает текст подсказки если агент готов дать совет.
+        """
+        # Устанавливаем статус "analyzing"
+        await self.set_agent_status(user_id, AgentStatus.ANALYZING)
+        
+        context = await self.get_user_context(user_id)
+        
+        # Логика принятия решения
+        suggestion = None
+        
+        # 1. Пользователь долго на одной странице (> 30 сек) - предложить помощь
+        top_dwell = context.get("top_dwell_pages", {})
+        if top_dwell:
+            max_dwell = max(top_dwell.values()) if top_dwell.values() else 0
+            if max_dwell > 30:
+                suggestion = "Вижу, что вы изучаете этот товар. Могу помочь с выбором или ответить на вопросы!"
+        
+        # 2. Много просмотров без добавления в корзину
+        views_count = context.get("total_views", 0)
+        cart_count = context.get("total_cart_adds", 0)
+        if views_count >= 5 and cart_count == 0:
+            suggestion = "Не можете определиться? Давайте подберём идеальный вариант вместе!"
+        
+        # 3. Товары в корзине - напомнить о совместимости
+        cart_products = context.get("cart_products", [])
+        if len(cart_products) >= 2:
+            suggestion = "У вас несколько товаров в корзине. Хотите проверить их совместимость?"
+        
+        # Устанавливаем финальный статус
+        if suggestion:
+            await self.set_agent_status(user_id, AgentStatus.READY_TO_SUGGEST, suggestion)
+        else:
+            await self.set_agent_status(user_id, AgentStatus.IDLE)
+        
+        return suggestion
+    
+    async def clear_suggestion(self, user_id: str):
+        """Сбрасывает статус обратно в idle после показа подсказки"""
+        await self.set_agent_status(user_id, AgentStatus.IDLE)
 
 
 # Singleton instance
