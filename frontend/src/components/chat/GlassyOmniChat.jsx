@@ -1,11 +1,11 @@
 /**
  * GlassyOmniChat - Emergent Style
  * 
- * Развёрнутый чат максимально похож на Emergent:
- * - Глубокий чёрный фон
- * - Input сверху слева  
- * - Скруглённые углы
- * - Тиловая граница
+ * Структура:
+ * - Акриловая шапка (прозрачная)
+ * - Акриловый контур по бокам (прозрачный)
+ * - Чёрная зона в центре для текста
+ * - Акриловый footer с кнопками
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -18,16 +18,13 @@ import {
   ShoppingBag,
   ArrowUp,
   Mic,
-  Sparkles,
   Paperclip,
   X,
-  GitFork,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import './GlassyOmniChat.css';
 
-// --- NAV TABS ---
 const NAV_TABS = [
   { id: 'ai', icon: Bot, label: 'AI' },
   { id: 'global', icon: Globe, label: 'Global' },
@@ -54,23 +51,18 @@ export default function GlassyOmniChat() {
   const inputRef = useRef(null);
   const dockRef = useRef(null);
 
-  // Status text based on type
   const getStatusText = useCallback(() => {
     const texts = {
       ru: {
         idle: 'Готов помочь',
         typing: 'AI печатает...',
         thinking: 'AI думает...',
-        uploading: 'Загружает файл...',
-        away: 'Собеседник отошёл',
         analyzing: 'Анализирует контекст...',
       },
       en: {
         idle: 'Agent is waiting...',
         typing: 'AI is typing...',
         thinking: 'AI is thinking...',
-        uploading: 'Uploading file...',
-        away: 'User is away',
         analyzing: 'Analyzing context...',
       }
     };
@@ -78,7 +70,6 @@ export default function GlassyOmniChat() {
     return texts[lang][statusType] || texts[lang].idle;
   }, [statusType, language]);
 
-  // Update status based on isTyping
   useEffect(() => {
     if (isTyping) {
       setStatusType('typing');
@@ -90,43 +81,29 @@ export default function GlassyOmniChat() {
     }
   }, [isTyping, aiStatus]);
 
-  // Check for "away" status
-  useEffect(() => {
-    const checkAway = setInterval(() => {
-      if (isOpen && Date.now() - lastActivity > 120000) {
-        setStatusType('away');
-      }
-    }, 30000);
-    return () => clearInterval(checkAway);
-  }, [isOpen, lastActivity]);
-
-  // Context Awareness
   useEffect(() => {
     const path = location.pathname.toLowerCase();
     if (path.includes('pc-builder') || path.includes('assembly')) {
       setActiveTab('ai');
       setAiStatus('analyzing');
-    } else if (path.includes('marketplace') || path.includes('product') || path.includes('glassy-swap')) {
+    } else if (path.includes('marketplace') || path.includes('product')) {
       setActiveTab('trade');
       setAiStatus('idle');
     } else {
       setAiStatus('idle');
     }
-  }, [location, user?.level]);
+  }, [location]);
 
-  // Focus input when opened
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
 
-  // Scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, activeTab]);
 
-  // Keyboard shortcut + Click outside
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape' && isOpen) setIsOpen(false);
@@ -144,7 +121,6 @@ export default function GlassyOmniChat() {
     };
   }, [isOpen]);
 
-  // Send message
   const sendMessage = useCallback(async () => {
     if (!inputValue.trim()) return;
 
@@ -207,7 +183,7 @@ export default function GlassyOmniChat() {
     <div className="ghost-dock-container" data-testid="glassy-omni-chat">
       <AnimatePresence mode="wait">
         
-        {/* === IDLE: Тонкая пульсирующая линия (НЕ ТРОГАТЬ!) === */}
+        {/* === IDLE: Полоска (НЕ ТРОГАТЬ!) === */}
         {!isOpen && (
           <motion.div
             key="ghost-line"
@@ -223,7 +199,7 @@ export default function GlassyOmniChat() {
           </motion.div>
         )}
 
-        {/* === ACTIVE: Emergent-Style Chat Window === */}
+        {/* === ACTIVE: Emergent-Style Chat === */}
         {isOpen && (
           <motion.div
             key="emergent-chat"
@@ -235,12 +211,8 @@ export default function GlassyOmniChat() {
             ref={dockRef}
             data-testid="chat-expanded"
           >
-            {/* Стеклянные боковые полосы */}
-            <div className="glass-border-left" />
-            <div className="glass-border-right" />
-            
-            {/* Акриловая шапка - НАД input */}
-            <div className="acrylic-header glass-strong ice-effect">
+            {/* АКРИЛОВАЯ ШАПКА */}
+            <div className="acrylic-header">
               <div className={`emergent-status ${statusType}`}>
                 <div className="status-dot" />
                 <span>{getStatusText()}</span>
@@ -255,64 +227,71 @@ export default function GlassyOmniChat() {
               </button>
             </div>
 
-            {/* Main content area */}
-            <div className="emergent-content">
-              {/* Input area */}
-              <div className="emergent-input-area">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value);
-                    setLastActivity(Date.now());
-                  }}
-                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={language === 'ru' ? 'Сообщение агенту' : 'Message Agent'}
-                  data-testid="chat-input"
-                />
-              </div>
-
-              {/* Messages area */}
-              {currentMessages.length > 0 && (
-                <div className="emergent-messages">
-                  {currentMessages.map((msg) => (
-                    <motion.div 
-                      key={msg.id} 
-                      className={`emergent-msg ${msg.type}`}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                    >
-                      {msg.type === 'bot' && (
-                        <div className="msg-avatar">
-                          <Bot size={14} />
-                        </div>
-                      )}
-                      <p>{msg.text}</p>
-                    </motion.div>
-                  ))}
-                  
-                  {isTyping && (
-                    <div className="emergent-msg bot">
-                      <div className="msg-avatar"><Bot size={14} /></div>
-                      <div className="typing-indicator"><span /><span /><span /></div>
-                    </div>
-                  )}
-                  
-                  <div ref={messagesEndRef} />
+            {/* ТЕЛО: Акриловые бока + Чёрный центр */}
+            <div className="chat-body-wrapper">
+              {/* Левая акриловая полоса */}
+              <div className="acrylic-border-left" />
+              
+              {/* Чёрная центральная зона */}
+              <div className="chat-content-center">
+                {/* Input */}
+                <div className="emergent-input-area">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => {
+                      setInputValue(e.target.value);
+                      setLastActivity(Date.now());
+                    }}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                    placeholder={language === 'ru' ? 'Сообщение агенту' : 'Message Agent'}
+                    data-testid="chat-input"
+                  />
                 </div>
-              )}
+
+                {/* Messages */}
+                {currentMessages.length > 0 && (
+                  <div className="emergent-messages">
+                    {currentMessages.map((msg) => (
+                      <motion.div 
+                        key={msg.id} 
+                        className={`emergent-msg ${msg.type}`}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {msg.type === 'bot' && (
+                          <div className="msg-avatar">
+                            <Bot size={14} />
+                          </div>
+                        )}
+                        <p>{msg.text}</p>
+                      </motion.div>
+                    ))}
+                    
+                    {isTyping && (
+                      <div className="emergent-msg bot">
+                        <div className="msg-avatar"><Bot size={14} /></div>
+                        <div className="typing-indicator"><span /><span /><span /></div>
+                      </div>
+                    )}
+                    
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
+              
+              {/* Правая акриловая полоса */}
+              <div className="acrylic-border-right" />
             </div>
 
-            {/* Bottom toolbar */}
-            <div className="emergent-toolbar">
-              {/* Left side: action buttons */}
+            {/* АКРИЛОВЫЙ FOOTER с кнопками */}
+            <div className="acrylic-footer">
               <div className="toolbar-left">
                 <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
                   <Paperclip size={18} />
                 </button>
                 
-                {/* Nav tabs */}
                 {NAV_TABS.map((tab) => {
                   const isActive = activeTab === tab.id;
                   const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
@@ -331,7 +310,6 @@ export default function GlassyOmniChat() {
                 })}
               </div>
 
-              {/* Right side: mic + send */}
               <div className="toolbar-right">
                 <button className="toolbar-btn" title="Voice">
                   <Mic size={18} />
