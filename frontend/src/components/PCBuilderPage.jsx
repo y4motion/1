@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -15,7 +15,13 @@ import {
   Gauge,
   Snowflake,
   Zap,
+  AlertTriangle,
+  CheckCircle,
 } from 'lucide-react';
+import { CompatibilityResolver } from './pc-builder';
+
+// Use relative URLs for API calls
+const API_URL = '';
 
 // Component Icons (NZXT-inspired minimalist SVG)
 const ComponentIcons = {
