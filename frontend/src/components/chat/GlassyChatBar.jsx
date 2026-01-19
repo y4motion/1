@@ -161,6 +161,54 @@ const GlassyChatBar = () => {
     }
   }, []);
 
+  // Function to send events to the Mind API
+  const sendMindEvent = useCallback(async (eventType, metadata = {}) => {
+    try {
+      const response = await fetch(`${API_URL}/api/mind/event`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
+        },
+        body: JSON.stringify({
+          event_type: eventType,
+          metadata
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setAgentStatus(data.current_mind_state);
+          
+          // If ready to suggest, show popup
+          if (data.current_mind_state === AGENT_STATUS.READY_TO_SUGGEST && data.suggestion) {
+            setAgentSuggestion(data.suggestion);
+            setShowSuggestionPopup(true);
+          }
+        }
+      }
+    } catch (error) {
+      console.debug('Mind event send failed:', error);
+    }
+  }, []);
+
+  // Track page navigation as events
+  useEffect(() => {
+    const path = location.pathname;
+    
+    // Determine event type based on path
+    if (path.startsWith('/product/')) {
+      sendMindEvent('view', { page: 'product', id: path.split('/')[2] });
+    } else if (path.startsWith('/marketplace')) {
+      sendMindEvent('view', { page: 'marketplace' });
+    } else if (path.startsWith('/pc-builder')) {
+      sendMindEvent('view', { page: 'pc-builder' });
+    } else if (path.startsWith('/glassy-swap')) {
+      sendMindEvent('view', { page: 'glassy-swap' });
+    }
+  }, [location.pathname, sendMindEvent]);
+
   // Poll every 10 seconds
   useEffect(() => {
     // Initial fetch
