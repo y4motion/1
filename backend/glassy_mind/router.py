@@ -510,6 +510,90 @@ async def get_recent_events(
     }
 
 
+# ==================== Notifications Endpoints ====================
+
+class TestEmailRequest(BaseModel):
+    """Запрос на тестовую отправку email"""
+    to_email: str = Field(..., description="Email получателя")
+    template: str = Field(default="welcome_email", description="Шаблон: welcome_email, cart_abandoned, suggestion")
+    context: Optional[Dict] = Field(default={}, description="Контекст для шаблона")
+
+
+@router.post("/notifications/test")
+async def test_notification(
+    request: TestEmailRequest,
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """
+    Тестовая отправка email уведомления.
+    Проверяет шаблоны и логику (пока в mock-режиме — печатает в логи).
+    """
+    # Default context
+    context = {
+        "username": current_user.get("username", "Тестовый пользователь") if current_user else "Guest",
+        "xp_bonus": 100,
+        "site_url": "https://glassy.tech",
+        "suggestion_text": "Это тестовое сообщение от Glassy Mind!",
+        "action_url": "https://glassy.tech/marketplace",
+        "action_text": "Перейти в магазин",
+        "ai_suggestion": "Эти товары отлично сочетаются между собой!",
+        "cart_items_html": "<div class='product-card'><div class='product-title'>Тестовый товар</div><div class='product-price'>$99</div></div>",
+        "unsubscribe_url": "#",
+        **request.context
+    }
+    
+    result = await notification_manager.send_email(
+        to_email=request.to_email,
+        template_name=request.template,
+        context=context,
+        immediate=True  # Сразу "отправить" (в mock печатает в логи)
+    )
+    
+    return {
+        "success": True,
+        "result": result,
+        "message": "Check backend logs for email content (mock mode)"
+    }
+
+
+@router.get("/notifications/pending")
+async def get_pending_notifications(
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Получить ожидающие уведомления."""
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    all_pending = notification_manager.get_pending_notifications()
+    user_pending = notification_manager.get_user_notifications(user_id)
+    
+    return {
+        "success": True,
+        "total_pending": len(all_pending),
+        "user_notifications": user_pending
+    }
+
+
+@router.post("/notifications/soft-push")
+async def create_soft_push(
+    message: str = Body(..., embed=True),
+    action_url: Optional[str] = Body(None, embed=True),
+    current_user: Optional[dict] = Depends(get_optional_user)
+):
+    """Создать soft push уведомление для текущего пользователя."""
+    user_id = current_user["id"] if current_user else "guest_anonymous"
+    
+    result = await notification_manager.send_soft_push(
+        user_id=user_id,
+        message=message,
+        action_url=action_url
+    )
+    
+    return {
+        "success": True,
+        "result": result
+    }
+
+
 
 # ==================== Abandoned Cart Endpoints ====================
 
