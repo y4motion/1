@@ -260,6 +260,34 @@ const ProductDetailPage = () => {
         const data = await response.json();
         setProduct(data);
         
+        // Track view in Glassy Mind
+        try {
+          await fetch(`${API_URL}/api/mind/track/view`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              product_id: id,
+              product_data: {
+                category: data.category || (data.tags || []).join(' '),
+                price: data.price,
+                title: data.title
+              }
+            })
+          });
+          
+          // Track page enter for dwell time
+          await fetch(`${API_URL}/api/mind/track/dwell`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              page_id: `product_${id}`,
+              action: 'enter'
+            })
+          });
+        } catch (e) {
+          console.log('Mind tracking not available');
+        }
+        
         if (data.variants && data.variants.length > 0) {
           setSelectedVariant(data.variants[0]);
         }
@@ -302,6 +330,18 @@ const ProductDetailPage = () => {
     };
 
     loadProduct();
+    
+    // Track page leave on unmount
+    return () => {
+      fetch(`${API_URL}/api/mind/track/dwell`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page_id: `product_${id}`,
+          action: 'leave'
+        })
+      }).catch(() => {});
+    };
   }, [id]);
 
   // Image change with fade transition
