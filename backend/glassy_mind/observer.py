@@ -320,7 +320,7 @@ class Observer:
             "total_cart_adds": self._global_stats["total_cart_adds"]
         }
         
-        if self._db:
+        if self._db is not None:
             # Get stats from MongoDB
             total_sessions = await self._db.user_sessions.count_documents({})
             total_events = await self._db.behavior_events.count_documents({})
