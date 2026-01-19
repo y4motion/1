@@ -1,10 +1,11 @@
 /**
- * GlassyOmniChat - Ghost Dock (Emergent Style)
+ * GlassyOmniChat - Emergent Style
  * 
- * - Чат "растворяется" вверх через mask-image
- * - Иконки слева, крупные, монохромные
- * - Автоматическая высота от контента
- * - Пульсация border-top оранжевым
+ * Развёрнутый чат максимально похож на Emergent:
+ * - Глубокий чёрный фон
+ * - Input сверху слева  
+ * - Скруглённые углы
+ * - Тиловая граница
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -20,6 +21,7 @@ import {
   Sparkles,
   Paperclip,
   X,
+  GitFork,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -43,8 +45,7 @@ export default function GlassyOmniChat() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [lastActivity, setLastActivity] = useState(Date.now());
-  const [statusText, setStatusText] = useState('');
-  const [statusType, setStatusType] = useState('idle'); // idle, typing, thinking, uploading, away
+  const [statusType, setStatusType] = useState('idle');
   
   const location = useLocation();
   const { user } = useAuth();
@@ -65,7 +66,7 @@ export default function GlassyOmniChat() {
         analyzing: 'Анализирует контекст...',
       },
       en: {
-        idle: 'Ready to help',
+        idle: 'Agent is waiting...',
         typing: 'AI is typing...',
         thinking: 'AI is thinking...',
         uploading: 'Uploading file...',
@@ -89,7 +90,7 @@ export default function GlassyOmniChat() {
     }
   }, [isTyping, aiStatus]);
 
-  // Check for "away" status (no activity for 2+ minutes)
+  // Check for "away" status
   useEffect(() => {
     const checkAway = setInterval(() => {
       if (isOpen && Date.now() - lastActivity > 120000) {
@@ -206,7 +207,7 @@ export default function GlassyOmniChat() {
     <div className="ghost-dock-container" data-testid="glassy-omni-chat">
       <AnimatePresence mode="wait">
         
-        {/* === IDLE: Тонкая пульсирующая линия === */}
+        {/* === IDLE: Тонкая пульсирующая линия (НЕ ТРОГАТЬ!) === */}
         {!isOpen && (
           <motion.div
             key="ghost-line"
@@ -215,99 +216,44 @@ export default function GlassyOmniChat() {
             exit={{ opacity: 0 }}
             className={`ghost-line ${aiStatus === 'analyzing' ? 'analyzing' : ''}`}
             onClick={() => setIsOpen(true)}
+            data-testid="chat-idle-strip"
           >
             <div className="line-pulse" />
             <span className="line-label">Chat</span>
           </motion.div>
         )}
 
-        {/* === ACTIVE: Ghost Dock === */}
+        {/* === ACTIVE: Emergent-Style Chat Window === */}
         {isOpen && (
           <motion.div
-            key="ghost-dock-wrapper"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 30, opacity: 0 }}
+            key="emergent-chat"
+            initial={{ y: 20, opacity: 0, scale: 0.98 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 20, opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="ghost-dock-wrapper"
+            className="emergent-chat-window"
             ref={dockRef}
+            data-testid="chat-expanded"
           >
-            {/* Status Indicator - СНАРУЖИ над чатом */}
-            <div className={`dock-status-external ${statusType}`}>
+            {/* Status indicator - верхний левый угол */}
+            <div className={`emergent-status ${statusType}`}>
               <div className="status-dot" />
               <span>{getStatusText()}</span>
             </div>
 
-            {/* Main Dock */}
-            <div className="ghost-dock">
-              {/* Кнопка закрыть */}
-              <button className="dock-close-btn" onClick={() => setIsOpen(false)}>
-                <X size={16} />
-              </button>
-            {/* Messages - растворяются вверх */}
-            {currentMessages.length > 0 && (
-              <div className="dock-messages">
-                {currentMessages.map((msg) => (
-                  <motion.div 
-                    key={msg.id} 
-                    className={`dock-msg ${msg.type}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    {msg.type === 'bot' && (
-                      <div className="msg-icon">
-                        <Bot size={14} />
-                      </div>
-                    )}
-                    <p>{msg.text}</p>
-                  </motion.div>
-                ))}
-                
-                {isTyping && (
-                  <div className="dock-msg bot">
-                    <div className="msg-icon"><Bot size={14} /></div>
-                    <div className="typing-dots"><span /><span /><span /></div>
-                  </div>
-                )}
-                
-                <div ref={messagesEndRef} />
-              </div>
-            )}
+            {/* Close button */}
+            <button 
+              className="emergent-close" 
+              onClick={() => setIsOpen(false)}
+              data-testid="chat-close-btn"
+            >
+              <X size={16} />
+            </button>
 
-            {/* Empty state */}
-            {currentMessages.length === 0 && (
-              <div className="dock-empty">
-                <Sparkles size={16} />
-                <span>{language === 'ru' ? 'Спросите что угодно' : 'Ask anything'}</span>
-              </div>
-            )}
-
-            {/* Control Row: Tabs + Input */}
-            <div className="dock-controls">
-              {/* Tabs - слева, крупные, монохромные */}
-              <div className="dock-tabs">
-                {NAV_TABS.map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => !isLocked && setActiveTab(tab.id)}
-                      className={`dock-tab ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                      title={tab.label}
-                    >
-                      <tab.icon size={20} />
-                      {isLocked && <span className="lock">🔒</span>}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Input - справа, прозрачное */}
-              <div className="dock-input">
-                <button className="input-btn attach" title="Attach file">
-                  <Paperclip size={18} />
-                </button>
+            {/* Main content area */}
+            <div className="emergent-content">
+              {/* Input area - TOP (как в Emergent) */}
+              <div className="emergent-input-area">
                 <input
                   ref={inputRef}
                   type="text"
@@ -317,18 +263,96 @@ export default function GlassyOmniChat() {
                     setLastActivity(Date.now());
                   }}
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
+                  placeholder={language === 'ru' ? 'Сообщение агенту' : 'Message Agent'}
+                  data-testid="chat-input"
                 />
-                <button className="input-btn mic"><Mic size={18} /></button>
+              </div>
+
+              {/* Messages area */}
+              {currentMessages.length > 0 && (
+                <div className="emergent-messages">
+                  {currentMessages.map((msg) => (
+                    <motion.div 
+                      key={msg.id} 
+                      className={`emergent-msg ${msg.type}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {msg.type === 'bot' && (
+                        <div className="msg-avatar">
+                          <Bot size={14} />
+                        </div>
+                      )}
+                      <p>{msg.text}</p>
+                    </motion.div>
+                  ))}
+                  
+                  {isTyping && (
+                    <div className="emergent-msg bot">
+                      <div className="msg-avatar"><Bot size={14} /></div>
+                      <div className="typing-indicator"><span /><span /><span /></div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+
+              {/* Empty state */}
+              {currentMessages.length === 0 && (
+                <div className="emergent-empty">
+                  <Sparkles size={18} />
+                  <span>{language === 'ru' ? 'Спросите что угодно' : 'Ask anything'}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Bottom toolbar (как в Emergent) */}
+            <div className="emergent-toolbar">
+              {/* Left side: action buttons */}
+              <div className="toolbar-left">
+                <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
+                  <Paperclip size={18} />
+                </button>
+                
+                {/* Nav tabs как кнопки */}
+                {NAV_TABS.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => !isLocked && setActiveTab(tab.id)}
+                      className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                      title={tab.label}
+                      data-testid={`tab-${tab.id}`}
+                    >
+                      <tab.icon size={18} />
+                      {isLocked && <span className="lock-badge">🔒</span>}
+                    </button>
+                  );
+                })}
+
+                <button className="toolbar-btn-text" title="Fork">
+                  <GitFork size={16} />
+                  <span>Fork</span>
+                </button>
+              </div>
+
+              {/* Right side: mic + send */}
+              <div className="toolbar-right">
+                <button className="toolbar-btn" title="Voice">
+                  <Mic size={18} />
+                </button>
                 <button 
-                  className="input-btn send"
+                  className="toolbar-btn send"
                   onClick={sendMessage}
                   disabled={!inputValue.trim()}
+                  data-testid="send-btn"
                 >
                   <ArrowUp size={18} />
                 </button>
               </div>
-            </div>
             </div>
           </motion.div>
         )}

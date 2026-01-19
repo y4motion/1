@@ -1,16 +1,22 @@
 /**
- * GlassyOmniChat - Ghost Dock (Emergent Style)
+ * GlassyOmniChat - Emergent Style
  * 
- * - Чат "растворяется" вверх (mask-image)
- * - Иконки слева, крупные, монохромные
- * - Автоматическая высота
- * - Пульсация border-top
+ * - Глубокий чёрный фон
+ * - Input сверху слева
+ * - Скруглённые углы
+ * - Тиловая/синяя граница
  */
 
 /* ==================== VARIABLES ==================== */
 :root {
-  --dock-glow: #FF9F43;
-  --dock-glow-rgb: 255, 159, 67;
+  --emergent-bg: #121214;
+  --emergent-bg-deep: #0a0a0c;
+  --emergent-border: #2c3e50;
+  --emergent-accent: #66d9ef;
+  --emergent-text: #ffffff;
+  --emergent-text-muted: rgba(255, 255, 255, 0.5);
+  --emergent-btn-bg: #343a40;
+  --emergent-btn-hover: #495057;
 }
 
 /* ==================== CONTAINER ==================== */
@@ -29,7 +35,7 @@
   pointer-events: auto;
 }
 
-/* ==================== IDLE: ТОНКАЯ ЛИНИЯ ==================== */
+/* ==================== IDLE: ТОНКАЯ ЛИНИЯ (НЕ ТРОГАТЬ!) ==================== */
 .ghost-line {
   position: relative;
   width: 50%;
@@ -72,7 +78,7 @@
   }
 }
 
-/* Импульс - скрыт по умолчанию, показывается только при AI активности */
+/* Импульс */
 .line-pulse {
   position: absolute;
   bottom: 0;
@@ -122,89 +128,70 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ==================== DOCK WRAPPER ==================== */
-.ghost-dock-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1100px;
-}
-
-/* ==================== STATUS EXTERNAL (СНАРУЖИ НАД ЧАТОМ) ==================== */
-.dock-status-external {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  padding: 6px 14px;
-  background: rgba(10, 10, 12, 0.85);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-}
-
-.dock-status-external .status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-}
-
-.dock-status-external.typing .status-dot,
-.dock-status-external.analyzing .status-dot {
-  background: var(--dock-glow);
-  box-shadow: 0 0 10px var(--dock-glow);
-  animation: dot-pulse 1s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); opacity: 0.7; }
-}
-
-.dock-status-external span {
-  font-size: 11px;
-  font-family: 'SF Mono', monospace;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* ==================== ACTIVE: GHOST DOCK ==================== */
-.ghost-dock {
+/* ==================== ACTIVE: EMERGENT CHAT WINDOW ==================== */
+.emergent-chat-window {
   position: relative;
-  width: 100%;
-  max-height: 50vh;
+  width: 95%;
+  max-width: 700px;
+  margin-bottom: 24px;
   
-  /* Acrylic background */
-  background: rgba(10, 10, 12, 0.6);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  /* Глубокий чёрный фон */
+  background: var(--emergent-bg-deep);
   
-  /* Только верхние скругления */
-  border-radius: 24px 24px 0 0;
+  /* Скруглённые углы */
+  border-radius: 16px;
   
-  /* Пульсирующий верхний бордер - мягкий белый */
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  animation: border-pulse 6s ease-in-out infinite;
+  /* Тиловая/синяя граница */
+  border: 1px solid var(--emergent-border);
+  
+  /* Тень для глубины */
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
   
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-@keyframes border-pulse {
-  0%, 100% {
-    border-top-color: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 -1px 15px rgba(255, 255, 255, 0.02);
-  }
-  50% {
-    border-top-color: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 -1px 25px rgba(255, 255, 255, 0.06);
-  }
+/* ==================== STATUS (верхний левый угол) ==================== */
+.emergent-status {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
 }
 
-/* Кнопка закрыть */
-.dock-close-btn {
+.emergent-status .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emergent-accent);
+  box-shadow: 0 0 8px var(--emergent-accent);
+}
+
+.emergent-status.typing .status-dot,
+.emergent-status.analyzing .status-dot {
+  animation: status-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+.emergent-status span {
+  font-size: 13px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--emergent-accent);
+  font-weight: 500;
+}
+
+/* ==================== CLOSE BUTTON ==================== */
+.emergent-close {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -213,107 +200,113 @@
   border-radius: 8px;
   border: none;
   background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--emergent-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 2;
   transition: all 0.15s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-.dock-close-btn:hover {
+.emergent-close:hover {
   background: rgba(255, 255, 255, 0.12);
-  color: white;
+  color: var(--emergent-text);
 }
 
-/* ==================== MESSAGES - РАСТВОРЯЮТСЯ ВВЕРХ ==================== */
-.dock-messages {
-  flex: 1;
-  min-height: 80px;
-  max-height: 35vh;
-  overflow-y: auto;
-  padding: 20px 24px 12px;
+/* ==================== CONTENT AREA ==================== */
+.emergent-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  
-  /* Растворение вверх */
-  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+  min-height: 180px;
+}
+
+/* ==================== INPUT AREA (TOP) ==================== */
+.emergent-input-area {
+  padding: 48px 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.emergent-input-area input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--emergent-text);
+  font-size: 16px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  outline: none;
+  padding: 0;
+}
+
+.emergent-input-area input::placeholder {
+  color: var(--emergent-text-muted);
+}
+
+/* ==================== MESSAGES ==================== */
+.emergent-messages {
+  flex: 1;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-.dock-messages::-webkit-scrollbar {
-  width: 3px;
+.emergent-messages::-webkit-scrollbar {
+  width: 4px;
 }
 
-.dock-messages::-webkit-scrollbar-thumb {
+.emergent-messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
 }
 
-/* Empty state */
-.dock-empty {
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 13px;
-}
-
-.dock-empty svg {
-  color: rgba(var(--dock-glow-rgb), 0.5);
-}
-
-/* Messages */
-.dock-msg {
+.emergent-msg {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   max-width: 85%;
 }
 
-.dock-msg.user {
+.emergent-msg.user {
   margin-left: auto;
   flex-direction: row-reverse;
 }
 
-.dock-msg.user p {
-  background: rgba(var(--dock-glow-rgb), 0.12);
-  border-color: rgba(var(--dock-glow-rgb), 0.2);
+.emergent-msg.user p {
+  background: rgba(102, 217, 239, 0.15);
+  border-color: rgba(102, 217, 239, 0.25);
 }
 
-.msg-icon {
-  width: 24px;
-  height: 24px;
+.msg-avatar {
+  width: 26px;
+  height: 26px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--emergent-btn-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--emergent-text-muted);
   flex-shrink: 0;
 }
 
-.dock-msg p {
+.emergent-msg p {
   margin: 0;
   padding: 10px 14px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--emergent-text);
 }
 
-/* Typing */
-.typing-dots {
+/* Typing indicator */
+.typing-indicator {
   display: flex;
   gap: 4px;
   padding: 12px 16px;
@@ -322,141 +315,131 @@
   border-radius: 12px;
 }
 
-.typing-dots span {
-  width: 5px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.4);
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: var(--emergent-text-muted);
   border-radius: 50%;
   animation: typing-bounce 1.2s ease-in-out infinite;
 }
 
-.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
-.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
 
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); }
   30% { transform: translateY(-4px); }
 }
 
-/* ==================== CONTROL ROW ==================== */
-.dock-controls {
+/* Empty state */
+.emergent-empty {
+  flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 14px 20px 18px;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 20px;
+  color: var(--emergent-text-muted);
+  font-size: 14px;
 }
 
-/* Tabs - слева, крупные, монохромные */
-.dock-tabs {
+.emergent-empty svg {
+  color: var(--emergent-accent);
+  opacity: 0.5;
+}
+
+/* ==================== BOTTOM TOOLBAR ==================== */
+.emergent-toolbar {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--emergent-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
   gap: 6px;
 }
 
-.dock-tab {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
+/* Toolbar buttons */
+.toolbar-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   border: none;
-  color: rgba(255, 255, 255, 0.45);
+  background: var(--emergent-btn-bg);
+  color: var(--emergent-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   transition: all 0.15s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: relative;
 }
 
-.dock-tab:hover:not(.locked) {
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+.toolbar-btn:hover:not(.locked) {
+  background: var(--emergent-btn-hover);
+  color: var(--emergent-text);
 }
 
-.dock-tab.active {
-  color: var(--dock-glow);
-  background: rgba(var(--dock-glow-rgb), 0.15);
-  box-shadow: 0 2px 12px rgba(var(--dock-glow-rgb), 0.2);
+.toolbar-btn.active {
+  background: rgba(102, 217, 239, 0.2);
+  color: var(--emergent-accent);
 }
 
-.dock-tab.locked {
-  opacity: 0.35;
+.toolbar-btn.locked {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-.dock-tab .lock {
+.toolbar-btn .lock-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  font-size: 8px;
+  top: -4px;
+  right: -4px;
+  font-size: 10px;
 }
 
-/* Input - справа, прозрачное */
-.dock-input {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 48px;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0 4px;
+.toolbar-btn.send {
+  background: linear-gradient(135deg, #5a6268, #495057);
+  color: var(--emergent-bg);
 }
 
-.dock-input input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 15px;
-  outline: none;
-  padding: 0 8px;
-}
-
-.dock-input input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.input-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.45);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.input-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
+.toolbar-btn.send:not(:disabled):hover {
+  background: linear-gradient(135deg, #6a737d, #5a6268);
   transform: translateY(-1px);
 }
 
-.input-btn.attach:hover {
-  color: var(--dock-glow);
-}
-
-.input-btn.send {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
-}
-
-.input-btn.send:not(:disabled):hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-}
-
-.input-btn:disabled {
+.toolbar-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+/* Text button (Fork) */
+.toolbar-btn-text {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--emergent-btn-bg);
+  color: var(--emergent-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.toolbar-btn-text:hover {
+  background: var(--emergent-btn-hover);
+  color: var(--emergent-text);
 }
 
 /* ==================== MOBILE ==================== */
@@ -465,17 +448,22 @@
     width: 70%;
   }
   
-  .ghost-dock {
+  .emergent-chat-window {
     width: 100%;
-    border-radius: 20px 20px 0 0;
+    max-width: none;
+    margin: 0;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
   }
   
-  .dock-tabs {
-    flex-wrap: wrap;
+  .toolbar-btn-text span {
+    display: none;
   }
   
-  .dock-tab {
-    width: 40px;
-    height: 40px;
+  .toolbar-btn-text {
+    width: 36px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
   }
 }
