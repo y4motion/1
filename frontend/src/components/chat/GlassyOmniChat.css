@@ -225,6 +225,32 @@
   50% { background-position: 100% 50%; }
 }
 
+/* Стеклянные боковые полосы */
+.glass-border-left,
+.glass-border-right {
+  position: absolute;
+  top: 50px; /* После шапки */
+  bottom: 0;
+  width: 3px;
+  
+  /* Glass эффект */
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  z-index: 2;
+}
+
+.glass-border-left {
+  left: 0;
+  border-radius: 0 0 0 16px;
+}
+
+.glass-border-right {
+  right: 0;
+  border-radius: 0 0 16px 0;
+}
+
 .emergent-status {
   display: flex;
   align-items: center;
