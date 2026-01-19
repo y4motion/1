@@ -369,41 +369,8 @@ const ProductDetailPage = () => {
             </p>
           )}
 
-          {/* NEW: Expandable Info Blocks (PMM.gg style) */}
-          <div className="pdp-expandable-blocks">
-            <ExpandableBlock 
-              title="BATTERY DETAILS: 30 hours"
-              icon="🔋"
-            >
-              <h4>Battery Includes:</h4>
-              <ul>
-                <li>4000mAh Li-ion battery</li>
-                <li>USB-C charging cable</li>
-              </ul>
-              <h4>Charging Options:</h4>
-              <ul>
-                <li>Standard [3.5hrs full charge]</li>
-                <li>Quick Charge [3min = 3hrs playback]</li>
-              </ul>
-            </ExpandableBlock>
-
-            <ExpandableBlock 
-              title="WEIGHT BREAKDOWN: 250g"
-              icon="⚖️"
-            >
-              <h4>Weight Includes:</h4>
-              <ul>
-                <li>Headband &amp; Earcups [180g]</li>
-                <li>Electronics &amp; Drivers [50g]</li>
-                <li>Battery [20g]</li>
-              </ul>
-              <h4>Not Included:</h4>
-              <ul>
-                <li>Carrying case weight</li>
-                <li>Cable weight</li>
-              </ul>
-            </ExpandableBlock>
-          </div>
+          {/* Dynamic Expandable Info Blocks */}
+          <DynamicExpandableBlocks product={product} />
 
           {/* VARIANT SELECTOR - CRITICAL! */}
           <div className="pdp-variants-section">
