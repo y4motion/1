@@ -20,6 +20,13 @@ import asyncio
 logger = logging.getLogger(__name__)
 
 
+class AgentStatus:
+    """Статусы агента для "живой полоски" UI"""
+    IDLE = "idle"                    # Агент в режиме ожидания
+    ANALYZING = "analyzing"          # Агент анализирует поведение
+    READY_TO_SUGGEST = "ready_to_suggest"  # Агент готов дать совет
+
+
 class Observer:
     """
     Наблюдатель за действиями пользователей с MongoDB persistence.
@@ -33,6 +40,8 @@ class Observer:
         self._global_stats: Dict[str, Any] = defaultdict(int)
         self._db = None
         self._initialized = False
+        # Agent status tracking for UI "pulse bar"
+        self._agent_statuses: Dict[str, Dict] = {}  # user_id -> {status, updated_at, suggestion}
         logger.info("🔭 Observer initialized (MongoDB persistence enabled)")
     
     async def _ensure_db(self):
