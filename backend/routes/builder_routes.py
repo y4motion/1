@@ -56,10 +56,13 @@ async def validate_build(
     parts = []
     for pid in request.product_ids:
         try:
-            product = await db.products.find_one({"_id": ObjectId(pid)}, {"_id": 0})
+            product = await db.products.find_one({"_id": ObjectId(pid)})
             if product:
-                product["id"] = pid
+                # Convert ObjectId to string and remove _id from response
+                product["id"] = str(product.pop("_id"))
                 parts.append(product)
+            else:
+                logger.warning(f"Product not found: {pid}")
         except Exception as e:
             logger.warning(f"Invalid product ID: {pid} - {e}")
     
