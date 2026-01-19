@@ -48,33 +48,218 @@ class TechExpert:
         """
         Загрузка базы знаний о совместимости.
         
-        В будущем — загрузка из БД или файла.
-        Сейчас — базовые правила.
+        Расширенная база с реальными правилами для PC-компонентов,
+        периферии и аудио-оборудования.
         """
         return {
+            # ==================== CPU & MOTHERBOARD ====================
             "socket_compatibility": {
-                "AM5": ["Ryzen 7000", "Ryzen 9000"],
-                "LGA1700": ["Intel 12th", "Intel 13th", "Intel 14th"],
-                "LGA1851": ["Intel Core Ultra 200"]
+                # AMD
+                "AM5": {
+                    "cpus": ["Ryzen 7000", "Ryzen 9000", "Ryzen 7 7800X3D", "Ryzen 9 7950X3D"],
+                    "chipsets": ["X670E", "X670", "B650E", "B650", "A620"],
+                    "ram_type": "DDR5"
+                },
+                "AM4": {
+                    "cpus": ["Ryzen 5000", "Ryzen 3000", "Ryzen 5 5600X", "Ryzen 7 5800X3D"],
+                    "chipsets": ["X570", "B550", "X470", "B450"],
+                    "ram_type": "DDR4"
+                },
+                # Intel
+                "LGA1700": {
+                    "cpus": ["Intel 12th", "Intel 13th", "Intel 14th", "i9-14900K", "i7-14700K", "i5-14600K"],
+                    "chipsets": ["Z790", "Z690", "B760", "B660", "H770", "H670"],
+                    "ram_type": ["DDR5", "DDR4"]
+                },
+                "LGA1851": {
+                    "cpus": ["Intel Core Ultra 200", "Core Ultra 9 285K", "Core Ultra 7 265K", "Core Ultra 5 245K"],
+                    "chipsets": ["Z890", "B860"],
+                    "ram_type": "DDR5"
+                },
+                "LGA1200": {
+                    "cpus": ["Intel 10th", "Intel 11th"],
+                    "chipsets": ["Z590", "Z490", "B560", "B460"],
+                    "ram_type": "DDR4"
+                }
             },
+            
+            # ==================== RAM ====================
             "ram_compatibility": {
-                "DDR5": ["AM5", "LGA1700", "LGA1851"],
-                "DDR4": ["AM4", "LGA1200", "LGA1700"]
+                "DDR5": {
+                    "sockets": ["AM5", "LGA1700", "LGA1851"],
+                    "speeds": [4800, 5200, 5600, 6000, 6400, 7200, 8000],
+                    "note": "Requires DDR5-compatible motherboard"
+                },
+                "DDR4": {
+                    "sockets": ["AM4", "LGA1200", "LGA1700"],
+                    "speeds": [2133, 2400, 2666, 3000, 3200, 3600, 4000],
+                    "note": "Most common, wide compatibility"
+                }
             },
+            
+            # ==================== GPU POWER REQUIREMENTS ====================
             "power_requirements": {
-                "RTX 4090": 450,
-                "RTX 4080": 320,
-                "RTX 4070": 200,
-                "RTX 5090": 575,
-                "RX 7900 XTX": 355,
-                "default": 150
+                # NVIDIA RTX 50 Series (Blackwell)
+                "RTX 5090": {"tdp": 575, "recommended_psu": 1000, "connectors": "1x 16-pin"},
+                "RTX 5080": {"tdp": 360, "recommended_psu": 750, "connectors": "1x 16-pin"},
+                "RTX 5070 Ti": {"tdp": 300, "recommended_psu": 700, "connectors": "1x 16-pin"},
+                "RTX 5070": {"tdp": 250, "recommended_psu": 650, "connectors": "1x 8-pin"},
+                
+                # NVIDIA RTX 40 Series
+                "RTX 4090": {"tdp": 450, "recommended_psu": 850, "connectors": "1x 16-pin or 3x 8-pin"},
+                "RTX 4080 Super": {"tdp": 320, "recommended_psu": 750, "connectors": "1x 16-pin or 3x 8-pin"},
+                "RTX 4080": {"tdp": 320, "recommended_psu": 750, "connectors": "1x 16-pin"},
+                "RTX 4070 Ti Super": {"tdp": 285, "recommended_psu": 700, "connectors": "1x 16-pin"},
+                "RTX 4070 Ti": {"tdp": 285, "recommended_psu": 700, "connectors": "1x 16-pin"},
+                "RTX 4070 Super": {"tdp": 220, "recommended_psu": 650, "connectors": "1x 8-pin"},
+                "RTX 4070": {"tdp": 200, "recommended_psu": 650, "connectors": "1x 8-pin"},
+                "RTX 4060 Ti": {"tdp": 165, "recommended_psu": 550, "connectors": "1x 8-pin"},
+                "RTX 4060": {"tdp": 115, "recommended_psu": 450, "connectors": "1x 8-pin"},
+                
+                # AMD RX 7000 Series
+                "RX 7900 XTX": {"tdp": 355, "recommended_psu": 800, "connectors": "2x 8-pin"},
+                "RX 7900 XT": {"tdp": 315, "recommended_psu": 750, "connectors": "2x 8-pin"},
+                "RX 7900 GRE": {"tdp": 260, "recommended_psu": 700, "connectors": "2x 8-pin"},
+                "RX 7800 XT": {"tdp": 263, "recommended_psu": 700, "connectors": "2x 8-pin"},
+                "RX 7700 XT": {"tdp": 245, "recommended_psu": 650, "connectors": "1x 8-pin"},
+                "RX 7600": {"tdp": 165, "recommended_psu": 550, "connectors": "1x 8-pin"},
+                
+                "default": {"tdp": 150, "recommended_psu": 500, "connectors": "1x 8-pin"}
             },
+            
+            # ==================== PCIe & STORAGE ====================
+            "pcie_compatibility": {
+                "PCIe 5.0": {
+                    "backward_compatible": ["PCIe 4.0", "PCIe 3.0"],
+                    "optimal_for": ["RTX 50 Series", "Next-gen SSDs"],
+                    "bandwidth": "128 GB/s (x16)"
+                },
+                "PCIe 4.0": {
+                    "backward_compatible": ["PCIe 3.0"],
+                    "optimal_for": ["RTX 40 Series", "RX 7000 Series", "Gen4 NVMe"],
+                    "bandwidth": "64 GB/s (x16)"
+                },
+                "PCIe 3.0": {
+                    "optimal_for": ["RTX 30 Series", "RX 6000 Series", "Gen3 NVMe"],
+                    "bandwidth": "32 GB/s (x16)"
+                }
+            },
+            
+            # ==================== COOLER COMPATIBILITY ====================
+            "cooler_compatibility": {
+                "tower_coolers": {
+                    "max_ram_height": 40,  # mm, for RAM clearance
+                    "check": "motherboard VRM heatsink clearance"
+                },
+                "aio_sizes": {
+                    "120mm": {"performance": "entry", "tdp_support": 65},
+                    "240mm": {"performance": "mid", "tdp_support": 125},
+                    "280mm": {"performance": "mid-high", "tdp_support": 150},
+                    "360mm": {"performance": "high", "tdp_support": 200},
+                    "420mm": {"performance": "extreme", "tdp_support": 250}
+                }
+            },
+            
+            # ==================== PERIPHERALS ====================
+            "peripheral_compatibility": {
+                "headphones": {
+                    "connection_types": ["3.5mm", "USB", "Bluetooth", "2.4GHz Wireless"],
+                    "impedance_ranges": {
+                        "low": {"range": [16, 32], "needs_amp": False},
+                        "medium": {"range": [32, 80], "needs_amp": "optional"},
+                        "high": {"range": [80, 600], "needs_amp": True}
+                    },
+                    "recommended_with": ["DAC", "headphone amp", "balanced cable", "replacement pads"]
+                },
+                "keyboards": {
+                    "connection_types": ["USB-A", "USB-C", "Bluetooth", "2.4GHz"],
+                    "switch_types": {
+                        "linear": ["Red", "Yellow", "Black", "Speed Silver"],
+                        "tactile": ["Brown", "Clear", "Orange"],
+                        "clicky": ["Blue", "Green", "White"]
+                    },
+                    "recommended_with": ["wrist rest", "keycap set", "coiled cable", "desk mat"]
+                },
+                "mice": {
+                    "connection_types": ["USB", "Bluetooth", "2.4GHz Wireless"],
+                    "grip_styles": ["palm", "claw", "fingertip"],
+                    "recommended_with": ["mousepad", "mouse bungee", "PTFE skates", "grip tape"]
+                },
+                "monitors": {
+                    "connection_types": ["DisplayPort 2.1", "DisplayPort 1.4", "HDMI 2.1", "HDMI 2.0", "USB-C"],
+                    "gpu_requirements": {
+                        "4K 144Hz": ["RTX 4070 Ti+", "RX 7800 XT+"],
+                        "4K 60Hz": ["RTX 4060+", "RX 7600+"],
+                        "1440p 240Hz": ["RTX 4080+", "RX 7900 XT+"],
+                        "1440p 144Hz": ["RTX 4070+", "RX 7700 XT+"],
+                        "1080p 360Hz": ["RTX 4070+", "RX 7700 XT+"]
+                    },
+                    "recommended_with": ["monitor arm", "calibrator", "DP 2.1 cable"]
+                }
+            },
+            
+            # ==================== BUNDLE RECOMMENDATIONS ====================
             "category_bundles": {
-                "headphones": ["dac", "amp", "cable", "ear_pads"],
-                "keyboard": ["keycaps", "wrist_rest", "cable", "switches"],
-                "mouse": ["mousepad", "bungee", "skates"],
-                "monitor": ["arm", "cable", "calibrator"],
-                "gpu": ["psu", "riser", "support_bracket"]
+                "headphones": {
+                    "accessories": ["DAC/Amp", "balanced cable", "replacement ear pads", "headphone stand", "carrying case"],
+                    "complementary": ["microphone", "audio interface"]
+                },
+                "keyboard": {
+                    "accessories": ["wrist rest", "keycap set", "coiled cable", "switch opener", "lube kit"],
+                    "complementary": ["desk mat", "mouse"]
+                },
+                "mouse": {
+                    "accessories": ["mousepad XL", "mouse bungee", "PTFE skates", "grip tape", "paracord cable"],
+                    "complementary": ["keyboard", "wrist rest"]
+                },
+                "monitor": {
+                    "accessories": ["monitor arm", "calibrator", "screen protector", "light bar", "webcam"],
+                    "complementary": ["GPU upgrade", "desk"]
+                },
+                "gpu": {
+                    "accessories": ["GPU support bracket", "custom cables", "vertical mount", "riser cable"],
+                    "complementary": ["PSU upgrade", "case fans", "AIO cooler"]
+                },
+                "cpu": {
+                    "accessories": ["thermal paste", "CPU cooler", "AIO"],
+                    "complementary": ["motherboard", "RAM kit"]
+                },
+                "case": {
+                    "accessories": ["case fans", "fan hub", "RGB controller", "cable management kit"],
+                    "complementary": ["PSU", "AIO cooler"]
+                }
+            },
+            
+            # ==================== GAMING SETUP PRESETS ====================
+            "gaming_presets": {
+                "esports_1080p": {
+                    "target": "1080p 240-360Hz",
+                    "cpu": ["Ryzen 5 7600", "i5-14600K"],
+                    "gpu": ["RTX 4070", "RX 7700 XT"],
+                    "ram": "32GB DDR5-6000",
+                    "notes": "Optimized for competitive games"
+                },
+                "enthusiast_1440p": {
+                    "target": "1440p 144-240Hz",
+                    "cpu": ["Ryzen 7 7800X3D", "i7-14700K"],
+                    "gpu": ["RTX 4080", "RX 7900 XTX"],
+                    "ram": "32GB DDR5-6400",
+                    "notes": "Best balance of quality and performance"
+                },
+                "4k_gaming": {
+                    "target": "4K 60-120Hz",
+                    "cpu": ["Ryzen 9 7950X3D", "i9-14900K"],
+                    "gpu": ["RTX 4090", "RTX 5090"],
+                    "ram": "64GB DDR5-6000",
+                    "notes": "Maximum quality at 4K"
+                },
+                "budget_build": {
+                    "target": "1080p 60-144Hz",
+                    "cpu": ["Ryzen 5 5600", "i5-12400F"],
+                    "gpu": ["RTX 4060", "RX 7600"],
+                    "ram": "16GB DDR4-3200",
+                    "notes": "Great value gaming"
+                }
             }
         }
     
