@@ -24,7 +24,9 @@ const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Dynamic expandable blocks based on product category
 const DynamicExpandableBlocks = ({ product }) => {
+  // Try to determine category from multiple sources
   const category = (product.category || '').toLowerCase();
+  const tags = (product.tags || []).map(t => t.toLowerCase()).join(' ');
   
   // Define category-specific blocks
   const categoryBlocks = {
