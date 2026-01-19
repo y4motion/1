@@ -54,6 +54,9 @@ from routes.payment_routes import router as payment_router
 from routes.promo_routes import router as promo_router
 from routes.user_address_routes import router as user_address_router
 
+# Glassy Mind - AI Brain
+from glassy_mind import router as mind_router
+
 # Import middleware
 from middleware.logging_middleware import RequestLoggingMiddleware
 from middleware.exception_handler import (
