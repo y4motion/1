@@ -239,6 +239,28 @@ class RulesEngine:
             ),
             cooldown_minutes=10
         ))
+        
+        # ==================== RULE 7: Incompatible Build Risk ====================
+        def incompatible_build_condition(ctx: Dict) -> bool:
+            """
+            Условие: В корзине/сборке есть несовместимые компоненты.
+            Проверяется через CompatibilityService.
+            """
+            compatibility_issues = ctx.get("compatibility_issues", [])
+            return len(compatibility_issues) > 0
+        
+        self.rules.append(Rule(
+            name="incompatible_build_risk",
+            description="Обнаружена несовместимость компонентов",
+            condition=incompatible_build_condition,
+            reaction=RuleReaction(
+                trigger_type=TriggerType.READY_TO_SUGGEST,
+                message="⚠️ Стоп! Обнаружена проблема совместимости. Показать детали?",
+                priority=5,  # Наивысший приоритет
+                metadata={"show_compatibility_modal": True, "urgent": True}
+            ),
+            cooldown_minutes=5  # Быстрый cooldown для критических ошибок
+        ))
     
     def _check_cooldown(self, user_id: str, rule_name: str, cooldown_minutes: int) -> bool:
         """Проверить, не на кулдауне ли правило"""
