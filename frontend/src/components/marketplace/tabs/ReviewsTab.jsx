@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Star, ThumbsUp, ThumbsDown, Check } from 'lucide-react';
 import './TabStyles.css';
 
-import { API_URL } from '../../../utils/api';
+// Use relative URLs to avoid mixed content issues in HTTPS environments
+const API_URL = '';
 
 // Example reviews data
 const exampleReviews = [

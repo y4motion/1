@@ -20,7 +20,8 @@ import QATab from './tabs/QATab';
 import ProductCard from './ProductCard';
 import './ProductDetailPage.css';
 
-import { API_URL } from '../../utils/api';
+// Use relative URLs to avoid mixed content issues in HTTPS environments
+const API_URL = '';
 
 // Dynamic expandable blocks based on product category
 const DynamicExpandableBlocks = ({ product }) => {
