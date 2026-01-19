@@ -235,24 +235,25 @@ export default function GlassyOmniChat() {
             ref={dockRef}
             data-testid="chat-expanded"
           >
-            {/* Status indicator - верхний левый угол */}
-            <div className={`emergent-status ${statusType}`}>
-              <div className="status-dot" />
-              <span>{getStatusText()}</span>
+            {/* Акриловая шапка - НАД input */}
+            <div className="acrylic-header">
+              <div className={`emergent-status ${statusType}`}>
+                <div className="status-dot" />
+                <span>{getStatusText()}</span>
+              </div>
+              
+              <button 
+                className="emergent-close" 
+                onClick={() => setIsOpen(false)}
+                data-testid="chat-close-btn"
+              >
+                <X size={16} />
+              </button>
             </div>
-
-            {/* Close button */}
-            <button 
-              className="emergent-close" 
-              onClick={() => setIsOpen(false)}
-              data-testid="chat-close-btn"
-            >
-              <X size={16} />
-            </button>
 
             {/* Main content area */}
             <div className="emergent-content">
-              {/* Input area - TOP (как в Emergent) */}
+              {/* Input area */}
               <div className="emergent-input-area">
                 <input
                   ref={inputRef}
@@ -297,17 +298,9 @@ export default function GlassyOmniChat() {
                   <div ref={messagesEndRef} />
                 </div>
               )}
-
-              {/* Empty state */}
-              {currentMessages.length === 0 && (
-                <div className="emergent-empty">
-                  <Sparkles size={18} />
-                  <span>{language === 'ru' ? 'Спросите что угодно' : 'Ask anything'}</span>
-                </div>
-              )}
             </div>
 
-            {/* Bottom toolbar (как в Emergent) */}
+            {/* Bottom toolbar */}
             <div className="emergent-toolbar">
               {/* Left side: action buttons */}
               <div className="toolbar-left">
@@ -315,7 +308,7 @@ export default function GlassyOmniChat() {
                   <Paperclip size={18} />
                 </button>
                 
-                {/* Nav tabs как кнопки */}
+                {/* Nav tabs */}
                 {NAV_TABS.map((tab) => {
                   const isActive = activeTab === tab.id;
                   const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
@@ -332,11 +325,6 @@ export default function GlassyOmniChat() {
                     </button>
                   );
                 })}
-
-                <button className="toolbar-btn-text" title="Fork">
-                  <GitFork size={16} />
-                  <span>Fork</span>
-                </button>
               </div>
 
               {/* Right side: mic + send */}
