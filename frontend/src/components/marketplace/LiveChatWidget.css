@@ -316,3 +316,86 @@
   background: rgba(0, 0, 0, 0.05);
   color: #1a1a1a;
 }
+
+/* AI Badge in header */
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 10px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* AI Hint in welcome */
+.ai-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* AI Message styling */
+.chat-message.ai-message .message-content {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(20, 184, 166, 0.1) 100%);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+.chat-message.ai-message .message-avatar {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+.ai-tag {
+  padding: 0.125rem 0.375rem;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #a78bfa;
+}
+
+/* Typing indicator */
+.chat-message.typing .message-content {
+  padding: 0.75rem;
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
