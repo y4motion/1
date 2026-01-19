@@ -171,6 +171,7 @@ api_router.include_router(payment_router)
 api_router.include_router(promo_router)
 api_router.include_router(user_address_router)
 api_router.include_router(mind_router)  # Glassy Mind - AI Brain
+api_router.include_router(builder_router)  # PC Builder - Compatibility
 
 # Include the router in the main app
 app.include_router(api_router)
