@@ -2058,38 +2058,52 @@ const PCBuilderPage = () => {
                 borderRadius: '8px',
                 border: 'none',
                 background:
-                  isConfigComplete() && !isAddingToCart ? '#8b5cf6' : 'rgba(139, 92, 246, 0.3)',
+                  isConfigComplete() && !isAddingToCart && (!validationResult || validationResult.is_compatible) 
+                    ? '#8b5cf6' 
+                    : 'rgba(139, 92, 246, 0.3)',
                 color: '#ffffff',
                 fontSize: '0.9375rem',
                 fontWeight: '700',
-                cursor: isConfigComplete() && !isAddingToCart ? 'pointer' : 'not-allowed',
+                cursor: isConfigComplete() && !isAddingToCart && (!validationResult || validationResult.is_compatible) 
+                  ? 'pointer' 
+                  : 'not-allowed',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '0.5rem',
                 transition: 'all 0.3s ease',
+                filter: validationResult && !validationResult.is_compatible ? 'grayscale(0.5)' : 'none',
               }}
               onMouseEnter={(e) => {
-                if (isConfigComplete() && !isAddingToCart) {
+                if (isConfigComplete() && !isAddingToCart && (!validationResult || validationResult.is_compatible)) {
                   e.currentTarget.style.background = '#7c3aed';
                   e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (isConfigComplete() && !isAddingToCart) {
+                if (isConfigComplete() && !isAddingToCart && (!validationResult || validationResult.is_compatible)) {
                   e.currentTarget.style.background = '#8b5cf6';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
-              <ShoppingCart size={18} />
-              {isAddingToCart
-                ? language === 'ru'
-                  ? 'Добавление...'
-                  : 'Adding...'
-                : language === 'ru'
-                  ? 'ДОБАВИТЬ В КОРЗИНУ'
-                  : 'ADD TO CART'}
+              {validationResult && !validationResult.is_compatible ? (
+                <>
+                  <AlertTriangle size={18} />
+                  {language === 'ru' ? 'ИСПРАВЬТЕ КОНФЛИКТЫ' : 'FIX CONFLICTS FIRST'}
+                </>
+              ) : (
+                <>
+                  <ShoppingCart size={18} />
+                  {isAddingToCart
+                    ? language === 'ru'
+                      ? 'Добавление...'
+                      : 'Adding...'
+                    : language === 'ru'
+                      ? 'ДОБАВИТЬ В КОРЗИНУ'
+                      : 'ADD TO CART'}
+                </>
+              )}
             </button>
 
             <button
