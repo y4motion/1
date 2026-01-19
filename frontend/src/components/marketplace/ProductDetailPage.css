@@ -1,42 +1,11 @@
 /* ==========================================
-   Product Detail Page - MEGA v2.0
-   TJExclusives + Gearz.gg + PMM.gg Style
-   Strong Glassmorphism + Neon Accents
+   Product Detail Page - MEGA v3.0
+   CALM PREMIUM TECH - Apple Vision Pro + Linear Style
+   Soft Purple • Teal • No Neon Green
    ========================================== */
 
-/* CSS Variables */
-:root {
-  --neon-green: #00ff88;
-  --neon-green-dim: rgba(0, 255, 136, 0.3);
-  --purple-primary: #8b5cf6;
-  --purple-dark: #6d28d9;
-  --glass-light: rgba(255, 255, 255, 0.05);
-  --glass-medium: rgba(255, 255, 255, 0.08);
-  --glass-hover: rgba(255, 255, 255, 0.12);
-  --glass-dark: rgba(20, 20, 20, 0.85);
-  --border-light: rgba(255, 255, 255, 0.1);
-  --border-glow: rgba(0, 255, 136, 0.3);
-  --shadow-glow: 0 0 20px rgba(0, 255, 136, 0.2);
-  --shadow-glow-lg: 0 0 28px rgba(0, 255, 136, 0.4);
-  --blur-md: blur(12px);
-  --blur-lg: blur(20px);
-}
-
-/* Glass Card Utility */
-.glass-card {
-  background: var(--glass-light);
-  backdrop-filter: var(--blur-md);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.glass-card:hover {
-  background: var(--glass-hover);
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-4px);
-}
+/* Import refined colors */
+@import '../../styles/refined-colors.css';
 
 /* Page Container */
 .pdp-page {
@@ -59,8 +28,8 @@
 .pdp-loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--border-light);
-  border-top-color: var(--neon-green);
+  border: 3px solid var(--glass-border-subtle);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -88,17 +57,17 @@
 .pdp-back-btn {
   padding: 1rem 2rem;
   background: var(--glass-light);
-  border: 1px solid var(--border-glow);
+  border: 1px solid var(--accent-primary-glow);
   border-radius: 12px;
-  color: var(--neon-green);
+  color: var(--accent-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .pdp-back-btn:hover {
-  background: var(--glass-hover);
-  box-shadow: var(--shadow-glow);
+  background: var(--glass-medium);
+  box-shadow: var(--glow-subtle);
 }
 
 /* Breadcrumbs */
@@ -123,7 +92,7 @@
 
 .pdp-breadcrumbs a:hover {
   opacity: 1;
-  color: var(--neon-green);
+  color: var(--accent-primary);
 }
 
 .pdp-breadcrumb-sep {
@@ -133,7 +102,7 @@
 .pdp-breadcrumb-current {
   opacity: 1;
   font-weight: 500;
-  color: var(--neon-green);
+  color: var(--accent-primary);
 }
 
 /* Main Grid Layout - TJExclusives Style */
@@ -203,13 +172,13 @@
 .pdp-thumb:hover {
   opacity: 1;
   transform: scale(1.05);
-  border-color: var(--neon-green-dim);
+  border-color: var(--accent-primary-subtle);
 }
 
 .pdp-thumb.active {
   opacity: 1;
-  border-color: var(--neon-green);
-  box-shadow: 0 0 16px rgba(0, 255, 136, 0.4);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 16px var(--accent-primary-glow);
 }
 
 /* Main Image Container */
@@ -259,7 +228,7 @@
 
 .pdp-zoom-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 12px var(--neon-green-dim);
+  box-shadow: 0 0 12px var(--accent-primary-glow);
 }
 
 /* Image Navigation */
@@ -401,9 +370,9 @@
 }
 
 .pdp-stock-status.in {
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid var(--neon-green-dim);
-  color: var(--neon-green);
+  background: var(--success-subtle);
+  border: 1px solid var(--success-glow);
+  color: var(--success-color);
 }
 
 .pdp-stock-status.in span {
@@ -464,7 +433,7 @@
   position: relative;
   padding: 0.875rem 1rem;
   background: var(--glass-light);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 8px;
   color: #fff;
   font-weight: 500;
@@ -475,14 +444,14 @@
 
 .pdp-variant-btn:hover:not(.disabled) {
   background: var(--glass-medium);
-  border-color: var(--border-glow);
+  border-color: var(--glass-border-visible);
 }
 
 .pdp-variant-btn.active {
-  border-color: var(--neon-green);
-  box-shadow: var(--shadow-glow);
+  border-color: var(--accent-primary);
+  box-shadow: var(--glow-subtle);
   font-weight: 700;
-  background: rgba(0, 255, 136, 0.1);
+  background: var(--accent-primary-subtle);
 }
 
 .pdp-variant-btn.disabled {
@@ -515,7 +484,7 @@
   width: 40px;
   height: 40px;
   background: var(--glass-light);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 8px;
   color: #fff;
   font-size: 1.25rem;
@@ -529,7 +498,7 @@
 
 .pdp-qty-btn:hover:not(:disabled) {
   background: var(--glass-medium);
-  border-color: var(--border-glow);
+  border-color: var(--glass-border-visible);
 }
 
 .pdp-qty-btn:active:not(:disabled) {
@@ -545,7 +514,7 @@
   width: 60px;
   height: 40px;
   background: var(--glass-light);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 8px;
   color: #fff;
   font-size: 1.125rem;
@@ -555,7 +524,7 @@
 }
 
 .pdp-qty-input:focus {
-  border-color: var(--border-glow);
+  border-color: var(--accent-primary);
 }
 
 .pdp-qty-input::-webkit-outer-spin-button,
@@ -595,14 +564,14 @@
 }
 
 .pdp-btn-primary {
-  background: linear-gradient(135deg, var(--neon-green) 0%, #00d472 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #6d28d9 100%);
   border: none;
-  color: #000;
-  box-shadow: var(--shadow-glow);
+  color: #fff;
+  box-shadow: var(--glow-subtle);
 }
 
 .pdp-btn-primary:hover:not(:disabled) {
-  box-shadow: var(--shadow-glow-lg);
+  box-shadow: var(--glow-medium);
   transform: translateY(-2px);
 }
 
@@ -621,13 +590,13 @@
 
 .pdp-btn-secondary {
   background: var(--glass-light);
-  border: 1px solid var(--neon-green);
-  color: var(--neon-green);
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .pdp-btn-secondary:hover:not(:disabled) {
   background: var(--glass-medium);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--glow-subtle);
   transform: translateY(-2px);
 }
 
@@ -646,7 +615,7 @@
 .pdp-action-icon-btn {
   padding: 0.75rem 1rem;
   background: var(--glass-light);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 10px;
   color: #fff;
   font-size: 0.8125rem;
@@ -661,7 +630,7 @@
 
 .pdp-action-icon-btn:hover {
   background: var(--glass-medium);
-  border-color: var(--border-glow);
+  border-color: var(--glass-border-visible);
 }
 
 .pdp-action-icon-btn.active {
@@ -694,7 +663,7 @@
 
 .pdp-trust-badge svg {
   flex-shrink: 0;
-  color: var(--neon-green);
+  color: var(--success-color);
 }
 
 .pdp-trust-badge div {
@@ -723,7 +692,7 @@
 
 .pdp-tabs-nav {
   display: flex;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--glass-border-subtle);
   overflow-x: auto;
 }
 
@@ -749,7 +718,7 @@
 }
 
 .pdp-tab-btn.active {
-  color: var(--neon-green);
+  color: var(--accent-primary);
   font-weight: 700;
   background: var(--glass-medium);
 }
@@ -761,8 +730,8 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--neon-green);
-  box-shadow: 0 0 8px var(--neon-green-dim);
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary-glow);
 }
 
 .pdp-tabs-content {
@@ -848,7 +817,7 @@
   width: 44px;
   height: 44px;
   background: var(--glass-medium);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
@@ -859,8 +828,8 @@
 }
 
 .pdp-lightbox-close:hover {
-  background: var(--glass-hover);
-  border-color: var(--border-glow);
+  background: var(--glass-strong);
+  border-color: var(--glass-border-visible);
 }
 
 .pdp-lightbox-nav {
@@ -870,7 +839,7 @@
   width: 56px;
   height: 56px;
   background: var(--glass-medium);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
@@ -881,9 +850,9 @@
 }
 
 .pdp-lightbox-nav:hover {
-  background: var(--glass-hover);
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-glow);
+  background: var(--glass-strong);
+  border-color: var(--glass-border-visible);
+  box-shadow: var(--glow-subtle);
 }
 
 .pdp-lightbox-nav.prev {
@@ -943,6 +912,6 @@
 }
 
 [data-theme="light"] .pdp-btn-secondary {
-  border-color: #00d472;
-  color: #00a858;
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }

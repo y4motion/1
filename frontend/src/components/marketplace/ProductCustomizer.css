@@ -1,8 +1,11 @@
-/* Product Customizer - PMM.gg Style */
+/* Product Customizer - CALM PREMIUM TECH Style */
+
+/* Import refined colors */
+@import '../../styles/refined-colors.css';
 
 .product-customizer {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 12px;
   padding: 1.25rem;
   margin: 1rem 0;
@@ -15,7 +18,7 @@
   align-items: center;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--glass-border-subtle);
 }
 
 .weight-label {
@@ -30,8 +33,8 @@
   font-size: 1.75rem;
   font-weight: 900;
   font-family: 'Courier New', monospace;
-  color: var(--neon-green, #00ff88);
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  color: var(--accent-primary);
+  text-shadow: 0 0 20px var(--accent-primary-glow);
 }
 
 /* Weight Breakdown */
@@ -51,7 +54,7 @@
 }
 
 .breakdown-item.modifier {
-  color: var(--neon-green, #00ff88);
+  color: var(--accent-primary);
   opacity: 1;
 }
 
@@ -94,7 +97,7 @@
 .option-btn {
   padding: 0.625rem 1rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border-subtle);
   border-radius: 6px;
   color: #fff;
   font-size: 0.75rem;
@@ -108,14 +111,14 @@
 
 .option-btn:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--glass-border-visible);
 }
 
 .option-btn.active {
-  background: rgba(0, 255, 136, 0.15);
-  border-color: var(--neon-green, #00ff88);
-  color: var(--neon-green, #00ff88);
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
+  background: var(--accent-primary-subtle);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 12px var(--accent-primary-glow);
 }
 
 .option-btn:active {
@@ -143,7 +146,7 @@
 }
 
 [data-theme="light"] .weight-value {
-  color: #00a858;
+  color: var(--accent-primary);
 }
 
 [data-theme="light"] .weight-breakdown {
@@ -165,7 +168,7 @@
 }
 
 [data-theme="light"] .option-btn.active {
-  background: rgba(0, 168, 88, 0.1);
-  border-color: #00a858;
-  color: #00a858;
+  background: var(--accent-primary-subtle);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }

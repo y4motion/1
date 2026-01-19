@@ -1,4 +1,7 @@
-/* Key Specs - PMM.gg Style */
+/* Key Specs - CALM PREMIUM TECH Style */
+
+/* Import refined colors */
+@import '../../styles/refined-colors.css';
 
 .key-specs {
   margin: 1rem 0 1.5rem;
@@ -29,9 +32,9 @@
   font-weight: 500;
 }
 
-/* Neon accent for important values */
+/* Soft accent for important values - using teal instead of neon green */
 .spec-value.highlight {
-  color: var(--neon-green, #00ff88);
+  color: var(--success-color);
 }
 
 /* Light Theme */
