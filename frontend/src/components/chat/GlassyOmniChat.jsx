@@ -175,6 +175,7 @@ export default function GlassyOmniChat() {
             exit={{ y: 280, opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="chat-panel"
+            style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)' }}
           >
             {/* Верхняя грань */}
             <div className="panel-top-edge" />
