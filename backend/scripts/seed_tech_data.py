@@ -20,7 +20,7 @@ from bson import ObjectId
 
 # MongoDB connection
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.getenv("DB_NAME", "glassy_tech")
+DB_NAME = os.getenv("DB_NAME", "test_database")
 
 
 # ==================== PRODUCT DATA ====================
