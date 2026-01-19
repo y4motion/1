@@ -72,7 +72,7 @@
   }
 }
 
-/* Импульс при активности AI */
+/* Импульс - скрыт по умолчанию, показывается только при AI активности */
 .line-pulse {
   position: absolute;
   bottom: 0;
@@ -83,7 +83,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(var(--dock-glow-rgb), 0.5),
+    rgba(255, 255, 255, 0.4),
     transparent
   );
   opacity: 0;
@@ -91,18 +91,18 @@
 
 .ghost-line.analyzing .line-pulse {
   opacity: 1;
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% {
     transform: translateX(-50%) scaleX(0.5);
-    opacity: 0.3;
+    opacity: 0.2;
   }
   50% {
     transform: translateX(-50%) scaleX(2);
-    opacity: 1;
-    box-shadow: 0 0 20px rgba(var(--dock-glow-rgb), 0.5);
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -124,8 +124,8 @@
 
 /* ==================== ACTIVE: GHOST DOCK ==================== */
 .ghost-dock {
-  width: 90%;
-  max-width: 900px;
+  width: 95%;
+  max-width: 1000px;
   max-height: 50vh;
   
   /* Acrylic background */
@@ -136,9 +136,9 @@
   /* Только верхние скругления */
   border-radius: 24px 24px 0 0;
   
-  /* Пульсирующий верхний бордер */
+  /* Пульсирующий верхний бордер - мягкий белый */
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  animation: border-pulse 4s ease-in-out infinite;
+  animation: border-pulse 6s ease-in-out infinite;
   
   display: flex;
   flex-direction: column;
@@ -147,10 +147,12 @@
 
 @keyframes border-pulse {
   0%, 100% {
-    border-top-color: rgba(255, 255, 255, 0.08);
+    border-top-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 -1px 15px rgba(255, 255, 255, 0.02);
   }
   50% {
-    border-top-color: rgba(var(--dock-glow-rgb), 0.4);
+    border-top-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 -1px 25px rgba(255, 255, 255, 0.06);
   }
 }
 
@@ -322,7 +324,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   height: 48px;
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -362,9 +364,18 @@
   color: white;
 }
 
-.input-btn.send:not(:disabled):hover {
-  background: rgba(var(--dock-glow-rgb), 0.2);
+.input-btn.attach:hover {
   color: var(--dock-glow);
+}
+
+.input-btn.send {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.input-btn.send:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .input-btn:disabled {
