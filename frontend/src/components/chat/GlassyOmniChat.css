@@ -134,16 +134,10 @@
   width: 95%;
   max-width: 910px;
   margin-bottom: 24px;
-  
-  /* Скруглённые углы */
   border-radius: 16px;
   
   /* Глубокий чёрный фон */
   background: var(--emergent-bg-deep);
-  
-  /* Обводка 1px по бокам и снизу */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: none;
   
   /* Тень */
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
@@ -153,8 +147,30 @@
   overflow: hidden;
 }
 
+/* Стеклянная кромка 1px слева и справа */
+.emergent-chat-window::before,
+.emergent-chat-window::after {
+  content: '';
+  position: absolute;
+  top: 50px; /* После шапки */
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.emergent-chat-window::before {
+  left: 0;
+}
+
+.emergent-chat-window::after {
+  right: 0;
+}
+
 /* ==================== STATUS (верхний левый угол) ==================== */
-/* Акриловая шапка - liquid glass эффект */
+/* Акриловая шапка - полупрозрачное стекло */
 .acrylic-header {
   position: relative;
   display: flex;
@@ -163,22 +179,20 @@
   padding: 14px 18px;
   border-radius: 16px 16px 0 0;
   
-  /* Liquid glass фон */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(200, 230, 255, 0.06) 30%,
-    rgba(255, 255, 255, 0.04) 60%,
-    rgba(180, 220, 255, 0.08) 100%
-  );
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  /* Полупрозрачный фон - видно что за ним */
+  background: rgba(255, 255, 255, 0.08);
+  
+  /* Blur эффект - стекло */
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   
   /* Нижняя граница */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   
-  /* Внутренний блик сверху */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  /* Световой блик сверху */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .emergent-status {
