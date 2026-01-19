@@ -296,7 +296,10 @@ export default function GlassyOmniChat() {
                   ref={inputRef}
                   type="text"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    setLastActivity(Date.now());
+                  }}
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                   placeholder={language === 'ru' ? 'Сообщение...' : 'Message...'}
                 />
@@ -309,6 +312,7 @@ export default function GlassyOmniChat() {
                   <ArrowUp size={18} />
                 </button>
               </div>
+            </div>
             </div>
           </motion.div>
         )}
