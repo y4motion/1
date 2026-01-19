@@ -350,7 +350,7 @@ class Observer:
         """Get A/B test results for recommendations"""
         await self._ensure_db()
         
-        if not self._db:
+        if self._db is None:
             return {"error": "MongoDB required for A/B test results"}
         
         # Count users in each group
