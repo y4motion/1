@@ -42,16 +42,18 @@ const categoryKeySpecs = {
 };
 
 const KeySpecs = ({ product, category }) => {
-  // Determine category from product or prop
-  const productCategory = category || product?.category?.toLowerCase() || 'default';
+  // Determine category from product or prop - check tags too
+  const productCategory = category || product?.category?.toLowerCase() || '';
+  const tags = (product?.tags || []).map(t => t.toLowerCase()).join(' ');
+  const searchText = `${productCategory} ${tags}`;
   
   // Get the right template
   const getTemplate = () => {
-    if (productCategory.includes('headphone') || productCategory.includes('audio')) return categoryKeySpecs.headphones;
-    if (productCategory.includes('mouse') || productCategory.includes('mice')) return categoryKeySpecs.mouse;
-    if (productCategory.includes('keyboard')) return categoryKeySpecs.keyboard;
-    if (productCategory.includes('monitor') || productCategory.includes('display')) return categoryKeySpecs.monitor;
-    if (productCategory.includes('gpu') || productCategory.includes('graphics')) return categoryKeySpecs.gpu;
+    if (searchText.includes('headphone') || searchText.includes('audio')) return categoryKeySpecs.headphones;
+    if (searchText.includes('mouse') || searchText.includes('mice')) return categoryKeySpecs.mouse;
+    if (searchText.includes('keyboard')) return categoryKeySpecs.keyboard;
+    if (searchText.includes('monitor') || searchText.includes('display')) return categoryKeySpecs.monitor;
+    if (searchText.includes('gpu') || searchText.includes('graphics')) return categoryKeySpecs.gpu;
     return categoryKeySpecs.default;
   };
 
