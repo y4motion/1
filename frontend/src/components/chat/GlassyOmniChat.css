@@ -139,6 +139,11 @@
   /* Глубокий чёрный фон */
   background: var(--emergent-bg-deep);
   
+  /* Стеклянная обводка 1px слева и справа */
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
   /* Тень */
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
   
@@ -147,30 +152,8 @@
   overflow: hidden;
 }
 
-/* Стеклянная кромка 1px слева и справа */
-.emergent-chat-window::before,
-.emergent-chat-window::after {
-  content: '';
-  position: absolute;
-  top: 50px; /* После шапки */
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 5;
-}
-
-.emergent-chat-window::before {
-  left: 0;
-}
-
-.emergent-chat-window::after {
-  right: 0;
-}
-
 /* ==================== STATUS (верхний левый угол) ==================== */
-/* Акриловая шапка - полупрозрачное стекло с световыми пятнами */
+/* Акриловая шапка - использует glass-strong стиль из glassmorphism.css */
 .acrylic-header {
   position: relative;
   display: flex;
@@ -178,52 +161,14 @@
   justify-content: space-between;
   padding: 14px 18px;
   border-radius: 16px 16px 0 0;
-  overflow: hidden;
   
-  /* Полупрозрачный фон */
-  background: rgba(30, 35, 40, 0.6);
-  
-  /* Blur эффект */
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  
-  /* Нижняя граница */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Световые пятна для glassmorphism эффекта */
-.acrylic-header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -10%;
-  width: 40%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(100, 200, 180, 0.3) 0%,
-    rgba(100, 200, 180, 0.1) 40%,
-    transparent 70%
-  );
-  filter: blur(20px);
-  pointer-events: none;
-}
-
-.acrylic-header::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: 10%;
-  width: 35%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(150, 180, 255, 0.25) 0%,
-    rgba(150, 180, 255, 0.08) 40%,
-    transparent 70%
-  );
-  filter: blur(25px);
-  pointer-events: none;
+  /* glass-strong эффект */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
 }
 
 .emergent-status {
