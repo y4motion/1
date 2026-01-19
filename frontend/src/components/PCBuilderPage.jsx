@@ -1871,6 +1871,63 @@ const PCBuilderPage = () => {
             </label>
           </div>
 
+          {/* API Compatibility Status */}
+          {isValidating && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem',
+                marginBottom: '1rem',
+                borderRadius: '8px',
+                background: 'rgba(139, 92, 246, 0.1)',
+                border: '1px solid rgba(139, 92, 246, 0.2)',
+              }}
+            >
+              <div className="spin" style={{ width: 16, height: 16 }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2">
+                  <path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-5.07l-2.83 2.83M9.76 14.24l-2.83 2.83m9.9 0l-2.83-2.83M9.76 9.76L6.93 6.93" />
+                </svg>
+              </div>
+              <span style={{ fontSize: '0.8rem', color: '#8b5cf6' }}>
+                {language === 'ru' ? 'Проверка совместимости...' : 'Checking compatibility...'}
+              </span>
+            </div>
+          )}
+
+          {/* Compatibility Resolver - Shows errors from API */}
+          {validationResult && !validationResult.is_compatible && showCompatibilityPanel && (
+            <CompatibilityResolver
+              errors={validationResult.errors || []}
+              warnings={validationResult.warnings || []}
+              onSwapProduct={handleSwapProduct}
+              onDismiss={() => setShowCompatibilityPanel(false)}
+            />
+          )}
+
+          {/* Success Badge when compatible */}
+          {validationResult && validationResult.is_compatible && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1rem',
+                marginBottom: '1rem',
+                borderRadius: '8px',
+                background: 'rgba(34, 197, 94, 0.1)',
+                border: '1px solid rgba(34, 197, 94, 0.3)',
+              }}
+            >
+              <CheckCircle size={18} color="#22c55e" />
+              <span style={{ fontSize: '0.85rem', color: '#22c55e', fontWeight: '500' }}>
+                {language === 'ru' ? 'Все компоненты совместимы!' : 'All components compatible!'}
+              </span>
+            </div>
+          )}
+
           {/* Power Calculator */}
           <div
             className="glass"
