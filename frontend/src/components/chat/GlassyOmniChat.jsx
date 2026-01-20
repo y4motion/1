@@ -601,27 +601,19 @@ export default function GlassyOmniChat() {
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setIsUploading(true);
     
-    // Определяем тип файла для иконки
-    const fileType = file.type.startsWith('image/') ? '🖼️' :
-                     file.type.startsWith('video/') ? '🎬' :
-                     file.type.startsWith('audio/') ? '🎵' :
-                     file.name.match(/\.(zip|rar|7z|tar|gz)$/i) ? '📦' :
-                     file.name.match(/\.gif$/i) ? '✨' : '📄';
+    // Устанавливаем файл как pending (с превью)
+    setPendingFile(file);
     
-    setTimeout(() => {
-      setMessages(prev => ({
-        ...prev,
-        [activeMode]: [...(prev[activeMode] || []), {
-          id: Date.now(),
-          type: 'user',
-          text: `${fileType} ${file.name}`,
-          timestamp: new Date(),
-        }]
-      }));
-      setIsUploading(false);
-    }, 1000);
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (ev) => setFilePreview(ev.target?.result);
+      reader.readAsDataURL(file);
+    } else {
+      setFilePreview(null);
+    }
+    
+    setShowAttachMenu(false);
     e.target.value = '';
   };
 
