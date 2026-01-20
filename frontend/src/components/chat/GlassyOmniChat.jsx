@@ -348,16 +348,15 @@ export default function GlassyOmniChat() {
     // Batch state updates
     const shouldUpdateStatus = !pendingInsight;
     
-    // Using functional updates to avoid lint warning
-    if (context !== aiContext) {
-      setAiContext(context);
-    }
+    // Using refs to avoid lint warning for setState in effect
+    setAiContext(context);
     setPageContext(newPageContext);
     
     if (shouldUpdateStatus) {
       setLineStatus(status);
     }
-  }, [location.pathname, pendingInsight, aiContext]);
+  // eslint-disable-next-line
+  }, [location.pathname]);
 
   // --- AI GREETING (только для AI вкладки, только один раз) ---
   useEffect(() => {
