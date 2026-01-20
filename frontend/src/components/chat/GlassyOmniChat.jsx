@@ -1,8 +1,11 @@
 /**
- * GlassyOmniChat - Glassy Brain Edition
+ * GlassyOmniChat - Strict Context Isolation
  * 
- * Дизайн: Акриловое полотно + чёрная зона + иконки СНИЗУ
- * Логика: Context Awareness, режимы, suggestions
+ * Каждая вкладка имеет УНИКАЛЬНЫЙ контент:
+ * - AI: Проактивный ангел, советы по сборке
+ * - Trade: Пассивный маркет, диалоги с продавцами
+ * - Guilds: Чат гильдии
+ * - Support: Реактивная поддержка, ждёт жалобы
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -20,6 +23,14 @@ import {
   ChevronDown,
   Loader2,
   Headphones,
+  Package,
+  AlertTriangle,
+  Users,
+  Calendar,
+  Vote,
+  MessageSquare,
+  History,
+  UserPlus,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -74,38 +85,87 @@ const MODES = {
   support: { id: 'support', icon: Headphones, label: 'Поддержка', color: '#ef4444' },
 };
 
-// --- КОНТЕКСТЫ СТРАНИЦ ---
-const PAGE_CONTEXTS = {
+// --- СТРОГО ИЗОЛИРОВАННЫЕ КОНТЕКСТЫ ДЛЯ КАЖДОЙ ВКЛАДКИ ---
+const CONTEXT_CONFIG = {
+  ai: {
+    // ПРОАКТИВНЫЙ - единственный кто пишет первым
+    proactive: true,
+    initialMessage: null, // Устанавливается динамически на основе страницы
+    placeholder: 'Спросить Glassy AI...',
+    chips: [
+      { text: 'Оптимизировать бюджет', icon: null },
+      { text: 'Проверить совместимость', icon: null },
+      { text: 'Найти альтернативу', icon: null },
+    ],
+    emptyState: null,
+  },
+  trade: {
+    // ПАССИВНЫЙ - список диалогов
+    proactive: false,
+    initialMessage: null,
+    placeholder: 'Написать продавцу...',
+    chips: [
+      { text: 'Статус заказа', icon: Package },
+      { text: 'Открыть спор', icon: AlertTriangle },
+      { text: 'История покупок', icon: History },
+    ],
+    emptyState: 'Выберите продавца или товар для начала диалога',
+  },
+  guilds: {
+    // ЧАТ ГИЛЬДИИ
+    proactive: false,
+    initialMessage: null,
+    placeholder: 'Сообщение гильдии...',
+    chips: [
+      { text: 'Создать пати', icon: Users },
+      { text: 'Доска объявлений', icon: Calendar },
+      { text: 'Голосование', icon: Vote },
+    ],
+    emptyState: 'Выберите гильдию для общения',
+  },
+  global: {
+    // ГЛОБАЛЬНЫЙ ЧАТ
+    proactive: false,
+    initialMessage: null,
+    placeholder: 'Глобальное сообщение...',
+    chips: [
+      { text: 'Найти игроков', icon: UserPlus },
+      { text: 'Объявление', icon: MessageSquare },
+    ],
+    emptyState: 'Глобальный чат сообщества',
+  },
+  support: {
+    // СТРОГО РЕАКТИВНЫЙ - молчит и ждёт
+    proactive: false,
+    initialMessage: 'Служба поддержки Glassy. Опишите проблему или выберите категорию.',
+    placeholder: 'Опишите вашу проблему...',
+    chips: [
+      { text: 'Не пришёл товар', icon: Package },
+      { text: 'Баг на сайте', icon: AlertTriangle },
+      { text: 'Позвать оператора', icon: Headphones },
+    ],
+    emptyState: null,
+  },
+};
+
+// --- AI КОНТЕКСТЫ ПО СТРАНИЦАМ (только для AI вкладки) ---
+const AI_PAGE_CONTEXTS = {
   'pc-builder': {
-    mode: 'ai',
     greeting: 'Система активна. Я проанализировал твою сборку. Готов помочь с совместимостью.',
-    suggestions: ['Проверить совместимость', 'Оптимизировать бюджет', 'Найти альтернативу'],
-    status: 'analyzing'
+    chips: ['Проверить совместимость', 'Оптимизировать бюджет', 'Найти альтернативу'],
   },
   'marketplace': {
-    mode: 'trade',
-    greeting: 'Маркет активен. Вижу товары вокруг тебя. Найти лучшую цену?',
-    suggestions: ['Сравнить цены', 'Показать скидки', 'Проверить продавца'],
-    status: 'idle'
+    greeting: 'Вижу товары вокруг тебя. Помогу найти лучшую цену или сравнить характеристики.',
+    chips: ['Сравнить цены', 'Найти похожее', 'Проверить отзывы'],
   },
   'product': {
-    mode: 'trade',
-    greeting: 'Анализирую этот товар... Хочешь узнать историю цен или отзывы?',
-    suggestions: ['История цен', 'Читать отзывы', 'Найти дешевле'],
-    status: 'analyzing'
-  },
-  'glassy-swap': {
-    mode: 'trade',
-    greeting: 'Режим обмена. Проверю рейтинг любого продавца.',
-    suggestions: ['Безопасная сделка', 'Проверить продавца', 'Мои обмены'],
-    status: 'idle'
+    greeting: 'Анализирую этот товар. Могу показать историю цен или найти альтернативы.',
+    chips: ['История цен', 'Альтернативы', 'Отзывы'],
   },
   'default': {
-    mode: 'ai',
     greeting: 'Привет! Я Glassy Mind. Чем могу помочь?',
-    suggestions: ['Собрать ПК', 'Найти товар', 'Обменяться'],
-    status: 'idle'
-  }
+    chips: ['Собрать ПК', 'Найти товар', 'Помощь'],
+  },
 };
 
 const API_URL = '';
@@ -118,10 +178,9 @@ export default function GlassyOmniChat() {
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [statusType, setStatusType] = useState('idle');
-  const [pageContext, setPageContext] = useState(PAGE_CONTEXTS.default);
-  const [isEmergencyMode, setIsEmergencyMode] = useState(false);
-  const [lineStatus, setLineStatus] = useState('idle'); // Статус полоски
+  const [lineStatus, setLineStatus] = useState('idle');
+  const [aiContext, setAiContext] = useState(AI_PAGE_CONTEXTS.default);
+  const [hasGreeted, setHasGreeted] = useState({});
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -133,85 +192,84 @@ export default function GlassyOmniChat() {
   const fileInputRef = useRef(null);
   const recognitionRef = useRef(null);
 
-  const lang = language === 'ru' ? 'ru' : 'en';
   const currentMode = MODES[activeMode];
+  const currentContext = CONTEXT_CONFIG[activeMode];
+  const currentMessages = messages[activeMode] || [];
+  const userLevel = user?.level || 0;
+  const lineConfig = STATUS_CONFIG[lineStatus] || STATUS_CONFIG.idle;
 
-  // --- CONTEXT AWARENESS ---
+  // --- Определение AI контекста по странице ---
   useEffect(() => {
     const path = location.pathname.toLowerCase();
-    let context = PAGE_CONTEXTS.default;
+    let context = AI_PAGE_CONTEXTS.default;
+    let status = 'idle';
     
     if (path.includes('pc-builder') || path.includes('assembly')) {
-      context = PAGE_CONTEXTS['pc-builder'];
+      context = AI_PAGE_CONTEXTS['pc-builder'];
+      status = 'ai_processing';
     } else if (path.includes('product') || path.includes('category')) {
-      context = PAGE_CONTEXTS['product'];
+      context = AI_PAGE_CONTEXTS['product'];
+      status = 'ai_processing';
     } else if (path.includes('marketplace')) {
-      context = PAGE_CONTEXTS['marketplace'];
-    } else if (path.includes('glassy-swap') || path.includes('swap')) {
-      context = PAGE_CONTEXTS['glassy-swap'];
+      context = AI_PAGE_CONTEXTS['marketplace'];
+      status = 'idle';
     }
     
-    setPageContext(context);
-    setActiveMode(context.mode);
-    setStatusType(context.status);
-    
-    // Обновляем статус полоски
-    if (context.status === 'analyzing') {
-      setLineStatus('ai_processing');
-    } else {
-      setLineStatus('idle');
-    }
+    setAiContext(context);
+    setLineStatus(status);
   }, [location]);
 
-  // Приветствие при открытии
+  // --- AI приветствие (ТОЛЬКО для AI вкладки, ТОЛЬКО один раз) ---
   useEffect(() => {
-    if (isOpen && pageContext && !messages[activeMode]?.some(m => m.isGreeting)) {
+    if (isOpen && activeMode === 'ai' && !hasGreeted.ai && aiContext) {
       setTimeout(() => {
         setMessages(prev => ({
           ...prev,
-          [activeMode]: [{
+          ai: [{
             id: Date.now(),
             type: 'bot',
-            text: pageContext.greeting,
-            isGreeting: true,
-            suggestions: pageContext.suggestions,
+            text: aiContext.greeting,
+            chips: aiContext.chips,
             timestamp: new Date(),
           }]
         }));
+        setHasGreeted(prev => ({ ...prev, ai: true }));
       }, 300);
     }
-  }, [isOpen, pageContext, activeMode]);
+  }, [isOpen, activeMode, aiContext, hasGreeted.ai]);
 
-  const getStatusText = useCallback(() => {
-    const texts = {
-      idle: 'Готов',
-      typing: 'Печатает...',
-      analyzing: 'Анализирует...',
-      listening: 'Слушаю...',
-      uploading: 'Загрузка...',
-      emergency: '🔴 ПРИОРИТЕТ',
-    };
-    if (isEmergencyMode) return texts.emergency;
-    return texts[statusType] || texts.idle;
-  }, [statusType, isEmergencyMode]);
-
+  // --- Support приветствие (ТОЛЬКО при первом открытии Support) ---
   useEffect(() => {
-    if (isListening) setStatusType('listening');
-    else if (isUploading) setStatusType('uploading');
-    else if (isTyping) setStatusType('typing');
-    else setStatusType(pageContext?.status || 'idle');
-  }, [isTyping, isListening, isUploading, pageContext]);
+    if (isOpen && activeMode === 'support' && !hasGreeted.support) {
+      setTimeout(() => {
+        setMessages(prev => ({
+          ...prev,
+          support: [{
+            id: Date.now(),
+            type: 'bot',
+            text: CONTEXT_CONFIG.support.initialMessage,
+            chips: CONTEXT_CONFIG.support.chips.map(c => c.text),
+            timestamp: new Date(),
+          }]
+        }));
+        setHasGreeted(prev => ({ ...prev, support: true }));
+      }, 300);
+    }
+  }, [isOpen, activeMode, hasGreeted.support]);
 
+  // --- Фокус на input ---
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [isOpen]);
+  }, [isOpen, activeMode]);
 
+  // --- Scroll to bottom ---
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, activeMode]);
 
+  // --- Keyboard & Click outside ---
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape' && isOpen) setIsOpen(false);
@@ -229,14 +287,14 @@ export default function GlassyOmniChat() {
     };
   }, [isOpen]);
 
-  // Web Speech API
+  // --- Web Speech API ---
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = lang === 'ru' ? 'ru-RU' : 'en-US';
+      recognitionRef.current.lang = 'ru-RU';
       recognitionRef.current.onresult = (event) => {
         setInputValue(prev => prev + event.results[0][0].transcript);
         setIsListening(false);
@@ -244,7 +302,7 @@ export default function GlassyOmniChat() {
       recognitionRef.current.onerror = () => setIsListening(false);
       recognitionRef.current.onend = () => setIsListening(false);
     }
-  }, [lang]);
+  }, []);
 
   const toggleVoiceInput = useCallback(() => {
     if (!recognitionRef.current) return;
@@ -273,31 +331,41 @@ export default function GlassyOmniChat() {
         }]
       }));
       setIsUploading(false);
-      setTimeout(() => {
-        setMessages(prev => ({
-          ...prev,
-          [activeMode]: [...(prev[activeMode] || []), {
-            id: Date.now(),
-            type: 'bot',
-            text: `Файл "${file.name}" получен. Анализирую...`,
-            timestamp: new Date(),
-          }]
-        }));
-      }, 500);
     }, 1000);
     e.target.value = '';
   };
 
   const handleModeChange = (modeId) => {
-    if (MODES[modeId].requiresLevel && (user?.level || 0) < MODES[modeId].requiresLevel) return;
+    if (MODES[modeId].requiresLevel && userLevel < MODES[modeId].requiresLevel) return;
     setActiveMode(modeId);
-    setIsEmergencyMode(modeId === 'support');
+    
+    // Обновляем статус полоски
+    if (modeId === 'support') {
+      setLineStatus('warning');
+    } else if (modeId === 'guilds') {
+      setLineStatus('guild');
+    } else if (modeId === 'trade') {
+      setLineStatus('message');
+    } else {
+      setLineStatus(location.pathname.includes('pc-builder') ? 'ai_processing' : 'idle');
+    }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
-    setTimeout(() => sendMessage(suggestion), 100);
+  const handleChipClick = (chipText) => {
+    setInputValue(chipText);
+    setTimeout(() => sendMessage(chipText), 100);
   };
+
+  const getStatusText = useCallback(() => {
+    const texts = {
+      ai: 'Анализирует...',
+      trade: 'Маркет',
+      guilds: 'Гильдия',
+      global: 'Глобальный',
+      support: 'Поддержка',
+    };
+    return texts[activeMode] || 'Готов';
+  }, [activeMode]);
 
   const sendMessage = useCallback(async (text) => {
     const messageText = text || inputValue;
@@ -317,30 +385,51 @@ export default function GlassyOmniChat() {
     setIsTyping(true);
 
     setTimeout(async () => {
-      let response = 'Обрабатываю...';
+      let response = '';
+      let chips = null;
       
-      if (activeMode === 'ai') {
-        try {
-          const res = await fetch(`${API_URL}/api/mind/chat`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: messageText, context: { page: location.pathname } })
-          });
-          if (res.ok) {
-            const data = await res.json();
-            response = data.response || response;
+      // ИЗОЛИРОВАННЫЕ ОТВЕТЫ ДЛЯ КАЖДОГО РЕЖИМА
+      switch (activeMode) {
+        case 'ai':
+          try {
+            const res = await fetch(`${API_URL}/api/mind/chat`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: messageText, context: { page: location.pathname } })
+            });
+            if (res.ok) {
+              const data = await res.json();
+              response = data.response || 'Сейчас проверю...';
+            } else {
+              response = 'Обрабатываю запрос...';
+            }
+          } catch (e) {
+            response = 'Анализирую данные...';
           }
-        } catch (e) {
-          response = 'Сейчас проверю...';
-        }
-      } else if (activeMode === 'trade') {
-        response = '💱 Ищу предложения...';
-      } else if (activeMode === 'guilds') {
-        response = '🛡️ Отправлено в гильдию';
-      } else if (activeMode === 'global') {
-        response = '🌍 Глобальный чат';
-      } else if (activeMode === 'support') {
-        response = '🔴 Оператор подключается...';
+          chips = aiContext.chips;
+          break;
+          
+        case 'trade':
+          response = '💱 Проверяю информацию по вашему запросу...';
+          chips = ['Статус заказа', 'Связаться с продавцом'];
+          break;
+          
+        case 'guilds':
+          response = '🛡️ Сообщение отправлено в гильдию';
+          chips = ['Участники онлайн', 'События'];
+          break;
+          
+        case 'global':
+          response = '🌍 Сообщение в глобальном чате';
+          break;
+          
+        case 'support':
+          response = '🎧 Ваше обращение зарегистрировано. Оператор подключится в ближайшее время.';
+          chips = ['Уточнить статус', 'Позвать оператора'];
+          break;
+          
+        default:
+          response = 'Принято';
       }
 
       setMessages(prev => ({
@@ -349,16 +438,48 @@ export default function GlassyOmniChat() {
           id: Date.now(),
           type: 'bot',
           text: response,
+          chips: chips,
           timestamp: new Date(),
         }]
       }));
       setIsTyping(false);
     }, 800);
-  }, [inputValue, activeMode, location.pathname, lang]);
+  }, [inputValue, activeMode, location.pathname, aiContext]);
 
-  const currentMessages = messages[activeMode] || [];
-  const userLevel = user?.level || 0;
-  const lineConfig = STATUS_CONFIG[lineStatus] || STATUS_CONFIG.idle;
+  // --- RENDER: Уникальные чипсы для каждого режима ---
+  const renderChips = () => {
+    const chips = currentContext.chips;
+    if (!chips || chips.length === 0) return null;
+    
+    return (
+      <div className="context-chips">
+        {chips.map((chip, i) => (
+          <button
+            key={i}
+            onClick={() => handleChipClick(typeof chip === 'string' ? chip : chip.text)}
+            className="chip-btn"
+            style={{ borderColor: currentMode.color + '40' }}
+          >
+            {chip.icon && <chip.icon size={12} />}
+            <span>{typeof chip === 'string' ? chip : chip.text}</span>
+          </button>
+        ))}
+      </div>
+    );
+  };
+
+  // --- RENDER: Empty state для пассивных вкладок ---
+  const renderEmptyState = () => {
+    if (currentMessages.length > 0) return null;
+    if (!currentContext.emptyState) return null;
+    
+    return (
+      <div className="empty-state" style={{ color: currentMode.color + '80' }}>
+        <currentMode.icon size={32} style={{ opacity: 0.3 }} />
+        <p>{currentContext.emptyState}</p>
+      </div>
+    );
+  };
 
   return (
     <div className="ghost-dock-container" data-testid="glassy-omni-chat">
@@ -395,13 +516,13 @@ export default function GlassyOmniChat() {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className={`emergent-chat-window ${isEmergencyMode ? 'emergency' : ''}`}
+            className={`emergent-chat-window ${activeMode === 'support' ? 'emergency' : ''}`}
             ref={dockRef}
             data-testid="chat-expanded"
           >
-            {/* Header в акриловой шапке */}
+            {/* Header */}
             <div className="acrylic-header-content">
-              <div className={`emergent-status ${statusType}`} style={{ color: currentMode.color }}>
+              <div className="emergent-status" style={{ color: currentMode.color }}>
                 <div className="status-dot" style={{ background: currentMode.color }} />
                 <span>{getStatusText()}</span>
               </div>
@@ -412,7 +533,7 @@ export default function GlassyOmniChat() {
 
             {/* Чёрная зона */}
             <div className="chat-black-zone">
-              {/* Input */}
+              {/* Input с уникальным placeholder */}
               <div className="emergent-input-area">
                 <input
                   ref={inputRef}
@@ -420,59 +541,64 @@ export default function GlassyOmniChat() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={`Сообщение ${currentMode.label}...`}
+                  placeholder={currentContext.placeholder}
                   data-testid="chat-input"
                 />
               </div>
 
               {/* Messages */}
-              {currentMessages.length > 0 && (
-                <div className="emergent-messages">
-                  {currentMessages.map((msg) => (
-                    <motion.div
-                      key={msg.id}
-                      className={`emergent-msg ${msg.type}`}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                    >
-                      {msg.type === 'bot' && (
-                        <div className="msg-avatar" style={{ borderColor: currentMode.color + '40' }}>
-                          <Bot size={14} style={{ color: currentMode.color }} />
+              <div className="emergent-messages">
+                {renderEmptyState()}
+                
+                {currentMessages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    className={`emergent-msg ${msg.type}`}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    {msg.type === 'bot' && (
+                      <div className="msg-avatar" style={{ borderColor: currentMode.color + '40' }}>
+                        <currentMode.icon size={14} style={{ color: currentMode.color }} />
+                      </div>
+                    )}
+                    <div className="msg-content">
+                      <p>{msg.text}</p>
+                      {msg.chips && (
+                        <div className="msg-chips">
+                          {msg.chips.map((chip, i) => (
+                            <button key={i} onClick={() => handleChipClick(chip)} className="chip-btn-small">
+                              {chip}
+                            </button>
+                          ))}
                         </div>
                       )}
-                      <div className="msg-content">
-                        <p>{msg.text}</p>
-                        {msg.suggestions && (
-                          <div className="suggestions">
-                            {msg.suggestions.map((s, i) => (
-                              <button key={i} onClick={() => handleSuggestionClick(s)} className="suggestion-btn">
-                                {s}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                  {isTyping && (
-                    <div className="emergent-msg bot">
-                      <div className="msg-avatar"><Bot size={14} /></div>
-                      <div className="typing-indicator"><span /><span /><span /></div>
                     </div>
-                  )}
-                  <div ref={messagesEndRef} />
-                </div>
-              )}
+                  </motion.div>
+                ))}
+                
+                {isTyping && (
+                  <div className="emergent-msg bot">
+                    <div className="msg-avatar" style={{ borderColor: currentMode.color + '40' }}>
+                      <currentMode.icon size={14} style={{ color: currentMode.color }} />
+                    </div>
+                    <div className="typing-indicator"><span /><span /><span /></div>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
+              </div>
 
-              {/* Toolbar с иконками СНИЗУ */}
+              {/* Контекстные чипсы */}
+              {renderChips()}
+
+              {/* Toolbar */}
               <div className="chat-toolbar">
                 <div className="toolbar-left">
-                  {/* Attach */}
                   <button className={`toolbar-btn ${isUploading ? 'active' : ''}`} onClick={handleFileClick} disabled={isUploading} title="Прикрепить">
                     {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
                   </button>
                   
-                  {/* Mode Switchers */}
                   {Object.values(MODES).map((mode) => {
                     const isActive = activeMode === mode.id;
                     const isLocked = mode.requiresLevel && userLevel < mode.requiresLevel;
@@ -480,7 +606,7 @@ export default function GlassyOmniChat() {
                       <button
                         key={mode.id}
                         onClick={() => !isLocked && handleModeChange(mode.id)}
-                        className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                        className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''} ${mode.id === 'support' && isActive ? 'support-active' : ''}`}
                         style={isActive ? { background: mode.color + '30', color: mode.color } : {}}
                         title={`${mode.label}${isLocked ? ` (Ур. ${mode.requiresLevel}+)` : ''}`}
                         data-testid={`tab-${mode.id}`}
@@ -493,11 +619,9 @@ export default function GlassyOmniChat() {
                 </div>
 
                 <div className="toolbar-right">
-                  {/* Voice */}
                   <button className={`toolbar-btn ${isListening ? 'active listening' : ''}`} onClick={toggleVoiceInput} title="Голос">
                     {isListening ? <MicOff size={18} /> : <Mic size={18} />}
                   </button>
-                  {/* Send */}
                   <button className="toolbar-btn send" onClick={() => sendMessage()} disabled={!inputValue.trim() || isTyping} title="Отправить" data-testid="send-btn">
                     <ArrowUp size={18} />
                   </button>
