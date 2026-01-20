@@ -315,21 +315,20 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  opacity: 0.4;
 }
 
 .noise-line {
   position: absolute;
   white-space: nowrap;
   font-family: 'SF Mono', 'Consolas', monospace;
-  font-size: 12px;
-  letter-spacing: 0.3em;
+  font-size: 13px;
+  letter-spacing: 0.25em;
   animation: scrollNoise linear infinite;
 }
 
 .noise-line.rune-glow {
-  color: rgba(0, 234, 255, 0.15);
-  text-shadow: 0 0 20px rgba(30, 100, 255, 0.15);
+  color: rgba(0, 234, 255, 0.25);
+  text-shadow: 0 0 15px rgba(30, 100, 255, 0.2);
 }
 
 @keyframes scrollNoise {
@@ -337,37 +336,37 @@
   100% { transform: translateX(-50%); }
 }
 
-/* Carved Message - Светящаяся надпись */
+/* Carved Message - БЕЗ рамки, просто текст поверх кода */
 .monument-message.carved {
   position: absolute;
   z-index: 10;
   text-align: center;
-  padding: 3rem 5rem;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(0, 234, 255, 0.1);
-  box-shadow: 
-    0 0 100px rgba(30, 100, 255, 0.08),
-    inset 0 0 80px rgba(0, 0, 0, 0.7);
+  padding: 1.5rem 2rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  /* Случайная позиция будет задаваться через JS */
 }
 
 .monument-message .message-text {
   display: block;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.9);
   text-shadow: 
-    0 0 40px rgba(255, 255, 255, 0.8),
-    0 0 80px rgba(0, 234, 255, 0.4),
-    0 0 120px rgba(30, 100, 255, 0.2);
-  margin-bottom: 1.25rem;
-  letter-spacing: 0.04em;
+    0 0 30px rgba(255, 255, 255, 0.9),
+    0 0 60px rgba(0, 234, 255, 0.5),
+    0 0 100px rgba(30, 100, 255, 0.3);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.03em;
 }
 
 .monument-message .message-author {
-  font-size: 0.75rem;
-  color: rgba(0, 234, 255, 0.6);
+  font-size: 0.6875rem;
+  color: rgba(0, 234, 255, 0.7);
   font-family: 'SF Mono', monospace;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px rgba(0, 234, 255, 0.4);
 }
 
 .etch-button {
