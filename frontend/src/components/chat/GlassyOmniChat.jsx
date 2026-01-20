@@ -413,7 +413,7 @@ export default function GlassyOmniChat() {
               <div className="chat-toolbar">
                 <div className="toolbar-left">
                   {/* Attach */}
-                  <button className={`toolbar-btn ${isUploading ? 'active' : ''}`} onClick={handleFileClick} disabled={isUploading} title={lang === 'ru' ? 'Прикрепить' : 'Attach'}>
+                  <button className={`toolbar-btn ${isUploading ? 'active' : ''}`} onClick={handleFileClick} disabled={isUploading} title="Прикрепить">
                     {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
                   </button>
                   
@@ -427,7 +427,7 @@ export default function GlassyOmniChat() {
                         onClick={() => !isLocked && handleModeChange(mode.id)}
                         className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
                         style={isActive ? { background: mode.color + '30', color: mode.color } : {}}
-                        title={`${mode.label}${isLocked ? ` (Lvl ${mode.requiresLevel}+)` : ''}`}
+                        title={`${mode.label}${isLocked ? ` (Ур. ${mode.requiresLevel}+)` : ''}`}
                         data-testid={`tab-${mode.id}`}
                       >
                         <mode.icon size={18} />
@@ -439,11 +439,11 @@ export default function GlassyOmniChat() {
 
                 <div className="toolbar-right">
                   {/* Voice */}
-                  <button className={`toolbar-btn ${isListening ? 'active listening' : ''}`} onClick={toggleVoiceInput} title={lang === 'ru' ? 'Голос' : 'Voice'}>
+                  <button className={`toolbar-btn ${isListening ? 'active listening' : ''}`} onClick={toggleVoiceInput} title="Голос">
                     {isListening ? <MicOff size={18} /> : <Mic size={18} />}
                   </button>
                   {/* Send */}
-                  <button className="toolbar-btn send" onClick={() => sendMessage()} disabled={!inputValue.trim() || isTyping} title={lang === 'ru' ? 'Отправить' : 'Send'} data-testid="send-btn">
+                  <button className="toolbar-btn send" onClick={() => sendMessage()} disabled={!inputValue.trim() || isTyping} title="Отправить" data-testid="send-btn">
                     <ArrowUp size={18} />
                   </button>
                 </div>
