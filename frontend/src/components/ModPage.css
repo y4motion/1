@@ -1,0 +1,889 @@
+/**
+ * ModPage.css - Minimal Mod Headquarters
+ * Toriki Ghost Tech Style: Concrete, Glass, Amber
+ */
+
+.mod-page {
+  min-height: 100vh;
+  background: #0a0a0c;
+  color: #f1f1f1;
+  overflow-x: hidden;
+}
+
+/* ==================== SECTION 1: MONUMENT FRIEZE ==================== */
+.monument-frieze {
+  position: relative;
+  height: 45vh;
+  min-height: 350px;
+  background: linear-gradient(180deg, #1a1a1e 0%, #0a0a0c 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Фоновый шум/код */
+.frieze-noise {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.25;
+}
+
+.noise-line {
+  position: absolute;
+  white-space: nowrap;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+  animation: scrollNoise linear infinite;
+}
+
+@keyframes scrollNoise {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Всплывающие сообщения */
+.monument-message {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  padding: 1.5rem 2.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.message-text {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #ffffff;
+  font-style: italic;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.75rem;
+}
+
+.message-author {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'SF Mono', monospace;
+  letter-spacing: 0.1em;
+}
+
+/* Кнопка Etch */
+.etch-button {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.75rem;
+  background: transparent;
+  border: 1px solid rgba(249, 115, 22, 0.4);
+  color: #f97316;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+
+.etch-button:hover {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: #f97316;
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+}
+
+/* Заголовок фриза */
+.frieze-title {
+  position: absolute;
+  top: 2rem;
+  text-align: center;
+  z-index: 5;
+}
+
+.frieze-title h1 {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.frieze-title p {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* ==================== SECTION TITLES ==================== */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.title-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* ==================== SECTION 2: ORIGIN (Timeline) ==================== */
+.origin-section {
+  padding: 5rem 2rem;
+  background: #0a0a0c;
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  height: 200px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.timeline-point {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.point-dot {
+  width: 12px;
+  height: 12px;
+  background: #2a2a2e;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.timeline-point:hover .point-dot,
+.timeline-point.active .point-dot {
+  background: #f97316;
+  border-color: #f97316;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+.point-year {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 1rem;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.timeline-card {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 1.5rem;
+  width: 200px;
+  padding: 1.25rem;
+  background: rgba(26, 26, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.timeline-card .card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.timeline-card h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: #f97316;
+}
+
+.timeline-card p {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==================== SECTION 3: ECOSYSTEM (Bento) ==================== */
+.ecosystem-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, #0a0a0c 0%, #0f0f12 100%);
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-card {
+  position: relative;
+  padding: 1.75rem;
+  background: rgba(26, 26, 30, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.bento-card:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.bento-card:hover .card-glow {
+  opacity: 1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.card-header svg {
+  color: #f97316;
+}
+
+/* OS Card */
+.os-visual {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.os-logo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  width: 60px;
+  height: 60px;
+  animation: logoBreak 3s ease-in-out infinite;
+}
+
+.logo-fragment {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+}
+
+@keyframes logoBreak {
+  0%, 100% { gap: 4px; opacity: 0.8; }
+  50% { gap: 8px; opacity: 1; }
+}
+
+.card-description {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem;
+  background: rgba(249, 115, 22, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 8px;
+  color: #f97316;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: rgba(249, 115, 22, 0.25);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+}
+
+/* Lab Card */
+.prints-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.print-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.print-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.print-preview {
+  font-size: 1.5rem;
+}
+
+.print-info {
+  flex: 1;
+}
+
+.print-name {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.print-votes {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.25rem;
+}
+
+.vote-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vote-btn:hover:not(:disabled) {
+  border-color: #f97316;
+  color: #f97316;
+}
+
+.vote-btn.voted {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: #f97316;
+  color: #f97316;
+}
+
+/* Works Card */
+.builds-slider {
+  padding: 1rem 0;
+}
+
+.build-slide {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.build-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.build-slide h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.build-slide p {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'SF Mono', monospace;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.slider-controls button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slider-controls button:hover {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: #f97316;
+  color: #f97316;
+}
+
+.slider-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.slider-dots .dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.slider-dots .dot.active {
+  background: #f97316;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+/* ==================== SECTION 4: ROADMAP ==================== */
+.roadmap-section {
+  padding: 5rem 2rem;
+  background: #0a0a0c;
+}
+
+.roadmap-list {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.roadmap-item {
+  padding: 1.25rem 1.5rem;
+  background: rgba(26, 26, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.roadmap-item:hover {
+  border-color: rgba(249, 115, 22, 0.2);
+  background: rgba(26, 26, 30, 0.7);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.item-name {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.item-status {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.item-status.in-progress {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+}
+
+.item-status.planned {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.progress-bar {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316, #fb923c);
+  border-radius: 2px;
+}
+
+.progress-text {
+  position: absolute;
+  right: 0;
+  top: -1.5rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'SF Mono', monospace;
+}
+
+.boost-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.boost-btn:hover:not(:disabled) {
+  border-color: #f97316;
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.boost-btn.boosted {
+  background: rgba(249, 115, 22, 0.2);
+  border-color: #f97316;
+  color: #f97316;
+}
+
+.boost-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ==================== SECTION 5: INNER CIRCLE ==================== */
+.inner-circle-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(180deg, #0a0a0c 0%, #0f0f12 50%, #0a0a0c 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.circle-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.circle-content {
+  position: relative;
+  z-index: 10;
+}
+
+.crown-icon {
+  color: #f97316;
+  margin-bottom: 1.5rem;
+  animation: crownFloat 3s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.circle-content h2 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 0.75rem;
+}
+
+.circle-content > p {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 0 2rem;
+}
+
+.direct-line-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.direct-line-btn.golden {
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.4);
+}
+
+.direct-line-btn:hover {
+  box-shadow: 0 0 60px rgba(249, 115, 22, 0.5);
+}
+
+.access-denied {
+  opacity: 0.6;
+}
+
+.locked-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.access-hint {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Particles */
+.circle-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: #f97316;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat 4s ease-in-out infinite;
+  animation-delay: var(--delay);
+  transform: rotate(var(--angle)) translateY(-120px);
+}
+
+@keyframes particleFloat {
+  0%, 100% { opacity: 0; transform: rotate(var(--angle)) translateY(-100px); }
+  50% { opacity: 0.6; transform: rotate(var(--angle)) translateY(-140px); }
+}
+
+/* ==================== ETCH MODAL ==================== */
+.etch-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.etch-modal {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  background: #1a1a1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+.etch-modal h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: #f97316;
+  margin: 0 0 0.75rem;
+}
+
+.etch-modal > p {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 2rem;
+}
+
+.etch-input-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.etch-input-container input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.etch-input-container input:focus {
+  border-color: #f97316;
+}
+
+.etch-input-container input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.char-count {
+  position: absolute;
+  right: 1rem;
+  bottom: -1.5rem;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'SF Mono', monospace;
+}
+
+.etch-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 2rem;
+  background: #f97316;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.etch-submit-btn:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+}
+
+.etch-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .monument-frieze {
+    height: 40vh;
+    min-height: 300px;
+  }
+  
+  .message-text {
+    font-size: 1.125rem;
+  }
+  
+  .timeline-container {
+    overflow-x: auto;
+    padding-bottom: 2rem;
+  }
+  
+  .timeline-line {
+    width: 600px;
+  }
+  
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 0.625rem;
+  }
+}
