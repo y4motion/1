@@ -62,7 +62,7 @@
   transition: all 0.3s ease;
   text-transform: uppercase;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-  animation: glitch-text 12s infinite;
+  animation: glitch-text 90s infinite;
 }
 
 .ghost-line-container:hover .ghost-line-text {
