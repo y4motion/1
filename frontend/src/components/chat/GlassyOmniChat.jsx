@@ -814,8 +814,8 @@ export default function GlassyOmniChat() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Контекстные чипсы */}
-              {renderChips()}
+              {/* Контекстные чипсы - только если нет сообщений */}
+              {currentMessages.length === 0 && renderChips()}
 
               {/* Toolbar */}
               <div className="chat-toolbar">
