@@ -412,6 +412,63 @@
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
 }
 
+/* ==================== ATTACH MENU ==================== */
+.attach-wrapper {
+  position: relative;
+}
+
+.toolbar-btn.menu-open {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.attach-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  background: rgba(18, 18, 20, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 140px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1);
+  z-index: 100;
+}
+
+.attach-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.attach-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.attach-item svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.attach-item:hover svg {
+  transform: scale(1.15);
+}
+
 /* Insight messages from Rules Engine */
 .emergent-msg.insight .msg-content p {
   background: rgba(249, 115, 22, 0.15);
