@@ -91,7 +91,7 @@ const STATUS_CONFIG = {
     color: 'rgba(244, 63, 94, 0.95)',
     glow: '0 0 30px rgba(244, 63, 94, 0.5)',
     text: 'SUPPORT ACTIVE',
-    animation: 'glitch',
+    animation: 'ghost-breath',
   },
 };
 
