@@ -534,36 +534,37 @@
 .trigger-bar {
   position: relative;
   width: 100%;
-  height: 70px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.015);
+  background: transparent;
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.015);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.015);
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all 0.6s ease;
   overflow: hidden;
 }
 
-/* Crack Line Effect (трещина) */
+/* Crack Line Effect (трещина) - едва заметная */
 .trigger-bar::before {
   content: '';
   position: absolute;
   top: 50%;
-  left: 10%;
-  right: 10%;
+  left: 15%;
+  right: 15%;
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.04) 20%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(255, 255, 255, 0.04) 80%,
+    rgba(255, 255, 255, 0.02) 30%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.02) 70%,
     transparent
   );
   transform: translateY(-50%);
+  transition: all 0.6s ease;
 }
 
 /* HOVER STATE - Пробуждение Синим Огнём */
@@ -571,24 +572,27 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(30, 100, 255, 0.12) 30%,
-    rgba(0, 234, 255, 0.15) 50%,
-    rgba(30, 100, 255, 0.12) 70%,
+    rgba(30, 100, 255, 0.08) 25%,
+    rgba(0, 234, 255, 0.12) 50%,
+    rgba(30, 100, 255, 0.08) 75%,
     transparent 100%
   );
-  border-color: rgba(0, 234, 255, 0.2);
+  border-top-color: rgba(0, 234, 255, 0.15);
+  border-bottom-color: rgba(0, 234, 255, 0.15);
 }
 
 .trigger-bar:hover::before {
+  left: 5%;
+  right: 5%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 234, 255, 0.3) 20%,
-    rgba(0, 234, 255, 0.5) 50%,
-    rgba(0, 234, 255, 0.3) 80%,
+    rgba(0, 234, 255, 0.4) 20%,
+    rgba(0, 234, 255, 0.6) 50%,
+    rgba(0, 234, 255, 0.4) 80%,
     transparent
   );
-  box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+  box-shadow: 0 0 25px rgba(0, 234, 255, 0.4);
 }
 
 /* Edge Pulse Animation */
