@@ -71,10 +71,29 @@ Backend:
 - API: ✅ Working
 - WebSocket: ✅ Working
 
-## TODO
-- [ ] Voice input тестирование
-- [ ] Screen Share для Support
+### Архитектура ModPage
+```
+/app/frontend/src/components/
+├── ModPage.jsx          # Temple of System (1000+ lines)
+├── ModPage.css          # Digital Brutalism стили
+```
+
+## TODO (P1-P2)
+- [ ] Voice & Screen Share для Support mode
+- [ ] Smart Start для PC Builder
+- [ ] ProductCard expanded panel verification
 - [ ] Guild real-time активность
+
+## Backlog
+- [ ] User Trust/Rating System
+- [ ] Social features: /feed, /articles, /creators
+- [ ] Альтернативные платежи (Tinkoff + Cryptomus)
+- [ ] Performance optimization (lazy loading)
+
+## MOCKED/HARDCODED
+- 🔶 ARMORY_ARTIFACTS - Хардкод продуктов в ModPage.jsx
+- 🔶 MONUMENT_MESSAGES - Хардкод сообщений в ModPage.jsx
+- 🔶 Chat fallback responses на фронтенде
 
 ---
 Последнее обновление: 20 января 2026
