@@ -832,7 +832,7 @@ export default function GlassyOmniChat() {
       }));
       setIsTyping(false);
     }, 800);
-  }, [drafts, activeMode, location.pathname, aiContext, pageContext]);
+  }, [drafts, activeMode, location.pathname, aiContext, pageContext, pendingFile, filePreview]);
 
   // --- RENDER: Контекстные чипсы ---
   const renderChips = () => {
