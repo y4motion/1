@@ -446,10 +446,10 @@ export default function GlassyOmniChat() {
     }
   }, [isListening]);
 
-  const handleFileClick = () => {
+  const handleFileClick = useCallback(() => {
     playClickSound();
     fileInputRef.current?.click();
-  };
+  }, []);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
