@@ -35,6 +35,12 @@ import {
   Share2,
   CheckCircle,
   Camera,
+  Image,
+  Video,
+  Music,
+  FileText,
+  Archive,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
