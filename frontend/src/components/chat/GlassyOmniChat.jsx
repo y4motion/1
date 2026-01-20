@@ -440,23 +440,74 @@ export default function GlassyOmniChat() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, showAttachMenu]);
 
-  // --- WEB SPEECH API ---
+  // --- WEB SPEECH API (Neural Voice Link) ---
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = 'ru-RU';
+      
       recognitionRef.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setDrafts(prev => ({ ...prev, [activeMode]: (prev[activeMode] || '') + transcript }));
-        setIsListening(false);
+        let finalTranscript = '';
+        let interim = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interim += transcript;
+          }
+        }
+        
+        // Обновляем промежуточный текст
+        setInterimTranscript(interim);
+        
+        // Добавляем финальный текст в черновик
+        if (finalTranscript) {
+          setDrafts(prev => ({ 
+            ...prev, 
+            [activeMode]: (prev[activeMode] || '') + finalTranscript 
+          }));
+        }
+        
+        // Сброс таймера тишины
+        if (silenceTimeoutRef.current) {
+          clearTimeout(silenceTimeoutRef.current);
+        }
+        
+        // Авто-стоп после 3 сек тишины
+        silenceTimeoutRef.current = setTimeout(() => {
+          if (recognitionRef.current && isListening) {
+            recognitionRef.current.stop();
+            setIsListening(false);
+            setInterimTranscript('');
+          }
+        }, 3000);
       };
-      recognitionRef.current.onerror = () => setIsListening(false);
-      recognitionRef.current.onend = () => setIsListening(false);
+      
+      recognitionRef.current.onerror = () => {
+        setIsListening(false);
+        setInterimTranscript('');
+      };
+      
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+        setInterimTranscript('');
+        if (silenceTimeoutRef.current) {
+          clearTimeout(silenceTimeoutRef.current);
+        }
+      };
     }
-  }, [activeMode]);
+    
+    return () => {
+      if (silenceTimeoutRef.current) {
+        clearTimeout(silenceTimeoutRef.current);
+      }
+    };
+  }, [activeMode, isListening]);
 
   // --- INPUT HANDLER (с сохранением черновика) ---
   const handleInputChange = useCallback((e) => {
@@ -464,15 +515,64 @@ export default function GlassyOmniChat() {
   }, [activeMode]);
 
   const toggleVoiceInput = useCallback(() => {
-    if (!recognitionRef.current) return;
     playClickSound();
+    
     if (isListening) {
-      recognitionRef.current.stop();
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      setInterimTranscript('');
     } else {
-      recognitionRef.current.start();
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        return;
+      }
+      recognitionRef.current?.start();
       setIsListening(true);
     }
   }, [isListening]);
+
+  // --- DRAG & DROP HANDLERS ---
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) setIsDragging(true);
+  }, [isDragging]);
+
+  const handleDragLeave = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Проверяем что покинули область полностью
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setPendingFile(file);
+      
+      // Создаем превью для изображений
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => setFilePreview(e.target?.result);
+        reader.readAsDataURL(file);
+      } else {
+        setFilePreview(null);
+      }
+      
+      playMessageSound();
+    }
+  }, []);
+
+  const removePendingFile = useCallback(() => {
+    setPendingFile(null);
+    setFilePreview(null);
+    playClickSound();
+  }, []);
 
   // --- FILE ATTACHMENT TYPES ---
   const ATTACH_TYPES = [
