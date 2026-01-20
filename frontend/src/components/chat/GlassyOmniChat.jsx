@@ -269,7 +269,7 @@ export default function GlassyOmniChat() {
     setIsTyping(true);
 
     setTimeout(async () => {
-      let response = lang === 'ru' ? 'Обрабатываю...' : 'Processing...';
+      let response = 'Обрабатываю...';
       
       if (activeMode === 'ai') {
         try {
@@ -283,16 +283,16 @@ export default function GlassyOmniChat() {
             response = data.response || response;
           }
         } catch (e) {
-          response = lang === 'ru' ? 'Сейчас проверю.' : 'Let me check.';
+          response = 'Сейчас проверю...';
         }
       } else if (activeMode === 'trade') {
-        response = lang === 'ru' ? '💱 Ищу предложения...' : '💱 Finding offers...';
+        response = '💱 Ищу предложения...';
       } else if (activeMode === 'guilds') {
-        response = lang === 'ru' ? '🛡️ Отправлено в гильдию' : '🛡️ Sent to guild';
+        response = '🛡️ Отправлено в гильдию';
       } else if (activeMode === 'global') {
-        response = lang === 'ru' ? '🌍 Глобальный чат' : '🌍 Global chat';
+        response = '🌍 Глобальный чат';
       } else if (activeMode === 'support') {
-        response = lang === 'ru' ? '🔴 Оператор подключится...' : '🔴 Operator connecting...';
+        response = '🔴 Оператор подключается...';
       }
 
       setMessages(prev => ({
