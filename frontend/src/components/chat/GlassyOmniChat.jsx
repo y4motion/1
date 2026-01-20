@@ -727,17 +727,38 @@ export default function GlassyOmniChat() {
     }
     // === END EASTER EGG ===
     
+    // Определяем иконку для файла
+    const getFileEmoji = (file) => {
+      if (!file) return '';
+      if (file.type.startsWith('image/')) return '🖼️';
+      if (file.type.startsWith('video/')) return '🎬';
+      if (file.type.startsWith('audio/')) return '🎵';
+      if (file.name.match(/\.(zip|rar|7z|tar|gz)$/i)) return '📦';
+      if (file.name.match(/\.gif$/i)) return '✨';
+      return '📄';
+    };
+    
+    // Формируем сообщение с файлом (если есть)
+    const userMessage = {
+      id: Date.now(),
+      type: 'user',
+      text: messageText || (pendingFile ? `${getFileEmoji(pendingFile)} ${pendingFile.name}` : ''),
+      timestamp: new Date(),
+      file: pendingFile ? {
+        name: pendingFile.name,
+        type: pendingFile.type,
+        preview: filePreview
+      } : null
+    };
+    
     setMessages(prev => ({
       ...prev,
-      [activeMode]: [...(prev[activeMode] || []), {
-        id: Date.now(),
-        type: 'user',
-        text: messageText,
-        timestamp: new Date(),
-      }]
+      [activeMode]: [...(prev[activeMode] || []), userMessage]
     }));
 
     setDrafts(prev => ({ ...prev, [activeMode]: '' }));
+    setPendingFile(null);
+    setFilePreview(null);
     setIsTyping(true);
 
     setTimeout(async () => {
