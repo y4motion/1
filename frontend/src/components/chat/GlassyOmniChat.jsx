@@ -346,8 +346,7 @@ export default function GlassyOmniChat() {
     if (shouldUpdateStatus) {
       setLineStatus(status);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, pendingInsight]);
+  }, [location.pathname, pendingInsight, aiContext]);
 
   // --- AI GREETING (только для AI вкладки, только один раз) ---
   useEffect(() => {
