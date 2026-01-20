@@ -154,6 +154,13 @@ export default function GlassyOmniChat() {
     setPageContext(context);
     setActiveMode(context.mode);
     setStatusType(context.status);
+    
+    // Обновляем статус полоски
+    if (context.status === 'analyzing') {
+      setLineStatus('ai_processing');
+    } else {
+      setLineStatus('idle');
+    }
   }, [location]);
 
   // Приветствие при открытии
