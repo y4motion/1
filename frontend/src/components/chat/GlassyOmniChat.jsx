@@ -365,19 +365,25 @@ export default function GlassyOmniChat() {
       <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} accept="image/*,.pdf,.doc,.docx,.txt" />
 
       <AnimatePresence mode="wait">
-        {/* IDLE: Полоска */}
+        {/* IDLE: Призрачный Горизонт */}
         {!isOpen && (
           <motion.div
             key="ghost-line"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`ghost-line ${statusType === 'analyzing' ? 'analyzing' : ''}`}
+            className="ghost-line-container"
             onClick={() => setIsOpen(true)}
             data-testid="chat-idle-strip"
           >
-            <div className="line-pulse" />
-            <span className="line-label">Chat</span>
+            <div 
+              className={`ghost-line ${lineConfig.animation}`}
+              style={{ 
+                background: `linear-gradient(90deg, transparent 0%, ${lineConfig.color} 30%, ${lineConfig.color} 70%, transparent 100%)`,
+                boxShadow: lineConfig.glow 
+              }}
+            />
+            <span className="ghost-line-text">{lineConfig.text}</span>
           </motion.div>
         )}
 
