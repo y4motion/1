@@ -21,7 +21,7 @@ import {
 import { CompatibilityResolver } from './pc-builder';
 
 // Use relative URLs for API calls
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Component Icons (NZXT-inspired minimalist SVG)
 const ComponentIcons = {

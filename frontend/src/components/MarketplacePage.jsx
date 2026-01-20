@@ -29,7 +29,7 @@ import { ProductGrid, FastBuyModal } from './marketplace';
 import '../styles/glassmorphism.css';
 
 // Use relative URLs to avoid mixed content issues in HTTPS environments
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const MarketplacePage = () => {
   const { t, language } = useLanguage();

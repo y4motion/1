@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import './MindDashboard.css';
 
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const MindDashboard = () => {
   const [stats, setStats] = useState(null);

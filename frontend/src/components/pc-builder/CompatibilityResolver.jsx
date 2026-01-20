@@ -19,7 +19,7 @@ import {
 import './CompatibilityResolver.css';
 
 // Use relative URLs to avoid mixed content
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const CompatibilityResolver = ({ 
   errors = [], 

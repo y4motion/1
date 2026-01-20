@@ -6,7 +6,7 @@ import OptimizedImage from '../OptimizedImage';
 import './FastBuyModal.css';
 
 // Use relative URLs to avoid mixed content issues in HTTPS environments
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || 'pk_test_placeholder');

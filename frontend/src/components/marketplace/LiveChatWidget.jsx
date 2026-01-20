@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { MessageCircle, Send, X, Users, Sparkles } from 'lucide-react';
 import './LiveChatWidget.css';
 
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Generate initial data based on productId
 const getInitialData = (productId) => {

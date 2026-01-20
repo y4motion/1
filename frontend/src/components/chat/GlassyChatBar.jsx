@@ -24,7 +24,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import './GlassyChatBar.css';
 
 // Use relative URLs to avoid mixed content issues in HTTPS environments
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 const WS_URL = (process.env.REACT_APP_BACKEND_URL || '').replace('http', 'ws');
 
 // Agent status constants (from backend)
