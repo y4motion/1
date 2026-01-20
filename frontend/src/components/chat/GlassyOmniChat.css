@@ -332,28 +332,71 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Suggestions */
-.suggestions {
+/* ==================== CONTEXT CHIPS (под сообщениями) ==================== */
+.context-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px 12px;
+}
+
+.chip-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.chip-btn svg {
+  opacity: 0.7;
+}
+
+/* Message inline chips */
+.msg-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 4px;
 }
 
-.suggestion-btn {
-  padding: 6px 12px;
-  border-radius: 8px;
+.chip-btn-small {
+  padding: 5px 10px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
   color: rgba(255, 255, 255, 0.6);
   font-size: 11px;
+  font-family: 'Inter', -apple-system, sans-serif;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.suggestion-btn:hover {
+.chip-btn-small:hover {
   background: rgba(255, 255, 255, 0.08);
   color: white;
   border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Support mode active state */
+.toolbar-btn.support-active {
+  background: rgba(239, 68, 68, 0.25) !important;
+  color: #ef4444 !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
 }
 
 /* Typing */
