@@ -28,72 +28,42 @@ import './GlassyOmniChat.css';
 // --- КОНФИГУРАЦИЯ РЕЖИМОВ ---
 const MODES = {
   ai: { id: 'ai', icon: Bot, label: 'Glassy AI', color: '#f97316' },
-  trade: { id: 'trade', icon: ShoppingBag, label: 'Market & Swap', color: '#10b981' },
-  guilds: { id: 'guilds', icon: Shield, label: 'Guilds', color: '#a855f7', requiresLevel: 5 },
-  global: { id: 'global', icon: Globe, label: 'Global', color: '#3b82f6' },
-  support: { id: 'support', icon: Headphones, label: 'Support', color: '#ef4444' },
+  trade: { id: 'trade', icon: ShoppingBag, label: 'Маркет', color: '#10b981' },
+  guilds: { id: 'guilds', icon: Shield, label: 'Гильдии', color: '#a855f7', requiresLevel: 5 },
+  global: { id: 'global', icon: Globe, label: 'Глобальный', color: '#3b82f6' },
+  support: { id: 'support', icon: Headphones, label: 'Поддержка', color: '#ef4444' },
 };
 
 // --- КОНТЕКСТЫ СТРАНИЦ ---
 const PAGE_CONTEXTS = {
   'pc-builder': {
     mode: 'ai',
-    greeting: { 
-      ru: 'Система активна. Я проанализировал твою сборку. Готов помочь с совместимостью.', 
-      en: 'System active. I analyzed your build. Ready to help with compatibility.' 
-    },
-    suggestions: { 
-      ru: ['Проверь совместимость', 'Оптимизируй бюджет', 'Найди альтернативу'],
-      en: ['Check compatibility', 'Optimize budget', 'Find alternative']
-    },
+    greeting: 'Система активна. Я проанализировал твою сборку. Готов помочь с совместимостью.',
+    suggestions: ['Проверить совместимость', 'Оптимизировать бюджет', 'Найти альтернативу'],
     status: 'analyzing'
   },
   'marketplace': {
     mode: 'trade',
-    greeting: { 
-      ru: 'Маркет активен. Вижу товары вокруг тебя. Найти лучшую цену?', 
-      en: 'Market active. I see products around you. Find best price?' 
-    },
-    suggestions: {
-      ru: ['Сравни цены', 'Покажи скидки', 'Проверь продавца'],
-      en: ['Compare prices', 'Show deals', 'Check seller']
-    },
+    greeting: 'Маркет активен. Вижу товары вокруг тебя. Найти лучшую цену?',
+    suggestions: ['Сравнить цены', 'Показать скидки', 'Проверить продавца'],
     status: 'idle'
   },
   'product': {
     mode: 'trade',
-    greeting: { 
-      ru: 'Анализирую этот товар... Хочешь узнать историю цен или отзывы?', 
-      en: 'Analyzing this product... Want price history or reviews?' 
-    },
-    suggestions: {
-      ru: ['История цен', 'Читать отзывы', 'Найти дешевле'],
-      en: ['Price history', 'Read reviews', 'Find cheaper']
-    },
+    greeting: 'Анализирую этот товар... Хочешь узнать историю цен или отзывы?',
+    suggestions: ['История цен', 'Читать отзывы', 'Найти дешевле'],
     status: 'analyzing'
   },
   'glassy-swap': {
     mode: 'trade',
-    greeting: { 
-      ru: 'Режим обмена. Проверю рейтинг любого продавца.', 
-      en: 'Swap mode. I\'ll check any seller\'s rating.' 
-    },
-    suggestions: {
-      ru: ['Безопасная сделка', 'Проверить продавца', 'Мои обмены'],
-      en: ['Safe trade', 'Check seller', 'My swaps']
-    },
+    greeting: 'Режим обмена. Проверю рейтинг любого продавца.',
+    suggestions: ['Безопасная сделка', 'Проверить продавца', 'Мои обмены'],
     status: 'idle'
   },
   'default': {
     mode: 'ai',
-    greeting: { 
-      ru: 'Привет! Я Glassy Mind. Чем могу помочь?', 
-      en: 'Hi! I\'m Glassy Mind. How can I help?' 
-    },
-    suggestions: {
-      ru: ['Собрать ПК', 'Найти товар', 'Обменяться'],
-      en: ['Build PC', 'Find product', 'Trade']
-    },
+    greeting: 'Привет! Я Glassy Mind. Чем могу помочь?',
+    suggestions: ['Собрать ПК', 'Найти товар', 'Обменяться'],
     status: 'idle'
   }
 };
