@@ -1129,19 +1129,20 @@ export default function GlassyOmniChat() {
 
                 <div className="toolbar-right">
                   <button 
-                    className={`toolbar-btn ${isListening ? 'active listening' : ''}`} 
+                    className={`toolbar-btn voice-btn ${isListening ? 'active listening neural-pulse' : ''}`} 
                     onClick={toggleVoiceInput}
                     onMouseEnter={playHoverSound}
                     title="Голос"
                     data-testid="voice-btn"
                   >
                     {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                    {isListening && <span className="voice-pulse-ring"></span>}
                   </button>
                   <button 
                     className="toolbar-btn send" 
                     onClick={() => sendMessage()} 
                     onMouseEnter={playHoverSound}
-                    disabled={!inputValue?.trim() || isTyping} 
+                    disabled={(!inputValue?.trim() && !pendingFile) || isTyping} 
                     title="Отправить (Enter)"
                     data-testid="send-btn"
                   >
