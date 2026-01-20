@@ -917,7 +917,31 @@ export default function GlassyOmniChat() {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className={`emergent-chat-window ${activeMode === 'support' ? 'emergency' : ''}`}
+            className={`emergent-chat-window ${activeMode === 'support' ? 'emergency' : ''} ${isDragging ? 'dragging' : ''}`}
+            ref={dockRef}
+            data-testid="chat-expanded"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            {/* Holographic Drop Zone Overlay */}
+            <AnimatePresence>
+              {isDragging && (
+                <motion.div
+                  className="drop-zone-overlay"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <div className="drop-zone-content">
+                    <UploadCloud size={48} className="drop-icon" />
+                    <span className="drop-text">DROP TO UPLOAD</span>
+                    <span className="drop-subtext">INITIATE UPLOAD PROTOCOL</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             ref={dockRef}
             data-testid="chat-expanded"
           >
