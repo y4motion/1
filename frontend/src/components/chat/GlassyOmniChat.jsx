@@ -1028,6 +1028,10 @@ export default function GlassyOmniChat() {
                       </div>
                     )}
                     <div className="msg-content">
+                      {/* Превью изображения в сообщении */}
+                      {msg.file?.preview && (
+                        <img src={msg.file.preview} alt={msg.file.name} className="msg-image-preview" />
+                      )}
                       <p>{msg.text}</p>
                       {msg.chips && (
                         <div className="msg-chips">
