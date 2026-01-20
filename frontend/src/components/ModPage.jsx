@@ -90,6 +90,7 @@ const ModPage = () => {
   const [showEtchModal, setShowEtchModal] = useState(false);
   const [etchText, setEtchText] = useState('');
   const [visibleMessage, setVisibleMessage] = useState(null);
+  const [messagePosition, setMessagePosition] = useState({ x: 50, y: 50 });
   const [noiseLines, setNoiseLines] = useState([]);
   const [activeTimelineEvent, setActiveTimelineEvent] = useState(null);
   const [currentBuildIndex, setCurrentBuildIndex] = useState(0);
