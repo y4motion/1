@@ -695,7 +695,7 @@ export default function GlassyOmniChat() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="ghost-line-container"
-            onClick={() => { playClickSound(); setIsOpen(true); }}
+            onClick={() => { playOpenSound(); setIsOpen(true); }}
             data-testid="chat-idle-strip"
           >
             <div 
@@ -729,7 +729,7 @@ export default function GlassyOmniChat() {
               </div>
               <button 
                 className="emergent-close" 
-                onClick={() => { playClickSound(); setIsOpen(false); }} 
+                onClick={() => { playCloseSound(); setIsOpen(false); }} 
                 data-testid="chat-close-btn"
               >
                 <ChevronDown size={16} />
