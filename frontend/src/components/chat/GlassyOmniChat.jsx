@@ -25,6 +25,46 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import './GlassyOmniChat.css';
 
+// --- КОНФИГУРАЦИЯ СТАТУСОВ ПОЛОСКИ ---
+const STATUS_CONFIG = {
+  idle: {
+    color: 'rgba(255, 255, 255, 0.2)',
+    glow: '0 0 15px rgba(255, 255, 255, 0.1)',
+    text: 'SYSTEM ONLINE',
+    animation: 'ghost-breath',
+  },
+  ai_processing: {
+    color: 'rgba(255, 159, 67, 0.8)',
+    glow: '0 0 25px rgba(255, 159, 67, 0.4)',
+    text: 'NEURAL SYNC...',
+    animation: 'shimmer',
+  },
+  ai_ready: {
+    color: 'rgba(249, 115, 22, 1)',
+    glow: '0 0 35px rgba(249, 115, 22, 0.6)',
+    text: 'INSIGHT AVAILABLE',
+    animation: 'pulse-fast',
+  },
+  message: {
+    color: 'rgba(52, 211, 153, 0.9)',
+    glow: '0 0 25px rgba(52, 211, 153, 0.4)',
+    text: 'INCOMING TRANSMISSION',
+    animation: 'heartbeat',
+  },
+  guild: {
+    color: 'rgba(168, 85, 247, 0.9)',
+    glow: '0 0 25px rgba(168, 85, 247, 0.4)',
+    text: 'GUILD SIGNAL',
+    animation: 'pulse-fast',
+  },
+  warning: {
+    color: 'rgba(244, 63, 94, 0.9)',
+    glow: '0 0 25px rgba(244, 63, 94, 0.4)',
+    text: 'CONNECTION UNSTABLE',
+    animation: 'glitch',
+  },
+};
+
 // --- КОНФИГУРАЦИЯ РЕЖИМОВ ---
 const MODES = {
   ai: { id: 'ai', icon: Bot, label: 'Glassy AI', color: '#f97316' },
