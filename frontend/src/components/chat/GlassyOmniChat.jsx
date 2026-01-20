@@ -309,7 +309,9 @@ export default function GlassyOmniChat() {
         if (savedBuild) {
           newPageContext.pcBuild = JSON.parse(savedBuild);
         }
-      } catch (e) {}
+      } catch (e) {
+        // Ignore parse errors
+      }
       
     } else if (path.includes('product/')) {
       context = AI_PAGE_CONTEXTS['product'];
