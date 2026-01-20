@@ -21,7 +21,7 @@ import ProductCard from './ProductCard';
 import './ProductDetailPage.css';
 
 // Use relative URLs to avoid mixed content issues in HTTPS environments
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 // Dynamic expandable blocks based on product category
 const DynamicExpandableBlocks = ({ product }) => {
