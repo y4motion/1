@@ -942,9 +942,7 @@ export default function GlassyOmniChat() {
                 </motion.div>
               )}
             </AnimatePresence>
-            ref={dockRef}
-            data-testid="chat-expanded"
-          >
+
             {/* Header */}
             <div className="acrylic-header-content">
               <div className="emergent-status" style={{ color: currentMode.color }}>
