@@ -365,7 +365,7 @@ export default function GlassyOmniChat() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={`${lang === 'ru' ? 'Сообщение' : 'Message'} ${currentMode.label}...`}
+                  placeholder={`Сообщение ${currentMode.label}...`}
                   data-testid="chat-input"
                 />
               </div>
