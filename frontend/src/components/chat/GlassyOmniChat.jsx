@@ -218,6 +218,7 @@ export default function GlassyOmniChat() {
   
   // --- RULES ENGINE STATE ---
   const [pendingInsight, setPendingInsight] = useState(null);
+  const [showAttachMenu, setShowAttachMenu] = useState(false);
   
   const location = useLocation();
   const navigate = useNavigate();
