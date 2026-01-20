@@ -548,6 +548,33 @@ export default function GlassyOmniChat() {
 
     playClickSound();
     
+    // === EASTER EGG: sudo make me a sandwich ===
+    const lowerText = messageText.toLowerCase().trim();
+    if (lowerText === 'sudo make me a sandwich' || lowerText === 'sudo сделай мне бутерброд') {
+      setMessages(prev => ({
+        ...prev,
+        [activeMode]: [...(prev[activeMode] || []), 
+          { id: Date.now(), type: 'user', text: messageText, timestamp: new Date() },
+          { id: Date.now() + 1, type: 'bot', text: '🥪 Okay.', timestamp: new Date(), isEasterEgg: true }
+        ]
+      }));
+      setDrafts(prev => ({ ...prev, [activeMode]: '' }));
+      return;
+    }
+    
+    if (lowerText === 'make me a sandwich' || lowerText === 'сделай мне бутерброд') {
+      setMessages(prev => ({
+        ...prev,
+        [activeMode]: [...(prev[activeMode] || []), 
+          { id: Date.now(), type: 'user', text: messageText, timestamp: new Date() },
+          { id: Date.now() + 1, type: 'bot', text: '🙅 What? Make it yourself.', chips: ['sudo make me a sandwich'], timestamp: new Date() }
+        ]
+      }));
+      setDrafts(prev => ({ ...prev, [activeMode]: '' }));
+      return;
+    }
+    // === END EASTER EGG ===
+    
     setMessages(prev => ({
       ...prev,
       [activeMode]: [...(prev[activeMode] || []), {
