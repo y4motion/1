@@ -1,11 +1,8 @@
 /**
  * GlassyOmniChat - Glassy Brain Edition
  * 
- * Механики:
- * - Context Awareness (привязка к страницам)
- * - Dynamic Dock (левая панель меняется по режиму)
- * - Разделение потоков: AI / Trade / Guilds / Global / Support
- * - Emergency Mode (красный интерфейс поддержки)
+ * Дизайн: Акриловое полотно + чёрная зона + иконки СНИЗУ
+ * Логика: Context Awareness, режимы, suggestions
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -23,11 +20,7 @@ import {
   X,
   Loader2,
   Headphones,
-  Cpu,
-  RotateCcw,
-  Save,
   CheckCircle2,
-  AlertCircle,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -40,21 +33,6 @@ const MODES = {
   guilds: { id: 'guilds', icon: Shield, label: 'Guilds', color: '#a855f7', requiresLevel: 5 },
   global: { id: 'global', icon: Globe, label: 'Global', color: '#3b82f6' },
   support: { id: 'support', icon: Headphones, label: 'Support', color: '#ef4444' },
-};
-
-// --- MOCK ДАННЫЕ ---
-const MOCK_CHATS = {
-  trade: [
-    { id: 1, name: 'NVIDIA Official', avatar: '🟢', verified: true, status: 'online', lastMsg: 'Your RTX 5090 is ready to ship.' },
-    { id: 2, name: 'AlexMiner_99', avatar: '👤', verified: false, status: 'offline', lastMsg: 'Swap: 3060 → 4060?' },
-    { id: 3, name: 'HyperPC', avatar: '🔵', verified: true, status: 'online', lastMsg: 'Discount approved.' },
-    { id: 4, name: 'CryptoGamer', avatar: '💎', verified: false, status: 'online', lastMsg: 'Mining rig parts?' },
-  ],
-  guilds: [
-    { id: 101, name: 'CyberSamurai', icon: '👹', unread: 5, members: 234 },
-    { id: 102, name: 'Overclockers', icon: '⚡', unread: 0, members: 891 },
-    { id: 103, name: 'RGB Masters', icon: '🌈', unread: 12, members: 456 },
-  ]
 };
 
 // --- КОНТЕКСТЫ СТРАНИЦ ---
@@ -126,7 +104,6 @@ const API_URL = '';
 export default function GlassyOmniChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMode, setActiveMode] = useState('ai');
-  const [activeSubChat, setActiveSubChat] = useState(null);
   const [messages, setMessages] = useState({});
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -147,6 +124,7 @@ export default function GlassyOmniChat() {
   const recognitionRef = useRef(null);
 
   const lang = language === 'ru' ? 'ru' : 'en';
+  const currentMode = MODES[activeMode];
 
   // --- CONTEXT AWARENESS ---
   useEffect(() => {
@@ -187,24 +165,23 @@ export default function GlassyOmniChat() {
     }
   }, [isOpen, pageContext, activeMode, lang]);
 
-  // Status text
   const getStatusText = useCallback(() => {
     const texts = {
       ru: {
-        idle: 'Система готова',
+        idle: 'Готов помочь',
         typing: 'Печатает...',
         analyzing: 'Анализирует...',
         listening: 'Слушаю...',
         uploading: 'Загрузка...',
-        emergency: '🔴 ПРИОРИТЕТНАЯ ЛИНИЯ',
+        emergency: '🔴 ПРИОРИТЕТ',
       },
       en: {
-        idle: 'System ready',
+        idle: 'Ready',
         typing: 'Typing...',
         analyzing: 'Analyzing...',
         listening: 'Listening...',
         uploading: 'Uploading...',
-        emergency: '🔴 PRIORITY LINE',
+        emergency: '🔴 PRIORITY',
       }
     };
     if (isEmergencyMode) return texts[lang].emergency;
@@ -226,7 +203,7 @@ export default function GlassyOmniChat() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, activeMode, activeSubChat]);
+  }, [messages, activeMode]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -306,28 +283,13 @@ export default function GlassyOmniChat() {
 
   const handleModeChange = (modeId) => {
     if (MODES[modeId].requiresLevel && (user?.level || 0) < MODES[modeId].requiresLevel) return;
-    
     setActiveMode(modeId);
-    setActiveSubChat(null);
     setIsEmergencyMode(modeId === 'support');
-    
-    // Навигация для некоторых режимов
-    if (modeId === 'trade' && !location.pathname.includes('swap') && !location.pathname.includes('marketplace')) {
-      navigate('/glassy-swap');
-    }
-  };
-
-  const handleSubChatSelect = (chatId) => {
-    setActiveSubChat(chatId);
   };
 
   const handleSuggestionClick = (suggestion) => {
     setInputValue(suggestion);
     setTimeout(() => sendMessage(suggestion), 100);
-  };
-
-  const clearContext = () => {
-    setMessages(prev => ({ ...prev, [activeMode]: [] }));
   };
 
   const sendMessage = useCallback(async (text) => {
@@ -347,9 +309,8 @@ export default function GlassyOmniChat() {
     setInputValue('');
     setIsTyping(true);
 
-    // Имитация ответа
     setTimeout(async () => {
-      let response = lang === 'ru' ? 'Обрабатываю запрос...' : 'Processing...';
+      let response = lang === 'ru' ? 'Обрабатываю...' : 'Processing...';
       
       if (activeMode === 'ai') {
         try {
@@ -363,16 +324,16 @@ export default function GlassyOmniChat() {
             response = data.response || response;
           }
         } catch (e) {
-          response = lang === 'ru' ? 'Сейчас проверю и отвечу.' : 'Let me check.';
+          response = lang === 'ru' ? 'Сейчас проверю.' : 'Let me check.';
         }
       } else if (activeMode === 'trade') {
-        response = lang === 'ru' ? '💱 Ищу подходящие предложения...' : '💱 Finding offers...';
+        response = lang === 'ru' ? '💱 Ищу предложения...' : '💱 Finding offers...';
       } else if (activeMode === 'guilds') {
-        response = lang === 'ru' ? '🛡️ Сообщение отправлено в гильдию' : '🛡️ Message sent to guild';
+        response = lang === 'ru' ? '🛡️ Отправлено в гильдию' : '🛡️ Sent to guild';
       } else if (activeMode === 'global') {
-        response = lang === 'ru' ? '🌍 Отправлено в глобальный чат' : '🌍 Sent to global chat';
+        response = lang === 'ru' ? '🌍 Глобальный чат' : '🌍 Global chat';
       } else if (activeMode === 'support') {
-        response = lang === 'ru' ? '🔴 Оператор подключится в течение минуты...' : '🔴 Operator will connect shortly...';
+        response = lang === 'ru' ? '🔴 Оператор подключится...' : '🔴 Operator connecting...';
       }
 
       setMessages(prev => ({
@@ -390,64 +351,6 @@ export default function GlassyOmniChat() {
 
   const currentMessages = messages[activeMode] || [];
   const userLevel = user?.level || 0;
-  const currentMode = MODES[activeMode];
-
-  // --- RENDER SIDEBAR ---
-  const renderSidebar = () => {
-    if (activeMode === 'trade') {
-      return MOCK_CHATS.trade.map((chat) => (
-        <button
-          key={chat.id}
-          onClick={() => handleSubChatSelect(chat.id)}
-          className={`sidebar-item ${activeSubChat === chat.id ? 'active' : ''}`}
-          title={chat.name}
-        >
-          <span className="sidebar-avatar">{chat.avatar}</span>
-          {chat.verified && <CheckCircle2 size={10} className="verified-badge" />}
-        </button>
-      ));
-    }
-    
-    if (activeMode === 'guilds') {
-      return MOCK_CHATS.guilds.map((guild) => (
-        <button
-          key={guild.id}
-          onClick={() => handleSubChatSelect(guild.id)}
-          className={`sidebar-item ${activeSubChat === guild.id ? 'active' : ''}`}
-          title={guild.name}
-        >
-          <span className="sidebar-avatar">{guild.icon}</span>
-          {guild.unread > 0 && <span className="unread-badge">{guild.unread}</span>}
-        </button>
-      ));
-    }
-    
-    if (activeMode === 'ai') {
-      return (
-        <>
-          <div className="sidebar-item ai-brain">
-            <Cpu size={20} />
-          </div>
-          <button className="sidebar-item" onClick={clearContext} title={lang === 'ru' ? 'Сбросить контекст' : 'Clear context'}>
-            <RotateCcw size={16} />
-          </button>
-          <button className="sidebar-item" title={lang === 'ru' ? 'Сохранить' : 'Save'}>
-            <Save size={16} />
-          </button>
-        </>
-      );
-    }
-
-    if (activeMode === 'support') {
-      return (
-        <div className="sidebar-item support-pulse">
-          <AlertCircle size={20} />
-        </div>
-      );
-    }
-
-    return null;
-  };
 
   return (
     <div className="ghost-dock-container" data-testid="glassy-omni-chat">
@@ -466,7 +369,7 @@ export default function GlassyOmniChat() {
             data-testid="chat-idle-strip"
           >
             <div className="line-pulse" />
-            <span className="line-label">SYSTEM ONLINE</span>
+            <span className="line-label">Chat</span>
           </motion.div>
         )}
 
@@ -482,10 +385,10 @@ export default function GlassyOmniChat() {
             ref={dockRef}
             data-testid="chat-expanded"
           >
-            {/* Header */}
+            {/* Header в акриловой шапке */}
             <div className="acrylic-header-content">
-              <div className={`emergent-status ${statusType}`} style={{ color: isEmergencyMode ? '#ef4444' : currentMode.color }}>
-                <div className="status-dot" style={{ background: isEmergencyMode ? '#ef4444' : currentMode.color }} />
+              <div className={`emergent-status ${statusType}`} style={{ color: currentMode.color }}>
+                <div className="status-dot" style={{ background: currentMode.color }} />
                 <span>{getStatusText()}</span>
               </div>
               <button className="emergent-close" onClick={() => setIsOpen(false)} data-testid="chat-close-btn">
@@ -495,110 +398,95 @@ export default function GlassyOmniChat() {
 
             {/* Чёрная зона */}
             <div className="chat-black-zone">
-              <div className="chat-layout">
-                {/* Left Sidebar */}
-                <div className="chat-sidebar">
-                  {/* Mode Switchers */}
-                  <div className="mode-switchers">
-                    {Object.values(MODES).map((mode) => {
-                      const isActive = activeMode === mode.id;
-                      const isLocked = mode.requiresLevel && userLevel < mode.requiresLevel;
-                      return (
-                        <button
-                          key={mode.id}
-                          onClick={() => !isLocked && handleModeChange(mode.id)}
-                          className={`mode-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                          style={{ '--mode-color': mode.color }}
-                          title={`${mode.label}${isLocked ? ` (Lvl ${mode.requiresLevel}+)` : ''}`}
-                        >
-                          <mode.icon size={18} />
-                          {isLocked && <span className="lock-badge">🔒</span>}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="sidebar-divider" />
-                  
-                  {/* Dynamic Icons */}
-                  <div className="sidebar-dynamic">
-                    {renderSidebar()}
-                  </div>
-                </div>
+              {/* Input */}
+              <div className="emergent-input-area">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  placeholder={`${lang === 'ru' ? 'Сообщение' : 'Message'} ${currentMode.label}...`}
+                  data-testid="chat-input"
+                />
+              </div>
 
-                {/* Main Chat Area */}
-                <div className="chat-main">
-                  {/* Channel Title */}
-                  <div className="channel-title" style={{ color: currentMode.color }}>
-                    // {currentMode.label.toUpperCase()} CHANNEL
-                  </div>
-
-                  {/* Input */}
-                  <div className="emergent-input-area">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                      placeholder={`${lang === 'ru' ? 'Сообщение' : 'Message'} ${currentMode.label}...`}
-                      data-testid="chat-input"
-                    />
-                  </div>
-
-                  {/* Messages */}
-                  <div className="emergent-messages">
-                    {currentMessages.map((msg) => (
-                      <motion.div
-                        key={msg.id}
-                        className={`emergent-msg ${msg.type}`}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                      >
-                        {msg.type === 'bot' && (
-                          <div className="msg-avatar" style={{ borderColor: currentMode.color + '40' }}>
-                            <Bot size={14} style={{ color: currentMode.color }} />
+              {/* Messages */}
+              {currentMessages.length > 0 && (
+                <div className="emergent-messages">
+                  {currentMessages.map((msg) => (
+                    <motion.div
+                      key={msg.id}
+                      className={`emergent-msg ${msg.type}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {msg.type === 'bot' && (
+                        <div className="msg-avatar" style={{ borderColor: currentMode.color + '40' }}>
+                          <Bot size={14} style={{ color: currentMode.color }} />
+                        </div>
+                      )}
+                      <div className="msg-content">
+                        <p>{msg.text}</p>
+                        {msg.suggestions && (
+                          <div className="suggestions">
+                            {msg.suggestions.map((s, i) => (
+                              <button key={i} onClick={() => handleSuggestionClick(s)} className="suggestion-btn">
+                                {s}
+                              </button>
+                            ))}
                           </div>
                         )}
-                        <div className="msg-content">
-                          <p>{msg.text}</p>
-                          {msg.suggestions && (
-                            <div className="suggestions">
-                              {msg.suggestions.map((s, i) => (
-                                <button key={i} onClick={() => handleSuggestionClick(s)} className="suggestion-btn">
-                                  {s}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                    {isTyping && (
-                      <div className="emergent-msg bot">
-                        <div className="msg-avatar"><Bot size={14} /></div>
-                        <div className="typing-indicator"><span /><span /><span /></div>
                       </div>
-                    )}
-                    <div ref={messagesEndRef} />
-                  </div>
+                    </motion.div>
+                  ))}
+                  {isTyping && (
+                    <div className="emergent-msg bot">
+                      <div className="msg-avatar"><Bot size={14} /></div>
+                      <div className="typing-indicator"><span /><span /><span /></div>
+                    </div>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
 
-                  {/* Toolbar */}
-                  <div className="chat-toolbar">
-                    <div className="toolbar-left">
-                      <button className={`toolbar-btn ${isUploading ? 'active' : ''}`} onClick={handleFileClick} disabled={isUploading}>
-                        {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
+              {/* Toolbar с иконками СНИЗУ */}
+              <div className="chat-toolbar">
+                <div className="toolbar-left">
+                  {/* Attach */}
+                  <button className={`toolbar-btn ${isUploading ? 'active' : ''}`} onClick={handleFileClick} disabled={isUploading} title={lang === 'ru' ? 'Прикрепить' : 'Attach'}>
+                    {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
+                  </button>
+                  
+                  {/* Mode Switchers */}
+                  {Object.values(MODES).map((mode) => {
+                    const isActive = activeMode === mode.id;
+                    const isLocked = mode.requiresLevel && userLevel < mode.requiresLevel;
+                    return (
+                      <button
+                        key={mode.id}
+                        onClick={() => !isLocked && handleModeChange(mode.id)}
+                        className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                        style={isActive ? { background: mode.color + '30', color: mode.color } : {}}
+                        title={`${mode.label}${isLocked ? ` (Lvl ${mode.requiresLevel}+)` : ''}`}
+                        data-testid={`tab-${mode.id}`}
+                      >
+                        <mode.icon size={18} />
+                        {isLocked && <span className="lock-badge">🔒</span>}
                       </button>
-                    </div>
-                    <div className="toolbar-right">
-                      <button className={`toolbar-btn ${isListening ? 'active listening' : ''}`} onClick={toggleVoiceInput}>
-                        {isListening ? <MicOff size={18} /> : <Mic size={18} />}
-                      </button>
-                      <button className="toolbar-btn send" onClick={() => sendMessage()} disabled={!inputValue.trim() || isTyping}>
-                        <ArrowUp size={18} />
-                      </button>
-                    </div>
-                  </div>
+                    );
+                  })}
+                </div>
+
+                <div className="toolbar-right">
+                  {/* Voice */}
+                  <button className={`toolbar-btn ${isListening ? 'active listening' : ''}`} onClick={toggleVoiceInput} title={lang === 'ru' ? 'Голос' : 'Voice'}>
+                    {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                  </button>
+                  {/* Send */}
+                  <button className="toolbar-btn send" onClick={() => sendMessage()} disabled={!inputValue.trim() || isTyping} title={lang === 'ru' ? 'Отправить' : 'Send'} data-testid="send-btn">
+                    <ArrowUp size={18} />
+                  </button>
                 </div>
               </div>
             </div>
