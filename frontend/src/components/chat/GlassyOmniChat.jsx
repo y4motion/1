@@ -58,7 +58,7 @@ const STATUS_CONFIG = {
   idle: {
     color: 'rgba(255, 255, 255, 0.9)',
     glow: '0 0 25px rgba(255, 255, 255, 0.5)',
-    text: 'SYSTEM ONLINE',
+    text: 'CHAT',
     animation: 'ghost-breath',
   },
   ai_processing: {
