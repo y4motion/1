@@ -220,6 +220,15 @@ export default function GlassyOmniChat() {
   const [pendingInsight, setPendingInsight] = useState(null);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   
+  // --- DRAG & DROP STATE ---
+  const [isDragging, setIsDragging] = useState(false);
+  const [pendingFile, setPendingFile] = useState(null); // Файл ожидает отправки
+  const [filePreview, setFilePreview] = useState(null); // URL превью
+  
+  // --- VOICE RECOGNITION STATE ---
+  const [interimTranscript, setInterimTranscript] = useState('');
+  const silenceTimeoutRef = useRef(null);
+  
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
