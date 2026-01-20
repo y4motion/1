@@ -1,10 +1,11 @@
 /**
  * GlassyOmniChat - Emergent Style
  * 
- * Структура:
- * - Акриловая шапка (прозрачная с blur)
- * - Акриловый контур по периметру (прозрачный с blur)  
- * - Чёрная зона в центре для текста
+ * Цельное акриловое полотно с чёрной зоной внутри:
+ * - Сверху: толстая акриловая шапка
+ * - По бокам: тонкие акриловые края
+ * - Снизу: тонкая акриловая полоса
+ * - Центр: чёрная зона с закруглениями
  */
 
 /* ==================== CONTAINER ==================== */
@@ -95,67 +96,55 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ==================== CHAT WINDOW ==================== */
+/* ==================== CHAT WINDOW - ЦЕЛЬНОЕ АКРИЛОВОЕ ПОЛОТНО ==================== */
 .emergent-chat-window {
   position: relative;
   width: 95%;
   max-width: 910px;
   margin-bottom: 24px;
   border-radius: 16px;
-  overflow: hidden;
-}
-
-/* ==================== АКРИЛОВАЯ ШАПКА ==================== */
-.acrylic-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
   
-  /* Акрил */
+  /* Цельный акрил */
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
   
-  /* Без gap снизу */
+  /* Тень */
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+  
+  /* Padding для акриловых краёв:
+     - сверху: 44px (толстая шапка)
+     - по бокам: 4px (тонкие края)
+     - снизу: 4px (тонкая полоса)
+  */
+  padding: 44px 4px 4px 4px;
 }
 
-/* ==================== ОСНОВНОЙ КОНТЕНТ ==================== */
-.chat-body-wrapper {
-  position: relative;
-  display: flex;
-}
-
-/* Левая акриловая полоса */
-.acrylic-border-left {
-  width: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-}
-
-/* Правая акриловая полоса */
-.acrylic-border-right {
-  width: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-}
-
-/* Чёрная центральная зона */
-.chat-content-center {
-  flex: 1;
+/* ==================== ЧЁРНАЯ ЗОНА В ЦЕНТРЕ ==================== */
+.chat-black-zone {
   background: #0a0a0c;
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  position: relative;
+}
+
+/* ==================== HEADER CONTENT (внутри акриловой шапки) ==================== */
+.acrylic-header-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
 }
 
 /* ==================== INPUT AREA ==================== */
 .emergent-input-area {
   padding: 14px 16px;
-  background: #0a0a0c;
 }
 
 .emergent-input-area input {
@@ -182,7 +171,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #0a0a0c;
   
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -263,17 +251,13 @@
   30% { transform: translateY(-4px); }
 }
 
-/* ==================== НИЖНЯЯ АКРИЛОВАЯ ПОЛОСА + TOOLBAR ==================== */
-.acrylic-footer {
+/* ==================== TOOLBAR (внутри чёрной зоны) ==================== */
+.chat-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  
-  /* Акрил как шапка */
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .toolbar-left,
@@ -374,7 +358,7 @@
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   color: transparent;
   cursor: pointer;
   display: flex;

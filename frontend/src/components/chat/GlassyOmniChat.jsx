@@ -1,11 +1,7 @@
 /**
  * GlassyOmniChat - Emergent Style
  * 
- * Структура:
- * - Акриловая шапка (прозрачная)
- * - Акриловый контур по бокам (прозрачный)
- * - Чёрная зона в центре для текста
- * - Акриловый footer с кнопками
+ * Цельное акриловое полотно с чёрной зоной внутри
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -56,13 +52,11 @@ export default function GlassyOmniChat() {
       ru: {
         idle: 'Готов помочь',
         typing: 'AI печатает...',
-        thinking: 'AI думает...',
         analyzing: 'Анализирует контекст...',
       },
       en: {
         idle: 'Agent is waiting...',
         typing: 'AI is typing...',
-        thinking: 'AI is thinking...',
         analyzing: 'Analyzing context...',
       }
     };
@@ -199,7 +193,7 @@ export default function GlassyOmniChat() {
           </motion.div>
         )}
 
-        {/* === ACTIVE: Emergent-Style Chat === */}
+        {/* === ACTIVE: Цельное акриловое полотно === */}
         {isOpen && (
           <motion.div
             key="emergent-chat"
@@ -211,8 +205,8 @@ export default function GlassyOmniChat() {
             ref={dockRef}
             data-testid="chat-expanded"
           >
-            {/* АКРИЛОВАЯ ШАПКА */}
-            <div className="acrylic-header">
+            {/* Header content в акриловой шапке */}
+            <div className="acrylic-header-content">
               <div className={`emergent-status ${statusType}`}>
                 <div className="status-dot" />
                 <span>{getStatusText()}</span>
@@ -223,105 +217,96 @@ export default function GlassyOmniChat() {
                 onClick={() => setIsOpen(false)}
                 data-testid="chat-close-btn"
               >
-                <X size={16} />
+                <X size={14} />
               </button>
             </div>
 
-            {/* ТЕЛО: Акриловые бока + Чёрный центр */}
-            <div className="chat-body-wrapper">
-              {/* Левая акриловая полоса */}
-              <div className="acrylic-border-left" />
-              
-              {/* Чёрная центральная зона */}
-              <div className="chat-content-center">
-                {/* Input */}
-                <div className="emergent-input-area">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => {
-                      setInputValue(e.target.value);
-                      setLastActivity(Date.now());
-                    }}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    placeholder={language === 'ru' ? 'Сообщение агенту' : 'Message Agent'}
-                    data-testid="chat-input"
-                  />
+            {/* Чёрная зона в центре */}
+            <div className="chat-black-zone">
+              {/* Input */}
+              <div className="emergent-input-area">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    setLastActivity(Date.now());
+                  }}
+                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  placeholder={language === 'ru' ? 'Сообщение агенту' : 'Message Agent'}
+                  data-testid="chat-input"
+                />
+              </div>
+
+              {/* Messages */}
+              {currentMessages.length > 0 && (
+                <div className="emergent-messages">
+                  {currentMessages.map((msg) => (
+                    <motion.div 
+                      key={msg.id} 
+                      className={`emergent-msg ${msg.type}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {msg.type === 'bot' && (
+                        <div className="msg-avatar">
+                          <Bot size={14} />
+                        </div>
+                      )}
+                      <p>{msg.text}</p>
+                    </motion.div>
+                  ))}
+                  
+                  {isTyping && (
+                    <div className="emergent-msg bot">
+                      <div className="msg-avatar"><Bot size={14} /></div>
+                      <div className="typing-indicator"><span /><span /><span /></div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+
+              {/* Toolbar */}
+              <div className="chat-toolbar">
+                <div className="toolbar-left">
+                  <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
+                    <Paperclip size={18} />
+                  </button>
+                  
+                  {NAV_TABS.map((tab) => {
+                    const isActive = activeTab === tab.id;
+                    const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => !isLocked && setActiveTab(tab.id)}
+                        className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
+                        title={tab.label}
+                        data-testid={`tab-${tab.id}`}
+                      >
+                        <tab.icon size={18} />
+                        {isLocked && <span className="lock-badge">🔒</span>}
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* Messages */}
-                {currentMessages.length > 0 && (
-                  <div className="emergent-messages">
-                    {currentMessages.map((msg) => (
-                      <motion.div 
-                        key={msg.id} 
-                        className={`emergent-msg ${msg.type}`}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                      >
-                        {msg.type === 'bot' && (
-                          <div className="msg-avatar">
-                            <Bot size={14} />
-                          </div>
-                        )}
-                        <p>{msg.text}</p>
-                      </motion.div>
-                    ))}
-                    
-                    {isTyping && (
-                      <div className="emergent-msg bot">
-                        <div className="msg-avatar"><Bot size={14} /></div>
-                        <div className="typing-indicator"><span /><span /><span /></div>
-                      </div>
-                    )}
-                    
-                    <div ref={messagesEndRef} />
-                  </div>
-                )}
-              </div>
-              
-              {/* Правая акриловая полоса */}
-              <div className="acrylic-border-right" />
-            </div>
-
-            {/* АКРИЛОВЫЙ FOOTER снизу */}
-            <div className="acrylic-footer">
-              <div className="toolbar-left">
-                <button className="toolbar-btn" title="Attach file" data-testid="attach-btn">
-                  <Paperclip size={18} />
-                </button>
-                
-                {NAV_TABS.map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  const isLocked = tab.requiresLevel && userLevel < tab.requiresLevel;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => !isLocked && setActiveTab(tab.id)}
-                      className={`toolbar-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}`}
-                      title={tab.label}
-                      data-testid={`tab-${tab.id}`}
-                    >
-                      <tab.icon size={18} />
-                      {isLocked && <span className="lock-badge">🔒</span>}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="toolbar-right">
-                <button className="toolbar-btn" title="Voice">
-                  <Mic size={18} />
-                </button>
-                <button 
-                  className="toolbar-btn send"
-                  onClick={sendMessage}
-                  disabled={!inputValue.trim()}
-                  data-testid="send-btn"
-                >
-                  <ArrowUp size={18} />
-                </button>
+                <div className="toolbar-right">
+                  <button className="toolbar-btn" title="Voice">
+                    <Mic size={18} />
+                  </button>
+                  <button 
+                    className="toolbar-btn send"
+                    onClick={sendMessage}
+                    disabled={!inputValue.trim()}
+                    data-testid="send-btn"
+                  >
+                    <ArrowUp size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>
