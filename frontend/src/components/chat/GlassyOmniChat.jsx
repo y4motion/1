@@ -121,6 +121,7 @@ export default function GlassyOmniChat() {
   const [statusType, setStatusType] = useState('idle');
   const [pageContext, setPageContext] = useState(PAGE_CONTEXTS.default);
   const [isEmergencyMode, setIsEmergencyMode] = useState(false);
+  const [lineStatus, setLineStatus] = useState('idle'); // Статус полоски
   
   const location = useLocation();
   const navigate = useNavigate();
