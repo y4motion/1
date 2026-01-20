@@ -100,12 +100,12 @@
 .emergent-chat-window {
   position: relative;
   width: 95%;
-  max-width: 910px;
-  margin-bottom: 24px;
+  max-width: 1183px; /* +30% от 910px */
+  margin-bottom: 15px; /* ~0.4cm */
   border-radius: 16px;
   
-  /* Цельный акрил */
-  background: rgba(255, 255, 255, 0.06);
+  /* Цельный акрил - прозрачнее на 15% */
+  background: rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
   
