@@ -1,34 +1,44 @@
-# Glassy Omni-Chat PRD v2.2
+# Glassy Omni-Chat PRD v2.3
 
 ## Оригинальная задача
-Многофункциональный чат-виджет "Glassy Omni-Chat" с glassmorphism эстетикой + Temple of System (ModPage).
+Многофункциональный чат-виджет "Glassy Omni-Chat" с glassmorphism эстетикой + Temple of System (ModPage) в стиле Cartenon Temple из Solo Leveling.
 
 ## Выполнено ✅ (20.01.2026)
 
 ### Функционал Chat
-- ✅ **Sound System** - Web Audio API синтезированные стеклянные звуки (click, hover, message, open, close, success, error)
-- ✅ **WebSocket Server** - Real-time коммуникация для чата (/ws endpoint)
+- ✅ **Sound System** - Web Audio API синтезированные стеклянные звуки
+- ✅ **WebSocket Server** - Real-time коммуникация (/ws endpoint)
 - ✅ **Easter Egg** - "sudo make me a sandwich" → "🥪 Okay."
-- ✅ **Mixed Content Fix** - Все компоненты используют REACT_APP_BACKEND_URL
-- ✅ **Локализация** - Русский по умолчанию, переводы для PC Builder
-- ✅ **Light Theme** - Максимум белого (#ffffff backgrounds)
-- ✅ **State Persistence** - Черновики между табами
+- ✅ **Mixed Content Fix** - REACT_APP_BACKEND_URL везде
+- ✅ **Локализация** - Русский по умолчанию
 - ✅ **Hotkeys** - Ctrl+Space, Escape
-- ✅ **Context Data Injection** - pageContext с product/pcBuild
-- ✅ **Rules Engine Integration** - glassyMindEvent подписка
 - ✅ **Holographic Drop Zone** - Drag & Drop для файлов
-- ✅ **Neural Voice Link** - Web Speech API для голосового ввода
+- ✅ **Neural Voice Link** - Web Speech API
 
 ### Функционал ModPage (Temple of System) ✅
-- ✅ **THE GUARDIANS** - Две статуи-стража по бокам с scroll-parallax анимацией (framer-motion useScroll/useTransform)
-- ✅ **Monument Frieze** - Hero секция с noise-эффектом и сменяющимися сообщениями
-- ✅ **ETCH YOUR LEGACY** - Модальное окно для отправки сообщений
-- ✅ **THE ORIGIN Timeline** - Интерактивный таймлайн 2021-2024 с hover-карточками
-- ✅ **THE HIDDEN ARMORY** - Split-screen магазин артефактов с S/A/B рангами
-- ✅ **THE ECOSYSTEM** - Minimal OS, Concept Lab, Top Works секции
-- ✅ **THE ROADMAP** - Progress bars для будущих фич
-- ✅ **THE SYSTEM ADMIN** - VIP секция для Level 50+
-- ✅ **Guardians Awakening** - Глаза стражей загораются при приближении к воротам
+- ✅ **THE GUARDIANS** - Scroll-parallax статуи с пробуждающимися глазами
+- ✅ **Monument Frieze** - Hero с noise-эффектом
+- ✅ **THE ORIGIN Timeline** - Интерактивный таймлайн 2021-2024
+- ✅ **THE HIDDEN ARMORY** - Split-screen магазин артефактов
+- ✅ **THE ECOSYSTEM** - Minimal OS, Concept Lab, Top Works
+
+### ✅ Cartenon Abyss & Blue Flame Update (20.01.2026)
+Полная переработка визуальной эстетики по референсам Solo Leveling:
+
+**Multi-Layer Background (The Abyss):**
+- База: Абсолютный чёрный #020204
+- Слой 1: Noise texture 5% opacity
+- Слой 2: Виньетка-туннель (radial-gradient 80%->black)
+- Слой 3: Синяя мана-аура из центра (rgba(30,60,255,0.06))
+
+**Hidden Seal (Скрытая Печать):**
+- IDLE: Почти невидимая полоска (rgba 0.015), серый текст
+- HOVER: Синий огонь пробуждения (cyan #00eaff glow)
+- Edge pulse анимация при наведении
+
+**Guardian Eyes:**
+- Изменены на красно-оранжевое свечение (#ff4444/#ff6b35)
+- Соответствует референсам Shadow Monarch
 
 ### Архитектура
 
