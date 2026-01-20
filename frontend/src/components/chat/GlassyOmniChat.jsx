@@ -494,33 +494,32 @@ export default function GlassyOmniChat() {
     
     playClickSound();
     
-    // Специальные действия
+    // Специальные действия - используем setDrafts и симулируем Enter
     switch (chipAction) {
       case 'check_build':
         if (pageContext.pcBuild) {
           const buildSummary = `Моя сборка: ${JSON.stringify(pageContext.pcBuild, null, 2)}`;
           setDrafts(prev => ({ ...prev, [activeMode]: buildSummary }));
-          setTimeout(() => sendMessage(buildSummary), 100);
         } else {
-          sendMessage('Проверь мою текущую сборку на совместимость');
+          setDrafts(prev => ({ ...prev, [activeMode]: 'Проверь мою текущую сборку на совместимость' }));
         }
-        return;
+        break;
         
       case 'share_build':
         if (pageContext.pcBuild) {
-          sendMessage(`🖥️ Делюсь сборкой:\n${JSON.stringify(pageContext.pcBuild, null, 2)}`);
+          setDrafts(prev => ({ ...prev, [activeMode]: `🖥️ Делюсь сборкой:\n${JSON.stringify(pageContext.pcBuild, null, 2)}` }));
         }
-        return;
+        break;
         
       case 'ask_product':
         if (pageContext.product) {
-          sendMessage(`Вопрос о товаре "${pageContext.product.name}"`);
+          setDrafts(prev => ({ ...prev, [activeMode]: `Вопрос о товаре "${pageContext.product.name}"` }));
         }
-        return;
+        break;
         
       case 'report_bug':
-        sendMessage('Хочу сообщить о баге на сайте');
-        return;
+        setDrafts(prev => ({ ...prev, [activeMode]: 'Хочу сообщить о баге на сайте' }));
+        break;
         
       case 'attach_screenshot':
         handleFileClick();
@@ -528,9 +527,13 @@ export default function GlassyOmniChat() {
         
       default:
         setDrafts(prev => ({ ...prev, [activeMode]: chipText }));
-        setTimeout(() => sendMessage(chipText), 100);
     }
-  }, [pageContext, activeMode]);
+    
+    // Триггерим отправку через небольшую задержку
+    setTimeout(() => {
+      inputRef.current?.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter', bubbles: true }));
+    }, 50);
+  }, [pageContext, activeMode, handleFileClick]);
 
   const getStatusText = useCallback(() => {
     const texts = {
