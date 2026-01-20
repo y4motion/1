@@ -318,6 +318,28 @@
   cursor: not-allowed;
 }
 
+/* Анимация загрузки */
+.toolbar-btn .spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Состояние прослушивания */
+.toolbar-btn.listening {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  animation: pulse-listen 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-listen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
 /* ==================== STATUS ==================== */
 .emergent-status {
   display: flex;
