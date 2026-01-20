@@ -459,22 +459,49 @@ export default function GlassyOmniChat() {
     }
   }, [isListening]);
 
+  // --- FILE ATTACHMENT TYPES ---
+  const ATTACH_TYPES = [
+    { id: 'photo', icon: Image, label: 'Фото', accept: 'image/*', color: '#10b981' },
+    { id: 'video', icon: Video, label: 'Видео', accept: 'video/*', color: '#8b5cf6' },
+    { id: 'audio', icon: Music, label: 'Аудио', accept: 'audio/*', color: '#f59e0b' },
+    { id: 'document', icon: FileText, label: 'Документ', accept: '.pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx', color: '#3b82f6' },
+    { id: 'archive', icon: Archive, label: 'Архив', accept: '.zip,.rar,.7z,.tar,.gz', color: '#6b7280' },
+    { id: 'gif', icon: Sparkles, label: 'GIF', accept: '.gif', color: '#ec4899' },
+  ];
+
+  const handleAttachSelect = useCallback((type) => {
+    playClickSound();
+    setShowAttachMenu(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.accept = type.accept;
+      fileInputRef.current.click();
+    }
+  }, []);
+
   const handleFileClick = useCallback(() => {
     playClickSound();
-    fileInputRef.current?.click();
+    setShowAttachMenu(prev => !prev);
   }, []);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setIsUploading(true);
+    
+    // Определяем тип файла для иконки
+    const fileType = file.type.startsWith('image/') ? '🖼️' :
+                     file.type.startsWith('video/') ? '🎬' :
+                     file.type.startsWith('audio/') ? '🎵' :
+                     file.name.match(/\.(zip|rar|7z|tar|gz)$/i) ? '📦' :
+                     file.name.match(/\.gif$/i) ? '✨' : '📄';
+    
     setTimeout(() => {
       setMessages(prev => ({
         ...prev,
         [activeMode]: [...(prev[activeMode] || []), {
           id: Date.now(),
           type: 'user',
-          text: `📎 ${file.name}`,
+          text: `${fileType} ${file.name}`,
           timestamp: new Date(),
         }]
       }));
