@@ -231,7 +231,7 @@ export default function GlassyOmniChat() {
           [activeMode]: [...(prev[activeMode] || []), {
             id: Date.now(),
             type: 'bot',
-            text: lang === 'ru' ? `Файл "${file.name}" получен. Анализирую...` : `File "${file.name}" received. Analyzing...`,
+            text: `Файл "${file.name}" получен. Анализирую...`,
             timestamp: new Date(),
           }]
         }));
