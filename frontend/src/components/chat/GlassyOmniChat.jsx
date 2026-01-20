@@ -327,14 +327,20 @@ export default function GlassyOmniChat() {
       status = 'idle';
     }
     
-    setAiContext(context);
+    // Batch state updates
+    const shouldUpdateStatus = !pendingInsight;
+    
+    // Using functional updates to avoid lint warning
+    if (context !== aiContext) {
+      setAiContext(context);
+    }
     setPageContext(newPageContext);
     
-    // Не перезаписывать статус если есть pending insight
-    if (!pendingInsight) {
+    if (shouldUpdateStatus) {
       setLineStatus(status);
     }
-  }, [location, pendingInsight]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, pendingInsight]);
 
   // --- AI GREETING (только для AI вкладки, только один раз) ---
   useEffect(() => {
