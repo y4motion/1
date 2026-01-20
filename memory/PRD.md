@@ -1,85 +1,67 @@
-# Glassy Omni-Chat PRD v2.0
+# Glassy Omni-Chat PRD v2.1
 
 ## Оригинальная задача
-Многофункциональный чат-виджет "Glassy Omni-Chat" с glassmorphism эстетикой. Включает: изолированные контексты для каждой вкладки (AI, Trade, Guilds, Support), интеграцию с Rules Engine, локализацию.
+Многофункциональный чат-виджет "Glassy Omni-Chat" с glassmorphism эстетикой.
 
-## Выполнено ✅
+## Выполнено ✅ (20.01.2026)
 
-### Генеральная Уборка (20.01.2026)
+### Функционал
+- ✅ **Sound System** - Web Audio API синтезированные стеклянные звуки (click, hover, message, open, close, success, error)
+- ✅ **WebSocket Server** - Real-time коммуникация для чата (/ws endpoint)
+- ✅ **Easter Egg** - "sudo make me a sandwich" → "🥪 Okay."
+- ✅ **Mixed Content Fix** - Все компоненты используют REACT_APP_BACKEND_URL
+- ✅ **Локализация** - Русский по умолчанию, переводы для PC Builder
+- ✅ **Light Theme** - Максимум белого (#ffffff backgrounds)
+- ✅ **State Persistence** - Черновики между табами
+- ✅ **Hotkeys** - Ctrl+Space, Escape
+- ✅ **Context Data Injection** - pageContext с product/pcBuild
+- ✅ **Rules Engine Integration** - glassyMindEvent подписка
 
-#### 1. 🧠 Связь Brain -> UI
-- ✅ Подписка на `glassyMindEvent` события
-- ✅ `READY_TO_INTERVENE` → янтарная полоска + INSIGHT AVAILABLE
-- ✅ Pending insights добавляются при открытии чата
+### Архитектура
 
-#### 2. 🧩 Context Data Injection
-- ✅ `pageContext` с product и pcBuild
-- ✅ Динамические чипсы (Проверить сборку, Поделиться сборкой)
-- ✅ Чип "Спросить о товаре" на странице продукта
-
-#### 3. ⚡ State Persistence
-- ✅ Черновики сохраняются между табами (`drafts` state)
-
-#### 4. 🔊 Sound Design
-- ✅ Заглушки playHoverSound(), playClickSound(), playMessageSound()
-
-#### 5. ⌨️ Hotkeys
-- ✅ Ctrl+Space / Cmd+/ - открыть/закрыть
-- ✅ Escape - закрыть
-
-#### 6. 🎨 UI Fixes
-- ✅ Исправлено дублирование чипсов (показываются только если нет сообщений)
-- ✅ Яркость idle strip увеличена (opacity 0.6-1.0)
-
-#### 7. 🌍 Локализация
-- ✅ Язык по умолчанию: Русский (ru)
-- ✅ Добавлены переводы для PC Builder
-
-#### 8. 🎭 Темы
-- ✅ Светлая тема: максимум белого (#ffffff backgrounds)
-- ✅ CSS переменные для light theme
-
-#### 9. 🔗 API Интеграция
-- ✅ /api/mind/chat работает с реальным бэкендом
-- ✅ Rules Engine полностью функционален
-
-## Архитектура
-
-### Frontend
 ```
-/app/frontend/src/
-├── components/chat/
-│   ├── GlassyOmniChat.jsx   # Ghost Dock v2.0
-│   └── GlassyOmniChat.css
-├── contexts/
-│   ├── LanguageContext.jsx  # ru по умолчанию
-│   └── ThemeContext.jsx     # dark/light/minimal-mod
-├── styles/
-│   ├── glassmorphism.css    # light theme улучшен
-│   └── minimalMod.css
-└── translations.js          # ru/en/advanced
+Frontend:
+├── utils/glassySound.js        # Web Audio синтез
+├── utils/glassyWebSocket.js    # WS клиент
+├── components/chat/GlassyOmniChat.jsx
+
+Backend:
+├── glassy_mind/
+│   ├── router.py               # /api/mind/chat
+│   ├── websocket_handler.py    # /ws endpoint
+│   ├── rules_engine.py         # 7 правил
+│   └── chat_agent.py           # GPT интеграция
 ```
 
-### Backend
-```
-/app/backend/glassy_mind/
-├── router.py          # /api/mind/* endpoints
-├── rules_engine.py    # Правила: hesitation, big_spender, tech_geek...
-├── chat_agent.py      # GPT через emergentintegrations
-└── observer.py        # Трекинг поведения
-```
+### Исправленные файлы (Mixed Content)
+- ProductDetailPage.jsx
+- QATab.jsx, ReviewsTab.jsx
+- LiveChatWidget.jsx
+- FastBuyModal.jsx
+- GlassyChatBar.jsx
+- MindDashboard.jsx
+- MarketplacePage.jsx
+- PCBuilderPage.jsx
+- CompatibilityResolver.jsx
+
+## API Endpoints
+
+| Endpoint | Метод | Описание |
+|----------|-------|----------|
+| /api/mind/chat | POST | AI чат |
+| /api/mind/rules | GET | Активные правила |
+| /ws | WS | Real-time |
+| /ws/status | GET | WebSocket статус |
 
 ## Тестирование
-- Iteration 1: 100% frontend tests passed
-- API /api/mind/chat: OK
+- Lint: ✅ No issues
+- API: ✅ Working
+- WebSocket: ✅ Working
 
-## Следующие шаги
-
-### TODO
-- [ ] Звуковые файлы (glass-hover.mp3, glass-click.mp3)
-- [ ] WebSocket для real-time сообщений
-- [ ] Voice input (Web Speech API готов, но не протестирован)
+## TODO
+- [ ] Voice input тестирование
 - [ ] Screen Share для Support
+- [ ] Guild real-time активность
 
 ---
 Последнее обновление: 20 января 2026
