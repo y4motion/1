@@ -877,16 +877,43 @@ export default function GlassyOmniChat() {
               {/* Toolbar */}
               <div className="chat-toolbar">
                 <div className="toolbar-left">
-                  <button 
-                    className={`toolbar-btn ${isUploading ? 'active' : ''}`} 
-                    onClick={handleFileClick} 
-                    onMouseEnter={playHoverSound}
-                    disabled={isUploading} 
-                    title="Прикрепить"
-                    data-testid="attach-btn"
-                  >
-                    {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
-                  </button>
+                  {/* Attach Button with Dropdown */}
+                  <div className="attach-wrapper">
+                    <button 
+                      className={`toolbar-btn ${isUploading ? 'active' : ''} ${showAttachMenu ? 'menu-open' : ''}`} 
+                      onClick={handleFileClick} 
+                      onMouseEnter={playHoverSound}
+                      disabled={isUploading} 
+                      title="Прикрепить"
+                      data-testid="attach-btn"
+                    >
+                      {isUploading ? <Loader2 size={18} className="spin" /> : <Paperclip size={18} />}
+                    </button>
+                    
+                    <AnimatePresence>
+                      {showAttachMenu && (
+                        <motion.div
+                          className="attach-menu"
+                          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          {ATTACH_TYPES.map((type) => (
+                            <button
+                              key={type.id}
+                              className="attach-item"
+                              onClick={() => handleAttachSelect(type)}
+                              onMouseEnter={playHoverSound}
+                            >
+                              <type.icon size={16} style={{ color: type.color }} />
+                              <span>{type.label}</span>
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                   
                   {Object.values(MODES).map((mode) => {
                     const isActive = activeMode === mode.id;
