@@ -188,6 +188,9 @@ const ModPage = () => {
   return (
     <div className={`mod-page temple ${isArmoryOpen ? 'armory-active' : ''} ${guardiansAwakened ? 'guardians-awakened' : ''}`} ref={containerRef}>
       
+      {/* ========== LAYER 0: THE MANA AURA (Blue Depth Glow) ========== */}
+      <div className="temple-mana-aura" />
+      
       {/* ========== LAYER 1: THE GUARDIANS ========== */}
       <div className="guardians-layer">
         {/* Left Guardian */}
