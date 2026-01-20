@@ -331,23 +331,27 @@
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.75);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
   position: relative;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.03);
 }
 
 .toolbar-btn:hover:not(:disabled):not(.locked) {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.08);
 }
 
 .toolbar-btn.active {
   color: white;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
 .toolbar-btn.locked {
