@@ -124,38 +124,28 @@ export default function GlassyOmniChat() {
           [activeMode]: [{
             id: Date.now(),
             type: 'bot',
-            text: pageContext.greeting[lang],
+            text: pageContext.greeting,
             isGreeting: true,
-            suggestions: pageContext.suggestions[lang],
+            suggestions: pageContext.suggestions,
             timestamp: new Date(),
           }]
         }));
       }, 300);
     }
-  }, [isOpen, pageContext, activeMode, lang]);
+  }, [isOpen, pageContext, activeMode]);
 
   const getStatusText = useCallback(() => {
     const texts = {
-      ru: {
-        idle: 'Готов помочь',
-        typing: 'Печатает...',
-        analyzing: 'Анализирует...',
-        listening: 'Слушаю...',
-        uploading: 'Загрузка...',
-        emergency: '🔴 ПРИОРИТЕТ',
-      },
-      en: {
-        idle: 'Ready',
-        typing: 'Typing...',
-        analyzing: 'Analyzing...',
-        listening: 'Listening...',
-        uploading: 'Uploading...',
-        emergency: '🔴 PRIORITY',
-      }
+      idle: 'Готов',
+      typing: 'Печатает...',
+      analyzing: 'Анализирует...',
+      listening: 'Слушаю...',
+      uploading: 'Загрузка...',
+      emergency: '🔴 ПРИОРИТЕТ',
     };
-    if (isEmergencyMode) return texts[lang].emergency;
-    return texts[lang][statusType] || texts[lang].idle;
-  }, [statusType, lang, isEmergencyMode]);
+    if (isEmergencyMode) return texts.emergency;
+    return texts[statusType] || texts.idle;
+  }, [statusType, isEmergencyMode]);
 
   useEffect(() => {
     if (isListening) setStatusType('listening');
