@@ -38,29 +38,14 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { 
+  playClickSound, 
+  playHoverSound, 
+  playMessageSound,
+  playOpenSound,
+  playCloseSound 
+} from '../../utils/glassySound';
 import './GlassyOmniChat.css';
-
-// --- SOUND DESIGN HOOKS (заглушки для будущих звуков) ---
-const playHoverSound = () => {
-  // TODO: Подключить glass hover sound
-  // const audio = new Audio('/sounds/glass-hover.mp3');
-  // audio.volume = 0.1;
-  // audio.play();
-};
-
-const playClickSound = () => {
-  // TODO: Подключить glass click sound
-  // const audio = new Audio('/sounds/glass-click.mp3');
-  // audio.volume = 0.15;
-  // audio.play();
-};
-
-const playMessageSound = () => {
-  // TODO: Подключить notification sound
-  // const audio = new Audio('/sounds/message-in.mp3');
-  // audio.volume = 0.2;
-  // audio.play();
-};
 
 // --- КОНФИГУРАЦИЯ СТАТУСОВ ПОЛОСКИ ---
 const STATUS_CONFIG = {
