@@ -594,14 +594,32 @@
 }
 
 .toolbar-btn.listening {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  background: rgba(249, 115, 22, 0.25);
+  color: #f97316;
   animation: pulse-listen 1.5s ease-in-out infinite;
 }
 
+.toolbar-btn.neural-pulse {
+  position: relative;
+}
+
+.voice-pulse-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #f97316;
+  animation: voice-ring-expand 1.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes voice-ring-expand {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
 @keyframes pulse-listen {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(249, 115, 22, 0); }
 }
 
 .toolbar-btn.send {
