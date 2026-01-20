@@ -74,11 +74,27 @@
   color: white;
 }
 
-/* Light textured background */
+/* Light textured background - МАКСИМУМ БЕЛОГО */
 [data-theme='light'] .dark-bg {
-  background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%) !important;
+  background: #ffffff !important;
   min-height: 100vh;
-  color: #1a1a1a !important;
+  color: #0a0a0a !important;
+}
+
+[data-theme='light'] body {
+  background-color: #ffffff !important;
+  color: #0a0a0a !important;
+}
+
+[data-theme='light'] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-tertiary: #f0f0f0;
+  --text-primary: #0a0a0a;
+  --text-secondary: #3a3a3a;
+  --text-muted: #6a6a6a;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --accent-primary: #0a0a0a;
 }
 
 /* Minimal Mod textured background */
