@@ -962,17 +962,53 @@ export default function GlassyOmniChat() {
 
             {/* Чёрная зона */}
             <div className="chat-black-zone">
-              {/* Input с уникальным placeholder */}
-              <div className="emergent-input-area">
+              {/* Input с уникальным placeholder + превью файла */}
+              <div className={`emergent-input-area ${pendingFile ? 'has-file' : ''}`}>
+                {/* Превью прикрепленного файла */}
+                <AnimatePresence>
+                  {pendingFile && (
+                    <motion.div
+                      className="file-preview-container"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                    >
+                      <div className="file-preview">
+                        {filePreview ? (
+                          <img src={filePreview} alt="preview" className="file-preview-image" />
+                        ) : (
+                          <div className="file-preview-icon">
+                            <FileText size={24} />
+                          </div>
+                        )}
+                        <div className="file-preview-info">
+                          <span className="file-name">{pendingFile.name}</span>
+                          <span className="file-size">{(pendingFile.size / 1024).toFixed(1)} KB</span>
+                        </div>
+                        <button className="file-remove" onClick={removePendingFile}>
+                          <X size={14} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
                 <input
                   ref={inputRef}
                   type="text"
-                  value={inputValue}
+                  value={inputValue + interimTranscript}
                   onChange={handleInputChange}
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                  placeholder={currentContext?.placeholder || 'Введите сообщение...'}
+                  placeholder={isListening ? '' : (currentContext?.placeholder || 'Введите сообщение...')}
                   data-testid="chat-input"
+                  className={isListening ? 'listening-mode' : ''}
                 />
+                {isListening && (
+                  <span className="listening-placeholder">
+                    <span className="listening-dot"></span>
+                    Listening...
+                  </span>
+                )}
               </div>
 
               {/* Messages */}
