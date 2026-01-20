@@ -299,9 +299,14 @@ const ModPage = () => {
             {visibleMessage && (
               <motion.div
                 className="monument-message carved"
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                style={{ 
+                  left: `${messagePosition.x}%`, 
+                  top: `${messagePosition.y}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.6 }}
               >
                 <span className="message-text">"{visibleMessage.text}"</span>
