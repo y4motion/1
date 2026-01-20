@@ -177,6 +177,9 @@ api_router.include_router(builder_router)  # PC Builder - Compatibility
 # Include the router in the main app
 app.include_router(api_router)
 
+# WebSocket router (без /api префикса)
+app.include_router(ws_router)
+
 # Add logging middleware
 app.add_middleware(RequestLoggingMiddleware)
 
