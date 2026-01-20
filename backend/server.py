@@ -56,6 +56,7 @@ from routes.user_address_routes import router as user_address_router
 
 # Glassy Mind - AI Brain
 from glassy_mind import router as mind_router
+from glassy_mind.websocket_handler import router as ws_router
 
 # PC Builder - Compatibility Service
 from routes.builder_routes import router as builder_router
