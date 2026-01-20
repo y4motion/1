@@ -419,11 +419,16 @@ export default function GlassyOmniChat() {
     const handleClickOutside = (e) => {
       if (isOpen && dockRef.current && !dockRef.current.contains(e.target)) {
         setIsOpen(false);
+        setShowAttachMenu(false);
+      }
+      // Закрываем меню прикрепления при клике вне
+      if (showAttachMenu && !e.target.closest('.attach-wrapper')) {
+        setShowAttachMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
+  }, [isOpen, showAttachMenu]);
 
   // --- WEB SPEECH API ---
   useEffect(() => {
