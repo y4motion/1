@@ -358,6 +358,7 @@ export default function GlassyOmniChat() {
 
   const currentMessages = messages[activeMode] || [];
   const userLevel = user?.level || 0;
+  const lineConfig = STATUS_CONFIG[lineStatus] || STATUS_CONFIG.idle;
 
   return (
     <div className="ghost-dock-container" data-testid="glassy-omni-chat">
