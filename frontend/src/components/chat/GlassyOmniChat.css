@@ -412,6 +412,17 @@
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
 }
 
+/* Insight messages from Rules Engine */
+.emergent-msg.insight .msg-content p {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.emergent-msg.insight .msg-avatar {
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
 /* Typing */
 .typing-indicator {
   display: flex;
