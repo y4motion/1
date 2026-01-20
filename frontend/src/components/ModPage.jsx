@@ -144,6 +144,10 @@ const ModPage = () => {
   useEffect(() => {
     const showMessage = () => {
       const msg = MONUMENT_MESSAGES[Math.floor(Math.random() * MONUMENT_MESSAGES.length)];
+      // Случайная позиция в пределах hero секции
+      const x = 20 + Math.random() * 60; // 20% - 80% по горизонтали
+      const y = 25 + Math.random() * 50; // 25% - 75% по вертикали
+      setMessagePosition({ x, y });
       setVisibleMessage(msg);
       setTimeout(() => setVisibleMessage(null), 4000);
     };
