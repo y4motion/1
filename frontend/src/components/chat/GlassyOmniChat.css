@@ -89,7 +89,7 @@
   position: relative;
   width: 95%;
   max-width: 1065px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(30px) saturate(180%);
