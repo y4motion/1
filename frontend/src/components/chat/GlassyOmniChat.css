@@ -143,14 +143,14 @@
   font-weight: 500;
 }
 
-/* Close */
+/* Close - минималистичная стрелка */
 .emergent-close {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   border: none;
-  background: rgba(255, 255, 255, 0.4);
-  color: transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -160,20 +160,8 @@
 }
 
 .emergent-close:hover {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.emergent-close svg {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.emergent-close:hover svg {
-  opacity: 1;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ==================== BLACK ZONE ==================== */

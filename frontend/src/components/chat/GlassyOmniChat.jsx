@@ -17,10 +17,9 @@ import {
   Mic,
   MicOff,
   Paperclip,
-  X,
+  ChevronDown,
   Loader2,
   Headphones,
-  CheckCircle2,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -392,7 +391,7 @@ export default function GlassyOmniChat() {
                 <span>{getStatusText()}</span>
               </div>
               <button className="emergent-close" onClick={() => setIsOpen(false)} data-testid="chat-close-btn">
-                <X size={14} />
+                <ChevronDown size={16} />
               </button>
             </div>
 
