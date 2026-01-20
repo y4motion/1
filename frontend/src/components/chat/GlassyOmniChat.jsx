@@ -196,7 +196,7 @@ const AI_PAGE_CONTEXTS = {
   },
 };
 
-const API_URL = '';
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 export default function GlassyOmniChat() {
   // --- CORE STATE ---
