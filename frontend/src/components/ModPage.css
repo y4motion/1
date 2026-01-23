@@ -402,80 +402,232 @@
   color: var(--ghost-text-soft);
 }
 
-/* === ORIGIN TIMELINE === */
-.timeline-section {
-  position: relative;
-  padding: 100px 20px;
-  background: transparent;
+/* === HORIZONTAL ORIGIN TIMELINE (Soul Pulse) === */
+.h-timeline-section {
+  padding: 80px 20px 100px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, var(--ghost-void) 100%);
+  overflow: hidden;
 }
 
-.amber-thread {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg,
-    transparent 0%,
-    var(--ghost-amber) 15%,
-    var(--ghost-amber) 85%,
-    transparent 100%
-  );
-  opacity: 0.25;
-  transform: translateX(-50%);
-}
-
-.timeline-header {
+.h-timeline-header {
   text-align: center;
-  margin-bottom: 70px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 60px;
 }
 
-.timeline-header h2 {
-  font-size: 14px;
+.h-timeline-header h2 {
+  font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.4em;
   color: var(--ghost-amber);
   margin: 0 0 8px 0;
 }
 
-.timeline-header p {
+.h-timeline-header p {
   font-size: 10px;
   color: var(--ghost-text-dim);
   margin: 0;
 }
 
-.timeline-nodes {
-  max-width: 700px;
-  margin: 0 auto;
+.h-timeline-track {
   position: relative;
-  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
-.timeline-node {
+.h-timeline-nodes {
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 30px;
-  margin-bottom: 50px;
-  padding-left: calc(50% + 20px);
+  position: relative;
 }
 
-.timeline-node:nth-child(even) {
-  flex-direction: row-reverse;
-  padding-left: 0;
-  padding-right: calc(50% + 20px);
-  text-align: right;
+/* Horizontal Timeline Node */
+.h-timeline-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
 }
 
-.timeline-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+/* Node Dot with Pulse */
+.h-node-dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-bottom: 20px;
+}
+
+.dot-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
   background: var(--ghost-amber);
-  border: 2px solid #1a1a1c;
-  flex-shrink: 0;
-  box-shadow: 0 0 15px var(--ghost-amber);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--ghost-amber);
+}
+
+.dot-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--ghost-amber);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: dot-pulse-ring 2s ease-out infinite;
+}
+
+@keyframes dot-pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Node Content */
+.h-node-content {
+  max-width: 140px;
+}
+
+.h-node-year {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--ghost-amber);
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+
+.h-node-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--ghost-text-soft);
+  margin: 0 0 4px 0;
+}
+
+.h-node-desc {
+  font-size: 9px;
+  color: var(--ghost-text-dim);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* === SOUL THREAD (The Magic) === */
+.soul-thread {
+  position: absolute;
+  top: 8px; /* Center with dot */
+  left: calc(50% + 12px);
+  right: calc(-50% + 12px);
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Base thread line - barely visible */
+.thread-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    var(--ghost-amber) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    var(--ghost-amber) 100%
+  );
+  opacity: 0.15;
+}
+
+/* Animated soul pulse - white laser shooting through */
+.thread-pulse {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+  animation: soul-pulse-flow 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes soul-pulse-flow {
+  0% {
+    left: -60px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% + 60px);
+    opacity: 0;
+  }
+}
+
+/* Ghost trail effect */
+.thread-pulse::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 768px) {
+  .h-timeline-nodes {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .h-timeline-node {
+    flex: none;
+    width: 100%;
+  }
+  
+  .soul-thread {
+    display: none;
+  }
+  
+  .h-node-dot::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, var(--ghost-amber), transparent);
+    opacity: 0.2;
+    transform: translateX(-50%);
+  }
+  
+  .h-timeline-node:last-child .h-node-dot::after {
+    display: none;
+  }
 }
 
 .timeline-content {
