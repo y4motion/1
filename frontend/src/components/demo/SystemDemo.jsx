@@ -14,11 +14,11 @@ import {
 } from '../system';
 import './SystemDemo.css';
 
-// Mock users with different trust scores
+// Signal Quality States demo users
 const DEMO_USERS = [
   {
     id: '0x7F3A',
-    username: 'MONARCH_ELITE',
+    username: 'PHOTON_ECHO',
     level: 85,
     xp: 1650000,
     trustScore: 920,
@@ -26,55 +26,47 @@ const DEMO_USERS = [
     classType: 'architect',
     classTier: 78,
     registeredAt: '2024-01-15',
-    stats: { speed: 85, comm: 72, tech: 95 }
+    stats: { speed: 85, comm: 72, tech: 95 },
+    signalState: 'PHOTON ECHO — Crystal clarity, diffuse backlight'
   },
   {
     id: '0x4B2C',
-    username: 'OPERATOR_PRO',
+    username: 'STANDARD_SIG',
     level: 55,
     xp: 120000,
-    trustScore: 680,
+    trustScore: 650,
     rpBalance: 12400,
     classType: 'broker',
     classTier: 45,
     registeredAt: '2024-06-20',
-    stats: { speed: 70, comm: 85, tech: 60 }
+    stats: { speed: 70, comm: 85, tech: 60 },
+    signalState: 'STANDARD — Normal projection'
   },
   {
     id: '0x9D1E',
-    username: 'PHANTOM_USER',
+    username: 'SIGNAL_DECAY',
     level: 25,
     xp: 8500,
-    trustScore: 520,
+    trustScore: 420,
     rpBalance: 2100,
     classType: 'observer',
     classTier: 12,
     registeredAt: '2024-09-10',
-    stats: { speed: 50, comm: 65, tech: 55 }
+    stats: { speed: 50, comm: 65, tech: 55 },
+    signalState: 'SIGNAL DECAY — Grayscale, noise texture'
   },
   {
     id: '0x2F8A',
-    username: 'SUSPECT_WARN',
+    username: 'GLITCH_USER',
     level: 18,
     xp: 3200,
-    trustScore: 420,
+    trustScore: 280,
     rpBalance: 800,
     classType: null,
     classTier: 0,
     registeredAt: '2024-11-05',
-    stats: { speed: 40, comm: 35, tech: 45 }
-  },
-  {
-    id: '0x6C4D',
-    username: 'GLITCH_ANOMALY',
-    level: 12,
-    xp: 1500,
-    trustScore: 280,
-    rpBalance: 150,
-    classType: null,
-    classTier: 0,
-    registeredAt: '2024-12-01',
-    stats: { speed: 30, comm: 20, tech: 25 }
+    stats: { speed: 40, comm: 35, tech: 45 },
+    signalState: 'GLITCH ANOMALY — RGB split, jitter'
   },
   {
     id: '0x0BAD',
