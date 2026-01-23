@@ -64,29 +64,69 @@ def xp_to_next_level(current_xp: int, current_level: int) -> int:
 async def get_my_stats(
     current_user: User = Depends(get_current_user)
 ):
-    """Get current user's stats"""
+    """Get current user's stats with Ghost Protocol metrics"""
     db = await get_database()
     
     stats = await db.user_stats.find_one({"user_id": current_user.id})
     
+    # Get Ghost Protocol profile
+    xp = current_user.xp_total if hasattr(current_user, 'xp_total') else current_user.experience
+    level = calculate_level_from_xp(xp)
+    _, xp_to_next, progress = calculate_xp_progress(xp)
+    hierarchy = get_hierarchy(level)
+    trust = current_user.trust_score if hasattr(current_user, 'trust_score') else 500.0
+    trust_tier, halo_color = get_trust_tier(trust)
+    
+    class_type_str = current_user.class_type if hasattr(current_user, 'class_type') else None
+    user_class = UserClass(class_type_str) if class_type_str else UserClass.NONE
+    class_bonuses = get_class_bonuses(user_class)
+    
+    rp_cap = calculate_rp_cap(level, trust)
+    vote_weight = calculate_vote_weight(level, trust, user_class)
+    
     if not stats:
-        # Create initial stats
+        # Create initial stats with Ghost Protocol fields
         stats = UserStats(
             user_id=current_user.id,
             username=current_user.username,
             user_avatar=current_user.avatar_url,
-            total_xp=current_user.experience,
-            current_level=current_user.level,
-            monthly_rp=current_user.monthly_rp
+            total_xp=xp,
+            current_level=level,
+            xp_to_next_level=xp_to_next,
+            xp_progress_percent=progress,
+            trust_score=trust,
+            trust_tier=trust_tier,
+            trust_halo_color=halo_color,
+            rp_balance=current_user.rp_balance if hasattr(current_user, 'rp_balance') else 0,
+            rp_cap=rp_cap,
+            monthly_rp=current_user.monthly_rp,
+            class_type=user_class.value if user_class != UserClass.NONE else None,
+            class_icon=class_bonuses["icon"],
+            class_name=class_bonuses["name"],
+            hierarchy=hierarchy.value,
+            vote_weight=vote_weight,
+            current_streak=current_user.current_streak,
+            has_hidden_armory_access=hierarchy in [UserHierarchy.OPERATOR, UserHierarchy.MONARCH],
+            has_direct_line_access=hierarchy == UserHierarchy.MONARCH,
         )
-        await db.user_stats.insert_one(stats.dict())
-    
-    stats = UserStats(**stats)
-    
-    # Calculate level and vote weight
-    stats.current_level = calculate_level(stats.total_xp)
-    stats.xp_to_next_level = xp_to_next_level(stats.total_xp, stats.current_level)
-    stats.vote_weight = 1.0 + (stats.current_level / 10.0)
+        await db.user_stats.insert_one(stats.model_dump())
+    else:
+        # Update with fresh calculations
+        stats = UserStats(**stats)
+        stats.total_xp = xp
+        stats.current_level = level
+        stats.xp_to_next_level = xp_to_next
+        stats.xp_progress_percent = progress
+        stats.trust_score = trust
+        stats.trust_tier = trust_tier
+        stats.trust_halo_color = halo_color
+        stats.hierarchy = hierarchy.value
+        stats.vote_weight = vote_weight
+        stats.rp_cap = rp_cap
+        stats.class_icon = class_bonuses["icon"]
+        stats.class_name = class_bonuses["name"]
+        stats.has_hidden_armory_access = hierarchy in [UserHierarchy.OPERATOR, UserHierarchy.MONARCH]
+        stats.has_direct_line_access = hierarchy == UserHierarchy.MONARCH
     
     return stats
 
