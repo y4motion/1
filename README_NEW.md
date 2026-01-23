@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://dotkinetic.preview.emergentagent.com/
-- **Backend API:** https://dotkinetic.preview.emergentagent.com/api
-- **Превью японских фото:** https://dotkinetic.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://neonhub-7.preview.emergentagent.com/
+- **Backend API:** https://neonhub-7.preview.emergentagent.com/api
+- **Превью японских фото:** https://neonhub-7.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 

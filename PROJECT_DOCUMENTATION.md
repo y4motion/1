@@ -1727,7 +1727,7 @@ SECRET_KEY=your_jwt_secret_key_here
 
 **Frontend (.env):**
 ```
-REACT_APP_BACKEND_URL=https://dotkinetic.preview.emergentagent.com/api
+REACT_APP_BACKEND_URL=https://neonhub-7.preview.emergentagent.com/api
 ```
 
 ### C. Запуск проекта

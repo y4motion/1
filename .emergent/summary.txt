@@ -1,80 +1,85 @@
-<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website called Ghost Protocol. The project has evolved from a static page design to a fully dynamic Kinetic Dot-OS interface, inspired by designers like Howard.le and the 'Nothing' brand aesthetic.
+<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website called Ghost Protocol. The project has evolved through several major phases, including designing a Kinetic Dot-OS interface, building a Social Core (content feed and voting system), establishing a data architecture for a PC Builder, and performing multiple, rapid design iterations on the homepage based on user feedback.
 
-The most recent user requests are two-fold and represent a massive expansion of the project's scope:
-1.  **Ghost OS Dashboard (Complete Overhaul):** Transform the entire homepage into a Living Desktop that assembles on load, featuring a Zen Mode for a minimalist view, a Sonic Tuner for ambient sounds, and a Telemetry Bar for system stats. This involved integrating several previously unused components into a single, cohesive, animated system.
-2.  **The Social Core (New Epic):** Build a massive social layer within the application, divided into two core modules:
-    *   **The Network:** A content feed system similar to DTF/Instagram for users to share posts, guides, and builds.
-    *   **The Consensus:** A King of the Hill idea-voting system with a full-fledged internal economy based on Resource Points (RP), where users pay to submit and vote on ideas.
+The most recent user requests involved a complete overhaul of the homepage's top section:
+1.  **Hero Section Redesign:** The original starfield hero was completely removed and replaced with a full-screen video background.
+2.  **Minimalist Search:** A highly custom, animated search input was designed and implemented below the hero video section after several iterations.
+3.  **Homepage Component Cleanup:** The main  (with clock and focus button) and the  (with online user count) were completely removed.
+4.  **Bento UI:** The functionality of the removed components (Zen Mode, Sonic Tuner) was re-implemented as smaller, self-contained bento tiles.
+5.  **LiveTicker Redesign:** The news ticker component was redesigned to be smaller (1/3 width) and have a new vertical fade-out animation.
 
 **User's preferred language**: Russian (Русский)
 
 **what currently exists?**
-- A full-stack application (React/FastAPI) with a highly stylized frontend.
-- **Ghost OS Dashboard:** The  has been completely rebuilt into a dynamic dashboard featuring multiple animated kinetic widgets (, , , , , , etc.). A Zen Mode toggle (using Zustand for global state) and a Sonic Tuner are implemented.
-- **Social Core Backend:** The entire backend for the Network and Consensus features is **complete**. This includes:
-    - Pydantic models for posts, ideas, and leaderboards (, , ).
-    - Service logic for business rules, including the RP economy (, , ).
-    - FastAPI routes with both authenticated and optional-authentication endpoints (, , ). All backend APIs have been tested with  and are functional.
-- **Social Core Frontend Scaffolding:** All necessary files for the frontend have been created but are empty placeholders:
-    - Page: 
-    - Components: , ,  located in .
+- A full-stack application (React/FastAPI) with a highly customized and frequently iterated frontend.
+- **Homepage:**
+    - The  has been completely rebuilt to feature a video background and a custom-animated minimalist search input below the main viewport.
+    - The  and  components have been entirely removed from the codebase.
+    - New bento style widgets for Zen Mode and Ambient sound control exist in their place.
+    - The  component has been refactored to be 1/3 width and use an upward-fading animation for its text.
+- **PC Builder & Marketplace:** These sections are now fully functional, powered by a MongoDB database seeded with 48 real hardware components and their technical specifications. The API endpoints to serve this data are working.
+- **Social Core:** The Network (content feed) and Consensus (idea voting) features are fully implemented, both backend and frontend, and have been tested.
+- **Chat:** The application uses a single, modern chat component (). Deprecated chat components have been removed. The chat is configured to automatically open with a context-specific message on the PC Builder page.
+- **Bug Fixes:** A critical navigation bug that caused a black screen when loading lazy-loaded pages has been resolved by removing a conflicting  component.
 
 **Last working item**:
-- **Last item agent was working:** Scaffolding the frontend architecture for the new Social Core feature. The agent successfully created all the necessary placeholder files (pages, components, CSS, index) and was about to integrate the new community routes into the main  file.
+- **Last item agent was working:** Redesigning the  component. The agent implemented the user's request to make it 1/3 width and change the animation to have text lines fade and move upwards.
 - **Status:** IN PROGRESS
-- **Agent Testing Done:** N (Frontend not built yet)
-- **Which testing method agent to use?** Frontend testing agent. After implementation, the agent must test:
-    1.  The new  hub page and its sub-components (, ).
-    2.  The Community Pulse widget's integration and functionality on the homepage.
-    3.  End-to-end flow: creating a post/idea and seeing it appear in the feed/list by calling the working backend APIs.
+- **Agent Testing Done:** N
+- **Which testing method agent to use?** Screenshot tool. The agent needs to take a screenshot of the homepage to visually verify that the  component is now 1/3 width and that the new upward fade animation is working as expected.
 - **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
-- **Issue 1: Implement the Social Core Frontend (P0)**
-  - **Description:** Build the user interface for the Network (content feed) and Consensus (idea voting) features, and integrate the Community Pulse widget onto the homepage.
+- **Issue 1: Verify  Redesign (P0)**
+  - **Description:** The agent has implemented the code changes for the  but has not yet visually confirmed if they work correctly.
   - **Status:** IN PROGRESS
-- **Issue 2: Implement Visual Correction Pass (P1)**
-  - **Description:** The user has provided a detailed prompt for a major visual cleanup to align the site more closely with the strict Nothing OS aesthetic. This involves enforcing monochrome icons, using abstract patterns for category backgrounds instead of photos, and redesigning the .
+- **Issue 2: Video Autoplay in Hero Section (P2)**
+  - **Description:** The background video in the  does not autoplay reliably in the testing environment, showing a black screen or a LOADING... message. The agent concluded this is a headless browser limitation, but the user experience is impacted.
   - **Status:** NOT STARTED
 - **Issue 3: Zen Mode Scroll Bug (P2)**
-  - **Description:** The agent noted that while Zen Mode correctly hides elements in the visible viewport, components further down the page (like  and ) might still appear if the user scrolls. This needs to be verified and fixed to ensure Zen mode affects the entire page.
+  - **Description:** An old, deferred bug where scrolling down the page in Zen Mode might reveal elements that are supposed to be hidden.
   - **Status:** NOT STARTED
 - **Issue 4: ProductCard Expanded Panel Robustness (P2)**
-  - **Description:** An old, low-priority task from a previous session to verify the stability of the hover panel on product cards in the marketplace.
+  - **Description:** An old, low-priority task to verify the stability of the hover panel on product cards in the marketplace.
   - **Status:** NOT STARTED
 
 **In progress Task List**:
-- **Task 1: Build the Social Core Frontend UI (P0)**
-  - **Where to resume:**
-      1. Open  and add the route for  pointing to .
-      2. Open  and build the main layout with tabs for Network and Consensus.
-      3. Implement the UI for  and , fetching data from the now-working backend endpoints.
-      4. Implement the Community Pulse flip-card widget in .
-      5. Integrate the  widget into the  App Grid (Zone B).
-  - **What will be achieved with this?** The application will have a fully functional social layer, allowing users to interact, post content, and vote on ideas, transforming it from a store into a community platform.
+- **Task 1: Verify  Implementation (P0)**
+  - **Where to resume:** Take a screenshot of the homepage.
+  - **What will be achieved with this?** Confirmation that the  component now correctly occupies 1/3 of the container width and that its text items animate upwards with a fade-out effect.
   - **Status:** IN PROGRESS
   - **Should Test frontend/backend/both after fix?** Frontend
   - **Blocked on something:** None
 
 **Upcoming and Future Tasks**
 - **Upcoming Tasks:**
-    - **(P1) Visual Correction Pass:** Implement the user's detailed visual refinement requests from .
+    - **(P0) Implement Expandable :** The user requested the redesigned  be expandable. This part of the request was missed and needs to be implemented.
     - **(P1) Phase 4: The Evolution (Interactivity):** Implement RPG-like mechanics:  (the lootbox system) and .
     - **(P2) Ghost OS Menu:** Implement the Neural Hub menu concept from .
 - **Future Tasks:**
-    - Full Voice & Screen Share capabilities for support chat.
-    - User Trust/Rating System UI (the backend model exists, but the UI is needed).
+    - AI-powered web crawler for updating product prices and stock.
+    - User Trust/Rating System UI.
+    - Modals for creating new Posts and Ideas in the Social Core.
     - Alternate Payment Systems (Tinkoff + Cryptomus).
-    - Performance Optimization.
+    - Full Voice & Screen Share capabilities for support chat.
 
 **Completed work in this session**
-- **Kinetic Dot-OS UI (Howard.le Level):** Implemented advanced animation physics, including a three-state Stack → Fan → List mechanic for the  component with layout projection.
-- **Ghost OS Dashboard:** Executed a total overhaul of the homepage, integrating previously unused components into a cohesive, animated Living Desktop with a Zen Mode toggle and a Sonic Tuner for ambient sounds.
-- **Social Core Backend:** Fully designed, implemented, and tested the entire backend for the new social features, including data models, service logic for the RP-based economy, and all necessary API endpoints.
+- **Social Core Frontend:** Implemented and tested the UI for the Network and Consensus features.
+- **Data Architecture:** Seeded the database with real hardware data, enabling the PC Builder and Marketplace.
+- **PC Builder Integration:** Connected the frontend PC Builder to the seeded data and fixed routing bugs.
+- **Chat Cleanup & Enhancement:** Removed a deprecated chat component (), standardized on , and implemented context-aware auto-opening.
+- **Critical Bug Fix:** Resolved a navigation issue that caused a black screen when loading pages.
+- **Homepage Overhaul (Multiple Iterations):**
+    - Replaced the hero section with a video background.
+    - Designed and implemented a custom animated search bar after several user-driven revisions.
+    - Removed the  and  components.
+    - Created new bento widgets for Zen Mode and Sonic Tuner.
+    - Refactored the  component's layout and animation.
+- **Visual Correction Pass:** Implemented monochrome icons, abstract category backgrounds, and a redesigned .
 
 **Earlier issues found/mentioned but not fixed**
 - **Zen Mode Scroll Bug:** See All Pending/In progress Issue list.
 - **ProductCard Expanded Panel Robustness:** See All Pending/In progress Issue list.
+- **Video Autoplay Issue:** The hero video often fails to load/play in the test environment. The current implementation relies on a local file in  after a remote URL failed.
 
 **Known issue recurrence from previous fork**
 - None.
@@ -83,86 +88,78 @@ The most recent user requests are two-fold and represent a massive expansion of 
 
 
 **Key Technical Concepts**
-- **Full-Stack Feature Development:** Building features from backend (FastAPI models, services, routes) to frontend (React components, state management).
-- **Advanced :** Use of , , , and state-driven animations ( prop) to create complex, fluid UIs.
-- **Global State Management:** Using  to manage UI state () that affects multiple, disparate components across the application.
-- **Internal Economy Design:** Implementation of a points-based system (RP) to gate actions (creating/voting on ideas), creating value and preventing spam.
-- **Optional API Authentication:** Using a utility () to create endpoints that can be accessed publicly but provide enhanced data for authenticated users.
+- **Rapid Prototyping & Iteration:** The agent demonstrated the ability to quickly implement and discard multiple complex UI designs based on user feedback.
+- **CSS Animation:** Use of  masks and  for advanced border animations. Staggered animations with  for text effects.
+- **Component Lifecycle Debugging:** Identified and fixed a critical bug caused by a conflict between 's  and React's .
+- **Code Cleanup:** Proactively identified and removed/isolated deprecated components (, ) to resolve conflicts and improve maintainability.
+- **Database Seeding:** Modified a Python script to generate and insert production-like data into MongoDB, enabling development of data-dependent features.
 
 **key DB schema**
+- **products:**  (Now populated with 48 items)
 - **network_posts:** 
 - **consensus_ideas:** 
-- **monarchs:** 
 
 **changes in tech stack**
-- **:** Added for global state management.
-- **:** Added for handling ambient audio presets in the Sonic Tuner.
+- No new packages, but a shift away from using  and complex  structures at the root level due to performance and rendering issues.
 
 **All files of reference**
-- : The blueprint for the current Social Core task.
-- : The next high-priority visual task.
-- : Directory for all new frontend components.
-- : Directory for the new social hub page.
-- All newly created backend files under .
+- : The file for the most recent and significant UI changes.
+- : The component that was last being worked on.
+- : Contains the main layout and was modified to remove components and adjust grid layouts.
+- : Modified to fix the navigation bug and clean up component imports.
+- : The script used to populate the database.
+- : Specification for a completed task.
 
 **Areas that need refactoring**:
-- None currently. The agent is following a clean pattern of creating new, isolated components for new features. The Visual Correction task will act as a targeted refactor of existing components.
+- The video loading in  is not robust. It could be improved with better error handling, a more prominent manual play button, or by using a compressed video format hosted on a CDN.
 
 **key api endpoints**
-- : Fetch posts for the Network feed (public).
-- : Create a new post (auth required).
-- : Fetch ideas for the Consensus list (public).
-- : Create a new idea, costs 500 RP (auth required).
-- : Vote on an idea, costs 50 RP (auth required).
-- : Get user leaderboards (public).
+- : Fetches products from the now-populated database.
+- : Fetches posts for the Network feed.
+- : Fetches ideas for the Consensus list.
 
 **Critical Info for New Agent**
 - **You MUST respond in Russian.**
-- Your immediate and highest-priority task is to **build the frontend for the Social Core**. The backend is already finished, tested, and ready to be used.
-- Start by implementing the routing in , then build out the UIs in  and .
-- Once the Social Core frontend is complete, the next task is the **Visual Correction** pass, with instructions saved in . Do not start it before finishing the current task.
-- Be aware of the minor **Zen Mode scroll bug** and plan to investigate it after the main tasks are complete.
+- Your first action should be to take a screenshot of the homepage to verify the  changes from the last step.
+- The user's request to make the  **expandable** was missed. This should be your next implementation task (P0 priority) after verifying the current state.
+- The user has a history of making rapid, drastic changes to the UI, especially the homepage. Be prepared to discard and rebuild components quickly based on feedback.
+- The video in the hero section is a known issue; it doesn't load reliably in the test environment. Do not spend too much time debugging it unless explicitly asked by the user.
 
 **documents and test reports created in this job**
-- 
-- 
-- 
-- 
-- 
--  (updated multiple times)
+-  (From the Social Core testing)
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **LATEST:** User confirms to start with the most complex part of the Social Core task, the backend, and to treat it as a critical priority. (DONE, Backend is complete)
-2.  User provides the massive prompt for the Social Core (Network & Consensus) and asks the agent to proceed. (IN PROGRESS)
-3.  User asks the agent to save a Visual Correction prompt for a future task and to move on to the next implementation step. (DONE, prompt saved, agent starting frontend)
-4.  User provides an extremely detailed prompt to create the Ghost OS Dashboard by overhauling the homepage and integrating all unused components into a cohesive, animated system with Zen Mode and a Sonic Tuner. (DONE)
-5.  User provides critical analysis and a final Master-Prompt to assemble the homepage with a clear three-zone structure (Control, Workspace, Telemetry). (DONE)
-6.  User asks agent to save an analysis file to GitHub. Agent correctly explains this is a user action. (DONE)
-7.  User asks the agent to perform a comprehensive analysis of all homepage-related components and plans. (DONE, analysis created)
-8.  User provides critical feedback on the Kinetic UI, explaining the need for advanced physics and providing a prompt to create a  file and re-implement the UI based on it. (DONE)
-9.  User provides the initial detailed prompt to create the Kinetic Dot-OS UI. (DONE)
-10. User confirms to proceed with the agent's plan. (DONE)
+1.  **LATEST:** User requests  to be 1/3 width, expandable, and have an upward-fading animation. (Partially done)
+2.  User requests deletion of  (online count). (Done)
+3.  User requests deletion of  (clock/zen) and its replacement with bento tiles. (Done)
+4.  User reports janky scrolling and asks for a new text animation on the search bar. (Done)
+5.  User dislikes the search bar snake animation and asks for a borderless design with a typewriter effect. (Done)
+6.  User reports the hero video is not visible. (Investigated, unresolved)
+7.  User changes mind on animated text, asks for a black bar with an animated snake search border. (Done)
+8.  User asks for animated text phrases to be added over the video. (Done, then reverted)
+9.  User reports a critical bug where tabs load as black screens on first click. (Done, fixed)
+10. User provides critical feedback about the agent using a deprecated chat component and asks for a full cleanup. (Done, fixed)
 
 **Project Health Check:**
-- **Broken:** The  route and associated frontend components exist as files but will result in blank or non-functional pages until the UI is built.
-- **Mocked:** All kinetic widgets on the homepage use mock/static data. The Social Core frontend will need to be connected to the live backend.
+- **Broken:** The hero section video often doesn't play in the testing environment, resulting in a black screen.
+- **Mocked:** The  data is static. All other dashboard widgets (, ) also use static data.
 
 **3rd Party Integrations**
 - 
 - 
 - 
 - 
--  (new)
--  (new)
+- 
+- 
 
 **Testing status**
-- **Testing agent used after significant changes:** NO
+- **Testing agent used after significant changes:** YES (For the Social Core feature)
 - **Troubleshoot agent used after agent stuck in loop:** NO
-- **Test files created:** None
-- **Known regressions:** None identified.
+- **Test files created:** Test files were created by the testing subagent, but no new manual test files were created by the main agent.
+- **Known regressions:** None.
 
 **Credentials to test flow:**
-- N/A. The backend was tested with , and public endpoints are available. For authenticated endpoints, a token would need to be generated via the  flow.
+- N/A.
 
 **What agent forgot to execute**
-- The agent correctly identified a potential bug with Zen Mode's behavior on scroll but deferred fixing it to complete the larger task. This is acceptable prioritization but the bug remains and should be addressed.</analysis>
+- The user requested the redesigned  to be **expandable**. The agent resized it and changed the animation but did not implement any expand/collapse functionality.</analysis>
