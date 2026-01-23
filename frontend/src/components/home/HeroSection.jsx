@@ -202,6 +202,7 @@ export default function HeroSection() {
       >
         <video
           ref={videoRef}
+          autoPlay
           muted
           loop
           playsInline
@@ -214,9 +215,7 @@ export default function HeroSection() {
             inset: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            opacity: videoLoaded ? 1 : 0,
-            transition: 'opacity 0.5s ease'
+            objectFit: 'cover'
           }}
         >
           <source src={VIDEO_URL} type="video/mp4" />
