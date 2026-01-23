@@ -264,6 +264,28 @@ export default function GlassyOmniChat() {
     return () => window.removeEventListener('keydown', handleHotkey);
   }, [isOpen]);
 
+  // --- AUTO-OPEN ON PC BUILDER PAGE ---
+  useEffect(() => {
+    const path = location.pathname.toLowerCase();
+    
+    if (path.includes('pc-builder') || path.includes('assembly')) {
+      // Check if already shown in this session
+      const hasSeenBuilderChat = sessionStorage.getItem('omni_builder_shown');
+      
+      if (!hasSeenBuilderChat) {
+        // Delay to let page load first
+        const timer = setTimeout(() => {
+          setIsOpen(true);
+          setActiveMode('ai');
+          playOpenSound();
+          sessionStorage.setItem('omni_builder_shown', 'true');
+        }, 1200);
+        
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.pathname]);
+
   // --- RULES ENGINE: Подписка на события Glassy Mind ---
   useEffect(() => {
     const handleRulesEvent = (event) => {
