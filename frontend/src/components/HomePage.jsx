@@ -57,7 +57,6 @@ const ROADMAP_POLL = {
 };
 
 export default function HomePage() {
-  useScrollRevealInit();
   const { isZenMode } = useGhostStore();
 
   return (
