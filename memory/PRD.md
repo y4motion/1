@@ -1,133 +1,125 @@
 # Ghost Protocol - PRD
-## Ghost OS Dashboard - Total Kinetic Overhaul
+## Social Core Backend Complete
 
 ### Original Problem Statement
-Transform the homepage from a static "Web 2.0 Frankenstein" into a living "Ghost OS Dashboard" with kinetic physics, gamification, and immersive UI.
-
-### Design Documents
-- `/app/design/GHOST_DASHBOARD_SPEC.md` - Master architecture spec
-- `/app/design/KINETIC_UI_SPEC.md` - Animation bible
+Build comprehensive social layer with:
+- **The Network** - Content feed (posts, guides, showcases)
+- **The Consensus** - King of the Hill idea voting with RP economics
+- **Hall of Monarchs** - Leaderboards and achievements
 
 ---
 
 ## What's Been Implemented (Jan 23, 2025)
 
-### ✅ ZONE A: Hero & Control Deck
-- **HeroSection** - Search with video background, 8 easter eggs
-- **ControlStrip** - Glass panel with time display
-- **ZenModeToggle** - Hides noisy sections, cyan glow when active
-- **SonicTuner** - Volume control + preset selector (locked by level)
+### ✅ Ghost OS Dashboard (Frontend)
+- Control Strip (Zen Mode + Sonic Tuner)
+- System Status Bar, App Grid, Categories, Deals
+- Telemetry Bar
 
-### ✅ ZONE B: Kinetic Workspace
-- **SystemStatusBar** - Live activity feed + trending chips merged
-  - Online count with green pulse
-  - User activities (purchases, views)
-  - HOT trending searches with growth %
-- **KineticAppGrid** - 8 app widgets (4x2)
-  - BUILDER (AI), FEED (LIVE), MINIMAL OS, SWAP
-  - RATING, CREATORS, GUIDES, GROUP BUY (HOT)
-  - Colored icons, hover glow effects
-- **LiveTicker** - Running news with red dot
-- **ReviewDeck** - 3-state stack (Stack → Fan → List)
-- **ActivePoll** - Dotted progress bars voting
-- **KineticCategories** - Bento grid with mixed sizes
-  - Large (2x2): Видеокарты
-  - Medium: Мониторы, Клавиатуры
-  - Small: Аудио, Периферия, etc.
-  - Real images, HOT badges
-- **HotDealsStack** - Swipeable card deck
-  - Countdown timer per deal
-  - Discount badges
-  - Navigation (1/3)
+### ✅ Social Core Backend (NEW)
 
-### ✅ ZONE C: System Telemetry
-- **TelemetryBar** - Terminal-style metrics
-  - LIVE.NODES, PRODUCTS.INDEXED, XP.GENERATED, TRADES.TODAY
-  - Blinking cursor, flash on update
+#### Models Created:
+- `models/network_post.py` - Posts with categories, media, engagement
+- `models/consensus_idea.py` - Ideas with RP economics, voting
+- `models/monarchs.py` - Achievements, leaderboards
 
-### ✅ Infrastructure
-- **useGhostStore.js** (Zustand) - Global state for Zen Mode, Sound, Telemetry
-- All components use `framer-motion` spring physics
-- Stagger animations on page load
+#### Services Created:
+- `services/network_service.py` - Post CRUD, likes, saves, comments, hot score
+- `services/consensus_service.py` - Idea voting, duplicate detection, ranking
+- `services/rp_economics.py` - RP transactions, level requirements
+
+#### API Endpoints:
+
+**Network (`/api/network`):**
+- `GET /feed` - Feed with category filter, sorting
+- `GET /post/:id` - Single post with comments
+- `POST /post` - Create post (level 5+)
+- `POST /post/:id/like` - Like/unlike
+- `POST /post/:id/save` - Save/unsave
+- `POST /post/:id/comment` - Add comment
+- `GET /saved` - User's saved posts
+- `GET /drafts` - User's drafts
+
+**Consensus (`/api/consensus`):**
+- `GET /ideas` - Ranked ideas (King of the Hill)
+- `GET /idea/:id` - Single idea with comments
+- `POST /idea` - Create idea (500 RP, level 10+)
+- `POST /idea/:id/vote` - Vote (50 RP, level 5+)
+- `POST /similar-check` - AI duplicate detection
+- `GET /info` - Costs and requirements
+
+**Monarchs (`/api/monarchs`):**
+- `GET /top` - Leaderboard by period/category
+- `GET /user/:id/rank` - User's current rankings
+- `GET /user/:id/achievements` - User achievements
+- `GET /user/:id/mini-profile` - Hover card data
+- `GET /hall-of-fame` - Top implementers, XP, trust
 
 ---
 
-## Zen Mode Behavior
-When activated:
-- ✅ Hides: SystemStatusBar, LiveTicker
-- ✅ Shows: Hero, ControlStrip, AppGrid, Dashboard widgets
+## RP Economics
+
+| Action | RP Cost | XP Reward |
+|--------|---------|-----------|
+| Create Post | 0 | +50 |
+| Create Idea | 500 | +100 |
+| Vote on Idea | 50 | +10 |
+| Post Liked | - | +5 |
+| Post Saved | - | +10 |
+| Idea Implemented | -500 refund +1000 bonus | +5000 |
+
+### Level Requirements
+- Level 5: Post, Vote
+- Level 10: Create Ideas
 
 ---
 
 ## File Structure
 
 ```
-/app/frontend/src/
-├── stores/
-│   └── useGhostStore.js         # Zustand global state
-├── components/
-│   ├── kinetic/
-│   │   ├── ControlStrip.jsx
-│   │   ├── ZenModeToggle.jsx
-│   │   ├── SonicTuner.jsx
-│   │   ├── SystemStatusBar.jsx
-│   │   ├── KineticAppGrid.jsx
-│   │   ├── KineticCategories.jsx
-│   │   ├── HotDealsStack.jsx
-│   │   ├── TelemetryBar.jsx
-│   │   ├── ReviewDeck.jsx
-│   │   ├── LiveTicker.jsx
-│   │   ├── ActivePoll.jsx
-│   │   └── kinetic.css
-│   └── HomePage.jsx             # Orchestrator
-└── design/
-    ├── GHOST_DASHBOARD_SPEC.md
-    └── KINETIC_UI_SPEC.md
+/app/backend/
+├── models/
+│   ├── network_post.py      # Network posts model
+│   ├── consensus_idea.py    # Consensus ideas model
+│   └── monarchs.py          # Achievements & leaderboards
+├── services/
+│   ├── network_service.py   # Posts CRUD, engagement
+│   ├── consensus_service.py # Ideas voting, ranking
+│   └── rp_economics.py      # RP transactions
+└── routes/
+    ├── network_routes.py    # /api/network/*
+    ├── consensus_routes.py  # /api/consensus/*
+    └── monarchs_routes.py   # /api/monarchs/*
 ```
 
 ---
 
-## Prioritized Backlog
+## Next Steps (Frontend)
 
 ### P0 - Critical
-- None currently
+- [ ] Create `/community` hub page
+- [ ] NetworkFeed.jsx - Masonry grid
+- [ ] ConsensusList.jsx - Ideas with voting
+- [ ] CommunityPulse.jsx - Homepage widget (flip card)
 
-### P1 - High Priority
-- **Sound Files** - Add actual ambient audio files to /public/sounds/
-- **Operator Status Widget** - User XP/RP/Level display
-- **Event Widget** - Countdown to drops/events
-- **Phase 4 Evolution** - DecryptionCube, ClassSelection
+### P1 - High
+- [ ] PostCreate.jsx - Create post modal
+- [ ] IdeaCreate.jsx - Create idea with RP cost
+- [ ] MonarchsBoard.jsx - Leaderboard UI
 
-### P2 - Medium Priority
-- **Ghost OS Menu** - NeuralHub concept from archived doc
-- **Morphing Cards** - layoutId shared element transitions
-- **ProductCard verification**
-
-### P3 - Future
-- Voice & Screen Share
-- Social features
-- Tinkoff + Cryptomus payments
+### P2 - Medium
+- [ ] VaultPage.jsx - Drafts, saved, moderation
+- [ ] NeuralHub menu integration
+- [ ] Notifications (red dots)
 
 ---
 
-## Dependencies Added
-```json
-{
-  "zustand": "^5.0.10",
-  "use-sound": "^5.0.0",
-  "howler": "^2.2.4"
-}
-```
-
----
-
-## Testing Status
-- Visual verification: ✅ All zones working
-- Zen Mode: ✅ Toggles sections correctly
-- Responsive: Not fully tested
-- Regression check: /marketplace, /swap not affected
+## Design Documents
+- `/app/design/GHOST_DASHBOARD_SPEC.md`
+- `/app/design/SOCIAL_CORE_SPEC.md`
+- `/app/design/KINETIC_UI_SPEC.md`
 
 ---
 
 *Updated: January 23, 2025*
-*Status: GHOST OS DASHBOARD MVP COMPLETE*
+*Status: BACKEND COMPLETE, FRONTEND PENDING*
