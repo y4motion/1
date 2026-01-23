@@ -1680,7 +1680,108 @@
   letter-spacing: 0.2em;
 }
 
-/* === TELEMETRY BAR === */
+/* === TELEMETRY BAR V2 - Large Counter Style === */
+.telemetry-bar-v2 {
+  padding: 20px 24px;
+  background: rgba(5, 5, 5, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.telemetry-inner-v2 {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.telemetry-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.telemetry-counters {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.counter-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.counter-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.counter-value-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counter-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.05em;
+}
+
+.counter-block.live .counter-value {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.live-indicator {
+  width: 8px;
+  height: 8px;
+  background: #FF0000;
+  border-radius: 50%;
+  animation: live-pulse-large 1.5s ease-in-out infinite;
+}
+
+@keyframes live-pulse-large {
+  0%, 100% { 
+    opacity: 0.6;
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+  }
+  50% { 
+    opacity: 1;
+    box-shadow: 0 0 12px 4px rgba(255, 0, 0, 0.2);
+  }
+}
+
+.counter-divider {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .telemetry-inner-v2 {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+  }
+  
+  .telemetry-label {
+    position: absolute;
+    left: 24px;
+  }
+  
+  .counter-value {
+    font-size: 22px;
+  }
+}
+
+/* Old TelemetryBar styles (kept for compatibility) */
 .telemetry-bar {
   padding: 16px 24px;
   background: rgba(5, 5, 5, 0.8);
