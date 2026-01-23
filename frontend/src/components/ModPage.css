@@ -630,31 +630,6 @@
   }
 }
 
-.timeline-content {
-  padding-top: 0;
-}
-
-.timeline-year {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--ghost-amber);
-  opacity: 0.6;
-}
-
-.timeline-title {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: var(--ghost-text-soft);
-  margin: 4px 0;
-}
-
-.timeline-desc {
-  font-size: 10px;
-  color: var(--ghost-text-dim);
-  margin: 0;
-}
-
 /* === THE ECOSYSTEM (BENTO GRID) === */
 .ecosystem-section {
   padding: 100px 20px;
