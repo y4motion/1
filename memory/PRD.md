@@ -7,6 +7,17 @@ Build comprehensive social layer with:
 - **The Consensus** - King of the Hill idea voting with RP economics
 - **Hall of Monarchs** - Leaderboards and achievements
 
+### ✅ Bug Fixes & Cleanup - Jan 23, 2025
+
+#### Fixed:
+1. **Black screen bug on page transitions** - Removed `PageTransition` component that conflicted with React.lazy/Suspense
+2. **Duplicate chat components** - Removed old `GlassyChatBar`, kept only `GlassyOmniChat`
+
+#### Cleanup:
+- Moved `/components/deprecated/` to `/components/_deprecated/` (prevents accidental imports)
+- Removed `GlassyChatBar` export from `chat/index.js`
+- Removed unused `PageTransition` import from App.js
+
 ---
 
 ## What's Been Implemented (Jan 23, 2025)
