@@ -64,6 +64,9 @@ function App() {
                   <BrowserRouter>
                     <Header />
                   
+                  {/* Ghost Protocol System Toast */}
+                  <SystemToastContainer />
+                  
                   {/* Main content area */}
                   <main className="main-content">
                     <Breadcrumbs />
