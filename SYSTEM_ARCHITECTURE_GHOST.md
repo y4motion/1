@@ -160,30 +160,59 @@
 
 ## V. IMPLEMENTATION PLAN
 
-### PHASE 1: THE BACKEND CORE ✅ COMPLETED
+### PHASE 1: THE BACKEND CORE ✅ COMPLETED (HARDCORE Edition)
 **Priority:** P0
 **Files:** 
-- `/backend/models/user.py` - Updated
+- `/backend/models/user.py` - Updated with HARDCORE fields
 - `/backend/models/rating.py` - Updated  
-- `/backend/services/leveling_system.py` - NEW (Mathematical Core)
-- `/backend/services/xp_service.py` - NEW (High-level XP/Trust operations)
+- `/backend/services/leveling_system.py` - HARDCORE Mathematical Core
+- `/backend/services/xp_service.py` - High-level XP/Trust operations
 - `/backend/routes/rating_routes.py` - Updated with new endpoints
 
-**Implemented:**
-1. ✅ XP Exponential Curve: `XP = 100 * (Level ^ 1.5)`
-2. ✅ Trust Score with Logarithmic Growth & Decay
-3. ✅ RP Cap: `100 + (Level * 25) + (TrustScore / 10)`
-4. ✅ Vote Weight: `1.0 + (Level/20) + (Trust-500)/500 + ClassBonus + HierarchyBonus`
-5. ✅ Anti-Abuse: Rate limiting (60s), Daily caps (1000 XP social), Diminishing returns
-6. ✅ Class System: Architect/Broker/Observer with 30-day change cooldown
-7. ✅ Trust Decay: -1% weekly for inactive users toward neutral (500)
+**HARDCORE Mechanics Implemented:**
 
-**New API Endpoints:**
-- `POST /api/rating/award-xp` - Award XP with anti-abuse
-- `POST /api/rating/update-trust` - Update trust score
-- `POST /api/rating/select-class` - Select Neural Pathway
-- `GET /api/rating/ghost-profile` - Get full Ghost Protocol profile
-- `GET /api/rating/ghost-profile/{user_id}` - Get user's Ghost profile
+1. ✅ **SINGULARITY XP CURVE:**
+   - Levels 1-40: Fast (exponent 1.5) — 25,298 XP
+   - Levels 40-60: Grind (exponent 2.0) — 85,298 XP
+   - Levels 60-70: Extreme (exponent 2.5) — 243,411 XP
+   - Levels 70-80: Achievement Wall — 1,507,136 XP + ALL achievements required
+
+2. ✅ **ACHIEVEMENT GATES (Levels 70-80):**
+   - Level 70: `sales_master` (50 sales), `trusted_one` (800 Trust)
+   - Level 72: `community_pillar` (100 helpful reviews)
+   - Level 75: `architect_supreme` OR `broker_legend`
+   - Level 78: `veteran` (365 days account age)
+   - Level 80: `monarch_trial` (all previous)
+
+3. ✅ **INNER CIRCLE (Top 100 Only):**
+   - Level >= 80 (Monarch) AND
+   - Trust >= 700 AND
+   - Global Rank <= 100 (monthly RP)
+   - Dynamic "King of the Hill" — lose rank = lose access
+
+4. ✅ **CLASS REBOOT SYSTEM:**
+   - First reboot: 10,000 RP
+   - Each next: x2 cost (20k → 40k → 80k → 160k...)
+   - Resets `class_tier` to 0
+   - Preserves one Legacy Trait from old class
+
+5. ✅ **ENTROPY SYSTEM:**
+   - After 7 days inactive:
+   - RP: -5%/day decay
+   - Trust: -1 point/day toward 500
+   - Class bonuses: DISABLED
+
+6. ✅ **CLASS TIER (0-100):**
+   - Mastery level within class
+   - Improves class bonuses over time
+   - Resets on reboot
+
+**New User Model Fields:**
+- `class_tier`, `class_tier_xp`
+- `reboot_count`, `legacy_traits[]`
+- `is_inner_circle`, `inner_circle_rank`
+- `completed_achievements[]`
+- `class_offline`
 
 ### PHASE 2: THE VISUAL IDENTITY (ID & HALO)
 **Priority:** P0
