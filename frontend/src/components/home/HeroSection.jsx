@@ -233,19 +233,26 @@ export default function HeroSection() {
           </button>
         )}
 
-        {/* Loading indicator */}
+        {/* Loading indicator - hide after 3 seconds even if video not loaded */}
         {!videoLoaded && (
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: 'rgba(255,255,255,0.3)',
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: '12px',
-            letterSpacing: '0.2em'
-          }}>
-            LOADING...
+          <div 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: 'rgba(255,255,255,0.3)',
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '12px',
+              letterSpacing: '0.2em',
+              animation: 'fadeOut 3s forwards 2s'
+            }}
+          >
+            <style>{`
+              @keyframes fadeOut {
+                to { opacity: 0; visibility: hidden; }
+              }
+            `}</style>
           </div>
         )}
 
