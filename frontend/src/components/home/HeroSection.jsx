@@ -10,7 +10,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { Moon, Volume2, VolumeX, ChevronRight } from 'lucide-react';
-import { useGhostStore } from '../stores/useGhostStore';
+import { useGhostStore } from '../../stores/useGhostStore';
 
 const VIDEO_URL = '/hero-video.mp4';
 
