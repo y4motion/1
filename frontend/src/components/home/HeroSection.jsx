@@ -1,12 +1,12 @@
 /**
- * HeroSection.jsx - Video Full Screen + Search Below
+ * HeroSection.jsx - Video + Minimal Search
  * 
- * Video with autoplay fix, search with snake animation
+ * No border, typewriter effect for placeholder
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play } from 'lucide-react';
+import { useInView } from 'framer-motion';
 
 const VIDEO_URL = '/hero-video.mp4';
 
@@ -14,10 +14,35 @@ export default function HeroSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [typedText, setTypedText] = useState('');
+  const [hasTyped, setHasTyped] = useState(false);
   const navigate = useNavigate();
   const videoRef = useRef(null);
+  const searchRef = useRef(null);
+  const isInView = useInView(searchRef, { once: true, margin: "-100px" });
 
-  // Attempt autoplay with multiple strategies
+  // Typewriter effect when search comes into view
+  useEffect(() => {
+    if (isInView && !hasTyped) {
+      const text = 'поиск';
+      let i = 0;
+      setTypedText('');
+      
+      const typeInterval = setInterval(() => {
+        if (i < text.length) {
+          setTypedText(text.slice(0, i + 1));
+          i++;
+        } else {
+          clearInterval(typeInterval);
+          setHasTyped(true);
+        }
+      }, 150);
+
+      return () => clearInterval(typeInterval);
+    }
+  }, [isInView, hasTyped]);
+
+  // Video autoplay
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -25,19 +50,14 @@ export default function HeroSection() {
     const attemptPlay = async () => {
       try {
         video.muted = true;
-        video.playsInline = true;
         await video.play();
         setIsPlaying(true);
       } catch (err) {
-        console.log('Autoplay blocked, showing play button');
         setIsPlaying(false);
       }
     };
 
-    // Try immediately
     attemptPlay();
-
-    // Try again when video is ready
     video.addEventListener('canplay', attemptPlay);
     video.addEventListener('loadeddata', () => {
       setVideoLoaded(true);
@@ -49,17 +69,12 @@ export default function HeroSection() {
     };
   }, []);
 
-  // Manual play handler
   const handlePlayClick = async () => {
     const video = videoRef.current;
     if (video) {
-      try {
-        video.muted = true;
-        await video.play();
-        setIsPlaying(true);
-      } catch (err) {
-        console.error('Play failed:', err);
-      }
+      video.muted = true;
+      await video.play();
+      setIsPlaying(true);
     }
   };
 
@@ -81,84 +96,83 @@ export default function HeroSection() {
       data-testid="hero-section"
     >
       <style>{`
-        @keyframes snake-rotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
         }
         
         @keyframes pulse-play {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-          50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+          50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
         }
         
-        .search-container {
+        .search-strip {
+          height: 80px;
+          background: #000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 20px;
+        }
+        
+        .search-form {
           position: relative;
           width: 100%;
-          max-width: 600px;
-          height: 48px;
-          border-radius: 24px;
-          overflow: hidden;
+          max-width: 400px;
         }
         
         .search-input {
-          position: relative;
-          z-index: 2;
           width: 100%;
-          height: 100%;
           background: transparent;
           border: none;
           outline: none;
-          color: rgba(255, 255, 255, 0.7);
+          color: rgba(255, 255, 255, 0.5);
           font-family: 'JetBrains Mono', monospace;
           font-size: 13px;
-          letter-spacing: 0.1em;
-          padding: 0 24px;
+          letter-spacing: 0.15em;
+          padding: 12px 0;
           text-align: center;
+          caret-color: rgba(255, 255, 255, 0.3);
         }
         
         .search-input::placeholder {
-          color: rgba(255, 255, 255, 0.15);
-          text-transform: lowercase;
+          color: transparent;
         }
         
-        .search-input:focus::placeholder {
-          color: rgba(255, 255, 255, 0.3);
+        .search-input:focus {
+          color: rgba(255, 255, 255, 0.7);
         }
         
-        .snake-glow {
+        /* Typewriter placeholder */
+        .typewriter-placeholder {
           position: absolute;
-          inset: -2px;
-          border-radius: 26px;
-          background: conic-gradient(
-            from 0deg,
-            transparent 0deg,
-            transparent 324deg,
-            rgba(255, 255, 255, 0.5) 342deg,
-            rgba(255, 255, 255, 0.3) 350deg,
-            transparent 360deg
-          );
-          animation: snake-rotate 8s linear infinite;
-          z-index: 1;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          letter-spacing: 0.15em;
+          color: rgba(255, 255, 255, 0.2);
+          pointer-events: none;
+          transition: opacity 0.3s ease;
         }
         
-        .search-container:focus-within .snake-glow {
-          background: conic-gradient(
-            from 0deg,
-            transparent 0deg,
-            transparent 315deg,
-            rgba(255, 255, 255, 0.8) 340deg,
-            rgba(255, 255, 255, 0.5) 352deg,
-            transparent 360deg
-          );
-          animation-duration: 5s;
+        .typewriter-placeholder.typing::after {
+          content: '|';
+          animation: blink 0.8s infinite;
+          margin-left: 2px;
         }
         
-        .search-inner {
-          position: absolute;
-          inset: 1px;
-          background: #050505;
-          border-radius: 24px;
-          z-index: 1;
+        .typewriter-placeholder.done::after {
+          display: none;
+        }
+        
+        .search-form:focus-within .typewriter-placeholder {
+          opacity: 0;
+        }
+        
+        .search-form.has-value .typewriter-placeholder {
+          opacity: 0;
         }
         
         .play-button {
@@ -166,32 +180,36 @@ export default function HeroSection() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 2px solid rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 10;
           transition: all 0.3s ease;
-          animation: pulse-play 2s ease-in-out infinite;
+          animation: pulse-play 3s ease-in-out infinite;
         }
         
         .play-button:hover {
-          background: rgba(255, 255, 255, 0.2);
-          border-color: rgba(255, 255, 255, 0.5);
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.3);
         }
         
-        .play-button svg {
-          color: rgba(255, 255, 255, 0.8);
+        .play-icon {
+          width: 0;
+          height: 0;
+          border-top: 12px solid transparent;
+          border-bottom: 12px solid transparent;
+          border-left: 20px solid rgba(255, 255, 255, 0.6);
           margin-left: 4px;
         }
       `}</style>
 
-      {/* Video Section - Full Viewport */}
+      {/* Video Section */}
       <div 
         style={{ 
           height: '100vh',
@@ -209,7 +227,6 @@ export default function HeroSection() {
           preload="auto"
           onLoadedData={() => setVideoLoaded(true)}
           onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
           style={{
             position: 'absolute',
             inset: 0,
@@ -221,38 +238,11 @@ export default function HeroSection() {
           <source src={VIDEO_URL} type="video/mp4" />
         </video>
 
-        {/* Play button if autoplay blocked */}
+        {/* Play button if needed */}
         {videoLoaded && !isPlaying && (
-          <button 
-            className="play-button"
-            onClick={handlePlayClick}
-            aria-label="Play video"
-          >
-            <Play size={32} />
+          <button className="play-button" onClick={handlePlayClick}>
+            <div className="play-icon" />
           </button>
-        )}
-
-        {/* Loading indicator - hide after 3 seconds even if video not loaded */}
-        {!videoLoaded && (
-          <div 
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              color: 'rgba(255,255,255,0.3)',
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              animation: 'fadeOut 3s forwards 2s'
-            }}
-          >
-            <style>{`
-              @keyframes fadeOut {
-                to { opacity: 0; visibility: hidden; }
-              }
-            `}</style>
-          </div>
         )}
 
         {/* Bottom gradient */}
@@ -262,33 +252,31 @@ export default function HeroSection() {
             bottom: 0,
             left: 0,
             right: 0,
-            height: '20%',
-            background: 'linear-gradient(to top, #050505 0%, transparent 100%)', 
+            height: '25%',
+            background: 'linear-gradient(to top, #000 0%, transparent 100%)', 
             pointerEvents: 'none'
           }} 
         />
       </div>
 
-      {/* Search Strip */}
-      <div 
-        style={{
-          height: '80px',
-          background: '#050505',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '0 20px'
-        }}
-      >
-        <form onSubmit={handleSearch} className="search-container">
-          <div className="snake-glow" />
-          <div className="search-inner" />
+      {/* Search Strip - Minimal */}
+      <div className="search-strip" ref={searchRef}>
+        <form 
+          onSubmit={handleSearch} 
+          className={`search-form ${searchQuery ? 'has-value' : ''}`}
+        >
+          {/* Typewriter placeholder */}
+          <span className={`typewriter-placeholder ${hasTyped ? 'done' : 'typing'}`}>
+            {typedText}
+          </span>
+          
+          {/* Actual input */}
           <input
             type="text"
             className="search-input"
-            placeholder="поиск"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="поиск"
           />
         </form>
       </div>
