@@ -197,14 +197,22 @@ export default function HeroSection() {
         }}
       >
         <form onSubmit={handleSearch} className="search-container">
-          {/* Single Snake Border - No visible base border */}
+          {/* Single Snake - Path traced by moving light */}
           <div className="snake-border">
-            <svg viewBox="0 0 600 48" preserveAspectRatio="none">
-              <rect 
-                className="snake-line"
-                x="0.5" y="0.5" 
-                width="599" height="47"
-                rx="24" ry="24"
+            <svg viewBox="0 0 602 50" preserveAspectRatio="none">
+              {/* Rounded rectangle path: perimeter ≈ 1296px */}
+              <path 
+                className="snake-path"
+                d="M 25 1 
+                   L 577 1 
+                   Q 601 1 601 25 
+                   L 601 25 
+                   Q 601 49 577 49 
+                   L 25 49 
+                   Q 1 49 1 25 
+                   L 1 25 
+                   Q 1 1 25 1 
+                   Z"
               />
             </svg>
           </div>
