@@ -177,46 +177,112 @@ async def get_top_monthly(
 
 
 @router.post("/award-xp")
-async def award_xp(
+async def award_xp_endpoint(
+    request: AwardXPRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Award XP to current user using Ghost Protocol system.
+    Includes anti-abuse protection, rate limiting, and daily caps.
+    """
+    result = await award_xp(
+        user_id=current_user.id,
+        action_type=request.action_type,
+        custom_amount=request.custom_amount
+    )
+    
+    if not result["success"]:
+        raise HTTPException(status_code=400, detail=result["reason"])
+    
+    return result
+
+
+@router.post("/admin/award-xp")
+async def admin_award_xp(
     user_id: str,
     amount: int,
     action: str,
     description: str,
     current_user: User = Depends(get_current_user)
 ):
-    """Award XP to user (admin only or system)"""
+    """Award XP to user (admin only - bypasses anti-abuse)"""
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not authorized")
     
-    db = await get_database()
-    
-    # Update user stats
-    await db.user_stats.update_one(
-        {"user_id": user_id},
-        {"$inc": {"total_xp": amount}},
-        upsert=True
-    )
-    
-    # Log transaction
-    transaction = XPTransaction(
+    result = await award_xp(
         user_id=user_id,
-        point_type="xp",
-        amount=amount,
-        action=action,
-        description=description
+        action_type=action,
+        custom_amount=amount,
+        metadata={"description": description, "admin": current_user.id}
     )
-    await db.xp_transactions.insert_one(transaction.dict())
     
-    # Update user level in main users collection
-    user_stats = await db.user_stats.find_one({"user_id": user_id})
-    if user_stats:
-        new_level = calculate_level(user_stats["total_xp"])
-        await db.users.update_one(
-            {"id": user_id},
-            {"$set": {"level": new_level, "experience": user_stats["total_xp"]}}
-        )
+    return result
+
+
+@router.post("/update-trust")
+async def update_trust_endpoint(
+    request: UpdateTrustRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Update trust score for current user.
+    Used after completing transactions, receiving reviews, etc.
+    """
+    result = await update_trust_score(
+        user_id=current_user.id,
+        action=request.action,
+        is_penalty=request.is_penalty,
+        custom_amount=request.custom_amount
+    )
     
-    return {"status": "awarded", "amount": amount, "user_id": user_id}
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("reason"))
+    
+    return result
+
+
+@router.post("/select-class")
+async def select_class_endpoint(
+    request: SelectClassRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Select or change Neural Pathway (class).
+    Requires Level 10+, can change once every 30 days.
+    """
+    result = await select_class(
+        user_id=current_user.id,
+        new_class=request.class_type
+    )
+    
+    if not result["success"]:
+        raise HTTPException(status_code=400, detail=result["reason"])
+    
+    return result
+
+
+@router.get("/ghost-profile/{user_id}")
+async def get_ghost_profile(user_id: str):
+    """Get full Ghost Protocol profile for a user"""
+    profile = await get_user_ghost_profile(user_id)
+    
+    if not profile:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return profile
+
+
+@router.get("/ghost-profile")
+async def get_my_ghost_profile(
+    current_user: User = Depends(get_current_user)
+):
+    """Get current user's Ghost Protocol profile"""
+    profile = await get_user_ghost_profile(current_user.id)
+    
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    return profile
 
 
 @router.post("/reset-monthly")
