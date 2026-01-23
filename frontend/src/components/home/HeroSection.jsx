@@ -1,46 +1,53 @@
 /**
  * HeroSection.jsx - Video + Minimal Search
  * 
- * No border, typewriter effect for placeholder
+ * Wave brightness animation on "поиск" letters
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const VIDEO_URL = '/hero-video.mp4';
+
+// Individual letter with wave animation
+const WaveLetter = ({ char, index, isVisible }) => {
+  return (
+    <motion.span
+      initial={{ opacity: 0.1 }}
+      animate={isVisible ? {
+        opacity: [0.1, 0.6, 0.1],
+      } : { opacity: 0.1 }}
+      transition={{
+        duration: 2.5,
+        delay: index * 0.3,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      style={{
+        display: 'inline-block',
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: '13px',
+        letterSpacing: '0.25em',
+        color: '#fff'
+      }}
+    >
+      {char}
+    </motion.span>
+  );
+};
 
 export default function HeroSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [typedText, setTypedText] = useState('');
-  const [hasTyped, setHasTyped] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const searchRef = useRef(null);
-  const isInView = useInView(searchRef, { once: true, margin: "-100px" });
+  const isInView = useInView(searchRef, { once: false, margin: "-50px" });
 
-  // Typewriter effect when search comes into view
-  useEffect(() => {
-    if (isInView && !hasTyped) {
-      const text = 'поиск';
-      let i = 0;
-      setTypedText('');
-      
-      const typeInterval = setInterval(() => {
-        if (i < text.length) {
-          setTypedText(text.slice(0, i + 1));
-          i++;
-        } else {
-          clearInterval(typeInterval);
-          setHasTyped(true);
-        }
-      }, 150);
-
-      return () => clearInterval(typeInterval);
-    }
-  }, [isInView, hasTyped]);
+  const searchText = 'поиск';
 
   // Video autoplay
   useEffect(() => {
@@ -88,22 +95,65 @@ export default function HeroSection() {
   return (
     <div 
       className="hero-wrapper"
+      data-testid="hero-section"
       style={{ 
-        display: 'flex',
-        flexDirection: 'column',
         background: '#000'
       }}
-      data-testid="hero-section"
     >
       <style>{`
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
+        .hero-video-section {
+          height: 100vh;
+          position: relative;
+          overflow: hidden;
+          background: #000;
         }
         
-        @keyframes pulse-play {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-          50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+        .hero-video {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        .hero-gradient {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 30%;
+          background: linear-gradient(to top, #000 0%, transparent 100%);
+          pointer-events: none;
+        }
+        
+        .hero-play-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.15);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+        }
+        
+        .hero-play-btn:hover {
+          background: rgba(255,255,255,0.1);
+        }
+        
+        .play-triangle {
+          width: 0;
+          height: 0;
+          border-top: 10px solid transparent;
+          border-bottom: 10px solid transparent;
+          border-left: 16px solid rgba(255,255,255,0.5);
+          margin-left: 3px;
         }
         
         .search-strip {
@@ -116,108 +166,46 @@ export default function HeroSection() {
         
         .hero-search-form {
           position: relative;
-        }
-        
-        .hero-search-field {
-          width: 300px;
-          background: none !important;
-          border: none !important;
-          outline: none !important;
-          box-shadow: none !important;
-          color: rgba(255, 255, 255, 0.4);
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 13px;
-          letter-spacing: 0.2em;
-          padding: 0;
-          text-align: center;
-          caret-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .hero-search-field::placeholder {
-          color: transparent;
-        }
-        
-        .hero-search-field:focus {
-          color: rgba(255, 255, 255, 0.6);
-          background: none !important;
-          border: none !important;
-          box-shadow: none !important;
-        }
-        
-        .typewriter-placeholder {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 13px;
-          letter-spacing: 0.2em;
-          color: rgba(255, 255, 255, 0.15);
-          pointer-events: none;
-          white-space: nowrap;
-        }
-        
-        .typewriter-placeholder.typing::after {
-          content: '▌';
-          animation: blink 0.7s step-end infinite;
-          margin-left: 1px;
-          font-size: 12px;
-        }
-        
-        .typewriter-placeholder.done::after {
-          display: none;
-        }
-        
-        .hero-search-form:focus-within .typewriter-placeholder,
-        .hero-search-form.has-value .typewriter-placeholder {
-          opacity: 0;
-        }
-        
-        .play-button {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
-          cursor: pointer;
-          z-index: 10;
-          transition: all 0.3s ease;
-          animation: pulse-play 3s ease-in-out infinite;
         }
         
-        .play-button:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.3);
+        .hero-search-field {
+          position: absolute;
+          width: 200px;
+          background: transparent !important;
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
+          color: rgba(255,255,255,0.5);
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          letter-spacing: 0.25em;
+          text-align: center;
+          caret-color: rgba(255,255,255,0.3);
+          z-index: 2;
         }
         
-        .play-icon {
-          width: 0;
-          height: 0;
-          border-top: 12px solid transparent;
-          border-bottom: 12px solid transparent;
-          border-left: 20px solid rgba(255, 255, 255, 0.6);
-          margin-left: 4px;
+        .hero-search-field:focus {
+          color: rgba(255,255,255,0.7);
+        }
+        
+        .wave-text {
+          pointer-events: none;
+          user-select: none;
+        }
+        
+        .wave-text.hidden {
+          opacity: 0;
         }
       `}</style>
 
       {/* Video Section */}
-      <div 
-        style={{ 
-          height: '100vh',
-          position: 'relative', 
-          overflow: 'hidden',
-          background: '#000'
-        }}
-      >
+      <div className="hero-video-section">
         <video
           ref={videoRef}
+          className="hero-video"
           autoPlay
           muted
           loop
@@ -225,48 +213,34 @@ export default function HeroSection() {
           preload="auto"
           onLoadedData={() => setVideoLoaded(true)}
           onPlay={() => setIsPlaying(true)}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
-          }}
         >
           <source src={VIDEO_URL} type="video/mp4" />
         </video>
 
-        {/* Play button if needed */}
+        {/* Play button if autoplay blocked */}
         {videoLoaded && !isPlaying && (
-          <button className="play-button" onClick={handlePlayClick}>
-            <div className="play-icon" />
+          <button className="hero-play-btn" onClick={handlePlayClick}>
+            <div className="play-triangle" />
           </button>
         )}
 
-        {/* Bottom gradient */}
-        <div 
-          style={{ 
-            position: 'absolute', 
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '25%',
-            background: 'linear-gradient(to top, #000 0%, transparent 100%)', 
-            pointerEvents: 'none'
-          }} 
-        />
+        <div className="hero-gradient" />
       </div>
 
-      {/* Search Strip - Minimal */}
+      {/* Search Strip */}
       <div className="search-strip" ref={searchRef}>
-        <form 
-          onSubmit={handleSearch} 
-          className={`hero-search-form ${searchQuery ? 'has-value' : ''}`}
-        >
-          {/* Typewriter placeholder */}
-          <span className={`typewriter-placeholder ${hasTyped ? 'done' : 'typing'}`}>
-            {typedText}
-          </span>
+        <form onSubmit={handleSearch} className="hero-search-form">
+          {/* Wave animated text */}
+          <div className={`wave-text ${(isFocused || searchQuery) ? 'hidden' : ''}`}>
+            {searchText.split('').map((char, i) => (
+              <WaveLetter 
+                key={i} 
+                char={char} 
+                index={i} 
+                isVisible={isInView && !isFocused && !searchQuery}
+              />
+            ))}
+          </div>
           
           {/* Actual input */}
           <input
@@ -274,6 +248,8 @@ export default function HeroSection() {
             className="hero-search-field"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
         </form>
       </div>
