@@ -7,6 +7,7 @@ Glassy.Tech - Tech Data Seeder
 
 import asyncio
 import random
+import uuid
 from datetime import datetime, timezone, timedelta
 from typing import List, Dict
 import os
