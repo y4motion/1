@@ -64,18 +64,49 @@ class User(UserBase):
     is_seller: bool = False  # Can create/sell products
     is_moderator: bool = False  # Can moderate content
     
-    # Gamification fields
-    level: int = 1
-    experience: int = 0
+    # ============================================
+    # GHOST PROTOCOL - Core Stats
+    # ============================================
+    
+    # XP System (permanent, cumulative)
+    xp_total: int = 0  # Total experience (never resets)
+    level: int = 1  # Cached level (calculated from xp_total)
+    experience: int = 0  # Legacy field, synced with xp_total
+    
+    # Trust Score (0-1000, default 500 neutral)
+    trust_score: float = Field(default=500.0, ge=0.0, le=1000.0)
+    
+    # Resource Points (spendable currency for influence)
+    rp_balance: int = 0
+    monthly_rp: int = 0  # Rating Points (resets monthly)
+    
+    # Class System (Neural Pathways)
+    class_type: Optional[str] = None  # architect, broker, observer, or None
+    class_selected_at: Optional[datetime] = None
+    
+    # Hierarchy (computed from level): ghost, phantom, operator, monarch
+    hierarchy: str = "ghost"
+    
+    # Anti-abuse tracking
+    last_xp_gain: Optional[datetime] = None
+    daily_xp_earned: int = 0  # Resets daily for social actions
+    daily_xp_reset_date: Optional[datetime] = None
+    
+    # ============================================
+    # Legacy Gamification (kept for compatibility)
+    # ============================================
     coins: int = 0
     achievements: list = Field(default_factory=list)
     daily_quests: list = Field(default_factory=list)
-    inventory: list = Field(default_factory=list)
+    inventory: list = Field(default_factory=list)  # Artifacts, protocols
     wishlist: list = Field(default_factory=list)  # Product IDs
     
-    # New social/rating fields
-    monthly_rp: int = 0  # Rating Points (resets monthly)
+    # Streak and activity
     current_streak: int = 0  # Days of continuous activity
+    longest_streak: int = 0
+    last_activity_date: Optional[datetime] = None
+    
+    # Status
     online_status: str = "online"  # "online", "away", "busy", "offline"
     bio: Optional[str] = None
     location: Optional[str] = None
@@ -94,6 +125,14 @@ class User(UserBase):
     # Profile data
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
+    phone_verified: bool = False
+    id_verified: bool = False  # Passport verification
+    
+    # Radar chart stats (0-100)
+    stats_speed: int = 50
+    stats_trust: int = 50
+    stats_comm: int = 50
+    stats_tech: int = 50
     
 
 class UserResponse(UserBase):
