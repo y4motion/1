@@ -1,12 +1,20 @@
 /**
  * ReviewDeck.jsx
- * Card Stack that fans out on click
- * Nothing aesthetic: Monochrome + dot ratings
+ * KINETIC DOT-OS - The Stack Component
+ * 
+ * Implements 3-state compound animation:
+ * STACK (compact) → FAN (preview) → LIST (expanded)
+ * 
+ * Reference: /app/design/KINETIC_UI_SPEC.md
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { KineticWidget, ExpandButton, springBouncy } from './KineticWidget';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { ChevronRight, X } from 'lucide-react';
+
+// Spring presets from spec
+const springSmooth = { type: "spring", stiffness: 300, damping: 30 };
+const springBouncy = { type: "spring", stiffness: 400, damping: 20 };
 
 const MOCK_REVIEWS = [
   {
@@ -29,44 +37,91 @@ const MOCK_REVIEWS = [
   }
 ];
 
-const ReviewCard = ({ review, index, isExpanded }) => {
-  const stackOffset = isExpanded ? 0 : index * 8;
-  const stackScale = isExpanded ? 1 : 1 - (index * 0.04);
-  const stackOpacity = isExpanded ? 1 : 1 - (index * 0.3);
+// State transforms from spec
+const getCardTransform = (state, index, total) => {
+  const centerIndex = Math.floor(total / 2);
+  
+  switch (state) {
+    case 'stack':
+      return {
+        y: index * 8,
+        x: 0,
+        scale: 1 - (index * 0.04),
+        rotate: 0,
+        zIndex: total - index
+      };
+    case 'fan':
+      return {
+        y: 0,
+        x: (index - centerIndex) * 140,
+        scale: 1,
+        rotate: (index - centerIndex) * 8,
+        zIndex: index === centerIndex ? total : total - Math.abs(index - centerIndex)
+      };
+    case 'list':
+      return {
+        y: 0,
+        x: 0,
+        scale: 1,
+        rotate: 0,
+        zIndex: total - index
+      };
+    default:
+      return {};
+  }
+};
+
+const ReviewCard = ({ review, index, state, total, onClick }) => {
+  const transform = getCardTransform(state, index, total);
+  const isTopCard = index === 0 && state === 'stack';
   
   return (
     <motion.div
-      className="deck-card"
+      layout
+      layoutId={`review-card-${review.id}`}
+      className="review-deck-card"
       initial={false}
       animate={{
-        y: isExpanded ? 0 : stackOffset,
-        scale: stackScale,
-        opacity: stackOpacity,
-        zIndex: 3 - index
+        y: transform.y,
+        x: transform.x,
+        scale: transform.scale,
+        rotate: transform.rotate,
+        opacity: state === 'stack' && index > 0 ? 0.6 : 1
       }}
       transition={springBouncy}
-      style={{
-        position: isExpanded ? 'relative' : 'absolute',
-        marginBottom: isExpanded ? 12 : 0
+      style={{ 
+        zIndex: transform.zIndex,
+        position: state === 'list' ? 'relative' : 'absolute'
       }}
+      whileHover={state !== 'stack' ? { scale: 1.02, y: -4 } : {}}
+      onClick={onClick}
     >
-      <div className="review-content">
-        <p className="review-text">"{review.text}"</p>
-        <div className="review-author">
-          <div className="author-avatar">
-            {review.author.charAt(0).toUpperCase()}
+      <div className="card-inner">
+        <p className="review-quote">"{review.text}"</p>
+        <div className="review-meta">
+          <div className="author-badge">
+            <span className="author-initial">{review.author[0].toUpperCase()}</span>
           </div>
-          <span className="author-name">@{review.author}</span>
-          <div className="review-rating">
-            {[1, 2, 3, 4, 5].map(i => (
+          <span className="author-handle">@{review.author}</span>
+          <div className="rating-dots">
+            {[1,2,3,4,5].map(i => (
               <span 
                 key={i} 
-                className={`rating-dot ${i <= review.rating ? 'filled' : ''}`}
+                className={`dot ${i <= review.rating ? 'filled' : ''}`}
               />
             ))}
           </div>
         </div>
       </div>
+      
+      {/* Recording dot - only on top card in stack */}
+      {isTopCard && (
+        <motion.div 
+          className="recording-indicator"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+      )}
     </motion.div>
   );
 };
@@ -76,44 +131,102 @@ export const ReviewDeck = ({
   onExpand,
   className = ''
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Compound state: 'stack' | 'fan' | 'list'
+  const [deckState, setDeckState] = useState('stack');
   
-  const toggleExpand = (e) => {
-    e.stopPropagation();
-    setIsExpanded(!isExpanded);
+  const cycleState = () => {
+    if (deckState === 'stack') {
+      setDeckState('fan');
+    } else if (deckState === 'fan') {
+      setDeckState('list');
+    }
+    // List state has explicit close button
   };
   
-  const handleFullPage = (e) => {
+  const collapse = () => {
+    setDeckState('stack');
+  };
+  
+  const goToFullPage = (e) => {
     e.stopPropagation();
     onExpand?.();
   };
-  
+
   return (
-    <KineticWidget 
-      className={`review-deck ${className}`}
-      hover={false}
-      onClick={toggleExpand}
-    >
-      <div className={`deck-stack ${isExpanded ? 'deck-expanded' : ''}`}>
-        <AnimatePresence>
-          {reviews.slice(0, 3).map((review, i) => (
-            <ReviewCard 
-              key={review.id}
-              review={review}
-              index={i}
-              isExpanded={isExpanded}
-            />
-          ))}
-        </AnimatePresence>
-      </div>
-      
-      <div className="deck-controls">
-        <span className="deck-hint">
-          {isExpanded ? 'TAP TO COLLAPSE' : 'TAP TO EXPAND'}
-        </span>
-        <ExpandButton onClick={handleFullPage} size="sm" />
-      </div>
-    </KineticWidget>
+    <LayoutGroup>
+      <motion.div 
+        layout
+        className={`review-deck-container ${deckState} ${className}`}
+        data-testid="review-deck"
+        onClick={deckState !== 'list' ? cycleState : undefined}
+      >
+        {/* Header */}
+        <motion.div layout className="deck-header">
+          <div className="deck-title">
+            <span className="live-dot" />
+            <span>ОТЗЫВЫ</span>
+          </div>
+          <AnimatePresence mode="wait">
+            {deckState === 'list' ? (
+              <motion.button
+                key="close"
+                className="deck-action"
+                onClick={collapse}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={14} />
+              </motion.button>
+            ) : (
+              <motion.button
+                key="expand"
+                className="deck-action"
+                onClick={goToFullPage}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                whileHover={{ scale: 1.1, rotate: 45 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <ChevronRight size={14} />
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </motion.div>
+        
+        {/* Cards Container */}
+        <motion.div 
+          layout
+          className={`deck-cards ${deckState}`}
+        >
+          <AnimatePresence>
+            {reviews.slice(0, 3).map((review, i) => (
+              <ReviewCard
+                key={review.id}
+                review={review}
+                index={i}
+                state={deckState}
+                total={3}
+                onClick={deckState === 'stack' ? cycleState : undefined}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+        
+        {/* State Hint */}
+        <motion.div 
+          layout 
+          className="deck-hint"
+          animate={{ opacity: deckState === 'list' ? 0 : 0.4 }}
+        >
+          {deckState === 'stack' && 'TAP TO FAN'}
+          {deckState === 'fan' && 'TAP TO EXPAND'}
+        </motion.div>
+      </motion.div>
+    </LayoutGroup>
   );
 };
 
