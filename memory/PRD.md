@@ -1,109 +1,102 @@
-# Glassy Omni-Chat PRD v2.3
+# Minimal Mod - Product Requirements Document
 
-## Оригинальная задача
-Многофункциональный чат-виджет "Glassy Omni-Chat" с glassmorphism эстетикой + Temple of System (ModPage) в стиле Cartenon Temple из Solo Leveling.
+## Original Problem Statement
+Build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called "Ghost Protocol." The project features a "Toriki / Future Minimal / Japandi Tech" aesthetic.
 
-## Выполнено ✅ (20.01.2026)
+## Core System: Ghost Protocol
 
-### Функционал Chat
-- ✅ **Sound System** - Web Audio API синтезированные стеклянные звуки
-- ✅ **WebSocket Server** - Real-time коммуникация (/ws endpoint)
-- ✅ **Easter Egg** - "sudo make me a sandwich" → "🥪 Okay."
-- ✅ **Mixed Content Fix** - REACT_APP_BACKEND_URL везде
-- ✅ **Локализация** - Русский по умолчанию
-- ✅ **Hotkeys** - Ctrl+Space, Escape
-- ✅ **Holographic Drop Zone** - Drag & Drop для файлов
-- ✅ **Neural Voice Link** - Web Speech API
+### Trinity Metrics
+- **XP (Synchronization)**: Cumulative experience showing seniority
+- **TS (Trust Score)**: Social credit (0-1000) for safety
+- **RP (Resource Points)**: Influence energy spent on voting
 
-### Функционал ModPage (Temple of System) ✅
-- ✅ **THE GUARDIANS** - Scroll-parallax статуи с пробуждающимися глазами
-- ✅ **Monument Frieze** - Hero с noise-эффектом
-- ✅ **THE ORIGIN Timeline** - Интерактивный таймлайн 2021-2024
-- ✅ **THE HIDDEN ARMORY** - Split-screen магазин артефактов
-- ✅ **THE ECOSYSTEM** - Minimal OS, Concept Lab, Top Works
+### Class Hierarchy
+- **Level 0-10: GHOST** — Observer (read-only + purchases)
+- **Level 10-40: PHANTOM** — Active participant (free Swap, voting, chat)
+- **Level 40-80: OPERATOR** — Influential node (Hidden Armory access, x1.5 vote weight)
+- **Level 80+: MONARCH** — Elite (Direct Line with founders, x2 vote weight)
 
-### ✅ Cartenon Abyss & Blue Flame Update (20.01.2026)
-Полная переработка визуальной эстетики по референсам Solo Leveling:
+### Neural Pathways (at Level 10)
+- **ARCHITECT (⬡)**: +25% XP for builds, blueprint overlay
+- **BROKER (◇)**: -15% Swap commission, +RP for trades
+- **OBSERVER (◉)**: Expert verified reviews, +50% RP for reviews
 
-**Multi-Layer Background (The Abyss):**
-- База: Абсолютный чёрный #020204
-- Слой 1: Noise texture 5% opacity
-- Слой 2: Виньетка-туннель (radial-gradient 80%->black)
-- Слой 3: Синяя мана-аура из центра (rgba(30,60,255,0.06))
+## Implemented Features
 
-**Hidden Seal (Скрытая Печать):**
-- IDLE: Почти невидимая полоска (rgba 0.015), серый текст
-- HOVER: Синий огонь пробуждения (cyan #00eaff glow)
-- Edge pulse анимация при наведении
+### Phase 1: Backend Core ✅ (January 2026)
+- Mathematical leveling system (`/backend/services/leveling_system.py`)
+- XP service with anti-abuse mechanisms (`/backend/services/xp_service.py`)
+- Living Legends engine for dynamic titles (`/backend/services/living_legends.py`)
+- Updated User and Rating models with all new fields
 
-**Guardian Eyes:**
-- Изменены на красно-оранжевое свечение (#ff4444/#ff6b35)
-- Соответствует референсам Shadow Monarch
+### Phase 2: Visual Identity ✅ (January 2026)
+- **UserResonance.jsx**: Trust-based avatar styling with halo, filters, glitch effects
+- **ClassArtifact.jsx**: SVG icons for Neural Pathway specializations
+- **HolographicID.jsx**: Digital passport with spider chart, 3D tilt, glass morphism
+- **Demo page**: `/system-demo` for component showcase
+- CSS variables for Ghost Protocol color system
 
-### Архитектура
+## Architecture
 
 ```
-Frontend:
-├── utils/glassySound.js        # Web Audio синтез
-├── utils/glassyWebSocket.js    # WS клиент
-├── components/chat/GlassyOmniChat.jsx
-
-Backend:
-├── glassy_mind/
-│   ├── router.py               # /api/mind/chat
-│   ├── websocket_handler.py    # /ws endpoint
-│   ├── rules_engine.py         # 7 правил
-│   └── chat_agent.py           # GPT интеграция
+/app/
+├── SYSTEM_ARCHITECTURE_GHOST.md  # Master project plan
+├── backend/
+│   ├── models/
+│   │   ├── user.py               # User model with Ghost Protocol fields
+│   │   └── rating.py             # Rating system model
+│   ├── services/
+│   │   ├── leveling_system.py    # Mathematical core
+│   │   ├── living_legends.py     # Dynamic titles engine
+│   │   └── xp_service.py         # XP operations
+│   └── server.py
+└── frontend/
+    └── src/
+        ├── components/
+        │   ├── system/           # Ghost Protocol components
+        │   │   ├── UserResonance.jsx
+        │   │   ├── ClassArtifact.jsx
+        │   │   ├── HolographicID.jsx
+        │   │   └── index.js
+        │   ├── demo/
+        │   │   └── SystemDemo.jsx
+        │   └── ModPage.jsx
+        └── index.css             # Global styles + Ghost Protocol CSS vars
 ```
 
-### Исправленные файлы (Mixed Content)
-- ProductDetailPage.jsx
-- QATab.jsx, ReviewsTab.jsx
-- LiveChatWidget.jsx
-- FastBuyModal.jsx
-- GlassyChatBar.jsx
-- MindDashboard.jsx
-- MarketplacePage.jsx
-- PCBuilderPage.jsx
-- CompatibilityResolver.jsx
+## Prioritized Backlog
 
-## API Endpoints
+### P0 — High Priority
+- [ ] **Phase 3: Mod Temple & Hidden Shop** — Rebuild `/mod` page with VoidShop, Amber Thread
 
-| Endpoint | Метод | Описание |
-|----------|-------|----------|
-| /api/mind/chat | POST | AI чат |
-| /api/mind/rules | GET | Активные правила |
-| /ws | WS | Real-time |
-| /ws/status | GET | WebSocket статус |
+### P1 — Medium Priority  
+- [ ] **Phase 4: Evolution (Interactivity)** — DecryptionCube, ClassSelection, System Notifications
+- [ ] Integrate UserResonance into existing chat/profile components
 
-## Тестирование
-- Lint: ✅ No issues
-- API: ✅ Working
-- WebSocket: ✅ Working
+### P2 — Lower Priority
+- [ ] Voice & Screen Share for support chat
+- [ ] Full User Trust/Rating System UI
+- [ ] Social features: `/feed`, `/articles`, `/creators`
+- [ ] Alternate payments (Tinkoff + Cryptomus)
+- [ ] Performance optimization
 
-### Архитектура ModPage
-```
-/app/frontend/src/components/
-├── ModPage.jsx          # Temple of System (1000+ lines)
-├── ModPage.css          # Digital Brutalism стили
+## Technical Notes
+
+### CSS Variables (Ghost Protocol)
+```css
+--ghost-void: #050505
+--ghost-amber: #FF9F43
+--ghost-cyan: #00FFD4
+--ghost-void-blue: #2E5CFF
+--halo-verified: #00FFD4
+--halo-danger: #FF4444
 ```
 
-## TODO (P1-P2)
-- [ ] Voice & Screen Share для Support mode
-- [ ] Smart Start для PC Builder
-- [ ] ProductCard expanded panel verification
-- [ ] Guild real-time активность
-
-## Backlog
-- [ ] User Trust/Rating System
-- [ ] Social features: /feed, /articles, /creators
-- [ ] Альтернативные платежи (Tinkoff + Cryptomus)
-- [ ] Performance optimization (lazy loading)
-
-## MOCKED/HARDCODED
-- 🔶 ARMORY_ARTIFACTS - Хардкод продуктов в ModPage.jsx
-- 🔶 MONUMENT_MESSAGES - Хардкод сообщений в ModPage.jsx
-- 🔶 Chat fallback responses на фронтенде
+### Key Dependencies
+- `react-tilt`: 3D tilt effect for cards
+- `recharts`: Spider/Radar charts
+- `framer-motion`: Animations
 
 ---
-Последнее обновление: 20 января 2026
+*Last Updated: January 23, 2026*
+*Version: 2.0.0*
