@@ -61,53 +61,69 @@ class User(UserBase):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
     is_admin: bool = False
-    is_seller: bool = False  # Can create/sell products
-    is_moderator: bool = False  # Can moderate content
+    is_seller: bool = False
+    is_moderator: bool = False
     
     # ============================================
-    # GHOST PROTOCOL - Core Stats
+    # GHOST PROTOCOL - Core Stats (HARDCORE)
     # ============================================
     
     # XP System (permanent, cumulative)
-    xp_total: int = 0  # Total experience (never resets)
-    level: int = 1  # Cached level (calculated from xp_total)
-    experience: int = 0  # Legacy field, synced with xp_total
+    xp_total: int = 0
+    level: int = 1
+    experience: int = 0  # Legacy field
     
     # Trust Score (0-1000, default 500 neutral)
     trust_score: float = Field(default=500.0, ge=0.0, le=1000.0)
     
-    # Resource Points (spendable currency for influence)
+    # Resource Points (spendable, subject to entropy)
     rp_balance: int = 0
-    monthly_rp: int = 0  # Rating Points (resets monthly)
+    monthly_rp: int = 0
     
-    # Class System (Neural Pathways)
-    class_type: Optional[str] = None  # architect, broker, observer, or None
+    # Class System - HARDCORE
+    class_type: Optional[str] = None  # architect, broker, observer
+    class_tier: int = 0               # Mastery level within class (0-100)
+    class_tier_xp: int = 0            # XP toward next tier
     class_selected_at: Optional[datetime] = None
     
-    # Hierarchy (computed from level): ghost, phantom, operator, monarch
+    # Reboot System
+    reboot_count: int = 0             # Times class was changed
+    legacy_traits: List[str] = Field(default_factory=list)  # Passive bonuses from past classes
+    
+    # Hierarchy (ghost, phantom, operator, monarch)
     hierarchy: str = "ghost"
+    
+    # Inner Circle (Top 100 Monarchs only)
+    is_inner_circle: bool = False
+    inner_circle_rank: Optional[int] = None
+    
+    # Achievement Gating (for levels 70-80)
+    completed_achievements: List[str] = Field(default_factory=list)
     
     # Anti-abuse tracking
     last_xp_gain: Optional[datetime] = None
-    daily_xp_earned: int = 0  # Resets daily for social actions
+    daily_xp_earned: int = 0
     daily_xp_reset_date: Optional[datetime] = None
     
+    # Entropy tracking
+    class_offline: bool = False  # Class bonuses disabled due to inactivity
+    
     # ============================================
-    # Legacy Gamification (kept for compatibility)
+    # Legacy Gamification
     # ============================================
     coins: int = 0
     achievements: list = Field(default_factory=list)
     daily_quests: list = Field(default_factory=list)
-    inventory: list = Field(default_factory=list)  # Artifacts, protocols
-    wishlist: list = Field(default_factory=list)  # Product IDs
+    inventory: list = Field(default_factory=list)
+    wishlist: list = Field(default_factory=list)
     
     # Streak and activity
-    current_streak: int = 0  # Days of continuous activity
+    current_streak: int = 0
     longest_streak: int = 0
     last_activity_date: Optional[datetime] = None
     
     # Status
-    online_status: str = "online"  # "online", "away", "busy", "offline"
+    online_status: str = "online"
     bio: Optional[str] = None
     location: Optional[str] = None
     website: Optional[str] = None
@@ -118,7 +134,7 @@ class User(UserBase):
     is_verified_creator: bool = False
     creator_profile_id: Optional[str] = None
     
-    # Video hover privilege (Top-10 monthly)
+    # Video hover privilege
     has_video_hover: bool = False
     video_hover_url: Optional[str] = None
     
@@ -126,7 +142,7 @@ class User(UserBase):
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
     phone_verified: bool = False
-    id_verified: bool = False  # Passport verification
+    id_verified: bool = False
     
     # Radar chart stats (0-100)
     stats_speed: int = 50
