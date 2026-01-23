@@ -32,7 +32,9 @@ export default function HeroSection() {
         muted 
         loop 
         playsInline
+        preload="auto"
         onLoadedData={() => setVideoLoaded(true)}
+        onCanPlay={() => setVideoLoaded(true)}
         style={{
           position: 'absolute',
           inset: 0,
@@ -41,11 +43,30 @@ export default function HeroSection() {
           objectFit: 'cover',
           opacity: videoLoaded ? 1 : 0,
           transition: 'opacity 0.8s ease',
-          zIndex: 1
+          zIndex: 1,
+          background: '#000'
         }}
       >
         <source src={VIDEO_URL} type="video/mp4" />
       </video>
+
+      {/* Loading state */}
+      {!videoLoaded && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1,
+          color: 'rgba(255,255,255,0.3)',
+          fontSize: '12px',
+          fontFamily: 'JetBrains Mono, monospace',
+          letterSpacing: '0.2em'
+        }}>
+          LOADING...
+        </div>
+      )}
 
       {/* Subtle dark overlay at bottom for content below */}
       <div 
