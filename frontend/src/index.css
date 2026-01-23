@@ -71,6 +71,37 @@ code {
   }
 }
 
+/* ===== GHOST PROTOCOL COLOR SYSTEM ===== */
+:root {
+  /* Ghost Protocol Palette */
+  --ghost-void: #050505;
+  --ghost-deep: #0a0a0b;
+  --ghost-surface: #141416;
+  --ghost-elevated: #1c1c1f;
+  
+  /* Text Hierarchy */
+  --ghost-text-dim: rgba(255, 255, 255, 0.25);
+  --ghost-text-muted: rgba(255, 255, 255, 0.45);
+  --ghost-text-soft: rgba(255, 255, 255, 0.7);
+  --ghost-text-pure: #e8e8ea;
+  
+  /* Accent Colors */
+  --ghost-amber: #FF9F43;
+  --ghost-void-blue: #2E5CFF;
+  --ghost-cyan: #00FFD4;
+  
+  /* Trust Halo Colors */
+  --halo-verified: #00FFD4;
+  --halo-neutral: rgba(255, 255, 255, 0.4);
+  --halo-warning: #FF9F43;
+  --halo-danger: #FF4444;
+  
+  /* Glass Effects */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-hover: rgba(255, 255, 255, 0.08);
+}
+
 @layer base {
   * {
     @apply border-border;
