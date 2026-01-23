@@ -22,17 +22,14 @@ import './ModPage.css';
 
 // === SOUND EFFECTS (Placeholders) ===
 const playRumbleSound = () => {
-  // TODO: Deep rumble when approaching gate
   console.log('🔊 Rumble...');
 };
 
 const playStoneSlide = () => {
-  // TODO: Heavy stone sliding sound
   console.log('🔊 Stone slide...');
 };
 
 const playGateOpen = () => {
-  // TODO: Ancient gate opening
   console.log('🔊 Gate opening...');
 };
 
