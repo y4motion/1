@@ -1,0 +1,555 @@
+/**
+ * kinetic.css
+ * Kinetic Dot-OS Design System
+ * 
+ * Aesthetic: Nothing (dot matrix, monochrome, red accents)
+ * Physics: Spring-based floating islands
+ */
+
+/* === BASE KINETIC WIDGET === */
+.kinetic-widget {
+  position: relative;
+  background: rgba(23, 23, 23, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kinetic-widget:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.kinetic-widget.with-glow:hover {
+  box-shadow: 0 0 40px -10px rgba(255, 255, 255, 0.1);
+}
+
+/* Recording Dot (Nothing style red indicator) */
+.recording-dot {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 6px;
+  height: 6px;
+  background: #FF0000;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kinetic-widget:hover .recording-dot {
+  opacity: 1;
+  animation: recording-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes recording-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* === DOT MATRIX TEXT === */
+.dot-text {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.dot-text-xs { font-size: 9px; }
+.dot-text-sm { font-size: 10px; }
+.dot-text-md { font-size: 12px; }
+.dot-text-lg { font-size: 14px; }
+.dot-text-xl { font-size: 18px; }
+
+.dot-text-muted { color: rgba(255, 255, 255, 0.4); }
+.dot-text-accent { color: #FF0000; }
+.dot-text-amber { color: #FF9F43; }
+
+/* === STATUS INDICATOR === */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.status-dot-ping {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-color);
+  animation: status-ping 1.5s ease-out infinite;
+  opacity: 0.5;
+}
+
+.status-dot-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.status-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+@keyframes status-ping {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* === DOTTED PROGRESS BAR === */
+.dotted-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 80px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dotted pattern fill */
+.progress-fill {
+  height: 100%;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      var(--progress-color, white) 0px,
+      var(--progress-color, white) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+  opacity: 0.8;
+  transition: width 0.5s ease;
+}
+
+.progress-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 35px;
+  text-align: right;
+}
+
+/* === EXPAND BUTTON === */
+.expand-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.expand-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.expand-button svg {
+  width: 50%;
+  height: 50%;
+}
+
+/* === REVIEW DECK === */
+.review-deck {
+  position: relative;
+  min-height: 200px;
+  cursor: pointer;
+}
+
+.deck-stack {
+  position: relative;
+  width: 100%;
+}
+
+.deck-card {
+  position: absolute;
+  width: 100%;
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px;
+  transform-origin: center bottom;
+}
+
+.deck-card:nth-child(1) { z-index: 3; }
+.deck-card:nth-child(2) { z-index: 2; transform: translateY(8px) scale(0.96); opacity: 0.7; }
+.deck-card:nth-child(3) { z-index: 1; transform: translateY(16px) scale(0.92); opacity: 0.4; }
+
+.deck-expanded .deck-card {
+  position: relative;
+  transform: none !important;
+  opacity: 1 !important;
+  margin-bottom: 12px;
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.author-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+}
+
+.review-rating {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.rating-dot.filled {
+  background: #FF9F43;
+}
+
+.deck-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.deck-hint {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.1em;
+}
+
+/* === LIVE TICKER === */
+.live-ticker {
+  overflow: hidden;
+  position: relative;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ticker-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ticker-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #FF0000;
+  border-radius: 50%;
+  animation: recording-pulse 1.5s ease-in-out infinite;
+}
+
+.ticker-track {
+  overflow: hidden;
+  position: relative;
+}
+
+.ticker-content {
+  display: flex;
+  gap: 60px;
+  animation: ticker-scroll 30s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-track:hover .ticker-content {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ticker-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.ticker-separator {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 10px;
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* === ACTIVE POLL === */
+.active-poll {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.poll-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.poll-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.poll-votes {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.poll-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.poll-option {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.poll-option:hover {
+  transform: translateX(4px);
+}
+
+.poll-option-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.option-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.option-percent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* === OS WIDGET === */
+.os-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.os-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.os-info h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 8px 0;
+}
+
+.os-version {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+}
+
+.os-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.os-stat {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: white;
+}
+
+.os-download {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kinetic-widget:hover .os-download {
+  opacity: 1;
+}
+
+.download-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+  background: white;
+  color: black;
+  border-color: white;
+}
+
+/* === LAB SLIDER === */
+.lab-slider {
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-item {
+  flex-shrink: 0;
+  width: 140px;
+  scroll-snap-align: start;
+  cursor: grab;
+}
+
+.slider-item:active {
+  cursor: grabbing;
+}
+
+.slider-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.slider-item:hover .slider-image {
+  transform: scale(1.05);
+}
+
+.slider-name {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.slider-hint {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.1em;
+}
