@@ -1,5 +1,5 @@
 # Ghost Protocol - PRD
-## Social Core Backend Complete
+## Social Core Complete
 
 ### Original Problem Statement
 Build comprehensive social layer with:
@@ -16,7 +16,31 @@ Build comprehensive social layer with:
 - System Status Bar, App Grid, Categories, Deals
 - Telemetry Bar
 
-### ✅ Social Core Backend (NEW)
+### ✅ Social Core Backend
+- Network API: Feed, posts CRUD, likes, saves, comments
+- Consensus API: Ideas voting with RP economics
+- Monarchs API: Leaderboards and achievements
+
+### ✅ Social Core Frontend (NEW - Jan 23, 2025)
+
+#### Pages Created:
+- `/community` - CommunityHub.jsx - Hub with 3 cards (Network, Consensus, Monarchs)
+- `/community/network` - NetworkPage.jsx - Masonry feed with category/sort filters
+- `/community/consensus` - ConsensusPage.jsx - King of the Hill ideas list
+
+#### Components Created:
+- `NetworkFeed.jsx` - Masonry grid with posts, category tabs, sort options
+- `ConsensusList.jsx` - Ideas list with RP voting, rank indicators
+- `CommunityPulse.jsx` - Homepage flip-card widget (auto-flip every 8s)
+
+#### Integration:
+- Added routes in App.js
+- CommunityPulse integrated into HomePage dashboard row
+- CSS styles in social.css
+
+#### Test Coverage:
+- 22/22 backend API tests passed
+- All frontend pages tested and working
 
 #### Models Created:
 - `models/network_post.py` - Posts with categories, media, engagement
@@ -72,9 +96,11 @@ Build comprehensive social layer with:
 - Level 5: Post, Vote
 - Level 10: Create Ideas
 
+```
+
 ---
 
-## File Structure
+## Backend File Structure
 
 ```
 /app/backend/
@@ -94,23 +120,53 @@ Build comprehensive social layer with:
 
 ---
 
-## Next Steps (Frontend)
+## Next Steps 
 
-### P0 - Critical
-- [ ] Create `/community` hub page
-- [ ] NetworkFeed.jsx - Masonry grid
-- [ ] ConsensusList.jsx - Ideas with voting
-- [ ] CommunityPulse.jsx - Homepage widget (flip card)
+### P0 - Critical (DONE)
+- [x] Create `/community` hub page
+- [x] NetworkFeed.jsx - Masonry grid
+- [x] ConsensusList.jsx - Ideas with voting
+- [x] CommunityPulse.jsx - Homepage widget (flip card)
 
-### P1 - High
+### P1 - High (Upcoming)
+- [ ] **Visual Correction Pass** - Align with Nothing OS aesthetic (see FUTURE_VISUAL_CORRECTION.md)
 - [ ] PostCreate.jsx - Create post modal
 - [ ] IdeaCreate.jsx - Create idea with RP cost
 - [ ] MonarchsBoard.jsx - Leaderboard UI
+- [ ] Phase 4: The Evolution - DecryptionCube, ClassSelection
 
 ### P2 - Medium
 - [ ] VaultPage.jsx - Drafts, saved, moderation
 - [ ] NeuralHub menu integration
 - [ ] Notifications (red dots)
+- [ ] Zen Mode scroll bug fix
+
+---
+
+## Known Issues
+
+| Issue | Priority | Status |
+|-------|----------|--------|
+| Zen Mode scroll bug - elements below viewport may still appear | P2 | NOT STARTED |
+| ProductCard expanded panel robustness | P2 | NOT STARTED |
+
+---
+
+## File Structure
+
+```
+/app/frontend/src/
+├── pages/community/
+│   ├── CommunityHub.jsx     # /community landing
+│   ├── NetworkPage.jsx      # /community/network
+│   └── ConsensusPage.jsx    # /community/consensus
+├── components/social/
+│   ├── NetworkFeed.jsx      # Masonry feed
+│   ├── ConsensusList.jsx    # Ideas list  
+│   ├── CommunityPulse.jsx   # Homepage widget
+│   ├── social.css           # Styles
+│   └── index.js             # Exports
+└── App.js                   # Routes added
 
 ---
 
@@ -122,4 +178,4 @@ Build comprehensive social layer with:
 ---
 
 *Updated: January 23, 2025*
-*Status: BACKEND COMPLETE, FRONTEND PENDING*
+*Status: SOCIAL CORE COMPLETE (Backend + Frontend)*
