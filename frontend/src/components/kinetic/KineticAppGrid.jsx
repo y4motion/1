@@ -39,7 +39,7 @@ const apps = [
     icon: Cpu, 
     title: 'BUILDER', 
     subtitle: 'Собрать ПК',
-    link: '/assembly',
+    link: '/pc-builder',
     badge: 'AI',
     color: '#FFFFFF'
   },
