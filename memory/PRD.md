@@ -1,107 +1,112 @@
 # Ghost Protocol - PRD
-## Hyper-stylized atmospheric website with "Kinetic Dot-OS" UI
+## Kinetic Dot-OS: Howard.le x Nothing Style UI
 
 ### Original Problem Statement
-Build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called "Ghost Protocol." The UI should follow "Kinetic Dot-OS" style - combining Nothing brand aesthetics (dot matrix, monochrome, red accents) with Howard.le spring physics animations.
+Build a hyper-stylized website with "Kinetic Dot-OS" UI following Howard.le motion design principles + Nothing OS aesthetic. The UI implements **Layout Projection**, **Shared Element Transitions**, and **Compound State Machines**.
 
-### Core Aesthetic Principles
-- **Floating Islands**: Elements "float" with rounded corners, glass-morphism, spring physics
-- **Nothing Aesthetics**: Dot matrix fonts, monochrome palette, red micro-accents (#FF0000)
-- **Spring Physics**: All animations use `framer-motion` with spring configs
-- **Live Data**: Widgets "breathe" with real-time updates
+### Design Spec
+See `/app/design/KINETIC_UI_SPEC.md` for animation bible.
 
 ---
 
 ## What's Been Implemented
 
-### ✅ Phase 1-2: Visual Core (COMPLETE)
-- `UserResonance.jsx`, `HolographicID.jsx`, `ClassArtifact.jsx` - Trust score visualization
-- Ghost Protocol backend (leveling, trust scores, Living Legend titles)
+### ✅ Phase 1-3: Ghost Protocol Core (COMPLETE)
+- Trust score visualization, leveling system
+- ModPage with Split Gate, Void Shop, Timeline
 
-### ✅ Phase 3: Mod Temple (COMPLETE)
-- Split Gate animation revealing Void Shop
-- Monument header with Etch Legacy
-- Origin Thread horizontal timeline with neural pulse animation
-- System Audio & Toast notifications
+### ✅ Kinetic Dot-OS: Howard.le Level UI (COMPLETE - Jan 23, 2025)
 
-### ✅ Kinetic Dot-OS UI Overhaul (COMPLETE - Jan 23, 2025)
-**HomePage:**
-- `LiveTicker` - Running news ticker with red recording dot
-- `ReviewDeck` - Card stack that fans out on click (dot ratings)
-- `ActivePoll` - Live voting with dotted progress bars
-- `KineticWidget` - Stats widget with system status
+**The Stack (ReviewDeck) - 3 State Compound Animation:**
+```
+STACK (compact) → FAN (preview) → LIST (expanded)
+```
+- Cards physically transform with rotation (-8°, 0°, +8°) and translation
+- Spring physics on all transitions (`stiffness: 400, damping: 20`)
+- Layout animation enables neighbor widgets to reflow smoothly
 
-**ModPage Ecosystem:**
-- `OSWidget` - Minimal OS status (version, downloads, ONLINE indicator)
-- `LabSlider` - Draggable concept prints slider
-- `ActivePoll` - NEXT DROP voting widget
+**Fluid Bento Grid:**
+- `flex-wrap` based layout with `motion.div layout` prop
+- Widgets are "Floating Islands" that respond to expansion
+- Stagger entrance animation (`staggerChildren: 0.12`)
 
-**Kinetic Component System:**
-- `KineticWidget.jsx` - Base floating island component
-- `DotText` - Dot matrix typography
-- `StatusDot` - Animated status indicators
-- `DottedProgress` - Dotted progress bars
-- `ExpandButton` - Animated expand button
-- `springConfig` / `springBouncy` - Reusable spring physics
+**Live Components:**
+- `LiveTicker` - Pause on hover, red recording dot
+- `ActivePoll` - Dotted progress bars with live updates
+- `KineticWidget` - Base island with breathing animation
+- `OSWidget`, `LabSlider` - On ModPage ecosystem
+
+**Visual Dialect:**
+- JetBrains Mono typography
+- Monochrome palette with #FF0000 red accents only
+- 32px border-radius, glass-morphism backdrop
 
 ### Verified No Regressions
-- `/marketplace` - Working correctly
-- `/swap` - Working correctly
+- `/marketplace` ✅
+- `/swap` ✅
 
 ---
 
 ## Prioritized Backlog
 
-### P0 - Critical
-- None currently
-
 ### P1 - High Priority
-- **Phase 4: Evolution (Interactivity)**
-  - `DecryptionCube.jsx` - Lootbox/mystery box system
-  - `ClassSelection.jsx` - RPG class selection UI
+- **Morphing Cards**: Small widget stretches to become full-width modal (layoutId transition)
+- **Phase 4 Evolution**: `DecryptionCube.jsx`, `ClassSelection.jsx`
 
 ### P2 - Medium Priority
-- **Ghost OS Menu** - Neural Hub menu concept (archived in `/app/memory/FUTURE_GHOST_OS_MENU.md`)
-- **ProductCard hover panel robustness verification**
+- **Ghost OS Menu** - Neural Hub concept
+- **ProductCard panel verification**
 
 ### P3 - Future
-- Voice & Screen Share for support chat
-- User Trust/Rating System UI expansion
-- Social features: `/feed`, `/articles`, `/creators`
-- Payment integrations: Tinkoff + Cryptomus
-- Performance optimization
+- Voice & Screen Share
+- Social features
+- Tinkoff + Cryptomus payments
 
 ---
 
 ## Architecture
 
 ```
-/app/frontend/src/components/
-├── kinetic/                 # Kinetic Dot-OS system
-│   ├── KineticWidget.jsx    # Base widget
-│   ├── ReviewDeck.jsx       # Card stack
-│   ├── LiveTicker.jsx       # News ticker
-│   ├── ActivePoll.jsx       # Live voting
-│   ├── OSWidget.jsx         # System status
-│   ├── LabSlider.jsx        # Concept slider
-│   ├── kinetic.css          # All kinetic styles
-│   └── index.js             # Exports
-├── system/                  # System components
-│   ├── SystemToast.jsx
-│   └── SystemAudio.js
-├── HomePage.jsx             # Kinetic Dashboard
-└── ModPage.jsx              # Temple with Kinetic Ecosystem
+/app/
+├── design/
+│   └── KINETIC_UI_SPEC.md      # Animation Bible
+└── frontend/src/components/
+    ├── kinetic/
+    │   ├── KineticWidget.jsx   # Base floating island
+    │   ├── ReviewDeck.jsx      # 3-state stack (Stack→Fan→List)
+    │   ├── LiveTicker.jsx      # Running news
+    │   ├── ActivePoll.jsx      # Live voting
+    │   ├── OSWidget.jsx        # System status
+    │   ├── LabSlider.jsx       # Concept slider
+    │   └── kinetic.css         # All kinetic styles
+    ├── HomePage.jsx            # Fluid Bento Dashboard
+    └── ModPage.jsx             # Temple with Kinetic Ecosystem
 ```
 
-### Key Technical Concepts
-- **Isolation Protocol**: New UI in `/kinetic/` directory to prevent regressions
-- **Spring Physics**: `framer-motion` with `type: "spring"` throughout
-- **Nothing Aesthetics**: JetBrains Mono font, red #FF0000 accents only
+### Key Patterns (from KINETIC_UI_SPEC.md)
+```javascript
+// Spring presets
+const springSmooth = { type: "spring", stiffness: 300, damping: 30 };
+const springBouncy = { type: "spring", stiffness: 400, damping: 20 };
+
+// Stagger container
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 }
+  }
+};
+
+// Layout animation (enables reflow)
+<motion.div layout layoutId="unique-id">
+  {content}
+</motion.div>
+```
 
 ---
 
 ## 3rd Party Integrations
-- `framer-motion` - Animation library
-- `lucide-react` - Icons
-- `recharts` - Charts
-- `react-tilt` - Tilt effects
+- `framer-motion` (LayoutGroup, AnimatePresence, layout prop)
+- `lucide-react`
+- `recharts`
