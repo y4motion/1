@@ -1,6 +1,6 @@
 /**
  * Ghost Protocol - System Components
- * Phase 2: Visual Identity
+ * Phase 2: Visual Identity + Phase 3: System Voice
  * 
  * Export all system-level UI components for the Ghost Protocol
  */
@@ -27,7 +27,14 @@ export {
   SyncBar 
 } from './HolographicID';
 
+// System notifications (Phase 3)
+export {
+  SystemToastContainer,
+  systemToast
+} from './SystemToast';
+
 // Default exports for convenience
 export { default as UserResonanceDefault } from './UserResonance';
 export { default as ClassArtifactDefault } from './ClassArtifact';
 export { default as HolographicIDDefault } from './HolographicID';
+export { default as SystemToastDefault } from './SystemToast';
