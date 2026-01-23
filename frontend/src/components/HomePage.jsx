@@ -15,8 +15,6 @@ import { useGhostStore } from '../stores/useGhostStore';
 
 // Kinetic Components
 import { 
-  // Status
-  SystemStatusBar,
   // Workspace
   KineticAppGrid,
   ReviewDeck, 
@@ -85,9 +83,6 @@ export default function HomePage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* System Status Bar (Live Activity + Trending) */}
-        {!isZenMode && <SystemStatusBar />}
-
         {/* App Grid (Always visible) */}
         <KineticAppGrid />
 
