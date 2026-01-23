@@ -76,7 +76,7 @@ function App() {
                   <main className="main-content">
                     <Breadcrumbs />
                     {/* Legacy chat bar - keeping for backwards compatibility */}
-                    {/* <GlassyChatBar /> */}
+                                        <GlassyChatBar />
                     
                     {/* New Omni Chat - Ultimate chat hub */}
                     <GlassyOmniChat />
