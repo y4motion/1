@@ -14,6 +14,7 @@ from models.network_post import (
     PostCategory, PostStatus
 )
 from routes.auth_routes import get_current_user
+from utils.auth_utils import get_current_user_optional
 from services.network_service import NetworkService
 
 router = APIRouter(prefix="/network", tags=["network"])
@@ -32,7 +33,7 @@ async def get_feed(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=50),
     sort: str = Query("hot", description="Sort by: hot, new, top"),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """Get network feed with posts"""
     
@@ -71,7 +72,7 @@ async def get_feed(
 @router.get("/post/{post_id}")
 async def get_post(
     post_id: str,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """Get a single post with comments"""
     
