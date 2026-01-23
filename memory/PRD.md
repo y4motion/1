@@ -1,105 +1,97 @@
 # Minimal Mod - Product Requirements Document
 
 ## Original Problem Statement
-Build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called "Ghost Protocol." The project features a "Toriki / Future Minimal / Japandi Tech" aesthetic.
+Build a hyper-stylized, atmospheric website for Minimal Mod brand with Ghost Protocol user progression system.
 
 ## Implemented Features
 
 ### Phase 1: Backend Core ✅
 - Mathematical leveling system
-- XP service with anti-abuse mechanisms
-- Living Legends engine for dynamic titles
+- XP/RP/Trust Score services
+- Living Legends engine
 
 ### Phase 2: Ghost Resonance ✅
-- UserResonance.jsx — Signal-based avatar (Photon/Standard/Decay/Glitch/Corrupted)
-- ClassArtifact.jsx — Geometric SVG icons
-- HolographicID.jsx — Digital passport with spider chart
+- UserResonance.jsx — Signal-based avatar
+- ClassArtifact.jsx — Geometric class icons
+- HolographicID.jsx — Digital passport
 
-### Phase 3: Temple Architecture & System Voice ✅ (January 2026)
+### Phase 3: Temple Architecture ✅ (January 2026)
 
 **Audio Immersion:**
-- `SystemAudio.js` — Native Web Audio API sounds
-- `playVoidOpen()` — Heavy mechanical rumble
-- `playAccessGranted()` — Power-on hum
-- `playAccessDenied()` — Warning buzz
-- `playToastClick()` — Soft digital click
-- `playHoverBlip()` — Interaction feedback
+- `SystemAudio.js` — Web Audio API sounds
+- `playVoidOpen()`, `playAccessGranted()`, `playAccessDenied()`, `playHoverBlip()`
 
 **SystemToast with Audio:**
-- Auto-plays sound based on toast type
-- `access/success` → playAccessGranted
-- `denied/error` → playAccessDenied
-- `info/xp/rp` → playToastClick
+- Decoding text effect + sound feedback
 
-**ModPage Temple Architecture:**
-1. **THE FRIEZE (45vh)** — Monument with:
-   - CodeStream — Matrix-style running code
-   - LegacyEchoes — Floating phrases (LEGACY, VOID, SYSTEM)
-   - Noise texture overlay
+**ModPage — THE TEMPLE:**
 
-2. **THE SPLIT GATE** — World-splitting mechanic:
-   - Click triggers `playVoidOpen()` sound
-   - Frieze slides UP (-400px)
-   - Timeline slides DOWN (+400px)
-   - VoidShop appears in the gap
+1. **THE MONUMENT (Header)**
+   - Civilization Code — Runes (ᚠᚢᚦ), Kanji (無空道), Hex (0xFF), Cyrillic (ЖФЫ)
+   - Legacy Echoes — Floating phrases (LEGACY, VOID, MINIMAL)
+   - **[ ETCH YOUR LEGACY ]** button with glitch hover
+   - Level 80 Monarch requirement
 
-3. **THE VOID SHOP** — Hidden armory:
-   - Pure black background (#000000)
-   - Floating products with cyan glow on hover
-   - Trust-locked items (blur + lock icon for TS < 400)
-   - Rarity-based colors (legendary/epic/rare/uncommon/common)
+2. **THE SPLIT GATE**
+   - World-splitting animation
+   - Monument slides UP, Timeline slides DOWN
+   - `playVoidOpen()` on trigger
 
-4. **ORIGIN TIMELINE** — Amber thread history:
-   - Vertical amber line (1px)
-   - Timeline nodes with events
+3. **THE VOID SHOP**
+   - Pure black (#000000) background
+   - **MINIMAL MOD EXCLUSIVES** label
+   - Brand products:
+     - GLASSPAD 2024 — ₽4,900
+     - MINIMAL SLEEVE — ₽2,900
+     - CUSTOM CABLE — ₽1,900
+     - VOID KEYCAPS — ₽3,500
+     - ECHO MAT — ₽1,500
+   - Floating animation + cyan glow on hover
+   - Trust 400+ lock for low-trust users
 
-5. **INNER CIRCLE** — Founders access:
-   - Trust 700+ required
-   - Pulsing amber button when accessible
-   - `ACCESS DENIED` toast when blocked
+4. **ORIGIN TIMELINE**
+   - Amber thread (1px vertical line)
+   - Timeline nodes: GENESIS → FIRST DROP → COMMUNITY → VOID ERA
+
+5. **THE ECOSYSTEM (Bento Grid)**
+   - **MINIMAL OS** — Download v2.0 button
+   - **CONCEPT LAB** — Vote for prints (VOID CARPET, SIGNAL RUG, MONO SLEEVE)
+   - **TOP BUILDS** — Community builds gallery (PHANTOM X, ARCTIC MONO, OBSIDIAN)
+
+6. **INNER CIRCLE**
+   - Trust 700+ for Direct Line access
+   - Pulsing amber button
+
+**Visual:**
+- Cartenon Abyss gradient: `radial-gradient(circle at center, #1a1a1c, #000)`
 
 ## Architecture
 
 ```
 /app/frontend/src/components/
 ├── system/
-│   ├── UserResonance.jsx     # Signal-based avatar
-│   ├── ClassArtifact.jsx     # Geometric class icons
-│   ├── HolographicID.jsx     # Digital passport
-│   ├── SystemToast.jsx       # Notifications + audio
-│   ├── SystemAudio.js        # Web Audio API sounds
+│   ├── UserResonance.jsx
+│   ├── ClassArtifact.jsx
+│   ├── HolographicID.jsx
+│   ├── SystemToast.jsx
+│   ├── SystemAudio.js
 │   └── index.js
-├── demo/
-│   └── SystemDemo.jsx        # Component showcase
-├── ModPage.jsx               # THE TEMPLE
+├── ModPage.jsx          # THE TEMPLE
 └── ModPage.css
 ```
 
-## Prioritized Backlog
+## Backlog
 
-### P0 — High Priority
-- [ ] Add product click interactions in Void Shop
-- [ ] Connect to real product data from backend
+### P0
+- [ ] Connect Void Shop to real product API
 
-### P1 — Medium Priority
-- [ ] **Phase 4: Evolution**
-  - DecryptionCube.jsx — Level-up rewards
-  - ClassSelection.jsx — Class choice at level 10
-- [ ] Integrate UserResonance into chat/profile site-wide
-- [ ] Ghost OS Menu (archived in `/app/memory/FUTURE_GHOST_OS_MENU.md`)
+### P1
+- [ ] Phase 4: DecryptionCube, ClassSelection
+- [ ] Ghost OS Menu (NeuralHub, OperatorDossier)
 
-### P2 — Lower Priority
-- [ ] Voice & Screen Share
-- [ ] Alternate payments (Tinkoff + Cryptomus)
-
-## CSS Variables (Ghost Protocol)
-```css
---ghost-void: #050505
---ghost-amber: #FF9F43
---ghost-cyan: #00FFD4
---halo-danger: #FF4444
-```
+### P2
+- [ ] Voice/Screen Share
+- [ ] Parallax effects
 
 ---
-*Last Updated: January 23, 2026*
-*Version: 3.1.0 — Temple Complete*
+*Version: 3.2.0 — Monument Resurrected*
