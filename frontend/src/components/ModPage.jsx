@@ -603,6 +603,27 @@ const ModPage = () => {
         )}
       </section>
 
+      {/* === ORIGIN THREAD (Horizontal) === */}
+      <section className="h-timeline-section">
+        <div className="h-timeline-header">
+          <h2>ORIGIN THREAD</h2>
+          <p>The path we carved</p>
+        </div>
+        
+        <div className="h-timeline-track">
+          <div className="h-timeline-nodes">
+            {TIMELINE_EVENTS.map((event, i) => (
+              <TimelineNode 
+                key={event.id} 
+                event={event} 
+                index={i} 
+                isLast={i === TIMELINE_EVENTS.length - 1}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Etch Modal */}
       <AnimatePresence>
         {showEtchModal && (
