@@ -31,7 +31,15 @@
   font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--ghost-text-muted, rgba(255, 255, 255, 0.45));
+  margin: 0 0 8px 0;
+}
+
+.demo-philosophy {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--ghost-amber, #FF9F43);
   margin: 0;
+  font-style: italic;
 }
 
 /* Sections */
