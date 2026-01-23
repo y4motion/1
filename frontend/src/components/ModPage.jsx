@@ -156,6 +156,7 @@ const ModPage = () => {
 
   const handleEtchSubmit = () => {
     if (etchText.trim()) {
+      systemToast.success('LEGACY CARVED INTO STONE');
       setShowEtchModal(false);
       setEtchText('');
     }
@@ -164,12 +165,16 @@ const ModPage = () => {
   const handleVote = (printId) => {
     if (!votedPrints.includes(printId)) {
       setVotedPrints([...votedPrints, printId]);
+      systemToast.rp(10);
     }
   };
 
   const handleBoost = (itemId) => {
     if (!boostedItems.includes(itemId) && userLevel >= 10) {
       setBoostedItems([...boostedItems, itemId]);
+      systemToast.xp(25);
+    } else if (userLevel < 10) {
+      systemToast.denied('LEVEL 10 REQUIRED TO BOOST');
     }
   };
 
