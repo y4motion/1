@@ -142,10 +142,11 @@ export default function HeroSection() {
         }
       `}</style>
 
-      {/* Video Section */}
+      {/* Video Section - Full height minus search strip */}
       <div 
         style={{ 
           height: 'calc(100vh - 80px)', 
+          minHeight: '400px',
           position: 'relative', 
           overflow: 'hidden'
         }}
