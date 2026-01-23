@@ -511,28 +511,63 @@ async def seed_database():
     
     for category_id, products in product_groups:
         for product in products:
+            product_id = str(uuid.uuid4())
+            system_seller_id = "system_seed"
+            
+            # Convert image URLs to ProductImage format
+            images_formatted = [
+                {"url": url, "alt": product["title"], "is_primary": i == 0}
+                for i, url in enumerate(product.get("images", []))
+            ]
+            
+            # Create specifications list from specs dict
+            specifications = [
+                {"name": k, "value": str(v)}
+                for k, v in product.get("specs", {}).items()
+            ]
+            
             doc = {
+                "id": product_id,
                 "title": product["title"],
-                "brand": product["brand"],
-                "price": product["price"],
-                "original_price": int(product["price"] * 1.15),  # 15% "discount"
-                "category": category_id,
+                "description": f"High-quality {category_id} from {product['brand']}. {product['title']}.",
                 "category_id": category_id,
-                "specs": product["specs"],
-                "ai_tags": product.get("ai_tags", []),
+                "subcategory_id": None,
+                "price": float(product["price"]),
+                "currency": "USD",
+                "images": images_formatted,
+                "specifications": specifications,
                 "tags": product.get("ai_tags", []),
-                "images": product.get("images", []),
                 "stock": random.randint(5, 50),
+                "is_active": True,
+                "is_available": True,
+                "allow_preorder": True,
+                "preorder_delivery_days": 14,
+                "personas": [],
+                "specific_filters": product.get("specs", {}),
+                
+                # Required ProductResponse fields
+                "seller_id": system_seller_id,
+                "views": random.randint(100, 5000),
+                "wishlist_count": random.randint(0, 100),
+                "purchases_count": random.randint(5, 200),
+                "average_rating": round(random.uniform(4.0, 5.0), 1),
+                "total_reviews": random.randint(10, 500),
+                "created_at": datetime.now(timezone.utc),
+                "updated_at": datetime.now(timezone.utc),
+                "status": "approved",
+                
+                # Extra useful fields
+                "brand": product["brand"],
+                "original_price": int(product["price"] * 1.15),
+                "category": category_id,
+                "specs": product.get("specs", {}),
+                "ai_tags": product.get("ai_tags", []),
                 "rating": round(random.uniform(4.0, 5.0), 1),
                 "reviews_count": random.randint(10, 500),
-                "views": random.randint(100, 5000),
-                "description": f"High-quality {category_id} from {product['brand']}. {product['title']}.",
-                "created_at": datetime.now(timezone.utc),
-                "is_active": True,
             }
             result = await db.products.insert_one(doc)
-            product_id_map[product["title"]] = str(result.inserted_id)
-            all_products.append({"id": str(result.inserted_id), **doc})
+            product_id_map[product["title"]] = product_id
+            all_products.append({"id": product_id, **doc})
     
     print(f"   ✅ {len(all_products)} products seeded")
     
