@@ -107,30 +107,27 @@ export default function HeroSection() {
         }
         
         .search-strip {
-          height: 80px;
+          height: 70px;
           background: #000;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0 20px;
         }
         
         .search-form {
           position: relative;
-          width: 100%;
-          max-width: 400px;
         }
         
         .search-input {
-          width: 100%;
-          background: transparent;
+          width: 300px;
+          background: none;
           border: none;
           outline: none;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.4);
           font-family: 'JetBrains Mono', monospace;
           font-size: 13px;
-          letter-spacing: 0.15em;
-          padding: 12px 0;
+          letter-spacing: 0.2em;
+          padding: 0;
           text-align: center;
           caret-color: rgba(255, 255, 255, 0.3);
         }
@@ -140,10 +137,9 @@ export default function HeroSection() {
         }
         
         .search-input:focus {
-          color: rgba(255, 255, 255, 0.7);
+          color: rgba(255, 255, 255, 0.6);
         }
         
-        /* Typewriter placeholder */
         .typewriter-placeholder {
           position: absolute;
           top: 50%;
@@ -151,26 +147,24 @@ export default function HeroSection() {
           transform: translate(-50%, -50%);
           font-family: 'JetBrains Mono', monospace;
           font-size: 13px;
-          letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.2);
+          letter-spacing: 0.2em;
+          color: rgba(255, 255, 255, 0.15);
           pointer-events: none;
-          transition: opacity 0.3s ease;
+          white-space: nowrap;
         }
         
         .typewriter-placeholder.typing::after {
-          content: '|';
-          animation: blink 0.8s infinite;
-          margin-left: 2px;
+          content: '▌';
+          animation: blink 0.7s step-end infinite;
+          margin-left: 1px;
+          font-size: 12px;
         }
         
         .typewriter-placeholder.done::after {
           display: none;
         }
         
-        .search-form:focus-within .typewriter-placeholder {
-          opacity: 0;
-        }
-        
+        .search-form:focus-within .typewriter-placeholder,
         .search-form.has-value .typewriter-placeholder {
           opacity: 0;
         }
