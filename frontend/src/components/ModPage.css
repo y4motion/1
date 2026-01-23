@@ -535,65 +535,117 @@
   pointer-events: none;
 }
 
-/* Base thread line - barely visible */
+/* Base thread line - hair thin, barely visible */
 .thread-line {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
-    var(--ghost-amber) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    var(--ghost-amber) 100%
-  );
-  opacity: 0.15;
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* Animated soul pulse - white laser shooting through */
+/* Neural impulse sparks - random positions */
 .thread-pulse {
   position: absolute;
   top: -1px;
-  left: 0;
-  width: 60px;
+  width: 20px;
   height: 3px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 20%,
-    rgba(255, 255, 255, 0.6) 50%,
-    rgba(255, 255, 255, 0.1) 80%,
-    transparent 100%
+  background: radial-gradient(ellipse at center,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 70%
   );
   filter: blur(0.5px);
-  animation: soul-pulse-flow 3s ease-in-out infinite;
+  opacity: 0;
+  animation: neural-spark 4s ease-in-out infinite;
+}
+
+/* Multiple spark positions per thread */
+.soul-thread::before,
+.soul-thread::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  width: 15px;
+  height: 3px;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 70%
+  );
+  filter: blur(0.3px);
   opacity: 0;
 }
 
-@keyframes soul-pulse-flow {
-  0% {
-    left: -60px;
+.soul-thread::before {
+  left: 25%;
+  animation: neural-spark-alt 3.5s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+.soul-thread::after {
+  left: 65%;
+  animation: neural-spark-alt 4.5s ease-in-out infinite;
+  animation-delay: 2.1s;
+}
+
+/* First thread sparks */
+.h-timeline-node:nth-child(1) .thread-pulse {
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.h-timeline-node:nth-child(2) .thread-pulse {
+  left: 50%;
+  animation-delay: 1.2s;
+}
+
+.h-timeline-node:nth-child(3) .thread-pulse {
+  left: 20%;
+  animation-delay: 2.5s;
+}
+
+/* Neural spark animation - quick flash */
+@keyframes neural-spark {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleX(0.5);
+  }
+  5% {
     opacity: 0;
   }
   10% {
     opacity: 1;
+    transform: scaleX(1);
   }
-  90% {
-    opacity: 1;
+  20% {
+    opacity: 0.3;
+    transform: scaleX(1.5);
   }
-  100% {
-    left: calc(100% + 60px);
+  30%, 100% {
     opacity: 0;
+    transform: scaleX(0.5);
   }
 }
 
-/* Ghost trail effect */
-.thread-pulse::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  filter: blur(2px);
-  opacity: 0.5;
+@keyframes neural-spark-alt {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  8% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+    transform: scaleX(1.2);
+  }
+  25% {
+    opacity: 0.2;
+  }
+  35%, 100% {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
 }
 
 /* Mobile: Stack vertically */
