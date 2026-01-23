@@ -85,7 +85,8 @@ const PhilosophyLine = ({ line, isVisible }) => {
             letterSpacing: '0.02em',
             lineHeight: 1.1,
             maxWidth: '45%',
-            textShadow: '0 0 30px rgba(255,255,255,0.3)',
+            WebkitTextStroke: '1px rgba(255,255,255,0.6)',
+            textShadow: '0 0 40px rgba(255,255,255,0.5), 0 0 80px rgba(255,255,255,0.3)',
             ...sizeStyles[line.size]
           }}
         >
