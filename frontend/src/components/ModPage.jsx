@@ -497,29 +497,6 @@ const ModPage = () => {
         )}
       </AnimatePresence>
 
-      {/* === ORIGIN TIMELINE === */}
-      <motion.section 
-        className="timeline-section"
-        animate={{ 
-          y: isVoidOpen ? 450 : 0,
-          opacity: isVoidOpen ? 0.2 : 1
-        }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="amber-thread" />
-        
-        <div className="timeline-header">
-          <h2>ORIGIN THREAD</h2>
-          <p>The path we carved</p>
-        </div>
-        
-        <div className="timeline-nodes">
-          {TIMELINE_EVENTS.map((event, i) => (
-            <TimelineNode key={event.id} event={event} index={i} />
-          ))}
-        </div>
-      </motion.section>
-
       {/* === THE ECOSYSTEM (BENTO GRID) === */}
       <section className="ecosystem-section">
         <div className="ecosystem-header">
