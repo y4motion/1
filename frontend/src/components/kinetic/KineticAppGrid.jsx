@@ -32,7 +32,7 @@ const itemVariants = {
   }
 };
 
-// App configurations
+// App configurations - STRICT MONOCHROME (Only white icons, red dots for indicators)
 const apps = [
   { 
     id: 'builder', 
@@ -41,17 +41,17 @@ const apps = [
     subtitle: 'Собрать ПК',
     link: '/assembly',
     badge: 'AI',
-    color: '#00FFD4'
+    color: '#FFFFFF'
   },
   { 
     id: 'feed', 
     icon: Activity, 
     title: 'FEED', 
     subtitle: 'Сообщество',
-    link: '/feed',
+    link: '/community',
     badge: 'LIVE',
     badgePulse: true,
-    color: '#FF0000'
+    color: '#FFFFFF'
   },
   { 
     id: 'os', 
@@ -67,9 +67,9 @@ const apps = [
     icon: ArrowLeftRight, 
     title: 'SWAP', 
     subtitle: 'Обменник',
-    link: '/swap',
+    link: '/glassy-swap',
     badge: null,
-    color: '#FF9F43'
+    color: '#FFFFFF'
   },
   { 
     id: 'rating', 
@@ -78,7 +78,7 @@ const apps = [
     subtitle: 'Рейтинг',
     link: '/rating',
     badge: null,
-    color: '#FFD700'
+    color: '#FFFFFF'
   },
   { 
     id: 'creators', 
@@ -87,7 +87,7 @@ const apps = [
     subtitle: 'Авторы',
     link: '/creators',
     badge: null,
-    color: '#A855F7'
+    color: '#FFFFFF'
   },
   { 
     id: 'guides', 
@@ -96,7 +96,7 @@ const apps = [
     subtitle: 'Гайды',
     link: '/articles',
     badge: null,
-    color: '#3B82F6'
+    color: '#FFFFFF'
   },
   { 
     id: 'groupbuy', 
@@ -105,7 +105,7 @@ const apps = [
     subtitle: 'До -40%',
     link: '/groupbuy',
     badge: 'HOT',
-    color: '#EF4444'
+    color: '#FFFFFF'
   }
 ];
 
