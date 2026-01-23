@@ -1,10 +1,8 @@
 /**
- * KineticCategories.jsx - Bento Grid Categories
+ * KineticCategories.jsx - Abstract Bento Grid Categories
  * 
- * Dynamic size categories:
- * - Large (2x2): Featured categories
- * - Medium (1x2): Popular categories
- * - Small (1x1): Other categories
+ * VISUAL CORRECTION: No photos, abstract patterns only
+ * Style: Technical panels with dot-grid backgrounds
  */
 
 import React, { useState, useEffect } from 'react';
@@ -34,17 +32,6 @@ const itemVariants = {
 
 const iconMap = { Cpu, Monitor, Keyboard, Headphones, Mouse, HardDrive, Zap, Fan };
 
-const categoryImages = {
-  gpu: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80',
-  monitors: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80',
-  keyboards: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&q=80',
-  audio: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80',
-  peripherals: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&q=80',
-  storage: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&q=80',
-  psu: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80',
-  cooling: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&q=80'
-};
-
 // Default categories with sizes
 const defaultCategories = [
   { id: 'gpu', name: 'Видеокарты', icon: 'Cpu', count: 1234, size: 'large', hot: true },
@@ -59,6 +46,7 @@ const defaultCategories = [
 
 const CategoryIsland = ({ category }) => {
   const Icon = iconMap[category.icon] || Cpu;
+  const iconSize = category.size === 'large' ? 120 : category.size === 'medium' ? 80 : 48;
   
   return (
     <motion.div 
@@ -67,27 +55,22 @@ const CategoryIsland = ({ category }) => {
     >
       <Link 
         to={`/marketplace?category=${category.id}`}
-        className="category-island-inner"
+        className="category-island-inner abstract"
         data-testid={`category-${category.id}`}
       >
-        {/* Background Image */}
-        <div className="category-bg">
-          <img 
-            src={categoryImages[category.id]} 
-            alt={category.name}
-            loading="lazy"
-          />
-          <div className="category-overlay" />
+        {/* Abstract Background Pattern - Dot Grid */}
+        <div className="category-pattern" />
+        
+        {/* Large Ghost Icon */}
+        <div className="category-ghost-icon">
+          <Icon size={iconSize} strokeWidth={0.5} />
         </div>
         
-        {/* Content */}
+        {/* Content - Bottom Left Corner */}
         <div className="category-content">
-          <div className="category-icon">
-            <Icon size={category.size === 'large' ? 32 : 24} />
-          </div>
-          <h3 className="category-name">{category.name}</h3>
+          <span className="category-name">{category.name}</span>
           <span className="category-count">
-            {category.count.toLocaleString()} товаров
+            {category.count.toLocaleString()}
           </span>
         </div>
         
@@ -112,7 +95,6 @@ export const KineticCategories = ({ className = '' }) => {
         const res = await fetch(`${API_URL}/api/homepage/category-stats`);
         if (res.ok) {
           const data = await res.json();
-          // Merge with default sizes
           const merged = data.map((cat, i) => ({
             ...cat,
             size: defaultCategories[i]?.size || 'small'
