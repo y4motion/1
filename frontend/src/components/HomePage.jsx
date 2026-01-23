@@ -31,6 +31,9 @@ import {
   TelemetryBar
 } from './kinetic';
 
+// Social
+import { CommunityPulse } from './social';
+
 import '../styles/glassmorphism.css';
 import '../styles/animations.css';
 import './kinetic/kinetic.css';
@@ -142,7 +145,7 @@ export default function HomePage() {
           )}
         </AnimatePresence>
 
-        {/* Kinetic Dashboard Row (Reviews + Poll) */}
+        {/* Kinetic Dashboard Row (Reviews + Poll + Community Pulse) */}
         <motion.div 
           variants={itemVariants}
           className="dashboard-row"
@@ -155,6 +158,7 @@ export default function HomePage() {
         >
           <ReviewDeck />
           <ActivePoll poll={ROADMAP_POLL} />
+          <CommunityPulse />
         </motion.div>
 
         {/* Categories Bento Grid (Hidden in Zen Mode) */}
