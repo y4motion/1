@@ -1,97 +1,107 @@
-# Minimal Mod - Product Requirements Document
+# Ghost Protocol - PRD
+## Hyper-stylized atmospheric website with "Kinetic Dot-OS" UI
 
-## Original Problem Statement
-Build a hyper-stylized, atmospheric website for Minimal Mod brand with Ghost Protocol user progression system.
+### Original Problem Statement
+Build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called "Ghost Protocol." The UI should follow "Kinetic Dot-OS" style - combining Nothing brand aesthetics (dot matrix, monochrome, red accents) with Howard.le spring physics animations.
 
-## Implemented Features
+### Core Aesthetic Principles
+- **Floating Islands**: Elements "float" with rounded corners, glass-morphism, spring physics
+- **Nothing Aesthetics**: Dot matrix fonts, monochrome palette, red micro-accents (#FF0000)
+- **Spring Physics**: All animations use `framer-motion` with spring configs
+- **Live Data**: Widgets "breathe" with real-time updates
 
-### Phase 1: Backend Core ✅
-- Mathematical leveling system
-- XP/RP/Trust Score services
-- Living Legends engine
+---
 
-### Phase 2: Ghost Resonance ✅
-- UserResonance.jsx — Signal-based avatar
-- ClassArtifact.jsx — Geometric class icons
-- HolographicID.jsx — Digital passport
+## What's Been Implemented
 
-### Phase 3: Temple Architecture ✅ (January 2026)
+### ✅ Phase 1-2: Visual Core (COMPLETE)
+- `UserResonance.jsx`, `HolographicID.jsx`, `ClassArtifact.jsx` - Trust score visualization
+- Ghost Protocol backend (leveling, trust scores, Living Legend titles)
 
-**Audio Immersion:**
-- `SystemAudio.js` — Web Audio API sounds
-- `playVoidOpen()`, `playAccessGranted()`, `playAccessDenied()`, `playHoverBlip()`
+### ✅ Phase 3: Mod Temple (COMPLETE)
+- Split Gate animation revealing Void Shop
+- Monument header with Etch Legacy
+- Origin Thread horizontal timeline with neural pulse animation
+- System Audio & Toast notifications
 
-**SystemToast with Audio:**
-- Decoding text effect + sound feedback
+### ✅ Kinetic Dot-OS UI Overhaul (COMPLETE - Jan 23, 2025)
+**HomePage:**
+- `LiveTicker` - Running news ticker with red recording dot
+- `ReviewDeck` - Card stack that fans out on click (dot ratings)
+- `ActivePoll` - Live voting with dotted progress bars
+- `KineticWidget` - Stats widget with system status
 
-**ModPage — THE TEMPLE:**
+**ModPage Ecosystem:**
+- `OSWidget` - Minimal OS status (version, downloads, ONLINE indicator)
+- `LabSlider` - Draggable concept prints slider
+- `ActivePoll` - NEXT DROP voting widget
 
-1. **THE MONUMENT (Header)**
-   - Civilization Code — Runes (ᚠᚢᚦ), Kanji (無空道), Hex (0xFF), Cyrillic (ЖФЫ)
-   - Legacy Echoes — Floating phrases (LEGACY, VOID, MINIMAL)
-   - **[ ETCH YOUR LEGACY ]** button with glitch hover
-   - Level 80 Monarch requirement
+**Kinetic Component System:**
+- `KineticWidget.jsx` - Base floating island component
+- `DotText` - Dot matrix typography
+- `StatusDot` - Animated status indicators
+- `DottedProgress` - Dotted progress bars
+- `ExpandButton` - Animated expand button
+- `springConfig` / `springBouncy` - Reusable spring physics
 
-2. **THE SPLIT GATE**
-   - World-splitting animation
-   - Monument slides UP, Timeline slides DOWN
-   - `playVoidOpen()` on trigger
+### Verified No Regressions
+- `/marketplace` - Working correctly
+- `/swap` - Working correctly
 
-3. **THE VOID SHOP**
-   - Pure black (#000000) background
-   - **MINIMAL MOD EXCLUSIVES** label
-   - Brand products:
-     - GLASSPAD 2024 — ₽4,900
-     - MINIMAL SLEEVE — ₽2,900
-     - CUSTOM CABLE — ₽1,900
-     - VOID KEYCAPS — ₽3,500
-     - ECHO MAT — ₽1,500
-   - Floating animation + cyan glow on hover
-   - Trust 400+ lock for low-trust users
+---
 
-4. **ORIGIN TIMELINE**
-   - Amber thread (1px vertical line)
-   - Timeline nodes: GENESIS → FIRST DROP → COMMUNITY → VOID ERA
+## Prioritized Backlog
 
-5. **THE ECOSYSTEM (Bento Grid)**
-   - **MINIMAL OS** — Download v2.0 button
-   - **CONCEPT LAB** — Vote for prints (VOID CARPET, SIGNAL RUG, MONO SLEEVE)
-   - **TOP BUILDS** — Community builds gallery (PHANTOM X, ARCTIC MONO, OBSIDIAN)
+### P0 - Critical
+- None currently
 
-6. **INNER CIRCLE**
-   - Trust 700+ for Direct Line access
-   - Pulsing amber button
+### P1 - High Priority
+- **Phase 4: Evolution (Interactivity)**
+  - `DecryptionCube.jsx` - Lootbox/mystery box system
+  - `ClassSelection.jsx` - RPG class selection UI
 
-**Visual:**
-- Cartenon Abyss gradient: `radial-gradient(circle at center, #1a1a1c, #000)`
+### P2 - Medium Priority
+- **Ghost OS Menu** - Neural Hub menu concept (archived in `/app/memory/FUTURE_GHOST_OS_MENU.md`)
+- **ProductCard hover panel robustness verification**
+
+### P3 - Future
+- Voice & Screen Share for support chat
+- User Trust/Rating System UI expansion
+- Social features: `/feed`, `/articles`, `/creators`
+- Payment integrations: Tinkoff + Cryptomus
+- Performance optimization
+
+---
 
 ## Architecture
 
 ```
 /app/frontend/src/components/
-├── system/
-│   ├── UserResonance.jsx
-│   ├── ClassArtifact.jsx
-│   ├── HolographicID.jsx
+├── kinetic/                 # Kinetic Dot-OS system
+│   ├── KineticWidget.jsx    # Base widget
+│   ├── ReviewDeck.jsx       # Card stack
+│   ├── LiveTicker.jsx       # News ticker
+│   ├── ActivePoll.jsx       # Live voting
+│   ├── OSWidget.jsx         # System status
+│   ├── LabSlider.jsx        # Concept slider
+│   ├── kinetic.css          # All kinetic styles
+│   └── index.js             # Exports
+├── system/                  # System components
 │   ├── SystemToast.jsx
-│   ├── SystemAudio.js
-│   └── index.js
-├── ModPage.jsx          # THE TEMPLE
-└── ModPage.css
+│   └── SystemAudio.js
+├── HomePage.jsx             # Kinetic Dashboard
+└── ModPage.jsx              # Temple with Kinetic Ecosystem
 ```
 
-## Backlog
-
-### P0
-- [ ] Connect Void Shop to real product API
-
-### P1
-- [ ] Phase 4: DecryptionCube, ClassSelection
-- [ ] Ghost OS Menu (NeuralHub, OperatorDossier)
-
-### P2
-- [ ] Voice/Screen Share
-- [ ] Parallax effects
+### Key Technical Concepts
+- **Isolation Protocol**: New UI in `/kinetic/` directory to prevent regressions
+- **Spring Physics**: `framer-motion` with `type: "spring"` throughout
+- **Nothing Aesthetics**: JetBrains Mono font, red #FF0000 accents only
 
 ---
-*Version: 3.2.0 — Monument Resurrected*
+
+## 3rd Party Integrations
+- `framer-motion` - Animation library
+- `lucide-react` - Icons
+- `recharts` - Charts
+- `react-tilt` - Tilt effects
