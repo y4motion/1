@@ -1,7 +1,7 @@
 /**
  * SystemDemo.jsx
- * Ghost Protocol - Phase 2 Demo Page
- * Showcases all Visual Identity components
+ * Ghost Protocol - Phase 2 & 3 Demo Page
+ * Showcases Visual Identity + System Toast components
  */
 
 import React, { useState } from 'react';
@@ -10,7 +10,8 @@ import {
   UserResonanceCompact,
   ClassArtifact, 
   ClassBadge,
-  HolographicID 
+  HolographicID,
+  systemToast
 } from '../system';
 import './SystemDemo.css';
 
