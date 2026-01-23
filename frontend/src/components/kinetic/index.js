@@ -22,12 +22,12 @@ export { OSWidget } from './OSWidget';
 export { LabSlider } from './LabSlider';
 
 // === ZONE A: CONTROL DECK ===
-export { ControlStrip } from './ControlStrip';
+// ControlStrip removed - now using bento tiles in HeroSection
 export { ZenModeToggle } from './ZenModeToggle';
 export { SonicTuner } from './SonicTuner';
 
 // === ZONE B: WORKSPACE ===
-export { SystemStatusBar } from './SystemStatusBar';
+// SystemStatusBar removed
 export { KineticAppGrid } from './KineticAppGrid';
 export { KineticCategories } from './KineticCategories';
 export { HotDealsStack } from './HotDealsStack';
