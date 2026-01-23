@@ -58,11 +58,6 @@ export default function HeroSection() {
     }
   };
 
-  // Calculate perimeter for snake animation
-  // Approx perimeter of rounded rect 600x48 with 24px radius ≈ 1200px
-  const perimeter = 1200;
-  const snakeLength = perimeter * 0.1; // 10% of perimeter
-
   return (
     <div 
       className="hero-wrapper"
