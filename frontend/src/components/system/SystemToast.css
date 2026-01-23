@@ -1,0 +1,98 @@
+/**
+ * SystemToast.css
+ * Ghost Protocol - System Voice Styling
+ * Monospace, minimal, decoding effect
+ */
+
+/* Container - fixed position bottom right */
+.system-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Individual Toast */
+.system-toast {
+  position: relative;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid var(--toast-border, rgba(255, 255, 255, 0.2));
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--toast-text, rgba(255, 255, 255, 0.7));
+  pointer-events: auto;
+  overflow: hidden;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+/* Scan line animation */
+.toast-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--toast-border),
+    transparent
+  );
+  animation: scan-toast 2s linear infinite;
+}
+
+@keyframes scan-toast {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Text styling */
+.toast-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toast-text.decoding {
+  text-shadow: 0 0 8px var(--toast-text);
+}
+
+/* Blinking cursor during decode */
+.toast-cursor {
+  animation: blink-cursor 0.5s step-end infinite;
+  opacity: 1;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hover effect */
+.system-toast:hover {
+  border-color: var(--toast-text);
+  box-shadow: 0 0 20px -5px var(--toast-border);
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .system-toast-container {
+    bottom: 80px; /* Above mobile nav */
+    right: 12px;
+    left: 12px;
+  }
+  
+  .system-toast {
+    max-width: none;
+    font-size: 11px;
+    padding: 10px 16px;
+  }
+}
