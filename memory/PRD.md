@@ -143,6 +143,18 @@ Build comprehensive social layer with:
 - **Case**: max_gpu_length, motherboard_support, radiator_support
 - **Cooling**: type, height, TDP support
 
+### ✅ PC Builder Improvements - Jan 23, 2025
+
+#### Chat Integration:
+- **GlassyChatBar enabled** on PC Builder page
+- **Auto-open chat** with welcome message on first visit
+- **AI tab** offers build assistance ("Помощь со сборкой")
+
+#### Compatibility Logic (Already Exists):
+- **Smart Filter** - auto-filters by CPU↔Motherboard socket
+- **checkCompatibility** - checks GPU length, motherboard form factor, PSU size, cooling type
+- **CompatibilityResolver** - widget showing conflicts with swap suggestions
+
 ---
 
 ## Next Steps 
@@ -203,4 +215,4 @@ Build comprehensive social layer with:
 ---
 
 *Updated: January 23, 2025*
-*Status: SOCIAL CORE + VISUAL CORRECTION + DATA SEED COMPLETE*
+*Status: SOCIAL CORE + VISUAL CORRECTION + DATA SEED + PC BUILDER CHAT COMPLETE*
