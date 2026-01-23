@@ -20,6 +20,8 @@ import {
   Cpu, Code, Eye, Sparkles, Crown, ArrowRight, X, Download,
   Heart, ThumbsUp, Monitor, Palette, Layers, Send, Edit3
 } from 'lucide-react';
+// Kinetic Dot-OS Components
+import { OSWidget, LabSlider, ActivePoll } from './kinetic';
 import './ModPage.css';
 
 // === CIVILIZATION CODE SYMBOLS ===
@@ -497,71 +499,44 @@ const ModPage = () => {
         )}
       </AnimatePresence>
 
-      {/* === THE ECOSYSTEM (BENTO GRID) === */}
-      <section className="ecosystem-section">
+      {/* === THE ECOSYSTEM — KINETIC DOT-OS === */}
+      <section className="ecosystem-section kinetic-ecosystem" data-testid="kinetic-ecosystem">
         <div className="ecosystem-header">
           <h2>THE ECOSYSTEM</h2>
           <p>Tools. Concepts. Community.</p>
         </div>
         
-        <div className="bento-grid">
-          {/* Block 1: Minimal OS */}
-          <motion.div 
-            className="bento-card bento-os"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="bento-icon">
-              <Monitor size={32} />
-            </div>
-            <h3>MINIMAL OS</h3>
-            <p>Custom Windows theme. Dark. Clean. Yours.</p>
-            <button 
-              className="bento-action"
-              onClick={() => systemToast.success('DOWNLOAD STARTED')}
-            >
-              <Download size={14} />
-              DOWNLOAD v2.0
-            </button>
-          </motion.div>
+        <div className="kinetic-bento-grid">
+          {/* Floating Island 1: Minimal OS */}
+          <OSWidget 
+            version="2.0.4"
+            downloads={12847}
+            status="online"
+            onDownload={() => systemToast.success('OS DOWNLOAD STARTED')}
+            className="kinetic-island kinetic-os"
+          />
           
-          {/* Block 2: Concept Lab */}
-          <motion.div 
-            className="bento-card bento-lab"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="bento-icon">
-              <Palette size={32} />
-            </div>
-            <h3>CONCEPT LAB</h3>
-            <p>Vote for the next drop</p>
-            <div className="concept-prints-grid">
-              {CONCEPT_PRINTS.map(print => (
-                <ConceptPrint
-                  key={print.id}
-                  print={print}
-                  hasVoted={votedPrints.includes(print.id)}
-                  onVote={handleVote}
-                />
-              ))}
-            </div>
-          </motion.div>
+          {/* Floating Island 2: Concept Lab Slider */}
+          <LabSlider 
+            concepts={CONCEPT_PRINTS.map(p => ({ ...p, image: p.image }))}
+            onVote={(id) => handleVote(id)}
+            className="kinetic-island kinetic-lab"
+          />
           
-          {/* Block 3: Top Builds */}
-          <motion.div 
-            className="bento-card bento-builds"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="bento-icon">
-              <Layers size={32} />
-            </div>
-            <h3>TOP BUILDS</h3>
-            <p>Community masterpieces</p>
-            <div className="builds-grid">
-              {TOP_BUILDS.map(build => (
-                <BuildCard key={build.id} build={build} />
-              ))}
-            </div>
-          </motion.div>
+          {/* Floating Island 3: Active Poll */}
+          <ActivePoll 
+            poll={{
+              title: "NEXT DROP",
+              totalVotes: 1982,
+              options: [
+                { id: 1, name: "Void Carpet", votes: 847, color: '#FF0000' },
+                { id: 2, name: "Signal Rug", votes: 623, color: 'white' },
+                { id: 3, name: "Mono Sleeve", votes: 512, color: 'white' }
+              ]
+            }}
+            onVote={(id) => systemToast.rp(5)}
+            className="kinetic-island kinetic-poll"
+          />
         </div>
       </section>
 
