@@ -176,106 +176,213 @@
   height: 50%;
 }
 
-/* === REVIEW DECK === */
-.review-deck {
+/* === REVIEW DECK - 3 STATE COMPOUND ANIMATION === */
+.review-deck-container {
   position: relative;
-  min-height: 200px;
+  background: rgba(23, 23, 23, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  padding: 24px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  overflow: visible;
+}
+
+.review-deck-container:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* States adjust container size */
+.review-deck-container.stack {
+  min-height: 220px;
+}
+
+.review-deck-container.fan {
+  min-height: 260px;
+  min-width: 500px;
+}
+
+.review-deck-container.list {
+  min-height: auto;
+  cursor: default;
+}
+
+/* Header */
+.deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.deck-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #FF0000;
+  border-radius: 50%;
+  animation: live-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.deck-action {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deck-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Cards Container */
+.deck-cards {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 140px;
+}
+
+.deck-cards.stack {
+  min-height: 140px;
+}
+
+.deck-cards.fan {
+  min-height: 160px;
+  padding: 0 60px;
+}
+
+.deck-cards.list {
+  flex-direction: column;
+  gap: 12px;
+  min-height: auto;
+}
+
+/* Individual Card */
+.review-deck-card {
+  width: 100%;
+  max-width: 320px;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 20px;
+  transform-origin: center bottom;
   cursor: pointer;
 }
 
-.deck-stack {
-  position: relative;
-  width: 100%;
+.deck-cards.list .review-deck-card {
+  max-width: 100%;
+  cursor: default;
 }
 
-.deck-card {
-  position: absolute;
-  width: 100%;
-  background: rgba(30, 30, 30, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 20px;
-  transform-origin: center bottom;
+.review-deck-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-.deck-card:nth-child(1) { z-index: 3; }
-.deck-card:nth-child(2) { z-index: 2; transform: translateY(8px) scale(0.96); opacity: 0.7; }
-.deck-card:nth-child(3) { z-index: 1; transform: translateY(16px) scale(0.92); opacity: 0.4; }
-
-.deck-expanded .deck-card {
-  position: relative;
-  transform: none !important;
-  opacity: 1 !important;
-  margin-bottom: 12px;
-}
-
-.review-content {
+.card-inner {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.review-text {
+.review-quote {
   font-size: 13px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
   font-style: italic;
+  margin: 0;
 }
 
-.review-author {
+.review-meta {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.author-avatar {
-  width: 28px;
-  height: 28px;
+.author-badge {
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
 }
 
-.author-name {
+.author-initial {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.author-handle {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.05em;
 }
 
-.review-rating {
+.rating-dots {
   display: flex;
-  gap: 2px;
+  gap: 3px;
+  margin-left: auto;
 }
 
-.rating-dot {
-  width: 6px;
-  height: 6px;
+.rating-dots .dot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.rating-dot.filled {
+.rating-dots .dot.filled {
   background: #FF9F43;
 }
 
-.deck-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+/* Recording Indicator */
+.recording-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  background: #FF0000;
+  border-radius: 50%;
 }
 
-.deck-hint {
+/* State Hint */
+.review-deck-container .deck-hint {
+  text-align: center;
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
+  letter-spacing: 0.15em;
   color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.1em;
 }
 
 /* === LIVE TICKER === */
