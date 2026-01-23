@@ -245,6 +245,51 @@ const SystemDemo = () => {
           ))}
         </div>
       </section>
+
+      {/* Section 5: System Toast Demo */}
+      <section className="demo-section">
+        <h2 className="section-title">SYSTEM VOICE</h2>
+        <p className="section-desc">Голос Системы — монохромные toast-уведомления</p>
+        
+        <div className="toast-demo-grid">
+          <button 
+            className="toast-demo-btn"
+            onClick={() => systemToast.xp(50)}
+          >
+            XP GENERATED: +50
+          </button>
+          <button 
+            className="toast-demo-btn"
+            onClick={() => systemToast.rp(100)}
+          >
+            RP ACQUIRED: +100
+          </button>
+          <button 
+            className="toast-demo-btn"
+            onClick={() => systemToast.trust('SYNC COMPLETE: 98%')}
+          >
+            TRUST SYNC
+          </button>
+          <button 
+            className="toast-demo-btn"
+            onClick={() => systemToast.access('VOID GATE OPENED')}
+          >
+            ACCESS GRANTED
+          </button>
+          <button 
+            className="toast-demo-btn toast-denied"
+            onClick={() => systemToast.denied('LOW TRUST SCORE')}
+          >
+            ACCESS DENIED
+          </button>
+          <button 
+            className="toast-demo-btn toast-warning"
+            onClick={() => systemToast.warning('ENTROPY DETECTED')}
+          >
+            SYSTEM ALERT
+          </button>
+        </div>
+      </section>
     </div>
   );
 };
