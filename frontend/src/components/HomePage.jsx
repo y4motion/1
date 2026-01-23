@@ -37,25 +37,6 @@ import '../styles/glassmorphism.css';
 import '../styles/animations.css';
 import './kinetic/kinetic.css';
 
-// Animation config
-const springSmooth = { type: "spring", stiffness: 300, damping: 30 };
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95 },
-  visible: { 
-    opacity: 1, y: 0, scale: 1,
-    transition: springSmooth
-  }
-};
-
 // Mock data for widgets
 const NEWS_ITEMS = [
   { id: 1, text: "НОВЫЙ DROP: VOID KEYCAPS УЖЕ В ПРОДАЖЕ" },
