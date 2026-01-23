@@ -1221,7 +1221,7 @@
   color: #00FF00;
 }
 
-/* === KINETIC APP GRID === */
+/* === KINETIC APP GRID - MONOCHROME === */
 .kinetic-app-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1261,20 +1261,15 @@
   transform: translateY(-4px);
 }
 
-.app-glow {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.app-widget:hover .app-glow {
-  opacity: 1;
-}
-
+/* Icons - Monochrome white with low opacity */
 .app-icon {
   margin-bottom: 16px;
-  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease;
+}
+
+.app-widget:hover .app-icon {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .app-title {
@@ -1291,27 +1286,39 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* Badges - Muted by default */
 .app-badge {
   position: absolute;
   top: 12px;
   right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 3px 8px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.1em;
 }
 
+/* Only LIVE badge gets red treatment */
 .app-badge.pulse {
-  background: rgba(255, 0, 0, 0.15);
+  background: transparent;
   color: #FF0000;
+}
+
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  background: #FF0000;
+  border-radius: 50%;
   animation: badge-pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes badge-pulse {
-  0%, 100% { opacity: 0.7; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
