@@ -80,7 +80,6 @@ function App() {
                     <GlassyOmniChat />
                     
                     <Suspense fallback={<LoadingScreen />}>
-                      <PageTransition>
                         <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/category/:slug" element={<CategoryPage />} />
