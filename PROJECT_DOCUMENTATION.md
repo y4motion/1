@@ -1727,7 +1727,7 @@ SECRET_KEY=your_jwt_secret_key_here
 
 **Frontend (.env):**
 ```
-REACT_APP_BACKEND_URL=https://omnichat-mod.preview.emergentagent.com/api
+REACT_APP_BACKEND_URL=https://trust-resonance.preview.emergentagent.com/api
 ```
 
 ### C. Запуск проекта

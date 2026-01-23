@@ -1,0 +1,165 @@
+<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called Ghost Protocol. Initially focused on a Cartenon Temple aesthetic for the  page, the project has evolved into a full system architecture overhaul with a Toriki / Future Minimal / Japandi Tech style.
+
+The core of the project is the  file, which dictates the implementation in distinct phases. The system includes:
+- **A Trinity of Metrics:** XP (experience), TS (Trust Score), and RP (Resource Points).
+- **A Hierarchy of Classes:** Users evolve from Ghost to Monarch with different access levels and abilities.
+- **Neural Pathways:** Specializations (Architect, Broker, Observer) chosen at level 10.
+- **System Decryption:** A lootbox alternative for rewards.
+- **Living Legends & Hidden Titles:** A dynamic system where an AI-like service analyzes user behavior to award unique, sometimes temporary, titles based on specific achievements and patterns (e.g., White Hat, The Shepherd, Highlander rule).
+- **Hardcore Economics:** To ensure long-term balance, the system includes an exponential XP curve, trust score decay, diminishing returns, and a costly Rebirth mechanic for changing classes.
+
+The frontend is expected to visually represent this system with a Ghost Resonance concept, where a user's visual representation (avatar) changes based on their Trust Score, moving from a clear Photon Echo to a distorted Glitch Anomaly.
+
+**User's preferred language**: Russian (Русский)
+
+**what currently exists?**
+- A full-stack application (React/FastAPI).
+- The  page has undergone multiple visual iterations and currently has a monochrome minimalist theme. The Guardians feature was implemented, verified, and then removed at the user's request.
+- A new, comprehensive backend system (Ghost Protocol) has been implemented. This includes:
+    - **Mathematical Core:** A  service with formulas for an exponential XP curve, logarithmic trust score growth, RP caps, and diminishing returns for actions.
+    - **Hardcore Mechanics:** Logic for a King of the Hill system for the top 100 users, class reboot penalties, and System Entropy (decay of stats for inactive users).
+    - **Living Legends Engine:** A  service to manage dynamic, AI-recognized titles, including a Highlander mechanic for unique, transferable titles.
+- The user models in the database (, ) have been updated with all the new fields required for this system (, , , , , , etc.).
+- A master plan file, , has been created and contains the full project specification.
+
+**Last working item**:
+- **Last item agent was working:** The user provided a detailed prompt to begin **Phase 2: The Ghost Resonance (Visual Core)**. This involves a complete visual overhaul of how users are represented across the site, replacing a simple Halo with a complex visual engine based on Trust Score. The agent was about to start creating the necessary frontend components.
+- **Status:** NOT STARTED
+- **Agent Testing Done:** N
+- **Which testing method agent to use?** Frontend testing agent. The agent should be instructed to verify the new components (, ) by checking the visual appearance of avatars and profile cards for users with different simulated  values (e.g., >800, 500-799, <400, <200).
+- **User Testing Done:** N
+
+**All Pending/In progress Issue list**:
+- **Issue 1: Implement Phase 2: The Ghost Resonance (Visual Core) (P0)**
+  - **Description:** Implement the visual identity for the Ghost Protocol system as detailed in the user's last prompt and the  file. This is the highest priority task.
+  - **Attempted fixes:** None. The task has just been defined.
+  - **Next debug checklist:**
+      1.  Create : A component that wraps avatars and applies different CSS filters (, , ) and  effects based on the  prop.
+      2.  Create : A component that renders different minimalist SVG icons for each class (Architect, Broker, Observer).
+      3.  Create : The new user profile card component, featuring the  component, a  spider chart for stats, and a 3D tilt effect on hover.
+      4.  Integrate  everywhere an avatar is displayed (chat, reviews, etc.) to ensure the user's status is always visible.
+  - **Why fix this issue and what will be achieved with the fix?** This will complete the visual implementation of the complex backend rating system, making the user's Trust Score a tangible, site-wide visual element and fulfilling a core part of the project's vision.
+  - **Status:** NOT STARTED
+  - **Is recurring issue?** N
+  - **Should Test frontend/backend/both after fix?** Frontend
+  - **Blocked on other issue:** None
+
+**In progress Task List**:
+- None.
+
+**Upcoming and Future Tasks**
+- **Upcoming Tasks:**
+    - **(P0) Phase 3: The Mod Temple & Hidden Shop:** Rebuild the  page architecture according to , implementing The Frieze, the Split mechanic for the hidden shop, and the VoidShop floating product carousel.
+    - **(P1) Phase 4: The Evolution (Interactivity):** Implement the RPG-like mechanics for the user, including the  for level-up rewards, the  screen, and System Notifications (toasts).
+    - **(P2) Implement full Voice & Screen Share capabilities** for the 'support' mode in the chat.
+- **Future Tasks:**
+    - Build out a User Trust/Rating System UI based on the new backend.
+    - Develop social features: , , .
+    - Integrate alternate Payment Systems (Tinkoff + Cryptomus).
+    - Implement Performance Optimization (lazy loading, image optimization).
+
+**Completed work in this session**
+- **Phase 1: Ghost Protocol Backend Core (Hardcore & Living Legends Update):**
+  - Implemented the full backend logic for the user progression system.
+  - Created  with complex mathematical models for XP, Trust Score, and RP.
+  - Created  to handle XP awards with anti-abuse mechanisms.
+  - Created  to manage dynamic, AI-driven titles.
+  - Updated  and  with all new fields.
+  - Tested the mathematical core with a dedicated test script.
+- ** Page Visual Iterations:**
+  - Verified and completed the Guardians feature.
+  - Subsequently removed the Guardians feature per user request.
+  - Redesigned the  page style twice: first to a Cartenon Abyss theme, then to a Monochrome Minimalist theme.
+  - Refined the Monument Frieze hero section, restoring the running code animation and making the pop-up messages smaller and less intrusive.
+- **Project Architecture Documentation:**
+  - Created  as the master plan for the project.
+
+**Earlier issues found/mentioned but not fixed**
+- ** Expanded Panel Robustness:** A P2 verification task from a previous session to check the stability of the hover panel on product cards. Status remains NOT STARTED.
+
+**Known issue recurrence from previous fork**
+- None.
+
+**Code Architecture**
+
+
+**Key Technical Concepts**
+- **Mathematical Modeling (Backend):** The core of the new system relies on specific mathematical formulas to ensure long-term balance:
+    - Exponential/Logarithmic XP Curve for leveling.
+    - Sigmoid/Logarithmic growth for Trust Score.
+    - Decay functions for inactivity (Entropy).
+    - Diminishing returns for spammy actions.
+- **Heuristic Engine for Dynamic Titles (Backend):** The Living Legends system is designed to analyze user behavior patterns () and award unique, often transferable, titles, creating a King of the Hill dynamic.
+- **Advanced CSS & Animation:** The project heavily relies on , complex CSS filters, , and keyframe animations to achieve its highly specific aesthetics (Digital Brutalism, Glassmorphism, Monochrome Minimalism).
+- **Component-Based Architecture (Frontend):** The next phase will focus on creating modular React components (, ) to represent the new backend system visually.
+
+**key DB schema**
+- **User Model:**
+  - :  (0-1000), default 500.
+  - : .
+  - :  (Architect, Broker, Observer, etc.).
+  - , : .
+  - : .
+  - : .
+  - :  (e.g., ).
+  - :  (for AI analysis).
+
+**changes in tech stack**
+- No new technologies were added, but there is a significant increase in the complexity and importance of the custom Python backend logic in the  directory.
+
+**All files of reference**
+- : **The new source of truth for the entire project.** All future work should refer to this file.
+- : Contains the core mathematical logic for user progression.
+- : Manages the dynamic title system.
+- : The updated user schema.
+- : The main component for the  page, which will be rebuilt in Phase 3.
+- : The stylesheet for the  page.
+
+**Areas that need refactoring**:
+-  remains a large, monolithic component. While it's scheduled to be rebuilt in Phase 3, the next agent should be mindful of breaking it down into smaller components as per the  plan.
+
+**key api endpoints**
+- The work in this session was primarily on the backend logic and models. New API endpoints for awarding XP or changing classes were discussed but the focus was on creating the underlying service layer first.  was created to replace the old XP system.
+
+**Critical Info for New Agent**
+- **You MUST respond in Russian.**
+- **Your immediate task is Phase 2: The Ghost Resonance.** Refer to the user's last detailed prompt for implementation specifics. This is not optional; it's the P0 priority.
+- ** is your bible.** The user has meticulously planned the project's future. Do not deviate from the phases outlined in this document.
+- The user has a very strong and specific vision. They value atmospheric, deep, and hardcore systems over simple, game-like features. The new aesthetic is Toriki / Future Minimal.
+
+**documents and test reports created in this job**
+- 
+
+**Last 10 User Messages and any pending HUMAN messages**
+1.  **LATEST:** User provides a highly detailed prompt for Phase 2: The Ghost Resonance, completely redefining the visual representation of users based on their Trust Score, replacing the Halo concept with a complex system of CSS filters and backlight effects. **(PENDING IMPLEMENTATION)**
+2.  User requests an even more hardcore backend, introducing the Living Legends dynamic title system where an AI can analyze behavior and titles can be transferred between users (Highlander rule). (DONE)
+3.  User introduces the concept of Hidden Titles (, ) that are awarded for specific, non-obvious behavioral patterns, requesting the database be updated to support this. (DONE)
+4.  User refines the backend logic to be a Hardcore version, introducing a Throne of 100 (only top 100 Monarchs get elite access), System Entropy (decay for inactive users), and a System Reboot (costly class change with permanent legacy traits). (DONE)
+5.  User approves the backend Mathematical Core plan and provides a detailed prompt for its implementation, including formulas for XP curves, Trust Score decay, and rate limiting. (DONE)
+6.  Agent asks for confirmation to proceed with phases from the new master file. (DONE)
+7.  Agent confirms creation of . (DONE)
+8.  User provides the entire content for the  file, defining all project phases, aesthetics, and mechanics. (DONE)
+9.  Agent presents a full analysis of all existing rating systems on the site. (DONE)
+10. User asks the agent to analyze all rating systems on the site for consolidation and improvement. (DONE)
+
+**Project Health Check:**
+- **Broken:** Nothing is explicitly broken, but the frontend is now out of sync with the new backend vision. The implementation of Phase 2 is required to bridge this gap.
+- **Mocked:** The  content (products, frieze messages) is still hardcoded.
+
+**3rd Party Integrations**
+- : For UI animations.
+- : For icons.
+- : Will be used in Phase 2 for the spider chart in .
+
+**Testing status**
+- **Testing agent used after significant changes:** NO
+- **Troubleshoot agent used after agent stuck in loop:** NO
+- **Test files created:**
+  - A temporary python script was used to test the backend math engine (), but it was not saved as a permanent test file.
+- **Known regressions:** None.
+
+**Credentials to test flow:**
+- N/A (Standard environment credentials apply).
+
+**What agent forgot to execute**
+- The agent was about to begin the implementation of **Phase 2: The Ghost Resonance** as requested by the user. This is the immediate next step.</analysis>

@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://omnichat-mod.preview.emergentagent.com/
-- **Backend API:** https://omnichat-mod.preview.emergentagent.com/api
-- **Превью японских фото:** https://omnichat-mod.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://trust-resonance.preview.emergentagent.com/
+- **Backend API:** https://trust-resonance.preview.emergentagent.com/api
+- **Превью японских фото:** https://trust-resonance.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
