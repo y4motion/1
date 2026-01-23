@@ -142,27 +142,51 @@ class UserResponse(UserBase):
     is_admin: bool
     is_seller: bool
     is_moderator: bool
-    level: int
-    experience: int
-    coins: int
-    achievements: list
-    daily_quests: list
-    inventory: list
-    wishlist: list
-    monthly_rp: int
-    current_streak: int
-    online_status: str
+    
+    # Ghost Protocol Core
+    xp_total: int = 0
+    level: int = 1
+    experience: int = 0
+    trust_score: float = 500.0
+    rp_balance: int = 0
+    monthly_rp: int = 0
+    class_type: Optional[str] = None
+    hierarchy: str = "ghost"
+    
+    # Legacy/Gamification
+    coins: int = 0
+    achievements: list = Field(default_factory=list)
+    daily_quests: list = Field(default_factory=list)
+    inventory: list = Field(default_factory=list)
+    wishlist: list = Field(default_factory=list)
+    
+    # Activity
+    current_streak: int = 0
+    longest_streak: int = 0
+    online_status: str = "online"
     bio: Optional[str] = None
     location: Optional[str] = None
     website: Optional[str] = None
     referral_code: Optional[str] = None
     joined_date: Optional[datetime] = None
-    is_verified_creator: bool
+    
+    # Creator
+    is_verified_creator: bool = False
     creator_profile_id: Optional[str] = None
-    has_video_hover: bool
+    has_video_hover: bool = False
     video_hover_url: Optional[str] = None
+    
+    # Profile
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
+    phone_verified: bool = False
+    id_verified: bool = False
+    
+    # Radar stats
+    stats_speed: int = 50
+    stats_trust: int = 50
+    stats_comm: int = 50
+    stats_tech: int = 50
 
 
 class TokenResponse(BaseModel):
