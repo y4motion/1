@@ -847,45 +847,42 @@
 }
 
 /* ============================================
-   COMMUNITY PULSE WIDGET
+   COMMUNITY PULSE WIDGETS (Two Cards)
    ============================================ */
 
-.community-pulse {
+/* Row container for both widgets */
+.community-pulse-row {
+  display: contents;
+}
+
+/* Individual pulse widget */
+.pulse-widget {
   position: relative;
-  perspective: 1000px;
 }
 
-.pulse-flip-container {
-  position: relative;
-  width: 100%;
-  min-height: 280px;
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.pulse-flip-container.flipped {
-  transform: rotateY(180deg);
-}
-
-.pulse-card {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
+.pulse-widget-inner {
   background: rgba(15, 15, 17, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 24px;
   padding: 20px;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
 }
 
-.pulse-front {
-  z-index: 2;
+.pulse-widget:hover .pulse-widget-inner {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-.pulse-back {
-  transform: rotateY(180deg);
+/* Network widget glow */
+.network-pulse:hover .pulse-widget-inner {
+  box-shadow: 0 0 40px -15px rgba(0, 255, 212, 0.15);
+}
+
+/* Consensus widget glow */
+.consensus-pulse:hover .pulse-widget-inner {
+  box-shadow: 0 0 40px -15px rgba(255, 159, 67, 0.15);
 }
 
 .pulse-header {
@@ -913,6 +910,29 @@
 
 .pulse-badge.consensus {
   color: #FF9F43;
+}
+
+.pulse-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #FF0000;
+}
+
+.pulse-live .live-dot {
+  width: 6px;
+  height: 6px;
+  background: #FF0000;
+  border-radius: 50%;
+  animation: pulse-red 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .flip-btn {
