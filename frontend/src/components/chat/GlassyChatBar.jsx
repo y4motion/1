@@ -362,12 +362,54 @@ const GlassyChatBar = () => {
       if (event.detail?.tab) {
         setActiveTab(event.detail.tab);
       }
+      if (event.detail?.message) {
+        // Add welcome message from bot
+        const welcomeMsg = {
+          id: `welcome-${Date.now()}`,
+          role: 'assistant',
+          content: event.detail.message,
+          timestamp: new Date().toISOString(),
+        };
+        setMessages(prev => ({
+          ...prev,
+          ai: [...(prev.ai || []), welcomeMsg]
+        }));
+      }
       handleInteraction();
     };
     
     window.addEventListener('openGlassyChat', handleOpenChat);
     return () => window.removeEventListener('openGlassyChat', handleOpenChat);
   }, [handleInteraction]);
+
+  // ========================================
+  // AUTO-OPEN ON PC BUILDER PAGE
+  // ========================================
+  
+  useEffect(() => {
+    const path = location.pathname;
+    
+    // Auto-open chat bar (collapsed but visible) on PC Builder page
+    if (path.startsWith('/pc-builder')) {
+      // Only show welcome on first visit to PC Builder in this session
+      const hasSeenBuilderWelcome = sessionStorage.getItem('pcbuilder_chat_shown');
+      
+      if (!hasSeenBuilderWelcome) {
+        // Delay to let page load first
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('openGlassyChat', { 
+            detail: { 
+              tab: 'ai',
+              message: language === 'ru' 
+                ? '🔧 Привет! Я помогу тебе собрать идеальный ПК. Расскажи, для каких задач тебе нужен компьютер — игры, работа, стриминг? Или могу подсказать по совместимости компонентов!'
+                : '🔧 Hey! I\'m here to help you build the perfect PC. Tell me what you need it for — gaming, work, streaming? I can also help with component compatibility!'
+            }
+          }));
+          sessionStorage.setItem('pcbuilder_chat_shown', 'true');
+        }, 1500);
+      }
+    }
+  }, [location.pathname, language]);
 
   // ========================================
   // SPEECH RECOGNITION
