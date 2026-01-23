@@ -71,9 +71,6 @@ export default function HomePage() {
       
       {/* Hero Section (Search + Video Background) */}
       <HeroSection />
-      
-      {/* Control Strip (Zen Mode + Sonic Tuner) */}
-      <ControlStrip />
 
       {/* ====================================
           ZONE B: KINETIC WORKSPACE
