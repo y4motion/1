@@ -1322,7 +1322,7 @@
   50% { opacity: 1; }
 }
 
-/* === KINETIC CATEGORIES === */
+/* === KINETIC CATEGORIES - ABSTRACT STYLE === */
 .kinetic-categories {
   margin-bottom: 40px;
 }
@@ -1380,65 +1380,73 @@
   grid-row: span 1;
 }
 
-.category-island-inner {
+/* Abstract Style - No Photos */
+.category-island-inner.abstract {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-  padding: 20px;
+  padding: 16px;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  background: linear-gradient(145deg, rgba(20, 20, 22, 0.9) 0%, rgba(10, 10, 12, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
 }
 
-.category-island-inner:hover {
+.category-island-inner.abstract:hover {
+  border-color: rgba(255, 255, 255, 0.12);
   transform: scale(1.02);
 }
 
-.category-bg {
+/* Dot Grid Pattern Background */
+.category-pattern {
   position: absolute;
   inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
 }
 
-.category-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.category-island-inner:hover .category-bg img {
-  transform: scale(1.1);
-}
-
-.category-overlay {
+/* Large Ghost Icon - Technical Panel Style */
+.category-ghost-icon {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
 }
 
+.category-island-inner.abstract:hover .category-ghost-icon {
+  color: rgba(255, 255, 255, 0.06);
+}
+
+/* Content - Corner Typography */
 .category-content {
   position: relative;
   z-index: 1;
-}
-
-.category-icon {
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .category-name {
-  font-size: 16px;
-  font-weight: 500;
-  color: white;
-  margin: 0 0 4px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .category-count {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
 }
 
+/* HOT Badge - Only red element */
 .category-hot-badge {
   position: absolute;
   top: 12px;
@@ -1447,9 +1455,8 @@
   align-items: center;
   gap: 4px;
   padding: 4px 10px;
-  background: rgba(255, 0, 0, 0.2);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  border-radius: 12px;
+  background: transparent;
+  border: none;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   color: #FF0000;
