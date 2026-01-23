@@ -177,15 +177,23 @@ const ModPage = () => {
     if (!isArmoryOpen) {
       playStoneSlide();
       setTimeout(playGateOpen, 300);
+      systemToast.access('VOID GATE OPENING...');
+    } else {
+      systemToast.info('VOID SEALED');
     }
     setIsArmoryOpen(!isArmoryOpen);
     setSelectedArtifact(null);
   };
 
   const openDirectLine = () => {
+    systemToast.success('CONNECTION ESTABLISHED');
     window.dispatchEvent(new CustomEvent('openGlassyChat', { 
       detail: { mode: 'founders', golden: true } 
     }));
+  };
+
+  const handleAccessDenied = () => {
+    systemToast.denied(`LOW TRUST — LEVEL ${userLevel}/${50} REQUIRED`);
   };
 
   return (
