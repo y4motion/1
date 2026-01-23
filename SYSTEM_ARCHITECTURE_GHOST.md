@@ -160,15 +160,30 @@
 
 ## V. IMPLEMENTATION PLAN
 
-### PHASE 1: THE BACKEND CORE
+### PHASE 1: THE BACKEND CORE ✅ COMPLETED
 **Priority:** P0
-**Files:** `/backend/models/rating.py`, `/backend/models/user.py`
+**Files:** 
+- `/backend/models/user.py` - Updated
+- `/backend/models/rating.py` - Updated  
+- `/backend/services/leveling_system.py` - NEW (Mathematical Core)
+- `/backend/services/xp_service.py` - NEW (High-level XP/Trust operations)
+- `/backend/routes/rating_routes.py` - Updated with new endpoints
 
-**Tasks:**
-1. Update User Model: Add fields for `trust_score` (int, default 500), `rp_balance` (int), `class_type` (enum: Architect, Broker, Observer, null)
-2. Create 'SystemCache' Logic: A function that generates rewards based on probabilities when a user levels up
-3. Update Review Model: Add `weight` calculation based on User Class (Observer = x3 weight)
-4. Add hierarchy calculation based on level ranges
+**Implemented:**
+1. ✅ XP Exponential Curve: `XP = 100 * (Level ^ 1.5)`
+2. ✅ Trust Score with Logarithmic Growth & Decay
+3. ✅ RP Cap: `100 + (Level * 25) + (TrustScore / 10)`
+4. ✅ Vote Weight: `1.0 + (Level/20) + (Trust-500)/500 + ClassBonus + HierarchyBonus`
+5. ✅ Anti-Abuse: Rate limiting (60s), Daily caps (1000 XP social), Diminishing returns
+6. ✅ Class System: Architect/Broker/Observer with 30-day change cooldown
+7. ✅ Trust Decay: -1% weekly for inactive users toward neutral (500)
+
+**New API Endpoints:**
+- `POST /api/rating/award-xp` - Award XP with anti-abuse
+- `POST /api/rating/update-trust` - Update trust score
+- `POST /api/rating/select-class` - Select Neural Pathway
+- `GET /api/rating/ghost-profile` - Get full Ghost Protocol profile
+- `GET /api/rating/ghost-profile/{user_id}` - Get user's Ghost profile
 
 ### PHASE 2: THE VISUAL IDENTITY (ID & HALO)
 **Priority:** P0
