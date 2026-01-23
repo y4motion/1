@@ -521,7 +521,15 @@ const ModPage = () => {
                 </motion.button>
               ) : (
                 <div className="access-denied">
-                  <div className="locked-btn"><Lock size={18} /><span>LEVEL 50+ ONLY</span></div>
+                  <motion.div 
+                    className="locked-btn" 
+                    onClick={handleAccessDenied}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Lock size={18} /><span>LEVEL 50+ ONLY</span>
+                  </motion.div>
                   <p className="access-hint">Current level: {userLevel}</p>
                 </div>
               )}
