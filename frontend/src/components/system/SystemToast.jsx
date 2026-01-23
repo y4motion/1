@@ -4,10 +4,12 @@
  * 
  * Monospace toast notifications with "decoding" text effect.
  * Style: Black rectangle, thin white border, typewriter reveal.
+ * Audio: Integrated with SystemAudio for immersive feedback.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { playToastClick, playAccessGranted, playAccessDenied } from './SystemAudio';
 import './SystemToast.css';
 
 // Toast types with their visual config
