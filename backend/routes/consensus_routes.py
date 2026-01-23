@@ -16,6 +16,7 @@ from models.consensus_idea import (
     IdeaCategory, IdeaStatus, RP_COSTS
 )
 from routes.auth_routes import get_current_user
+from utils.auth_utils import get_current_user_optional
 from services.consensus_service import ConsensusService
 
 router = APIRouter(prefix="/consensus", tags=["consensus"])
@@ -35,7 +36,7 @@ async def get_ideas(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=50),
     sort: str = Query("score", description="Sort: score, new, trending"),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """Get ranked ideas (King of the Hill)"""
     
@@ -89,7 +90,7 @@ async def get_ideas(
 @router.get("/idea/{idea_id}")
 async def get_idea(
     idea_id: str,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """Get a single idea with comments"""
     
@@ -361,7 +362,7 @@ async def update_idea_status(
 
 @router.get("/info")
 async def get_consensus_info(
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user_optional)
 ):
     """Get info about consensus system (costs, requirements)"""
     
