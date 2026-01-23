@@ -9,9 +9,8 @@
  */
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import HeroSection from './home/HeroSection';
-import { useScrollRevealInit } from '../hooks/useScrollRevealInit';
 import { useGhostStore } from '../stores/useGhostStore';
 
 // Kinetic Components
