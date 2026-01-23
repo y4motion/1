@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from typing import List
+from typing import List, Optional
+from pydantic import BaseModel
 from models.rating import UserStats, Achievement, XPTransaction, MonthlyLeaderboard
 from models.user import User
 from utils.auth_utils import get_current_user
@@ -7,31 +8,56 @@ from utils.cache import cache_response, invalidate_cache
 from database import get_database
 from datetime import datetime, timezone
 
+# Import Ghost Protocol services
+from services.leveling_system import (
+    calculate_level_from_xp,
+    calculate_xp_progress,
+    get_hierarchy,
+    get_trust_tier,
+    calculate_rp_cap,
+    calculate_vote_weight,
+    get_class_bonuses,
+    can_select_class,
+    UserClass,
+    UserHierarchy,
+    ActionType,
+)
+from services.xp_service import (
+    award_xp,
+    update_trust_score,
+    award_rp,
+    spend_rp,
+    select_class,
+    get_user_ghost_profile,
+)
+
 router = APIRouter(prefix="/rating", tags=["rating"])
 
 
+# Request/Response models
+class AwardXPRequest(BaseModel):
+    action_type: str
+    custom_amount: Optional[int] = None
+
+class UpdateTrustRequest(BaseModel):
+    action: str
+    is_penalty: bool = False
+    custom_amount: Optional[float] = None
+
+class SelectClassRequest(BaseModel):
+    class_type: str  # architect, broker, observer
+
+
+# Legacy compatibility functions
 def calculate_level(xp: int) -> int:
-    """Calculate level from XP (progressive difficulty)"""
-    # Level 1: 0 XP, Level 2: 1000 XP, Level 3: 2500 XP, etc.
-    level = 1
-    xp_needed = 0
-    increment = 1000
-    
-    while xp >= xp_needed:
-        xp -= xp_needed
-        level += 1
-        xp_needed = increment
-        increment = int(increment * 1.2)  # 20% increase per level
-    
-    return level - 1
+    """Calculate level from XP - now uses Ghost Protocol formula"""
+    return calculate_level_from_xp(xp)
 
 
 def xp_to_next_level(current_xp: int, current_level: int) -> int:
     """Calculate XP needed for next level"""
-    base = 1000
-    for i in range(current_level):
-        base = int(base * 1.2)
-    return base
+    _, xp_needed, _ = calculate_xp_progress(current_xp)
+    return xp_needed
 
 
 @router.get("/me", response_model=UserStats)
