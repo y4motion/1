@@ -42,6 +42,11 @@ const GlassySwapPage = React.lazy(() => import('./components/GlassySwapPage'));
 const MindDashboard = React.lazy(() => import('./components/admin/MindDashboard'));
 const SystemDemo = React.lazy(() => import('./components/demo/SystemDemo'));
 
+// Community / Social Core
+const CommunityHub = React.lazy(() => import('./pages/community/CommunityHub'));
+const NetworkPage = React.lazy(() => import('./pages/community/NetworkPage'));
+const ConsensusPage = React.lazy(() => import('./pages/community/ConsensusPage'));
+
 // Redirect component for /chat routes - opens GlassyChatBar on home
 const ChatRedirect = () => {
   useEffect(() => {
@@ -113,6 +118,12 @@ function App() {
                     <Route path="/glassy-swap/:id" element={<GlassySwapPage />} />
                     <Route path="/admin/mind" element={<MindDashboard />} />
                     <Route path="/system-demo" element={<SystemDemo />} />
+                    
+                    {/* Community / Social Core */}
+                    <Route path="/community" element={<CommunityHub />} />
+                    <Route path="/community/network" element={<NetworkPage />} />
+                    <Route path="/community/consensus" element={<ConsensusPage />} />
+                    
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}
