@@ -107,47 +107,25 @@ export default function HomePage() {
           margin: '0 auto', 
           padding: '40px 24px' 
         }}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
         {/* System Status Bar (Live Activity + Trending) */}
-        <AnimatePresence>
-          {!isZenMode && (
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
-            >
-              <SystemStatusBar />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isZenMode && <SystemStatusBar />}
 
         {/* App Grid (Always visible) */}
-        <motion.div variants={itemVariants}>
-          <KineticAppGrid />
-        </motion.div>
+        <KineticAppGrid />
 
         {/* Live News Ticker */}
-        <AnimatePresence>
-          {!isZenMode && (
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, transition: { duration: 0.3 } }}
-              style={{ marginBottom: '32px' }}
-            >
-              <LiveTicker items={NEWS_ITEMS} speed={35} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isZenMode && (
+          <div style={{ marginBottom: '32px' }}>
+            <LiveTicker items={NEWS_ITEMS} speed={35} />
+          </div>
+        )}
 
         {/* Kinetic Dashboard Row (Reviews + Poll + Network + Consensus) */}
-        <motion.div 
-          variants={itemVariants}
+        <div 
           className="dashboard-row"
           style={{ 
             display: 'grid', 
@@ -160,35 +138,13 @@ export default function HomePage() {
           <ActivePoll poll={ROADMAP_POLL} />
           <NetworkPulse />
           <ConsensusPulse />
-        </motion.div>
+        </div>
 
         {/* Categories Bento Grid (Hidden in Zen Mode) */}
-        <AnimatePresence>
-          {!isZenMode && (
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-            >
-              <KineticCategories />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isZenMode && <KineticCategories />}
 
         {/* Hot Deals Stack (Hidden in Zen Mode) */}
-        <AnimatePresence>
-          {!isZenMode && (
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-            >
-              <HotDealsStack />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isZenMode && <HotDealsStack />}
       </motion.main>
 
       {/* ====================================
