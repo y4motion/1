@@ -1,61 +1,107 @@
 # Ghost Protocol - PRD
-## Kinetic Dot-OS: Howard.le x Nothing Style UI
+## Ghost OS Dashboard - Total Kinetic Overhaul
 
 ### Original Problem Statement
-Build a hyper-stylized website with "Kinetic Dot-OS" UI following Howard.le motion design principles + Nothing OS aesthetic. The UI implements **Layout Projection**, **Shared Element Transitions**, and **Compound State Machines**.
+Transform the homepage from a static "Web 2.0 Frankenstein" into a living "Ghost OS Dashboard" with kinetic physics, gamification, and immersive UI.
 
-### Design Spec
-See `/app/design/KINETIC_UI_SPEC.md` for animation bible.
+### Design Documents
+- `/app/design/GHOST_DASHBOARD_SPEC.md` - Master architecture spec
+- `/app/design/KINETIC_UI_SPEC.md` - Animation bible
 
 ---
 
-## What's Been Implemented
+## What's Been Implemented (Jan 23, 2025)
 
-### ✅ Phase 1-3: Ghost Protocol Core (COMPLETE)
-- Trust score visualization, leveling system
-- ModPage with Split Gate, Void Shop, Timeline
+### ✅ ZONE A: Hero & Control Deck
+- **HeroSection** - Search with video background, 8 easter eggs
+- **ControlStrip** - Glass panel with time display
+- **ZenModeToggle** - Hides noisy sections, cyan glow when active
+- **SonicTuner** - Volume control + preset selector (locked by level)
 
-### ✅ Kinetic Dot-OS: Howard.le Level UI (COMPLETE - Jan 23, 2025)
+### ✅ ZONE B: Kinetic Workspace
+- **SystemStatusBar** - Live activity feed + trending chips merged
+  - Online count with green pulse
+  - User activities (purchases, views)
+  - HOT trending searches with growth %
+- **KineticAppGrid** - 8 app widgets (4x2)
+  - BUILDER (AI), FEED (LIVE), MINIMAL OS, SWAP
+  - RATING, CREATORS, GUIDES, GROUP BUY (HOT)
+  - Colored icons, hover glow effects
+- **LiveTicker** - Running news with red dot
+- **ReviewDeck** - 3-state stack (Stack → Fan → List)
+- **ActivePoll** - Dotted progress bars voting
+- **KineticCategories** - Bento grid with mixed sizes
+  - Large (2x2): Видеокарты
+  - Medium: Мониторы, Клавиатуры
+  - Small: Аудио, Периферия, etc.
+  - Real images, HOT badges
+- **HotDealsStack** - Swipeable card deck
+  - Countdown timer per deal
+  - Discount badges
+  - Navigation (1/3)
 
-**The Stack (ReviewDeck) - 3 State Compound Animation:**
+### ✅ ZONE C: System Telemetry
+- **TelemetryBar** - Terminal-style metrics
+  - LIVE.NODES, PRODUCTS.INDEXED, XP.GENERATED, TRADES.TODAY
+  - Blinking cursor, flash on update
+
+### ✅ Infrastructure
+- **useGhostStore.js** (Zustand) - Global state for Zen Mode, Sound, Telemetry
+- All components use `framer-motion` spring physics
+- Stagger animations on page load
+
+---
+
+## Zen Mode Behavior
+When activated:
+- ✅ Hides: SystemStatusBar, LiveTicker
+- ✅ Shows: Hero, ControlStrip, AppGrid, Dashboard widgets
+
+---
+
+## File Structure
+
 ```
-STACK (compact) → FAN (preview) → LIST (expanded)
+/app/frontend/src/
+├── stores/
+│   └── useGhostStore.js         # Zustand global state
+├── components/
+│   ├── kinetic/
+│   │   ├── ControlStrip.jsx
+│   │   ├── ZenModeToggle.jsx
+│   │   ├── SonicTuner.jsx
+│   │   ├── SystemStatusBar.jsx
+│   │   ├── KineticAppGrid.jsx
+│   │   ├── KineticCategories.jsx
+│   │   ├── HotDealsStack.jsx
+│   │   ├── TelemetryBar.jsx
+│   │   ├── ReviewDeck.jsx
+│   │   ├── LiveTicker.jsx
+│   │   ├── ActivePoll.jsx
+│   │   └── kinetic.css
+│   └── HomePage.jsx             # Orchestrator
+└── design/
+    ├── GHOST_DASHBOARD_SPEC.md
+    └── KINETIC_UI_SPEC.md
 ```
-- Cards physically transform with rotation (-8°, 0°, +8°) and translation
-- Spring physics on all transitions (`stiffness: 400, damping: 20`)
-- Layout animation enables neighbor widgets to reflow smoothly
-
-**Fluid Bento Grid:**
-- `flex-wrap` based layout with `motion.div layout` prop
-- Widgets are "Floating Islands" that respond to expansion
-- Stagger entrance animation (`staggerChildren: 0.12`)
-
-**Live Components:**
-- `LiveTicker` - Pause on hover, red recording dot
-- `ActivePoll` - Dotted progress bars with live updates
-- `KineticWidget` - Base island with breathing animation
-- `OSWidget`, `LabSlider` - On ModPage ecosystem
-
-**Visual Dialect:**
-- JetBrains Mono typography
-- Monochrome palette with #FF0000 red accents only
-- 32px border-radius, glass-morphism backdrop
-
-### Verified No Regressions
-- `/marketplace` ✅
-- `/swap` ✅
 
 ---
 
 ## Prioritized Backlog
 
+### P0 - Critical
+- None currently
+
 ### P1 - High Priority
-- **Morphing Cards**: Small widget stretches to become full-width modal (layoutId transition)
-- **Phase 4 Evolution**: `DecryptionCube.jsx`, `ClassSelection.jsx`
+- **Sound Files** - Add actual ambient audio files to /public/sounds/
+- **Operator Status Widget** - User XP/RP/Level display
+- **Event Widget** - Countdown to drops/events
+- **Phase 4 Evolution** - DecryptionCube, ClassSelection
 
 ### P2 - Medium Priority
-- **Ghost OS Menu** - Neural Hub concept
-- **ProductCard panel verification**
+- **Ghost OS Menu** - NeuralHub concept from archived doc
+- **Morphing Cards** - layoutId shared element transitions
+- **ProductCard verification**
 
 ### P3 - Future
 - Voice & Screen Share
@@ -64,49 +110,24 @@ STACK (compact) → FAN (preview) → LIST (expanded)
 
 ---
 
-## Architecture
-
-```
-/app/
-├── design/
-│   └── KINETIC_UI_SPEC.md      # Animation Bible
-└── frontend/src/components/
-    ├── kinetic/
-    │   ├── KineticWidget.jsx   # Base floating island
-    │   ├── ReviewDeck.jsx      # 3-state stack (Stack→Fan→List)
-    │   ├── LiveTicker.jsx      # Running news
-    │   ├── ActivePoll.jsx      # Live voting
-    │   ├── OSWidget.jsx        # System status
-    │   ├── LabSlider.jsx       # Concept slider
-    │   └── kinetic.css         # All kinetic styles
-    ├── HomePage.jsx            # Fluid Bento Dashboard
-    └── ModPage.jsx             # Temple with Kinetic Ecosystem
-```
-
-### Key Patterns (from KINETIC_UI_SPEC.md)
-```javascript
-// Spring presets
-const springSmooth = { type: "spring", stiffness: 300, damping: 30 };
-const springBouncy = { type: "spring", stiffness: 400, damping: 20 };
-
-// Stagger container
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12 }
-  }
-};
-
-// Layout animation (enables reflow)
-<motion.div layout layoutId="unique-id">
-  {content}
-</motion.div>
+## Dependencies Added
+```json
+{
+  "zustand": "^5.0.10",
+  "use-sound": "^5.0.0",
+  "howler": "^2.2.4"
+}
 ```
 
 ---
 
-## 3rd Party Integrations
-- `framer-motion` (LayoutGroup, AnimatePresence, layout prop)
-- `lucide-react`
-- `recharts`
+## Testing Status
+- Visual verification: ✅ All zones working
+- Zen Mode: ✅ Toggles sections correctly
+- Responsive: Not fully tested
+- Regression check: /marketplace, /swap not affected
+
+---
+
+*Updated: January 23, 2025*
+*Status: GHOST OS DASHBOARD MVP COMPLETE*
