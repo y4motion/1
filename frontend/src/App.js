@@ -148,7 +148,6 @@ function App() {
                     />
                     <Route path="/ads" element={<PlaceholderPage title="ADVERTISING INFO" />} />
                     </Routes>
-                      </PageTransition>
                     </Suspense>
                   </main>
                   
