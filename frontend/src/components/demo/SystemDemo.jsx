@@ -70,7 +70,7 @@ const DEMO_USERS = [
   },
   {
     id: '0x0BAD',
-    username: 'CORRUPTED_SYS',
+    username: 'CORRUPTED',
     level: 5,
     xp: 400,
     trustScore: 120,
@@ -78,7 +78,8 @@ const DEMO_USERS = [
     classType: null,
     classTier: 0,
     registeredAt: '2025-01-01',
-    stats: { speed: 15, comm: 10, tech: 20 }
+    stats: { speed: 15, comm: 10, tech: 20 },
+    signalState: 'CORRUPTED — Heavy distortion, near invisible'
   }
 ];
 
@@ -89,14 +90,15 @@ const SystemDemo = () => {
   return (
     <div className="system-demo" data-testid="system-demo-page">
       <header className="demo-header">
-        <h1 className="demo-title">GHOST PROTOCOL</h1>
-        <p className="demo-subtitle">Phase 2: Visual Identity System</p>
+        <h1 className="demo-title">GHOST RESONANCE</h1>
+        <p className="demo-subtitle">Phase 2: Signal Quality Visualization</p>
+        <p className="demo-philosophy">Trust = Коэффициент Стабильности Сигнала</p>
       </header>
 
-      {/* Section 1: User Resonance */}
+      {/* Section 1: User Resonance - Signal States */}
       <section className="demo-section">
-        <h2 className="section-title">USER RESONANCE</h2>
-        <p className="section-desc">Trust Score визуализация через CSS фильтры и эффекты</p>
+        <h2 className="section-title">SIGNAL STATES</h2>
+        <p className="section-desc">Физика света: Backlight, Noise, RGB-Split, Chromatic Aberration</p>
         
         <div className="resonance-grid">
           {DEMO_USERS.map(user => (
@@ -116,6 +118,9 @@ const SystemDemo = () => {
               </UserResonance>
               <span className="resonance-demo-name">{user.username}</span>
               <span className="resonance-demo-trust">TS: {user.trustScore}</span>
+              {user.signalState && (
+                <span className="resonance-demo-state">{user.signalState}</span>
+              )}
             </div>
           ))}
         </div>
