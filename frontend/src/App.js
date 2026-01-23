@@ -39,6 +39,7 @@ const RatingPage = React.lazy(() => import('./components/RatingPage'));
 const GroupBuyPage = React.lazy(() => import('./components/GroupBuyPage'));
 const GlassySwapPage = React.lazy(() => import('./components/GlassySwapPage'));
 const MindDashboard = React.lazy(() => import('./components/admin/MindDashboard'));
+const SystemDemo = React.lazy(() => import('./components/demo/SystemDemo'));
 
 // Redirect component for /chat routes - opens GlassyChatBar on home
 const ChatRedirect = () => {
