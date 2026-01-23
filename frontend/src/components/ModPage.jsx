@@ -237,7 +237,7 @@ const BrandProduct = ({ product, isBlurred, onHover }) => (
   </motion.div>
 );
 
-// Horizontal Timeline Node with Soul Pulse
+// Horizontal Timeline Node with Neural Impulses
 const TimelineNode = ({ event, index, isLast }) => (
   <motion.div
     className="h-timeline-node"
@@ -255,11 +255,11 @@ const TimelineNode = ({ event, index, isLast }) => (
       <h4 className="h-node-title">{event.title}</h4>
       <p className="h-node-desc">{event.desc}</p>
     </div>
-    {/* Soul Thread - animated pulse between nodes */}
+    {/* Neural Thread - random impulse sparks */}
     {!isLast && (
       <div className="soul-thread">
         <div className="thread-line" />
-        <div className="thread-pulse" style={{ animationDelay: `${index * 0.3}s` }} />
+        <div className="thread-pulse" />
       </div>
     )}
   </motion.div>
