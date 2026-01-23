@@ -1,17 +1,19 @@
 /**
  * UserResonance.css
  * Ghost Protocol - Visual Identity System
- * Trust-based avatar styling with halo, glow, and glitch effects
+ * 
+ * PHILOSOPHY: Trust = Signal Quality
+ * NO rings/halos. Only diffuse backlight, noise, and chromatic aberration.
  */
 
 /* Size Variables */
-.resonance-xs { --resonance-size: 24px; --halo-width: 1px; --label-size: 8px; }
-.resonance-sm { --resonance-size: 32px; --halo-width: 1px; --label-size: 9px; }
-.resonance-md { --resonance-size: 48px; --halo-width: 2px; --label-size: 10px; }
-.resonance-lg { --resonance-size: 64px; --halo-width: 2px; --label-size: 11px; }
-.resonance-xl { --resonance-size: 96px; --halo-width: 3px; --label-size: 12px; }
+.resonance-xs { --resonance-size: 24px; --label-size: 8px; }
+.resonance-sm { --resonance-size: 32px; --label-size: 9px; }
+.resonance-md { --resonance-size: 48px; --label-size: 10px; }
+.resonance-lg { --resonance-size: 64px; --label-size: 11px; }
+.resonance-xl { --resonance-size: 96px; --label-size: 12px; }
 
-/* Base Container */
+/* ===== BASE CONTAINER ===== */
 .user-resonance {
   position: relative;
   display: inline-flex;
@@ -27,21 +29,23 @@
   transform: scale(1.05);
 }
 
-/* Halo Ring */
-.resonance-halo {
+/* ===== DIFFUSE BACKLIGHT (Not a ring!) ===== */
+.resonance-backlight {
   position: absolute;
-  inset: -4px;
+  inset: calc(var(--backlight-spread) * -0.5);
   border-radius: 50%;
-  border: var(--halo-width) solid var(--halo-color);
-  opacity: var(--glow-intensity);
-  box-shadow: 
-    0 0 calc(var(--resonance-size) * 0.15) var(--halo-color),
-    inset 0 0 calc(var(--resonance-size) * 0.1) var(--halo-color);
+  background: radial-gradient(
+    circle at center,
+    var(--backlight-color) 0%,
+    transparent 70%
+  );
+  filter: blur(calc(var(--backlight-spread) * 0.4));
   pointer-events: none;
+  z-index: 0;
   transition: all 0.3s ease;
 }
 
-/* Avatar Container */
+/* ===== AVATAR CONTAINER ===== */
 .resonance-avatar {
   width: 100%;
   height: 100%;
@@ -50,6 +54,8 @@
   position: relative;
   z-index: 1;
   background: var(--ghost-surface, #141416);
+  /* Standard hard shadow for neutral */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .resonance-img {
@@ -73,65 +79,61 @@
   text-transform: uppercase;
 }
 
-/* Trust Label */
+/* ===== TRUST LABEL ===== */
 .resonance-label {
   position: absolute;
-  bottom: calc(var(--resonance-size) * -0.35);
+  bottom: calc(var(--resonance-size) * -0.4);
   left: 50%;
   transform: translateX(-50%);
   font-family: 'JetBrains Mono', monospace;
   font-size: var(--label-size);
-  letter-spacing: 0.1em;
-  color: var(--halo-color);
+  letter-spacing: 0.12em;
   white-space: nowrap;
   opacity: 0.8;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
 }
 
-/* ===== TIER SPECIFIC STYLES ===== */
-
-/* Photon Echo (Trust > 800) */
-.resonance-photon .resonance-halo {
-  background: radial-gradient(
-    circle at center,
-    transparent 60%,
-    rgba(0, 255, 212, 0.1) 100%
+/* ===== LASER LINE (Photon Echo only) ===== */
+.laser-line {
+  position: absolute;
+  left: 50%;
+  top: -20%;
+  bottom: -20%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(34, 211, 238, 0.6) 30%,
+    rgba(34, 211, 238, 0.8) 50%,
+    rgba(34, 211, 238, 0.6) 70%,
+    transparent 100%
   );
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 3;
+  animation: laser-pulse 2s ease-in-out infinite;
 }
 
-.resonance-photon:hover .resonance-halo {
-  box-shadow: 
-    0 0 calc(var(--resonance-size) * 0.3) var(--halo-color),
-    inset 0 0 calc(var(--resonance-size) * 0.15) var(--halo-color);
+@keyframes laser-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
-/* Ghost State (Trust 500-800) */
-.resonance-ghost .resonance-halo {
-  opacity: 0.4;
+/* ===== NOISE OVERLAY (Signal Decay) ===== */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
 }
 
-/* Warning Signal (Trust 400-500) */
-.resonance-warning .resonance-halo {
-  border-style: dashed;
-}
-
-/* Glitch Anomaly (Trust 200-400) */
-.resonance-glitch .resonance-avatar {
-  animation: avatar-shake 0.5s ease-in-out infinite;
-}
-
-/* Corrupted (Trust < 200) */
-.resonance-corrupted .resonance-avatar {
-  opacity: 0.6;
-}
-
-.resonance-corrupted .resonance-halo {
-  border-style: dotted;
-  animation: halo-flicker 0.3s ease-in-out infinite;
-}
-
-/* ===== GLITCH OVERLAY ===== */
-
-.resonance-glitch-overlay {
+/* ===== RGB SPLIT (Chromatic Aberration) ===== */
+.rgb-split-layer {
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -140,142 +142,176 @@
   mix-blend-mode: screen;
 }
 
-.glitch-level-1 {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255, 159, 67, 0.03) 2px,
-    rgba(255, 159, 67, 0.03) 4px
-  );
+.rgb-red {
+  background: inherit;
+  transform: translateX(var(--rgb-offset));
+  filter: url('#redChannel') opacity(0.3);
+  background-color: rgba(255, 0, 0, 0.15);
 }
 
-.glitch-level-2 {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 1px,
-    rgba(255, 68, 68, 0.05) 1px,
-    rgba(255, 68, 68, 0.05) 2px
-  );
-  animation: scanlines 0.1s linear infinite;
+.rgb-cyan {
+  background: inherit;
+  transform: translateX(calc(var(--rgb-offset) * -1));
+  filter: url('#cyanChannel') opacity(0.3);
+  background-color: rgba(0, 255, 255, 0.15);
 }
 
-.glitch-level-3 {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 1px,
-    rgba(255, 68, 68, 0.1) 1px,
-    rgba(255, 68, 68, 0.1) 2px
-  );
-  animation: heavy-scanlines 0.05s linear infinite;
+/* ===== PHOTON ECHO (Trust > 800) ===== */
+.resonance-photon .resonance-backlight {
+  animation: photon-breathe 3s ease-in-out infinite;
 }
 
-/* ===== ANIMATIONS ===== */
-
-/* Breathing Animation (Photon tier) */
-.animate-breathing .resonance-halo {
-  animation: breathing 3s ease-in-out infinite;
+.resonance-photon .resonance-avatar {
+  box-shadow: 
+    0 0 40px -5px rgba(34, 211, 238, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes breathing {
+.resonance-photon .resonance-label {
+  color: var(--ghost-cyan, #00FFD4);
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+@keyframes photon-breathe {
   0%, 100% {
-    opacity: var(--glow-intensity);
+    opacity: 0.7;
     transform: scale(1);
   }
   50% {
-    opacity: calc(var(--glow-intensity) * 1.3);
-    transform: scale(1.02);
+    opacity: 1;
+    transform: scale(1.05);
   }
 }
 
-/* Warning Pulse */
-.animate-pulse-warning .resonance-halo {
-  animation: pulse-warning 2s ease-in-out infinite;
+/* ===== NEUTRAL (Trust 500-799) ===== */
+.resonance-neutral .resonance-backlight {
+  opacity: 0;
 }
 
-@keyframes pulse-warning {
-  0%, 100% {
-    opacity: var(--glow-intensity);
-  }
-  50% {
-    opacity: calc(var(--glow-intensity) * 0.5);
-  }
+.resonance-neutral .resonance-label {
+  color: var(--ghost-text-muted, rgba(255, 255, 255, 0.45));
 }
 
-/* Glitch Animation */
-.animate-glitch .resonance-avatar {
-  animation: glitch-jitter 0.3s ease-in-out infinite;
+/* ===== SIGNAL DECAY (Trust 400-499) ===== */
+.resonance-decay .resonance-avatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.resonance-decay .resonance-label {
+  color: var(--ghost-amber, #FF9F43);
+}
+
+.resonance-decay .noise-overlay {
+  animation: noise-flicker 0.15s steps(2) infinite;
+}
+
+@keyframes noise-flicker {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+}
+
+/* ===== GLITCH ANOMALY (Trust 200-399) ===== */
+.resonance-glitch .resonance-avatar {
+  animation: glitch-jitter 0.3s steps(2) infinite;
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+}
+
+.resonance-glitch .resonance-label {
+  color: var(--halo-danger, #FF4444);
+  animation: label-glitch 0.5s steps(3) infinite;
+}
+
+.glitch-intensity-1 .resonance-avatar {
+  animation: glitch-jitter 0.4s steps(3) infinite;
 }
 
 @keyframes glitch-jitter {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-1px, 1px); }
-  40% { transform: translate(1px, -1px); }
-  60% { transform: translate(-1px, 0); }
-  80% { transform: translate(1px, 1px); }
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, 2px); }
 }
 
-/* Heavy Glitch Animation */
-.animate-heavy-glitch .resonance-avatar {
-  animation: heavy-glitch 0.2s ease-in-out infinite;
+@keyframes label-glitch {
+  0%, 100% { transform: translateX(-50%) skewX(0deg); }
+  33% { transform: translateX(-48%) skewX(-2deg); }
+  66% { transform: translateX(-52%) skewX(2deg); }
 }
 
-@keyframes heavy-glitch {
+/* ===== CORRUPTED (Trust < 200) ===== */
+.resonance-corrupted .resonance-avatar {
+  animation: corrupted-shake 0.15s steps(2) infinite;
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.4);
+  opacity: 0.7;
+}
+
+.resonance-corrupted .resonance-label {
+  color: var(--halo-danger, #FF4444);
+  animation: corrupted-label 0.2s steps(2) infinite;
+}
+
+.resonance-corrupted .noise-overlay {
+  opacity: 0.7;
+}
+
+.glitch-intensity-2 .resonance-avatar {
+  animation: corrupted-shake 0.1s steps(2) infinite;
+}
+
+@keyframes corrupted-shake {
   0%, 100% { 
-    transform: translate(0); 
-    filter: hue-rotate(0deg);
+    transform: translate(0, 0) scale(1); 
+    clip-path: inset(0 0 0 0);
   }
   25% { 
-    transform: translate(-2px, 1px); 
-    filter: hue-rotate(90deg);
+    transform: translate(-3px, 2px) scale(1.01); 
+    clip-path: inset(10% 0 30% 0);
   }
   50% { 
-    transform: translate(2px, -2px); 
-    filter: hue-rotate(180deg);
+    transform: translate(2px, -2px) scale(0.99); 
+    clip-path: inset(50% 0 10% 0);
   }
   75% { 
-    transform: translate(-1px, 2px); 
-    filter: hue-rotate(270deg);
+    transform: translate(-1px, 3px) scale(1.02); 
+    clip-path: inset(20% 0 40% 0);
   }
 }
 
-/* Avatar Shake */
-@keyframes avatar-shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  75% { transform: translateX(1px); }
-}
-
-/* Halo Flicker */
-@keyframes halo-flicker {
-  0%, 100% { opacity: var(--glow-intensity); }
-  50% { opacity: calc(var(--glow-intensity) * 0.3); }
-}
-
-/* Scanlines */
-@keyframes scanlines {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 4px; }
-}
-
-@keyframes heavy-scanlines {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 2px; }
+@keyframes corrupted-label {
+  0%, 100% { 
+    transform: translateX(-50%);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateX(-45%);
+    opacity: 0.4;
+  }
 }
 
 /* ===== HOVER EFFECTS ===== */
-
-.user-resonance:hover .resonance-label {
+.user-resonance:hover .resonance-backlight {
+  filter: blur(calc(var(--backlight-spread) * 0.3));
   opacity: 1;
 }
 
 .resonance-photon:hover .resonance-avatar {
-  filter: brightness(1.1) saturate(1.2);
+  box-shadow: 
+    0 0 60px -5px rgba(34, 211, 238, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.resonance-glitch:hover .resonance-glitch-overlay,
-.resonance-corrupted:hover .resonance-glitch-overlay {
-  opacity: 0.5;
+.resonance-photon:hover .laser-line {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (prefers-reduced-motion: reduce) {
+  .laser-line,
+  .resonance-backlight,
+  .resonance-avatar,
+  .noise-overlay,
+  .resonance-label {
+    animation: none !important;
+  }
 }
