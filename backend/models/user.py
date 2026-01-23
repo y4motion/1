@@ -100,6 +100,21 @@ class User(UserBase):
     # Achievement Gating (for levels 70-80)
     completed_achievements: List[str] = Field(default_factory=list)
     
+    # ============================================
+    # LIVING LEGENDS - Hidden Layer
+    # ============================================
+    
+    # Titles (Legacy, AI-Recognized, Unique Feats)
+    titles: Dict[str, Any] = Field(default_factory=dict)  # {title_id: Title object}
+    equipped_title: Optional[str] = None  # Currently displayed title
+    
+    # Hidden Metrics (for AI analysis)
+    hidden_metrics: Dict[str, Any] = Field(default_factory=dict)
+    
+    # Registration order (for Legacy titles)
+    registration_order: Optional[int] = None
+    is_beta_user: bool = False
+    
     # Anti-abuse tracking
     last_xp_gain: Optional[datetime] = None
     daily_xp_earned: int = 0
