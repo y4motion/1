@@ -47,7 +47,7 @@ const CommunityHub = React.lazy(() => import('./pages/community/CommunityHub'));
 const NetworkPage = React.lazy(() => import('./pages/community/NetworkPage'));
 const ConsensusPage = React.lazy(() => import('./pages/community/ConsensusPage'));
 
-// Redirect component for /chat routes - opens GlassyChatBar on home
+// Redirect component for /chat routes - opens GlassyOmniChat on home
 const ChatRedirect = () => {
   useEffect(() => {
     // Dispatch custom event to open chat bar
