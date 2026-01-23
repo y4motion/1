@@ -1,17 +1,18 @@
 /**
  * ModPage - The Temple of System
- * Cartenon Temple Edition with Guardians
+ * Ghost Protocol Edition - Phase 3
  * 
  * Три слоя:
- * 1. THE GUARDIANS - Статуи по бокам
- * 2. THE CONTENT PILLAR - Центральный контент
- * 3. THE HIDDEN GATE - Скрытый магазин
+ * 1. THE FRIEZE - Монумент с кодом и эхо-сообщениями
+ * 2. THE SPLIT GATE - Механика разрыва для Hidden Armory
+ * 3. THE AMBER THREAD - Таймлайн истории
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { systemToast } from './system';
 import {
   Cpu, Download, Heart, ChevronRight, ChevronLeft, Lock, Crown, Zap,
   Sparkles, Code, Palette, Monitor, X, Send, ArrowRight, ChevronsUp,
