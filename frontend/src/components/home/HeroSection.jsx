@@ -114,15 +114,16 @@ export default function HeroSection() {
           justify-content: center;
         }
         
-        .search-form {
+        .hero-search-form {
           position: relative;
         }
         
-        .search-input {
+        .hero-search-field {
           width: 300px;
-          background: none;
-          border: none;
-          outline: none;
+          background: none !important;
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
           color: rgba(255, 255, 255, 0.4);
           font-family: 'JetBrains Mono', monospace;
           font-size: 13px;
@@ -132,12 +133,15 @@ export default function HeroSection() {
           caret-color: rgba(255, 255, 255, 0.3);
         }
         
-        .search-input::placeholder {
+        .hero-search-field::placeholder {
           color: transparent;
         }
         
-        .search-input:focus {
+        .hero-search-field:focus {
           color: rgba(255, 255, 255, 0.6);
+          background: none !important;
+          border: none !important;
+          box-shadow: none !important;
         }
         
         .typewriter-placeholder {
@@ -164,8 +168,8 @@ export default function HeroSection() {
           display: none;
         }
         
-        .search-form:focus-within .typewriter-placeholder,
-        .search-form.has-value .typewriter-placeholder {
+        .hero-search-form:focus-within .typewriter-placeholder,
+        .hero-search-form.has-value .typewriter-placeholder {
           opacity: 0;
         }
         
