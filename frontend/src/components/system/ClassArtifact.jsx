@@ -2,10 +2,10 @@
  * ClassArtifact.jsx
  * Ghost Protocol - Phase 2: Visual Identity
  * 
- * Minimalist SVG icons for Neural Pathway classes:
- * - ARCHITECT (⬡ Hexagon) - Blueprint overlay style
- * - BROKER (◇ Diamond) - Trade/value style  
- * - OBSERVER (◉ Eye) - Verification style
+ * Minimalist geometric abstractions for Neural Pathway classes:
+ * - ARCHITECT: Isometric wireframe cube
+ * - BROKER: Two intersecting parabolas (trade flows)
+ * - OBSERVER: Schematic eye with crosshairs
  */
 
 import React from 'react';
@@ -32,79 +32,142 @@ const CLASS_CONFIG = {
   }
 };
 
-// Hexagon Icon for Architect
-const HexagonIcon = ({ color, size }) => (
+// Isometric Wireframe Cube for Architect
+const IsometricCubeIcon = ({ color, size }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none"
-    className="class-icon"
+    className="class-icon architect-icon"
   >
+    {/* Back edges */}
     <path
-      d="M12 2L21.5 7.5V16.5L12 22L2.5 16.5V7.5L12 2Z"
+      d="M12 2L20 7V17L12 22L4 17V7L12 2Z"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.3"
+      fill="none"
+    />
+    {/* Front face - bottom */}
+    <path
+      d="M4 7L12 12L20 7"
       stroke={color}
       strokeWidth="1"
       fill="none"
     />
+    {/* Vertical center line */}
     <path
-      d="M12 6L17 9V15L12 18L7 15V9L12 6Z"
-      stroke={color}
-      strokeWidth="0.5"
-      strokeOpacity="0.5"
-      fill="none"
-    />
-    {/* Blueprint grid lines */}
-    <line x1="12" y1="2" x2="12" y2="22" stroke={color} strokeWidth="0.3" strokeOpacity="0.3" />
-    <line x1="2.5" y1="12" x2="21.5" y2="12" stroke={color} strokeWidth="0.3" strokeOpacity="0.3" />
-  </svg>
-);
-
-// Diamond Icon for Broker
-const DiamondIcon = ({ color, size }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none"
-    className="class-icon"
-  >
-    <path
-      d="M12 2L22 12L12 22L2 12L12 2Z"
+      d="M12 12V22"
       stroke={color}
       strokeWidth="1"
       fill="none"
     />
+    {/* Left edge */}
     <path
-      d="M12 6L18 12L12 18L6 12L12 6Z"
+      d="M4 7V17L12 22"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Right edge */}
+    <path
+      d="M20 7V17L12 22"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Top face */}
+    <path
+      d="M12 2L20 7L12 12L4 7L12 2Z"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Inner cube wireframe (smaller) */}
+    <path
+      d="M12 5L16 7.5V12.5L12 15L8 12.5V7.5L12 5Z"
       stroke={color}
       strokeWidth="0.5"
       strokeOpacity="0.5"
+      strokeDasharray="1 1"
       fill="none"
     />
-    {/* Value lines */}
-    <line x1="7" y1="7" x2="17" y2="17" stroke={color} strokeWidth="0.3" strokeOpacity="0.3" />
-    <line x1="17" y1="7" x2="7" y2="17" stroke={color} strokeWidth="0.3" strokeOpacity="0.3" />
   </svg>
 );
 
-// Eye Icon for Observer
-const EyeIcon = ({ color, size }) => (
+// Two Intersecting Parabolas for Broker (Trade Flows)
+const ParabolasIcon = ({ color, size }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none"
-    className="class-icon"
+    className="class-icon broker-icon"
+  >
+    {/* First parabola - ascending curve */}
+    <path
+      d="M2 20C2 20 6 4 12 4C18 4 22 20 22 20"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Second parabola - descending curve (inverted) */}
+    <path
+      d="M2 4C2 4 6 20 12 20C18 20 22 4 22 4"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Intersection point highlight */}
+    <circle
+      cx="12"
+      cy="12"
+      r="2"
+      stroke={color}
+      strokeWidth="1"
+      fill="none"
+    />
+    {/* Center dot */}
+    <circle
+      cx="12"
+      cy="12"
+      r="0.8"
+      fill={color}
+    />
+    {/* Flow arrows */}
+    <path
+      d="M7 8L9 6M17 8L15 6"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.6"
+    />
+    <path
+      d="M7 16L9 18M17 16L15 18"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.6"
+    />
+  </svg>
+);
+
+// Schematic Eye with Crosshairs for Observer
+const SchematicEyeIcon = ({ color, size }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none"
+    className="class-icon observer-icon"
   >
     {/* Outer eye shape */}
     <path
-      d="M12 5C6 5 2 12 2 12C2 12 6 19 12 19C18 19 22 12 22 12C22 12 18 5 12 5Z"
+      d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z"
       stroke={color}
       strokeWidth="1"
       fill="none"
     />
-    {/* Iris */}
+    {/* Iris circle */}
     <circle
       cx="12"
       cy="12"
@@ -120,15 +183,68 @@ const EyeIcon = ({ color, size }) => (
       r="1.5"
       fill={color}
     />
-    {/* Scan line */}
-    <line x1="12" y1="5" x2="12" y2="19" stroke={color} strokeWidth="0.3" strokeOpacity="0.4" strokeDasharray="2 2" />
+    {/* Crosshair - vertical */}
+    <line
+      x1="12" y1="2" x2="12" y2="6"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.5"
+    />
+    <line
+      x1="12" y1="18" x2="12" y2="22"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.5"
+    />
+    {/* Crosshair - horizontal */}
+    <line
+      x1="2" y1="12" x2="6" y2="12"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.5"
+    />
+    <line
+      x1="18" y1="12" x2="22" y2="12"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.5"
+    />
+    {/* Corner brackets */}
+    <path
+      d="M4 8L4 6L6 6"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.4"
+      fill="none"
+    />
+    <path
+      d="M20 8L20 6L18 6"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.4"
+      fill="none"
+    />
+    <path
+      d="M4 16L4 18L6 18"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.4"
+      fill="none"
+    />
+    <path
+      d="M20 16L20 18L18 18"
+      stroke={color}
+      strokeWidth="0.5"
+      strokeOpacity="0.4"
+      fill="none"
+    />
   </svg>
 );
 
 const ICONS = {
-  architect: HexagonIcon,
-  broker: DiamondIcon,
-  observer: EyeIcon
+  architect: IsometricCubeIcon,
+  broker: ParabolasIcon,
+  observer: SchematicEyeIcon
 };
 
 export const ClassArtifact = ({
