@@ -155,6 +155,14 @@ api_router.include_router(creator_router)
 api_router.include_router(voting_router)
 api_router.include_router(rating_router)
 api_router.include_router(groupbuy_router)
+
+# Social Core - Network, Consensus, Monarchs
+from routes.network_routes import router as network_router
+from routes.consensus_routes import router as consensus_router
+from routes.monarchs_routes import router as monarchs_router
+api_router.include_router(network_router)
+api_router.include_router(consensus_router)
+api_router.include_router(monarchs_router)
 api_router.include_router(logging_router)
 api_router.include_router(monitoring_router)
 api_router.include_router(notification_router)
