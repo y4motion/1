@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Play } from 'lucide-react';
 
-const VIDEO_URL = 'https://customer-assets.emergentagent.com/job_dotkinetic/artifacts/l9nmmebs____202601201604_9ny2w.mp4';
+const VIDEO_URL = '/hero-video.mp4';
 
 export default function HeroSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
