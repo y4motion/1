@@ -76,10 +76,10 @@ export default function HeroSection() {
       <style>{`
         @keyframes snake-crawl {
           0% {
-            stroke-dashoffset: ${perimeter};
+            stroke-dashoffset: 0;
           }
           100% {
-            stroke-dashoffset: 0;
+            stroke-dashoffset: -1296;
           }
         }
         
@@ -121,24 +121,24 @@ export default function HeroSection() {
         
         .snake-border svg {
           position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
+          inset: -1px;
+          width: calc(100% + 2px);
+          height: calc(100% + 2px);
         }
         
-        /* Single snake line - no base border visible */
-        .snake-line {
+        /* Single snake - only the moving segment visible */
+        .snake-path {
           fill: none;
-          stroke: rgba(255, 255, 255, 0.4);
+          stroke: rgba(255, 255, 255, 0.35);
           stroke-width: 1;
           stroke-linecap: round;
-          stroke-dasharray: ${snakeLength} ${perimeter - snakeLength};
-          animation: snake-crawl 10s linear infinite;
+          stroke-dasharray: 130 1166;
+          animation: snake-crawl 12s linear infinite;
         }
         
-        .search-container:focus-within .snake-line {
-          stroke: rgba(255, 255, 255, 0.7);
-          animation-duration: 6s;
+        .search-container:focus-within .snake-path {
+          stroke: rgba(255, 255, 255, 0.6);
+          animation-duration: 8s;
         }
       `}</style>
 
