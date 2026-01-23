@@ -174,9 +174,17 @@ export const SystemToastContainer = () => {
   );
 };
 
-// Global toast function
+// Global toast function with audio
 export const systemToast = (message, type = 'info') => {
   if (addToastExternal) {
+    // Play appropriate sound based on type
+    if (type === 'access' || type === 'success') {
+      playAccessGranted();
+    } else if (type === 'denied' || type === 'error') {
+      playAccessDenied();
+    } else {
+      playToastClick();
+    }
     return addToastExternal(message, type);
   }
   console.warn('SystemToastContainer not mounted');
