@@ -275,12 +275,15 @@ class TestEdgeCases:
     
     def test_pagination_limits(self):
         """Test that pagination respects limits"""
-        # Test max limit
+        # Test max limit - API validates and returns 422 for limit > 50
         response = requests.get(f"{BASE_URL}/api/network/feed?limit=100")
+        assert response.status_code == 422  # Validation error for limit > 50
+        
+        # Test valid max limit
+        response = requests.get(f"{BASE_URL}/api/network/feed?limit=50")
         assert response.status_code == 200
         data = response.json()
-        # Should cap at 50
-        assert data["limit"] <= 50
+        assert data["limit"] == 50
         
         # Test min limit
         response = requests.get(f"{BASE_URL}/api/network/feed?limit=1")
