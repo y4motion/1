@@ -1,0 +1,171 @@
+/**
+ * ClassArtifact.css
+ * Ghost Protocol - Class Icon Styling
+ */
+
+/* Size Variables */
+.artifact-xs { --artifact-size: 14px; --label-size: 8px; }
+.artifact-sm { --artifact-size: 18px; --label-size: 9px; }
+.artifact-md { --artifact-size: 24px; --label-size: 10px; }
+.artifact-lg { --artifact-size: 32px; --label-size: 11px; }
+.artifact-xl { --artifact-size: 48px; --label-size: 14px; }
+
+/* Base Container */
+.class-artifact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.artifact-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--artifact-size);
+  height: var(--artifact-size);
+}
+
+.class-icon {
+  display: block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Glow Effect */
+.with-glow .artifact-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    var(--artifact-secondary) 0%,
+    transparent 70%
+  );
+  opacity: 0.6;
+  filter: blur(4px);
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.class-artifact:hover .artifact-icon-wrapper::before {
+  opacity: 1;
+}
+
+/* Animation */
+.animated .class-icon {
+  animation: artifact-float 3s ease-in-out infinite;
+}
+
+.animated.artifact-architect .class-icon {
+  animation: architect-rotate 8s linear infinite;
+}
+
+.animated.artifact-broker .class-icon {
+  animation: broker-pulse 2s ease-in-out infinite;
+}
+
+.animated.artifact-observer .class-icon {
+  animation: observer-scan 4s ease-in-out infinite;
+}
+
+@keyframes artifact-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes architect-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes broker-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes observer-scan {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(1.1); }
+}
+
+/* Label */
+.artifact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--label-size);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--artifact-color);
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* ===== CLASS BADGE ===== */
+
+.class-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--badge-color);
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--badge-color);
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.class-badge:hover {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 8px var(--badge-color);
+}
+
+.badge-text {
+  opacity: 0.9;
+}
+
+/* ===== CLASS-SPECIFIC COLORS ===== */
+
+.artifact-architect {
+  --artifact-color: var(--ghost-cyan, #00FFD4);
+  --artifact-secondary: rgba(0, 255, 212, 0.15);
+}
+
+.artifact-broker {
+  --artifact-color: var(--ghost-amber, #FF9F43);
+  --artifact-secondary: rgba(255, 159, 67, 0.15);
+}
+
+.artifact-observer {
+  --artifact-color: var(--ghost-void-blue, #2E5CFF);
+  --artifact-secondary: rgba(46, 92, 255, 0.15);
+}
+
+/* Hover Effects */
+.class-artifact:hover .class-icon {
+  filter: brightness(1.3);
+  transform: scale(1.1);
+}
+
+.artifact-architect:hover .class-icon {
+  filter: drop-shadow(0 0 4px var(--ghost-cyan));
+}
+
+.artifact-broker:hover .class-icon {
+  filter: drop-shadow(0 0 4px var(--ghost-amber));
+}
+
+.artifact-observer:hover .class-icon {
+  filter: drop-shadow(0 0 4px var(--ghost-void-blue));
+}
