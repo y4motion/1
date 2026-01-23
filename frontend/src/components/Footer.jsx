@@ -123,8 +123,8 @@ const Footer = () => {
         .footer-dot-grid {
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-          background-size: 48px 48px;
+          background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+          background-size: 40px 40px;
           pointer-events: none;
         }
 
