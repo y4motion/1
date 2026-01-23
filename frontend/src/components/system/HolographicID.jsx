@@ -11,7 +11,7 @@
  */
 
 import React, { useMemo } from 'react';
-import Tilt from 'react-tilt';
+import { Tilt } from 'react-tilt';
 import {
   Radar,
   RadarChart,
