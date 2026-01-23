@@ -1,55 +1,75 @@
 """
-GHOST PROTOCOL - Mathematical Core
-===================================
-Leveling System with Anti-Abuse Protection
+GHOST PROTOCOL - Mathematical Core (HARDCORE Edition)
+======================================================
+Leveling System with Anti-Abuse Protection + Entropy + Rebirth
 
-Formulas:
-- XP Curve: XP_Required = BASE * (Level ^ 1.5)
-- Trust Decay: -1% weekly for inactive users (toward 500 neutral)
-- RP Cap: Max_RP = 100 + (Level * 25) + (TrustScore / 10)
-- Vote Weight: 1.0 + (Level / 20) + (TrustScore / 500) + ClassBonus
+Key Formulas:
+- XP Curve: Exponential 1-40, Logarithmic Wall 40-70, Achievement Lock 70-80
+- Trust Decay: -1 point/day after 7 days inactive (toward 500)
+- RP Decay: -5%/day after 7 days inactive
+- Inner Circle: Top 100 Monarchs only (King of the Hill)
+- Class Reboot: Cost doubles each time, Legacy Traits preserved
 """
 
 import math
 from datetime import datetime, timezone, timedelta
-from typing import Optional, Dict, Tuple, Any
+from typing import Optional, Dict, Tuple, Any, List
 from enum import Enum
 from pydantic import BaseModel
 
 
 # ============================================
-# CONSTANTS & CONFIGURATION
+# CONSTANTS & CONFIGURATION (HARDCORE)
 # ============================================
 
 class GhostConfig:
-    """System-wide configuration constants"""
+    """System-wide configuration constants - HARDCORE MODE"""
     
-    # XP Curve
-    XP_BASE = 100  # Base XP for level 2
-    XP_EXPONENT = 1.5  # Exponential growth factor
-    MAX_LEVEL = 100
+    # XP Curve - SINGULARITY
+    XP_BASE = 100
+    XP_EXPONENT_EARLY = 1.5      # Levels 1-40 (fast)
+    XP_EXPONENT_MID = 2.0        # Levels 40-60 (grind)
+    XP_EXPONENT_LATE = 2.5       # Levels 60-70 (extreme)
+    XP_WALL_START = 70           # Achievement wall begins
+    MAX_LEVEL = 80               # True cap (Monarch threshold)
+    ABSOLUTE_MAX_LEVEL = 100     # Theoretical max with all achievements
     
     # Trust Score
     TRUST_DEFAULT = 500.0
     TRUST_MIN = 0.0
     TRUST_MAX = 1000.0
-    TRUST_DECAY_RATE = 0.01  # 1% per week
-    TRUST_DECAY_TARGET = 500.0  # Neutral point
-    TRUST_PENALTY_MULTIPLIER = 2.0  # Penalties hit 2x harder
+    TRUST_DECAY_RATE = 0.01      # 1% per week (legacy)
+    TRUST_DAILY_DECAY = 1.0      # -1 point per day when inactive
+    TRUST_DECAY_TARGET = 500.0
+    TRUST_PENALTY_MULTIPLIER = 2.0
     
-    # RP (Resource Points)
+    # RP (Resource Points) - ENTROPY
     RP_BASE_CAP = 100
     RP_LEVEL_MULTIPLIER = 25
     RP_TRUST_DIVISOR = 10
+    RP_DAILY_DECAY_PERCENT = 0.05  # -5% per day when inactive
     
     # Anti-Abuse
-    XP_COOLDOWN_SECONDS = 60  # 1 minute between same actions
-    DAILY_XP_CAP_SOCIAL = 1000  # Max XP from likes/comments per day
-    DAILY_XP_CAP_COMMERCE = None  # No limit for purchases/deals
+    XP_COOLDOWN_SECONDS = 60
+    DAILY_XP_CAP_SOCIAL = 1000
+    DAILY_XP_CAP_COMMERCE = None
     
-    # Class Change
-    CLASS_CHANGE_COOLDOWN_DAYS = 30
+    # Entropy Threshold
+    ENTROPY_START_DAYS = 7       # Days before decay begins
+    
+    # Inner Circle - TOP 100 ONLY
+    INNER_CIRCLE_MAX_SLOTS = 100
+    INNER_CIRCLE_MIN_LEVEL = 80
+    
+    # Class System - HARDCORE
     CLASS_UNLOCK_LEVEL = 10
+    CLASS_TIER_MAX = 100         # Max mastery within a class
+    
+    # Reboot System
+    REBOOT_BASE_COST_RP = 10000  # 10k RP for first reboot
+    REBOOT_COST_MULTIPLIER = 2   # Each reboot costs 2x more
+    REBOOT_BURNS_ALL_RP = True   # Alternative: burn 100% RP instead of fixed cost
+    MAX_LEGACY_TRAITS = 5        # Max traits you can carry
 
 
 class UserHierarchy(str, Enum):
@@ -63,33 +83,60 @@ class UserHierarchy(str, Enum):
 class UserClass(str, Enum):
     """Neural Pathway specializations"""
     NONE = "none"
-    ARCHITECT = "architect"  # PC Builder specialist
-    BROKER = "broker"        # Swap/Trade specialist
-    OBSERVER = "observer"    # Review specialist
+    ARCHITECT = "architect"
+    BROKER = "broker"
+    OBSERVER = "observer"
 
 
 class ActionType(str, Enum):
-    """XP-granting action types with categories"""
-    # Social (capped daily)
+    """XP-granting action types"""
     LIKE_GIVEN = "like_given"
     LIKE_RECEIVED = "like_received"
     COMMENT = "comment"
     POST = "post"
     ARTICLE = "article"
     VOTE_CAST = "vote_cast"
-    
-    # Commerce (uncapped)
     PURCHASE = "purchase"
     SALE = "sale"
     SWAP_COMPLETED = "swap_completed"
     REVIEW_WRITTEN = "review_written"
     PC_BUILD_SHARED = "pc_build_shared"
-    
-    # System
     DAILY_LOGIN = "daily_login"
     STREAK_BONUS = "streak_bonus"
     ACHIEVEMENT = "achievement"
     LEVEL_UP = "level_up"
+
+
+# ============================================
+# UNIQUE ACHIEVEMENTS FOR LEVEL 70-80
+# ============================================
+
+LEVEL_GATE_ACHIEVEMENTS = {
+    70: [
+        {"id": "sales_master", "name": "Sales Master", "name_ru": "Мастер Продаж", 
+         "requirement": {"total_sales": 50}, "description": "Complete 50 sales"},
+        {"id": "trusted_one", "name": "The Trusted One", "name_ru": "Заслуживший Доверие",
+         "requirement": {"trust_score_min": 800}, "description": "Reach 800 Trust Score"},
+    ],
+    72: [
+        {"id": "community_pillar", "name": "Community Pillar", "name_ru": "Опора Сообщества",
+         "requirement": {"helpful_reviews": 100}, "description": "Get 100 helpful votes on reviews"},
+    ],
+    75: [
+        {"id": "architect_supreme", "name": "Architect Supreme", "name_ru": "Верховный Архитектор",
+         "requirement": {"builds_shared": 25, "build_likes": 500}, "description": "Share 25 builds with 500+ total likes"},
+        {"id": "broker_legend", "name": "Broker Legend", "name_ru": "Легенда Торговли",
+         "requirement": {"swaps_completed": 100, "swap_rating_avg": 4.8}, "description": "100 swaps with 4.8+ rating"},
+    ],
+    78: [
+        {"id": "veteran", "name": "Veteran", "name_ru": "Ветеран",
+         "requirement": {"account_age_days": 365}, "description": "Account older than 1 year"},
+    ],
+    80: [
+        {"id": "monarch_trial", "name": "The Monarch's Trial", "name_ru": "Испытание Монарха",
+         "requirement": {"all_previous_achievements": True}, "description": "Complete ALL previous gate achievements"},
+    ]
+}
 
 
 # XP rewards per action type
@@ -106,12 +153,11 @@ XP_REWARDS: Dict[ActionType, int] = {
     ActionType.REVIEW_WRITTEN: 30,
     ActionType.PC_BUILD_SHARED: 40,
     ActionType.DAILY_LOGIN: 15,
-    ActionType.STREAK_BONUS: 25,  # Per streak day
-    ActionType.ACHIEVEMENT: 0,  # Variable
-    ActionType.LEVEL_UP: 0,  # Milestone bonus
+    ActionType.STREAK_BONUS: 25,
+    ActionType.ACHIEVEMENT: 0,
+    ActionType.LEVEL_UP: 0,
 }
 
-# Trust Score changes
 TRUST_REWARDS: Dict[str, float] = {
     "purchase_completed": 5.0,
     "sale_completed": 10.0,
@@ -130,7 +176,6 @@ TRUST_PENALTIES: Dict[str, float] = {
     "temporary_ban": -100.0,
 }
 
-# Social action types (capped daily)
 SOCIAL_ACTIONS = {
     ActionType.LIKE_GIVEN, ActionType.LIKE_RECEIVED, 
     ActionType.COMMENT, ActionType.POST, ActionType.VOTE_CAST
@@ -138,34 +183,83 @@ SOCIAL_ACTIONS = {
 
 
 # ============================================
-# XP & LEVELING CALCULATIONS
+# LEGACY TRAITS (From Class Reboot)
+# ============================================
+
+LEGACY_TRAITS = {
+    UserClass.ARCHITECT: {
+        "id": "blueprint_memory",
+        "name": "Blueprint Memory",
+        "name_ru": "Память Чертежей",
+        "description": "+10% XP from PC builds (permanent)",
+        "effect": {"xp_multiplier": {"pc_build_shared": 1.1}}
+    },
+    UserClass.BROKER: {
+        "id": "trade_instinct",
+        "name": "Trade Instinct", 
+        "name_ru": "Торговый Инстинкт",
+        "description": "-5% swap commission (permanent)",
+        "effect": {"fee_reduction": {"swap": 0.05}}
+    },
+    UserClass.OBSERVER: {
+        "id": "critical_eye",
+        "name": "Critical Eye",
+        "name_ru": "Критический Взгляд",
+        "description": "+15% RP from reviews (permanent)",
+        "effect": {"rp_multiplier": {"review_written": 1.15}}
+    }
+}
+
+
+# ============================================
+# XP & LEVELING CALCULATIONS - SINGULARITY CURVE
 # ============================================
 
 def calculate_xp_for_level(level: int) -> int:
     """
     Calculate total XP required to reach a specific level.
-    Formula: XP = BASE * (Level ^ EXPONENT)
-    
-    Level 1: 0 XP (start)
-    Level 2: 100 XP
-    Level 10: ~3,162 XP
-    Level 40: ~25,298 XP
-    Level 80: ~71,554 XP
+    SINGULARITY CURVE:
+    - Levels 1-40: Fast (exponent 1.5)
+    - Levels 40-60: Grind (exponent 2.0)
+    - Levels 60-70: Extreme (exponent 2.5)
+    - Levels 70-80: Achievement-gated (XP alone won't work)
     """
     if level <= 1:
         return 0
-    return int(GhostConfig.XP_BASE * (level ** GhostConfig.XP_EXPONENT))
+    
+    if level <= 40:
+        # Fast progression
+        return int(GhostConfig.XP_BASE * (level ** GhostConfig.XP_EXPONENT_EARLY))
+    elif level <= 60:
+        # Grind zone
+        base_40 = int(GhostConfig.XP_BASE * (40 ** GhostConfig.XP_EXPONENT_EARLY))
+        additional = int(150 * ((level - 40) ** GhostConfig.XP_EXPONENT_MID))
+        return base_40 + additional
+    elif level <= 70:
+        # Extreme zone
+        base_60 = calculate_xp_for_level(60)
+        additional = int(500 * ((level - 60) ** GhostConfig.XP_EXPONENT_LATE))
+        return base_60 + additional
+    else:
+        # Achievement wall - XP requirement is same as 70, but needs achievements
+        base_70 = calculate_xp_for_level(70)
+        # Each level after 70 adds 20% more XP requirement
+        multiplier = 1.2 ** (level - 70)
+        return int(base_70 * multiplier)
 
 
-def calculate_level_from_xp(total_xp: int) -> int:
+def calculate_level_from_xp(total_xp: int, completed_achievements: List[str] = None) -> int:
     """
-    Calculate level from total XP using inverse of the curve.
+    Calculate level from total XP.
+    After level 70, achievements are required to progress.
     """
     if total_xp <= 0:
         return 1
     
-    # Binary search for efficiency
-    low, high = 1, GhostConfig.MAX_LEVEL
+    completed_achievements = completed_achievements or []
+    
+    # Binary search for base level (up to 70)
+    low, high = 1, GhostConfig.XP_WALL_START
     while low < high:
         mid = (low + high + 1) // 2
         if calculate_xp_for_level(mid) <= total_xp:
@@ -173,18 +267,43 @@ def calculate_level_from_xp(total_xp: int) -> int:
         else:
             high = mid - 1
     
-    return min(low, GhostConfig.MAX_LEVEL)
+    base_level = min(low, GhostConfig.XP_WALL_START)
+    
+    # If at or past level 70, check achievements
+    if base_level >= GhostConfig.XP_WALL_START:
+        # Check each gate level
+        for gate_level in sorted(LEVEL_GATE_ACHIEVEMENTS.keys()):
+            if gate_level > base_level:
+                break
+                
+            # Check if user has required achievements for this gate
+            required = LEVEL_GATE_ACHIEVEMENTS[gate_level]
+            has_all = all(
+                ach["id"] in completed_achievements 
+                for ach in required
+            )
+            
+            if not has_all:
+                # Stuck at this gate - can't progress beyond
+                return gate_level - 1 if gate_level > 70 else 70
+            
+            # Has achievements, check XP for next levels
+            if total_xp >= calculate_xp_for_level(gate_level):
+                base_level = gate_level
+    
+    return min(base_level, GhostConfig.ABSOLUTE_MAX_LEVEL)
 
 
-def calculate_xp_progress(total_xp: int) -> Tuple[int, int, float]:
+def calculate_xp_progress(total_xp: int, completed_achievements: List[str] = None) -> Tuple[int, int, float, bool]:
     """
     Calculate XP progress within current level.
-    Returns: (current_level, xp_to_next, progress_percentage)
+    Returns: (current_level, xp_to_next, progress_percentage, is_achievement_gated)
     """
-    current_level = calculate_level_from_xp(total_xp)
+    completed_achievements = completed_achievements or []
+    current_level = calculate_level_from_xp(total_xp, completed_achievements)
     
-    if current_level >= GhostConfig.MAX_LEVEL:
-        return current_level, 0, 100.0
+    if current_level >= GhostConfig.ABSOLUTE_MAX_LEVEL:
+        return current_level, 0, 100.0, False
     
     xp_current_level = calculate_xp_for_level(current_level)
     xp_next_level = calculate_xp_for_level(current_level + 1)
@@ -194,7 +313,19 @@ def calculate_xp_progress(total_xp: int) -> Tuple[int, int, float]:
     
     progress = (xp_in_level / xp_needed) * 100 if xp_needed > 0 else 100
     
-    return current_level, xp_needed - xp_in_level, round(progress, 2)
+    # Check if achievement-gated
+    is_gated = False
+    if current_level >= GhostConfig.XP_WALL_START:
+        next_gate = current_level + 1
+        if next_gate in LEVEL_GATE_ACHIEVEMENTS:
+            required = LEVEL_GATE_ACHIEVEMENTS[next_gate]
+            has_all = all(ach["id"] in completed_achievements for ach in required)
+            is_gated = not has_all
+            
+            if is_gated and progress > 99:
+                progress = 99.0  # Stuck at 99% until achievement unlocked
+    
+    return current_level, max(0, xp_needed - xp_in_level), round(progress, 2), is_gated
 
 
 def get_hierarchy(level: int) -> UserHierarchy:
@@ -209,112 +340,114 @@ def get_hierarchy(level: int) -> UserHierarchy:
         return UserHierarchy.MONARCH
 
 
+def get_required_achievements_for_level(target_level: int) -> List[Dict]:
+    """Get list of achievements required to reach target level."""
+    required = []
+    for gate_level, achievements in LEVEL_GATE_ACHIEVEMENTS.items():
+        if gate_level <= target_level:
+            required.extend(achievements)
+    return required
+
+
 # ============================================
 # TRUST SCORE CALCULATIONS
 # ============================================
 
 def calculate_trust_change(current_trust: float, change: float, is_penalty: bool = False) -> float:
-    """
-    Calculate new trust score with logarithmic growth and penalty multiplier.
-    
-    Growth: Logarithmic (harder to gain at high levels)
-    Penalty: Linear with 2x multiplier (punishments hit hard)
-    """
+    """Calculate new trust score with logarithmic growth and penalty multiplier."""
     if is_penalty:
-        # Penalties are immediate and multiplied
         new_trust = current_trust + (change * GhostConfig.TRUST_PENALTY_MULTIPLIER)
     else:
-        # Rewards use logarithmic scaling
-        # The higher your trust, the less you gain from the same action
         if change > 0:
-            # Scale factor: 1.0 at trust=0, 0.5 at trust=500, 0.25 at trust=750
             scale_factor = 1.0 / (1.0 + (current_trust / 500))
             new_trust = current_trust + (change * scale_factor)
         else:
             new_trust = current_trust + change
     
-    # Clamp to valid range
     return max(GhostConfig.TRUST_MIN, min(GhostConfig.TRUST_MAX, new_trust))
 
 
 def calculate_trust_decay(current_trust: float, days_inactive: int) -> float:
     """
     Calculate trust decay for inactive users.
-    Trust decays toward neutral (500) at 1% per week.
+    HARDCORE: -1 point per day after 7 days inactive.
     """
-    if days_inactive < 7:
+    if days_inactive <= GhostConfig.ENTROPY_START_DAYS:
         return current_trust
     
-    weeks_inactive = days_inactive // 7
-    decay_per_week = GhostConfig.TRUST_DECAY_RATE
+    active_decay_days = days_inactive - GhostConfig.ENTROPY_START_DAYS
+    decay_amount = active_decay_days * GhostConfig.TRUST_DAILY_DECAY
+    
     target = GhostConfig.TRUST_DECAY_TARGET
     
-    # Move toward neutral
     if current_trust > target:
-        # Decay down
-        decay_amount = (current_trust - target) * decay_per_week * weeks_inactive
         return max(target, current_trust - decay_amount)
     elif current_trust < target:
-        # Recover up (slower)
-        recovery_amount = (target - current_trust) * decay_per_week * 0.5 * weeks_inactive
-        return min(target, current_trust + recovery_amount)
+        # Recovery is slower
+        recovery = decay_amount * 0.5
+        return min(target, current_trust + recovery)
     
     return current_trust
 
 
 def get_trust_tier(trust_score: float) -> Tuple[str, str]:
-    """
-    Get trust tier name and halo color.
-    Returns: (tier_name, hex_color)
-    """
+    """Get trust tier name and halo color."""
     if trust_score >= 800:
-        return "verified", "#00FFD4"  # Cyan
+        return "verified", "#00FFD4"
     elif trust_score >= 500:
-        return "neutral", "rgba(255,255,255,0.4)"  # Ghost White
+        return "neutral", "rgba(255,255,255,0.4)"
     elif trust_score >= 400:
-        return "warning", "#FF9F43"  # Amber
+        return "warning", "#FF9F43"
     else:
-        return "danger", "#FF4444"  # Red
+        return "danger", "#FF4444"
 
 
 # ============================================
-# RP (RESOURCE POINTS) CALCULATIONS
+# RP CALCULATIONS - WITH ENTROPY
 # ============================================
 
 def calculate_rp_cap(level: int, trust_score: float) -> int:
-    """
-    Calculate maximum RP a user can hold.
-    Formula: Max_RP = BASE + (Level * 25) + (TrustScore / 10)
-    
-    This means a toxic high-level player has less influence
-    than an honest mid-level player.
-    """
+    """Calculate maximum RP a user can hold."""
     base = GhostConfig.RP_BASE_CAP
     level_bonus = level * GhostConfig.RP_LEVEL_MULTIPLIER
     trust_bonus = int(trust_score / GhostConfig.RP_TRUST_DIVISOR)
-    
     return base + level_bonus + trust_bonus
 
 
-def calculate_vote_weight(level: int, trust_score: float, user_class: UserClass) -> float:
+def calculate_rp_decay(current_rp: int, days_inactive: int) -> int:
     """
-    Calculate vote weight for proposals/reviews.
-    Base: 1.0
-    Level bonus: +0.05 per level (max +5.0 at level 100)
-    Trust bonus: +0.2 per 100 trust above 500
-    Class bonus: Observer gets +0.5
-    Hierarchy bonus: Operator +0.5, Monarch +1.0
+    Calculate RP decay for inactive users.
+    ENTROPY: -5% per day after 7 days inactive.
     """
+    if days_inactive <= GhostConfig.ENTROPY_START_DAYS:
+        return current_rp
+    
+    active_decay_days = days_inactive - GhostConfig.ENTROPY_START_DAYS
+    
+    remaining = current_rp
+    for _ in range(active_decay_days):
+        remaining = int(remaining * (1 - GhostConfig.RP_DAILY_DECAY_PERCENT))
+    
+    return max(0, remaining)
+
+
+def calculate_vote_weight(
+    level: int, 
+    trust_score: float, 
+    user_class: UserClass,
+    class_tier: int = 0,
+    legacy_traits: List[str] = None
+) -> float:
+    """Calculate vote weight with class tier bonus."""
     base = 1.0
-    
-    # Level contribution (0.05 per level)
     level_bonus = level * 0.05
-    
-    # Trust contribution (only above neutral)
     trust_bonus = max(0, (trust_score - 500) / 500) * 1.0
     
     # Class bonus
     class_bonus = 0.5 if user_class == UserClass.OBSERVER else 0.0
+    
+    # Class tier bonus (0.01 per tier level)
+    tier_bonus = class_tier * 0.01
     
     # Hierarchy bonus
     hierarchy = get_hierarchy(level)
@@ -325,33 +458,207 @@ def calculate_vote_weight(level: int, trust_score: float, user_class: UserClass)
         UserHierarchy.MONARCH: 1.0,
     }.get(hierarchy, 0.0)
     
-    return round(base + level_bonus + trust_bonus + class_bonus + hierarchy_bonus, 2)
+    # Legacy trait bonus (if has observer trait)
+    legacy_bonus = 0.0
+    if legacy_traits and "critical_eye" in legacy_traits:
+        legacy_bonus = 0.1
+    
+    return round(base + level_bonus + trust_bonus + class_bonus + tier_bonus + hierarchy_bonus + legacy_bonus, 2)
+
+
+# ============================================
+# INNER CIRCLE - TOP 100 ONLY (King of the Hill)
+# ============================================
+
+def is_eligible_for_inner_circle(
+    level: int,
+    monthly_rp: int,
+    trust_score: float,
+    global_rank: int
+) -> Tuple[bool, str]:
+    """
+    Check if user is eligible for Inner Circle (Direct Line).
+    Requirements:
+    - Level >= 80 (Monarch)
+    - Global Rank <= 100 (Top 100 by monthly RP)
+    - Trust Score >= 700 (good standing)
+    """
+    if level < GhostConfig.INNER_CIRCLE_MIN_LEVEL:
+        return False, f"level_required:{GhostConfig.INNER_CIRCLE_MIN_LEVEL}"
+    
+    if trust_score < 700:
+        return False, "trust_required:700"
+    
+    if global_rank > GhostConfig.INNER_CIRCLE_MAX_SLOTS:
+        return False, f"rank_required:top_{GhostConfig.INNER_CIRCLE_MAX_SLOTS}"
+    
+    return True, "eligible"
+
+
+# ============================================
+# CLASS REBOOT SYSTEM (Rebirth)
+# ============================================
+
+def calculate_reboot_cost(reboot_count: int, use_rp: bool = True) -> Dict[str, Any]:
+    """
+    Calculate cost for class reboot.
+    Cost doubles with each reboot.
+    """
+    if use_rp:
+        base_cost = GhostConfig.REBOOT_BASE_COST_RP
+        rp_cost = base_cost * (GhostConfig.REBOOT_COST_MULTIPLIER ** reboot_count)
+        return {
+            "type": "rp",
+            "amount": rp_cost,
+            "alternative": "reboot_token"
+        }
+    else:
+        return {
+            "type": "token",
+            "item": "reboot_token",
+            "amount": 1
+        }
+
+
+def can_reboot_class(
+    level: int,
+    current_class: UserClass,
+    rp_balance: int,
+    reboot_count: int,
+    has_reboot_token: bool = False
+) -> Tuple[bool, str, Dict]:
+    """
+    Check if user can reboot their class.
+    """
+    if level < GhostConfig.CLASS_UNLOCK_LEVEL:
+        return False, f"level_required:{GhostConfig.CLASS_UNLOCK_LEVEL}", {}
+    
+    if current_class == UserClass.NONE:
+        return False, "no_class_to_reboot", {}
+    
+    cost = calculate_reboot_cost(reboot_count, use_rp=True)
+    
+    # Check if can afford
+    if has_reboot_token:
+        return True, "can_use_token", {"cost_type": "token"}
+    
+    if rp_balance >= cost["amount"]:
+        return True, "can_use_rp", cost
+    
+    return False, f"insufficient_rp:{cost['amount']}", cost
+
+
+def get_legacy_trait_for_class(user_class: UserClass) -> Optional[Dict]:
+    """Get the legacy trait that will be preserved from a class."""
+    return LEGACY_TRAITS.get(user_class)
+
+
+def execute_reboot(
+    current_class: UserClass,
+    new_class: UserClass,
+    current_legacy_traits: List[str],
+    reboot_count: int
+) -> Dict[str, Any]:
+    """
+    Execute class reboot logic.
+    Returns new state after reboot.
+    """
+    # Get legacy trait from old class
+    old_trait = get_legacy_trait_for_class(current_class)
+    
+    new_legacy_traits = list(current_legacy_traits)
+    if old_trait and old_trait["id"] not in new_legacy_traits:
+        if len(new_legacy_traits) < GhostConfig.MAX_LEGACY_TRAITS:
+            new_legacy_traits.append(old_trait["id"])
+    
+    return {
+        "new_class": new_class.value,
+        "class_tier": 0,  # Reset to 0
+        "legacy_traits": new_legacy_traits,
+        "reboot_count": reboot_count + 1,
+        "rp_balance": 0 if GhostConfig.REBOOT_BURNS_ALL_RP else None,
+    }
+
+
+# ============================================
+# CLASS TIER PROGRESSION
+# ============================================
+
+def calculate_class_tier_xp(tier: int) -> int:
+    """XP required for class tier level."""
+    return int(500 * (tier ** 1.3))
+
+
+def award_class_tier_xp(current_tier: int, current_tier_xp: int, xp_gained: int) -> Tuple[int, int, bool]:
+    """
+    Award XP toward class tier.
+    Returns: (new_tier, new_tier_xp, did_tier_up)
+    """
+    if current_tier >= GhostConfig.CLASS_TIER_MAX:
+        return current_tier, current_tier_xp, False
+    
+    new_xp = current_tier_xp + xp_gained
+    required = calculate_class_tier_xp(current_tier + 1)
+    
+    if new_xp >= required:
+        return current_tier + 1, new_xp - required, True
+    
+    return current_tier, new_xp, False
+
+
+# ============================================
+# ENTROPY SYSTEM
+# ============================================
+
+def calculate_entropy_effects(
+    days_inactive: int,
+    current_rp: int,
+    current_trust: float,
+    class_type: Optional[str]
+) -> Dict[str, Any]:
+    """
+    Calculate all entropy effects for inactive user.
+    Returns decay amounts and status changes.
+    """
+    effects = {
+        "days_inactive": days_inactive,
+        "entropy_active": days_inactive > GhostConfig.ENTROPY_START_DAYS,
+        "rp_decay": 0,
+        "trust_decay": 0,
+        "class_offline": False,
+        "new_rp": current_rp,
+        "new_trust": current_trust,
+    }
+    
+    if not effects["entropy_active"]:
+        return effects
+    
+    # Calculate RP decay
+    new_rp = calculate_rp_decay(current_rp, days_inactive)
+    effects["rp_decay"] = current_rp - new_rp
+    effects["new_rp"] = new_rp
+    
+    # Calculate Trust decay
+    new_trust = calculate_trust_decay(current_trust, days_inactive)
+    effects["trust_decay"] = current_trust - new_trust
+    effects["new_trust"] = new_trust
+    
+    # Class goes offline after 7 days
+    effects["class_offline"] = class_type is not None and class_type != "none"
+    
+    return effects
 
 
 # ============================================
 # ANTI-ABUSE SYSTEM
 # ============================================
 
-class XPAwardResult(BaseModel):
-    """Result of XP award attempt"""
-    success: bool
-    xp_awarded: int
-    new_total_xp: int
-    new_level: int
-    level_up: bool
-    reason: Optional[str] = None
-    daily_remaining: Optional[int] = None
-
-
 def check_rate_limit(
     last_action_time: Optional[datetime],
     action_type: ActionType,
     cooldown_seconds: int = None
 ) -> Tuple[bool, str]:
-    """
-    Check if action is rate-limited.
-    Returns: (is_allowed, reason)
-    """
+    """Check if action is rate-limited."""
     if cooldown_seconds is None:
         cooldown_seconds = GhostConfig.XP_COOLDOWN_SECONDS
     
@@ -373,12 +680,8 @@ def check_daily_cap(
     action_type: ActionType,
     xp_to_add: int
 ) -> Tuple[int, int]:
-    """
-    Check and apply daily cap for social actions.
-    Returns: (actual_xp_to_award, remaining_daily_cap)
-    """
+    """Check and apply daily cap for social actions."""
     if action_type not in SOCIAL_ACTIONS:
-        # Commerce/system actions are uncapped
         return xp_to_add, -1
     
     cap = GhostConfig.DAILY_XP_CAP_SOCIAL
@@ -391,177 +694,121 @@ def check_daily_cap(
     return actual_xp, remaining - actual_xp
 
 
-def apply_diminishing_returns(
-    action_count_today: int,
-    base_xp: int
-) -> int:
-    """
-    Apply diminishing returns for repeated actions.
-    1st action: 100% XP
-    10th action: ~50% XP
-    50th action: ~20% XP
-    100th action: ~10% XP
-    """
+def apply_diminishing_returns(action_count_today: int, base_xp: int) -> int:
+    """Apply diminishing returns for repeated actions."""
     if action_count_today <= 1:
         return base_xp
     
-    # Logarithmic decay: XP * (1 / log2(count + 1))
     multiplier = 1.0 / math.log2(action_count_today + 1)
     return max(1, int(base_xp * multiplier))
 
 
 # ============================================
-# CLASS SYSTEM
+# CLASS BONUSES
 # ============================================
 
-def can_select_class(level: int, current_class: UserClass, class_changed_at: Optional[datetime]) -> Tuple[bool, str]:
-    """
-    Check if user can select/change class.
-    """
-    if level < GhostConfig.CLASS_UNLOCK_LEVEL:
-        return False, f"level_required:{GhostConfig.CLASS_UNLOCK_LEVEL}"
+def get_class_bonuses(user_class: UserClass, class_tier: int = 0, legacy_traits: List[str] = None) -> Dict[str, Any]:
+    """Get bonuses for a specific class including tier and legacy."""
+    legacy_traits = legacy_traits or []
     
-    if current_class != UserClass.NONE and class_changed_at:
-        days_since_change = (datetime.now(timezone.utc) - class_changed_at).days
-        if days_since_change < GhostConfig.CLASS_CHANGE_COOLDOWN_DAYS:
-            remaining = GhostConfig.CLASS_CHANGE_COOLDOWN_DAYS - days_since_change
-            return False, f"cooldown:{remaining}d"
-    
-    return True, "ok"
-
-
-def get_class_bonuses(user_class: UserClass) -> Dict[str, Any]:
-    """
-    Get bonuses for a specific class.
-    """
     bonuses = {
         UserClass.NONE: {
             "icon": "○",
             "name": "Unspecialized",
             "name_ru": "Без специализации",
-            "perks": []
+            "tier": 0,
+            "perks": [],
+            "legacy_active": []
         },
         UserClass.ARCHITECT: {
             "icon": "⬡",
             "name": "Architect",
             "name_ru": "Архитектор",
+            "tier": class_tier,
             "perks": [
-                {"type": "xp_multiplier", "action": "pc_build_shared", "value": 1.25},
+                {"type": "xp_multiplier", "action": "pc_build_shared", "value": 1.25 + (class_tier * 0.005)},
                 {"type": "feature_unlock", "feature": "advanced_pc_specs", "value": True},
-            ]
+            ],
+            "tier_bonus": f"+{class_tier * 0.5}% build XP"
         },
         UserClass.BROKER: {
             "icon": "◇",
             "name": "Broker",
             "name_ru": "Брокер",
+            "tier": class_tier,
             "perks": [
-                {"type": "fee_reduction", "service": "swap", "value": 0.15},
-                {"type": "limit_increase", "service": "swap_listings", "value": 2.0},
-            ]
+                {"type": "fee_reduction", "service": "swap", "value": 0.15 + (class_tier * 0.001)},
+                {"type": "limit_increase", "service": "swap_listings", "value": 2.0 + (class_tier * 0.02)},
+            ],
+            "tier_bonus": f"-{15 + class_tier * 0.1:.1f}% swap fee"
         },
         UserClass.OBSERVER: {
             "icon": "◉",
             "name": "Observer",
             "name_ru": "Наблюдатель",
+            "tier": class_tier,
             "perks": [
-                {"type": "rp_multiplier", "action": "review_written", "value": 1.5},
+                {"type": "rp_multiplier", "action": "review_written", "value": 1.5 + (class_tier * 0.01)},
                 {"type": "feature_unlock", "feature": "expert_verified_badge", "value": True},
-                {"type": "vote_weight_bonus", "value": 0.5},
-            ]
+                {"type": "vote_weight_bonus", "value": 0.5 + (class_tier * 0.005)},
+            ],
+            "tier_bonus": f"+{50 + class_tier}% review RP"
         }
     }
-    return bonuses.get(user_class, bonuses[UserClass.NONE])
+    
+    result = bonuses.get(user_class, bonuses[UserClass.NONE]).copy()
+    
+    # Add active legacy traits
+    active_legacy = []
+    for trait_id in legacy_traits:
+        for cls, trait in LEGACY_TRAITS.items():
+            if trait["id"] == trait_id:
+                active_legacy.append(trait)
+                break
+    result["legacy_active"] = active_legacy
+    
+    return result
 
 
-# ============================================
-# LEVEL UP REWARDS (System Decryption)
-# ============================================
-
-def generate_level_up_reward(new_level: int, user_class: UserClass) -> Dict[str, Any]:
+def can_select_class(
+    level: int, 
+    current_class: UserClass, 
+    reboot_count: int
+) -> Tuple[bool, str]:
     """
-    Generate reward for level up (System Decryption).
-    Returns artifact/protocol based on level and RNG.
+    Check if user can select/change class.
+    First selection is free, changes require reboot.
     """
-    import random
+    if level < GhostConfig.CLASS_UNLOCK_LEVEL:
+        return False, f"level_required:{GhostConfig.CLASS_UNLOCK_LEVEL}"
     
-    reward = {
-        "type": "decryption",
-        "level": new_level,
-        "rewards": []
-    }
+    if current_class == UserClass.NONE:
+        return True, "first_selection_free"
     
-    # Guaranteed RP bonus
-    rp_bonus = 50 + (new_level * 5)
-    reward["rewards"].append({
-        "type": "rp",
-        "amount": rp_bonus,
-        "name": "Resource Points"
-    })
-    
-    # Milestone rewards (every 10 levels)
-    if new_level % 10 == 0:
-        reward["rewards"].append({
-            "type": "artifact",
-            "id": f"theme_milestone_{new_level}",
-            "name": f"Milestone {new_level} Theme",
-            "rarity": "rare" if new_level < 50 else "epic"
-        })
-    
-    # Random protocol (20% chance)
-    if random.random() < 0.2:
-        protocols = [
-            {"id": "boost_24h", "name": "Visibility Boost (24h)", "duration_hours": 24},
-            {"id": "discount_5", "name": "5% Discount Token", "discount_percent": 5},
-            {"id": "priority_queue", "name": "Priority Support (48h)", "duration_hours": 48},
-        ]
-        reward["rewards"].append({
-            "type": "protocol",
-            **random.choice(protocols)
-        })
-    
-    # Class-specific bonus
-    if user_class == UserClass.ARCHITECT and new_level >= 20:
-        reward["rewards"].append({
-            "type": "blueprint",
-            "id": f"blueprint_{new_level}",
-            "name": "System Blueprint Fragment"
-        })
-    
-    return reward
+    return False, "reboot_required"
 
 
 # ============================================
-# STATS FOR RADAR CHART
+# RADAR STATS
 # ============================================
 
 def calculate_radar_stats(user_data: Dict) -> Dict[str, int]:
-    """
-    Calculate radar chart stats (0-100 scale).
-    """
-    stats = {
-        "speed": 50,   # Transaction speed
-        "trust": 50,   # Trust score / 10
-        "comm": 50,    # Communication rating
-        "tech": 50     # Technical knowledge
-    }
+    """Calculate radar chart stats (0-100 scale)."""
+    stats = {"speed": 50, "trust": 50, "comm": 50, "tech": 50}
     
-    # Trust from trust_score
     trust_score = user_data.get("trust_score", 500)
     stats["trust"] = min(100, int(trust_score / 10))
     
-    # Speed from average deal completion time (lower is better)
-    # Placeholder - would need actual data
     deals_completed = user_data.get("total_deals", 0)
     if deals_completed > 0:
         stats["speed"] = min(100, 50 + deals_completed)
     
-    # Comm from review ratings received
     avg_rating = user_data.get("average_rating_received", 3.0)
     stats["comm"] = min(100, int(avg_rating * 20))
     
-    # Tech from PC builds, articles, etc.
     builds = user_data.get("total_builds", 0)
     articles = user_data.get("total_articles", 0)
     stats["tech"] = min(100, 40 + builds * 5 + articles * 10)
     
     return stats
+
