@@ -1,76 +1,80 @@
-<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called Ghost Protocol. Initially focused on a Cartenon Temple aesthetic for the  page, the project has evolved through multiple phases defined in , now adopting a Toriki / Future Minimal / Japandi Tech style.
+<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website called Ghost Protocol. The project has evolved from a static page design to a fully dynamic Kinetic Dot-OS interface, inspired by designers like Howard.le and the 'Nothing' brand aesthetic.
 
-The latest user request is a major UI overhaul for the Home and  pages to a style named Kinetic Dot-OS, inspired by the animated UX of Howard.le and the minimalist dot matrix aesthetic of the 'Nothing' brand. This involves creating new, isolated live widgets that float and animate with spring physics, transforming static pages into a dynamic dashboard, while ensuring existing pages like the marketplace are not affected.
+The most recent user requests are two-fold and represent a massive expansion of the project's scope:
+1.  **Ghost OS Dashboard (Complete Overhaul):** Transform the entire homepage into a Living Desktop that assembles on load, featuring a Zen Mode for a minimalist view, a Sonic Tuner for ambient sounds, and a Telemetry Bar for system stats. This involved integrating several previously unused components into a single, cohesive, animated system.
+2.  **The Social Core (New Epic):** Build a massive social layer within the application, divided into two core modules:
+    *   **The Network:** A content feed system similar to DTF/Instagram for users to share posts, guides, and builds.
+    *   **The Consensus:** A King of the Hill idea-voting system with a full-fledged internal economy based on Resource Points (RP), where users pay to submit and vote on ideas.
 
 **User's preferred language**: Russian (Русский)
 
 **what currently exists?**
-- A full-stack application (React/FastAPI) with a complete Ghost Protocol backend, including services for leveling, trust scores, and dynamic Living Legend titles (, ).
-- **Phase 2 (Visual Core):** , , and  components are fully implemented and refined, providing a visual representation of a user's status based on their Trust Score.
-- **Phase 3 (Mod Temple):** The  page has been completely rebuilt. It features:
-    -  and  for atmospheric notifications and sound.
-    - A Split Gate animation that reveals a Void Shop with levitating products.
-    - A restored Ecosystem bento grid and a Monument header with brand-specific content.
-    - A horizontal Origin Thread timeline at the bottom of the page with a custom neural pulse animation.
-- A new directory  has been created to house the components for the new Kinetic Dot-OS UI.
-- All component files for the Kinetic UI have been created but are not yet integrated: , , , , , and .
+- A full-stack application (React/FastAPI) with a highly stylized frontend.
+- **Ghost OS Dashboard:** The  has been completely rebuilt into a dynamic dashboard featuring multiple animated kinetic widgets (, , , , , , etc.). A Zen Mode toggle (using Zustand for global state) and a Sonic Tuner are implemented.
+- **Social Core Backend:** The entire backend for the Network and Consensus features is **complete**. This includes:
+    - Pydantic models for posts, ideas, and leaderboards (, , ).
+    - Service logic for business rules, including the RP economy (, , ).
+    - FastAPI routes with both authenticated and optional-authentication endpoints (, , ). All backend APIs have been tested with  and are functional.
+- **Social Core Frontend Scaffolding:** All necessary files for the frontend have been created but are empty placeholders:
+    - Page: 
+    - Components: , ,  located in .
 
 **Last working item**:
-- **Last item agent was working:** Implementing the user's request for a Kinetic Dot-OS UI. The agent successfully followed the Isolation Protocol by creating a new  directory and scaffolding all the required new components within it. The immediate next step is to integrate these components into the  and .
+- **Last item agent was working:** Scaffolding the frontend architecture for the new Social Core feature. The agent successfully created all the necessary placeholder files (pages, components, CSS, index) and was about to integrate the new community routes into the main  file.
 - **Status:** IN PROGRESS
-- **Agent Testing Done:** N
-- **Which testing method agent to use?** Frontend testing agent. The agent must verify the new kinetic widgets on the  page and the homepage. Testing should focus on spring physics animations, the Floating Islands style, widget-specific interactions, and confirming no visual regressions on the  and  pages.
+- **Agent Testing Done:** N (Frontend not built yet)
+- **Which testing method agent to use?** Frontend testing agent. After implementation, the agent must test:
+    1.  The new  hub page and its sub-components (, ).
+    2.  The Community Pulse widget's integration and functionality on the homepage.
+    3.  End-to-end flow: creating a post/idea and seeing it appear in the feed/list by calling the working backend APIs.
 - **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
-- **Issue 1: Complete the Kinetic Dot-OS UI Overhaul (P0)**
-  - **Description:** Transform the static UI of the  page's 'Ecosystem' section and the entire homepage into a live dashboard. This involves implementing 'Floating Islands' for widgets, spring physics animations, and a monochrome/dot-matrix/red-accent aesthetic.
-  - **Attempted fixes:** The agent has successfully created the file structure and empty components in , isolating them from the rest of the app.
-  - **Next debug checklist:**
-      1.  Open .
-      2.  Replace the current Ecosystem bento grid with the new kinetic components:  and .
-      3.  Open .
-      4.  Rebuild its layout using the other new kinetic widgets: , , and .
-      5.  Ensure all animations use  spring physics ().
-      6.  Visually verify the new UI on both pages via screenshots.
-      7.  **Crucially**, take screenshots of  and  to confirm no regressions have occurred.
-  - **Why fix this issue and what will be achieved with the fix?** This will elevate the site's user experience from a standard web layout to a futuristic, dynamic, and highly stylized interface, aligning with the user's core vision.
+- **Issue 1: Implement the Social Core Frontend (P0)**
+  - **Description:** Build the user interface for the Network (content feed) and Consensus (idea voting) features, and integrate the Community Pulse widget onto the homepage.
   - **Status:** IN PROGRESS
-  - **Is recurring issue?** N
-  - **Should Test frontend/backend/both after fix?** Frontend
-  - **Blocked on other issue:** None
+- **Issue 2: Implement Visual Correction Pass (P1)**
+  - **Description:** The user has provided a detailed prompt for a major visual cleanup to align the site more closely with the strict Nothing OS aesthetic. This involves enforcing monochrome icons, using abstract patterns for category backgrounds instead of photos, and redesigning the .
+  - **Status:** NOT STARTED
+- **Issue 3: Zen Mode Scroll Bug (P2)**
+  - **Description:** The agent noted that while Zen Mode correctly hides elements in the visible viewport, components further down the page (like  and ) might still appear if the user scrolls. This needs to be verified and fixed to ensure Zen mode affects the entire page.
+  - **Status:** NOT STARTED
+- **Issue 4: ProductCard Expanded Panel Robustness (P2)**
+  - **Description:** An old, low-priority task from a previous session to verify the stability of the hover panel on product cards in the marketplace.
+  - **Status:** NOT STARTED
 
 **In progress Task List**:
-- **Task 1: Integrate Kinetic Widgets into ModPage (P0)**
-  - **Where to resume:** Open  and replace the current JSX for the 'Ecosystem' section with the newly created  and  components from .
-  - **What will be achieved with this?** The 'Ecosystem' section of the brand page will be the first part of the site to feature the new dynamic Kinetic Dot-OS UI.
-  - **Status:** NOT STARTED
+- **Task 1: Build the Social Core Frontend UI (P0)**
+  - **Where to resume:**
+      1. Open  and add the route for  pointing to .
+      2. Open  and build the main layout with tabs for Network and Consensus.
+      3. Implement the UI for  and , fetching data from the now-working backend endpoints.
+      4. Implement the Community Pulse flip-card widget in .
+      5. Integrate the  widget into the  App Grid (Zone B).
+  - **What will be achieved with this?** The application will have a fully functional social layer, allowing users to interact, post content, and vote on ideas, transforming it from a store into a community platform.
+  - **Status:** IN PROGRESS
   - **Should Test frontend/backend/both after fix?** Frontend
   - **Blocked on something:** None
 
 **Upcoming and Future Tasks**
 - **Upcoming Tasks:**
-    - **(P0) Rebuild HomePage.jsx with Kinetic Widgets:** After updating , overhaul the main homepage using , , and .
+    - **(P1) Visual Correction Pass:** Implement the user's detailed visual refinement requests from .
     - **(P1) Phase 4: The Evolution (Interactivity):** Implement RPG-like mechanics:  (the lootbox system) and .
-    - **(P2) Ghost OS Menu:** Implement the Neural Hub menu concept, which was archived in .
+    - **(P2) Ghost OS Menu:** Implement the Neural Hub menu concept from .
 - **Future Tasks:**
-    - Implement full Voice & Screen Share capabilities for support chat.
-    - Build out the User Trust/Rating System UI.
-    - Develop social features: , , .
-    - Integrate alternate Payment Systems (Tinkoff + Cryptomus).
-    - Implement Performance Optimization.
+    - Full Voice & Screen Share capabilities for support chat.
+    - User Trust/Rating System UI (the backend model exists, but the UI is needed).
+    - Alternate Payment Systems (Tinkoff + Cryptomus).
+    - Performance Optimization.
 
 **Completed work in this session**
-- **Phase 2 & 3 Refinements:**
-    - Fully implemented and refined  and  to match the user's highly detailed visual specifications.
-    - Fully rebuilt  to include the Split Gate mechanic, Void Shop, audio feedback, system toasts, and restored brand content.
-    - Overhauled the Origin Thread timeline to be horizontal, placed at the bottom, and animated with random neural pulses.
-- **Kinetic Dot-OS Kick-off:**
-    - Archived the user's Ghost OS Menu idea into  for later implementation.
-    - Created an isolated directory () and all necessary component files for the new UI system, preparing for integration.
+- **Kinetic Dot-OS UI (Howard.le Level):** Implemented advanced animation physics, including a three-state Stack → Fan → List mechanic for the  component with layout projection.
+- **Ghost OS Dashboard:** Executed a total overhaul of the homepage, integrating previously unused components into a cohesive, animated Living Desktop with a Zen Mode toggle and a Sonic Tuner for ambient sounds.
+- **Social Core Backend:** Fully designed, implemented, and tested the entire backend for the new social features, including data models, service logic for the RP-based economy, and all necessary API endpoints.
 
 **Earlier issues found/mentioned but not fixed**
-- ** Expanded Panel Robustness:** A P2 verification task from a previous session to check the stability of the hover panel on product cards. Status remains NOT STARTED.
+- **Zen Mode Scroll Bug:** See All Pending/In progress Issue list.
+- **ProductCard Expanded Panel Robustness:** See All Pending/In progress Issue list.
 
 **Known issue recurrence from previous fork**
 - None.
@@ -79,70 +83,86 @@ The latest user request is a major UI overhaul for the Home and  pages to a styl
 
 
 **Key Technical Concepts**
-- **Isolated Component Development:** Creating new UI systems in a dedicated, isolated directory () to prevent regressions in stable parts of the application. This is a critical safety protocol.
-- **Advanced :** The Kinetic Dot-OS will rely heavily on  for spring physics (), layout animations (), and choreographed interactions.
-- **UI as an OS:** A design philosophy treating the UI as a dynamic Operating System with live widgets, rather than a static page.
-- **Aesthetic Synthesis:** A new style combining 's animation physics, the  brand's dot-matrix and monochrome/red-accent palette, and the existing Toriki / Future Minimal theme.
+- **Full-Stack Feature Development:** Building features from backend (FastAPI models, services, routes) to frontend (React components, state management).
+- **Advanced :** Use of , , , and state-driven animations ( prop) to create complex, fluid UIs.
+- **Global State Management:** Using  to manage UI state () that affects multiple, disparate components across the application.
+- **Internal Economy Design:** Implementation of a points-based system (RP) to gate actions (creating/voting on ideas), creating value and preventing spam.
+- **Optional API Authentication:** Using a utility () to create endpoints that can be accessed publicly but provide enhanced data for authenticated users.
 
 **key DB schema**
-- No changes made in this session.
+- **network_posts:** 
+- **consensus_ideas:** 
+- **monarchs:** 
 
 **changes in tech stack**
-- No new libraries were added. The agent opted for the native Web Audio API () instead of  for reliability.
+- **:** Added for global state management.
+- **:** Added for handling ambient audio presets in the Sonic Tuner.
 
 **All files of reference**
-- : The master project plan.
-- : The archived plan for the next-gen menu system.
-- : The first page to be updated with the new kinetic widgets.
-- : The next page to be overhauled.
-- : The directory containing all the newly created components for the Kinetic Dot-OS.
+- : The blueprint for the current Social Core task.
+- : The next high-priority visual task.
+- : Directory for all new frontend components.
+- : Directory for the new social hub page.
+- All newly created backend files under .
 
 **Areas that need refactoring**:
-- None. The current task explicitly avoids refactoring by creating new, isolated components.
+- None currently. The agent is following a clean pattern of creating new, isolated components for new features. The Visual Correction task will act as a targeted refactor of existing components.
 
 **key api endpoints**
-- None created in this session.
+- : Fetch posts for the Network feed (public).
+- : Create a new post (auth required).
+- : Fetch ideas for the Consensus list (public).
+- : Create a new idea, costs 500 RP (auth required).
+- : Vote on an idea, costs 50 RP (auth required).
+- : Get user leaderboards (public).
 
 **Critical Info for New Agent**
 - **You MUST respond in Russian.**
-- **Your immediate task is to continue the Kinetic Dot-OS overhaul.** The component files are already created in . You need to integrate them into  first, then rebuild .
-- **Follow the Isolation Protocol:** Do NOT modify any global components or files outside of  and . The  and  pages must remain untouched. Verify this with screenshots after your changes.
-- The user's aesthetic is paramount. Adhere strictly to the principles of Floating Islands, spring physics, and the monochrome/dot-matrix/red-accent color scheme.
+- Your immediate and highest-priority task is to **build the frontend for the Social Core**. The backend is already finished, tested, and ready to be used.
+- Start by implementing the routing in , then build out the UIs in  and .
+- Once the Social Core frontend is complete, the next task is the **Visual Correction** pass, with instructions saved in . Do not start it before finishing the current task.
+- Be aware of the minor **Zen Mode scroll bug** and plan to investigate it after the main tasks are complete.
 
 **documents and test reports created in this job**
+- 
+- 
+- 
+- 
 - 
 -  (updated multiple times)
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **LATEST:** User requests a new Kinetic Dot-OS UI for the Home and  pages, providing a safe mode prompt to create isolated components and avoid breaking the . **(PENDING IMPLEMENTATION)**
-2.  User requests the timeline animation be thinner and random, like neural impulses. (DONE)
-3.  User asks to move the timeline to the bottom, make it horizontal, and add a soul pulse animation. (DONE)
-4.  User provides corrective feedback on , asking to restore brand content (Ecosystem grid, Etch button) and specific products in the Void Shop. (DONE)
-5.  User provides the prompt for the final assembly of , including audio and the Split Gate animation. (DONE)
-6.  User agrees to archive the Ghost OS Menu idea for later and proceed with building the  Temple. (DONE)
-7.  User provides a large prompt detailing a next-gen Ghost OS menu and the Mod Temple architecture. (PARTIALLY DONE - Temple built, Menu archived)
-8.  User asks the agent to continue refining the Phase 2 visual components to fully match the detailed prompt. (DONE)
-9.  User points out that the first implementation of Phase 2 visuals was incomplete. (DONE)
-10. User confirms completion of the initial Phase 2 and asks for enhancement ideas. (DONE)
+1.  **LATEST:** User confirms to start with the most complex part of the Social Core task, the backend, and to treat it as a critical priority. (DONE, Backend is complete)
+2.  User provides the massive prompt for the Social Core (Network & Consensus) and asks the agent to proceed. (IN PROGRESS)
+3.  User asks the agent to save a Visual Correction prompt for a future task and to move on to the next implementation step. (DONE, prompt saved, agent starting frontend)
+4.  User provides an extremely detailed prompt to create the Ghost OS Dashboard by overhauling the homepage and integrating all unused components into a cohesive, animated system with Zen Mode and a Sonic Tuner. (DONE)
+5.  User provides critical analysis and a final Master-Prompt to assemble the homepage with a clear three-zone structure (Control, Workspace, Telemetry). (DONE)
+6.  User asks agent to save an analysis file to GitHub. Agent correctly explains this is a user action. (DONE)
+7.  User asks the agent to perform a comprehensive analysis of all homepage-related components and plans. (DONE, analysis created)
+8.  User provides critical feedback on the Kinetic UI, explaining the need for advanced physics and providing a prompt to create a  file and re-implement the UI based on it. (DONE)
+9.  User provides the initial detailed prompt to create the Kinetic Dot-OS UI. (DONE)
+10. User confirms to proceed with the agent's plan. (DONE)
 
 **Project Health Check:**
-- **Broken:** None
-- **Mocked:** The  content is now dynamic. The new kinetic widgets will use mock data initially.
+- **Broken:** The  route and associated frontend components exist as files but will result in blank or non-functional pages until the UI is built.
+- **Mocked:** All kinetic widgets on the homepage use mock/static data. The Social Core frontend will need to be connected to the live backend.
 
 **3rd Party Integrations**
 - 
 - 
 - 
 - 
+-  (new)
+-  (new)
 
 **Testing status**
 - **Testing agent used after significant changes:** NO
 - **Troubleshoot agent used after agent stuck in loop:** NO
 - **Test files created:** None
-- **Known regressions:** None. The current task is structured specifically to prevent regressions.
+- **Known regressions:** None identified.
 
 **Credentials to test flow:**
-- N/A
+- N/A. The backend was tested with , and public endpoints are available. For authenticated endpoints, a token would need to be generated via the  flow.
 
 **What agent forgot to execute**
-- The agent has correctly created the files for the new Kinetic Dot-OS widgets but has not yet integrated them into  and . This is the immediate next step.</analysis>
+- The agent correctly identified a potential bug with Zen Mode's behavior on scroll but deferred fixing it to complete the larger task. This is acceptable prioritization but the bug remains and should be addressed.</analysis>
