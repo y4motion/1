@@ -32,7 +32,7 @@ import {
 } from './kinetic';
 
 // Social
-import { CommunityPulse } from './social';
+import { NetworkPulse, ConsensusPulse } from './social';
 
 import '../styles/glassmorphism.css';
 import '../styles/animations.css';
@@ -145,20 +145,21 @@ export default function HomePage() {
           )}
         </AnimatePresence>
 
-        {/* Kinetic Dashboard Row (Reviews + Poll + Community Pulse) */}
+        {/* Kinetic Dashboard Row (Reviews + Poll + Network + Consensus) */}
         <motion.div 
           variants={itemVariants}
           className="dashboard-row"
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
             gap: '20px',
             marginBottom: '40px'
           }}
         >
           <ReviewDeck />
           <ActivePoll poll={ROADMAP_POLL} />
-          <CommunityPulse />
+          <NetworkPulse />
+          <ConsensusPulse />
         </motion.div>
 
         {/* Categories Bento Grid (Hidden in Zen Mode) */}
