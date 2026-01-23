@@ -222,7 +222,75 @@
 1. Create `UserHalo.jsx`: Ring around avatar based on `trust_score`. Include subtle 'breathing' animation for high tiers
 2. Create `HolographicID.jsx`: Profile card with Radar Chart using `recharts`. Dark glass background with noise texture
 3. Create `SystemBadge.jsx`: Class indicator (⬡/◇/◉)
-4. Integrate these into Profile Page and Chat messages
+4. Create `TitleBadge.jsx`: Display equipped title with visual effects
+5. Integrate these into Profile Page and Chat messages
+
+---
+
+## VIII. LIVING LEGENDS ENGINE (Phase 1.5) ✅ IMPLEMENTED
+
+### Title Categories
+
+#### 🩸 LEGACY TITLES (One-time, chronological)
+| Title | Condition | Max Holders | Effects |
+|-------|-----------|-------------|---------|
+| **Progenitor** | First 1000 users | 1,000 | +5% XP forever, golden border |
+| **Origin** | Top 10 first month | 10 | Free yearly reboot |
+| **Pioneer** | Beta testers | 5,000 | Beta badge |
+
+#### 👁️ AI-RECOGNIZED TRAITS (Behavioral patterns)
+| Title | Detection | Decay | Effects |
+|-------|-----------|-------|---------|
+| **White Hat** 🎩 | Bug reported & fixed | Never | Glitch effect, +50 Trust |
+| **The Shepherd** 🌟 | 50+ newbies helped | 90 days | Soft glow, +10% RP |
+| **Silent Whale** 🐋 | High volume, low chat | 60 days | Priority support |
+| **Nightwatcher** 🦉 | 30+ night streaks | 30 days | Dark aura |
+| **The Patient One** ⏳ | 90+ days item watch | Never | 10% discount token |
+
+#### 🏆 UNIQUE FEATS (Highlander - only ONE holder)
+| Title | Condition | Transfer |
+|-------|-----------|----------|
+| **System Breaker** 💥 | Fastest to level 80 | To new record holder |
+| **Trade Emperor** 👑 | #1 monthly trade volume | Monthly |
+| **Heart of Community** 💖 | #1 helpful score | Monthly |
+| **Architect Prime** 🏛️ | Build with 10k+ likes | Permanent |
+
+### Hidden Metrics (AI Data Mining)
+```javascript
+hidden_metrics: {
+  // Bug reporting
+  bugs_reported, bugs_fixed_from_reports,
+  
+  // Helping behavior
+  newbies_helped, unique_newbies_helped, unanswered_questions_answered,
+  
+  // Trading patterns
+  total_trade_volume, silent_trades, messages_sent_total,
+  
+  // Time patterns
+  night_logins, night_activity_days[], consecutive_night_streak,
+  
+  // Patience metrics
+  items_watched: {item_id: first_watch_date}, longest_item_watch_days,
+  
+  // Speed records
+  days_to_level_10, days_to_level_40, days_to_level_80,
+  
+  // Anomaly flags (set by AI)
+  detected_anomalies[], potential_titles[]
+}
+```
+
+### Key Functions
+- `track_action_for_titles()` — Track user actions for title eligibility
+- `analyze_behavior()` — AI Watcher analyzes patterns
+- `detect_anomalies()` — Statistical outlier detection (z-score ≥ 3)
+- `check_highlander_titles()` — Transfer unique titles to new leaders
+- `check_title_decay()` — Remove titles from inactive users
+- `get_title_effects()` — Calculate cumulative bonuses
+
+### Files Created
+- `/backend/services/living_legends.py` — Full engine implementation
 
 ### PHASE 3: THE MOD TEMPLE & HIDDEN SHOP
 **Priority:** P1 (Partially done)
