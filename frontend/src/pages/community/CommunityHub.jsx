@@ -14,6 +14,7 @@ import {
   Activity, Lightbulb, Trophy, ChevronRight, 
   TrendingUp, Users, Flame, Star
 } from 'lucide-react';
+import '../../components/social/social.css';
 
 const springSmooth = { type: "spring", stiffness: 300, damping: 30 };
 
