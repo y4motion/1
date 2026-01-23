@@ -935,25 +935,6 @@
   50% { opacity: 0.4; }
 }
 
-.flip-btn {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.flip-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-}
-
 .pulse-content {
   flex: 1;
   display: flex;
