@@ -237,21 +237,31 @@ const BrandProduct = ({ product, isBlurred, onHover }) => (
   </motion.div>
 );
 
-// Timeline Node
-const TimelineNode = ({ event, index }) => (
+// Horizontal Timeline Node with Soul Pulse
+const TimelineNode = ({ event, index, isLast }) => (
   <motion.div
-    className="timeline-node"
-    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    transition={{ delay: index * 0.1 }}
+    className="h-timeline-node"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: index * 0.15 }}
     viewport={{ once: true }}
   >
-    <div className="timeline-dot" />
-    <div className="timeline-content">
-      <span className="timeline-year">{event.year}</span>
-      <h4 className="timeline-title">{event.title}</h4>
-      <p className="timeline-desc">{event.desc}</p>
+    <div className="h-node-dot">
+      <div className="dot-core" />
+      <div className="dot-pulse" />
     </div>
+    <div className="h-node-content">
+      <span className="h-node-year">{event.year}</span>
+      <h4 className="h-node-title">{event.title}</h4>
+      <p className="h-node-desc">{event.desc}</p>
+    </div>
+    {/* Soul Thread - animated pulse between nodes */}
+    {!isLast && (
+      <div className="soul-thread">
+        <div className="thread-line" />
+        <div className="thread-pulse" style={{ animationDelay: `${index * 0.3}s` }} />
+      </div>
+    )}
   </motion.div>
 );
 
