@@ -3,105 +3,103 @@
 ## Original Problem Statement
 Build a hyper-stylized, atmospheric website with a deep, sophisticated user progression and rating system called "Ghost Protocol." The project features a "Toriki / Future Minimal / Japandi Tech" aesthetic.
 
-## Core Philosophy: Ghost Resonance
-**Trust = Коэффициент Стабильности Сигнала**
-- High trust = Clean signal, perfect focus, soft backlight from depth
-- Low trust = Interference, noise, color loss, unstable projection
-
 ## Implemented Features
 
-### Phase 1: Backend Core ✅ (January 2026)
-- Mathematical leveling system (`/backend/services/leveling_system.py`)
-- XP service with anti-abuse mechanisms (`/backend/services/xp_service.py`)
-- Living Legends engine for dynamic titles (`/backend/services/living_legends.py`)
+### Phase 1: Backend Core ✅
+- Mathematical leveling system
+- XP service with anti-abuse mechanisms
+- Living Legends engine for dynamic titles
 
-### Phase 2: Ghost Resonance ✅ (January 2026)
-**Signal Quality States:**
-| Trust Score | State | Visual Effects |
-|-------------|-------|----------------|
-| > 800 | PHOTON ECHO | Diffuse backlight, laser connection line |
-| 500-799 | STANDARD | Normal projection, hard shadow |
-| 400-499 | SIGNAL DECAY | Grayscale (80%), noise texture overlay |
-| 200-399 | GLITCH ANOMALY | RGB split, chromatic aberration, jitter |
-| < 200 | CORRUPTED | Heavy distortion, clip-path glitch |
+### Phase 2: Ghost Resonance ✅
+- UserResonance.jsx — Signal-based avatar (Photon/Standard/Decay/Glitch/Corrupted)
+- ClassArtifact.jsx — Geometric SVG icons
+- HolographicID.jsx — Digital passport with spider chart
 
-**Components:**
-- `UserResonance.jsx` — Signal-based avatar
-- `ClassArtifact.jsx` — Geometric SVG icons (Isometric cube, Parabolas, Eye)
-- `HolographicID.jsx` — Digital passport with spider chart, 3D tilt
+### Phase 3: Temple Architecture & System Voice ✅ (January 2026)
 
-### Phase 3: System Voice ✅ (January 2026)
-**SystemToast implemented:**
-- Monospace toast notifications with "decoding" text effect
-- Types: `info`, `success`, `warning`, `error`, `xp`, `rp`, `trust`, `access`, `denied`
-- Auto-remove after 4 seconds
-- Scan-line animation
+**Audio Immersion:**
+- `SystemAudio.js` — Native Web Audio API sounds
+- `playVoidOpen()` — Heavy mechanical rumble
+- `playAccessGranted()` — Power-on hum
+- `playAccessDenied()` — Warning buzz
+- `playToastClick()` — Soft digital click
+- `playHoverBlip()` — Interaction feedback
 
-**ModPage integration:**
-- Toast triggers on Armory open/close
-- Toast on Direct Line access/denied
-- Toast on Vote (+10 RP)
-- Toast on Boost (+25 XP)
-- Toast on Legacy etch
+**SystemToast with Audio:**
+- Auto-plays sound based on toast type
+- `access/success` → playAccessGranted
+- `denied/error` → playAccessDenied
+- `info/xp/rp` → playToastClick
 
-**Demo page:** `/system-demo` — includes System Voice testing section
+**ModPage Temple Architecture:**
+1. **THE FRIEZE (45vh)** — Monument with:
+   - CodeStream — Matrix-style running code
+   - LegacyEchoes — Floating phrases (LEGACY, VOID, SYSTEM)
+   - Noise texture overlay
+
+2. **THE SPLIT GATE** — World-splitting mechanic:
+   - Click triggers `playVoidOpen()` sound
+   - Frieze slides UP (-400px)
+   - Timeline slides DOWN (+400px)
+   - VoidShop appears in the gap
+
+3. **THE VOID SHOP** — Hidden armory:
+   - Pure black background (#000000)
+   - Floating products with cyan glow on hover
+   - Trust-locked items (blur + lock icon for TS < 400)
+   - Rarity-based colors (legendary/epic/rare/uncommon/common)
+
+4. **ORIGIN TIMELINE** — Amber thread history:
+   - Vertical amber line (1px)
+   - Timeline nodes with events
+
+5. **INNER CIRCLE** — Founders access:
+   - Trust 700+ required
+   - Pulsing amber button when accessible
+   - `ACCESS DENIED` toast when blocked
 
 ## Architecture
 
 ```
-/app/
-├── SYSTEM_ARCHITECTURE_GHOST.md  # Master project plan
-├── memory/
-│   ├── PRD.md                    # This file
-│   └── FUTURE_GHOST_OS_MENU.md   # Archived future task
-├── backend/
-│   └── services/
-│       ├── leveling_system.py
-│       ├── living_legends.py
-│       └── xp_service.py
-└── frontend/src/components/
-    ├── system/
-    │   ├── UserResonance.jsx     # Signal-based avatar
-    │   ├── ClassArtifact.jsx     # Geometric class icons
-    │   ├── HolographicID.jsx     # Digital passport
-    │   ├── SystemToast.jsx       # System notifications (NEW)
-    │   └── index.js
-    ├── demo/
-    │   └── SystemDemo.jsx
-    └── ModPage.jsx               # Updated with SystemToast
+/app/frontend/src/components/
+├── system/
+│   ├── UserResonance.jsx     # Signal-based avatar
+│   ├── ClassArtifact.jsx     # Geometric class icons
+│   ├── HolographicID.jsx     # Digital passport
+│   ├── SystemToast.jsx       # Notifications + audio
+│   ├── SystemAudio.js        # Web Audio API sounds
+│   └── index.js
+├── demo/
+│   └── SystemDemo.jsx        # Component showcase
+├── ModPage.jsx               # THE TEMPLE
+└── ModPage.css
 ```
 
 ## Prioritized Backlog
 
 ### P0 — High Priority
-- [ ] **Phase 3 continued:** Improve ModPage Split Gate animation, add VoidShop levitation effects
+- [ ] Add product click interactions in Void Shop
+- [ ] Connect to real product data from backend
 
-### P1 — Medium Priority  
-- [ ] **Phase 4: Evolution (Interactivity)**
-  - DecryptionCube.jsx — Level-up modal with 3D wireframe cube
-  - ClassSelection.jsx — Minimalist three-column selection at level 10
-- [ ] Integrate UserResonance into chat/profile components site-wide
-
-### P1.5 — Archived (Ghost OS Menu)
-- [ ] NeuralHub.jsx — Radial menu from Core Pulse
-- [ ] OperatorDossier.jsx — Redesigned profile page
-- See `/app/memory/FUTURE_GHOST_OS_MENU.md` for full spec
+### P1 — Medium Priority
+- [ ] **Phase 4: Evolution**
+  - DecryptionCube.jsx — Level-up rewards
+  - ClassSelection.jsx — Class choice at level 10
+- [ ] Integrate UserResonance into chat/profile site-wide
+- [ ] Ghost OS Menu (archived in `/app/memory/FUTURE_GHOST_OS_MENU.md`)
 
 ### P2 — Lower Priority
-- [ ] Voice & Screen Share for support chat
+- [ ] Voice & Screen Share
 - [ ] Alternate payments (Tinkoff + Cryptomus)
-- [ ] Performance optimization
 
 ## CSS Variables (Ghost Protocol)
 ```css
 --ghost-void: #050505
 --ghost-amber: #FF9F43
 --ghost-cyan: #00FFD4
---ghost-void-blue: #2E5CFF
---halo-verified: #00FFD4
 --halo-danger: #FF4444
 ```
 
 ---
 *Last Updated: January 23, 2026*
-*Version: 3.0.0 — System Voice Complete*
+*Version: 3.1.0 — Temple Complete*
