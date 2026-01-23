@@ -116,24 +116,19 @@ const AppWidget = ({ app }) => {
     <motion.div variants={itemVariants}>
       <Link to={app.link} className="app-widget" data-testid={`app-${app.id}`}>
         <div className="app-widget-inner">
-          {/* Glow background */}
-          <div 
-            className="app-glow" 
-            style={{ background: `radial-gradient(circle at 50% 50%, ${app.color}15 0%, transparent 70%)` }} 
-          />
-          
-          {/* Icon */}
-          <div className="app-icon" style={{ color: app.color }}>
-            <Icon size={28} strokeWidth={1.5} />
+          {/* Icon - monochrome, thin stroke */}
+          <div className="app-icon">
+            <Icon size={28} strokeWidth={1} />
           </div>
           
           {/* Title */}
           <div className="app-title">{app.title}</div>
           <div className="app-subtitle">{app.subtitle}</div>
           
-          {/* Badge */}
+          {/* Badge - only red for LIVE, else muted */}
           {app.badge && (
             <span className={`app-badge ${app.badgePulse ? 'pulse' : ''}`}>
+              {app.badgePulse && <span className="badge-dot" />}
               {app.badge}
             </span>
           )}
