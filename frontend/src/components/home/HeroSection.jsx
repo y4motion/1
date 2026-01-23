@@ -1,8 +1,7 @@
 /**
- * HeroSection.jsx - Video Full Screen + Search Below Viewport
+ * HeroSection.jsx - Video Full Screen + Search Below
  * 
- * Video takes 100vh, search strip is below (need to scroll)
- * Single snake line ~10% of perimeter, no visible border
+ * Single snake line crawling around invisible border
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -16,38 +15,31 @@ export default function HeroSection() {
   const navigate = useNavigate();
   const videoRef = useRef(null);
 
-  // Force video play on multiple events
+  // Force video play
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const playVideo = () => {
       video.muted = true;
-      video.play().catch(err => console.log('Video play error:', err));
+      video.play().catch(() => {});
     };
 
-    // Try to play immediately
     playVideo();
-
-    // Also try on user interaction
-    const handleInteraction = () => {
-      playVideo();
-      document.removeEventListener('click', handleInteraction);
-      document.removeEventListener('scroll', handleInteraction);
-    };
-
-    document.addEventListener('click', handleInteraction);
-    document.addEventListener('scroll', handleInteraction);
-
-    // Try again after load
     video.addEventListener('loadeddata', playVideo);
     video.addEventListener('canplay', playVideo);
+    
+    // Try on first interaction
+    const handleClick = () => {
+      playVideo();
+      document.removeEventListener('click', handleClick);
+    };
+    document.addEventListener('click', handleClick);
 
     return () => {
-      document.removeEventListener('click', handleInteraction);
-      document.removeEventListener('scroll', handleInteraction);
       video.removeEventListener('loadeddata', playVideo);
       video.removeEventListener('canplay', playVideo);
+      document.removeEventListener('click', handleClick);
     };
   }, []);
 
@@ -69,13 +61,9 @@ export default function HeroSection() {
       data-testid="hero-section"
     >
       <style>{`
-        @keyframes snake-crawl {
-          0% {
-            stroke-dashoffset: 0;
-          }
-          100% {
-            stroke-dashoffset: -1296;
-          }
+        @keyframes snake-rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         
         .search-container {
@@ -83,9 +71,13 @@ export default function HeroSection() {
           width: 100%;
           max-width: 600px;
           height: 48px;
+          border-radius: 24px;
+          overflow: hidden;
         }
         
         .search-input {
+          position: relative;
+          z-index: 2;
           width: 100%;
           height: 100%;
           background: transparent;
@@ -105,39 +97,49 @@ export default function HeroSection() {
         }
         
         .search-input:focus::placeholder {
-          color: rgba(255, 255, 255, 0.25);
+          color: rgba(255, 255, 255, 0.3);
         }
         
-        .snake-border {
+        /* Snake border effect using conic gradient */
+        .snake-glow {
           position: absolute;
-          inset: 0;
-          pointer-events: none;
+          inset: -2px;
+          border-radius: 26px;
+          background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 324deg,
+            rgba(255, 255, 255, 0.5) 342deg,
+            rgba(255, 255, 255, 0.3) 350deg,
+            transparent 360deg
+          );
+          animation: snake-rotate 8s linear infinite;
+          z-index: 1;
         }
         
-        .snake-border svg {
+        .search-container:focus-within .snake-glow {
+          background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 315deg,
+            rgba(255, 255, 255, 0.8) 340deg,
+            rgba(255, 255, 255, 0.5) 352deg,
+            transparent 360deg
+          );
+          animation-duration: 5s;
+        }
+        
+        /* Inner black to hide the gradient center */
+        .search-inner {
           position: absolute;
-          inset: -1px;
-          width: calc(100% + 2px);
-          height: calc(100% + 2px);
-        }
-        
-        /* Single snake - only the moving segment visible */
-        .snake-path {
-          fill: none;
-          stroke: rgba(255, 255, 255, 0.35);
-          stroke-width: 1;
-          stroke-linecap: round;
-          stroke-dasharray: 130 1166;
-          animation: snake-crawl 12s linear infinite;
-        }
-        
-        .search-container:focus-within .snake-path {
-          stroke: rgba(255, 255, 255, 0.6);
-          animation-duration: 8s;
+          inset: 1px;
+          background: #050505;
+          border-radius: 24px;
+          z-index: 1;
         }
       `}</style>
 
-      {/* Video Section - Full Viewport Height */}
+      {/* Video Section - Full Viewport */}
       <div 
         style={{ 
           height: '100vh',
@@ -166,7 +168,7 @@ export default function HeroSection() {
           <source src={VIDEO_URL} type="video/mp4" />
         </video>
 
-        {/* Gradient fade at bottom */}
+        {/* Bottom gradient */}
         <div 
           style={{ 
             position: 'absolute', 
@@ -180,7 +182,7 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Search Strip - Below Viewport (need to scroll) */}
+      {/* Search Strip */}
       <div 
         style={{
           height: '80px',
@@ -192,26 +194,13 @@ export default function HeroSection() {
         }}
       >
         <form onSubmit={handleSearch} className="search-container">
-          {/* Single Snake - Path traced by moving light */}
-          <div className="snake-border">
-            <svg viewBox="0 0 602 50" preserveAspectRatio="none">
-              {/* Rounded rectangle path: perimeter ≈ 1296px */}
-              <path 
-                className="snake-path"
-                d="M 25 1 
-                   L 577 1 
-                   Q 601 1 601 25 
-                   L 601 25 
-                   Q 601 49 577 49 
-                   L 25 49 
-                   Q 1 49 1 25 
-                   L 1 25 
-                   Q 1 1 25 1 
-                   Z"
-              />
-            </svg>
-          </div>
+          {/* Rotating snake glow */}
+          <div className="snake-glow" />
           
+          {/* Inner background */}
+          <div className="search-inner" />
+          
+          {/* Input */}
           <input
             type="text"
             className="search-input"
