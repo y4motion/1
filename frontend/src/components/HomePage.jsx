@@ -86,10 +86,16 @@ export default function HomePage() {
         {/* App Grid (Always visible) */}
         <KineticAppGrid />
 
-        {/* Live News Ticker */}
+        {/* Live News Ticker - Compact 1/3 width */}
         {!isZenMode && (
-          <div style={{ marginBottom: '32px' }}>
-            <LiveTicker items={NEWS_ITEMS} speed={35} />
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'flex-start',
+            marginBottom: '32px' 
+          }}>
+            <div style={{ width: '320px' }}>
+              <LiveTicker items={NEWS_ITEMS} interval={4000} />
+            </div>
           </div>
         )}
 
