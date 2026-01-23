@@ -261,7 +261,7 @@ export default function HeroSection() {
       <div className="search-strip" ref={searchRef}>
         <form 
           onSubmit={handleSearch} 
-          className={`search-form ${searchQuery ? 'has-value' : ''}`}
+          className={`hero-search-form ${searchQuery ? 'has-value' : ''}`}
         >
           {/* Typewriter placeholder */}
           <span className={`typewriter-placeholder ${hasTyped ? 'done' : 'typing'}`}>
@@ -271,10 +271,9 @@ export default function HeroSection() {
           {/* Actual input */}
           <input
             type="text"
-            className="search-input"
+            className="hero-search-field"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="поиск"
           />
         </form>
       </div>
