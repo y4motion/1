@@ -607,6 +607,84 @@ def award_class_tier_xp(current_tier: int, current_tier_xp: int, xp_gained: int)
 
 
 # ============================================
+# LEVEL UP REWARDS (System Decryption)
+# ============================================
+
+def generate_level_up_reward(new_level: int, user_class: UserClass) -> Dict[str, Any]:
+    """
+    Generate reward for level up (System Decryption).
+    Returns artifact/protocol based on level and RNG.
+    """
+    import random
+    
+    reward = {
+        "type": "decryption",
+        "level": new_level,
+        "rewards": []
+    }
+    
+    # Guaranteed RP bonus (increases with level)
+    rp_bonus = 50 + (new_level * 5)
+    reward["rewards"].append({
+        "type": "rp",
+        "amount": rp_bonus,
+        "name": "Resource Points"
+    })
+    
+    # Milestone rewards (every 10 levels)
+    if new_level % 10 == 0:
+        rarity = "common"
+        if new_level >= 50:
+            rarity = "rare"
+        if new_level >= 70:
+            rarity = "epic"
+        if new_level >= 80:
+            rarity = "legendary"
+            
+        reward["rewards"].append({
+            "type": "artifact",
+            "id": f"theme_milestone_{new_level}",
+            "name": f"Milestone {new_level} Theme",
+            "rarity": rarity
+        })
+    
+    # Random protocol (15% chance, increases at higher levels)
+    protocol_chance = 0.15 + (new_level / 500)  # 15-35% chance
+    if random.random() < protocol_chance:
+        protocols = [
+            {"id": "boost_24h", "name": "Visibility Boost (24h)", "duration_hours": 24},
+            {"id": "discount_5", "name": "5% Discount Token", "discount_percent": 5},
+            {"id": "priority_queue", "name": "Priority Support (48h)", "duration_hours": 48},
+        ]
+        reward["rewards"].append({
+            "type": "protocol",
+            **random.choice(protocols)
+        })
+    
+    # Class-specific bonus
+    if user_class == UserClass.ARCHITECT and new_level >= 20:
+        reward["rewards"].append({
+            "type": "blueprint",
+            "id": f"blueprint_{new_level}",
+            "name": "System Blueprint Fragment"
+        })
+    elif user_class == UserClass.BROKER and new_level >= 20:
+        reward["rewards"].append({
+            "type": "trade_token",
+            "id": f"trade_boost_{new_level}",
+            "name": "Trade Priority Token"
+        })
+    elif user_class == UserClass.OBSERVER and new_level >= 20:
+        reward["rewards"].append({
+            "type": "review_boost",
+            "id": f"review_highlight_{new_level}",
+            "name": "Review Highlight (7d)"
+        })
+    
+    return reward
+
+
+# ============================================
 # ENTROPY SYSTEM
 # ============================================
 
