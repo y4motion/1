@@ -33,6 +33,16 @@ export {
   systemToast
 } from './SystemToast';
 
+// Audio immersion (Phase 3)
+export {
+  playToastClick,
+  playAccessGranted,
+  playVoidOpen,
+  playAccessDenied,
+  playHoverBlip,
+  playSystemChime
+} from './SystemAudio';
+
 // Default exports for convenience
 export { default as UserResonanceDefault } from './UserResonance';
 export { default as ClassArtifactDefault } from './ClassArtifact';
