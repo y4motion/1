@@ -1119,3 +1119,76 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* === KINETIC DOT-OS ECOSYSTEM === */
+.kinetic-ecosystem {
+  padding: 100px 20px;
+  position: relative;
+}
+
+.kinetic-ecosystem .ecosystem-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.kinetic-ecosystem .ecosystem-header h2 {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--ghost-text-pure);
+  margin: 0 0 12px 0;
+}
+
+.kinetic-ecosystem .ecosystem-header p {
+  font-size: 10px;
+  color: var(--ghost-text-dim);
+  letter-spacing: 0.2em;
+}
+
+/* Kinetic Bento Grid - Floating Islands */
+.kinetic-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+.kinetic-island {
+  transform-style: preserve-3d;
+}
+
+/* Individual Island Sizing */
+.kinetic-os {
+  min-height: 280px;
+}
+
+.kinetic-lab {
+  min-height: 320px;
+}
+
+.kinetic-poll {
+  min-height: 280px;
+}
+
+/* Responsive Kinetic Grid */
+@media (max-width: 1024px) {
+  .kinetic-bento-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .kinetic-lab {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .kinetic-bento-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .kinetic-lab {
+    grid-column: span 1;
+  }
+}
