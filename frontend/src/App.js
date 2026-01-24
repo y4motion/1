@@ -47,6 +47,10 @@ const CommunityHub = React.lazy(() => import('./pages/community/CommunityHub'));
 const NetworkPage = React.lazy(() => import('./pages/community/NetworkPage'));
 const ConsensusPage = React.lazy(() => import('./pages/community/ConsensusPage'));
 
+// New Social Engine Pages
+const CommunityPage = React.lazy(() => import('./components/CommunityPage'));
+const GovernancePage = React.lazy(() => import('./components/GovernancePage'));
+
 // Redirect component for /chat routes - opens GlassyOmniChat on home
 const ChatRedirect = () => {
   useEffect(() => {
