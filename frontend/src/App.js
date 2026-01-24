@@ -16,7 +16,6 @@ import { GlassyOmniChat } from './components/chat';
 import { SystemToastContainer, AtmosphericBackground } from './components/system';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
-import Breadcrumbs from './components/Breadcrumbs';
 import MobileBottomNav from './components/MobileBottomNav';
 // PageTransition removed - causing render issues with Suspense
 
