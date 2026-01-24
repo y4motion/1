@@ -1,62 +1,68 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-import { ChevronDown } from 'lucide-react';
+import { Youtube, Twitter, Instagram, Music2, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Footer = () => {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const [hoveredPillar, setHoveredPillar] = useState(null);
   const [expandedPillar, setExpandedPillar] = useState(null);
 
-  // The 5 Pillars
+  // The 5 Pillars - Tech Brand Style
   const pillars = {
-    SYSTEMS: {
-      label: { en: 'SYSTEMS', ru: 'СИСТЕМЫ' },
+    HARDWARE: {
+      label: { en: 'HARDWARE', ru: 'HARDWARE' },
+      links: [
+        { en: 'Components', ru: 'Комплектующие', path: '/marketplace' },
+        { en: 'Peripherals', ru: 'Периферия', path: '/category/peripherals' },
+        { en: 'Merch', ru: 'Мерч', path: '/category/merch' },
+        { en: 'Limited Drops', ru: 'Лимитки', path: '/groupbuy' },
+      ]
+    },
+    ECOSYSTEM: {
+      label: { en: 'ECOSYSTEM', ru: 'ECOSYSTEM' },
       links: [
         { en: 'PC Builder', ru: 'Сборка ПК', path: '/pc-builder' },
-        { en: 'AI Config', ru: 'ИИ Конфиг', path: '/chat' },
-        { en: 'Minimal OS v2', ru: 'Minimal OS v2', path: '/mod' },
-        { en: 'Benchmarks', ru: 'Бенчмарки', path: '/rating' },
+        { en: 'Minimal OS', ru: 'Minimal OS', path: '/mod' },
+        { en: 'Drivers', ru: 'Драйверы', path: '/downloads' },
+        { en: 'Neural Config', ru: 'ИИ Конфиг', path: '/chat' },
       ]
     },
-    ARMORY: {
-      label: { en: 'ARMORY', ru: 'АРСЕНАЛ' },
+    COMMUNITY: {
+      label: { en: 'COMMUNITY', ru: 'COMMUNITY' },
       links: [
-        { en: 'Hardware', ru: 'Железо', path: '/marketplace' },
-        { en: 'Peripherals', ru: 'Периферия', path: '/category/peripherals' },
-        { en: 'Limited Drops', ru: 'Лимитки', path: '/groupbuy' },
-        { en: 'Glasspad', ru: 'Glasspad', path: '/glassy-swap' },
-      ]
-    },
-    NETWORK: {
-      label: { en: 'NETWORK', ru: 'СЕТЬ' },
-      links: [
-        { en: 'Ghost Feed', ru: 'Лента', path: '/community/network' },
-        { en: 'Consensus', ru: 'Голосование', path: '/community/consensus' },
-        { en: 'Monarchs', ru: 'Рейтинг', path: '/rating' },
+        { en: 'The Feed', ru: 'Лента', path: '/community/network' },
+        { en: 'Roadmap', ru: 'Roadmap', path: '/community/consensus' },
         { en: 'Guilds', ru: 'Гильдии', path: '/community' },
+        { en: 'Leaderboard', ru: 'Рейтинг', path: '/rating' },
       ]
     },
-    SIGNAL: {
-      label: { en: 'SIGNAL', ru: 'СИГНАЛ' },
+    SUPPORT: {
+      label: { en: 'SUPPORT', ru: 'SUPPORT' },
       links: [
-        { en: 'Server Status', ru: 'Статус', path: '/status' },
-        { en: 'Order Track', ru: 'Трекинг', path: '/profile' },
-        { en: 'Returns', ru: 'Возвраты', path: '/support' },
-        { en: 'Contact', ru: 'Контакты', path: '/contact' },
-      ]
-    },
-    PROTOCOL: {
-      label: { en: 'PROTOCOL', ru: 'ПРОТОКОЛ' },
-      links: [
-        { en: 'Manifesto', ru: 'Манифест', path: '/team' },
-        { en: 'Privacy', ru: 'Приватность', path: '/privacy' },
-        { en: 'Terms', ru: 'Условия', path: '/accessibility' },
-        { en: 'Imprint', ru: 'Импринт', path: '/ads' },
+        { en: 'Shipping & Returns', ru: 'Доставка и Возврат', path: '/shipping' },
+        { en: 'Warranty', ru: 'Гарантия', path: '/warranty' },
+        { en: 'FAQ', ru: 'FAQ', path: '/support' },
+        { en: 'Contact Us', ru: 'Контакты', path: '/contact' },
       ]
     },
   };
+
+  // Social links with icons
+  const socials = [
+    { name: 'YouTube', icon: Youtube, url: '#' },
+    { name: 'X', icon: Twitter, url: '#' },
+    { name: 'Instagram', icon: Instagram, url: '#' },
+    { name: 'TikTok', icon: Music2, url: '#' },
+  ];
+
+  // Legal links
+  const legalLinks = [
+    { en: 'Privacy Policy', ru: 'Конфиденциальность', path: '/privacy' },
+    { en: 'Terms', ru: 'Условия', path: '/accessibility' },
+    { en: 'Cookies', ru: 'Cookies', path: '/cookies' },
+  ];
 
   const pillarKeys = Object.keys(pillars);
 
@@ -64,17 +70,14 @@ const Footer = () => {
     setExpandedPillar(expandedPillar === key ? null : key);
   };
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'ru' ? 'en' : 'ru');
-  };
-
   return (
     <footer className="ghost-terminal-footer">
       {/* Dot Grid Background */}
       <div className="terminal-dot-grid" />
 
-      {/* Desktop: Single line with hover dropdowns */}
+      {/* Desktop Layout */}
       <div className="terminal-desktop">
+        {/* Main pillars row */}
         <nav className="terminal-pillars">
           {pillarKeys.map((key, index) => (
             <React.Fragment key={key}>
@@ -113,27 +116,48 @@ const Footer = () => {
               </div>
             </React.Fragment>
           ))}
+
+          {/* SOCIALS - icons */}
+          <span className="terminal-dot">•</span>
+          <div className="terminal-pillar terminal-socials">
+            <span className="terminal-pillar-label">SOCIALS</span>
+            <div className="socials-icons">
+              {socials.map((social, i) => (
+                <a
+                  key={i}
+                  href={social.url}
+                  className="social-icon-link"
+                  aria-label={social.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <social.icon size={14} strokeWidth={1.5} />
+                </a>
+              ))}
+            </div>
+          </div>
         </nav>
 
-        {/* Bottom signature bar */}
-        <div className="terminal-signature">
-          <button className="terminal-lang-toggle" onClick={toggleLanguage}>
-            <span className={language === 'ru' ? 'active' : ''}>[RU]</span>
-            <span className="lang-separator">/</span>
-            <span className={language === 'en' ? 'active' : ''}>EN</span>
-          </button>
+        {/* Bottom legal strip */}
+        <div className="terminal-legal-strip">
+          <div className="legal-links">
+            {legalLinks.map((link, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <span className="legal-dot">•</span>}
+                <Link to={link.path} className="legal-link">
+                  {link[language === 'ru' ? 'ru' : 'en']}
+                </Link>
+              </React.Fragment>
+            ))}
+          </div>
 
           <div className="terminal-copyright">
-            <span>GHOST PROTOCOL</span>
-            <span className="terminal-dot-small">•</span>
-            <span>© 2024</span>
-            <span className="terminal-dot-small">•</span>
-            <span>EST. TOKYO—MOSCOW</span>
+            © 2024 GHOST PROTOCOL
           </div>
         </div>
       </div>
 
-      {/* Mobile: Accordion */}
+      {/* Mobile Layout - Accordion */}
       <div className="terminal-mobile">
         {pillarKeys.map((key) => (
           <div key={key} className="terminal-accordion">
@@ -173,14 +197,38 @@ const Footer = () => {
           </div>
         ))}
 
-        {/* Mobile signature */}
-        <div className="terminal-mobile-signature">
-          <button className="terminal-lang-toggle" onClick={toggleLanguage}>
-            <span className={language === 'ru' ? 'active' : ''}>[RU]</span>
-            <span className="lang-separator">/</span>
-            <span className={language === 'en' ? 'active' : ''}>EN</span>
-          </button>
-          <span className="mobile-copyright">GHOST PROTOCOL © 2024</span>
+        {/* Mobile Socials */}
+        <div className="mobile-socials">
+          <span className="mobile-socials-label">SOCIALS</span>
+          <div className="mobile-socials-icons">
+            {socials.map((social, i) => (
+              <a
+                key={i}
+                href={social.url}
+                className="social-icon-link"
+                aria-label={social.name}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <social.icon size={16} strokeWidth={1.5} />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile legal strip */}
+        <div className="mobile-legal">
+          <div className="legal-links">
+            {legalLinks.map((link, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <span className="legal-dot">•</span>}
+                <Link to={link.path} className="legal-link">
+                  {link[language === 'ru' ? 'ru' : 'en']}
+                </Link>
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="mobile-copyright">© 2024 GHOST PROTOCOL</div>
         </div>
       </div>
 
@@ -197,7 +245,7 @@ const Footer = () => {
         .terminal-dot-grid {
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+          background-image: radial-gradient(circle, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
           background-size: 32px 32px;
           pointer-events: none;
         }
@@ -247,6 +295,36 @@ const Footer = () => {
           color: rgba(255, 255, 255, 0.9);
         }
 
+        /* Socials inline */
+        .terminal-socials {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .terminal-socials .terminal-pillar-label {
+          cursor: default;
+        }
+
+        .socials-icons {
+          display: flex;
+          align-items: center;
+          gap: 0.625rem;
+        }
+
+        .social-icon-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(255, 255, 255, 0.35);
+          transition: color 0.15s ease;
+          padding: 0.25rem;
+        }
+
+        .social-icon-link:hover {
+          color: rgba(255, 255, 255, 0.9);
+        }
+
         /* Dropdown */
         .terminal-dropdown {
           position: absolute;
@@ -257,7 +335,7 @@ const Footer = () => {
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 4px;
           padding: 0.375rem 0;
-          min-width: 160px;
+          min-width: 180px;
           backdrop-filter: blur(16px);
           box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5);
         }
@@ -290,8 +368,8 @@ const Footer = () => {
           background: rgba(255, 255, 255, 0.04);
         }
 
-        /* Signature Bar */
-        .terminal-signature {
+        /* Legal Strip */
+        .terminal-legal-strip {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -299,46 +377,38 @@ const Footer = () => {
           border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .terminal-lang-toggle {
+        .legal-links {
           display: flex;
           align-items: center;
-          gap: 0.25rem;
-          background: none;
-          border: none;
+        }
+
+        .legal-link {
           font-family: 'SF Mono', monospace;
-          font-size: 0.5625rem;
-          letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.3);
-          cursor: pointer;
-          padding: 0.25rem;
+          font-size: 0.5rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.2);
+          text-decoration: none;
           transition: color 0.15s ease;
         }
 
-        .terminal-lang-toggle:hover {
-          color: rgba(255, 255, 255, 0.6);
+        .legal-link:hover {
+          color: rgba(255, 255, 255, 0.5);
         }
 
-        .terminal-lang-toggle .active {
-          color: rgba(255, 255, 255, 0.9);
-        }
-
-        .lang-separator {
-          color: rgba(255, 255, 255, 0.2);
+        .legal-dot {
+          color: rgba(255, 255, 255, 0.1);
+          font-size: 0.375rem;
+          margin: 0 0.5rem;
+          user-select: none;
         }
 
         .terminal-copyright {
-          display: flex;
-          align-items: center;
           font-family: 'SF Mono', monospace;
-          font-size: 0.5625rem;
-          letter-spacing: 0.12em;
+          font-size: 0.5rem;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.25);
-        }
-
-        .terminal-dot-small {
-          margin: 0 0.5rem;
-          font-size: 0.375rem;
+          color: rgba(255, 255, 255, 0.2);
         }
 
         /* Mobile */
@@ -351,10 +421,6 @@ const Footer = () => {
 
         .terminal-accordion {
           border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .terminal-accordion:last-of-type {
-          border-bottom: none;
         }
 
         .terminal-accordion-trigger {
@@ -409,10 +475,36 @@ const Footer = () => {
           color: rgba(255, 255, 255, 0.8);
         }
 
-        .terminal-mobile-signature {
+        /* Mobile Socials */
+        .mobile-socials {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 1rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .mobile-socials-label {
+          font-family: 'SF Mono', monospace;
+          font-size: 0.6875rem;
+          font-weight: 500;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.4);
+        }
+
+        .mobile-socials-icons {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        /* Mobile Legal */
+        .mobile-legal {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
           margin-top: 1.25rem;
           padding-top: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.04);
