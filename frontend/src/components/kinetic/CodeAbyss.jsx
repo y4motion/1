@@ -138,11 +138,12 @@ const WanderingKoi = ({ id = 1 }) => {
       state.x += state.vx;
       state.y += state.vy;
       
-      // Bounce off edges
-      if (state.x < -200) { state.x = -200; state.vx *= -0.5; }
-      if (state.x > window.innerWidth - 200) { state.x = window.innerWidth - 200; state.vx *= -0.5; }
-      if (state.y < 50) { state.y = 50; state.vy *= -0.5; }
-      if (state.y > 650) { state.y = 650; state.vy *= -0.5; }
+      // Bounce off edges - keep them more visible
+      const margin = 100;
+      if (state.x < margin) { state.x = margin; state.vx = Math.abs(state.vx) * 0.8; state.targetX = 400 + Math.random() * 600; }
+      if (state.x > window.innerWidth - 400) { state.x = window.innerWidth - 400; state.vx = -Math.abs(state.vx) * 0.8; state.targetX = Math.random() * 600; }
+      if (state.y < 80) { state.y = 80; state.vy *= -0.5; }
+      if (state.y > 550) { state.y = 550; state.vy *= -0.5; }
       
       // Calculate rotation based on velocity
       state.angle = Math.atan2(state.vy, state.vx);
