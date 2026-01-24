@@ -536,20 +536,6 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const hubRef = useRef(null);
   const [activePanel, setActivePanel] = useState(null);
   const [showIdentityCore, setShowIdentityCore] = useState(false);
-  const [showMessenger, setShowMessenger] = useState(false);
-  const [messengerInitData, setMessengerInitData] = useState(null);
-  
-  // Listen for external event to open Ghost Messenger with shared state
-  useEffect(() => {
-    const handleOpenGhostMessenger = (event) => {
-      const data = event.detail || {};
-      setMessengerInitData(data);
-      setShowMessenger(true);
-    };
-    
-    window.addEventListener('openGhostMessenger', handleOpenGhostMessenger);
-    return () => window.removeEventListener('openGhostMessenger', handleOpenGhostMessenger);
-  }, []);
   
   useEffect(() => {
     const handleClickOutside = (e) => {
