@@ -16,6 +16,7 @@ export const useGhostStore = create(
       // === ZEN MODE ===
       isZenMode: false,
       toggleZenMode: () => set((state) => ({ isZenMode: !state.isZenMode })),
+      setZenMode: (value) => set({ isZenMode: value }),
       
       // === SONIC TUNER ===
       soundEnabled: false,
