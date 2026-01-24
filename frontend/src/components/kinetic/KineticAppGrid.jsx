@@ -125,28 +125,38 @@ const apps = [
 const AppWidget = ({ app }) => {
   const Icon = app.icon;
   
+  const content = (
+    <Link to={app.link} className="app-widget" data-testid={`app-${app.id}`}>
+      <div className="app-widget-inner">
+        {/* Icon - monochrome, thin stroke */}
+        <div className="app-icon">
+          <Icon size={28} strokeWidth={1} />
+        </div>
+        
+        {/* Title */}
+        <div className="app-title">{app.title}</div>
+        <div className="app-subtitle">{app.subtitle}</div>
+        
+        {/* Badge - only red for LIVE, else muted */}
+        {app.badge && (
+          <span className={`app-badge ${app.badgePulse ? 'pulse' : ''}`}>
+            {app.badgePulse && <span className="badge-dot" />}
+            {app.badge}
+          </span>
+        )}
+      </div>
+    </Link>
+  );
+  
   return (
     <motion.div variants={itemVariants}>
-      <Link to={app.link} className="app-widget" data-testid={`app-${app.id}`}>
-        <div className="app-widget-inner">
-          {/* Icon - monochrome, thin stroke */}
-          <div className="app-icon">
-            <Icon size={28} strokeWidth={1} />
-          </div>
-          
-          {/* Title */}
-          <div className="app-title">{app.title}</div>
-          <div className="app-subtitle">{app.subtitle}</div>
-          
-          {/* Badge - only red for LIVE, else muted */}
-          {app.badge && (
-            <span className={`app-badge ${app.badgePulse ? 'pulse' : ''}`}>
-              {app.badgePulse && <span className="badge-dot" />}
-              {app.badge}
-            </span>
-          )}
-        </div>
-      </Link>
+      {app.hasProximity ? (
+        <ProximityDots dotCount={30}>
+          {content}
+        </ProximityDots>
+      ) : (
+        content
+      )}
     </motion.div>
   );
 };
