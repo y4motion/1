@@ -107,6 +107,9 @@ function App() {
                     {/* Ghost Dock v2.0 - Ultimate chat hub */}
                     <GlassyOmniChat />
                     
+                    {/* Global Ghost Messenger - always available */}
+                    <GlobalGhostMessenger />
+                    
                     <Suspense fallback={<LoadingScreen />}>
                         <Routes>
                     <Route path="/" element={<HomePage />} />
