@@ -1,161 +1,184 @@
 /**
- * AtmosphericBackground.jsx - ACRYLIC GHOST ATMOSPHERE v2
+ * AtmosphericBackground.jsx - ACRYLIC GHOST ATMOSPHERE v3
  * 
- * Global background component creating the "Clean Future" aesthetic.
+ * Global background creating "Clean Future" / "Fog in darkness" aesthetic.
  * 
  * LAYERS:
- * 1. Base: Deep black with subtle depth
- * 2. White Fog: Large, blurred white orbs drifting slowly (smoke in darkness)
- * 3. Noise Texture: Grain overlay for material feel (rough plastic/asphalt)
- * 4. Vignette: Darkened corners for focus
+ * 1. Deep black base
+ * 2. White fog clouds - VISIBLE atmospheric light
+ * 3. Grain texture for material feel  
+ * 4. Vignette for cinematic focus
  * 
  * Style: Nothing/Teenage Engineering/Apple Vision Pro
  */
 
 import React from 'react';
 
-// CSS for fog animation - MORE VISIBLE
 const fogStyles = `
-  @keyframes fog-drift-1 {
+  @keyframes fog-float-1 {
     0%, 100% { 
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0.12;
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(30px, -20px) scale(1.05);
     }
     50% { 
-      transform: translate(-45%, -55%) scale(1.15);
-      opacity: 0.18;
+      transform: translate(-20px, 30px) scale(1.1);
+    }
+    75% {
+      transform: translate(15px, 10px) scale(1.02);
     }
   }
   
-  @keyframes fog-drift-2 {
+  @keyframes fog-float-2 {
     0%, 100% { 
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0.1;
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(-40px, 25px) scale(1.08);
+    }
+    66% { 
+      transform: translate(25px, -35px) scale(0.95);
+    }
+  }
+  
+  @keyframes fog-float-3 {
+    0%, 100% { 
+      transform: translate(0, 0) scale(1);
     }
     50% { 
-      transform: translate(-55%, -45%) scale(1.1);
-      opacity: 0.14;
+      transform: translate(50px, 40px) scale(1.15);
     }
   }
   
-  @keyframes fog-drift-3 {
+  @keyframes fog-pulse-slow {
     0%, 100% { 
-      transform: translate(-50%, -50%) scale(0.95);
-      opacity: 0.08;
+      opacity: 0.06;
+      transform: scale(1);
     }
     50% { 
-      transform: translate(-48%, -52%) scale(1.2);
-      opacity: 0.12;
+      opacity: 0.09;
+      transform: scale(1.05);
     }
   }
   
-  @keyframes fog-pulse {
-    0%, 100% { opacity: 0.06; }
-    50% { opacity: 0.1; }
-  }
-  
-  .fog-orb-1 {
+  .atmospheric-fog-1 {
     position: absolute;
-    left: 8%;
-    top: 15%;
-    width: 900px;
-    height: 900px;
+    left: -5%;
+    top: 5%;
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
-    background: radial-gradient(circle, 
-      rgba(255, 255, 255, 1) 0%, 
-      rgba(255, 255, 255, 0.5) 25%, 
-      rgba(255, 255, 255, 0.15) 50%, 
-      transparent 75%
+    background: radial-gradient(circle at center, 
+      rgba(255, 255, 255, 0.12) 0%, 
+      rgba(255, 255, 255, 0.06) 35%, 
+      rgba(255, 255, 255, 0.02) 60%, 
+      transparent 80%
     );
-    filter: blur(50px);
-    animation: fog-drift-1 40s ease-in-out infinite;
+    filter: blur(40px);
+    animation: fog-float-1 45s ease-in-out infinite;
     pointer-events: none;
   }
   
-  .fog-orb-2 {
+  .atmospheric-fog-2 {
     position: absolute;
-    right: 5%;
+    right: -10%;
+    top: 30%;
+    width: 1000px;
+    height: 1000px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+      rgba(255, 255, 255, 0.10) 0%, 
+      rgba(255, 255, 255, 0.05) 40%, 
+      rgba(255, 255, 255, 0.015) 65%, 
+      transparent 85%
+    );
+    filter: blur(50px);
+    animation: fog-float-2 55s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  .atmospheric-fog-3 {
+    position: absolute;
+    left: 25%;
+    bottom: -15%;
+    width: 1200px;
+    height: 1200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+      rgba(255, 255, 255, 0.08) 0%, 
+      rgba(255, 255, 255, 0.04) 45%, 
+      rgba(255, 255, 255, 0.01) 70%, 
+      transparent 90%
+    );
+    filter: blur(60px);
+    animation: fog-float-3 70s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  .atmospheric-fog-4 {
+    position: absolute;
+    right: 15%;
+    top: -5%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+      rgba(255, 255, 255, 0.08) 0%, 
+      rgba(255, 255, 255, 0.03) 50%, 
+      transparent 75%
+    );
+    filter: blur(35px);
+    animation: fog-pulse-slow 30s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  .atmospheric-fog-5 {
+    position: absolute;
+    left: 50%;
     top: 40%;
     width: 700px;
     height: 700px;
     border-radius: 50%;
-    background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.9) 0%, 
-      rgba(255, 255, 255, 0.4) 30%, 
-      rgba(255, 255, 255, 0.1) 55%, 
-      transparent 80%
+    background: radial-gradient(circle at center, 
+      rgba(255, 255, 255, 0.06) 0%, 
+      rgba(255, 255, 255, 0.025) 45%, 
+      transparent 70%
     );
-    filter: blur(55px);
-    animation: fog-drift-2 50s ease-in-out infinite;
-    animation-delay: -15s;
-    pointer-events: none;
-  }
-  
-  .fog-orb-3 {
-    position: absolute;
-    left: 40%;
-    bottom: 10%;
-    width: 1100px;
-    height: 1100px;
-    border-radius: 50%;
-    background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.8) 0%, 
-      rgba(255, 255, 255, 0.35) 30%, 
-      rgba(255, 255, 255, 0.08) 60%, 
-      transparent 85%
-    );
-    filter: blur(60px);
-    animation: fog-drift-3 60s ease-in-out infinite;
-    animation-delay: -25s;
-    pointer-events: none;
-  }
-  
-  .fog-orb-4 {
-    position: absolute;
-    right: 25%;
-    top: 5%;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.7) 0%, 
-      rgba(255, 255, 255, 0.25) 35%, 
-      transparent 65%
-    );
-    filter: blur(40px);
-    animation: fog-pulse 25s ease-in-out infinite;
-    animation-delay: -10s;
+    filter: blur(45px);
+    animation: fog-pulse-slow 40s ease-in-out infinite;
+    animation-delay: -20s;
     pointer-events: none;
   }
 `;
 
-// Noise texture using canvas pattern for better performance
-const NoiseTexture = () => (
+// Grain texture overlay
+const GrainTexture = () => (
   <div
     style={{
       position: 'absolute',
       inset: 0,
-      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-      opacity: 0.045,
+      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+      opacity: 0.04,
       mixBlendMode: 'overlay',
       pointerEvents: 'none',
     }}
   />
 );
 
-// Vignette - darkens edges for cinematic focus
+// Vignette for cinematic depth
 const Vignette = () => (
   <div
     style={{
       position: 'absolute',
       inset: 0,
-      background: 'radial-gradient(ellipse 80% 80% at center, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.5) 100%)',
+      background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.6) 100%)',
       pointerEvents: 'none',
     }}
   />
 );
 
-// Main Atmospheric Background Component
+// Main component
 export const AtmosphericBackground = ({ 
   showFog = true,
   showNoise = true,
@@ -163,7 +186,6 @@ export const AtmosphericBackground = ({
 }) => {
   return (
     <>
-      {/* Inject CSS animations */}
       <style>{fogStyles}</style>
       
       <div
@@ -172,39 +194,26 @@ export const AtmosphericBackground = ({
           inset: 0,
           zIndex: -1,
           overflow: 'hidden',
-          // Deep black base
-          background: 'linear-gradient(180deg, #040404 0%, #020202 50%, #010101 100%)',
+          background: '#020202',
         }}
         data-testid="atmospheric-background"
       >
-        {/* Layer 1: White Fog Orbs */}
+        {/* White Fog Clouds */}
         {showFog && (
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-            <div className="fog-orb-1" />
-            <div className="fog-orb-2" />
-            <div className="fog-orb-3" />
-            <div className="fog-orb-4" />
-          </div>
+          <>
+            <div className="atmospheric-fog-1" />
+            <div className="atmospheric-fog-2" />
+            <div className="atmospheric-fog-3" />
+            <div className="atmospheric-fog-4" />
+            <div className="atmospheric-fog-5" />
+          </>
         )}
 
-        {/* Layer 2: Noise Texture */}
-        {showNoise && <NoiseTexture />}
+        {/* Grain Texture */}
+        {showNoise && <GrainTexture />}
 
-        {/* Layer 3: Vignette */}
+        {/* Vignette */}
         {showVignette && <Vignette />}
-
-        {/* Subtle top edge highlight */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '15%',
-            right: '15%',
-            height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent)',
-            pointerEvents: 'none',
-          }}
-        />
       </div>
     </>
   );
