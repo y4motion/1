@@ -70,12 +70,12 @@ const fogStyles = `
     height: 800px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.12) 0%, 
-      rgba(255, 255, 255, 0.06) 35%, 
-      rgba(255, 255, 255, 0.02) 60%, 
+      rgba(255, 255, 255, 0.18) 0%, 
+      rgba(255, 255, 255, 0.08) 35%, 
+      rgba(255, 255, 255, 0.03) 60%, 
       transparent 80%
     );
-    filter: blur(40px);
+    filter: blur(35px);
     animation: fog-float-1 45s ease-in-out infinite;
     pointer-events: none;
   }
@@ -88,12 +88,12 @@ const fogStyles = `
     height: 1000px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.10) 0%, 
-      rgba(255, 255, 255, 0.05) 40%, 
-      rgba(255, 255, 255, 0.015) 65%, 
+      rgba(255, 255, 255, 0.14) 0%, 
+      rgba(255, 255, 255, 0.06) 40%, 
+      rgba(255, 255, 255, 0.02) 65%, 
       transparent 85%
     );
-    filter: blur(50px);
+    filter: blur(45px);
     animation: fog-float-2 55s ease-in-out infinite;
     pointer-events: none;
   }
@@ -106,12 +106,12 @@ const fogStyles = `
     height: 1200px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.08) 0%, 
-      rgba(255, 255, 255, 0.04) 45%, 
-      rgba(255, 255, 255, 0.01) 70%, 
+      rgba(255, 255, 255, 0.12) 0%, 
+      rgba(255, 255, 255, 0.05) 45%, 
+      rgba(255, 255, 255, 0.015) 70%, 
       transparent 90%
     );
-    filter: blur(60px);
+    filter: blur(55px);
     animation: fog-float-3 70s ease-in-out infinite;
     pointer-events: none;
   }
@@ -124,11 +124,11 @@ const fogStyles = `
     height: 600px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.08) 0%, 
-      rgba(255, 255, 255, 0.03) 50%, 
+      rgba(255, 255, 255, 0.12) 0%, 
+      rgba(255, 255, 255, 0.04) 50%, 
       transparent 75%
     );
-    filter: blur(35px);
+    filter: blur(30px);
     animation: fog-pulse-slow 30s ease-in-out infinite;
     pointer-events: none;
   }
@@ -141,11 +141,11 @@ const fogStyles = `
     height: 700px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.06) 0%, 
-      rgba(255, 255, 255, 0.025) 45%, 
+      rgba(255, 255, 255, 0.09) 0%, 
+      rgba(255, 255, 255, 0.035) 45%, 
       transparent 70%
     );
-    filter: blur(45px);
+    filter: blur(40px);
     animation: fog-pulse-slow 40s ease-in-out infinite;
     animation-delay: -20s;
     pointer-events: none;
