@@ -1295,6 +1295,12 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
           </motion.div>
         </motion.div>
       )}
+      
+      {/* IDENTITY CORE - Full-screen profile overlay */}
+      <IdentityCore 
+        isOpen={showIdentityCore} 
+        onClose={() => setShowIdentityCore(false)} 
+      />
     </AnimatePresence>
   );
 };
