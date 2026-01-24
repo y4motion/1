@@ -350,7 +350,7 @@ const CommunityNetworkWidget = () => (
 // ============================================
 const RatingRoadmapWidget = () => (
   <motion.div variants={itemVariants} style={{ gridColumn: 'span 2' }}>
-    <Link to="/rating" className="app-widget" data-testid="app-rating">
+    <Link to="/governance" className="app-widget" data-testid="app-rating">
       <div className="app-widget-inner" style={{
         padding: '24px',
         minHeight: '140px',
@@ -376,10 +376,10 @@ const RatingRoadmapWidget = () => (
             </div>
             <div>
               <div className="app-title" style={{ fontSize: '13px', marginBottom: '2px' }}>
-                РЕЙТИНГ
+                GOVERNANCE
               </div>
               <div className="app-subtitle" style={{ fontSize: '10px' }}>
-                Лидеры • Roadmap
+                Идеи • Голосование • Лидеры
               </div>
             </div>
           </div>
