@@ -1,9 +1,10 @@
 /**
- * NeuralHub.jsx - ACRYLIC GHOST v7.1 FINAL
+ * NeuralHub.jsx - ACRYLIC GHOST v7.2 FINAL POLISH
  * 
- * FROSTED GLASS AESTHETIC - POLISHED EDITION
- * + Monospace fonts for numbers
- * + Subtle white corner glow
+ * FROSTED GLASS AESTHETIC - ULTIMATE EDITION
+ * + Monospace fonts for all numbers/stats
+ * + Soft white edge glow (subtle, premium)
+ * + All buttons polished with consistent style
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -12,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   User, Settings, Bell, Package, Gift, Target, 
   Trophy, Wallet, Shield, X, 
-  Mail, Star, Clock
+  Mail, Star, Clock, ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
