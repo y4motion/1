@@ -1091,8 +1091,7 @@ const PCBuilderPage = () => {
       {/* Main Content */}
       <div
         style={{
-          maxWidth: '1600px',
-          margin: '0 auto',
+          width: '100%',
           padding: '2rem',
           display: 'grid',
           gridTemplateColumns: '350px 1fr 400px',
