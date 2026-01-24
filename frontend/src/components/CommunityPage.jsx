@@ -197,10 +197,10 @@ export default function CommunityPage() {
                   }}
                 >
                   {[
-                    { icon: Camera, label: 'UPLOAD RIG', desc: 'Share your setup', color: '#10b981' },
-                    { icon: FileText, label: 'WRITE ARTICLE', desc: 'Create a guide', color: '#3b82f6' },
-                    { icon: HelpCircle, label: 'ASK HIVE', desc: 'Get answers', color: '#f59e0b' },
-                    { icon: Video, label: 'POST VIDEO', desc: 'Share a clip', color: '#8b5cf6' },
+                    { icon: Camera, label: 'ЗАГРУЗИТЬ РИГ', desc: 'Покажи свой сетап', color: '#10b981' },
+                    { icon: FileText, label: 'НАПИСАТЬ СТАТЬЮ', desc: 'Создай гайд', color: '#3b82f6' },
+                    { icon: HelpCircle, label: 'СПРОСИТЬ УЛЕЙ', desc: 'Получи ответы', color: '#f59e0b' },
+                    { icon: Video, label: 'ЗАЛИТЬ ВИДЕО', desc: 'Поделись клипом', color: '#8b5cf6' },
                   ].map((item) => (
                     <button
                       key={item.label}
