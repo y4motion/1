@@ -538,6 +538,16 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const [showIdentityCore, setShowIdentityCore] = useState(false);
   const [showMessenger, setShowMessenger] = useState(false);
   
+  // Listen for external event to open Ghost Messenger
+  useEffect(() => {
+    const handleOpenGhostMessenger = () => {
+      setShowMessenger(true);
+    };
+    
+    window.addEventListener('openGhostMessenger', handleOpenGhostMessenger);
+    return () => window.removeEventListener('openGhostMessenger', handleOpenGhostMessenger);
+  }, []);
+  
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (hubRef.current && !hubRef.current.contains(e.target)) {
