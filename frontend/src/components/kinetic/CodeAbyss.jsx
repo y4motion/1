@@ -1,325 +1,90 @@
 /**
- * CodeAbyss.jsx - THE LIVING ABYSS v3
+ * CodeAbyss.jsx - THE LIVING ABYSS v4
  * 
- * ASCII Art Characters forming animated shapes
- * Inspired by: Matrix code forming living creatures
- * 
- * Features:
- * - Text characters (0, 1, symbols) forming recognizable shapes
- * - Characters constantly animate/rearrange
- * - Shapes swim/float across the screen
- * - Parallax on mouse movement
+ * Dense ASCII Koi Fish swimming randomly
+ * + Proximity Effects for widgets
  */
 
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-// Character sets for different styles
+// Character sets
 const BINARY = ['0', '1'];
-const NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const HEX = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
-const SYMBOLS = ['@', '#', '$', '%', '&', '*', '+', '=', '~', '^'];
-const CODE = ['<', '>', '/', '{', '}', '[', ']', '(', ')', ';', ':', '.', ','];
 
-// KOI FISH shape definition - each row is a string where spaces are empty
-const KOI_SHAPE = [
-  '                              1111',
-  '                         111111111111',
-  '                      1111111111111111',
-  '                   111111111111111111111',
-  '                1111111111  1111111111111',
-  '             1111111111  @@  111111111111',
-  '          1111111111111  @@  1111111111111',
-  '       111111111111111111111111111111111111',
-  '    1111111111111111111111111111111111111111',
-  '  11111111111111111111111111111111111111111111',
-  '111111111111111111111111111111111111111111111111',
-  '  11111111111111111111111111111111111111111111',
-  '    1111111111111111111111111111111111111111',
-  '       111111111111111111111111111111111111',
-  '          11111111111111111111111111111',
-  '             111111111111111111111        111',
-  '                11111111111111         1111111',
-  '                   1111111          111111111',
-  '                                  1111111111',
-  '                                111111111',
-  '                                  11111',
+// DENSE KOI FISH shape - tighter spacing
+const KOI_SHAPE_DENSE = [
+  '                           111',
+  '                       1111111111',
+  '                    111111111111111',
+  '                 111111111111111111',
+  '              1111111●●1111111111111',
+  '           111111111●●111111111111111',
+  '         11111111111111111111111111111',
+  '       1111111111111111111111111111111',
+  '     111111111111111111111111111111111',
+  '   11111111111111111111111111111111111',
+  '  1111111111111111111111111111111111111',
+  ' 11111111111111111111111111111111111111',
+  '111111111111111111111111111111111111111',
+  ' 11111111111111111111111111111111111111',
+  '  1111111111111111111111111111111111111',
+  '   11111111111111111111111111111111111',
+  '     1111111111111111111111111111111    11',
+  '       111111111111111111111111111    1111',
+  '         11111111111111111111111    111111',
+  '           1111111111111111111   11111111',
+  '              111111111111     1111111111',
+  '                 1111111     111111111',
+  '                           1111111',
+  '                            11111',
 ];
 
-// BUTTERFLY shape
-const BUTTERFLY_SHAPE = [
-  '      111111                      111111',
-  '    1111111111                  1111111111',
-  '   111111111111                111111111111',
-  '  11111111111111              11111111111111',
-  ' 1111111111111111            1111111111111111',
-  '111111111111111111    11    111111111111111111',
-  ' 1111111111111111   1111   1111111111111111',
-  '  11111111111111   111111   11111111111111',
-  '   111111111111     1111     111111111111',
-  '    1111111111       11       1111111111',
-  '      111111                    111111',
-];
-
-// GHOST/SKULL shape
-const GHOST_SHAPE = [
-  '        11111111111111',
-  '      111111111111111111',
-  '    1111111111111111111111',
-  '   111111111111111111111111',
-  '  11111  111111111111  11111',
-  '  1111  @@  111111  @@  1111',
-  '  1111  @@  111111  @@  1111',
-  '  11111111111111111111111111',
-  '  11111111111111111111111111',
-  '   1111111111    1111111111',
-  '   11111111  1111  11111111',
-  '    111111111111111111111',
-  '      1111111111111111',
-  '       11  111111  11',
-  '       11  111111  11',
-  '       11    11    11',
-];
-
-// Parse shape into character positions
-const parseShape = (shapeArray, charSet = BINARY) => {
+// Parse shape into character positions - DENSE version
+const parseShapeDense = (shapeArray, charSet = BINARY) => {
   const chars = [];
-  const height = shapeArray.length;
-  const maxWidth = Math.max(...shapeArray.map(row => row.length));
+  const charWidth = 6;  // Tighter!
+  const lineHeight = 10; // Tighter!
   
   shapeArray.forEach((row, y) => {
     for (let x = 0; x < row.length; x++) {
       if (row[x] !== ' ') {
+        const isEye = row[x] === '●';
         chars.push({
-          x: x * 8,
-          y: y * 12,
-          char: row[x] === '@' ? '@' : charSet[Math.floor(Math.random() * charSet.length)],
-          isEye: row[x] === '@',
-          delay: Math.random() * 2,
+          x: x * charWidth,
+          y: y * lineHeight,
+          char: isEye ? '●' : charSet[Math.floor(Math.random() * charSet.length)],
+          isEye,
         });
       }
     }
   });
   
-  return { chars, width: maxWidth * 8, height: height * 12 };
+  return { 
+    chars, 
+    width: Math.max(...shapeArray.map(r => r.length)) * charWidth,
+    height: shapeArray.length * lineHeight
+  };
 };
 
-// Animated ASCII Shape Component
-const AnimatedASCIIShape = ({ 
-  shape, 
-  charSet = BINARY,
-  x, 
-  y, 
-  scale = 1,
-  opacity = 0.15,
-  color = 'white',
-  animationSpeed = 1,
-  parallaxX,
-  parallaxY,
-  swimming = false,
-  swimSpeed = 0.5,
-}) => {
-  const [chars, setChars] = useState([]);
-  const [position, setPosition] = useState({ x, y });
-  const frameRef = useRef(0);
-  
-  const parsedShape = useMemo(() => parseShape(shape, charSet), [shape, charSet]);
-  
-  // Initialize and animate characters
-  useEffect(() => {
-    setChars(parsedShape.chars.map(c => ({ ...c })));
-    
-    // Animate character changes
-    const interval = setInterval(() => {
-      setChars(prev => prev.map(char => ({
-        ...char,
-        char: char.isEye ? '@' : charSet[Math.floor(Math.random() * charSet.length)],
-      })));
-    }, 200 / animationSpeed);
-    
-    return () => clearInterval(interval);
-  }, [parsedShape, charSet, animationSpeed]);
-  
-  // Swimming animation
-  useEffect(() => {
-    if (!swimming) return;
-    
-    const animate = () => {
-      frameRef.current += 1;
-      setPosition(prev => {
-        const newX = prev.x + swimSpeed;
-        const wave = Math.sin(frameRef.current / 60) * 20;
-        
-        // Reset position when off screen
-        if (newX > window.innerWidth + 200) {
-          return { x: -parsedShape.width - 100, y: 100 + Math.random() * 400 };
-        }
-        
-        return { x: newX, y: y + wave };
-      });
-    };
-    
-    const interval = setInterval(animate, 30);
-    return () => clearInterval(interval);
-  }, [swimming, swimSpeed, parsedShape.width, y]);
-
-  const springX = useSpring(parallaxX || 0, { stiffness: 50, damping: 30 });
-  const springY = useSpring(parallaxY || 0, { stiffness: 50, damping: 30 });
-
-  return (
-    <motion.div
-      style={{
-        position: 'absolute',
-        left: swimming ? position.x : x,
-        top: swimming ? position.y : y,
-        x: springX,
-        y: springY,
-        fontFamily: '"JetBrains Mono", "Fira Code", "Courier New", monospace',
-        fontSize: `${10 * scale}px`,
-        lineHeight: `${12 * scale}px`,
-        letterSpacing: `${2 * scale}px`,
-        color,
-        opacity,
-        pointerEvents: 'none',
-        userSelect: 'none',
-        whiteSpace: 'pre',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}
-    >
-      {chars.reduce((rows, char, i) => {
-        const rowIndex = Math.floor(char.y / (12 * scale));
-        if (!rows[rowIndex]) rows[rowIndex] = [];
-        rows[rowIndex].push(char);
-        return rows;
-      }, []).map((row, rowIndex) => (
-        <div key={rowIndex} style={{ display: 'flex', height: `${12 * scale}px` }}>
-          {row.sort((a, b) => a.x - b.x).map((char, charIndex) => (
-            <span
-              key={charIndex}
-              style={{
-                display: 'inline-block',
-                width: `${8 * scale}px`,
-                textAlign: 'center',
-                color: char.isEye ? '#333' : color,
-                opacity: char.isEye ? 0.8 : 1,
-                textShadow: char.isEye ? 'none' : `0 0 ${5 * scale}px rgba(255,255,255,0.3)`,
-              }}
-            >
-              {char.char}
-            </span>
-          ))}
-        </div>
-      ))}
-    </motion.div>
-  );
-};
-
-// Pre-rendered canvas-based ASCII for better performance
-const CanvasASCIIShape = ({ 
-  shape, 
-  charSet = BINARY,
-  x, 
-  y, 
-  scale = 1,
-  opacity = 0.12,
-  color = '#ffffff',
-  swimming = false,
-  swimSpeed = 0.3,
-}) => {
+// Swimming Koi with RANDOM wandering movement
+const WanderingKoi = ({ id = 1 }) => {
   const canvasRef = useRef(null);
   const frameRef = useRef(0);
-  const positionRef = useRef({ x, y });
   const charsRef = useRef([]);
   
-  const parsedShape = useMemo(() => parseShape(shape, charSet), [shape, charSet]);
+  // Random wandering state
+  const stateRef = useRef({
+    x: id === 1 ? 200 : 800,
+    y: id === 1 ? 150 : 350,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 1,
+    targetX: Math.random() * (typeof window !== 'undefined' ? window.innerWidth - 400 : 1200),
+    targetY: 100 + Math.random() * 500,
+    angle: 0,
+  });
   
-  useEffect(() => {
-    charsRef.current = parsedShape.chars.map(c => ({ ...c }));
-  }, [parsedShape]);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const fontSize = 11 * scale;
-    ctx.font = `${fontSize}px "JetBrains Mono", "Fira Code", monospace`;
-    
-    let animationId;
-    
-    const render = () => {
-      frameRef.current += 1;
-      
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Update character values occasionally
-      if (frameRef.current % 6 === 0) {
-        charsRef.current = charsRef.current.map(char => ({
-          ...char,
-          char: char.isEye ? '●' : charSet[Math.floor(Math.random() * charSet.length)],
-        }));
-      }
-      
-      // Swimming movement
-      if (swimming) {
-        positionRef.current.x += swimSpeed;
-        positionRef.current.y = y + Math.sin(frameRef.current / 50) * 30;
-        
-        if (positionRef.current.x > window.innerWidth + 300) {
-          positionRef.current.x = -parsedShape.width * scale - 200;
-          positionRef.current.y = 150 + Math.random() * 350;
-        }
-      }
-      
-      // Draw characters
-      ctx.fillStyle = color;
-      ctx.globalAlpha = opacity;
-      
-      charsRef.current.forEach(char => {
-        if (char.isEye) {
-          ctx.globalAlpha = 0.5;
-          ctx.fillStyle = '#666';
-        } else {
-          ctx.globalAlpha = opacity;
-          ctx.fillStyle = color;
-        }
-        ctx.fillText(char.char, char.x * scale, char.y * scale + fontSize);
-      });
-      
-      animationId = requestAnimationFrame(render);
-    };
-    
-    render();
-    
-    return () => cancelAnimationFrame(animationId);
-  }, [parsedShape, charSet, scale, opacity, color, swimming, swimSpeed, y]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={parsedShape.width * scale + 50}
-      height={parsedShape.height * scale + 50}
-      style={{
-        position: 'absolute',
-        left: swimming ? positionRef.current.x : x,
-        top: swimming ? positionRef.current.y : y,
-        pointerEvents: 'none',
-      }}
-    />
-  );
-};
-
-// Main swimming Koi component using canvas for performance
-const SwimmingKoi = ({ mouseX, mouseY, startX = 100, startY = 200 }) => {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(0);
-  const posRef = useRef({ x: startX, y: startY });
-  const charsRef = useRef([]);
-  const scale = 1.8; // Make it BIG
-  
-  const parsedKoi = useMemo(() => parseShape(KOI_SHAPE, BINARY), []);
+  const scale = 1.6;
+  const parsedKoi = useMemo(() => parseShapeDense(KOI_SHAPE_DENSE, BINARY), []);
   
   useEffect(() => {
     charsRef.current = parsedKoi.chars.map(c => ({ ...c }));
@@ -331,227 +96,120 @@ const SwimmingKoi = ({ mouseX, mouseY, startX = 100, startY = 200 }) => {
     
     const ctx = canvas.getContext('2d');
     let animationId;
+    const state = stateRef.current;
     
     const render = () => {
       frameRef.current += 1;
+      const frame = frameRef.current;
       
-      // Swimming movement - slower, more graceful
-      posRef.current.x += 0.3;
-      posRef.current.y = startY + Math.sin(frameRef.current / 80) * 50;
-      
-      if (posRef.current.x > window.innerWidth + 600) {
-        posRef.current.x = -700;
-        posRef.current.y = 100 + Math.random() * 400;
+      // Change target occasionally
+      if (frame % 300 === 0) {
+        state.targetX = 100 + Math.random() * (window.innerWidth - 600);
+        state.targetY = 100 + Math.random() * 500;
       }
       
-      // Update canvas position
-      canvas.style.left = `${posRef.current.x}px`;
-      canvas.style.top = `${posRef.current.y}px`;
+      // Smooth steering toward target
+      const dx = state.targetX - state.x;
+      const dy = state.targetY - state.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
       
-      // Clear and draw
+      if (dist > 50) {
+        state.vx += (dx / dist) * 0.02;
+        state.vy += (dy / dist) * 0.015;
+      }
+      
+      // Add some randomness
+      state.vx += (Math.random() - 0.5) * 0.05;
+      state.vy += (Math.random() - 0.5) * 0.03;
+      
+      // Friction
+      state.vx *= 0.98;
+      state.vy *= 0.98;
+      
+      // Clamp velocity
+      const maxSpeed = 1.5;
+      const speed = Math.sqrt(state.vx * state.vx + state.vy * state.vy);
+      if (speed > maxSpeed) {
+        state.vx = (state.vx / speed) * maxSpeed;
+        state.vy = (state.vy / speed) * maxSpeed;
+      }
+      
+      // Update position
+      state.x += state.vx;
+      state.y += state.vy;
+      
+      // Bounce off edges
+      if (state.x < -200) { state.x = -200; state.vx *= -0.5; }
+      if (state.x > window.innerWidth - 200) { state.x = window.innerWidth - 200; state.vx *= -0.5; }
+      if (state.y < 50) { state.y = 50; state.vy *= -0.5; }
+      if (state.y > 650) { state.y = 650; state.vy *= -0.5; }
+      
+      // Calculate rotation based on velocity
+      state.angle = Math.atan2(state.vy, state.vx);
+      
+      // Update canvas position
+      canvas.style.left = `${state.x}px`;
+      canvas.style.top = `${state.y}px`;
+      
+      // Clear
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update chars every few frames - animated rearranging
-      if (frameRef.current % 4 === 0) {
+      // Update characters - animated binary
+      if (frame % 3 === 0) {
         charsRef.current = charsRef.current.map(char => ({
           ...char,
           char: char.isEye ? '●' : BINARY[Math.floor(Math.random() * BINARY.length)],
         }));
       }
       
-      ctx.font = `${14 * scale}px "JetBrains Mono", monospace`;
+      // Draw with rotation
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      
+      // Flip if swimming left
+      const flipX = state.vx < 0 ? -1 : 1;
+      ctx.scale(flipX, 1);
+      
+      ctx.font = `${10 * scale}px "JetBrains Mono", "Courier New", monospace`;
       
       charsRef.current.forEach(char => {
         if (char.isEye) {
-          ctx.fillStyle = 'rgba(60, 60, 60, 0.8)';
+          ctx.fillStyle = 'rgba(40, 40, 40, 0.9)';
         } else {
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
         }
-        ctx.fillText(char.char, char.x * scale, char.y * scale + 14 * scale);
+        const offsetX = -parsedKoi.width * scale / 2;
+        const offsetY = -parsedKoi.height * scale / 2;
+        ctx.fillText(char.char, char.x * scale + offsetX, char.y * scale + offsetY + 10 * scale);
       });
+      
+      ctx.restore();
       
       animationId = requestAnimationFrame(render);
     };
     
     render();
     return () => cancelAnimationFrame(animationId);
-  }, [parsedKoi, startY]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={800}
-      height={500}
-      style={{
-        position: 'absolute',
-        left: startX,
-        top: startY,
-        pointerEvents: 'none',
-      }}
-    />
-  );
-};
-
-// Swimming Butterfly - larger
-const SwimmingButterfly = ({ startX, startY }) => {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(0);
-  const posRef = useRef({ x: startX, y: startY });
-  const charsRef = useRef([]);
-  const scale = 1.5;
-  
-  const parsedButterfly = useMemo(() => parseShape(BUTTERFLY_SHAPE, NUMBERS), []);
-  
-  useEffect(() => {
-    charsRef.current = parsedButterfly.chars.map(c => ({ ...c }));
-  }, [parsedButterfly]);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    let animationId;
-    
-    const render = () => {
-      frameRef.current += 1;
-      
-      // Floating movement (slower, more erratic)
-      posRef.current.x += Math.sin(frameRef.current / 100) * 0.8;
-      posRef.current.y += Math.cos(frameRef.current / 80) * 0.5;
-      
-      canvas.style.left = `${posRef.current.x}px`;
-      canvas.style.top = `${posRef.current.y}px`;
-      
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Update chars - animated numbers
-      if (frameRef.current % 6 === 0) {
-        charsRef.current = charsRef.current.map(char => ({
-          ...char,
-          char: NUMBERS[Math.floor(Math.random() * NUMBERS.length)],
-        }));
-      }
-      
-      ctx.font = `${12 * scale}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
-      
-      charsRef.current.forEach(char => {
-        ctx.fillText(char.char, char.x * scale, char.y * scale + 12 * scale);
-      });
-      
-      animationId = requestAnimationFrame(render);
-    };
-    
-    render();
-    return () => cancelAnimationFrame(animationId);
-  }, [parsedButterfly]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={600}
-      height={300}
-      style={{
-        position: 'absolute',
-        left: startX,
-        top: startY,
-        pointerEvents: 'none',
-      }}
-    />
-  );
-};
-
-// Floating Ghost - LARGE
-const FloatingGhost = ({ startX, startY }) => {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(0);
-  const posRef = useRef({ x: startX, y: startY });
-  const charsRef = useRef([]);
-  const scale = 2.0; // BIG ghost
-  
-  const parsedGhost = useMemo(() => parseShape(GHOST_SHAPE, HEX), []);
-  
-  useEffect(() => {
-    charsRef.current = parsedGhost.chars.map(c => ({ ...c }));
-  }, [parsedGhost]);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    let animationId;
-    
-    const render = () => {
-      frameRef.current += 1;
-      
-      // Hovering motion
-      posRef.current.y = startY + Math.sin(frameRef.current / 40) * 25;
-      posRef.current.x = startX + Math.cos(frameRef.current / 60) * 15;
-      
-      canvas.style.top = `${posRef.current.y}px`;
-      canvas.style.left = `${posRef.current.x}px`;
-      
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Update chars - animated hex
-      if (frameRef.current % 3 === 0) {
-        charsRef.current = charsRef.current.map(char => ({
-          ...char,
-          char: char.isEye ? '●' : HEX[Math.floor(Math.random() * HEX.length)],
-        }));
-      }
-      
-      ctx.font = `${13 * scale}px "JetBrains Mono", monospace`;
-      
-      charsRef.current.forEach(char => {
-        if (char.isEye) {
-          ctx.fillStyle = 'rgba(50, 50, 50, 0.9)';
-        } else {
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.20)';
-        }
-        ctx.fillText(char.char, char.x * scale, char.y * scale + 13 * scale);
-      });
-      
-      animationId = requestAnimationFrame(render);
-    };
-    
-    render();
-    return () => cancelAnimationFrame(animationId);
-  }, [parsedGhost, startY, startX]);
+  }, [parsedKoi, scale]);
 
   return (
     <canvas
       ref={canvasRef}
       width={500}
-      height={500}
+      height={400}
       style={{
         position: 'absolute',
-        left: startX,
-        top: startY,
+        left: stateRef.current.x,
+        top: stateRef.current.y,
         pointerEvents: 'none',
+        zIndex: 0,
       }}
     />
   );
 };
 
+// Main CodeAbyss component - now only with 2 wandering Koi
 export default function CodeAbyss() {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      mouseX.set(e.clientX - centerX);
-      mouseY.set(e.clientY - centerY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
-
   return (
     <div
       style={{
@@ -567,29 +225,21 @@ export default function CodeAbyss() {
       }}
       data-testid="code-abyss-background"
     >
-      {/* Swimming Koi Fish - made of 0s and 1s */}
-      <SwimmingKoi mouseX={mouseX} mouseY={mouseY} startX={200} startY={180} />
-      
-      {/* Floating Butterfly - made of numbers */}
-      <SwimmingButterfly startX={typeof window !== 'undefined' ? window.innerWidth - 500 : 1000} startY={80} />
-      
-      {/* Floating Ghost - made of hex - on the left */}
-      <FloatingGhost startX={50} startY={380} />
-      
-      {/* Second Butterfly on left side */}
-      <SwimmingButterfly startX={100} startY={600} />
+      {/* Two Wandering Koi Fish */}
+      <WanderingKoi id={1} />
+      <WanderingKoi id={2} />
 
-      {/* Ambient glow spots */}
+      {/* Subtle ambient glow */}
       <div
         style={{
           position: 'absolute',
           width: '600px',
           height: '600px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 60%)',
-          top: '10%',
-          left: '15%',
-          filter: 'blur(50px)',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 60%)',
+          top: '15%',
+          left: '20%',
+          filter: 'blur(60px)',
         }}
       />
       <div
@@ -598,12 +248,138 @@ export default function CodeAbyss() {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 60%)',
-          bottom: '15%',
-          right: '10%',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.01) 0%, transparent 60%)',
+          bottom: '20%',
+          right: '15%',
+          filter: 'blur(50px)',
         }}
       />
     </div>
   );
 }
+
+// === PROXIMITY EFFECT COMPONENT ===
+// Use this wrapper around widgets for mouse-reactive dot scatter effect
+export const ProximityDots = ({ children, dotCount = 40, className = '' }) => {
+  const containerRef = useRef(null);
+  const [dots, setDots] = useState([]);
+  const mousePos = useRef({ x: 0, y: 0 });
+  const dotsRef = useRef([]);
+  
+  // Initialize dots
+  useEffect(() => {
+    const initialDots = Array.from({ length: dotCount }, (_, i) => ({
+      id: i,
+      baseX: Math.random() * 100,
+      baseY: Math.random() * 100,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 2 + Math.random() * 3,
+      opacity: 0.1 + Math.random() * 0.2,
+    }));
+    dotsRef.current = initialDots;
+    setDots(initialDots);
+  }, [dotCount]);
+  
+  // Animation loop
+  useEffect(() => {
+    let animationId;
+    
+    const animate = () => {
+      const container = containerRef.current;
+      if (!container) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+      
+      const rect = container.getBoundingClientRect();
+      const mouseX = ((mousePos.current.x - rect.left) / rect.width) * 100;
+      const mouseY = ((mousePos.current.y - rect.top) / rect.height) * 100;
+      
+      dotsRef.current = dotsRef.current.map(dot => {
+        const dx = mouseX - dot.x;
+        const dy = mouseY - dot.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Repel from mouse
+        let pushX = 0;
+        let pushY = 0;
+        if (dist < 30 && dist > 0) {
+          const force = (30 - dist) / 30 * 15;
+          pushX = -(dx / dist) * force;
+          pushY = -(dy / dist) * force;
+        }
+        
+        // Spring back to base position
+        const springX = (dot.baseX - dot.x) * 0.05;
+        const springY = (dot.baseY - dot.y) * 0.05;
+        
+        return {
+          ...dot,
+          x: dot.x + pushX + springX,
+          y: dot.y + pushY + springY,
+        };
+      });
+      
+      setDots([...dotsRef.current]);
+      animationId = requestAnimationFrame(animate);
+    };
+    
+    animate();
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+  
+  // Track mouse
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mousePos.current = { x: e.clientX, y: e.clientY };
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div 
+      ref={containerRef}
+      className={className}
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      {/* Proximity dots layer */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      >
+        {dots.map(dot => (
+          <div
+            key={dot.id}
+            style={{
+              position: 'absolute',
+              left: `${dot.x}%`,
+              top: `${dot.y}%`,
+              width: `${dot.size}px`,
+              height: `${dot.size}px`,
+              backgroundColor: 'white',
+              opacity: dot.opacity,
+              borderRadius: '1px',
+              transform: 'translate(-50%, -50%)',
+              transition: 'none',
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Actual content */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {children}
+      </div>
+    </div>
+  );
+};
