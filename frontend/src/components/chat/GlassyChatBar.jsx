@@ -971,6 +971,25 @@ const GlassyChatBar = () => {
           
           {/* Header with Tabs */}
           <div className="chat-header">
+            {/* Ghost Messenger Expand - PROMINENT BUTTON */}
+            <button 
+              className="ghost-expand-main"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('openGhostMessenger', {
+                  detail: { 
+                    activeTab: activeTab,
+                    messages: messages,
+                    conversations: conversations
+                  }
+                }));
+                handleInteraction();
+              }}
+              title="Ghost Messenger"
+              data-testid="open-ghost-messenger"
+            >
+              <Ghost size={16} />
+            </button>
+            
             <div className="chat-tabs">
               {sortedTabs.map((tab, index) => (
                 <button
