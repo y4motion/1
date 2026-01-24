@@ -57,7 +57,7 @@ export default function HomePage() {
   return (
     <div 
       className="ghost-os-dashboard" 
-      style={{ minHeight: '100vh', background: '#050505' }}
+      style={{ minHeight: '100vh', background: 'transparent' }}
       data-testid="ghost-os-dashboard"
     >
       {/* ====================================
