@@ -1,10 +1,9 @@
 /**
  * HomePage.jsx - GHOST OS DASHBOARD
  * 
- * Structure:
- * - ZONE A: Hero + Control Strip
- * - ZONE B: Kinetic Workspace (Status, Apps, Dashboard, Categories, Deals)
- * - ZONE C: Telemetry Bar
+ * Unified Bento Grid with all widgets
+ * ZEN/AMBIENT as part of grid
+ * Clean assembly animation
  */
 
 import React from 'react';
@@ -14,42 +13,25 @@ import { useGhostStore } from '../stores/useGhostStore';
 
 // Kinetic Components
 import { 
-  // Workspace
   KineticAppGrid,
   ReviewDeck, 
-  ActivePoll,
-  KineticCategories,
   HotDealsStack,
   LiveTicker,
-  // Telemetry
   TelemetryBar
 } from './kinetic';
-
-// Social
-import { NetworkPulse, ConsensusPulse } from './social';
 
 import '../styles/glassmorphism.css';
 import '../styles/animations.css';
 import './kinetic/kinetic.css';
 
-// Mock data for widgets
+// Mock data for ticker
 const NEWS_ITEMS = [
   { id: 1, text: "НОВЫЙ DROP: VOID KEYCAPS УЖЕ В ПРОДАЖЕ" },
   { id: 2, text: "MINIMAL OS 2.1 — ОБНОВЛЕНИЕ ДОСТУПНО" },
-  { id: 3, text: "COMMUNITY: 15K BUILDERS ПРИСОЕДИНИЛИСЬ" },
-  { id: 4, text: "GLASSY SWAP: НОВЫЕ МОДЕЛИ ДЛЯ ОБМЕНА" },
+  { id: 3, text: "СООБЩЕСТВО: 15K BUILDERS ПРИСОЕДИНИЛИСЬ" },
+  { id: 4, text: "ОБМЕН: НОВЫЕ МОДЕЛИ ДЛЯ СВАПА" },
   { id: 5, text: "ROADMAP Q1 2025: ГОЛОСОВАНИЕ ОТКРЫТО" },
 ];
-
-const ROADMAP_POLL = {
-  title: "ROADMAP Q1",
-  totalVotes: 3847,
-  options: [
-    { id: 1, name: "Voice Support", votes: 1647, color: '#FF0000' },
-    { id: 2, name: "Dark Theme+", votes: 1200, color: 'white' },
-    { id: 3, name: "Mobile App", votes: 1000, color: 'white' }
-  ]
-};
 
 // Assembly animation variants
 const assemblyContainer = {
@@ -57,8 +39,8 @@ const assemblyContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
     }
   }
 };
@@ -66,18 +48,16 @@ const assemblyContainer = {
 const assemblyItem = {
   hidden: { 
     opacity: 0, 
-    y: 30, 
-    scale: 0.9,
-    rotateX: 10,
+    y: 25, 
+    scale: 0.95,
   },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
-    rotateX: 0,
     transition: {
       type: "spring",
-      stiffness: 200,
+      stiffness: 250,
       damping: 25,
     }
   }
@@ -93,10 +73,8 @@ export default function HomePage() {
       data-testid="ghost-os-dashboard"
     >
       {/* ====================================
-          ZONE A: HERO & CONTROL DECK
+          ZONE A: HERO
           ==================================== */}
-      
-      {/* Hero Section (Search + Video Background) */}
       <HeroSection />
 
       {/* ====================================
@@ -108,55 +86,73 @@ export default function HomePage() {
         style={{ 
           maxWidth: '1400px', 
           margin: '0 auto', 
-          padding: '40px 24px' 
+          padding: '40px 24px 60px' 
         }}
         variants={assemblyContainer}
         initial="hidden"
         animate="visible"
       >
-        {/* App Grid (Always visible) - with assembly animation */}
-        <motion.div variants={assemblyItem}>
-          <KineticAppGrid />
-        </motion.div>
-
-        {/* Live News Ticker - Full width now */}
+        {/* Live News Ticker - Full width */}
         {!isZenMode && (
           <motion.div 
             variants={assemblyItem}
-            style={{ marginBottom: '32px' }}
+            style={{ marginBottom: '28px' }}
           >
             <LiveTicker items={NEWS_ITEMS} interval={4000} />
           </motion.div>
         )}
 
-        {/* Kinetic Dashboard Row (Reviews + Poll + Network + Consensus) */}
-        <motion.div 
-          className="dashboard-row"
-          variants={assemblyItem}
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '16px',
-            marginBottom: '32px'
-          }}
-        >
-          <ReviewDeck />
-          <ActivePoll poll={ROADMAP_POLL} />
-          <NetworkPulse />
-          <ConsensusPulse />
+        {/* Bento App Grid (includes ZEN, AMBIENT, all widgets) */}
+        <motion.div variants={assemblyItem}>
+          <KineticAppGrid />
         </motion.div>
 
-        {/* Categories Bento Grid (Hidden in Zen Mode) */}
-        {!isZenMode && (
-          <motion.div variants={assemblyItem}>
-            <KineticCategories />
-          </motion.div>
-        )}
-
-        {/* Hot Deals Stack (Hidden in Zen Mode) */}
+        {/* Hot Deals - Horizontal scroll */}
         {!isZenMode && (
           <motion.div variants={assemblyItem}>
             <HotDealsStack />
+          </motion.div>
+        )}
+
+        {/* Reviews Deck */}
+        {!isZenMode && (
+          <motion.div variants={assemblyItem}>
+            <ReviewDeck />
+          </motion.div>
+        )}
+
+        {/* ZEN MODE - Minimal view when active */}
+        {isZenMode && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '40vh',
+              textAlign: 'center',
+              marginTop: '60px',
+            }}
+          >
+            <div style={{ 
+              fontSize: '11px', 
+              letterSpacing: '4px', 
+              opacity: 0.2,
+              fontFamily: '"JetBrains Mono", monospace',
+              marginBottom: '16px',
+            }}>
+              РЕЖИМ ДЗЕН
+            </div>
+            <div style={{ 
+              fontSize: '64px', 
+              fontWeight: '100', 
+              letterSpacing: '16px',
+              opacity: 0.08,
+            }}>
+              GHOST
+            </div>
           </motion.div>
         )}
       </motion.main>
@@ -164,7 +160,6 @@ export default function HomePage() {
       {/* ====================================
           ZONE C: SYSTEM TELEMETRY
           ==================================== */}
-      
       <TelemetryBar />
     </div>
   );
