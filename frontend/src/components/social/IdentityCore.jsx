@@ -6,8 +6,12 @@ import {
   Ghost, Star, Award, Eye, Flame, MoreHorizontal
 } from 'lucide-react';
 import { GhostMessenger } from './GhostMessenger';
+import { ClassArtifact, CLASS_CONFIG } from '../system/ClassArtifact';
+import { UserResonance, getTrustTier } from '../system/UserResonance';
+import '../system/ClassArtifact.css';
+import '../system/UserResonance.css';
 
-// --- MOCK DATA ---
+// --- MOCK DATA with RPG attributes ---
 const USER = {
   name: "VOID_ARCHITECT",
   handle: "@void_architect",
@@ -22,6 +26,9 @@ const USER = {
     name: "Ghost Walkers",
     rank: "Officer"
   },
+  // RPG System
+  classType: "architect", // architect | broker | observer
+  trustScore: 850, // 0-1000 scale
   stats: {
     followers: "12.4K",
     trust: "98/100",
@@ -40,6 +47,217 @@ const USER = {
     { id: 5, img: 'https://images.unsplash.com/photo-1593640495253-23196b27a87f?w=800', likes: 180 },
     { id: 6, img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800', likes: 320 },
   ]
+};
+
+// 3D Rotating Class Artifact Component
+const RotatingClassArtifact = ({ classType, size = 120 }) => {
+  const config = CLASS_CONFIG[classType];
+  if (!config) return null;
+
+  return (
+    <motion.div
+      className="rotating-artifact-container"
+      initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+      animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+      transition={{ delay: 0.6, type: "spring", stiffness: 100 }}
+      style={{
+        position: 'absolute',
+        top: -20,
+        right: -20,
+        width: size,
+        height: size,
+        perspective: '500px',
+        zIndex: 40,
+      }}
+      data-testid="rotating-class-artifact"
+    >
+      <motion.div
+        animate={{ rotateY: 360 }}
+        transition={{ 
+          duration: 12, 
+          repeat: Infinity, 
+          ease: "linear" 
+        }}
+        style={{
+          width: '100%',
+          height: '100%',
+          transformStyle: 'preserve-3d',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            background: `radial-gradient(circle, ${config.secondaryColor} 0%, transparent 70%)`,
+            borderRadius: '50%',
+            padding: '20px',
+            boxShadow: `0 0 60px ${config.secondaryColor}, 0 0 120px ${config.secondaryColor}`,
+          }}
+        >
+          <ClassArtifact 
+            classType={classType} 
+            size="xl" 
+            showGlow={true} 
+            animated={true}
+          />
+        </div>
+      </motion.div>
+      {/* Class Label */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+      >
+        <span 
+          className="px-3 py-1 rounded text-[10px] font-mono tracking-widest border"
+          style={{ 
+            color: config.color, 
+            borderColor: config.color,
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            textShadow: `0 0 10px ${config.color}`,
+          }}
+        >
+          {config.label}
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Trust Score Aura Visualization
+const TrustScoreAura = ({ trustScore, children }) => {
+  const tier = getTrustTier(trustScore);
+  
+  // Get aura colors based on trust tier
+  const getAuraConfig = () => {
+    switch (tier) {
+      case 'photon':
+        return {
+          color: 'rgba(34, 211, 238, 0.4)',
+          glow: 'rgba(34, 211, 238, 0.6)',
+          animation: 'photon-pulse',
+          label: 'PHOTON ECHO',
+          labelColor: '#22d3ee'
+        };
+      case 'neutral':
+        return {
+          color: 'rgba(255, 255, 255, 0.1)',
+          glow: 'rgba(255, 255, 255, 0.2)',
+          animation: null,
+          label: 'STANDARD',
+          labelColor: 'rgba(255,255,255,0.5)'
+        };
+      case 'decay':
+        return {
+          color: 'rgba(255, 159, 67, 0.3)',
+          glow: 'rgba(255, 159, 67, 0.4)',
+          animation: 'decay-flicker',
+          label: 'SIGNAL DECAY',
+          labelColor: '#FF9F43'
+        };
+      case 'glitch':
+        return {
+          color: 'rgba(255, 68, 68, 0.3)',
+          glow: 'rgba(255, 68, 68, 0.4)',
+          animation: 'glitch-jitter',
+          label: 'ANOMALY',
+          labelColor: '#FF4444'
+        };
+      case 'corrupted':
+        return {
+          color: 'rgba(255, 68, 68, 0.2)',
+          glow: 'rgba(255, 68, 68, 0.3)',
+          animation: 'corrupted-shake',
+          label: 'CORRUPTED',
+          labelColor: '#FF4444'
+        };
+      default:
+        return {
+          color: 'transparent',
+          glow: 'transparent',
+          animation: null,
+          label: '',
+          labelColor: 'white'
+        };
+    }
+  };
+
+  const auraConfig = getAuraConfig();
+
+  return (
+    <div className="relative" data-testid="trust-score-aura" data-tier={tier}>
+      {/* Outer Aura Glow */}
+      <motion.div
+        className="absolute inset-0 rounded-[3rem]"
+        style={{
+          background: `radial-gradient(ellipse at center, ${auraConfig.color} 0%, transparent 70%)`,
+          filter: 'blur(30px)',
+          transform: 'scale(1.3)',
+          zIndex: 0,
+        }}
+        animate={tier === 'photon' ? {
+          opacity: [0.6, 1, 0.6],
+          scale: [1.25, 1.35, 1.25],
+        } : tier === 'glitch' ? {
+          x: [-2, 2, -2],
+          opacity: [0.8, 0.5, 0.8],
+        } : {}}
+        transition={{
+          duration: tier === 'photon' ? 3 : 0.3,
+          repeat: Infinity,
+          ease: tier === 'photon' ? 'easeInOut' : 'steps(3)',
+        }}
+      />
+      
+      {/* Inner Glow Ring */}
+      <motion.div
+        className="absolute inset-0 rounded-[3rem]"
+        style={{
+          boxShadow: `0 0 40px ${auraConfig.glow}, inset 0 0 20px ${auraConfig.color}`,
+          zIndex: 1,
+        }}
+        animate={tier === 'glitch' || tier === 'corrupted' ? {
+          boxShadow: [
+            `0 0 40px ${auraConfig.glow}, inset 0 0 20px ${auraConfig.color}`,
+            `0 0 20px ${auraConfig.glow}, inset 0 0 10px ${auraConfig.color}`,
+            `0 0 40px ${auraConfig.glow}, inset 0 0 20px ${auraConfig.color}`,
+          ]
+        } : {}}
+        transition={{
+          duration: 0.2,
+          repeat: Infinity,
+          ease: 'steps(2)',
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
+
+      {/* Trust Label Badge */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.7 }}
+        className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20"
+      >
+        <span 
+          className="px-4 py-1.5 rounded-full text-[11px] font-mono tracking-wider border backdrop-blur-sm"
+          style={{ 
+            color: auraConfig.labelColor,
+            borderColor: auraConfig.labelColor,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            textShadow: `0 0 8px ${auraConfig.labelColor}`,
+          }}
+        >
+          ◈ {auraConfig.label} • {trustScore}
+        </span>
+      </motion.div>
+    </div>
+  );
 };
 
 const IdentityCore = ({ isOpen, onClose }) => {
