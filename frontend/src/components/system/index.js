@@ -48,3 +48,9 @@ export { default as UserResonanceDefault } from './UserResonance';
 export { default as ClassArtifactDefault } from './ClassArtifact';
 export { default as HolographicIDDefault } from './HolographicID';
 export { default as SystemToastDefault } from './SystemToast';
+
+// Neural Interface (Neural Hub Menu System)
+export { NeuralHub } from './NeuralHub';
+export { CorePulse } from './CorePulse';
+export { default as NeuralHubDefault } from './NeuralHub';
+export { default as CorePulseDefault } from './CorePulse';
