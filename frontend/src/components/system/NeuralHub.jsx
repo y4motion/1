@@ -1,10 +1,11 @@
 /**
- * NeuralHub.jsx - COMMAND CENTER v4.0
+ * NeuralHub.jsx - TACTICAL FUI v5.0
  * 
- * Wide Dashboard Layout (900px x 550px)
- * Two-panel design: Identity | Operations
- * Full Russian localization
- * No scroll - everything fits perfectly
+ * Full-screen Future User Interface
+ * Style: Star Citizen / Cyberpunk 2077 / Iron Man
+ * 
+ * STRICT MONOCHROME + CYAN ACCENT ONLY
+ * Technical decoration: corners, grids, barcodes
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -13,245 +14,250 @@ import { useNavigate } from 'react-router-dom';
 import { 
   User, Settings, Bell, Package, Gift, Target, 
   Trophy, Wallet, Shield, Activity, X, Cpu, 
-  Eye, Crown, Bug, Rocket, Sparkles, Mail,
-  Zap, Star, Award
+  Eye, Zap, Mail, LayoutGrid, Database
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
-// SVG Noise Filter
-const NoiseFilter = () => (
-  <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-    <filter id="noise">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-    </filter>
-  </svg>
+// Corner Brackets - FUI decoration
+const CornerBrackets = () => (
+  <>
+    {/* Top Left */}
+    <div style={{ position: 'absolute', top: 0, left: 0, width: '30px', height: '30px' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '30px', height: '2px', background: 'rgba(255,255,255,0.3)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '2px', height: '30px', background: 'rgba(255,255,255,0.3)' }} />
+    </div>
+    {/* Top Right */}
+    <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '30px' }}>
+      <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '2px', background: 'rgba(255,255,255,0.3)' }} />
+      <div style={{ position: 'absolute', top: 0, right: 0, width: '2px', height: '30px', background: 'rgba(255,255,255,0.3)' }} />
+    </div>
+    {/* Bottom Left */}
+    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '30px', height: '30px' }}>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '30px', height: '2px', background: 'rgba(255,255,255,0.3)' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '2px', height: '30px', background: 'rgba(255,255,255,0.3)' }} />
+    </div>
+    {/* Bottom Right */}
+    <div style={{ position: 'absolute', bottom: 0, right: 0, width: '30px', height: '30px' }}>
+      <div style={{ position: 'absolute', bottom: 0, right: 0, width: '30px', height: '2px', background: 'rgba(255,255,255,0.3)' }} />
+      <div style={{ position: 'absolute', bottom: 0, right: 0, width: '2px', height: '30px', background: 'rgba(255,255,255,0.3)' }} />
+    </div>
+  </>
 );
 
-// Achievement Badge
-const AchievementBadge = ({ icon: Icon, label, color }) => (
-  <motion.div 
-    title={label}
-    whileHover={{ scale: 1.1, y: -2 }}
-    style={{
-      width: '38px',
-      height: '38px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: `${color}12`,
-      border: `1px solid ${color}25`,
-      borderRadius: '10px',
-      color: color,
-      cursor: 'pointer',
-    }}
-  >
-    <Icon size={16} />
-  </motion.div>
+// Scanline animation overlay
+const ScanlineOverlay = () => (
+  <div style={{
+    position: 'absolute',
+    inset: 0,
+    pointerEvents: 'none',
+    overflow: 'hidden',
+    opacity: 0.03,
+  }}>
+    <motion.div
+      animate={{ y: ['0%', '100%'] }}
+      transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      style={{
+        width: '100%',
+        height: '4px',
+        background: 'linear-gradient(180deg, transparent, white, transparent)',
+      }}
+    />
+  </div>
 );
 
-// Stat Bar Component
-const StatBar = ({ label, value, max, color, icon: Icon }) => (
-  <div style={{ marginBottom: '16px' }}>
+// Grid background pattern
+const GridPattern = () => (
+  <div style={{
+    position: 'absolute',
+    inset: 0,
+    backgroundImage: `
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+    `,
+    backgroundSize: '40px 40px',
+    pointerEvents: 'none',
+  }} />
+);
+
+// Tech text decoration
+const TechLabel = ({ children, style = {} }) => (
+  <span style={{
+    fontSize: '8px',
+    fontFamily: '"JetBrains Mono", monospace',
+    letterSpacing: '2px',
+    opacity: 0.25,
+    ...style
+  }}>
+    {children}
+  </span>
+);
+
+// Fake QR Code
+const FakeQR = () => (
+  <div style={{
+    width: '50px',
+    height: '50px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: '1px',
+    opacity: 0.3,
+  }}>
+    {Array.from({ length: 49 }).map((_, i) => (
+      <div 
+        key={i}
+        style={{
+          background: Math.random() > 0.5 ? 'white' : 'transparent',
+          aspectRatio: '1',
+        }}
+      />
+    ))}
+  </div>
+);
+
+// Barcode
+const Barcode = () => (
+  <div style={{
+    display: 'flex',
+    gap: '1px',
+    height: '20px',
+    opacity: 0.25,
+  }}>
+    {Array.from({ length: 30 }).map((_, i) => (
+      <div 
+        key={i}
+        style={{
+          width: Math.random() > 0.5 ? '2px' : '1px',
+          height: '100%',
+          background: 'white',
+        }}
+      />
+    ))}
+  </div>
+);
+
+// Stat Bar - Monochrome
+const StatBar = ({ label, value, max, isAccent = false }) => (
+  <div style={{ marginBottom: '12px' }}>
     <div style={{ 
       display: 'flex', 
       justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '8px',
+      marginBottom: '4px',
+      fontSize: '9px',
+      fontFamily: 'monospace',
+      letterSpacing: '2px',
     }}>
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: '8px',
-        fontSize: '10px',
-        fontFamily: 'monospace',
-        letterSpacing: '2px',
-        opacity: 0.5
-      }}>
-        <Icon size={12} style={{ color }} />
-        <span>{label}</span>
-      </div>
+      <span style={{ opacity: 0.4 }}>{label}</span>
       <span style={{ 
-        fontSize: '12px', 
-        fontFamily: 'monospace',
-        color,
-        fontWeight: '600'
+        opacity: isAccent ? 1 : 0.6,
+        color: isAccent ? '#00FFD4' : 'white'
       }}>
         {value}/{max}
       </span>
     </div>
     <div style={{
-      height: '4px',
-      background: 'rgba(255,255,255,0.06)',
-      borderRadius: '2px',
-      overflow: 'hidden',
+      height: '3px',
+      background: 'rgba(255,255,255,0.08)',
+      position: 'relative',
     }}>
       <motion.div 
         initial={{ width: 0 }}
         animate={{ width: `${(value/max) * 100}%` }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1 }}
         style={{
           height: '100%',
-          background: `linear-gradient(90deg, ${color} 0%, ${color}80 100%)`,
-          boxShadow: `0 0 12px ${color}50`,
-          borderRadius: '2px',
+          background: isAccent ? '#00FFD4' : 'rgba(255,255,255,0.5)',
+          boxShadow: isAccent ? '0 0 10px #00FFD450' : 'none',
         }}
       />
     </div>
   </div>
 );
 
-// Action Banner (Large clickable card)
-const ActionBanner = ({ icon: Icon, title, subtitle, onClick, isNew, color = 'white' }) => (
+// Navigation Block - Dense Bento style
+const NavBlock = ({ icon: Icon, label, sublabel, badge, onClick, isActive, wide }) => (
   <motion.button
     onClick={onClick}
-    whileHover={{ scale: 1.02, borderColor: 'rgba(255,255,255,0.15)' }}
+    whileHover={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
     whileTap={{ scale: 0.98 }}
     style={{
-      width: '100%',
-      padding: '20px',
-      background: 'rgba(255,255,255,0.03)',
-      border: '1px solid rgba(255,255,255,0.06)',
-      borderRadius: '16px',
+      padding: wide ? '20px 24px' : '16px',
+      background: 'rgba(255,255,255,0.02)',
+      border: '1px solid rgba(255,255,255,0.08)',
       display: 'flex',
-      alignItems: 'center',
-      gap: '16px',
+      flexDirection: wide ? 'row' : 'column',
+      alignItems: wide ? 'center' : 'center',
+      gap: wide ? '16px' : '10px',
       cursor: 'pointer',
       color: 'white',
-      textAlign: 'left',
       position: 'relative',
-      overflow: 'hidden',
       fontFamily: 'inherit',
-      transition: 'border-color 0.2s ease',
+      gridColumn: wide ? 'span 2' : 'span 1',
     }}
   >
-    {/* NEW indicator */}
-    {isNew && (
-      <motion.div
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: '4px',
-          background: '#FF3333',
-          borderRadius: '0 2px 2px 0',
-        }}
+    {/* Active indicator */}
+    {isActive && (
+      <div style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: '2px',
+        background: '#00FFD4',
+      }}
       />
     )}
     
     <div style={{
-      width: '48px',
-      height: '48px',
+      width: wide ? '48px' : '40px',
+      height: wide ? '48px' : '40px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: `${color}10`,
-      borderRadius: '12px',
-      border: `1px solid ${color}20`,
-    }}>
-      <Icon size={22} style={{ color, opacity: 0.8 }} />
-    </div>
-    
-    <div style={{ flex: 1 }}>
-      <div style={{ 
-        fontSize: '14px', 
-        fontWeight: '600',
-        letterSpacing: '0.5px',
-        marginBottom: '4px'
-      }}>
-        {title}
-      </div>
-      <div style={{ 
-        fontSize: '11px', 
-        opacity: 0.4,
-        fontFamily: 'monospace',
-      }}>
-        {subtitle}
-      </div>
-    </div>
-    
-    {isNew && (
-      <span style={{
-        padding: '4px 10px',
-        background: 'rgba(255,50,50,0.15)',
-        border: '1px solid rgba(255,50,50,0.25)',
-        borderRadius: '6px',
-        fontSize: '9px',
-        fontFamily: 'monospace',
-        letterSpacing: '1px',
-        color: '#FF5555'
-      }}>
-        NEW
-      </span>
-    )}
-  </motion.button>
-);
-
-// Navigation Tile (Grid item)
-const NavTile = ({ icon: Icon, label, badge, onClick }) => (
-  <motion.button
-    onClick={onClick}
-    whileHover={{ 
-      scale: 1.03, 
-      backgroundColor: 'rgba(255,255,255,0.05)',
-      borderColor: 'rgba(255,255,255,0.12)'
-    }}
-    whileTap={{ scale: 0.97 }}
-    style={{
-      padding: '20px 16px',
+      border: '1px solid rgba(255,255,255,0.1)',
       background: 'rgba(255,255,255,0.02)',
-      border: '1px solid rgba(255,255,255,0.05)',
-      borderRadius: '14px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '10px',
-      cursor: 'pointer',
-      color: 'white',
-      position: 'relative',
-      fontFamily: 'inherit',
-      transition: 'all 0.2s ease',
-    }}
-  >
-    <div style={{
-      width: '44px',
-      height: '44px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'rgba(255,255,255,0.04)',
-      borderRadius: '12px',
     }}>
-      <Icon size={20} strokeWidth={1.5} style={{ opacity: 0.7 }} />
+      <Icon size={wide ? 22 : 18} strokeWidth={1} style={{ opacity: 0.7 }} />
     </div>
     
-    <span style={{ 
-      fontSize: '11px', 
-      fontWeight: '500',
-      letterSpacing: '1px',
-      opacity: 0.8
+    <div style={{ 
+      flex: wide ? 1 : 'none',
+      textAlign: wide ? 'left' : 'center' 
     }}>
-      {label}
-    </span>
+      <div style={{ 
+        fontSize: wide ? '13px' : '10px', 
+        fontWeight: '500',
+        letterSpacing: '1px',
+        marginBottom: sublabel ? '2px' : 0
+      }}>
+        {label}
+      </div>
+      {sublabel && (
+        <div style={{ 
+          fontSize: '9px', 
+          opacity: 0.3,
+          fontFamily: 'monospace',
+        }}>
+          {sublabel}
+        </div>
+      )}
+    </div>
     
     {badge && (
       <span style={{
-        position: 'absolute',
-        top: '12px',
-        right: '12px',
+        position: wide ? 'relative' : 'absolute',
+        top: wide ? 'auto' : '8px',
+        right: wide ? 'auto' : '8px',
         minWidth: '18px',
         height: '18px',
         padding: '0 5px',
-        background: '#FF3333',
-        borderRadius: '9px',
-        fontSize: '10px',
-        fontWeight: '600',
+        background: '#00FFD4',
+        color: 'black',
+        fontSize: '9px',
+        fontWeight: '700',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        fontFamily: 'monospace',
       }}>
         {badge}
       </span>
@@ -259,13 +265,12 @@ const NavTile = ({ icon: Icon, label, badge, onClick }) => (
   </motion.button>
 );
 
-// COMMAND CENTER Component
+// TACTICAL HUD Component
 export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const hubRef = useRef(null);
   
-  // Close handlers
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (hubRef.current && !hubRef.current.contains(e.target)) {
@@ -300,384 +305,360 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          <NoiseFilter />
-          
-          {/* CENTERING CONTAINER */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9998,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Backdrop */}
+          <div 
+            onClick={onClose}
             style={{
-              position: 'fixed',
+              position: 'absolute',
               inset: 0,
-              zIndex: 9998,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px',
+              background: 'rgba(0, 0, 0, 0.85)',
+              backdropFilter: 'blur(20px)',
             }}
-          >
-            {/* Backdrop */}
-            <div 
-              onClick={onClose}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'rgba(0, 0, 0, 0.75)',
-                backdropFilter: 'blur(12px)',
-              }}
-            />
+          />
           
-            {/* COMMAND CENTER PANEL */}
-            <motion.div
-              ref={hubRef}
-              initial={{ opacity: 0, scale: 0.92, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              style={{
-                position: 'relative',
-                width: '900px',
-                height: '560px',
-                
-                // LUXURY GLASS
-                background: 'rgba(8, 8, 8, 0.95)',
-                backdropFilter: 'blur(40px)',
-                border: '0.5px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '28px',
-                
-                // GLOW
-                boxShadow: `
-                  0 0 0 0.5px rgba(255,255,255,0.05),
-                  0 30px 80px -20px rgba(0, 0, 0, 0.8),
-                  0 0 80px -30px rgba(0, 255, 212, 0.12)
-                `,
-                
-                overflow: 'hidden',
-                display: 'grid',
-                gridTemplateColumns: '320px 1fr',
-                fontFamily: '"SF Pro Display", -apple-system, sans-serif',
-                color: 'white',
-              }}
-              data-testid="neural-hub"
-            >
-              {/* Noise overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.025,
-                filter: 'url(#noise)',
-                pointerEvents: 'none',
-              }} />
-              
-              {/* ==========================================
-                  LEFT PANEL: IDENTITY (Профиль)
-                  ========================================== */}
-              <div style={{
-                padding: '28px',
-                background: 'rgba(0,0,0,0.3)',
-                borderRight: '1px solid rgba(255,255,255,0.05)',
-                display: 'flex',
-                flexDirection: 'column',
+          {/* TACTICAL HUD CONTAINER */}
+          <motion.div
+            ref={hubRef}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            style={{
+              position: 'relative',
+              width: '1100px',
+              height: '650px',
+              background: 'rgba(5, 5, 5, 0.95)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              overflow: 'hidden',
+              display: 'grid',
+              gridTemplateColumns: '300px 1fr',
+              fontFamily: '"SF Pro Display", -apple-system, sans-serif',
+              color: 'white',
+            }}
+            data-testid="neural-hub"
+          >
+            {/* Grid background */}
+            <GridPattern />
+            
+            {/* Scanline */}
+            <ScanlineOverlay />
+            
+            {/* Corner brackets */}
+            <CornerBrackets />
+            
+            {/* Tech labels - perimeter */}
+            <div style={{ position: 'absolute', top: '8px', left: '40px' }}>
+              <TechLabel>SYS.ID: 99402-ARCH</TechLabel>
+            </div>
+            <div style={{ position: 'absolute', top: '8px', right: '50px' }}>
+              <TechLabel>SYNC: STABLE</TechLabel>
+            </div>
+            <div style={{ position: 'absolute', bottom: '8px', left: '40px' }}>
+              <TechLabel>NEURAL.HUB v5.0</TechLabel>
+            </div>
+            <div style={{ position: 'absolute', bottom: '8px', right: '50px' }}>
+              <TechLabel>UPTIME: 403:27:14</TechLabel>
+            </div>
+
+            {/* ==========================================
+                LEFT PANEL: IDENTITY
+                ========================================== */}
+            <div style={{
+              padding: '40px 30px',
+              background: 'rgba(0,0,0,0.4)',
+              borderRight: '1px solid rgba(255,255,255,0.06)',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              {/* Avatar - Square with clipped corners */}
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                marginBottom: '24px'
               }}>
-                {/* Header */}
                 <div style={{
+                  width: '120px',
+                  height: '120px',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  clipPath: 'polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px))',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '24px',
+                  justifyContent: 'center',
+                  marginBottom: '12px',
+                  position: 'relative',
                 }}>
-                  <Cpu size={12} style={{ opacity: 0.4, color: '#00FFD4' }} />
+                  {/* Avatar content - monochrome icon */}
+                  <User size={50} strokeWidth={1} style={{ opacity: 0.4 }} />
+                  
+                  {/* Corner accents */}
+                  <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', borderTop: '1px solid #00FFD4', borderLeft: '1px solid #00FFD4' }} />
+                  <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '8px', height: '8px', borderBottom: '1px solid #00FFD4', borderRight: '1px solid #00FFD4' }} />
+                </div>
+                
+                {/* Name */}
+                <div style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600',
+                  letterSpacing: '2px',
+                  marginBottom: '6px'
+                }}>
+                  VOID_ARCHITECT
+                </div>
+                
+                {/* Class */}
+                <div style={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  marginBottom: '8px'
+                }}>
                   <span style={{
                     fontSize: '9px',
-                    letterSpacing: '3px',
+                    padding: '3px 10px',
+                    border: '1px solid rgba(0,255,212,0.3)',
+                    fontFamily: 'monospace',
+                    letterSpacing: '2px',
+                    color: '#00FFD4',
+                  }}>
+                    LVL.99
+                  </span>
+                  <span style={{ 
+                    fontSize: '9px',
                     opacity: 0.4,
                     fontFamily: 'monospace',
+                    letterSpacing: '2px',
                   }}>
-                    NEURAL.HUB
+                    [ ORIGIN ]
                   </span>
                 </div>
                 
-                {/* Avatar - Large */}
+                {/* QR and Barcode */}
                 <div style={{ 
                   display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center',
-                  marginBottom: '24px'
+                  alignItems: 'center', 
+                  gap: '12px',
+                  marginTop: '8px'
                 }}>
-                  <motion.div
-                    animate={{ 
-                      boxShadow: [
-                        '0 0 30px rgba(0,255,212,0.2)',
-                        '0 0 50px rgba(0,255,212,0.35)',
-                        '0 0 30px rgba(0,255,212,0.2)'
-                      ]
-                    }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    style={{
-                      width: '100px',
-                      height: '100px',
-                      borderRadius: '24px',
-                      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                      border: '2px solid rgba(0,255,212,0.4)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginBottom: '16px',
-                    }}
-                  >
-                    <Crown size={40} style={{ color: '#00FFD4' }} />
-                  </motion.div>
-                  
-                  {/* Name & Class */}
-                  <div style={{ 
-                    fontSize: '18px', 
-                    fontWeight: '600',
-                    letterSpacing: '1px',
-                    marginBottom: '6px'
-                  }}>
-                    VOID_ARCHITECT
-                  </div>
-                  
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <span style={{
-                      fontSize: '10px',
-                      padding: '3px 10px',
-                      background: 'linear-gradient(135deg, rgba(0,255,212,0.15), transparent)',
-                      border: '1px solid rgba(0,255,212,0.3)',
-                      borderRadius: '6px',
-                      fontFamily: 'monospace',
-                      letterSpacing: '1px',
-                      color: '#00FFD4',
-                    }}>
-                      LVL.99
-                    </span>
-                    <span style={{ 
-                      fontSize: '10px',
-                      color: '#C9B037',
-                      fontFamily: 'monospace',
-                      letterSpacing: '2px',
-                      textShadow: '0 0 10px rgba(201,176,55,0.5)'
-                    }}>
-                      [ ORIGIN ]
-                    </span>
+                  <FakeQR />
+                  <div>
+                    <Barcode />
+                    <TechLabel style={{ marginTop: '4px', display: 'block' }}>
+                      ID: 0xF7A9...2D4E
+                    </TechLabel>
                   </div>
                 </div>
-                
-                {/* Stats */}
-                <div style={{ marginBottom: '20px' }}>
-                  <StatBar 
-                    label="РЕЗОНАНС" 
-                    value={4850} 
-                    max={5000} 
-                    color="#00FFD4"
-                    icon={Zap}
-                  />
-                  <StatBar 
-                    label="ЭНТРОПИЯ" 
-                    value={8} 
-                    max={100} 
-                    color="#FF6B6B"
-                    icon={Activity}
-                  />
-                  <StatBar 
-                    label="ДОВЕРИЕ" 
-                    value={99} 
-                    max={100} 
-                    color="#C9B037"
-                    icon={Shield}
-                  />
+              </div>
+              
+              {/* Divider */}
+              <div style={{ 
+                height: '1px', 
+                background: 'rgba(255,255,255,0.06)',
+                margin: '16px 0'
+              }} />
+              
+              {/* Stats */}
+              <div style={{ marginBottom: '16px' }}>
+                <TechLabel style={{ display: 'block', marginBottom: '12px' }}>
+                  SYSTEM.VITALS
+                </TechLabel>
+                <StatBar label="РЕЗОНАНС" value={4850} max={5000} isAccent={true} />
+                <StatBar label="ЭНТРОПИЯ" value={8} max={100} />
+                <StatBar label="ДОВЕРИЕ" value={99} max={100} />
+              </div>
+              
+              {/* Achievements - monochrome icons */}
+              <div>
+                <TechLabel style={{ display: 'block', marginBottom: '10px' }}>
+                  ДОСТИЖЕНИЯ [24/24]
+                </TechLabel>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(5, 1fr)',
+                  gap: '6px'
+                }}>
+                  {[Shield, Trophy, Zap, Database, LayoutGrid].map((Icon, i) => (
+                    <div 
+                      key={i}
+                      style={{
+                        aspectRatio: '1',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        background: 'rgba(255,255,255,0.02)',
+                      }}
+                    >
+                      <Icon size={14} strokeWidth={1} style={{ opacity: 0.5 }} />
+                    </div>
+                  ))}
                 </div>
-                
-                {/* Achievements Grid */}
-                <div>
-                  <div style={{
-                    fontSize: '9px',
-                    letterSpacing: '2px',
-                    opacity: 0.3,
-                    marginBottom: '12px',
-                    fontFamily: 'monospace',
-                  }}>
-                    ДОСТИЖЕНИЯ
-                  </div>
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(5, 1fr)',
-                    gap: '8px'
-                  }}>
-                    <AchievementBadge icon={Crown} label="Основатель" color="#FFD700" />
-                    <AchievementBadge icon={Bug} label="Охотник за багами" color="#FF6B6B" />
-                    <AchievementBadge icon={Rocket} label="Альфа Тестер" color="#00FFD4" />
-                    <AchievementBadge icon={Star} label="Легенда" color="#C9B037" />
-                    <AchievementBadge icon={Award} label="Мастер" color="#9C27B0" />
-                  </div>
-                  <div style={{ 
-                    fontSize: '10px', 
-                    opacity: 0.3, 
-                    marginTop: '10px',
-                    fontFamily: 'monospace',
-                    textAlign: 'center'
-                  }}>
-                    +19 ещё
-                  </div>
+              </div>
+              
+              {/* Spacer */}
+              <div style={{ flex: 1 }} />
+              
+              {/* Disconnect */}
+              <motion.button
+                onClick={() => { logout(); onClose(); }}
+                whileHover={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                style={{
+                  padding: '10px',
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  color: 'rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  fontSize: '9px',
+                  letterSpacing: '2px',
+                  fontFamily: 'monospace',
+                }}
+              >
+                <Eye size={12} strokeWidth={1} />
+                ОТКЛЮЧИТЬСЯ
+              </motion.button>
+            </div>
+            
+            {/* ==========================================
+                RIGHT PANEL: OPERATIONS
+                ========================================== */}
+            <div style={{
+              padding: '40px 30px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              {/* Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '24px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <Cpu size={14} strokeWidth={1} style={{ opacity: 0.4 }} />
+                  <TechLabel style={{ fontSize: '10px' }}>ОПЕРАЦИИ</TechLabel>
                 </div>
-                
-                {/* Spacer */}
-                <div style={{ flex: 1 }} />
-                
-                {/* Disconnect button */}
                 <motion.button
-                  onClick={() => { logout(); onClose(); }}
-                  whileHover={{ backgroundColor: 'rgba(255,50,50,0.1)' }}
+                  onClick={onClose}
+                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
                   style={{
-                    padding: '10px',
                     background: 'transparent',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    borderRadius: '10px',
-                    color: 'rgba(255,255,255,0.3)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    width: '32px',
+                    height: '32px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '8px',
                     cursor: 'pointer',
-                    fontSize: '10px',
-                    letterSpacing: '2px',
-                    fontFamily: 'monospace',
+                    color: 'white',
+                    opacity: 0.5,
                   }}
                 >
-                  <Eye size={12} />
-                  ОТКЛЮЧИТЬСЯ
+                  <X size={14} strokeWidth={1} />
                 </motion.button>
               </div>
               
-              {/* ==========================================
-                  RIGHT PANEL: OPERATIONS (Меню)
-                  ========================================== */}
-              <div style={{
-                padding: '28px',
-                display: 'flex',
-                flexDirection: 'column',
+              {/* BENTO GRID - Dense blocks */}
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(4, 1fr)', 
+                gap: '2px',
+                flex: 1,
               }}>
-                {/* Header with close */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '20px',
-                }}>
-                  <div style={{
-                    fontSize: '9px',
-                    letterSpacing: '3px',
-                    opacity: 0.4,
-                    fontFamily: 'monospace',
-                  }}>
-                    ОПЕРАЦИИ
-                  </div>
-                  <motion.button
-                    onClick={onClose}
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    style={{
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      borderRadius: '10px',
-                      width: '32px',
-                      height: '32px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      cursor: 'pointer',
-                      opacity: 0.5,
-                    }}
-                  >
-                    <X size={14} />
-                  </motion.button>
-                </div>
+                {/* Row 1: Action banners (wide) */}
+                <NavBlock 
+                  icon={Gift}
+                  label="ЗАБРАТЬ НАГРАДЫ"
+                  sublabel="3 предмета · DecryptionCube"
+                  onClick={() => handleNavigate('/rewards')}
+                  isActive={true}
+                  badge="NEW"
+                  wide
+                />
+                <NavBlock 
+                  icon={Target}
+                  label="ДЕЙЛИ ЛОГ"
+                  sublabel="2/5 выполнено"
+                  onClick={() => handleNavigate('/daily')}
+                  wide
+                />
                 
-                {/* Action Banners (2 columns) */}
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '1fr 1fr', 
-                  gap: '12px',
-                  marginBottom: '20px'
-                }}>
-                  <ActionBanner 
-                    icon={Gift}
-                    title="ЗАБРАТЬ НАГРАДЫ"
-                    subtitle="3 предмета · DecryptionCube"
-                    onClick={() => handleNavigate('/rewards')}
-                    isNew={true}
-                    color="#FF6B6B"
-                  />
-                  <ActionBanner 
-                    icon={Target}
-                    title="ДЕЙЛИ ЛОГ"
-                    subtitle="2/5 выполнено"
-                    onClick={() => handleNavigate('/daily')}
-                    color="#00FFD4"
-                  />
-                </div>
-                
-                {/* Navigation Grid (3x2) */}
-                <div style={{
-                  fontSize: '9px',
-                  letterSpacing: '3px',
-                  opacity: 0.3,
-                  marginBottom: '12px',
-                  fontFamily: 'monospace',
-                }}>
-                  НАВИГАЦИЯ
-                </div>
-                
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(3, 1fr)', 
-                  gap: '12px',
-                  flex: 1
-                }}>
-                  <NavTile 
-                    icon={User} 
-                    label="ДОСЬЕ" 
-                    onClick={() => handleNavigate('/profile')}
-                  />
-                  <NavTile 
-                    icon={Bell} 
-                    label="СИГНАЛЫ" 
-                    badge="3"
-                    onClick={() => handleNavigate('/notifications')}
-                  />
-                  <NavTile 
-                    icon={Mail} 
-                    label="ПОЧТА" 
-                    onClick={() => handleNavigate('/chat')}
-                  />
-                  <NavTile 
-                    icon={Package} 
-                    label="ИНВЕНТАРЬ" 
-                    onClick={() => handleNavigate('/inventory')}
-                  />
-                  <NavTile 
-                    icon={Trophy} 
-                    label="РЕЙТИНГ" 
-                    onClick={() => handleNavigate('/rating')}
-                  />
-                  <NavTile 
-                    icon={Settings} 
-                    label="СИСТЕМА" 
-                    onClick={() => handleNavigate('/settings')}
-                  />
-                </div>
+                {/* Row 2-3: Navigation tiles */}
+                <NavBlock 
+                  icon={User} 
+                  label="ДОСЬЕ" 
+                  onClick={() => handleNavigate('/profile')}
+                />
+                <NavBlock 
+                  icon={Bell} 
+                  label="СИГНАЛЫ" 
+                  badge="3"
+                  onClick={() => handleNavigate('/notifications')}
+                />
+                <NavBlock 
+                  icon={Mail} 
+                  label="ПОЧТА" 
+                  onClick={() => handleNavigate('/chat')}
+                />
+                <NavBlock 
+                  icon={Package} 
+                  label="ИНВЕНТАРЬ" 
+                  onClick={() => handleNavigate('/inventory')}
+                />
+                <NavBlock 
+                  icon={Trophy} 
+                  label="РЕЙТИНГ" 
+                  onClick={() => handleNavigate('/rating')}
+                />
+                <NavBlock 
+                  icon={Wallet} 
+                  label="БАЛАНС" 
+                  onClick={() => handleNavigate('/wallet')}
+                />
+                <NavBlock 
+                  icon={Shield} 
+                  label="ДОВЕРИЕ" 
+                  onClick={() => handleNavigate('/trust')}
+                />
+                <NavBlock 
+                  icon={Settings} 
+                  label="СИСТЕМА" 
+                  onClick={() => handleNavigate('/settings')}
+                />
               </div>
-            </motion.div>
+              
+              {/* Footer tech info */}
+              <div style={{
+                marginTop: '20px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+                <TechLabel>SESSION: 0x7F2A...9B3C</TechLabel>
+                <TechLabel>LATENCY: 12ms</TechLabel>
+                <TechLabel>REGION: EU-WEST</TechLabel>
+              </div>
+            </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );
