@@ -67,9 +67,9 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Dark textured background */
+/* Dark textured background - TRANSPARENT for AtmosphericBackground */
 [data-theme='dark'] .dark-bg {
-  background: linear-gradient(135deg, #0a0a0b 0%, #151518 100%);
+  background: transparent;
   min-height: 100vh;
   color: white;
 }
@@ -97,9 +97,9 @@
   --accent-primary: #0a0a0a;
 }
 
-/* Minimal Mod textured background */
+/* Minimal Mod textured background - TRANSPARENT for AtmosphericBackground */
 [data-theme='minimal-mod'] .dark-bg {
-  background: #000000;
+  background: transparent;
   min-height: 100vh;
   color: #f1f1f1;
 }
