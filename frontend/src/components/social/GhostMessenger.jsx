@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  X, Zap, Send, Paperclip, MoreVertical, Search, 
-  Phone, Video, Image as ImageIcon, Users, Shield,
-  ChevronDown, Smile, Mic, Settings, Bell, Pin,
-  Archive, Trash2, Star, Check, CheckCheck, Ghost
+  X, Send, Paperclip, MoreVertical, Search, 
+  Phone, Video, Image as ImageIcon, Shield,
+  Smile, Mic, Settings, CheckCheck, Ghost,
+  Lock, Wifi, Signal
 } from 'lucide-react';
 
 // --- MOCK CHATS ---
@@ -17,7 +17,8 @@ const CHATS = [
     time: "2m",
     online: true,
     unread: 2,
-    verified: true
+    verified: true,
+    trust: 847
   },
   { 
     id: 2, 
@@ -27,7 +28,8 @@ const CHATS = [
     time: "15m",
     online: true,
     unread: 0,
-    verified: false
+    verified: false,
+    trust: 312
   },
   { 
     id: 3, 
@@ -38,7 +40,8 @@ const CHATS = [
     online: true,
     unread: 0,
     verified: true,
-    isSupport: true
+    isSupport: true,
+    trust: 999
   },
   { 
     id: 4, 
@@ -48,24 +51,37 @@ const CHATS = [
     time: "3h",
     online: false,
     unread: 0,
-    verified: false
+    verified: false,
+    trust: 156
+  },
+  { 
+    id: 5, 
+    name: "DARK_MATTER", 
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
+    lastMessage: "Отправил трек-номер в ЛС",
+    time: "1d",
+    online: false,
+    unread: 0,
+    verified: true,
+    trust: 623
   },
 ];
 
 // --- MOCK MESSAGES ---
 const MESSAGES = [
-  { id: 1, sender: 'them', text: "Привет! Видел твой сетап на главной. Огонь! 🔥", time: "14:32" },
-  { id: 2, sender: 'them', text: "Где брал кейкапы Ghost? Давно ищу такие.", time: "14:32" },
-  { id: 3, sender: 'me', text: "Привет! Это кастом с групбайка. GMK Ghost.", time: "14:35" },
-  { id: 4, sender: 'me', text: "Могу скинуть ссылку на трейд если интересно.", time: "14:35" },
-  { id: 5, sender: 'them', text: "Да, было бы круто! У меня есть RTX 4090 на обмен.", time: "14:38" },
-  { id: 6, sender: 'me', text: "Оу, серьезное предложение. Давай обсудим детали.", time: "14:40", status: 'read' },
+  { id: 1, sender: 'them', text: "Привет! Видел твой сетап на главной. Огонь!", time: "14:32", encrypted: true },
+  { id: 2, sender: 'them', text: "Где брал кейкапы Ghost? Давно ищу такие.", time: "14:32", encrypted: true },
+  { id: 3, sender: 'me', text: "Привет! Это кастом с групбайка. GMK Ghost.", time: "14:35", encrypted: true },
+  { id: 4, sender: 'me', text: "Могу скинуть ссылку на трейд если интересно.", time: "14:35", encrypted: true },
+  { id: 5, sender: 'them', text: "Да, было бы круто! У меня есть RTX 4090 на обмен.", time: "14:38", encrypted: true },
+  { id: 6, sender: 'me', text: "Оу, серьезное предложение. Давай обсудим детали.", time: "14:40", status: 'read', encrypted: true },
 ];
 
 export const GhostMessenger = ({ isOpen, onClose }) => {
   const [activeChat, setActiveChat] = useState(CHATS[0]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState(MESSAGES);
+  const [searchQuery, setSearchQuery] = useState('');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -79,7 +95,8 @@ export const GhostMessenger = ({ isOpen, onClose }) => {
       sender: 'me',
       text: message,
       time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
-      status: 'sent'
+      status: 'sent',
+      encrypted: true
     }]);
     setMessage('');
   };
@@ -88,101 +105,180 @@ export const GhostMessenger = ({ isOpen, onClose }) => {
 
   return (
     <AnimatePresence>
-      {/* BACKDROP */}
+      {/* HOLOGRAPHIC BACKDROP */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-xl"
+        className="fixed inset-0 z-[300]"
         onClick={onClose}
+        style={{
+          background: 'rgba(0, 0, 0, 0.6)',
+          backdropFilter: 'blur(24px)',
+        }}
       />
 
-      {/* MESSENGER CONTAINER - FULL SCREEN */}
+      {/* GHOST LINK TERMINAL - HOLOGRAPHIC CONTAINER */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ type: "spring", damping: 25 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.98, y: 10 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="fixed inset-4 z-[301] flex"
         onClick={(e) => e.stopPropagation()}
         data-testid="ghost-messenger"
       >
-        <div className="w-full h-full bg-neutral-950 border border-white/10 rounded-[32px] overflow-hidden flex shadow-2xl shadow-cyan-500/5">
+        {/* MAIN GLASS CONTAINER */}
+        <div 
+          className="w-full h-full flex overflow-hidden"
+          style={{
+            background: 'rgba(0, 0, 0, 0.6)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            boxShadow: `
+              0 0 100px rgba(0, 0, 0, 0.8),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05),
+              0 0 60px rgba(0, 255, 212, 0.03)
+            `,
+          }}
+        >
           
-          {/* === LEFT SIDEBAR (CONTACTS) === */}
-          <div className="w-[380px] border-r border-white/5 bg-black flex flex-col shrink-0">
+          {/* === LEFT SIDEBAR (CONTACTS) - GLASS === */}
+          <div 
+            className="w-[340px] flex flex-col shrink-0"
+            style={{
+              background: 'rgba(255, 255, 255, 0.02)',
+              borderRight: '1px solid rgba(255, 255, 255, 0.05)',
+            }}
+          >
             
-            {/* HEADER */}
-            <div className="p-6 border-b border-white/5 flex justify-between items-center">
+            {/* HEADER - GHOST LINK */}
+            <div 
+              className="p-5 flex justify-between items-center"
+              style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}
+            >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center">
-                  <Ghost size={20} className="text-black" />
+                <div 
+                  className="w-11 h-11 rounded-xl flex items-center justify-center"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(0, 255, 212, 0.2) 0%, rgba(0, 255, 212, 0.05) 100%)',
+                    border: '1px solid rgba(0, 255, 212, 0.3)',
+                    boxShadow: '0 0 20px rgba(0, 255, 212, 0.15)',
+                  }}
+                >
+                  <Ghost size={20} className="text-cyan-400" />
                 </div>
                 <div>
-                  <span className="font-bold text-white tracking-wide">GHOST LINK</span>
-                  <div className="text-xs text-cyan-400 font-mono">ENCRYPTED.NET</div>
+                  <div className="font-bold text-white tracking-wider text-sm">GHOST LINK</div>
+                  <div className="text-[10px] text-cyan-400/70 font-mono flex items-center gap-1.5">
+                    <Signal size={10} />
+                    <span>QUANTUM.ENCRYPTED</span>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <button className="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <Settings size={18} />
-                </button>
-              </div>
+              <button 
+                className="w-10 h-10 rounded-xl flex items-center justify-center text-white/30 hover:text-white hover:bg-white/5 transition-all"
+              >
+                <Settings size={18} />
+              </button>
             </div>
 
-            {/* SEARCH */}
-            <div className="p-4 border-b border-white/5">
-              <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/5 focus-within:border-white/20 transition-colors">
-                <Search size={18} className="text-white/30" />
+            {/* SEARCH - GLASS */}
+            <div className="p-4">
+              <div 
+                className="flex items-center gap-3 px-4 py-3 transition-all"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '12px',
+                }}
+              >
+                <Search size={16} className="text-white/20" />
                 <input 
-                  placeholder="Search messages..." 
-                  className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/30"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search nodes..." 
+                  className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/20 font-mono"
                 />
               </div>
             </div>
 
-            {/* CHAT LIST */}
-            <div className="flex-1 overflow-y-auto no-scrollbar">
-              {CHATS.map((chat) => (
+            {/* CONTACTS LIST - HOLOGRAPHIC */}
+            <div className="flex-1 overflow-y-auto no-scrollbar px-2">
+              {CHATS.filter(c => 
+                c.name.toLowerCase().includes(searchQuery.toLowerCase())
+              ).map((chat) => (
                 <motion.div 
                   key={chat.id}
                   onClick={() => setActiveChat(chat)}
-                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
-                  className={`p-4 border-b border-white/5 cursor-pointer flex gap-4 relative transition-all ${
-                    activeChat.id === chat.id 
-                      ? 'bg-white/[0.05] border-l-2 border-l-cyan-500' 
-                      : 'border-l-2 border-l-transparent'
+                  whileHover={{ x: 4 }}
+                  className={`mx-2 mb-1 p-3 cursor-pointer flex gap-3 relative transition-all rounded-xl ${
+                    activeChat.id === chat.id ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
                   }`}
+                  style={{
+                    borderLeft: activeChat.id === chat.id 
+                      ? '2px solid rgba(0, 255, 212, 0.7)' 
+                      : '2px solid transparent',
+                  }}
                 >
                   {/* Avatar */}
                   <div className="relative">
                     {chat.avatar ? (
-                      <img src={chat.avatar} className="w-12 h-12 rounded-full object-cover" alt="" />
+                      <img 
+                        src={chat.avatar} 
+                        className="w-11 h-11 rounded-xl object-cover" 
+                        style={{
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                        alt="" 
+                      />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-700/20 flex items-center justify-center border border-cyan-500/20">
-                        <Ghost size={20} className="text-cyan-400" />
+                      <div 
+                        className="w-11 h-11 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(0, 255, 212, 0.15) 0%, rgba(0, 255, 212, 0.05) 100%)',
+                          border: '1px solid rgba(0, 255, 212, 0.2)',
+                        }}
+                      >
+                        <Ghost size={18} className="text-cyan-400" />
                       </div>
                     )}
+                    {/* Online Indicator */}
                     {chat.online && (
-                      <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-black" />
+                      <div 
+                        className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full"
+                        style={{
+                          background: '#00ff88',
+                          border: '2px solid rgba(0, 0, 0, 0.8)',
+                          boxShadow: '0 0 8px rgba(0, 255, 136, 0.5)',
+                        }}
+                      />
                     )}
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-white font-bold text-sm truncate">{chat.name}</span>
-                        {chat.verified && <Shield size={12} className="text-cyan-400" />}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-white font-semibold text-sm truncate">{chat.name}</span>
+                        {chat.verified && <Shield size={11} className="text-cyan-400" />}
                       </div>
-                      <span className="text-white/30 text-xs font-mono">{chat.time}</span>
+                      <span className="text-white/20 text-[10px] font-mono">{chat.time}</span>
                     </div>
-                    <p className="text-white/40 text-xs truncate">{chat.lastMessage}</p>
+                    <p className="text-white/30 text-xs truncate">{chat.lastMessage}</p>
                   </div>
 
                   {/* Unread Badge */}
                   {chat.unread > 0 && (
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 bg-cyan-500 rounded-full flex items-center justify-center text-black text-xs font-bold">
+                    <div 
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-bold"
+                      style={{
+                        background: 'rgba(0, 255, 212, 0.9)',
+                        color: '#000',
+                        boxShadow: '0 0 10px rgba(0, 255, 212, 0.4)',
+                      }}
+                    >
                       {chat.unread}
                     </div>
                   )}
@@ -191,17 +287,47 @@ export const GhostMessenger = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* === MAIN CHAT AREA === */}
-          <div className="flex-1 flex flex-col bg-neutral-900/50 relative">
+          {/* === MAIN CHAT AREA - HOLOGRAPHIC === */}
+          <div className="flex-1 flex flex-col relative overflow-hidden">
             
-            {/* CHAT HEADER */}
-            <div className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-black/60 backdrop-blur-xl shrink-0">
+            {/* Subtle Grid Overlay */}
+            <div 
+              className="absolute inset-0 pointer-events-none opacity-[0.02]"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+              }}
+            />
+            
+            {/* CHAT HEADER - GLASS */}
+            <div 
+              className="h-20 flex items-center justify-between px-6 shrink-0"
+              style={{
+                background: 'rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(20px)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+              }}
+            >
               <div className="flex items-center gap-4">
                 {activeChat.avatar ? (
-                  <img src={activeChat.avatar} className="w-12 h-12 rounded-full object-cover" alt="" />
+                  <img 
+                    src={activeChat.avatar} 
+                    className="w-12 h-12 rounded-xl object-cover"
+                    style={{ border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    alt="" 
+                  />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-700/20 flex items-center justify-center border border-cyan-500/20">
-                    <Ghost size={20} className="text-cyan-400" />
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(0, 255, 212, 0.15) 0%, rgba(0, 255, 212, 0.05) 100%)',
+                      border: '1px solid rgba(0, 255, 212, 0.2)',
+                    }}
+                  >
+                    <Ghost size={22} className="text-cyan-400" />
                   </div>
                 )}
                 <div>
@@ -209,45 +335,56 @@ export const GhostMessenger = ({ isOpen, onClose }) => {
                     <span className="text-white font-bold text-lg">{activeChat.name}</span>
                     {activeChat.verified && <Shield size={14} className="text-cyan-400" />}
                   </div>
-                  <div className={`text-xs font-mono flex items-center gap-1 ${activeChat.online ? 'text-green-400' : 'text-white/30'}`}>
-                    <span className={`w-2 h-2 rounded-full ${activeChat.online ? 'bg-green-400' : 'bg-white/30'}`} />
-                    {activeChat.online ? 'ONLINE' : 'OFFLINE'}
+                  <div className="flex items-center gap-3 text-[11px] font-mono">
+                    <span className={`flex items-center gap-1 ${activeChat.online ? 'text-green-400' : 'text-white/25'}`}>
+                      <Wifi size={10} />
+                      {activeChat.online ? 'CONNECTED' : 'OFFLINE'}
+                    </span>
+                    <span className="text-white/20">|</span>
+                    <span className="text-cyan-400/60">TRUST: {activeChat.trust}</span>
                   </div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2">
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <Phone size={20} />
+              <div className="flex items-center gap-1">
+                <button className="w-11 h-11 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <Phone size={18} />
                 </button>
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <Video size={20} />
+                <button className="w-11 h-11 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <Video size={18} />
                 </button>
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <MoreVertical size={20} />
+                <button className="w-11 h-11 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <MoreVertical size={18} />
                 </button>
                 <div className="w-px h-8 bg-white/10 mx-2" />
                 <button 
                   onClick={onClose}
-                  className="w-12 h-12 rounded-xl hover:bg-red-500/10 flex items-center justify-center text-white/40 hover:text-red-400 transition-colors"
+                  className="w-11 h-11 rounded-xl hover:bg-red-500/10 flex items-center justify-center text-white/30 hover:text-red-400 transition-all"
                   data-testid="messenger-close"
                 >
-                  <X size={22} />
+                  <X size={20} />
                 </button>
               </div>
             </div>
 
-            {/* MESSAGES STREAM */}
-            <div className="flex-1 p-8 overflow-y-auto no-scrollbar">
+            {/* MESSAGES STREAM - DATA SHARDS */}
+            <div className="flex-1 p-6 overflow-y-auto no-scrollbar">
               {/* Date Divider */}
               <div className="flex justify-center mb-8">
-                <span className="px-4 py-1.5 bg-white/5 rounded-full text-xs font-mono text-white/30 border border-white/5">
-                  TODAY
+                <span 
+                  className="px-4 py-1.5 text-[10px] font-mono text-white/30"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    borderRadius: '4px',
+                  }}
+                >
+                  // TODAY — SESSION ACTIVE
                 </span>
               </div>
 
-              {/* Messages */}
-              <div className="space-y-6">
+              {/* Messages - DATA SHARDS STYLE */}
+              <div className="space-y-4">
                 {messages.map((msg) => (
                   <motion.div 
                     key={msg.id}
@@ -255,67 +392,119 @@ export const GhostMessenger = ({ isOpen, onClose }) => {
                     animate={{ opacity: 1, y: 0 }}
                     className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
                   >
+                    {/* INCOMING DATA SHARD */}
                     {msg.sender !== 'me' && (
-                      <img 
-                        src={activeChat.avatar} 
-                        className="w-8 h-8 rounded-full object-cover mr-3 mt-2 shrink-0" 
-                        alt="" 
-                      />
-                    )}
-                    <div className={`max-w-[60%] ${
-                      msg.sender === 'me' 
-                        ? 'bg-cyan-500/10 border-cyan-500/20 rounded-2xl rounded-tr-sm' 
-                        : 'bg-white/5 border-white/5 rounded-2xl rounded-tl-sm'
-                    } border p-4`}>
-                      <p className="text-white/90 text-sm leading-relaxed">{msg.text}</p>
-                      <div className={`flex items-center justify-end gap-2 mt-2 ${msg.sender === 'me' ? '' : 'justify-start'}`}>
-                        <span className="text-[10px] text-white/30 font-mono">{msg.time}</span>
-                        {msg.sender === 'me' && (
-                          <CheckCheck size={14} className={msg.status === 'read' ? 'text-cyan-400' : 'text-white/30'} />
-                        )}
+                      <div className="max-w-[65%]">
+                        {/* Meta Header */}
+                        <div className="flex items-center gap-2 mb-1.5 ml-1">
+                          <Lock size={9} className="text-white/20" />
+                          <span className="text-[9px] font-mono text-white/20 tracking-wider">ENCRYPTED</span>
+                          <span className="text-[9px] font-mono text-white/15">{msg.time}</span>
+                        </div>
+                        {/* Message Shard */}
+                        <div 
+                          className="p-4"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.03)',
+                            borderLeft: '2px solid rgba(255, 255, 255, 0.15)',
+                            borderRadius: '0 12px 12px 0',
+                          }}
+                        >
+                          <p className="text-white/85 text-sm leading-relaxed">{msg.text}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
+                    
+                    {/* OUTGOING DATA SHARD - CYAN GLASS */}
+                    {msg.sender === 'me' && (
+                      <div className="max-w-[65%]">
+                        {/* Meta Header */}
+                        <div className="flex items-center justify-end gap-2 mb-1.5 mr-1">
+                          <span className="text-[9px] font-mono text-white/15">{msg.time}</span>
+                          <span className="text-[9px] font-mono text-cyan-400/40 tracking-wider">SENT</span>
+                          {msg.status === 'read' && <CheckCheck size={11} className="text-cyan-400" />}
+                        </div>
+                        {/* Message Shard */}
+                        <div 
+                          className="p-4"
+                          style={{
+                            background: 'rgba(0, 255, 212, 0.06)',
+                            borderRight: '2px solid rgba(0, 255, 212, 0.4)',
+                            borderRadius: '12px 0 0 12px',
+                          }}
+                        >
+                          <p className="text-white/90 text-sm leading-relaxed">{msg.text}</p>
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
               <div ref={messagesEndRef} />
             </div>
 
-            {/* INPUT AREA */}
-            <div className="p-6 border-t border-white/5 bg-black/60 backdrop-blur-xl shrink-0">
-              <div className="flex items-center gap-4">
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <Paperclip size={20} />
+            {/* INPUT AREA - FLOATING CAPSULE */}
+            <div className="p-6 shrink-0">
+              <div 
+                className="flex items-center gap-3 p-2"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '20px',
+                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {/* Left Actions */}
+                <button className="w-10 h-10 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <Paperclip size={18} />
                 </button>
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <ImageIcon size={20} />
+                <button className="w-10 h-10 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <ImageIcon size={18} />
                 </button>
                 
-                <div className="flex-1 flex items-center gap-3 bg-white/5 px-5 py-3 rounded-2xl border border-white/10 focus-within:border-cyan-500/30 transition-colors">
+                {/* Input Field */}
+                <div className="flex-1 flex items-center gap-2 px-4">
                   <input 
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder="Type a message..." 
-                    className="flex-1 bg-transparent text-white outline-none placeholder:text-white/30"
+                    placeholder="Transmit message..." 
+                    className="flex-1 bg-transparent text-white outline-none placeholder:text-white/25 text-sm"
                   />
-                  <button className="text-white/30 hover:text-white transition-colors">
-                    <Smile size={20} />
+                  <button className="text-white/25 hover:text-white/50 transition-all">
+                    <Smile size={18} />
                   </button>
                 </div>
 
-                <button className="w-12 h-12 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                  <Mic size={20} />
+                {/* Right Actions */}
+                <button className="w-10 h-10 rounded-xl hover:bg-white/5 flex items-center justify-center text-white/30 hover:text-white transition-all">
+                  <Mic size={18} />
                 </button>
 
+                {/* Send Button - Glowing */}
                 <motion.button 
                   onClick={handleSend}
                   whileTap={{ scale: 0.95 }}
-                  className="w-14 h-14 bg-cyan-500 text-black rounded-2xl flex items-center justify-center hover:brightness-110 transition-all shadow-lg shadow-cyan-500/20"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center transition-all"
+                  style={{
+                    background: message.trim() 
+                      ? 'linear-gradient(135deg, rgba(0, 255, 212, 0.9) 0%, rgba(0, 200, 170, 0.9) 100%)'
+                      : 'rgba(255, 255, 255, 0.05)',
+                    color: message.trim() ? '#000' : 'rgba(255, 255, 255, 0.3)',
+                    boxShadow: message.trim() ? '0 0 20px rgba(0, 255, 212, 0.3)' : 'none',
+                  }}
                   data-testid="send-message-btn"
                 >
-                  <Send size={20} />
+                  <Send size={18} />
                 </motion.button>
+              </div>
+              
+              {/* Status Line */}
+              <div className="flex justify-center mt-3">
+                <span className="text-[9px] font-mono text-white/15 tracking-widest">
+                  // E2E ENCRYPTED • GHOST PROTOCOL v2.0
+                </span>
               </div>
             </div>
           </div>
