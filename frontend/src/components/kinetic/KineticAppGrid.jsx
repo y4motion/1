@@ -3,6 +3,7 @@
  * 
  * Replaces QuickAccessGrid with Kinetic style
  * Each widget shows live status and reacts to hover
+ * Some widgets have Proximity Effect - dots scatter on mouse approach
  */
 
 import React from 'react';
@@ -13,6 +14,7 @@ import {
   Monitor, ArrowLeftRight 
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { ProximityDots } from './CodeAbyss';
 
 const springBouncy = { type: "spring", stiffness: 400, damping: 20 };
 
