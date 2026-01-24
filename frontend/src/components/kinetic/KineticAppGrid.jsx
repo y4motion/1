@@ -3,7 +3,6 @@
  * 
  * Replaces QuickAccessGrid with Kinetic style
  * Each widget shows live status and reacts to hover
- * Some widgets have Proximity Effect - dots scatter on mouse approach
  */
 
 import React from 'react';
@@ -14,7 +13,6 @@ import {
   Monitor, ArrowLeftRight 
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ProximityDots } from './CodeAbyss';
 
 const springBouncy = { type: "spring", stiffness: 400, damping: 20 };
 
@@ -35,7 +33,6 @@ const itemVariants = {
 };
 
 // App configurations - STRICT MONOCHROME (Only white icons, red dots for indicators)
-// hasProximity: adds dot scatter effect on mouse hover
 const apps = [
   { 
     id: 'builder', 
@@ -44,8 +41,7 @@ const apps = [
     subtitle: 'Собрать ПК',
     link: '/pc-builder',
     badge: 'AI',
-    color: '#FFFFFF',
-    hasProximity: true  // This one gets proximity effect
+    color: '#FFFFFF'
   },
   { 
     id: 'feed', 
@@ -55,8 +51,7 @@ const apps = [
     link: '/community',
     badge: 'LIVE',
     badgePulse: true,
-    color: '#FFFFFF',
-    hasProximity: false
+    color: '#FFFFFF'
   },
   { 
     id: 'os', 
@@ -65,8 +60,7 @@ const apps = [
     subtitle: 'v2.0.4',
     link: '/mod',
     badge: null,
-    color: '#FFFFFF',
-    hasProximity: true  // This one gets proximity effect
+    color: '#FFFFFF'
   },
   { 
     id: 'swap', 
@@ -75,8 +69,7 @@ const apps = [
     subtitle: 'Обменник',
     link: '/glassy-swap',
     badge: null,
-    color: '#FFFFFF',
-    hasProximity: false
+    color: '#FFFFFF'
   },
   { 
     id: 'rating', 
@@ -85,8 +78,7 @@ const apps = [
     subtitle: 'Рейтинг',
     link: '/rating',
     badge: null,
-    color: '#FFFFFF',
-    hasProximity: true  // This one gets proximity effect
+    color: '#FFFFFF'
   },
   { 
     id: 'creators', 
@@ -95,8 +87,7 @@ const apps = [
     subtitle: 'Авторы',
     link: '/creators',
     badge: null,
-    color: '#FFFFFF',
-    hasProximity: false
+    color: '#FFFFFF'
   },
   { 
     id: 'guides', 
@@ -105,8 +96,7 @@ const apps = [
     subtitle: 'Гайды',
     link: '/articles',
     badge: null,
-    color: '#FFFFFF',
-    hasProximity: false
+    color: '#FFFFFF'
   },
   { 
     id: 'groupbuy', 
@@ -115,46 +105,35 @@ const apps = [
     subtitle: 'До -40%',
     link: '/groupbuy',
     badge: 'HOT',
-    color: '#FFFFFF',
-    hasProximity: true  // This one gets proximity effect
+    color: '#FFFFFF'
   }
 ];
 
 const AppWidget = ({ app }) => {
   const Icon = app.icon;
   
-  const content = (
-    <Link to={app.link} className="app-widget" data-testid={`app-${app.id}`}>
-      <div className="app-widget-inner">
-        {/* Icon - monochrome, thin stroke */}
-        <div className="app-icon">
-          <Icon size={28} strokeWidth={1} />
-        </div>
-        
-        {/* Title */}
-        <div className="app-title">{app.title}</div>
-        <div className="app-subtitle">{app.subtitle}</div>
-        
-        {/* Badge - only red for LIVE, else muted */}
-        {app.badge && (
-          <span className={`app-badge ${app.badgePulse ? 'pulse' : ''}`}>
-            {app.badgePulse && <span className="badge-dot" />}
-            {app.badge}
-          </span>
-        )}
-      </div>
-    </Link>
-  );
-  
   return (
     <motion.div variants={itemVariants}>
-      {app.hasProximity ? (
-        <ProximityDots dotCount={30}>
-          {content}
-        </ProximityDots>
-      ) : (
-        content
-      )}
+      <Link to={app.link} className="app-widget" data-testid={`app-${app.id}`}>
+        <div className="app-widget-inner">
+          {/* Icon - monochrome, thin stroke */}
+          <div className="app-icon">
+            <Icon size={28} strokeWidth={1} />
+          </div>
+          
+          {/* Title */}
+          <div className="app-title">{app.title}</div>
+          <div className="app-subtitle">{app.subtitle}</div>
+          
+          {/* Badge - only red for LIVE, else muted */}
+          {app.badge && (
+            <span className={`app-badge ${app.badgePulse ? 'pulse' : ''}`}>
+              {app.badgePulse && <span className="badge-dot" />}
+              {app.badge}
+            </span>
+          )}
+        </div>
+      </Link>
     </motion.div>
   );
 };
