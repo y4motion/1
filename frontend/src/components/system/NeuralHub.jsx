@@ -1090,7 +1090,6 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const renderPanel = () => {
     const goBack = () => setActivePanel(null);
     switch (activePanel) {
-      case 'profile': return <ProfilePanel onBack={goBack} />;
       case 'notifications': return <NotificationsPanel onBack={goBack} />;
       case 'settings': return <SettingsPanel onBack={goBack} />;
       case 'wallet': return <WalletPanel onBack={goBack} />;
