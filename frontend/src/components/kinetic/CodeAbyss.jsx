@@ -312,11 +312,12 @@ const CanvasASCIIShape = ({
 };
 
 // Main swimming Koi component using canvas for performance
-const SwimmingKoi = ({ mouseX, mouseY }) => {
+const SwimmingKoi = ({ mouseX, mouseY, startX = 100, startY = 200 }) => {
   const canvasRef = useRef(null);
   const frameRef = useRef(0);
-  const posRef = useRef({ x: -400, y: 250 });
+  const posRef = useRef({ x: startX, y: startY });
   const charsRef = useRef([]);
+  const scale = 1.8; // Make it BIG
   
   const parsedKoi = useMemo(() => parseShape(KOI_SHAPE, BINARY), []);
   
@@ -334,13 +335,13 @@ const SwimmingKoi = ({ mouseX, mouseY }) => {
     const render = () => {
       frameRef.current += 1;
       
-      // Swimming movement
-      posRef.current.x += 0.4;
-      posRef.current.y = 250 + Math.sin(frameRef.current / 60) * 40;
+      // Swimming movement - slower, more graceful
+      posRef.current.x += 0.3;
+      posRef.current.y = startY + Math.sin(frameRef.current / 80) * 50;
       
-      if (posRef.current.x > window.innerWidth + 400) {
-        posRef.current.x = -500;
-        posRef.current.y = 150 + Math.random() * 300;
+      if (posRef.current.x > window.innerWidth + 600) {
+        posRef.current.x = -700;
+        posRef.current.y = 100 + Math.random() * 400;
       }
       
       // Update canvas position
@@ -350,23 +351,23 @@ const SwimmingKoi = ({ mouseX, mouseY }) => {
       // Clear and draw
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update chars every few frames
-      if (frameRef.current % 5 === 0) {
+      // Update chars every few frames - animated rearranging
+      if (frameRef.current % 4 === 0) {
         charsRef.current = charsRef.current.map(char => ({
           ...char,
           char: char.isEye ? '●' : BINARY[Math.floor(Math.random() * BINARY.length)],
         }));
       }
       
-      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.font = `${14 * scale}px "JetBrains Mono", monospace`;
       
       charsRef.current.forEach(char => {
         if (char.isEye) {
-          ctx.fillStyle = 'rgba(80, 80, 80, 0.7)';
+          ctx.fillStyle = 'rgba(60, 60, 60, 0.8)';
         } else {
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
         }
-        ctx.fillText(char.char, char.x, char.y + 11);
+        ctx.fillText(char.char, char.x * scale, char.y * scale + 14 * scale);
       });
       
       animationId = requestAnimationFrame(render);
@@ -374,7 +375,7 @@ const SwimmingKoi = ({ mouseX, mouseY }) => {
     
     render();
     return () => cancelAnimationFrame(animationId);
-  }, [parsedKoi]);
+  }, [parsedKoi, startY]);
 
   return (
     <canvas
