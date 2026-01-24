@@ -481,12 +481,6 @@ export default function HeroSection() {
           />
         </form>
       </div>
-
-      {/* Bento Controls */}
-      <div className="bento-controls">
-        <ZenBento />
-        <SonicBento />
-      </div>
     </div>
   );
 }
