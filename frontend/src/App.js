@@ -67,6 +67,9 @@ function App() {
                 <ErrorBoundary>
                 <div className="App">
                   <BrowserRouter>
+                    {/* ATMOSPHERIC VOID - Global Ghost Acrylic Background */}
+                    <AtmosphericBackground />
+                    
                     <Header />
                   
                   {/* Ghost Protocol System Toast */}
