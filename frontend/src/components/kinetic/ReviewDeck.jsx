@@ -96,10 +96,10 @@ const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
     >
       <motion.div
         className="reviews-modal"
-        initial={{ scale: 0.9, opacity: 0, y: 50 }}
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 50 }}
-        onClick={e => e.stopPropagation()}
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
       >
         <div className="modal-header">
           <h2>ОТЗЫВЫ</h2>
