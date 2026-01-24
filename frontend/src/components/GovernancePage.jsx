@@ -170,7 +170,7 @@ export default function GovernancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Shape the Future</h2>
+          <h2 className="text-2xl font-bold text-white mb-1">Формируй Будущее</h2>
           <p className="text-white/40 text-sm">Vote with your RP to decide what we build next</p>
         </div>
         <div className="flex items-center gap-4">
@@ -186,7 +186,7 @@ export default function GovernancePage() {
             style={{ background: 'rgba(0, 255, 212, 0.1)', border: '1px solid rgba(0, 255, 212, 0.2)', color: '#00ffd4' }}
           >
             <Plus size={16} />
-            <span>Submit Idea</span>
+            <span>Предложить идею</span>
           </button>
         </div>
       </div>
@@ -267,7 +267,7 @@ export default function GovernancePage() {
                 {idea.daysLeft && (
                   <div className="flex items-center gap-1 mt-1.5 text-white/30 text-xs">
                     <Clock size={10} />
-                    <span>{idea.daysLeft} days left</span>
+                    <span>{idea.daysLeft} дн. осталось</span>
                   </div>
                 )}
               </div>
@@ -281,7 +281,7 @@ export default function GovernancePage() {
                   </button>
                   <button className="flex items-center gap-1.5 text-white/40 hover:text-white text-sm transition-all">
                     <Eye size={14} />
-                    <span>Details</span>
+                    <span>Детали</span>
                   </button>
                 </div>
                 
@@ -298,7 +298,7 @@ export default function GovernancePage() {
                     }`}
                   >
                     {hasVoted ? <Check size={14} /> : <ChevronUp size={14} />}
-                    <span>{hasVoted ? 'Voted' : 'Vote 100 RP'}</span>
+                    <span>{hasVoted ? 'Голос отдан' : 'Голосовать 100 RP'}</span>
                   </button>
                 )}
               </div>
