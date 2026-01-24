@@ -346,94 +346,94 @@ const CommunityNetworkWidget = () => (
 );
 
 // ============================================
-// COMBINED RATING+ROADMAP WIDGET
+// COMBINED RATING+ROADMAP WIDGET - SQUARE WIDER
 // ============================================
 const RatingRoadmapWidget = () => (
   <motion.div variants={itemVariants} style={{ gridColumn: 'span 2' }}>
-    <Link to="/rating" className="app-widget wide" data-testid="app-rating">
+    <Link to="/rating" className="app-widget" data-testid="app-rating">
       <div className="app-widget-inner" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '24px 28px',
+        padding: '24px',
+        minHeight: '140px',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{
-            width: '48px',
-            height: '48px',
-            background: 'rgba(255,159,67,0.1)',
-            borderRadius: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Trophy size={24} strokeWidth={1} style={{ opacity: 0.8, color: '#FF9F43' }} />
-          </div>
-          <div>
-            <div className="app-title" style={{ fontSize: '13px', marginBottom: '2px' }}>
-              РЕЙТИНГ & ROADMAP
-            </div>
-            <div className="app-subtitle" style={{ fontSize: '11px' }}>
-              Лидеры • Голосования • Идеи
-            </div>
-          </div>
-        </div>
-        
-        {/* Top idea preview */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
-          padding: '12px 16px',
-          background: 'rgba(255,255,255,0.03)',
-          borderRadius: '12px',
-        }}>
-          <div>
-            <div style={{ 
-              fontSize: '11px', 
-              color: 'rgba(255,255,255,0.5)',
-              marginBottom: '4px',
-              fontFamily: '"JetBrains Mono", monospace',
-            }}>
-              TOP ИДЕЯ
-            </div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
-              Dark Theme V2
-            </div>
-          </div>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '8px 12px',
-            background: 'rgba(255,159,67,0.15)',
-            borderRadius: '8px',
-          }}>
-            <ChevronUp size={14} style={{ color: '#FF9F43' }} />
-            <span style={{ 
-              fontSize: '12px', 
-              fontWeight: '600',
-              color: '#FF9F43',
-              fontFamily: '"JetBrains Mono", monospace',
-            }}>1.2K</span>
-          </div>
-        </div>
-        
+        {/* Header */}
         <div style={{ 
           display: 'flex', 
-          gap: '20px',
-          borderLeft: '1px solid rgba(255,255,255,0.06)',
-          paddingLeft: '20px',
+          justifyContent: 'space-between', 
+          alignItems: 'flex-start',
+          marginBottom: '20px',
         }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: '18px', 
-              fontWeight: '600', 
-              fontFamily: '"JetBrains Mono", monospace',
-              color: 'rgba(255,255,255,0.8)'
-            }}>Top 50</div>
-            <div style={{ fontSize: '8px', opacity: 0.4, letterSpacing: '0.5px' }}>ЛИДЕРЫ</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{
+              width: '44px',
+              height: '44px',
+              background: 'rgba(255,159,67,0.1)',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Trophy size={22} strokeWidth={1} style={{ color: '#FF9F43' }} />
+            </div>
+            <div>
+              <div className="app-title" style={{ fontSize: '13px', marginBottom: '2px' }}>
+                РЕЙТИНГ
+              </div>
+              <div className="app-subtitle" style={{ fontSize: '10px' }}>
+                Лидеры • Roadmap
+              </div>
+            </div>
           </div>
+          
+          {/* Top idea mini */}
+          <div style={{
+            padding: '8px 12px',
+            background: 'rgba(255,255,255,0.03)',
+            borderRadius: '10px',
+            fontSize: '10px',
+          }}>
+            <div style={{ color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>TOP ИДЕЯ</div>
+            <div style={{ color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              Dark Theme V2
+              <span style={{ 
+                color: '#FF9F43',
+                fontFamily: '"JetBrains Mono", monospace',
+              }}>
+                <ChevronUp size={12} style={{ display: 'inline' }} />1.2K
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Top 3 leaders */}
+        <div style={{ 
+          display: 'flex', 
+          gap: '12px',
+        }}>
+          {['VOID_ARCH', 'N1GHTM4R3', 'GHOST'].map((name, i) => (
+            <div key={i} style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '8px',
+              padding: '8px 12px',
+              background: 'rgba(255,255,255,0.03)',
+              borderRadius: '10px',
+              fontSize: '11px',
+            }}>
+              <span style={{ 
+                width: '20px',
+                height: '20px',
+                background: i === 0 ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.05)',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '10px',
+                fontFamily: '"JetBrains Mono", monospace',
+                color: i === 0 ? '#FFD700' : 'rgba(255,255,255,0.5)',
+              }}>{i + 1}</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)' }}>{name}</span>
+            </div>
+          ))}
         </div>
       </div>
     </Link>
