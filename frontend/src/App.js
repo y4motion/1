@@ -156,6 +156,10 @@ function App() {
                     <Route path="/community/network" element={<NetworkPage />} />
                     <Route path="/community/consensus" element={<ConsensusPage />} />
                     
+                    {/* New Social Engine - THE NEURAL FEED & GOVERNANCE */}
+                    <Route path="/neural-feed" element={<CommunityPage />} />
+                    <Route path="/governance" element={<GovernancePage />} />
+                    
                     <Route
                       path="/best-products"
                       element={<PlaceholderPage title="BEST PRODUCTS" />}
