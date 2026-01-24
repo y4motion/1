@@ -398,6 +398,7 @@ const SwimmingButterfly = ({ startX, startY }) => {
   const frameRef = useRef(0);
   const posRef = useRef({ x: startX, y: startY });
   const charsRef = useRef([]);
+  const scale = 1.5;
   
   const parsedButterfly = useMemo(() => parseShape(BUTTERFLY_SHAPE, NUMBERS), []);
   
@@ -416,27 +417,27 @@ const SwimmingButterfly = ({ startX, startY }) => {
       frameRef.current += 1;
       
       // Floating movement (slower, more erratic)
-      posRef.current.x += Math.sin(frameRef.current / 100) * 0.5;
-      posRef.current.y += Math.cos(frameRef.current / 80) * 0.3;
+      posRef.current.x += Math.sin(frameRef.current / 100) * 0.8;
+      posRef.current.y += Math.cos(frameRef.current / 80) * 0.5;
       
       canvas.style.left = `${posRef.current.x}px`;
       canvas.style.top = `${posRef.current.y}px`;
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update chars
-      if (frameRef.current % 8 === 0) {
+      // Update chars - animated numbers
+      if (frameRef.current % 6 === 0) {
         charsRef.current = charsRef.current.map(char => ({
           ...char,
           char: NUMBERS[Math.floor(Math.random() * NUMBERS.length)],
         }));
       }
       
-      ctx.font = '9px "JetBrains Mono", monospace';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.font = `${12 * scale}px "JetBrains Mono", monospace`;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
       
       charsRef.current.forEach(char => {
-        ctx.fillText(char.char, char.x * 0.8, char.y * 0.8 + 9);
+        ctx.fillText(char.char, char.x * scale, char.y * scale + 12 * scale);
       });
       
       animationId = requestAnimationFrame(render);
@@ -449,8 +450,8 @@ const SwimmingButterfly = ({ startX, startY }) => {
   return (
     <canvas
       ref={canvasRef}
-      width={400}
-      height={200}
+      width={600}
+      height={300}
       style={{
         position: 'absolute',
         left: startX,
