@@ -586,7 +586,59 @@
   gap: 4px;
 }
 
-/* Ghost Messenger Expand Button */
+/* Ghost Messenger Main Expand Button - PROMINENT */
+.ghost-expand-main {
+  width: 36px;
+  height: 36px;
+  margin-right: 8px;
+  border: none;
+  background: linear-gradient(135deg, rgba(0, 255, 212, 0.15) 0%, rgba(0, 255, 212, 0.05) 100%);
+  color: rgba(0, 255, 212, 0.9);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(0, 255, 212, 0.25);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.ghost-expand-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 255, 212, 0.3) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.ghost-expand-main:hover {
+  background: linear-gradient(135deg, rgba(0, 255, 212, 0.25) 0%, rgba(0, 255, 212, 0.1) 100%);
+  color: rgba(0, 255, 212, 1);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 212, 0.3),
+    inset 0 0 20px rgba(0, 255, 212, 0.1);
+  border-color: rgba(0, 255, 212, 0.5);
+  transform: scale(1.05);
+}
+
+.ghost-expand-main:hover::before {
+  opacity: 1;
+}
+
+.ghost-expand-main:active {
+  transform: scale(0.95);
+}
+
+/* Priority Tab Indicator */
+.chat-tab.priority-tab {
+  border-left: 2px solid rgba(0, 255, 212, 0.5);
+}
+
+/* Ghost Messenger Expand Button (in controls) */
 .ghost-expand-btn {
   width: 32px;
   height: 32px;
