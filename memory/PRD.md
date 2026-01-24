@@ -168,6 +168,37 @@ Build comprehensive social layer with:
 
 ---
 
+### ✅ SYSTEM CONVERGENCE (RPG Integration) - Jan 24, 2025
+
+#### RPG Integration into IdentityCore:
+- **3D Rotating Class Artifact** - Вращающийся артефакт класса над аватаром
+  - ARCHITECT → Cyan Cube (wireframe)
+  - BROKER → Amber Parabola
+  - OBSERVER → Blue Eye
+- **Trust Score Aura** - Динамическая аура вокруг аватара
+  - PHOTON ECHO (850+) — Бирюзовое свечение с пульсацией
+  - NEUTRAL (500-700) — Белое минимальное свечение
+  - DECAY (300-499) — Жёлтое мерцание
+  - GLITCH (100-299) — Красные рывки
+  - CORRUPTED (<100) — Красная дрожь
+
+#### Code Cleanup:
+- ✅ Удалён `/components/chat/GlassyChatBar.jsx` (заменён на GlassyOmniChat)
+- ✅ Удалён `/components/social/NetworkFeed.jsx` (заменён на CommunityPage)
+- ✅ Удалён `/components/social/ConsensusList.jsx` (заменён на GovernancePage)
+- ✅ Удалён `/components/_deprecated/ChatFullPage.jsx` (устаревший)
+
+#### Route Redirects:
+- `/community` → `/neural-feed`
+- `/community/network` → `/neural-feed`
+- `/community/consensus` → `/governance`
+
+#### Files Modified:
+- `IdentityCore.jsx` — Добавлены компоненты `RotatingClassArtifact` и `TrustScoreAura`
+- `App.js` — Добавлены редиректы, удалены неиспользуемые импорты
+
+---
+
 ## Next Steps 
 
 ### P0 - Critical (DONE)
