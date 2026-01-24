@@ -15,43 +15,52 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-// Fog orb configuration
+// Fog orb configuration - ENHANCED visibility
 const FOG_ORBS = [
   { 
     id: 1,
     size: 1200,
-    x: '15%',
-    y: '20%',
-    opacity: 0.025,
-    duration: 45,
+    x: '10%',
+    y: '15%',
+    opacity: 0.04,
+    duration: 40,
     delay: 0,
   },
   { 
     id: 2,
-    size: 900,
-    x: '75%',
-    y: '60%',
-    opacity: 0.02,
-    duration: 55,
+    size: 1000,
+    x: '70%',
+    y: '55%',
+    opacity: 0.035,
+    duration: 50,
     delay: 5,
   },
   { 
     id: 3,
     size: 1400,
-    x: '50%',
-    y: '80%',
-    opacity: 0.018,
-    duration: 60,
+    x: '45%',
+    y: '75%',
+    opacity: 0.03,
+    duration: 55,
     delay: 10,
   },
   { 
     id: 4,
     size: 800,
     x: '85%',
-    y: '15%',
-    opacity: 0.015,
-    duration: 50,
+    y: '10%',
+    opacity: 0.025,
+    duration: 45,
     delay: 15,
+  },
+  { 
+    id: 5,
+    size: 600,
+    x: '25%',
+    y: '60%',
+    opacity: 0.02,
+    duration: 35,
+    delay: 8,
   },
 ];
 
