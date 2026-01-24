@@ -35,12 +35,12 @@ const AGENT_STATUS = {
   READY_TO_SUGGEST: 'ready_to_suggest'
 };
 
-// Tab configuration
-const TABS = [
-  { id: 'ai', icon: Bot, label: { en: 'AI', ru: 'AI' } },
-  { id: 'messages', icon: MessageSquare, label: { en: 'Messages', ru: 'Сообщения' } },
-  { id: 'community', icon: Users, label: { en: 'Community', ru: 'Сообщество' } },
-  { id: 'support', icon: Headphones, label: { en: 'Support', ru: 'Поддержка' } },
+// Tab configuration with priorities
+const BASE_TABS = [
+  { id: 'ai', icon: Bot, label: { en: 'AI', ru: 'AI' }, basePriority: 1 },
+  { id: 'messages', icon: MessageSquare, label: { en: 'Messages', ru: 'Сообщения' }, basePriority: 2 },
+  { id: 'community', icon: Users, label: { en: 'Community', ru: 'Сообщество' }, basePriority: 3 },
+  { id: 'support', icon: Headphones, label: { en: 'Support', ru: 'Поддержка' }, basePriority: 4 },
 ];
 
 // Panel modes
