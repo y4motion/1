@@ -56,6 +56,33 @@ const ChatRedirect = () => {
   return <Navigate to="/" replace />;
 };
 
+// Global Ghost Messenger wrapper - listens for openGhostMessenger event
+const GlobalGhostMessenger = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [initData, setInitData] = useState(null);
+  
+  useEffect(() => {
+    const handleOpen = (event) => {
+      setInitData(event.detail || {});
+      setIsOpen(true);
+    };
+    
+    window.addEventListener('openGhostMessenger', handleOpen);
+    return () => window.removeEventListener('openGhostMessenger', handleOpen);
+  }, []);
+  
+  return (
+    <GhostMessenger 
+      isOpen={isOpen} 
+      onClose={() => {
+        setIsOpen(false);
+        setInitData(null);
+      }}
+      initData={initData}
+    />
+  );
+};
+
 function App() {
   return (
     <ThemeProvider>
