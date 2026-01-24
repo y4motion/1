@@ -88,8 +88,6 @@ const apps = [
     color: '#FFFFFF',
     hasProximity: true  // This one gets proximity effect
   },
-    color: '#FFFFFF'
-  },
   { 
     id: 'creators', 
     icon: Star, 
