@@ -152,9 +152,10 @@ function App() {
                     <Route path="/system-demo" element={<SystemDemo />} />
                     
                     {/* Community / Social Core */}
-                    <Route path="/community" element={<CommunityHub />} />
-                    <Route path="/community/network" element={<NetworkPage />} />
-                    <Route path="/community/consensus" element={<ConsensusPage />} />
+                    {/* Legacy community routes → redirect to new pages */}
+                    <Route path="/community" element={<Navigate to="/neural-feed" replace />} />
+                    <Route path="/community/network" element={<Navigate to="/neural-feed" replace />} />
+                    <Route path="/community/consensus" element={<Navigate to="/governance" replace />} />
                     
                     {/* New Social Engine - THE NEURAL FEED & GOVERNANCE */}
                     <Route path="/neural-feed" element={<CommunityPage />} />
