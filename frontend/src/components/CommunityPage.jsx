@@ -161,7 +161,7 @@ export default function CommunityPage() {
             >
               THE NEURAL FEED
             </h1>
-            <p className="text-white/40 text-sm font-mono">// COMMUNITY.PROTOCOL.ACTIVE</p>
+            <p className="text-white/40 text-sm font-mono">// КОММЬЮНИТИ.ПРОТОКОЛ.АКТИВЕН</p>
           </div>
           
           {/* Create Button */}
@@ -178,7 +178,7 @@ export default function CommunityPage() {
               }}
             >
               <Sparkles size={18} />
-              <span>CREATE</span>
+              <span>СОЗДАТЬ</span>
             </motion.button>
 
             {/* Create Menu */}
