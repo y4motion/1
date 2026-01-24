@@ -64,88 +64,88 @@ const fogStyles = `
   
   .atmospheric-fog-1 {
     position: absolute;
-    left: -5%;
-    top: 5%;
-    width: 800px;
-    height: 800px;
+    left: -10%;
+    top: 0%;
+    width: 900px;
+    height: 900px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.18) 0%, 
-      rgba(255, 255, 255, 0.08) 35%, 
-      rgba(255, 255, 255, 0.03) 60%, 
-      transparent 80%
+      rgba(255, 255, 255, 0.25) 0%, 
+      rgba(255, 255, 255, 0.12) 30%, 
+      rgba(255, 255, 255, 0.04) 55%, 
+      transparent 75%
     );
-    filter: blur(35px);
+    filter: blur(30px);
     animation: fog-float-1 45s ease-in-out infinite;
     pointer-events: none;
   }
   
   .atmospheric-fog-2 {
     position: absolute;
-    right: -10%;
-    top: 30%;
-    width: 1000px;
-    height: 1000px;
+    right: -15%;
+    top: 25%;
+    width: 1100px;
+    height: 1100px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.14) 0%, 
-      rgba(255, 255, 255, 0.06) 40%, 
-      rgba(255, 255, 255, 0.02) 65%, 
-      transparent 85%
+      rgba(255, 255, 255, 0.20) 0%, 
+      rgba(255, 255, 255, 0.09) 35%, 
+      rgba(255, 255, 255, 0.03) 60%, 
+      transparent 80%
     );
-    filter: blur(45px);
+    filter: blur(40px);
     animation: fog-float-2 55s ease-in-out infinite;
     pointer-events: none;
   }
   
   .atmospheric-fog-3 {
     position: absolute;
-    left: 25%;
-    bottom: -15%;
-    width: 1200px;
-    height: 1200px;
+    left: 20%;
+    bottom: -20%;
+    width: 1300px;
+    height: 1300px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.12) 0%, 
-      rgba(255, 255, 255, 0.05) 45%, 
-      rgba(255, 255, 255, 0.015) 70%, 
-      transparent 90%
+      rgba(255, 255, 255, 0.16) 0%, 
+      rgba(255, 255, 255, 0.07) 40%, 
+      rgba(255, 255, 255, 0.02) 65%, 
+      transparent 85%
     );
-    filter: blur(55px);
+    filter: blur(50px);
     animation: fog-float-3 70s ease-in-out infinite;
     pointer-events: none;
   }
   
   .atmospheric-fog-4 {
     position: absolute;
-    right: 15%;
-    top: -5%;
-    width: 600px;
-    height: 600px;
+    right: 10%;
+    top: -10%;
+    width: 700px;
+    height: 700px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.12) 0%, 
-      rgba(255, 255, 255, 0.04) 50%, 
-      transparent 75%
+      rgba(255, 255, 255, 0.18) 0%, 
+      rgba(255, 255, 255, 0.06) 45%, 
+      transparent 70%
     );
-    filter: blur(30px);
+    filter: blur(25px);
     animation: fog-pulse-slow 30s ease-in-out infinite;
     pointer-events: none;
   }
   
   .atmospheric-fog-5 {
     position: absolute;
-    left: 50%;
-    top: 40%;
-    width: 700px;
-    height: 700px;
+    left: 45%;
+    top: 35%;
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
     background: radial-gradient(circle at center, 
-      rgba(255, 255, 255, 0.09) 0%, 
-      rgba(255, 255, 255, 0.035) 45%, 
-      transparent 70%
+      rgba(255, 255, 255, 0.12) 0%, 
+      rgba(255, 255, 255, 0.04) 40%, 
+      transparent 65%
     );
-    filter: blur(40px);
+    filter: blur(35px);
     animation: fog-pulse-slow 40s ease-in-out infinite;
     animation-delay: -20s;
     pointer-events: none;
