@@ -457,7 +457,7 @@ export default function CommunityPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp size={18} className="text-cyan-400" />
-              <span className="font-semibold text-white">TRENDING</span>
+              <span className="font-semibold text-white">В ТРЕНДЕ</span>
             </div>
             <div className="space-y-3">
               {TRENDING_TAGS.map((item, i) => (
@@ -485,7 +485,7 @@ export default function CommunityPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <Crown size={18} className="text-amber-400" />
-              <span className="font-semibold text-white">TOP CREATORS</span>
+              <span className="font-semibold text-white">ТОП АВТОРЫ</span>
             </div>
             <div className="space-y-3">
               {TOP_CREATORS.map((creator) => (
