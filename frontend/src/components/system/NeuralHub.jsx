@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import IdentityCore from '../social/IdentityCore';
+import { GhostMessenger } from '../social/GhostMessenger';
 
 // Premium Avatar URL
 const AVATAR_URL = 'https://images.pexels.com/photos/27969612/pexels-photo-27969612.jpeg';
