@@ -196,33 +196,12 @@ const Header = () => {
         >
           {/* LEFT ZONE: Start + Logo + Navigation */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            {/* "Start" Button (Level Menu) - EXTREME LEFT */}
-            <div ref={lvlMenuRef}>
-              <button
-                onClick={handleLogoClick}
-                className="pulse-glow-enhanced"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '0.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  borderRadius: theme === 'minimal-mod' ? '0' : '6px',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  if (theme !== 'minimal-mod') {
-                    e.currentTarget.style.background =
-                      theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
-                  }
-                }}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
-                title={t('nav.startMenu')}
-              >
-                <Power size={24} className="icon-color" strokeWidth={2} />
-              </button>
-            </div>
+            {/* Core Pulse - Neural Hub Trigger */}
+            <CorePulse 
+              ref={lvlMenuRef}
+              trustLevel={7}
+              hasNotifications={true}
+            />
 
             {/* Logo - Return to Homepage */}
             <Link
