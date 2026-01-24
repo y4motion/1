@@ -18,9 +18,9 @@ import {
 
 // === VOTING TABS ===
 const TABS = [
-  { id: 'ideas', label: 'IDEA HUB', icon: Lightbulb, color: '#f59e0b' },
-  { id: 'glitches', label: 'GLITCH REPORT', icon: Bug, color: '#ef4444' },
-  { id: 'leaderboard', label: 'HALL OF FAME', icon: Trophy, color: '#a855f7' },
+  { id: 'ideas', label: 'ХАБ ИДЕЙ', icon: Lightbulb, color: '#f59e0b' },
+  { id: 'glitches', label: 'БАГИ', icon: Bug, color: '#ef4444' },
+  { id: 'leaderboard', label: 'ЗАЛ СЛАВЫ', icon: Trophy, color: '#a855f7' },
 ];
 
 // === IDEA STATUS ===
@@ -146,10 +146,10 @@ const MOCK_LEADERBOARD = [
 
 // === LEADERBOARD FILTERS ===
 const LEADERBOARD_FILTERS = [
-  { id: 'weekly', label: 'WEEKLY' },
-  { id: 'monthly', label: 'MONTHLY' },
-  { id: 'alltime', label: 'ALL TIME' },
-  { id: 'builders', label: 'BUILDERS' },
+  { id: 'weekly', label: 'НЕДЕЛЯ' },
+  { id: 'monthly', label: 'МЕСЯЦ' },
+  { id: 'alltime', label: 'ВСЁ ВРЕМЯ' },
+  { id: 'builders', label: 'БИЛДЕРЫ' },
 ];
 
 export default function GovernancePage() {
