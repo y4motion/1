@@ -74,10 +74,10 @@ const FogOrb = ({ size, x, y, opacity, duration, delay }) => (
       opacity: 0,
     }}
     animate={{ 
-      x: [x, `calc(${x} + 5%)`, `calc(${x} - 3%)`, x],
-      y: [y, `calc(${y} - 4%)`, `calc(${y} + 3%)`, y],
-      scale: [0.9, 1.1, 1, 0.95, 0.9],
-      opacity: [opacity * 0.7, opacity, opacity * 0.8, opacity, opacity * 0.7],
+      x: [x, `calc(${x} + 6%)`, `calc(${x} - 4%)`, x],
+      y: [y, `calc(${y} - 5%)`, `calc(${y} + 4%)`, y],
+      scale: [0.9, 1.15, 1, 0.95, 0.9],
+      opacity: [opacity * 0.6, opacity, opacity * 0.85, opacity, opacity * 0.6],
     }}
     transition={{
       duration: duration,
@@ -90,8 +90,8 @@ const FogOrb = ({ size, x, y, opacity, duration, delay }) => (
       width: `${size}px`,
       height: `${size}px`,
       borderRadius: '50%',
-      background: 'radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.5) 30%, transparent 70%)',
-      filter: 'blur(120px)',
+      background: 'radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 25%, rgba(255, 255, 255, 0.2) 50%, transparent 70%)',
+      filter: 'blur(100px)',
       pointerEvents: 'none',
       willChange: 'transform, opacity',
     }}
