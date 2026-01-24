@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Lightbulb,
   X,
+  Ghost,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
