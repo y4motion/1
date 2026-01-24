@@ -281,7 +281,7 @@ const AppWidget = ({ app }) => {
 // ============================================
 const CommunityNetworkWidget = () => (
   <motion.div variants={itemVariants} style={{ gridColumn: 'span 2' }}>
-    <Link to="/community" className="app-widget wide" data-testid="app-community">
+    <Link to="/neural-feed" className="app-widget wide" data-testid="app-community">
       <div className="app-widget-inner" style={{
         display: 'flex',
         alignItems: 'center',
@@ -302,10 +302,10 @@ const CommunityNetworkWidget = () => (
           </div>
           <div>
             <div className="app-title" style={{ fontSize: '13px', marginBottom: '2px' }}>
-              СООБЩЕСТВО
+              THE NEURAL FEED
             </div>
             <div className="app-subtitle" style={{ fontSize: '11px' }}>
-              Лента • Посты • Обсуждения
+              Сетапы • Статьи • Вопросы
             </div>
           </div>
         </div>
