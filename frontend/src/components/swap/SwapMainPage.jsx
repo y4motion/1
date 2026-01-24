@@ -164,7 +164,7 @@ const SwapMainPage = () => {
         </div>
         
         {/* Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 py-12 text-center">
+        <div className="relative z-10 w-full px-8 py-12 text-center">
           <h1 
             className="text-5xl sm:text-6xl font-light tracking-wide mb-3"
             style={{ fontFamily: isMinimalMod ? 'SF Mono, monospace' : 'inherit' }}
@@ -204,7 +204,7 @@ const SwapMainPage = () => {
       
       {/* Filters Bar */}
       <section className="sticky top-[64px] z-30 glass border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-4 py-2.5">
+        <div className="w-full px-8 py-2.5">
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             {/* Category Pills */}
             <button
@@ -329,7 +329,7 @@ const SwapMainPage = () => {
       </section>
       
       {/* Listings Grid */}
-      <section className="max-w-6xl mx-auto px-4 py-8">
+      <section className="w-full px-8 py-8">
         {loading ? (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
             {[...Array(6)].map((_, i) => (

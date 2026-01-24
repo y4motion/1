@@ -84,9 +84,8 @@ export default function HomePage() {
       <motion.main 
         className="kinetic-workspace"
         style={{ 
-          maxWidth: '1400px', 
-          margin: '0 auto', 
-          padding: '40px 24px 60px' 
+          width: '100%',
+          padding: '40px 32px 60px',
         }}
         variants={assemblyContainer}
         initial="hidden"
