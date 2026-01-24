@@ -394,7 +394,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                 className="flex gap-4 mb-6"
               >
                 <button className="h-16 px-10 bg-white text-black text-lg font-bold rounded-2xl tracking-wider hover:scale-105 transition-transform flex items-center gap-3">
-                  <UserPlus size={20} /> FOLLOW
+                  <UserPlus size={20} /> ПОДПИСАТЬСЯ
                 </button>
                 <button 
                   onClick={() => setMessengerOpen(true)}
