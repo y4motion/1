@@ -39,11 +39,11 @@ const KOI_SHAPE_DENSE = [
   '                            11111',
 ];
 
-// Parse shape into character positions - DENSE version
+// Parse shape into character positions - EXTRA DENSE version
 const parseShapeDense = (shapeArray, charSet = BINARY) => {
   const chars = [];
-  const charWidth = 6;  // Tighter!
-  const lineHeight = 10; // Tighter!
+  const charWidth = 5;  // EXTRA TIGHT!
+  const lineHeight = 8; // EXTRA TIGHT!
   
   shapeArray.forEach((row, y) => {
     for (let x = 0; x < row.length; x++) {
