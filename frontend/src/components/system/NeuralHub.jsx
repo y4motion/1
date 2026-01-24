@@ -418,15 +418,17 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
               backdropFilter: 'blur(60px)',
               WebkitBackdropFilter: 'blur(60px)',
               
-              // ELEGANT BORDER
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              // ELEGANT BORDER with glow
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '32px',
               
-              // SOFT WHITE GLOW
+              // SOFT WHITE GLOW - ENHANCED
               boxShadow: `
-                0 0 0 1px rgba(255,255,255,0.03),
-                0 25px 80px -20px rgba(0,0,0,0.5),
-                0 0 80px -30px rgba(255,255,255,0.08)
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 0 60px -15px rgba(255,255,255,0.08),
+                0 0 100px -30px rgba(255,255,255,0.06),
+                0 25px 80px -20px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.06)
               `,
               
               overflow: 'hidden',
