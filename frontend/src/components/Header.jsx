@@ -54,6 +54,7 @@ import AuthModal from './AuthModal';
 import SpinWheel from './SpinWheel';
 import QuickCartPanel from './QuickCartPanel';
 import BadgeTooltip from './BadgeTooltip';
+import { CorePulse } from './system';
 import '../styles/glassmorphism.css';
 
 const Header = () => {
