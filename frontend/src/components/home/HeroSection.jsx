@@ -1,28 +1,15 @@
 /**
- * HeroSection.jsx - Video + Search + Bento Controls
+ * HeroSection.jsx - Video + Search
  * 
  * - Full screen video
  * - Search with wave animation
- * - Bento tiles: Zen Mode + Sonic Presets
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { Moon, Volume2, VolumeX, ChevronRight } from 'lucide-react';
-import { useGhostStore } from '../../stores/useGhostStore';
 
 const VIDEO_URL = '/hero-video.mp4';
-
-// Sound presets data with preview images
-const SOUND_PRESETS = [
-  { id: 'silence', name: 'Silence', preview: null },
-  { id: 'rain', name: 'Rain', preview: '🌧️' },
-  { id: 'forest', name: 'Forest', preview: '🌲' },
-  { id: 'ocean', name: 'Ocean', preview: '🌊' },
-  { id: 'fire', name: 'Fire', preview: '🔥' },
-  { id: 'wind', name: 'Wind', preview: '💨' },
-];
 
 // Wave letter component
 const WaveLetter = ({ char, index, isVisible }) => (
@@ -46,103 +33,6 @@ const WaveLetter = ({ char, index, isVisible }) => (
     {char}
   </motion.span>
 );
-
-// Zen Mode Bento Tile
-const ZenBento = () => {
-  const { isZenMode, setZenMode } = useGhostStore();
-  
-  return (
-    <motion.button
-      className="bento-tile zen-bento"
-      onClick={() => setZenMode(!isZenMode)}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      data-testid="zen-bento"
-    >
-      <Moon size={16} strokeWidth={1.5} />
-      <span className="bento-label">ZEN</span>
-      <div className={`zen-indicator ${isZenMode ? 'active' : ''}`} />
-    </motion.button>
-  );
-};
-
-// Sonic Presets Bento Tile (horizontal scroll)
-const SonicBento = () => {
-  const { soundPreset, setSoundPreset, soundEnabled, setSoundEnabled } = useGhostStore();
-  const scrollRef = useRef(null);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  
-  const handlePresetClick = (presetId) => {
-    if (presetId === 'silence') {
-      setSoundEnabled(false);
-    } else {
-      setSoundPreset(presetId);
-      setSoundEnabled(true);
-    }
-  };
-  
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 100, behavior: 'smooth' });
-    }
-  };
-  
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
-  // Auto-scroll animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        if (scrollLeft >= scrollWidth - clientWidth - 10) {
-          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          scrollRef.current.scrollBy({ left: 80, behavior: 'smooth' });
-        }
-      }
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className="bento-tile sonic-bento" data-testid="sonic-bento">
-      <div className="sonic-header">
-        {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
-        <span className="bento-label">AMBIENT</span>
-      </div>
-      
-      <div 
-        className="sonic-presets-scroll"
-        ref={scrollRef}
-        onScroll={handleScroll}
-      >
-        {SOUND_PRESETS.map((preset) => (
-          <button
-            key={preset.id}
-            className={`sonic-preset ${soundPreset === preset.id ? 'active' : ''}`}
-            onClick={() => handlePresetClick(preset.id)}
-          >
-            <span className="preset-preview">
-              {preset.preview || '—'}
-            </span>
-          </button>
-        ))}
-      </div>
-      
-      {canScrollRight && (
-        <button className="scroll-hint" onClick={scrollRight}>
-          <ChevronRight size={12} />
-        </button>
-      )}
-    </div>
-  );
-};
 
 export default function HeroSection() {
   const [videoLoaded, setVideoLoaded] = useState(false);
