@@ -761,9 +761,9 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     {/* Navigation Grid */}
                     <div style={{ fontSize: '9px', letterSpacing: '2px', opacity: 0.3, marginBottom: '14px', fontFamily: '"JetBrains Mono", monospace' }}>НАВИГАЦИЯ</div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', flex: 1 }}>
-                      <NavTile icon={User} label="Профиль" onClick={() => setShowIdentityCore(true)} />
+                      <NavTile icon={User} label="Профиль" onClick={() => { onClose(); setShowIdentityCore(true); }} />
                       <NavTile icon={Bell} label="Уведомления" badge="3" onClick={() => setActivePanel('notifications')} />
-                      <NavTile icon={Mail} label="Сообщения" onClick={() => setShowMessenger(true)} />
+                      <NavTile icon={Mail} label="Сообщения" onClick={() => { onClose(); setShowMessenger(true); }} />
                       <NavTile icon={Package} label="Инвентарь" onClick={() => setActivePanel('inventory')} />
                       <NavTile icon={Trophy} label="Рейтинг" onClick={() => handleNavigate('/rating')} />
                       <NavTile icon={Wallet} label="Баланс" onClick={() => setActivePanel('wallet')} />
@@ -778,7 +778,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
         </motion.div>
       )}
       
-      {/* IDENTITY CORE - Full-screen profile overlay */}
+      {/* IDENTITY CORE - Full-screen profile overlay (renders outside menu) */}
       <IdentityCore 
         isOpen={showIdentityCore} 
         onClose={() => setShowIdentityCore(false)} 
