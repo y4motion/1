@@ -35,8 +35,5 @@ export { HotDealsStack } from './HotDealsStack';
 // === ZONE C: TELEMETRY ===
 export { TelemetryBar } from './TelemetryBar';
 
-// === BACKGROUND LAYER ===
-export { default as CodeAbyss, ProximityDots } from './CodeAbyss';
-
 // Import CSS
 import './kinetic.css';
