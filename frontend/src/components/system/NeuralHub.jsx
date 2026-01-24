@@ -814,7 +814,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', flex: 1 }}>
                       <NavTile icon={User} label="Профиль" onClick={() => setShowIdentityCore(true)} />
                       <NavTile icon={Bell} label="Уведомления" badge="3" onClick={() => setActivePanel('notifications')} />
-                      <NavTile icon={Mail} label="Сообщения" onClick={() => setActivePanel('messages')} />
+                      <NavTile icon={Mail} label="Сообщения" onClick={() => setShowMessenger(true)} />
                       <NavTile icon={Package} label="Инвентарь" onClick={() => setActivePanel('inventory')} />
                       <NavTile icon={Trophy} label="Рейтинг" onClick={() => handleNavigate('/rating')} />
                       <NavTile icon={Wallet} label="Баланс" onClick={() => setActivePanel('wallet')} />
@@ -833,6 +833,12 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
       <IdentityCore 
         isOpen={showIdentityCore} 
         onClose={() => setShowIdentityCore(false)} 
+      />
+      
+      {/* GHOST MESSENGER - Unified chat hub */}
+      <GhostMessenger 
+        isOpen={showMessenger} 
+        onClose={() => setShowMessenger(false)} 
       />
     </AnimatePresence>
   );
