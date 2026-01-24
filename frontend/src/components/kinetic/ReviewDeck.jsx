@@ -3,15 +3,15 @@
  * KINETIC DOT-OS - Reviews Widget
  * 
  * Two states:
- * 1. COMPACT (square) - cards stack right-to-left like flipping book pages
- * 2. EXPANDED (full width) - cards in row, new ones push old off screen
+ * 1. COMPACT (square) - cards stack, new card slides from right and covers previous completely
+ * 2. EXPANDED (full width) - stretches across page, pushes other widgets
  * 
- * Plus modal for viewing/leaving reviews with product search
+ * Click on widget to toggle states
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, Search, Star, Send, Package } from 'lucide-react';
+import { X, Star, Send, Search, Package } from 'lucide-react';
 
 const MOCK_REVIEWS = [
   {
@@ -69,89 +69,12 @@ const MOCK_PRODUCTS = [
   { id: "ram-001", name: "Corsair RAM 32GB", category: "RAM" },
 ];
 
-// Single review card for compact mode (stacking animation)
-const CompactCard = ({ review, index, isVisible }) => {
-  return (
-    <motion.div
-      className="compact-card"
-      initial={{ x: 200, opacity: 0, rotateY: -15 }}
-      animate={{ 
-        x: 0, 
-        opacity: isVisible ? 1 : 0,
-        rotateY: 0,
-        zIndex: 10 - index 
-      }}
-      exit={{ x: -100, opacity: 0, scale: 0.9 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 400, 
-        damping: 30,
-        delay: index * 0.05
-      }}
-      style={{ 
-        position: 'absolute',
-        top: index * 4,
-        left: index * 2,
-      }}
-    >
-      <p className="card-text">"{review.text}"</p>
-      <div className="card-meta">
-        <span className="card-author">@{review.author}</span>
-        <div className="card-rating">
-          {[...Array(5)].map((_, i) => (
-            <Star 
-              key={i} 
-              size={10} 
-              fill={i < review.rating ? "#fff" : "none"}
-              stroke={i < review.rating ? "#fff" : "rgba(255,255,255,0.3)"}
-            />
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-// Single review card for expanded mode (horizontal row)
-const ExpandedCard = ({ review, index }) => {
-  return (
-    <motion.div
-      className="expanded-card"
-      initial={{ x: 300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -300, opacity: 0 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 30,
-        delay: index * 0.1
-      }}
-    >
-      <div className="card-product">{review.product}</div>
-      <p className="card-text">"{review.text}"</p>
-      <div className="card-footer">
-        <span className="card-author">@{review.author}</span>
-        <div className="card-rating">
-          {[...Array(5)].map((_, i) => (
-            <Star 
-              key={i} 
-              size={12} 
-              fill={i < review.rating ? "#fff" : "none"}
-              stroke={i < review.rating ? "#fff" : "rgba(255,255,255,0.3)"}
-            />
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-// Full Reviews Modal
+// Reviews Modal
 const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [newReview, setNewReview] = useState({ text: '', rating: 5 });
-  const [activeTab, setActiveTab] = useState('browse'); // 'browse' | 'write'
+  const [activeTab, setActiveTab] = useState('browse');
 
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -160,14 +83,6 @@ const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
   const filteredReviews = selectedProduct 
     ? reviews.filter(r => r.productId === selectedProduct.id)
     : reviews;
-
-  const handleSubmitReview = () => {
-    if (!newReview.text.trim() || !selectedProduct) return;
-    // In real app, this would call API
-    console.log('Submitting review:', { ...newReview, productId: selectedProduct.id });
-    setNewReview({ text: '', rating: 5 });
-    setActiveTab('browse');
-  };
 
   if (!isOpen) return null;
 
@@ -184,142 +99,69 @@ const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
         initial={{ scale: 0.9, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 50 }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="modal-header">
           <h2>ОТЗЫВЫ</h2>
-          <button className="modal-close" onClick={onClose}>
-            <X size={18} />
-          </button>
+          <button className="modal-close" onClick={onClose}><X size={18} /></button>
         </div>
 
-        {/* Tabs */}
         <div className="modal-tabs">
-          <button 
-            className={`tab ${activeTab === 'browse' ? 'active' : ''}`}
-            onClick={() => setActiveTab('browse')}
-          >
-            СМОТРЕТЬ
-          </button>
-          <button 
-            className={`tab ${activeTab === 'write' ? 'active' : ''}`}
-            onClick={() => setActiveTab('write')}
-          >
-            НАПИСАТЬ
-          </button>
+          <button className={`tab ${activeTab === 'browse' ? 'active' : ''}`} onClick={() => setActiveTab('browse')}>СМОТРЕТЬ</button>
+          <button className={`tab ${activeTab === 'write' ? 'active' : ''}`} onClick={() => setActiveTab('write')}>НАПИСАТЬ</button>
         </div>
 
-        {/* Search */}
         <div className="modal-search">
           <Search size={14} />
-          <input
-            type="text"
-            placeholder="Найти товар..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-          />
+          <input type="text" placeholder="Найти товар..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
         </div>
 
-        {/* Product chips */}
         {searchQuery && (
           <div className="product-chips">
             {filteredProducts.map(product => (
-              <button
-                key={product.id}
-                className={`product-chip ${selectedProduct?.id === product.id ? 'active' : ''}`}
-                onClick={() => setSelectedProduct(product)}
-              >
-                <Package size={12} />
-                {product.name}
+              <button key={product.id} className={`product-chip ${selectedProduct?.id === product.id ? 'active' : ''}`} onClick={() => setSelectedProduct(product)}>
+                <Package size={12} />{product.name}
               </button>
             ))}
           </div>
         )}
 
-        {/* Selected product indicator */}
         {selectedProduct && (
           <div className="selected-product">
             <span>Товар: {selectedProduct.name}</span>
-            <button onClick={() => setSelectedProduct(null)}>
-              <X size={12} />
-            </button>
+            <button onClick={() => setSelectedProduct(null)}><X size={12} /></button>
           </div>
         )}
 
-        {/* Content */}
         <div className="modal-content">
           {activeTab === 'browse' ? (
             <div className="reviews-list">
-              {filteredReviews.length === 0 ? (
-                <div className="empty-state">
-                  <p>Отзывов пока нет</p>
-                </div>
-              ) : (
-                filteredReviews.map(review => (
-                  <div key={review.id} className="review-item">
-                    <div className="review-header">
-                      <span className="review-product">{review.product}</span>
-                      <div className="review-rating">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            size={12} 
-                            fill={i < review.rating ? "#fff" : "none"}
-                            stroke={i < review.rating ? "#fff" : "rgba(255,255,255,0.3)"}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="review-text">"{review.text}"</p>
-                    <div className="review-footer">
-                      <span className="review-author">@{review.author}</span>
-                      <span className="review-date">{review.date}</span>
-                    </div>
+              {filteredReviews.map(review => (
+                <div key={review.id} className="review-item">
+                  <div className="review-header">
+                    <span className="review-product">{review.product}</span>
+                    <div className="review-rating">{[...Array(5)].map((_, i) => <Star key={i} size={12} fill={i < review.rating ? "#fff" : "none"} stroke={i < review.rating ? "#fff" : "rgba(255,255,255,0.3)"} />)}</div>
                   </div>
-                ))
-              )}
+                  <p className="review-text">"{review.text}"</p>
+                  <div className="review-footer">
+                    <span className="review-author">@{review.author}</span>
+                    <span className="review-date">{review.date}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <div className="write-review">
               {!selectedProduct ? (
-                <div className="select-product-hint">
-                  <Package size={24} />
-                  <p>Выберите товар через поиск выше</p>
-                </div>
+                <div className="select-product-hint"><Package size={24} /><p>Выберите товар через поиск</p></div>
               ) : (
                 <>
                   <div className="rating-selector">
                     <span>Оценка:</span>
-                    <div className="stars">
-                      {[1, 2, 3, 4, 5].map(star => (
-                        <button
-                          key={star}
-                          onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
-                        >
-                          <Star 
-                            size={20} 
-                            fill={star <= newReview.rating ? "#fff" : "none"}
-                            stroke={star <= newReview.rating ? "#fff" : "rgba(255,255,255,0.3)"}
-                          />
-                        </button>
-                      ))}
-                    </div>
+                    <div className="stars">{[1,2,3,4,5].map(star => <button key={star} onClick={() => setNewReview(prev => ({...prev, rating: star}))}><Star size={20} fill={star <= newReview.rating ? "#fff" : "none"} stroke={star <= newReview.rating ? "#fff" : "rgba(255,255,255,0.3)"} /></button>)}</div>
                   </div>
-                  <textarea
-                    placeholder="Напишите ваш отзыв..."
-                    value={newReview.text}
-                    onChange={e => setNewReview(prev => ({ ...prev, text: e.target.value }))}
-                  />
-                  <button 
-                    className="submit-btn"
-                    onClick={handleSubmitReview}
-                    disabled={!newReview.text.trim()}
-                  >
-                    <Send size={14} />
-                    ОТПРАВИТЬ
-                  </button>
+                  <textarea placeholder="Напишите ваш отзыв..." value={newReview.text} onChange={e => setNewReview(prev => ({...prev, text: e.target.value}))} />
+                  <button className="submit-btn" disabled={!newReview.text.trim()}><Send size={14} />ОТПРАВИТЬ</button>
                 </>
               )}
             </div>
@@ -330,150 +172,153 @@ const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
   );
 };
 
-export const ReviewDeck = ({ 
-  reviews = MOCK_REVIEWS,
-  products = MOCK_PRODUCTS,
-  className = ''
-}) => {
+export const ReviewDeck = ({ reviews = MOCK_REVIEWS, products = MOCK_PRODUCTS, className = '' }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleReviews, setVisibleReviews] = useState(reviews.slice(0, 3));
   const intervalRef = useRef(null);
 
-  // Auto-rotate reviews in compact mode
+  // Auto-rotate reviews
   useEffect(() => {
-    if (!isExpanded) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex(prev => {
-          const next = (prev + 1) % reviews.length;
-          // Rotate visible reviews - new one comes from right
-          setVisibleReviews(prev => {
-            const newReviews = [...prev];
-            newReviews.pop(); // Remove last
-            newReviews.unshift(reviews[next]); // Add new at front
-            return newReviews;
-          });
-          return next;
-        });
-      }, 3000);
-    }
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % reviews.length);
+    }, 3500);
     return () => clearInterval(intervalRef.current);
-  }, [isExpanded, reviews]);
+  }, [reviews.length]);
 
-  // Reset on expand/collapse
-  useEffect(() => {
-    if (isExpanded) {
-      setVisibleReviews(reviews.slice(0, 5));
-    } else {
-      setVisibleReviews(reviews.slice(0, 3));
-    }
-  }, [isExpanded, reviews]);
+  const currentReview = reviews[currentIndex];
+
+  const handleWidgetClick = (e) => {
+    // Don't toggle if clicking on modal button
+    if (e.target.closest('.modal-btn')) return;
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
       <motion.div 
-        className={`review-deck ${isExpanded ? 'expanded' : 'compact'} ${className}`}
+        className={`review-deck-widget ${isExpanded ? 'expanded' : 'compact'} ${className}`}
         layout
         data-testid="review-deck"
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        onClick={handleWidgetClick}
+        style={{ cursor: 'pointer' }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
       >
         {/* Header */}
         <div className="deck-header">
           <div className="deck-title">
             <span className="live-dot" />
             <span>ОТЗЫВЫ</span>
+            <span className="review-count">{reviews.length}</span>
           </div>
-          <div className="deck-actions">
-            <button 
-              className="action-btn"
-              onClick={() => setIsExpanded(!isExpanded)}
-              title={isExpanded ? "Свернуть" : "Развернуть"}
-            >
-              <motion.div
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <ChevronRight size={14} />
-              </motion.div>
-            </button>
-            <button 
-              className="action-btn"
-              onClick={() => setIsModalOpen(true)}
-              title="Все отзывы"
-            >
-              <Star size={14} />
-            </button>
-          </div>
+          <button 
+            className="modal-btn"
+            onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
+            title="Все отзывы"
+          >
+            <Star size={14} />
+          </button>
         </div>
 
         {/* Cards Container */}
         <div className="deck-cards">
-          <AnimatePresence mode="popLayout">
-            {isExpanded ? (
-              // Expanded: horizontal row
-              visibleReviews.map((review, index) => (
-                <ExpandedCard key={review.id} review={review} index={index} />
-              ))
-            ) : (
-              // Compact: stacked cards
-              visibleReviews.map((review, index) => (
-                <CompactCard 
-                  key={review.id} 
-                  review={review} 
-                  index={index}
-                  isVisible={index < 3}
-                />
-              ))
-            )}
-          </AnimatePresence>
+          {isExpanded ? (
+            // EXPANDED: horizontal row
+            <div className="expanded-row">
+              {reviews.map((review, index) => (
+                <motion.div
+                  key={review.id}
+                  className="expanded-card"
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="card-product">{review.product}</div>
+                  <p className="card-text">"{review.text}"</p>
+                  <div className="card-footer">
+                    <span className="card-author">@{review.author}</span>
+                    <div className="card-rating">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={10} fill={i < review.rating ? "#fff" : "none"} stroke={i < review.rating ? "#fff" : "rgba(255,255,255,0.3)"} />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            // COMPACT: stacked cards, one visible at a time
+            <div className="compact-stack">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentReview.id}
+                  className="stack-card"
+                  initial={{ x: 250, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -250, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <p className="card-text">"{currentReview.text}"</p>
+                  <div className="card-footer">
+                    <div className="card-author-wrap">
+                      <span className="card-initial">{currentReview.author[0].toUpperCase()}</span>
+                      <span className="card-author">@{currentReview.author}</span>
+                    </div>
+                    <div className="card-rating">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={10} fill={i < currentReview.rating ? "#fff" : "none"} stroke={i < currentReview.rating ? "#fff" : "rgba(255,255,255,0.3)"} />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              
+              {/* Progress dots */}
+              <div className="progress-dots">
+                {reviews.slice(0, 5).map((_, i) => (
+                  <span key={i} className={`dot ${i === currentIndex % 5 ? 'active' : ''}`} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Hint */}
-        {!isExpanded && (
-          <div className="deck-hint">
-            <span>{reviews.length} отзывов</span>
-          </div>
-        )}
+        <div className="deck-hint">
+          {isExpanded ? 'TAP TO COLLAPSE' : 'TAP TO EXPAND'}
+        </div>
       </motion.div>
 
-      {/* Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <ReviewsModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            reviews={reviews}
-            products={products}
-          />
+          <ReviewsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} reviews={reviews} products={products} />
         )}
       </AnimatePresence>
 
       <style>{`
-        .review-deck {
-          background: rgba(10, 10, 10, 0.8);
+        .review-deck-widget {
+          background: #0a0a0a;
           border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: 12px;
           overflow: hidden;
           transition: all 0.3s ease;
         }
 
-        .review-deck.compact {
-          width: 280px;
-          height: 200px;
+        .review-deck-widget.compact {
+          min-width: 280px;
+          max-width: 320px;
         }
 
-        .review-deck.expanded {
+        .review-deck-widget.expanded {
+          grid-column: 1 / -1 !important;
           width: 100%;
-          height: auto;
-          min-height: 180px;
         }
 
         .deck-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px 16px;
+          padding: 14px 16px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
@@ -498,15 +343,18 @@ export const ReviewDeck = ({
 
         @keyframes pulse {
           0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          50% { opacity: 0.4; }
         }
 
-        .deck-actions {
-          display: flex;
-          gap: 8px;
+        .review-count {
+          padding: 2px 6px;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          font-size: 9px;
+          color: rgba(255, 255, 255, 0.5);
         }
 
-        .action-btn {
+        .modal-btn {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -520,88 +368,138 @@ export const ReviewDeck = ({
           transition: all 0.15s ease;
         }
 
-        .action-btn:hover {
+        .modal-btn:hover {
           background: rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.9);
+          color: white;
         }
 
         .deck-cards {
-          position: relative;
           padding: 16px;
-          min-height: 100px;
         }
 
         .compact .deck-cards {
-          height: 120px;
+          height: 140px;
         }
 
-        .expanded .deck-cards {
+        /* COMPACT: Single card stack */
+        .compact-stack {
+          position: relative;
+          height: 100%;
           display: flex;
-          gap: 12px;
-          overflow-x: auto;
-          padding-bottom: 12px;
+          flex-direction: column;
         }
 
-        .expanded .deck-cards::-webkit-scrollbar {
-          height: 4px;
-        }
-
-        .expanded .deck-cards::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.02);
-        }
-
-        .expanded .deck-cards::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 2px;
-        }
-
-        /* Compact card */
-        .compact-card {
-          width: calc(100% - 16px);
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+        .stack-card {
+          flex: 1;
+          background: #000;
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 8px;
-          padding: 12px;
-          cursor: pointer;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
         }
 
-        .compact-card .card-text {
-          font-size: 11px;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.8);
-          margin: 0 0 8px 0;
+        .stack-card .card-text {
+          flex: 1;
+          font-size: 12px;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.85);
+          margin: 0;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
 
-        .compact-card .card-meta {
+        .stack-card .card-footer {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          gap: 8px;
+          margin-top: 12px;
         }
 
-        .compact-card .card-author {
+        .card-author-wrap {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .card-initial {
+          width: 20px;
+          height: 20px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-family: 'SF Mono', monospace;
           font-size: 9px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card-author {
+          font-family: 'SF Mono', monospace;
+          font-size: 10px;
           color: rgba(255, 255, 255, 0.4);
         }
 
-        .compact-card .card-rating {
+        .card-rating {
           display: flex;
           gap: 2px;
-          margin-left: auto;
         }
 
-        /* Expanded card */
+        .progress-dots {
+          display: flex;
+          justify-content: center;
+          gap: 6px;
+          margin-top: 12px;
+        }
+
+        .progress-dots .dot {
+          width: 4px;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 50%;
+          transition: all 0.3s ease;
+        }
+
+        .progress-dots .dot.active {
+          background: rgba(255, 255, 255, 0.6);
+          width: 12px;
+          border-radius: 2px;
+        }
+
+        /* EXPANDED: Horizontal row */
+        .expanded-row {
+          display: flex;
+          gap: 12px;
+          overflow-x: auto;
+          padding-bottom: 8px;
+          scroll-snap-type: x mandatory;
+        }
+
+        .expanded-row::-webkit-scrollbar {
+          height: 4px;
+        }
+
+        .expanded-row::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        .expanded-row::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 2px;
+        }
+
         .expanded-card {
           flex-shrink: 0;
-          width: 220px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          width: 240px;
+          background: #000;
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 8px;
           padding: 14px;
+          scroll-snap-align: start;
         }
 
         .expanded-card .card-product {
@@ -609,7 +507,7 @@ export const ReviewDeck = ({
           font-size: 9px;
           font-weight: 600;
           letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.4);
           margin-bottom: 8px;
           text-transform: uppercase;
         }
@@ -617,8 +515,12 @@ export const ReviewDeck = ({
         .expanded-card .card-text {
           font-size: 12px;
           line-height: 1.5;
-          color: rgba(255, 255, 255, 0.8);
+          color: rgba(255, 255, 255, 0.85);
           margin: 0 0 12px 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .expanded-card .card-footer {
@@ -627,30 +529,20 @@ export const ReviewDeck = ({
           align-items: center;
         }
 
-        .expanded-card .card-author {
-          font-family: 'SF Mono', monospace;
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .expanded-card .card-rating {
-          display: flex;
-          gap: 2px;
-        }
-
         .deck-hint {
           padding: 8px 16px 12px;
           font-family: 'SF Mono', monospace;
           font-size: 9px;
-          color: rgba(255, 255, 255, 0.3);
+          letter-spacing: 0.1em;
+          color: rgba(255, 255, 255, 0.2);
           text-align: center;
         }
 
-        /* Modal */
+        /* Modal styles */
         .reviews-modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.85);
+          background: rgba(0, 0, 0, 0.9);
           backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
@@ -661,9 +553,9 @@ export const ReviewDeck = ({
 
         .reviews-modal {
           width: 100%;
-          max-width: 600px;
+          max-width: 560px;
           max-height: 80vh;
-          background: rgba(15, 15, 15, 0.98);
+          background: #0a0a0a;
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;
           overflow: hidden;
@@ -681,10 +573,10 @@ export const ReviewDeck = ({
 
         .modal-header h2 {
           font-family: 'SF Mono', monospace;
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 600;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.9);
+          color: white;
           margin: 0;
         }
 
@@ -699,7 +591,6 @@ export const ReviewDeck = ({
           border-radius: 8px;
           color: rgba(255, 255, 255, 0.5);
           cursor: pointer;
-          transition: all 0.15s ease;
         }
 
         .modal-close:hover {
@@ -709,38 +600,31 @@ export const ReviewDeck = ({
 
         .modal-tabs {
           display: flex;
-          padding: 0 24px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .tab {
-          padding: 14px 20px;
+          flex: 1;
+          padding: 14px;
           background: none;
           border: none;
           font-family: 'SF Mono', monospace;
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 500;
           letter-spacing: 0.1em;
           color: rgba(255, 255, 255, 0.4);
           cursor: pointer;
           position: relative;
-          transition: color 0.15s ease;
         }
 
-        .tab:hover {
-          color: rgba(255, 255, 255, 0.7);
-        }
-
-        .tab.active {
-          color: white;
-        }
-
+        .tab:hover { color: rgba(255, 255, 255, 0.7); }
+        .tab.active { color: white; }
         .tab.active::after {
           content: '';
           position: absolute;
           bottom: 0;
-          left: 0;
-          right: 0;
+          left: 20%;
+          right: 20%;
           height: 2px;
           background: white;
         }
@@ -749,17 +633,14 @@ export const ReviewDeck = ({
           display: flex;
           align-items: center;
           gap: 10px;
-          margin: 16px 24px;
-          padding: 12px 16px;
+          margin: 16px 20px;
+          padding: 12px 14px;
           background: rgba(255, 255, 255, 0.03);
           border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: 8px;
         }
 
-        .modal-search svg {
-          color: rgba(255, 255, 255, 0.3);
-        }
-
+        .modal-search svg { color: rgba(255, 255, 255, 0.3); }
         .modal-search input {
           flex: 1;
           background: none;
@@ -769,16 +650,13 @@ export const ReviewDeck = ({
           color: white;
           outline: none;
         }
-
-        .modal-search input::placeholder {
-          color: rgba(255, 255, 255, 0.3);
-        }
+        .modal-search input::placeholder { color: rgba(255, 255, 255, 0.3); }
 
         .product-chips {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          padding: 0 24px 12px;
+          padding: 0 20px 12px;
         }
 
         .product-chip {
@@ -793,23 +671,16 @@ export const ReviewDeck = ({
           font-size: 10px;
           color: rgba(255, 255, 255, 0.6);
           cursor: pointer;
-          transition: all 0.15s ease;
         }
 
-        .product-chip:hover {
-          background: rgba(255, 255, 255, 0.08);
-        }
-
-        .product-chip.active {
-          background: white;
-          color: black;
-        }
+        .product-chip:hover { background: rgba(255, 255, 255, 0.08); }
+        .product-chip.active { background: white; color: black; }
 
         .selected-product {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin: 0 24px 12px;
+          margin: 0 20px 12px;
           padding: 10px 14px;
           background: rgba(34, 197, 94, 0.1);
           border: 1px solid rgba(34, 197, 94, 0.2);
@@ -824,19 +695,18 @@ export const ReviewDeck = ({
           border: none;
           color: inherit;
           cursor: pointer;
-          padding: 2px;
         }
 
         .modal-content {
           flex: 1;
           overflow-y: auto;
-          padding: 16px 24px 24px;
+          padding: 12px 20px 20px;
         }
 
         .reviews-list {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
 
         .review-item {
@@ -855,17 +725,14 @@ export const ReviewDeck = ({
 
         .review-product {
           font-family: 'SF Mono', monospace;
-          font-size: 10px;
+          font-size: 9px;
           font-weight: 600;
           letter-spacing: 0.08em;
           color: rgba(255, 255, 255, 0.5);
           text-transform: uppercase;
         }
 
-        .review-rating {
-          display: flex;
-          gap: 2px;
-        }
+        .review-rating { display: flex; gap: 2px; }
 
         .review-text {
           font-size: 13px;
@@ -877,7 +744,6 @@ export const ReviewDeck = ({
         .review-footer {
           display: flex;
           justify-content: space-between;
-          align-items: center;
         }
 
         .review-author {
@@ -889,13 +755,7 @@ export const ReviewDeck = ({
         .review-date {
           font-family: 'SF Mono', monospace;
           font-size: 10px;
-          color: rgba(255, 255, 255, 0.25);
-        }
-
-        .empty-state {
-          text-align: center;
-          padding: 40px 20px;
-          color: rgba(255, 255, 255, 0.3);
+          color: rgba(255, 255, 255, 0.2);
         }
 
         .write-review {
@@ -909,9 +769,8 @@ export const ReviewDeck = ({
           flex-direction: column;
           align-items: center;
           gap: 12px;
-          padding: 40px 20px;
+          padding: 40px;
           color: rgba(255, 255, 255, 0.3);
-          text-align: center;
         }
 
         .rating-selector {
@@ -926,51 +785,36 @@ export const ReviewDeck = ({
           color: rgba(255, 255, 255, 0.5);
         }
 
-        .rating-selector .stars {
-          display: flex;
-          gap: 4px;
-        }
-
+        .rating-selector .stars { display: flex; gap: 4px; }
         .rating-selector button {
           background: none;
           border: none;
           cursor: pointer;
           padding: 4px;
-          transition: transform 0.15s ease;
-        }
-
-        .rating-selector button:hover {
-          transform: scale(1.2);
         }
 
         .write-review textarea {
           width: 100%;
-          min-height: 120px;
+          min-height: 100px;
           padding: 14px;
           background: rgba(255, 255, 255, 0.03);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 10px;
-          font-family: inherit;
           font-size: 13px;
           color: white;
           resize: vertical;
           outline: none;
         }
 
-        .write-review textarea:focus {
-          border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .write-review textarea::placeholder {
-          color: rgba(255, 255, 255, 0.3);
-        }
+        .write-review textarea:focus { border-color: rgba(255, 255, 255, 0.15); }
+        .write-review textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
 
         .submit-btn {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          padding: 14px 24px;
+          padding: 14px;
           background: white;
           border: none;
           border-radius: 8px;
@@ -980,28 +824,9 @@ export const ReviewDeck = ({
           letter-spacing: 0.1em;
           color: black;
           cursor: pointer;
-          transition: all 0.15s ease;
         }
 
-        .submit-btn:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-        }
-
-        .submit-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        @media (max-width: 768px) {
-          .review-deck.compact {
-            width: 100%;
-          }
-
-          .reviews-modal {
-            max-height: 90vh;
-          }
-        }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
       `}</style>
     </>
   );
