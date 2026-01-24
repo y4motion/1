@@ -59,8 +59,8 @@ const Footer = () => {
 
   // Legal links
   const legalLinks = [
-    { en: 'Privacy Policy', ru: 'Конфиденциальность', path: '/privacy' },
-    { en: 'Terms', ru: 'Условия', path: '/accessibility' },
+    { en: 'Privacy', ru: 'Privacy', path: '/privacy' },
+    { en: 'Terms', ru: 'Terms', path: '/accessibility' },
     { en: 'Cookies', ru: 'Cookies', path: '/cookies' },
   ];
 
@@ -77,7 +77,7 @@ const Footer = () => {
 
       {/* Desktop Layout */}
       <div className="terminal-desktop">
-        {/* Main pillars row */}
+        {/* Main pillars row - centered */}
         <nav className="terminal-pillars">
           {pillarKeys.map((key, index) => (
             <React.Fragment key={key}>
@@ -117,9 +117,9 @@ const Footer = () => {
             </React.Fragment>
           ))}
 
-          {/* SOCIALS - icons */}
+          {/* SOCIALS - icons with spacing */}
           <span className="terminal-dot">•</span>
-          <div className="terminal-pillar terminal-socials">
+          <div className="terminal-socials">
             <span className="terminal-pillar-label">SOCIALS</span>
             <div className="socials-icons">
               {socials.map((social, i) => (
@@ -138,9 +138,13 @@ const Footer = () => {
           </div>
         </nav>
 
-        {/* Bottom legal strip */}
-        <div className="terminal-legal-strip">
-          <div className="legal-links">
+        {/* Bottom bar: Copyright LEFT, Legal RIGHT */}
+        <div className="terminal-bottom-bar">
+          <div className="terminal-copyright">
+            © 2026 MINIMAL MOD
+          </div>
+
+          <div className="terminal-legal">
             {legalLinks.map((link, i) => (
               <React.Fragment key={i}>
                 {i > 0 && <span className="legal-dot">•</span>}
@@ -149,10 +153,6 @@ const Footer = () => {
                 </Link>
               </React.Fragment>
             ))}
-          </div>
-
-          <div className="terminal-copyright">
-            © 2024 GHOST PROTOCOL
           </div>
         </div>
       </div>
@@ -216,9 +216,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Mobile legal strip */}
-        <div className="mobile-legal">
-          <div className="legal-links">
+        {/* Mobile bottom bar */}
+        <div className="mobile-bottom-bar">
+          <div className="terminal-copyright">© 2026 MINIMAL MOD</div>
+          <div className="terminal-legal">
             {legalLinks.map((link, i) => (
               <React.Fragment key={i}>
                 {i > 0 && <span className="legal-dot">•</span>}
@@ -228,7 +229,6 @@ const Footer = () => {
               </React.Fragment>
             ))}
           </div>
-          <div className="mobile-copyright">© 2024 GHOST PROTOCOL</div>
         </div>
       </div>
 
@@ -237,7 +237,7 @@ const Footer = () => {
           position: relative;
           background: #000000;
           border-top: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 1.5rem 2rem;
+          padding: 1.5rem 2rem 1rem;
           overflow: visible;
         }
 
@@ -254,7 +254,7 @@ const Footer = () => {
         .terminal-desktop {
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 1rem;
           position: relative;
           z-index: 1;
         }
@@ -295,11 +295,11 @@ const Footer = () => {
           color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Socials inline */
+        /* Socials inline with spacing */
         .terminal-socials {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1rem;
         }
 
         .terminal-socials .terminal-pillar-label {
@@ -309,7 +309,7 @@ const Footer = () => {
         .socials-icons {
           display: flex;
           align-items: center;
-          gap: 0.625rem;
+          gap: 0.75rem;
         }
 
         .social-icon-link {
@@ -368,47 +368,47 @@ const Footer = () => {
           background: rgba(255, 255, 255, 0.04);
         }
 
-        /* Legal Strip */
-        .terminal-legal-strip {
+        /* Bottom Bar - Copyright LEFT, Legal RIGHT */
+        .terminal-bottom-bar {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding-top: 1rem;
+          padding-top: 0.875rem;
           border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .legal-links {
+        .terminal-copyright {
+          font-family: 'SF Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.15);
+        }
+
+        .terminal-legal {
           display: flex;
           align-items: center;
         }
 
         .legal-link {
           font-family: 'SF Mono', monospace;
-          font-size: 0.5rem;
-          letter-spacing: 0.08em;
+          font-size: 10px;
+          letter-spacing: 0.06em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.15);
           text-decoration: none;
           transition: color 0.15s ease;
         }
 
         .legal-link:hover {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.4);
         }
 
         .legal-dot {
-          color: rgba(255, 255, 255, 0.1);
-          font-size: 0.375rem;
+          color: rgba(255, 255, 255, 0.08);
+          font-size: 6px;
           margin: 0 0.5rem;
           user-select: none;
-        }
-
-        .terminal-copyright {
-          font-family: 'SF Mono', monospace;
-          font-size: 0.5rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.2);
         }
 
         /* Mobile */
@@ -499,29 +499,20 @@ const Footer = () => {
           gap: 1rem;
         }
 
-        /* Mobile Legal */
-        .mobile-legal {
+        /* Mobile Bottom Bar */
+        .mobile-bottom-bar {
           display: flex;
-          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
-          gap: 0.75rem;
-          margin-top: 1.25rem;
-          padding-top: 1rem;
+          margin-top: 1rem;
+          padding-top: 0.875rem;
           border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .mobile-copyright {
-          font-family: 'SF Mono', monospace;
-          font-size: 0.5rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.2);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
           .ghost-terminal-footer {
-            padding: 1.25rem 1.5rem;
+            padding: 1.25rem 1.5rem 1rem;
           }
 
           .terminal-desktop {
