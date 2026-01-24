@@ -586,6 +586,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const hubRef = useRef(null);
   const [activePanel, setActivePanel] = useState(null);
   const [showIdentityCore, setShowIdentityCore] = useState(false);
+  const [showMessenger, setShowMessenger] = useState(false);
   
   useEffect(() => {
     const handleClickOutside = (e) => {
