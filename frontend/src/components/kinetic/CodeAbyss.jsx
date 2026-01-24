@@ -157,7 +157,7 @@ const DotBlob = ({ x, y, size, density, parallaxFactor, mouseX, mouseY }) => {
           width={dot.size}
           height={dot.size}
           fill="white"
-          opacity={0.12}
+          opacity={0.18}
         />
       ))}
     </motion.svg>
