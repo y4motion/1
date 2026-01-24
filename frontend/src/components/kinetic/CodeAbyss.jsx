@@ -462,12 +462,13 @@ const SwimmingButterfly = ({ startX, startY }) => {
   );
 };
 
-// Floating Ghost
+// Floating Ghost - LARGE
 const FloatingGhost = ({ startX, startY }) => {
   const canvasRef = useRef(null);
   const frameRef = useRef(0);
   const posRef = useRef({ x: startX, y: startY });
   const charsRef = useRef([]);
+  const scale = 2.0; // BIG ghost
   
   const parsedGhost = useMemo(() => parseShape(GHOST_SHAPE, HEX), []);
   
@@ -486,29 +487,31 @@ const FloatingGhost = ({ startX, startY }) => {
       frameRef.current += 1;
       
       // Hovering motion
-      posRef.current.y = startY + Math.sin(frameRef.current / 40) * 15;
+      posRef.current.y = startY + Math.sin(frameRef.current / 40) * 25;
+      posRef.current.x = startX + Math.cos(frameRef.current / 60) * 15;
       
       canvas.style.top = `${posRef.current.y}px`;
+      canvas.style.left = `${posRef.current.x}px`;
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update chars
-      if (frameRef.current % 4 === 0) {
+      // Update chars - animated hex
+      if (frameRef.current % 3 === 0) {
         charsRef.current = charsRef.current.map(char => ({
           ...char,
           char: char.isEye ? '●' : HEX[Math.floor(Math.random() * HEX.length)],
         }));
       }
       
-      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.font = `${13 * scale}px "JetBrains Mono", monospace`;
       
       charsRef.current.forEach(char => {
         if (char.isEye) {
-          ctx.fillStyle = 'rgba(60, 60, 60, 0.8)';
+          ctx.fillStyle = 'rgba(50, 50, 50, 0.9)';
         } else {
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.14)';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.20)';
         }
-        ctx.fillText(char.char, char.x, char.y + 10);
+        ctx.fillText(char.char, char.x * scale, char.y * scale + 13 * scale);
       });
       
       animationId = requestAnimationFrame(render);
@@ -516,13 +519,13 @@ const FloatingGhost = ({ startX, startY }) => {
     
     render();
     return () => cancelAnimationFrame(animationId);
-  }, [parsedGhost, startY]);
+  }, [parsedGhost, startY, startX]);
 
   return (
     <canvas
       ref={canvasRef}
-      width={250}
-      height={250}
+      width={500}
+      height={500}
       style={{
         position: 'absolute',
         left: startX,
