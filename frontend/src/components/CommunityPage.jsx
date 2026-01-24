@@ -19,9 +19,9 @@ import {
 
 // === FEED TABS ===
 const FEED_TABS = [
-  { id: 'neuro', label: 'NEURO', icon: Sparkles, description: 'AI Recommendations' },
-  { id: 'fresh', label: 'FRESH', icon: Clock, description: 'Chronological' },
-  { id: 'elite', label: 'ELITE', icon: Crown, description: 'Top Users 90+' },
+  { id: 'neuro', label: 'НЕЙРО', icon: Sparkles, description: 'ИИ Рекомендации' },
+  { id: 'fresh', label: 'СВЕЖЕЕ', icon: Clock, description: 'Хронологический' },
+  { id: 'elite', label: 'ЭЛИТА', icon: Crown, description: 'Топ юзеры 90+' },
 ];
 
 // === MOCK POSTS DATA ===
