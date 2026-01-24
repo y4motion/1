@@ -524,15 +524,15 @@ export const KineticAppGrid = ({ className = '' }) => {
       <ZenWidget />
       <AmbientWidget />
       
-      {/* Row 2: РЕЙТИНГ (wide) + МИНИМАЛ ОС + ОБМЕН */}
+      {/* Row 2: РЕЙТИНГ (wide) + АВТОРЫ + ГАЙДЫ */}
       <RatingRoadmapWidget />
-      <AppWidget app={apps[2]} />
-      <AppWidget app={apps[3]} />
-      
-      {/* Row 3: МАРКЕТ + АВТОРЫ + ГАЙДЫ */}
-      <AppWidget app={apps[1]} />
       <AppWidget app={apps[4]} />
       <AppWidget app={apps[5]} />
+      
+      {/* Row 3: МАРКЕТ + МИНИМАЛ ОС + ОБМЕН */}
+      <AppWidget app={apps[1]} />
+      <AppWidget app={apps[2]} />
+      <AppWidget app={apps[3]} />
       
       {/* Row 4: СБОРКА ПК (wide) - внизу */}
       <AppWidget app={apps[0]} />
