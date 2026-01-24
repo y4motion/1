@@ -975,10 +975,14 @@ export default function GlassyOmniChat() {
                 <button 
                   className="emergent-expand" 
                   onClick={() => { 
-                    playClickSound(); 
-                    window.dispatchEvent(new CustomEvent('openGhostMessenger', {
-                      detail: { activeTab: activeMode, messages }
-                    }));
+                    playClickSound();
+                    setIsOpen(false); // Close mini chat
+                    // Small delay to let animation finish
+                    setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('openGhostMessenger', {
+                        detail: { activeTab: activeMode, messages }
+                      }));
+                    }, 150);
                   }} 
                   title="Развернуть"
                   data-testid="chat-expand-btn"
