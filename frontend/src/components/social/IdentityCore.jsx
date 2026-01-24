@@ -484,7 +484,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                         <div className={`text-[10px] uppercase font-mono ${
                           item.rarity === 'legendary' ? 'text-amber-400' : 
                           item.rarity === 'epic' ? 'text-purple-400' : 'text-cyan-400'
-                        }`}>{item.rarity}</div>
+                        }`}>{item.rarityLabel || item.rarity}</div>
                       </div>
                     </div>
                   ))}
@@ -498,7 +498,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                 transition={{ delay: 0.8 }}
                 className="p-6 rounded-3xl border border-white/5 bg-black/40"
               >
-                <h3 className="font-mono text-xs text-white/40 mb-6 tracking-widest">TROPHY CASE</h3>
+                <h3 className="font-mono text-xs text-white/40 mb-6 tracking-widest">ТРОФЕИ</h3>
                 <div className="grid grid-cols-4 gap-2">
                   {[Star, Shield, Trophy, Award, Zap, Eye, Flame, Ghost].map((Icon, i) => (
                     <div 
