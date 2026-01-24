@@ -9,7 +9,7 @@ import aiohttp
 import json
 
 # Backend URL
-API_URL = "https://ghostos.preview.emergentagent.com/api"
+API_URL = "https://neural-hub-19.preview.emergentagent.com/api"
 
 class PriceAlertTest:
     def __init__(self):

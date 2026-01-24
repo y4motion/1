@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://ghostos.preview.emergentagent.com/
-- **Backend API:** https://ghostos.preview.emergentagent.com/api
-- **Превью японских фото:** https://ghostos.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://neural-hub-19.preview.emergentagent.com/
+- **Backend API:** https://neural-hub-19.preview.emergentagent.com/api
+- **Превью японских фото:** https://neural-hub-19.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
