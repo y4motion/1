@@ -25,10 +25,10 @@ const TABS = [
 
 // === IDEA STATUS ===
 const STATUS_CONFIG = {
-  voting: { label: 'VOTING', color: '#3b82f6', icon: Vote },
-  approved: { label: 'APPROVED', color: '#10b981', icon: Check },
-  in_dev: { label: 'IN DEV', color: '#f59e0b', icon: Wrench },
-  shipped: { label: 'SHIPPED', color: '#8b5cf6', icon: Rocket },
+  voting: { label: 'ГОЛОСОВАНИЕ', color: '#3b82f6', icon: Vote },
+  approved: { label: 'ОДОБРЕНО', color: '#10b981', icon: Check },
+  in_dev: { label: 'В РАЗРАБОТКЕ', color: '#f59e0b', icon: Wrench },
+  shipped: { label: 'ВЫПУЩЕНО', color: '#8b5cf6', icon: Rocket },
 };
 
 // === MOCK IDEAS ===
