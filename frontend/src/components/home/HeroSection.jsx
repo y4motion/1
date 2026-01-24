@@ -322,8 +322,6 @@ export default function HeroSection() {
           color: rgba(255,255,255,0.6);
         }
       `}</style>
-
-      {/* Video Section */}
       <div className="hero-video-section">
         <video
           ref={videoRef}
