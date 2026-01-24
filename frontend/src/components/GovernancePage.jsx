@@ -322,7 +322,7 @@ export default function GovernancePage() {
           style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: '#ef4444' }}
         >
           <Bug size={16} />
-          <span>Report Bug</span>
+          <span>Репорт бага</span>
         </button>
       </div>
 
@@ -330,15 +330,15 @@ export default function GovernancePage() {
       <div className="space-y-4">
         {MOCK_GLITCHES.map((glitch, index) => {
           const severityConfig = {
-            high: { color: '#ef4444', label: 'HIGH' },
-            medium: { color: '#f59e0b', label: 'MEDIUM' },
-            low: { color: '#10b981', label: 'LOW' },
+            high: { color: '#ef4444', label: 'ВЫСОКИЙ' },
+            medium: { color: '#f59e0b', label: 'СРЕДНИЙ' },
+            low: { color: '#10b981', label: 'НИЗКИЙ' },
           }[glitch.severity];
           
           const statusConfig = {
-            investigating: { color: '#3b82f6', label: 'INVESTIGATING' },
-            confirmed: { color: '#f59e0b', label: 'CONFIRMED' },
-            fixing: { color: '#10b981', label: 'FIXING' },
+            investigating: { color: '#3b82f6', label: 'ИЗУЧАЕТСЯ' },
+            confirmed: { color: '#f59e0b', label: 'ПОДТВЕРЖДЁН' },
+            fixing: { color: '#10b981', label: 'ИСПРАВЛЯЕТСЯ' },
           }[glitch.status];
 
           return (
