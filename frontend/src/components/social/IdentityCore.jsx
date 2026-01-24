@@ -30,9 +30,9 @@ const USER = {
   classType: "architect", // architect | broker | observer
   trustScore: 850, // 0-1000 scale
   stats: {
-    followers: "12.4K",
-    trust: "98/100",
-    trades: 432
+    подписчики: "12.4K",
+    траст: "98/100",
+    сделки: 432
   },
   inventory: [
     { name: "Ghost Keycaps", rarity: "legendary" },
