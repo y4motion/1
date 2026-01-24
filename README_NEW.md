@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://neural-hub-19.preview.emergentagent.com/
-- **Backend API:** https://neural-hub-19.preview.emergentagent.com/api
-- **Превью японских фото:** https://neural-hub-19.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://tech-aura.preview.emergentagent.com/
+- **Backend API:** https://tech-aura.preview.emergentagent.com/api
+- **Превью японских фото:** https://tech-aura.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
