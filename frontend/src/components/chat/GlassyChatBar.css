@@ -586,6 +586,29 @@
   gap: 4px;
 }
 
+/* Ghost Messenger Expand Button */
+.ghost-expand-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(0, 255, 212, 0.1);
+  color: rgba(0, 255, 212, 0.7);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 255, 212, 0.2);
+}
+
+.ghost-expand-btn:hover {
+  background: rgba(0, 255, 212, 0.2);
+  color: rgba(0, 255, 212, 1);
+  box-shadow: 0 0 12px rgba(0, 255, 212, 0.3);
+  border-color: rgba(0, 255, 212, 0.4);
+}
+
 .collapse-btn {
   width: 32px;
   height: 32px;
