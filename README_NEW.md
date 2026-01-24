@@ -16,9 +16,9 @@ sudo supervisorctl status
 
 ### Доступ к приложению
 
-- **Frontend:** https://ghost-terminal.preview.emergentagent.com/
-- **Backend API:** https://ghost-terminal.preview.emergentagent.com/api
-- **Превью японских фото:** https://ghost-terminal.preview.emergentagent.com/japanese-images-preview.html
+- **Frontend:** https://ghostos.preview.emergentagent.com/
+- **Backend API:** https://ghostos.preview.emergentagent.com/api
+- **Превью японских фото:** https://ghostos.preview.emergentagent.com/japanese-images-preview.html
 
 ## 🎨 Основные Фичи
 
