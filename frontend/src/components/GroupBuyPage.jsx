@@ -69,7 +69,7 @@ function GroupBuyPage() {
   return (
     <div className="min-h-screen pt-20 pb-16" data-theme={theme}>
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 mb-6">
+      <div className="w-full px-8 mb-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <button
@@ -115,7 +115,7 @@ function GroupBuyPage() {
       </div>
 
       {/* Group Buys Grid */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full px-8">
         {loading ? (
           <div className="text-center py-12">Загрузка...</div>
         ) : groupbuys.length === 0 ? (

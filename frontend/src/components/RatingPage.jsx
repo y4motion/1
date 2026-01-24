@@ -47,7 +47,7 @@ function RatingPage() {
   return (
     <div className="min-h-screen pt-20 pb-16" data-theme={theme}>
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 mb-6">
+      <div className="w-full px-8 mb-6">
         <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => navigate(-1)}
