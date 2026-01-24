@@ -253,10 +253,10 @@ export const ReviewDeck = ({ reviews = MOCK_REVIEWS, products = MOCK_PRODUCTS, c
                 <motion.div
                   key={currentReview.id}
                   className="stack-card"
-                  initial={{ x: 250, opacity: 0 }}
+                  initial={{ x: 200, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -250, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  exit={{ x: -200, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 >
                   <p className="card-text">"{currentReview.text}"</p>
                   <div className="card-footer">
