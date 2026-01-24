@@ -35,9 +35,9 @@ const USER = {
     сделки: 432
   },
   inventory: [
-    { name: "Ghost Keycaps", rarity: "legendary" },
-    { name: "Holo Badge", rarity: "epic" },
-    { name: "Void Deskmat", rarity: "rare" },
+    { name: "Ghost Keycaps", rarity: "legendary", rarityLabel: "ЛЕГЕНДАРНЫЙ" },
+    { name: "Holo Badge", rarity: "epic", rarityLabel: "ЭПИЧЕСКИЙ" },
+    { name: "Void Deskmat", rarity: "rare", rarityLabel: "РЕДКИЙ" },
   ],
   feed: [
     { id: 1, img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800', likes: 120 },
