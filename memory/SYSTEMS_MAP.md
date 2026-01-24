@@ -500,18 +500,155 @@ App.js
 
 ---
 
-# ❓ ТРЕБУЕТ ПРОВЕРКИ
+# ✅ РЕЗУЛЬТАТЫ ПРОВЕРКИ КОМПОНЕНТОВ
 
-Компоненты со статусом ⚠️ НЕИЗВЕСТНО:
+## 1. HolographicID.jsx
+**Путь:** `/app/frontend/src/components/system/HolographicID.jsx`
+**Статус:** ✅ АКТИВЕН (используется в SystemDemo)
+**Назначение:** Голографическая ID-карточка пользователя с QR-кодом
+**Экспорт:** Через `system/index.js`
+**Используется в:** `SystemDemo.jsx` (демо-страница `/system-demo`)
+**Связь с IdentityCore:** НЕТ дублирования. HolographicID — это маленькая ID-карточка, IdentityCore — полноэкранный профиль.
 
-1. `HolographicID.jsx` — возможно дубль IdentityCore
-2. `UserResonance.jsx` — непонятное назначение
-3. `ClassArtifact.jsx` — RPG система классов?
-4. `CommunityPulse.jsx` — возможно устарел
-5. `NetworkFeed.jsx` — возможно заменен CommunityPage
-6. `ConsensusList.jsx` — возможно заменен GovernancePage
-7. `SmartChannelSwitcher.jsx` — используется ли?
-8. `GlassyChatBar.jsx` — не экспортируется, но не удален
+---
+
+## 2. UserResonance.jsx
+**Путь:** `/app/frontend/src/components/system/UserResonance.jsx`
+**Статус:** ✅ АКТИВЕН (используется в SystemDemo + может использоваться в профилях)
+**Назначение:** Визуальное отображение Trust Score как "качества сигнала"
+
+**Trust Score States:**
+| Score | Tier | Визуальный эффект |
+|-------|------|-------------------|
+| ≥800 | PHOTON ECHO | Crystal clarity, diffuse backlight, laser line |
+| 500-799 | STANDARD | Normal projection, no effects |
+| 400-499 | SIGNAL DECAY | Grayscale, noise texture overlay |
+| 200-399 | GLITCH ANOMALY | RGB split, jitter animation |
+| <200 | CRITICAL CORRUPTION | Heavy distortion, near invisible |
+
+**Экспорт:** Через `system/index.js` (UserResonance, UserResonanceCompact)
+**Используется в:** `SystemDemo.jsx`
+
+---
+
+## 3. ClassArtifact.jsx
+**Путь:** `/app/frontend/src/components/system/ClassArtifact.jsx`
+**Статус:** ✅ АКТИВЕН (RPG-система классов)
+**Назначение:** Геометрические иконки для классов пользователей
+
+**Классы:**
+| Класс | Описание | Цвет | Иконка |
+|-------|----------|------|--------|
+| ARCHITECT | Сборщик | Cyan (#00FFD4) | Isometric cube |
+| BROKER | Трейдер | Amber (#FF9F43) | Intersecting parabolas |
+| OBSERVER | Критик | Blue (#2E5CFF) | Schematic eye |
+
+**Экспорт:** Через `system/index.js` (ClassArtifact, ClassBadge)
+**Используется в:** `SystemDemo.jsx`, может использоваться в профилях
+
+---
+
+## 4. CommunityPulse.jsx
+**Путь:** `/app/frontend/src/components/social/CommunityPulse.jsx`
+**Статус:** ✅ АКТИВЕН (виджеты для главной страницы)
+**Назначение:** Два виджета для homepage — NetworkPulse и ConsensusPulse
+
+**Экспортирует:**
+- `NetworkPulse` — топовый пост из сети
+- `ConsensusPulse` — топовая идея из голосования
+- `CommunityPulse` (default) — объединяет оба
+
+**Используется в:** `KineticAppGrid.jsx` (импортирует NetworkPulse, ConsensusPulse)
+**Связь с CommunityPage:** ДОПОЛНЯЕТ. Виджеты — превью, CommunityPage — полная лента.
+
+---
+
+## 5. NetworkFeed.jsx
+**Путь:** `/app/frontend/src/components/social/NetworkFeed.jsx`
+**Статус:** ✅ АКТИВЕН (используется в NetworkPage)
+**Назначение:** Masonry-лента постов с категориями
+
+**Функционал:**
+- Masonry grid layout
+- Category tabs (ALL, ЖЕЛЕЗО, СОФТ, СЕТАПЫ, ГАЙДЫ)
+- Infinite scroll
+- PostCard с hover preview
+
+**Используется в:** `pages/community/NetworkPage.jsx`
+**Связь с CommunityPage:** ПАРАЛЛЕЛЬНЫЙ. NetworkFeed — старая версия на /community/network, CommunityPage — новая на /neural-feed
+
+---
+
+## 6. ConsensusList.jsx
+**Путь:** `/app/frontend/src/components/social/ConsensusList.jsx`
+**Статус:** ✅ АКТИВЕН (используется в ConsensusPage)
+**Назначение:** Список идей с RP-голосованием
+
+**Функционал:**
+- Ranked ideas list
+- RP voting system
+- Category filters (САЙТ, ТОВАРЫ, СОФТ, КОМЬЮНИТИ)
+- Status badges (OPEN, REVIEWING, IN PROGRESS, IMPLEMENTED, REJECTED)
+
+**Используется в:** `pages/community/ConsensusPage.jsx`
+**Связь с GovernancePage:** ПАРАЛЛЕЛЬНЫЙ. ConsensusList — старая версия на /community/consensus, GovernancePage — новая на /governance
+
+---
+
+## 7. SmartChannelSwitcher.jsx
+**Путь:** `/app/frontend/src/components/chat/SmartChannelSwitcher.jsx`
+**Статус:** ⚠️ НЕ ИСПОЛЬЗУЕТСЯ (готов к интеграции)
+**Назначение:** Горизонтальные bubbles для переключения гильдий/продавцов (как Stories в Instagram)
+
+**Функционал:**
+- Guilds mode: гильдии пользователя
+- Trade mode: активные переписки с продавцами
+- Pulsing animation для непрочитанных
+- Neon glow для активного канала
+
+**Экспорт:** НЕ экспортируется через `chat/index.js`
+**Используется в:** НИГДЕ (код готов, но не интегрирован)
+**Рекомендация:** Интегрировать в GlassyOmniChat или GhostMessenger
+
+---
+
+## 8. GlassyChatBar.jsx
+**Путь:** `/app/frontend/src/components/chat/GlassyChatBar.jsx`
+**Статус:** 🚫 DEPRECATED (заменен на GlassyOmniChat)
+**Размер:** 48KB
+
+**История:** Был основным чат-баром, заменен на GlassyOmniChat.
+**Экспорт:** Закомментирован в `chat/index.js`
+**Рекомендация:** Переместить в `_deprecated/` или удалить
+
+---
+
+# 📊 СВОДНАЯ ТАБЛИЦА КОМПОНЕНТОВ
+
+| Компонент | Статус | Используется | Рекомендация |
+|-----------|--------|--------------|--------------|
+| HolographicID | ✅ Активен | SystemDemo | Сохранить |
+| UserResonance | ✅ Активен | SystemDemo | Сохранить, интегрировать в профили |
+| ClassArtifact | ✅ Активен | SystemDemo | Сохранить, интегрировать в профили |
+| CommunityPulse | ✅ Активен | KineticAppGrid | Сохранить |
+| NetworkFeed | ✅ Активен | NetworkPage | Сохранить или объединить с CommunityPage |
+| ConsensusList | ✅ Активен | ConsensusPage | Сохранить или объединить с GovernancePage |
+| SmartChannelSwitcher | ⚠️ Не используется | — | Интегрировать в чаты |
+| GlassyChatBar | 🚫 Deprecated | — | Переместить в _deprecated |
+
+---
+
+# 🔄 ДУБЛИРУЮЩИЙСЯ ФУНКЦИОНАЛ
+
+## Социальные страницы:
+```
+СТАРАЯ СТРУКТУРА:              НОВАЯ СТРУКТУРА:
+/community                     → /neural-feed (CommunityPage)
+/community/network (NetworkFeed) → /neural-feed (CommunityPage)  
+/community/consensus (ConsensusList) → /governance (GovernancePage)
+```
+
+**Рекомендация:** Можно оставить оба варианта или редирект со старых роутов на новые.
 
 ---
 
