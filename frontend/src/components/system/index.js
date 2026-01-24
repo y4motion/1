@@ -54,3 +54,7 @@ export { NeuralHub } from './NeuralHub';
 export { CorePulse } from './CorePulse';
 export { default as NeuralHubDefault } from './NeuralHub';
 export { default as CorePulseDefault } from './CorePulse';
+
+// Atmospheric Background (Acrylic Ghost Style)
+export { AtmosphericBackground } from './AtmosphericBackground';
+export { default as AtmosphericBackgroundDefault } from './AtmosphericBackground';

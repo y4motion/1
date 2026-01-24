@@ -13,7 +13,7 @@ import { CartProvider } from './contexts/CartContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { GlassyOmniChat } from './components/chat';
-import { SystemToastContainer } from './components/system';
+import { SystemToastContainer, AtmosphericBackground } from './components/system';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import Breadcrumbs from './components/Breadcrumbs';
