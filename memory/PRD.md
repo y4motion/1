@@ -206,9 +206,12 @@ Build comprehensive social layer with:
 - [x] NetworkFeed.jsx - Masonry grid
 - [x] ConsensusList.jsx - Ideas with voting
 - [x] CommunityPulse.jsx - Homepage widget (flip card)
+- [x] **SYSTEM CONVERGENCE** - RPG Integration ✅ Jan 24, 2025
+- [x] Code Cleanup - 4 deprecated files deleted ✅
 
 ### P1 - High (Upcoming)
 - [x] **Visual Correction Pass** - Align with Nothing OS aesthetic ✅
+- [ ] **SmartChannelSwitcher** - Integrate into chat system
 - [ ] PostCreate.jsx - Create post modal
 - [ ] IdeaCreate.jsx - Create idea with RP cost
 - [ ] MonarchsBoard.jsx - Leaderboard UI
@@ -219,6 +222,7 @@ Build comprehensive social layer with:
 - [ ] NeuralHub menu integration
 - [ ] Notifications (red dots)
 - [ ] Zen Mode scroll bug fix
+- [ ] Video autoplay in hero section
 
 ---
 
