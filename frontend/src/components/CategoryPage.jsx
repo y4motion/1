@@ -28,7 +28,7 @@ const CategoryPage = () => {
       <div className="grain-overlay" />
 
       {/* Header */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto', marginBottom: '3rem' }}>
+      <div style={{ width: '100%', marginBottom: '3rem' }}>
         <Link
           to="/"
           className="text-link"
@@ -71,8 +71,7 @@ const CategoryPage = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
             gap: '2rem',
-            maxWidth: '1400px',
-            margin: '0 auto',
+            width: '100%',
           }}
         >
           {categoryProducts.map((product) => (

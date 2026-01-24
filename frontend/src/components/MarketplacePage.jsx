@@ -495,8 +495,7 @@ const MarketplacePage = () => {
 
       <div
         style={{
-          maxWidth: showFilterPanel ? '1200px' : '1400px', // Narrows when panel is open
-          margin: '0 auto',
+          width: '100%',
           padding: '0 2rem',
           transition: 'max-width 0.3s ease',
         }}
@@ -934,8 +933,7 @@ const MarketplacePage = () => {
               flexDirection: 'column',
               gap: '1.25rem',
               padding: '2rem',
-              maxWidth: '1400px',
-              margin: '0 auto',
+              width: '100%',
             }}
           >
             {products.map((product) => (

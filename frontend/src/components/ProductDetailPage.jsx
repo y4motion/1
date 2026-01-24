@@ -276,7 +276,7 @@ const ProductDetailPage = () => {
     >
       <div className="grain-overlay" />
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ width: '100%', padding: '0 2rem' }}>
         {/* Breadcrumbs */}
         <div
           style={{
