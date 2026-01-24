@@ -924,8 +924,21 @@ const GlassyChatBar = () => {
               ))}
             </div>
             
-            {/* Collapse Button + Menu Button */}
+            {/* Collapse Button + Ghost Messenger + Menu Button */}
             <div className="panel-controls">
+              {/* Open Ghost Messenger Button */}
+              <button 
+                className="ghost-expand-btn"
+                onClick={() => {
+                  // Dispatch event to open GhostMessenger
+                  window.dispatchEvent(new CustomEvent('openGhostMessenger'));
+                  handleInteraction();
+                }}
+                title={language === 'ru' ? 'Ghost Messenger' : 'Ghost Messenger'}
+              >
+                <Ghost size={18} />
+              </button>
+              
               <button 
                 className="collapse-btn"
                 onClick={() => {
@@ -960,6 +973,10 @@ const GlassyChatBar = () => {
                       <span>{language === 'ru' ? 'На весь экран' : 'Full Screen'}</span>
                     </button>
                     <div className="menu-divider" />
+                    <button onClick={() => handleMenuAction('ghostmessenger')}>
+                      <Ghost size={14} />
+                      <span>{language === 'ru' ? 'Ghost Messenger' : 'Ghost Messenger'}</span>
+                    </button>
                     <button onClick={() => handleMenuAction('popout')}>
                       <ExternalLink size={14} />
                       <span>{language === 'ru' ? 'Открепить' : 'Pop Out'}</span>
