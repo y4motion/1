@@ -628,7 +628,6 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
       case 'settings': return <SettingsPanel onBack={goBack} />;
       case 'wallet': return <WalletPanel onBack={goBack} />;
       case 'inventory': return <InventoryPanel onBack={goBack} />;
-      case 'messages': return <MessagesPanel onBack={goBack} onClose={onClose} />;
       case 'trust': return <TrustPanel onBack={goBack} />;
       default: return null;
     }
