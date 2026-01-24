@@ -243,7 +243,7 @@ export default function CommunityPage() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Share something with the community..."
+              placeholder="Поделись чем-нибудь с коммьюнити..."
               className="flex-1 bg-transparent text-white outline-none placeholder:text-white/25"
             />
             <div className="flex items-center gap-2">
