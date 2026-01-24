@@ -87,6 +87,14 @@ const GlassyChatBar = () => {
   const [activeConversation, setActiveConversation] = useState(null);
   const [conversationMessages, setConversationMessages] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(false);
+  
+  // Dynamic Tab Priorities
+  const [tabPriorities, setTabPriorities] = useState({
+    ai: 1,
+    messages: 2,
+    community: 3,
+    support: 4
+  });
 
   // Refs
   const wsRef = useRef(null);
@@ -100,6 +108,60 @@ const GlassyChatBar = () => {
   const dragStartY = useRef(0);
   const dragStartHeight = useRef(0);
   const isDraggingRef = useRef(false); // Ref for drag state to avoid closure issues
+  
+  // ========================================
+  // DYNAMIC TAB SORTING
+  // ========================================
+  
+  // Calculate dynamic tab order based on context, unread, and activity
+  const getSortedTabs = useCallback(() => {
+    const context = location.pathname;
+    const dynamicPriorities = { ...tabPriorities };
+    
+    // Boost priority based on context
+    if (context.startsWith('/glassy-swap')) {
+      dynamicPriorities.messages = 0; // Messages first on Swap pages
+      dynamicPriorities.community = 1;
+    } else if (context.startsWith('/pc-builder')) {
+      dynamicPriorities.ai = 0; // AI first on Builder
+      dynamicPriorities.support = 1;
+    } else if (context.includes('/product/')) {
+      dynamicPriorities.community = 0; // Community first on product pages
+      dynamicPriorities.ai = 1;
+    }
+    
+    // Boost tabs with unread messages
+    Object.keys(unreadCounts).forEach(tabId => {
+      if (unreadCounts[tabId] > 0) {
+        dynamicPriorities[tabId] = Math.max(0, dynamicPriorities[tabId] - 2);
+      }
+    });
+    
+    // Sort tabs by priority
+    return [...BASE_TABS].sort((a, b) => {
+      const priorityA = dynamicPriorities[a.id] ?? a.basePriority;
+      const priorityB = dynamicPriorities[b.id] ?? b.basePriority;
+      return priorityA - priorityB;
+    });
+  }, [location.pathname, tabPriorities, unreadCounts]);
+  
+  // Memoized sorted tabs
+  const sortedTabs = getSortedTabs();
+  
+  // Update priorities when context changes
+  useEffect(() => {
+    const context = location.pathname;
+    
+    if (context.startsWith('/glassy-swap')) {
+      setTabPriorities({ messages: 0, community: 1, ai: 2, support: 3 });
+    } else if (context.startsWith('/pc-builder')) {
+      setTabPriorities({ ai: 0, support: 1, community: 2, messages: 3 });
+    } else if (context.includes('/product/')) {
+      setTabPriorities({ community: 0, ai: 1, messages: 2, support: 3 });
+    } else {
+      setTabPriorities({ ai: 1, messages: 2, community: 3, support: 4 });
+    }
+  }, [location.pathname]);
 
   // ========================================
   // AUTO-COLLAPSE LOGIC
