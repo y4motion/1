@@ -1279,7 +1279,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     {/* Navigation Grid */}
                     <div style={{ fontSize: '9px', letterSpacing: '2px', opacity: 0.3, marginBottom: '14px', fontFamily: '"JetBrains Mono", monospace' }}>НАВИГАЦИЯ</div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', flex: 1 }}>
-                      <NavTile icon={User} label="Профиль" onClick={() => setActivePanel('profile')} />
+                      <NavTile icon={User} label="Профиль" onClick={() => setShowIdentityCore(true)} />
                       <NavTile icon={Bell} label="Уведомления" badge="3" onClick={() => setActivePanel('notifications')} />
                       <NavTile icon={Mail} label="Сообщения" onClick={() => setActivePanel('messages')} />
                       <NavTile icon={Package} label="Инвентарь" onClick={() => setActivePanel('inventory')} />
