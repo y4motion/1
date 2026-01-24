@@ -1,11 +1,9 @@
 /**
- * NeuralHub.jsx - ACRYLIC GHOST v7.0
+ * NeuralHub.jsx - ACRYLIC GHOST v7.1 FINAL
  * 
- * FROSTED GLASS AESTHETIC
- * Style: Nothing Phone / Teenage Engineering / iOS Dark Mode
- * 
- * STRICT MONOCHROME - No colors, just light
- * Premium, universal, clean
+ * FROSTED GLASS AESTHETIC - POLISHED EDITION
+ * + Monospace fonts for numbers
+ * + Subtle white corner glow
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -21,21 +19,99 @@ import { useAuth } from '../../contexts/AuthContext';
 // Premium Avatar URL
 const AVATAR_URL = 'https://images.pexels.com/photos/27969612/pexels-photo-27969612.jpeg';
 
-// Subtle grid pattern - very faint
+// Subtle white corner glow
+const CornerGlow = () => (
+  <>
+    {/* Top Left */}
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '120px',
+      height: '120px',
+      background: 'radial-gradient(ellipse at top left, rgba(255,255,255,0.04) 0%, transparent 70%)',
+      pointerEvents: 'none',
+    }} />
+    {/* Top Right */}
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: '120px',
+      height: '120px',
+      background: 'radial-gradient(ellipse at top right, rgba(255,255,255,0.04) 0%, transparent 70%)',
+      pointerEvents: 'none',
+    }} />
+    {/* Bottom Left */}
+    <div style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: '120px',
+      height: '120px',
+      background: 'radial-gradient(ellipse at bottom left, rgba(255,255,255,0.03) 0%, transparent 70%)',
+      pointerEvents: 'none',
+    }} />
+    {/* Bottom Right */}
+    <div style={{
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      width: '120px',
+      height: '120px',
+      background: 'radial-gradient(ellipse at bottom right, rgba(255,255,255,0.03) 0%, transparent 70%)',
+      pointerEvents: 'none',
+    }} />
+    {/* Edge highlights */}
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '200px',
+      height: '1px',
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+      pointerEvents: 'none',
+    }} />
+    <div style={{
+      position: 'absolute',
+      bottom: 0,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '200px',
+      height: '1px',
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
+      pointerEvents: 'none',
+    }} />
+  </>
+);
+
+// Subtle grid pattern
 const SubtleGrid = () => (
   <div style={{
     position: 'absolute',
     inset: 0,
     backgroundImage: `
-      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px)
     `,
     backgroundSize: '60px 60px',
     pointerEvents: 'none',
   }} />
 );
 
-// Clean stat bar - monochrome
+// Mono number display
+const MonoNum = ({ children, style = {} }) => (
+  <span style={{
+    fontFamily: '"JetBrains Mono", "SF Mono", "Fira Code", monospace',
+    fontVariantNumeric: 'tabular-nums',
+    ...style
+  }}>
+    {children}
+  </span>
+);
+
+// Clean stat bar with mono numbers
 const StatBar = ({ label, value, max }) => (
   <div style={{ marginBottom: '16px' }}>
     <div style={{ 
@@ -43,10 +119,9 @@ const StatBar = ({ label, value, max }) => (
       justifyContent: 'space-between',
       marginBottom: '8px',
       fontSize: '11px',
-      letterSpacing: '1px',
     }}>
-      <span style={{ opacity: 0.4, fontWeight: '500' }}>{label}</span>
-      <span style={{ opacity: 0.7 }}>{value}/{max}</span>
+      <span style={{ opacity: 0.4, fontWeight: '500', letterSpacing: '0.5px' }}>{label}</span>
+      <MonoNum style={{ opacity: 0.7, fontSize: '11px' }}>{value}/{max}</MonoNum>
     </div>
     <div style={{
       height: '2px',
@@ -75,7 +150,8 @@ const NavTile = ({ icon: Icon, label, badge, onClick }) => (
     onClick={onClick}
     whileHover={{ 
       backgroundColor: 'rgba(255,255,255,0.06)',
-      y: -2
+      y: -2,
+      borderColor: 'rgba(255,255,255,0.1)'
     }}
     whileTap={{ scale: 0.98 }}
     transition={{ duration: 0.2 }}
@@ -116,24 +192,31 @@ const NavTile = ({ icon: Icon, label, badge, onClick }) => (
     </span>
     
     {badge && (
-      <span style={{
-        position: 'absolute',
-        top: '16px',
-        right: '16px',
-        minWidth: '20px',
-        height: '20px',
-        padding: '0 6px',
-        background: 'rgba(255,255,255,0.9)',
-        color: 'black',
-        borderRadius: '10px',
-        fontSize: '10px',
-        fontWeight: '600',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+      <motion.span 
+        animate={{ 
+          boxShadow: ['0 0 0px rgba(255,255,255,0)', '0 0 15px rgba(255,255,255,0.3)', '0 0 0px rgba(255,255,255,0)']
+        }}
+        transition={{ duration: 2, repeat: Infinity }}
+        style={{
+          position: 'absolute',
+          top: '16px',
+          right: '16px',
+          minWidth: '20px',
+          height: '20px',
+          padding: '0 6px',
+          background: 'rgba(255,255,255,0.9)',
+          color: 'black',
+          borderRadius: '10px',
+          fontSize: '10px',
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: '"JetBrains Mono", monospace',
+        }}
+      >
         {badge}
-      </span>
+      </motion.span>
     )}
   </motion.button>
 );
@@ -144,7 +227,8 @@ const ActionCard = ({ icon: Icon, title, subtitle, onClick, isNew }) => (
     onClick={onClick}
     whileHover={{ 
       backgroundColor: 'rgba(255,255,255,0.05)',
-      borderColor: 'rgba(255,255,255,0.12)'
+      borderColor: 'rgba(255,255,255,0.12)',
+      y: -1
     }}
     whileTap={{ scale: 0.99 }}
     style={{
@@ -206,6 +290,7 @@ const ActionCard = ({ icon: Icon, title, subtitle, onClick, isNew }) => (
       <div style={{ 
         fontSize: '12px', 
         opacity: 0.4,
+        fontFamily: '"JetBrains Mono", monospace',
       }}>
         {subtitle}
       </div>
@@ -220,7 +305,8 @@ const ActionCard = ({ icon: Icon, title, subtitle, onClick, isNew }) => (
         fontSize: '10px',
         fontWeight: '600',
         letterSpacing: '1px',
-        opacity: 0.8
+        opacity: 0.8,
+        fontFamily: '"JetBrains Mono", monospace',
       }}>
         NEW
       </span>
@@ -228,7 +314,7 @@ const ActionCard = ({ icon: Icon, title, subtitle, onClick, isNew }) => (
   </motion.button>
 );
 
-// ACRYLIC GHOST Neural Hub
+// ACRYLIC GHOST Neural Hub - FINAL
 export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -282,7 +368,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
             justifyContent: 'center',
           }}
         >
-          {/* Backdrop - heavy blur */}
+          {/* Backdrop */}
           <motion.div 
             onClick={onClose}
             initial={{ backdropFilter: 'blur(0px)' }}
@@ -307,8 +393,8 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
               width: '1000px',
               height: '620px',
               
-              // FROSTED GLASS MATERIAL
-              background: 'rgba(20, 20, 20, 0.8)',
+              // FROSTED GLASS
+              background: 'rgba(18, 18, 18, 0.85)',
               backdropFilter: 'blur(60px)',
               WebkitBackdropFilter: 'blur(60px)',
               
@@ -316,11 +402,11 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
               border: '1px solid rgba(255, 255, 255, 0.08)',
               borderRadius: '32px',
               
-              // SOFT GLOW
+              // SOFT WHITE GLOW
               boxShadow: `
                 0 0 0 1px rgba(255,255,255,0.03),
-                0 25px 80px -20px rgba(0,0,0,0.6),
-                0 0 60px -20px rgba(255,255,255,0.05)
+                0 25px 80px -20px rgba(0,0,0,0.5),
+                0 0 80px -30px rgba(255,255,255,0.08)
               `,
               
               overflow: 'hidden',
@@ -333,13 +419,16 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
           >
             {/* Subtle grid */}
             <SubtleGrid />
+            
+            {/* Corner glow effects */}
+            <CornerGlow />
 
             {/* ==========================================
                 LEFT PANEL: IDENTITY
                 ========================================== */}
             <div style={{
               padding: '48px 40px',
-              background: 'rgba(0,0,0,0.2)',
+              background: 'rgba(0,0,0,0.15)',
               borderRight: '1px solid rgba(255,255,255,0.05)',
               display: 'flex',
               flexDirection: 'column',
@@ -354,9 +443,9 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                 <motion.div
                   animate={{ 
                     boxShadow: [
-                      '0 0 30px rgba(255,255,255,0.1)',
-                      '0 0 50px rgba(255,255,255,0.15)',
-                      '0 0 30px rgba(255,255,255,0.1)'
+                      '0 0 30px rgba(255,255,255,0.08)',
+                      '0 0 50px rgba(255,255,255,0.12)',
+                      '0 0 30px rgba(255,255,255,0.08)'
                     ]
                   }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -364,7 +453,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     width: '120px',
                     height: '120px',
                     borderRadius: '28px',
-                    border: '2px solid rgba(255,255,255,0.15)',
+                    border: '2px solid rgba(255,255,255,0.12)',
                     overflow: 'hidden',
                     marginBottom: '20px',
                   }}
@@ -381,13 +470,13 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   />
                 </motion.div>
                 
-                {/* Name with subtle glow */}
+                {/* Name */}
                 <div style={{ 
                   fontSize: '20px', 
                   fontWeight: '600',
                   letterSpacing: '1px',
                   marginBottom: '8px',
-                  textShadow: '0 0 30px rgba(255,255,255,0.3)',
+                  textShadow: '0 0 30px rgba(255,255,255,0.2)',
                 }}>
                   VOID_ARCHITECT
                 </div>
@@ -406,6 +495,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     border: '1px solid rgba(255,255,255,0.12)',
                     borderRadius: '20px',
                     fontWeight: '500',
+                    fontFamily: '"JetBrains Mono", monospace',
                     letterSpacing: '1px',
                   }}>
                     LVL 99
@@ -414,6 +504,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     fontSize: '11px',
                     opacity: 0.4,
                     letterSpacing: '1px',
+                    fontFamily: '"JetBrains Mono", monospace',
                   }}>
                     ORIGIN
                   </span>
@@ -428,25 +519,26 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   opacity: 0.3,
                 }}>
                   <Clock size={12} />
-                  <span>Участник с 2024</span>
+                  <span>Участник с <MonoNum>2024</MonoNum></span>
                 </div>
               </div>
               
               {/* Divider */}
               <div style={{ 
                 height: '1px', 
-                background: 'rgba(255,255,255,0.06)',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
                 margin: '8px 0 24px 0',
               }} />
               
-              {/* Stats - Human Friendly */}
+              {/* Stats */}
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ 
                   fontSize: '10px', 
                   letterSpacing: '2px', 
                   opacity: 0.3,
                   marginBottom: '16px',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  fontFamily: '"JetBrains Mono", monospace',
                 }}>
                   СТАТИСТИКА
                 </div>
@@ -462,7 +554,8 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   letterSpacing: '2px', 
                   opacity: 0.3,
                   marginBottom: '14px',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  fontFamily: '"JetBrains Mono", monospace',
                 }}>
                   ДОСТИЖЕНИЯ
                 </div>
@@ -476,7 +569,8 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                       key={i}
                       whileHover={{ 
                         scale: 1.1,
-                        backgroundColor: 'rgba(255,255,255,0.08)'
+                        backgroundColor: 'rgba(255,255,255,0.08)',
+                        borderColor: 'rgba(255,255,255,0.15)'
                       }}
                       style={{
                         width: '44px',
@@ -488,6 +582,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                         border: '1px solid rgba(255,255,255,0.06)',
                         borderRadius: '12px',
                         cursor: 'pointer',
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       <Icon size={18} strokeWidth={1.5} style={{ opacity: 0.5 }} />
@@ -498,8 +593,9 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   fontSize: '11px', 
                   opacity: 0.3, 
                   marginTop: '12px',
+                  fontFamily: '"JetBrains Mono", monospace',
                 }}>
-                  24 из 24 получено
+                  <MonoNum>24</MonoNum> из <MonoNum>24</MonoNum> получено
                 </div>
               </div>
               
@@ -509,7 +605,10 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
               {/* Logout */}
               <motion.button
                 onClick={() => { logout(); onClose(); }}
-                whileHover={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                whileHover={{ 
+                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  borderColor: 'rgba(255,255,255,0.1)'
+                }}
                 style={{
                   padding: '14px',
                   background: 'transparent',
@@ -524,6 +623,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   fontSize: '12px',
                   fontWeight: '500',
                   letterSpacing: '0.5px',
+                  transition: 'all 0.2s ease',
                 }}
               >
                 Выйти
@@ -549,13 +649,17 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                   fontSize: '10px', 
                   letterSpacing: '2px', 
                   opacity: 0.3,
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  fontFamily: '"JetBrains Mono", monospace',
                 }}>
                   БЫСТРЫЕ ДЕЙСТВИЯ
                 </div>
                 <motion.button
                   onClick={onClose}
-                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+                  whileHover={{ 
+                    backgroundColor: 'rgba(255,255,255,0.08)',
+                    borderColor: 'rgba(255,255,255,0.12)'
+                  }}
                   style={{
                     background: 'rgba(255,255,255,0.03)',
                     border: '1px solid rgba(255,255,255,0.06)',
@@ -568,6 +672,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                     cursor: 'pointer',
                     color: 'white',
                     opacity: 0.5,
+                    transition: 'all 0.2s ease',
                   }}
                 >
                   <X size={18} strokeWidth={1.5} />
@@ -602,7 +707,8 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                 letterSpacing: '2px', 
                 opacity: 0.3,
                 marginBottom: '16px',
-                fontWeight: '500'
+                fontWeight: '500',
+                fontFamily: '"JetBrains Mono", monospace',
               }}>
                 НАВИГАЦИЯ
               </div>
