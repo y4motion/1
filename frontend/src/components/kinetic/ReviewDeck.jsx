@@ -100,6 +100,7 @@ const ReviewsModal = ({ isOpen, onClose, reviews, products }) => {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        onClick={e => e.stopPropagation()}
       >
         <div className="modal-header">
           <h2>ОТЗЫВЫ</h2>
