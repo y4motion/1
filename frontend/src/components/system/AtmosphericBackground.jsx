@@ -14,44 +14,44 @@
 
 import React from 'react';
 
-// CSS for fog animation
+// CSS for fog animation - MORE VISIBLE
 const fogStyles = `
   @keyframes fog-drift-1 {
     0%, 100% { 
       transform: translate(-50%, -50%) scale(1);
-      opacity: 0.045;
+      opacity: 0.12;
     }
     50% { 
       transform: translate(-45%, -55%) scale(1.15);
-      opacity: 0.065;
+      opacity: 0.18;
     }
   }
   
   @keyframes fog-drift-2 {
     0%, 100% { 
       transform: translate(-50%, -50%) scale(1);
-      opacity: 0.04;
+      opacity: 0.1;
     }
     50% { 
       transform: translate(-55%, -45%) scale(1.1);
-      opacity: 0.055;
+      opacity: 0.14;
     }
   }
   
   @keyframes fog-drift-3 {
     0%, 100% { 
       transform: translate(-50%, -50%) scale(0.95);
-      opacity: 0.035;
+      opacity: 0.08;
     }
     50% { 
       transform: translate(-48%, -52%) scale(1.2);
-      opacity: 0.05;
+      opacity: 0.12;
     }
   }
   
   @keyframes fog-pulse {
-    0%, 100% { opacity: 0.03; }
-    50% { opacity: 0.045; }
+    0%, 100% { opacity: 0.06; }
+    50% { opacity: 0.1; }
   }
   
   .fog-orb-1 {
@@ -62,12 +62,12 @@ const fogStyles = `
     height: 900px;
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.8) 0%, 
-      rgba(255, 255, 255, 0.3) 30%, 
-      rgba(255, 255, 255, 0.05) 60%, 
-      transparent 80%
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(255, 255, 255, 0.5) 25%, 
+      rgba(255, 255, 255, 0.15) 50%, 
+      transparent 75%
     );
-    filter: blur(60px);
+    filter: blur(50px);
     animation: fog-drift-1 40s ease-in-out infinite;
     pointer-events: none;
   }
@@ -80,12 +80,12 @@ const fogStyles = `
     height: 700px;
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.7) 0%, 
-      rgba(255, 255, 255, 0.25) 35%, 
-      rgba(255, 255, 255, 0.04) 65%, 
-      transparent 85%
+      rgba(255, 255, 255, 0.9) 0%, 
+      rgba(255, 255, 255, 0.4) 30%, 
+      rgba(255, 255, 255, 0.1) 55%, 
+      transparent 80%
     );
-    filter: blur(70px);
+    filter: blur(55px);
     animation: fog-drift-2 50s ease-in-out infinite;
     animation-delay: -15s;
     pointer-events: none;
@@ -99,12 +99,12 @@ const fogStyles = `
     height: 1100px;
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.6) 0%, 
-      rgba(255, 255, 255, 0.2) 40%, 
-      rgba(255, 255, 255, 0.03) 70%, 
-      transparent 90%
+      rgba(255, 255, 255, 0.8) 0%, 
+      rgba(255, 255, 255, 0.35) 30%, 
+      rgba(255, 255, 255, 0.08) 60%, 
+      transparent 85%
     );
-    filter: blur(80px);
+    filter: blur(60px);
     animation: fog-drift-3 60s ease-in-out infinite;
     animation-delay: -25s;
     pointer-events: none;
@@ -118,11 +118,11 @@ const fogStyles = `
     height: 500px;
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(255, 255, 255, 0.5) 0%, 
-      rgba(255, 255, 255, 0.15) 40%, 
-      transparent 70%
+      rgba(255, 255, 255, 0.7) 0%, 
+      rgba(255, 255, 255, 0.25) 35%, 
+      transparent 65%
     );
-    filter: blur(50px);
+    filter: blur(40px);
     animation: fog-pulse 25s ease-in-out infinite;
     animation-delay: -10s;
     pointer-events: none;
