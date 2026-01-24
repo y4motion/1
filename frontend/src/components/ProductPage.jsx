@@ -35,7 +35,7 @@ const ProductPage = () => {
     <div className="dark-bg" style={{ minHeight: '100vh', padding: '8rem 3rem 3rem' }}>
       <div className="grain-overlay" />
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '100%' }}>
         {/* Back Button */}
         <Link
           to={`/category/${product.category.toLowerCase()}`}

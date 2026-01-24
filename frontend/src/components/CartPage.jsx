@@ -138,7 +138,7 @@ const CartPage = () => {
     >
       <div className="grain-overlay" />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+      <div style={{ width: '100%', padding: '2rem' }}>
         {/* Header */}
         <div
           style={{

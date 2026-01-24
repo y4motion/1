@@ -104,7 +104,6 @@ const CatalogMega = ({
           top: 'calc(100% + 0.5rem)',
           left: '0',
           width: '90vw',
-          maxWidth: '1200px',
           height: '420px',
           maxHeight: '420px',
           display: 'grid',
