@@ -315,7 +315,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                 <Camera size={14} /> PROJ: WHITE_VOID
               </div>
               <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full text-sm font-mono text-white/70 flex items-center gap-2">
-                <Star size={14} /> FEATURED RIG
+                <Star size={14} /> ИЗБРАННЫЙ РИГ
               </div>
             </div>
           </div>
@@ -401,7 +401,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                   className="h-16 px-10 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-lg font-bold rounded-2xl tracking-wider hover:bg-cyan-500/20 transition-all flex items-center gap-3"
                   data-testid="identity-message-btn"
                 >
-                  <MessageSquare size={20} /> MESSAGE
+                  <MessageSquare size={20} /> НАПИСАТЬ
                 </button>
                 <button className="h-16 w-16 border border-white/20 rounded-2xl flex items-center justify-center text-white/60 hover:bg-white/10 transition-all">
                   <Share2 size={22} />
@@ -466,7 +466,7 @@ const IdentityCore = ({ isOpen, onClose }) => {
                 transition={{ delay: 0.7 }}
                 className="p-6 rounded-3xl border border-white/5 bg-black/40"
               >
-                <h3 className="font-mono text-xs text-white/40 mb-6 tracking-widest">RARE LOOT</h3>
+                <h3 className="font-mono text-xs text-white/40 mb-6 tracking-widest">РЕДКИЙ ЛУТ</h3>
                 <div className="space-y-3">
                   {USER.inventory.map((item, i) => (
                     <div 
