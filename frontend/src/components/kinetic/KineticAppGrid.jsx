@@ -35,6 +35,7 @@ const itemVariants = {
 };
 
 // App configurations - STRICT MONOCHROME (Only white icons, red dots for indicators)
+// hasProximity: adds dot scatter effect on mouse hover
 const apps = [
   { 
     id: 'builder', 
@@ -43,7 +44,8 @@ const apps = [
     subtitle: 'Собрать ПК',
     link: '/pc-builder',
     badge: 'AI',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: true  // This one gets proximity effect
   },
   { 
     id: 'feed', 
@@ -53,7 +55,8 @@ const apps = [
     link: '/community',
     badge: 'LIVE',
     badgePulse: true,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: false
   },
   { 
     id: 'os', 
@@ -62,7 +65,8 @@ const apps = [
     subtitle: 'v2.0.4',
     link: '/mod',
     badge: null,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: true  // This one gets proximity effect
   },
   { 
     id: 'swap', 
@@ -71,7 +75,8 @@ const apps = [
     subtitle: 'Обменник',
     link: '/glassy-swap',
     badge: null,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: false
   },
   { 
     id: 'rating', 
@@ -80,6 +85,9 @@ const apps = [
     subtitle: 'Рейтинг',
     link: '/rating',
     badge: null,
+    color: '#FFFFFF',
+    hasProximity: true  // This one gets proximity effect
+  },
     color: '#FFFFFF'
   },
   { 
