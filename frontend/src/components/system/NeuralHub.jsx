@@ -314,51 +314,473 @@ const NavTile = ({ icon: Icon, label, badge, onClick, isActive }) => (
 // PANEL COMPONENTS
 // ============================================
 
-// PROFILE PANEL
-const ProfilePanel = ({ onBack }) => (
-  <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-    <PanelHeader title="ПРОФИЛЬ" onBack={onBack} />
-    
-    {/* Avatar Edit */}
-    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '28px' }}>
-      <div style={{ position: 'relative' }}>
-        <div style={{ width: '80px', height: '80px', borderRadius: '20px', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.1)' }}>
-          <img src={AVATAR_URL} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
+// PROFILE PANEL - OPERATOR DOSSIER
+const ProfilePanel = ({ onBack }) => {
+  const [activeTab, setActiveTab] = useState('feed');
+  
+  // Mock data
+  const battlestation = {
+    cpu: { name: 'Intel Core i9-14900K', icon: '🔲' },
+    gpu: { name: 'NVIDIA RTX 4090', icon: '🎮' },
+    ram: { name: '64GB DDR5-6000', icon: '📊' },
+    keyboard: { name: 'AGAR 60 Ghost', icon: '⌨️' },
+    mouse: { name: 'Razer Viper V3 Pro', icon: '🖱️' },
+    monitor: { name: 'LG 27GR95QE OLED', icon: '🖥️' },
+  };
+  
+  const achievements = [
+    { id: 1, name: 'Первопроходец', icon: '🚀', rarity: 'legendary' },
+    { id: 2, name: 'Коллекционер', icon: '💎', rarity: 'rare' },
+    { id: 3, name: 'Архитектор', icon: '🏗️', rarity: 'legendary' },
+    { id: 4, name: 'Топ Продавец', icon: '⭐', rarity: 'rare' },
+    { id: 5, name: '100 Сделок', icon: '🤝', rarity: 'common' },
+    { id: 6, name: 'Верификация', icon: '✓', rarity: 'common' },
+  ];
+  
+  const feedPosts = [
+    { id: 1, image: '🖥️', title: 'Новый сетап готов!', likes: 847, comments: 64 },
+    { id: 2, image: '⌨️', title: 'Ghost Keycaps установлены', likes: 523, comments: 38 },
+    { id: 3, image: '🎮', title: 'RTX 4090 в деле', likes: 1205, comments: 156 },
+  ];
+  
+  const reviews = [
+    { id: 1, product: 'AGAR 60 Keyboard', rating: 5, text: 'Лучшая клавиатура!', date: '2 дня назад' },
+    { id: 2, product: 'Void Keycaps Set', rating: 5, text: 'Качество топ', date: '1 неделю назад' },
+  ];
+
+  return (
+    <div style={{ height: '100%', display: 'flex', gap: '0' }}>
+      
+      {/* LEFT: ID CARD (30%) */}
+      <div style={{
+        width: '280px',
+        flexShrink: 0,
+        padding: '32px 28px',
+        background: 'rgba(0,0,0,0.2)',
+        borderRight: '1px solid rgba(255,255,255,0.05)',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        {/* Back button */}
         <motion.button
-          whileHover={{ scale: 1.1 }}
+          onClick={onBack}
+          whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
           style={{
-            position: 'absolute', bottom: -4, right: -4,
-            width: '28px', height: '28px',
-            background: 'white', color: 'black',
-            borderRadius: '10px', border: 'none',
+            width: '36px', height: '36px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '10px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer',
+            cursor: 'pointer', color: 'white',
+            marginBottom: '24px',
           }}
         >
-          <Camera size={14} />
+          <ChevronLeft size={16} />
         </motion.button>
+        
+        {/* Avatar with animated ring */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '24px' }}>
+          <div style={{ position: 'relative', marginBottom: '16px' }}>
+            {/* Rotating ring */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+              style={{
+                position: 'absolute',
+                inset: -6,
+                borderRadius: '28px',
+                border: '2px solid transparent',
+                borderTopColor: 'rgba(255,255,255,0.3)',
+                borderRightColor: 'rgba(255,255,255,0.1)',
+              }}
+            />
+            {/* Glowing border */}
+            <motion.div
+              animate={{ 
+                boxShadow: ['0 0 20px rgba(255,255,255,0.1)', '0 0 40px rgba(255,255,255,0.2)', '0 0 20px rgba(255,255,255,0.1)']
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              style={{
+                width: '110px', height: '110px',
+                borderRadius: '24px',
+                border: '2px solid rgba(255,255,255,0.15)',
+                overflow: 'hidden',
+              }}
+            >
+              <img src={AVATAR_URL} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} />
+            </motion.div>
+            {/* Level badge */}
+            <div style={{
+              position: 'absolute', bottom: -8, right: -8,
+              padding: '4px 10px',
+              background: 'rgba(255,215,0,0.2)',
+              border: '1px solid rgba(255,215,0,0.3)',
+              borderRadius: '10px',
+              fontSize: '10px',
+              fontWeight: '700',
+              fontFamily: '"JetBrains Mono", monospace',
+              color: '#FFD700',
+            }}>
+              LVL 99
+            </div>
+          </div>
+          
+          {/* Name & Class */}
+          <div style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '1px', marginBottom: '4px' }}>
+            VOID_ARCHITECT
+          </div>
+          <div style={{
+            fontSize: '10px',
+            padding: '4px 12px',
+            background: 'rgba(138,43,226,0.15)',
+            border: '1px solid rgba(138,43,226,0.25)',
+            borderRadius: '12px',
+            color: '#9370DB',
+            fontFamily: '"JetBrains Mono", monospace',
+            letterSpacing: '1px',
+            marginBottom: '8px',
+          }}>
+            ARCHITECT
+          </div>
+          <div style={{ fontSize: '10px', opacity: 0.3, fontFamily: '"JetBrains Mono", monospace' }}>
+            @void_architect · 2024
+          </div>
+        </div>
+        
+        {/* Trust Score Circle */}
+        <div style={{
+          padding: '20px',
+          background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(255,255,255,0.05)',
+          borderRadius: '20px',
+          marginBottom: '20px',
+          textAlign: 'center',
+        }}>
+          <div style={{ fontSize: '9px', letterSpacing: '1px', opacity: 0.4, marginBottom: '12px', fontFamily: '"JetBrains Mono", monospace' }}>TRUST SCORE</div>
+          <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto' }}>
+            <svg width="80" height="80" style={{ transform: 'rotate(-90deg)' }}>
+              <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="4" />
+              <motion.circle
+                cx="40" cy="40" r="35" fill="none"
+                stroke="rgba(76,175,80,0.8)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray={`${98 * 2.2} 220`}
+                initial={{ strokeDasharray: '0 220' }}
+                animate={{ strokeDasharray: `${98 * 2.2} 220` }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+              />
+            </svg>
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: '24px', fontWeight: '700', fontFamily: '"JetBrains Mono", monospace' }}>98</span>
+            </div>
+          </div>
+          <div style={{ fontSize: '10px', opacity: 0.5, marginTop: '8px' }}>Очень высокий</div>
+        </div>
+        
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            style={{
+              padding: '12px',
+              background: 'white',
+              color: 'black',
+              border: 'none',
+              borderRadius: '12px',
+              fontWeight: '600',
+              fontSize: '11px',
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            }}
+          >
+            <Mail size={14} /> НАПИСАТЬ
+          </motion.button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+              style={{
+                flex: 1, padding: '10px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '10px',
+                color: 'white',
+                fontSize: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              FOLLOW
+            </motion.button>
+            <motion.button
+              whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+              style={{
+                flex: 1, padding: '10px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '10px',
+                color: 'white',
+                fontSize: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              TRADE
+            </motion.button>
+          </div>
+        </div>
+        
+        {/* Stats mini */}
+        <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontWeight: '600', fontFamily: '"JetBrains Mono", monospace' }}>156</div>
+              <div style={{ opacity: 0.4, fontSize: '9px' }}>Сделок</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontWeight: '600', fontFamily: '"JetBrains Mono", monospace' }}>2.4K</div>
+              <div style={{ opacity: 0.4, fontSize: '9px' }}>Фолловеры</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontWeight: '600', fontFamily: '"JetBrains Mono", monospace' }}>847</div>
+              <div style={{ opacity: 0.4, fontSize: '9px' }}>Отзывы</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>VOID_ARCHITECT</div>
-        <div style={{ fontSize: '11px', opacity: 0.4 }}>@void_architect</div>
+      
+      {/* RIGHT: CONTENT AREA (70%) */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        
+        {/* BATTLESTATION BLOCK */}
+        <div style={{
+          margin: '24px 24px 0',
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '24px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          {/* Background effect - customizable */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'radial-gradient(ellipse at 80% 20%, rgba(138,43,226,0.08) 0%, transparent 50%)',
+            pointerEvents: 'none',
+          }} />
+          
+          <div style={{ position: 'relative' }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginBottom: '20px',
+            }}>
+              <div style={{ 
+                fontSize: '10px', 
+                letterSpacing: '2px', 
+                opacity: 0.4,
+                fontFamily: '"JetBrains Mono", monospace',
+              }}>
+                MY BATTLESTATION
+              </div>
+              <motion.button
+                whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+                style={{
+                  padding: '6px 12px',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: '8px',
+                  color: 'white',
+                  fontSize: '9px',
+                  cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                }}
+              >
+                <Edit3 size={10} /> EDIT
+              </motion.button>
+            </div>
+            
+            {/* Specs Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              {Object.entries(battlestation).map(([key, val]) => (
+                <motion.div
+                  key={key}
+                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)' }}
+                  style={{
+                    padding: '14px',
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    borderRadius: '14px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <div style={{ fontSize: '20px', marginBottom: '8px' }}>{val.icon}</div>
+                  <div style={{ fontSize: '8px', opacity: 0.4, marginBottom: '2px', fontFamily: '"JetBrains Mono", monospace', textTransform: 'uppercase' }}>{key}</div>
+                  <div style={{ fontSize: '11px', fontWeight: '500', lineHeight: 1.3 }}>{val.name}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* CONTENT TABS */}
+        <div style={{ padding: '20px 24px 0' }}>
+          <div style={{ display: 'flex', gap: '4px', marginBottom: '16px' }}>
+            {[
+              { id: 'feed', label: 'ПОСТЫ' },
+              { id: 'reviews', label: 'ОТЗЫВЫ' },
+              { id: 'achievements', label: 'ДОСТИЖЕНИЯ' },
+              { id: 'wishlist', label: 'ВИШЛИСТ' },
+            ].map(tab => (
+              <motion.button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                whileHover={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+                style={{
+                  padding: '10px 16px',
+                  background: activeTab === tab.id ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
+                  border: `1px solid rgba(255,255,255,${activeTab === tab.id ? '0.12' : '0.05'})`,
+                  borderRadius: '10px',
+                  color: 'white',
+                  fontSize: '10px',
+                  fontWeight: '500',
+                  letterSpacing: '0.5px',
+                  cursor: 'pointer',
+                }}
+              >
+                {tab.label}
+              </motion.button>
+            ))}
+          </div>
+        </div>
+        
+        {/* TAB CONTENT */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
+          <AnimatePresence mode="wait">
+            {activeTab === 'feed' && (
+              <motion.div
+                key="feed"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
+              >
+                {feedPosts.map(post => (
+                  <motion.div
+                    key={post.id}
+                    whileHover={{ borderColor: 'rgba(255,255,255,0.15)', y: -2 }}
+                    style={{
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <div style={{ height: '100px', background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px' }}>
+                      {post.image}
+                    </div>
+                    <div style={{ padding: '12px' }}>
+                      <div style={{ fontSize: '11px', fontWeight: '500', marginBottom: '8px' }}>{post.title}</div>
+                      <div style={{ display: 'flex', gap: '12px', fontSize: '10px', opacity: 0.4 }}>
+                        <span>❤️ {post.likes}</span>
+                        <span>💬 {post.comments}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+            
+            {activeTab === 'reviews' && (
+              <motion.div
+                key="reviews"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                {reviews.map(review => (
+                  <div
+                    key={review.id}
+                    style={{
+                      padding: '16px',
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      borderRadius: '16px',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <div style={{ fontSize: '13px', fontWeight: '500' }}>{review.product}</div>
+                      <div style={{ color: '#FFD700', fontSize: '12px' }}>{'★'.repeat(review.rating)}</div>
+                    </div>
+                    <div style={{ fontSize: '12px', opacity: 0.6, marginBottom: '8px' }}>{review.text}</div>
+                    <div style={{ fontSize: '10px', opacity: 0.3, fontFamily: '"JetBrains Mono", monospace' }}>{review.date}</div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+            
+            {activeTab === 'achievements' && (
+              <motion.div
+                key="achievements"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}
+              >
+                {achievements.map(ach => (
+                  <motion.div
+                    key={ach.id}
+                    whileHover={{ scale: 1.03 }}
+                    style={{
+                      padding: '20px',
+                      background: ach.rarity === 'legendary' 
+                        ? 'linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0.02) 100%)'
+                        : ach.rarity === 'rare'
+                        ? 'linear-gradient(135deg, rgba(138,43,226,0.1) 0%, rgba(138,43,226,0.02) 100%)'
+                        : 'rgba(255,255,255,0.02)',
+                      border: `1px solid rgba(${ach.rarity === 'legendary' ? '255,215,0' : ach.rarity === 'rare' ? '138,43,226' : '255,255,255'},${ach.rarity === 'common' ? '0.06' : '0.2'})`,
+                      borderRadius: '16px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ fontSize: '32px', marginBottom: '10px' }}>{ach.icon}</div>
+                    <div style={{ fontSize: '11px', fontWeight: '500' }}>{ach.name}</div>
+                    <div style={{ 
+                      fontSize: '9px', 
+                      marginTop: '6px',
+                      color: ach.rarity === 'legendary' ? '#FFD700' : ach.rarity === 'rare' ? '#9370DB' : 'rgba(255,255,255,0.4)',
+                      fontFamily: '"JetBrains Mono", monospace',
+                      textTransform: 'uppercase',
+                    }}>
+                      {ach.rarity}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+            
+            {activeTab === 'wishlist' && (
+              <motion.div
+                key="wishlist"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                style={{ textAlign: 'center', padding: '40px 20px', opacity: 0.4 }}
+              >
+                <Gift size={40} strokeWidth={1} style={{ marginBottom: '16px' }} />
+                <div>Вишлист пуст</div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
-    
-    {/* Edit Fields */}
-    <div style={{ flex: 1, overflowY: 'auto' }}>
-      <SettingButton icon={Edit3} label="Имя пользователя" description="Изменить отображаемое имя" value="VOID_ARCHITECT" />
-      <SettingButton icon={Mail} label="Email" description="Привязанная почта" value="v***@ghost.io" />
-      <SettingButton icon={Globe} label="Локация" description="Ваш город" value="Москва" />
-      <SettingButton icon={User} label="Био" description="Расскажите о себе" />
-      
-      <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', margin: '20px 0' }} />
-      
-      <SettingButton icon={ExternalLink} label="Социальные сети" description="Telegram, Discord, VK" />
-      <SettingButton icon={Shield} label="Верификация" description="Подтвердить личность" value="✓" />
-    </div>
-  </div>
-);
+  );
+};
 
 // NOTIFICATIONS PANEL
 const NotificationsPanel = ({ onBack }) => {
