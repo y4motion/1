@@ -77,8 +77,6 @@ function App() {
                   
                   {/* Main content area */}
                   <main className="main-content">
-                    <Breadcrumbs />
-                    
                     {/* Ghost Dock v2.0 - Ultimate chat hub */}
                     <GlassyOmniChat />
                     
