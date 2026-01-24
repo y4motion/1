@@ -242,6 +242,35 @@
   font-weight: 500;
 }
 
+/* Header Controls Container */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Expand Button - opens Ghost Messenger */
+.emergent-expand {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(0, 255, 212, 0.1);
+  color: rgba(0, 255, 212, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.emergent-expand:hover {
+  color: rgba(0, 255, 212, 1);
+  background: rgba(0, 255, 212, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 212, 0.3);
+}
+
 /* Close - минималистичная стрелка */
 .emergent-close {
   width: 24px;
