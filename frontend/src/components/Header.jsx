@@ -97,7 +97,6 @@ const Header = () => {
   };
 
   const handleSpinWin = (prize) => {
-    console.log('Won prize:', prize);
     // Here you would update user's inventory/balance
   };
 

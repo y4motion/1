@@ -35,7 +35,7 @@ const createOscillatorSound = (frequency, duration, type = 'sine', volume = 0.3)
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + duration);
   } catch (e) {
-    console.log('Audio not available');
+    
   }
 };
 
@@ -64,7 +64,7 @@ export const playAccessGranted = () => {
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + 0.5);
   } catch (e) {
-    console.log('Audio not available');
+    
   }
 };
 
@@ -107,7 +107,7 @@ export const playVoidOpen = () => {
     osc2.start(ctx.currentTime + 0.1);
     osc2.stop(ctx.currentTime + 0.8);
   } catch (e) {
-    console.log('Audio not available');
+    
   }
 };
 
@@ -131,7 +131,7 @@ export const playAccessDenied = () => {
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + 0.2);
   } catch (e) {
-    console.log('Audio not available');
+    
   }
 };
 
@@ -162,7 +162,7 @@ export const playSystemChime = () => {
       osc.stop(ctx.currentTime + i * 0.08 + 0.15);
     });
   } catch (e) {
-    console.log('Audio not available');
+    
   }
 };
 

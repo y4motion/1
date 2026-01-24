@@ -23,7 +23,6 @@ const CatalogMega = ({
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [loading, setLoading] = useState(!preloadedCatalog);
 
-  console.log('CatalogMega rendered', {
     loading,
     catalogKeys: Object.keys(catalog),
     hasPreloaded: !!preloadedCatalog,
