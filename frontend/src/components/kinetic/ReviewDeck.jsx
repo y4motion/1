@@ -229,9 +229,9 @@ export const ReviewDeck = ({ reviews = MOCK_REVIEWS, products = MOCK_PRODUCTS, c
                 <motion.div
                   key={review.id}
                   className="expanded-card"
-                  initial={{ x: 100, opacity: 0 }}
+                  initial={{ x: 80, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ duration: 0.2, delay: index * 0.05, ease: [0.4, 0, 0.2, 1] }}
                 >
                   <div className="card-product">{review.product}</div>
                   <p className="card-text">"{review.text}"</p>
