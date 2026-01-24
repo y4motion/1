@@ -380,19 +380,19 @@ const SwimmingKoi = ({ mouseX, mouseY, startX = 100, startY = 200 }) => {
   return (
     <canvas
       ref={canvasRef}
-      width={500}
-      height={300}
+      width={800}
+      height={500}
       style={{
         position: 'absolute',
-        left: -400,
-        top: 250,
+        left: startX,
+        top: startY,
         pointerEvents: 'none',
       }}
     />
   );
 };
 
-// Swimming Butterfly
+// Swimming Butterfly - larger
 const SwimmingButterfly = ({ startX, startY }) => {
   const canvasRef = useRef(null);
   const frameRef = useRef(0);
