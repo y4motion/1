@@ -519,23 +519,23 @@ export const KineticAppGrid = ({ className = '' }) => {
         marginBottom: '32px',
       }}
     >
-      {/* Row 1: СБОРКА ПК (wide) + ДЗЕН + ЗВУК */}
-      <AppWidget app={apps[0]} />
+      {/* Row 1: СООБЩЕСТВО (wide) + ДЗЕН + ЗВУК */}
+      <CommunityNetworkWidget />
       <ZenWidget />
       <AmbientWidget />
       
-      {/* Row 2: МАРКЕТ + МИНИМАЛ ОС + ОБМЕН + АВТОРЫ */}
-      <AppWidget app={apps[1]} />
+      {/* Row 2: РЕЙТИНГ (wide) + МИНИМАЛ ОС + ОБМЕН */}
+      <RatingRoadmapWidget />
       <AppWidget app={apps[2]} />
       <AppWidget app={apps[3]} />
-      <AppWidget app={apps[4]} />
       
-      {/* Row 3: СООБЩЕСТВО (wide) + ГАЙДЫ */}
-      <CommunityNetworkWidget />
+      {/* Row 3: МАРКЕТ + АВТОРЫ + ГАЙДЫ */}
+      <AppWidget app={apps[1]} />
+      <AppWidget app={apps[4]} />
       <AppWidget app={apps[5]} />
       
-      {/* Row 4: РЕЙТИНГ & ROADMAP (wide) */}
-      <RatingRoadmapWidget />
+      {/* Row 4: СБОРКА ПК (wide) - внизу */}
+      <AppWidget app={apps[0]} />
     </motion.div>
   );
 };
