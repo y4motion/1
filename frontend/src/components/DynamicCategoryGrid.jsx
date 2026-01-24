@@ -33,7 +33,7 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
 
       {/* Grid of category cards */}
       <div
-        className="grid gap-6 max-w-7xl mx-auto px-4"
+        className="grid gap-6 w-full px-8"
         style={{
           gridTemplateColumns: `repeat(auto-fit, minmax(${columns === 4 ? '280px' : '350px'}, 1fr))`,
         }}
@@ -100,7 +100,7 @@ function DynamicCategoryGrid({ categories, columns = 4, title }) {
 
       {/* Optional Quote/Testimonial Section */}
       {categories.length > 0 && (
-        <div className="mt-12 max-w-7xl mx-auto px-4">
+        <div className="mt-12 w-full px-8">
           <div
             className="relative overflow-hidden"
             style={{

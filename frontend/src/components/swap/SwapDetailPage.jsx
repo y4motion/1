@@ -53,7 +53,7 @@ const SwapDetailPage = ({ id }) => {
   
   return (
     <div className="dark-bg min-h-screen" style={{ paddingTop: '80px' }}>
-      <div className="max-w-5xl mx-auto px-4 py-6">
+      <div className="w-full px-8 py-6">
         {/* Back Button */}
         <button 
           onClick={() => navigate('/glassy-swap')}
