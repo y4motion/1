@@ -568,16 +568,16 @@ export default function CodeAbyss() {
       data-testid="code-abyss-background"
     >
       {/* Swimming Koi Fish - made of 0s and 1s */}
-      <SwimmingKoi mouseX={mouseX} mouseY={mouseY} />
+      <SwimmingKoi mouseX={mouseX} mouseY={mouseY} startX={200} startY={180} />
       
       {/* Floating Butterfly - made of numbers */}
-      <SwimmingButterfly startX={typeof window !== 'undefined' ? window.innerWidth - 350 : 1200} startY={120} />
+      <SwimmingButterfly startX={typeof window !== 'undefined' ? window.innerWidth - 500 : 1000} startY={80} />
       
-      {/* Floating Ghost - made of hex */}
-      <FloatingGhost startX={80} startY={450} />
+      {/* Floating Ghost - made of hex - on the left */}
+      <FloatingGhost startX={50} startY={380} />
       
-      {/* Second Koi swimming lower */}
-      <SwimmingKoi mouseX={mouseX} mouseY={mouseY} />
+      {/* Second Butterfly on left side */}
+      <SwimmingButterfly startX={100} startY={600} />
 
       {/* Ambient glow spots */}
       <div
