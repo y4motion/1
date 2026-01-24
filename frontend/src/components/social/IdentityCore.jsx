@@ -324,28 +324,35 @@ const IdentityCore = ({ isOpen, onClose }) => {
           <div className="px-12 pb-10 border-b border-white/5 bg-black relative z-20">
             <div className="flex items-end justify-between -mt-32">
               
-              {/* LEFT: GIANT AVATAR & INFO */}
+              {/* LEFT: GIANT AVATAR & INFO with RPG System */}
               <div className="flex items-end gap-10">
-                {/* AVATAR: w-64 h-64 (256px) - ГИГАНТСКИЙ */}
+                {/* AVATAR with Trust Score Aura: w-64 h-64 (256px) - ГИГАНТСКИЙ */}
                 <motion.div 
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, type: "spring" }}
                   className="relative group"
                 >
-                  <div className="w-64 h-64 rounded-[3rem] p-1.5 bg-black border-2 border-cyan-500/20 overflow-hidden shadow-2xl shadow-cyan-500/20">
-                    <img 
-                      src={USER.avatar} 
-                      className="w-full h-full object-cover rounded-[2.8rem] transition-transform duration-700 group-hover:scale-105" 
-                      alt="Avatar"
-                    />
-                  </div>
+                  {/* Trust Score Aura Wrapper */}
+                  <TrustScoreAura trustScore={USER.trustScore}>
+                    <div className="w-64 h-64 rounded-[3rem] p-1.5 bg-black border-2 border-cyan-500/20 overflow-hidden shadow-2xl shadow-cyan-500/20 relative">
+                      <img 
+                        src={USER.avatar} 
+                        className="w-full h-full object-cover rounded-[2.8rem] transition-transform duration-700 group-hover:scale-105" 
+                        alt="Avatar"
+                      />
+                    </div>
+                  </TrustScoreAura>
+                  
+                  {/* 3D Rotating Class Artifact */}
+                  <RotatingClassArtifact classType={USER.classType} size={100} />
+                  
                   {/* Guild Badge */}
                   <motion.div 
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, type: "spring" }}
-                    className="absolute bottom-4 right-4 bg-black border border-white/20 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-30"
+                    className="absolute bottom-4 left-4 bg-black border border-white/20 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-30"
                   >
                     <Ghost className="text-cyan-400 w-6 h-6" />
                     <div>
