@@ -23,11 +23,6 @@ const CatalogMega = ({
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [loading, setLoading] = useState(!preloadedCatalog);
 
-    loading,
-    catalogKeys: Object.keys(catalog),
-    hasPreloaded: !!preloadedCatalog,
-  });
-
   useEffect(() => {
     // Only fetch if no preloaded data
     if (!preloadedCatalog) {
