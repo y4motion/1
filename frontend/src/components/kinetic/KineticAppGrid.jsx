@@ -97,7 +97,8 @@ const apps = [
     subtitle: 'Авторы',
     link: '/creators',
     badge: null,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: false
   },
   { 
     id: 'guides', 
@@ -106,7 +107,8 @@ const apps = [
     subtitle: 'Гайды',
     link: '/articles',
     badge: null,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: false
   },
   { 
     id: 'groupbuy', 
@@ -115,7 +117,8 @@ const apps = [
     subtitle: 'До -40%',
     link: '/groupbuy',
     badge: 'HOT',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    hasProximity: true  // This one gets proximity effect
   }
 ];
 
