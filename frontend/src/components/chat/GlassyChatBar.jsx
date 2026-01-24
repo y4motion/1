@@ -755,6 +755,10 @@ const GlassyChatBar = () => {
         setPanelMode(PANEL_MODES.FULLSCREEN);
         setCustomHeight(null);
         break;
+      case 'ghostmessenger':
+        // Open Ghost Messenger
+        window.dispatchEvent(new CustomEvent('openGhostMessenger'));
+        break;
       case 'popout':
         // Open in new window (if supported)
         const chatUrl = `${window.location.origin}/chat?popout=true`;
