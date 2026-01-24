@@ -14,6 +14,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { GlassyOmniChat } from './components/chat';
 import { SystemToastContainer, AtmosphericBackground } from './components/system';
+import { GhostMessenger } from './components/social/GhostMessenger';
 import LoadingScreen from './components/LoadingScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import MobileBottomNav from './components/MobileBottomNav';
