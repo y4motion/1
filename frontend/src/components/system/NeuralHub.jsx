@@ -20,68 +20,87 @@ import { useAuth } from '../../contexts/AuthContext';
 // Premium Avatar URL
 const AVATAR_URL = 'https://images.pexels.com/photos/27969612/pexels-photo-27969612.jpeg';
 
-// Subtle white corner glow
+// Subtle white corner glow - ENHANCED for premium feel
 const CornerGlow = () => (
   <>
     {/* Top Left */}
     <div style={{
       position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '120px',
-      height: '120px',
-      background: 'radial-gradient(ellipse at top left, rgba(255,255,255,0.04) 0%, transparent 70%)',
+      top: -1,
+      left: -1,
+      width: '180px',
+      height: '180px',
+      background: 'radial-gradient(ellipse at top left, rgba(255,255,255,0.06) 0%, transparent 60%)',
       pointerEvents: 'none',
     }} />
     {/* Top Right */}
     <div style={{
       position: 'absolute',
-      top: 0,
-      right: 0,
-      width: '120px',
-      height: '120px',
-      background: 'radial-gradient(ellipse at top right, rgba(255,255,255,0.04) 0%, transparent 70%)',
+      top: -1,
+      right: -1,
+      width: '180px',
+      height: '180px',
+      background: 'radial-gradient(ellipse at top right, rgba(255,255,255,0.06) 0%, transparent 60%)',
       pointerEvents: 'none',
     }} />
     {/* Bottom Left */}
     <div style={{
       position: 'absolute',
-      bottom: 0,
-      left: 0,
-      width: '120px',
-      height: '120px',
-      background: 'radial-gradient(ellipse at bottom left, rgba(255,255,255,0.03) 0%, transparent 70%)',
+      bottom: -1,
+      left: -1,
+      width: '150px',
+      height: '150px',
+      background: 'radial-gradient(ellipse at bottom left, rgba(255,255,255,0.04) 0%, transparent 60%)',
       pointerEvents: 'none',
     }} />
     {/* Bottom Right */}
     <div style={{
       position: 'absolute',
-      bottom: 0,
-      right: 0,
-      width: '120px',
-      height: '120px',
-      background: 'radial-gradient(ellipse at bottom right, rgba(255,255,255,0.03) 0%, transparent 70%)',
+      bottom: -1,
+      right: -1,
+      width: '150px',
+      height: '150px',
+      background: 'radial-gradient(ellipse at bottom right, rgba(255,255,255,0.04) 0%, transparent 60%)',
       pointerEvents: 'none',
     }} />
-    {/* Edge highlights */}
+    {/* Top edge highlight - premium glass effect */}
     <div style={{
       position: 'absolute',
       top: 0,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      width: '200px',
+      left: '5%',
+      right: '5%',
       height: '1px',
-      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
       pointerEvents: 'none',
     }} />
+    {/* Bottom edge subtle glow */}
     <div style={{
       position: 'absolute',
       bottom: 0,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      width: '200px',
+      left: '10%',
+      right: '10%',
       height: '1px',
-      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)',
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+      pointerEvents: 'none',
+    }} />
+    {/* Left edge subtle */}
+    <div style={{
+      position: 'absolute',
+      left: 0,
+      top: '10%',
+      bottom: '10%',
+      width: '1px',
+      background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.06), transparent)',
+      pointerEvents: 'none',
+    }} />
+    {/* Right edge subtle */}
+    <div style={{
+      position: 'absolute',
+      right: 0,
+      top: '10%',
+      bottom: '10%',
+      width: '1px',
+      background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.06), transparent)',
       pointerEvents: 'none',
     }} />
   </>
