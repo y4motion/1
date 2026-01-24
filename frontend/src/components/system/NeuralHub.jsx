@@ -316,8 +316,6 @@ const NavTile = ({ icon: Icon, label, badge, onClick, isActive }) => (
 // ============================================
 
 // NOTIFICATIONS PANEL
-
-// NOTIFICATIONS PANEL
 const NotificationsPanel = ({ onBack }) => {
   const [notifications, setNotifications] = useState([
     { id: 1, icon: Gift, title: 'Новая награда!', text: 'Вы получили достижение "Первопроходец"', time: '5 минут назад', isNew: true },
