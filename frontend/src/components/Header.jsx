@@ -61,7 +61,6 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showLVLMenu, setShowLVLMenu] = useState(false); // LVL menu from logo button
   const [showCartPanel, setShowCartPanel] = useState(false); // Quick cart panel
   const [showSpinWheel, setShowSpinWheel] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -87,14 +86,7 @@ const Header = () => {
     { name: t('nav.mod'), path: '/mod', key: 'mod' },
   ];
 
-  const handleLogoClick = (e) => {
-    e.preventDefault();
-    // Only toggle LVL menu (catalog moved to MarketplacePage)
-    setShowLVLMenu(!showLVLMenu);
-  };
-
   const handleCategoryClick = (slug) => {
-    setShowCatalogPopup(false);
     navigate(`/category/${slug}`);
   };
 
