@@ -797,10 +797,14 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
         onClose={() => setShowIdentityCore(false)} 
       />
       
-      {/* GHOST MESSENGER - Unified chat hub */}
+      {/* GHOST MESSENGER - Unified chat hub with shared state */}
       <GhostMessenger 
         isOpen={showMessenger} 
-        onClose={() => setShowMessenger(false)} 
+        onClose={() => {
+          setShowMessenger(false);
+          setMessengerInitData(null);
+        }}
+        initData={messengerInitData}
       />
     </AnimatePresence>
   );
