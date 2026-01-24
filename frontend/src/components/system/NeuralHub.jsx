@@ -487,56 +487,6 @@ const InventoryPanel = ({ onBack }) => (
   </div>
 );
 
-// MESSAGES PANEL
-const MessagesPanel = ({ onBack, onClose }) => {
-  const navigate = useNavigate();
-  const chats = [
-    { id: 1, name: 'Поддержка', lastMsg: 'Ваш вопрос решён!', time: '2 мин', unread: 1, avatar: '🛟' },
-    { id: 2, name: 'NIGHTMARE', lastMsg: 'Готов к обмену', time: '1 час', unread: 0, avatar: '👤' },
-    { id: 3, name: 'Ghost Team', lastMsg: 'Новое обновление...', time: '3 часа', unread: 0, avatar: '👥' },
-  ];
-  
-  return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <PanelHeader title="СООБЩЕНИЯ" onBack={onBack} />
-      
-      <div style={{ flex: 1, overflowY: 'auto' }}>
-        {chats.map(chat => (
-          <motion.button
-            key={chat.id}
-            onClick={() => { navigate('/chat'); onClose(); }}
-            whileHover={{ backgroundColor: 'rgba(255,255,255,0.04)' }}
-            style={{
-              width: '100%', padding: '16px 20px',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: '16px', marginBottom: '12px',
-              display: 'flex', alignItems: 'center', gap: '14px',
-              cursor: 'pointer', color: 'white', textAlign: 'left',
-            }}
-          >
-            <div style={{ width: '44px', height: '44px', background: 'rgba(255,255,255,0.05)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-              {chat.avatar}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>{chat.name}</div>
-              <div style={{ fontSize: '11px', opacity: 0.4 }}>{chat.lastMsg}</div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '10px', opacity: 0.3, marginBottom: '4px' }}>{chat.time}</div>
-              {chat.unread > 0 && (
-                <span style={{ minWidth: '18px', height: '18px', padding: '0 5px', background: 'white', color: 'black', borderRadius: '9px', fontSize: '10px', fontWeight: '600', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {chat.unread}
-                </span>
-              )}
-            </div>
-          </motion.button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 // TRUST PANEL
 const TrustPanel = ({ onBack }) => (
   <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
