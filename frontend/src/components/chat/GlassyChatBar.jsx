@@ -972,13 +972,18 @@ const GlassyChatBar = () => {
           {/* Header with Tabs */}
           <div className="chat-header">
             <div className="chat-tabs">
-              {TABS.map(tab => (
+              {sortedTabs.map((tab, index) => (
                 <button
                   key={tab.id}
-                  className={`chat-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  className={`chat-tab ${activeTab === tab.id ? 'active' : ''} ${index === 0 ? 'priority-tab' : ''}`}
                   onClick={() => {
                     setActiveTab(tab.id);
                     handleInteraction();
+                  }}
+                  style={{
+                    // Smooth position transition
+                    order: index,
+                    transition: 'all 0.3s ease',
                   }}
                 >
                   <tab.icon size={16} />
