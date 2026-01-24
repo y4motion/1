@@ -1,8 +1,11 @@
 /**
- * NeuralHub.jsx - HOLOGRAPHIC FINISH v6.0
+ * NeuralHub.jsx - ACRYLIC GHOST v7.0
  * 
- * TACTICAL FUI with Glass Material & Glow Effects
- * The "Living Device" version
+ * FROSTED GLASS AESTHETIC
+ * Style: Nothing Phone / Teenage Engineering / iOS Dark Mode
+ * 
+ * STRICT MONOCHROME - No colors, just light
+ * Premium, universal, clean
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -10,282 +13,222 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   User, Settings, Bell, Package, Gift, Target, 
-  Trophy, Wallet, Shield, Activity, X, Cpu, 
-  Eye, Zap, Mail, LayoutGrid, Database
+  Trophy, Wallet, Shield, X, 
+  Mail, Star, Clock
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
-// Cyberpunk Avatar URL
+// Premium Avatar URL
 const AVATAR_URL = 'https://images.pexels.com/photos/27969612/pexels-photo-27969612.jpeg';
 
-// Corner Brackets with glow
-const CornerBrackets = () => (
-  <>
-    <div style={{ position: 'absolute', top: 0, left: 0, width: '40px', height: '40px' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '40px', height: '2px', background: 'linear-gradient(90deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '2px', height: '40px', background: 'linear-gradient(180deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-    </div>
-    <div style={{ position: 'absolute', top: 0, right: 0, width: '40px', height: '40px' }}>
-      <div style={{ position: 'absolute', top: 0, right: 0, width: '40px', height: '2px', background: 'linear-gradient(-90deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-      <div style={{ position: 'absolute', top: 0, right: 0, width: '2px', height: '40px', background: 'linear-gradient(180deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-    </div>
-    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '40px', height: '40px' }}>
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '40px', height: '2px', background: 'linear-gradient(90deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '2px', height: '40px', background: 'linear-gradient(0deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-    </div>
-    <div style={{ position: 'absolute', bottom: 0, right: 0, width: '40px', height: '40px' }}>
-      <div style={{ position: 'absolute', bottom: 0, right: 0, width: '40px', height: '2px', background: 'linear-gradient(-90deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-      <div style={{ position: 'absolute', bottom: 0, right: 0, width: '2px', height: '40px', background: 'linear-gradient(0deg, rgba(0,255,212,0.6), transparent)', boxShadow: '0 0 10px rgba(0,255,212,0.3)' }} />
-    </div>
-  </>
-);
-
-// Scanline animation - more visible
-const ScanlineOverlay = () => (
-  <div style={{
-    position: 'absolute',
-    inset: 0,
-    pointerEvents: 'none',
-    overflow: 'hidden',
-  }}>
-    <motion.div
-      animate={{ y: ['0%', '100%'] }}
-      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-      style={{
-        width: '100%',
-        height: '2px',
-        background: 'linear-gradient(90deg, transparent, rgba(0,255,212,0.15), transparent)',
-        boxShadow: '0 0 20px rgba(0,255,212,0.2)',
-      }}
-    />
-  </div>
-);
-
-// Grid pattern
-const GridPattern = () => (
+// Subtle grid pattern - very faint
+const SubtleGrid = () => (
   <div style={{
     position: 'absolute',
     inset: 0,
     backgroundImage: `
-      linear-gradient(rgba(0,255,212,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,212,0.02) 1px, transparent 1px)
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)
     `,
-    backgroundSize: '50px 50px',
+    backgroundSize: '60px 60px',
     pointerEvents: 'none',
   }} />
 );
 
-// Tech label with glow option
-const TechLabel = ({ children, glow, style = {} }) => (
-  <span style={{
-    fontSize: '8px',
-    fontFamily: '"JetBrains Mono", monospace',
-    letterSpacing: '2px',
-    opacity: glow ? 0.8 : 0.3,
-    color: glow ? '#00FFD4' : 'white',
-    textShadow: glow ? '0 0 10px rgba(0,255,212,0.5)' : 'none',
-    ...style
-  }}>
-    {children}
-  </span>
-);
-
-// Fake QR Code
-const FakeQR = () => (
-  <div style={{
-    width: '48px',
-    height: '48px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(7, 1fr)',
-    gap: '1px',
-    opacity: 0.4,
-  }}>
-    {Array.from({ length: 49 }).map((_, i) => (
-      <div 
-        key={i}
-        style={{
-          background: Math.random() > 0.5 ? 'rgba(0,255,212,0.6)' : 'transparent',
-          aspectRatio: '1',
-        }}
-      />
-    ))}
-  </div>
-);
-
-// Barcode with glow
-const Barcode = () => (
-  <div style={{
-    display: 'flex',
-    gap: '1px',
-    height: '18px',
-    opacity: 0.35,
-  }}>
-    {Array.from({ length: 25 }).map((_, i) => (
-      <div 
-        key={i}
-        style={{
-          width: Math.random() > 0.5 ? '2px' : '1px',
-          height: '100%',
-          background: '#00FFD4',
-          boxShadow: '0 0 3px rgba(0,255,212,0.3)',
-        }}
-      />
-    ))}
-  </div>
-);
-
-// Stat Bar with glow
-const StatBar = ({ label, value, max, isAccent = false }) => (
-  <div style={{ marginBottom: '14px' }}>
+// Clean stat bar - monochrome
+const StatBar = ({ label, value, max }) => (
+  <div style={{ marginBottom: '16px' }}>
     <div style={{ 
       display: 'flex', 
       justifyContent: 'space-between',
-      marginBottom: '5px',
-      fontSize: '9px',
-      fontFamily: 'monospace',
-      letterSpacing: '2px',
+      marginBottom: '8px',
+      fontSize: '11px',
+      letterSpacing: '1px',
     }}>
-      <span style={{ opacity: 0.4 }}>{label}</span>
-      <span style={{ 
-        color: isAccent ? '#00FFD4' : 'white',
-        opacity: isAccent ? 1 : 0.6,
-        textShadow: isAccent ? '0 0 8px rgba(0,255,212,0.5)' : 'none',
-      }}>
-        {value}/{max}
-      </span>
+      <span style={{ opacity: 0.4, fontWeight: '500' }}>{label}</span>
+      <span style={{ opacity: 0.7 }}>{value}/{max}</span>
     </div>
     <div style={{
-      height: '3px',
-      background: 'rgba(255,255,255,0.06)',
-      position: 'relative',
+      height: '2px',
+      background: 'rgba(255,255,255,0.08)',
+      borderRadius: '1px',
       overflow: 'hidden',
     }}>
       <motion.div 
         initial={{ width: 0 }}
         animate={{ width: `${(value/max) * 100}%` }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
+        transition={{ duration: 1, ease: 'easeOut' }}
         style={{
           height: '100%',
-          background: isAccent 
-            ? 'linear-gradient(90deg, #00FFD4, rgba(0,255,212,0.6))'
-            : 'linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3))',
-          boxShadow: isAccent ? '0 0 15px rgba(0,255,212,0.5)' : 'none',
+          background: 'rgba(255,255,255,0.6)',
+          boxShadow: '0 0 10px rgba(255,255,255,0.3)',
+          borderRadius: '1px',
         }}
       />
     </div>
   </div>
 );
 
-// Navigation Block with hover glow
-const NavBlock = ({ icon: Icon, label, sublabel, badge, onClick, isActive, wide }) => (
+// Clean navigation tile
+const NavTile = ({ icon: Icon, label, badge, onClick }) => (
   <motion.button
     onClick={onClick}
-    initial={false}
     whileHover={{ 
-      backgroundColor: 'rgba(0,255,212,0.08)',
-      borderColor: 'rgba(0,255,212,0.3)',
-      scale: 1.02,
+      backgroundColor: 'rgba(255,255,255,0.06)',
+      y: -2
     }}
     whileTap={{ scale: 0.98 }}
+    transition={{ duration: 0.2 }}
     style={{
-      padding: wide ? '20px 24px' : '18px 14px',
+      padding: '24px 16px',
       background: 'rgba(255,255,255,0.02)',
       border: '1px solid rgba(255,255,255,0.06)',
+      borderRadius: '16px',
       display: 'flex',
-      flexDirection: wide ? 'row' : 'column',
+      flexDirection: 'column',
       alignItems: 'center',
-      gap: wide ? '16px' : '10px',
+      gap: '12px',
       cursor: 'pointer',
       color: 'white',
       position: 'relative',
       fontFamily: 'inherit',
-      gridColumn: wide ? 'span 2' : 'span 1',
-      transition: 'all 0.2s ease',
     }}
   >
-    {/* Active indicator with glow */}
-    {isActive && (
-      <motion.div
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: '3px',
-          background: '#00FFD4',
-          boxShadow: '0 0 15px rgba(0,255,212,0.6)',
-        }}
-      />
-    )}
+    <div style={{
+      width: '48px',
+      height: '48px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'rgba(255,255,255,0.04)',
+      borderRadius: '14px',
+    }}>
+      <Icon size={22} strokeWidth={1.5} style={{ opacity: 0.6 }} />
+    </div>
     
-    <motion.div 
-      whileHover={{ scale: 1.1 }}
-      style={{
-        width: wide ? '50px' : '42px',
-        height: wide ? '50px' : '42px',
+    <span style={{ 
+      fontSize: '11px', 
+      fontWeight: '500',
+      letterSpacing: '0.5px',
+      opacity: 0.7
+    }}>
+      {label}
+    </span>
+    
+    {badge && (
+      <span style={{
+        position: 'absolute',
+        top: '16px',
+        right: '16px',
+        minWidth: '20px',
+        height: '20px',
+        padding: '0 6px',
+        background: 'rgba(255,255,255,0.9)',
+        color: 'black',
+        borderRadius: '10px',
+        fontSize: '10px',
+        fontWeight: '600',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '1px solid rgba(255,255,255,0.08)',
-        background: 'rgba(255,255,255,0.02)',
-      }}
-    >
-      <Icon size={wide ? 22 : 18} strokeWidth={1} style={{ opacity: 0.6 }} />
-    </motion.div>
-    
-    <div style={{ 
-      flex: wide ? 1 : 'none',
-      textAlign: wide ? 'left' : 'center' 
-    }}>
-      <div style={{ 
-        fontSize: wide ? '13px' : '10px', 
-        fontWeight: '500',
-        letterSpacing: '1px',
-        marginBottom: sublabel ? '3px' : 0
       }}>
-        {label}
-      </div>
-      {sublabel && (
-        <div style={{ 
-          fontSize: '9px', 
-          opacity: 0.35,
-          fontFamily: 'monospace',
-        }}>
-          {sublabel}
-        </div>
-      )}
-    </div>
-    
-    {badge && (
-      <motion.span 
-        animate={{ boxShadow: ['0 0 5px rgba(0,255,212,0.3)', '0 0 15px rgba(0,255,212,0.6)', '0 0 5px rgba(0,255,212,0.3)'] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        style={{
-          position: wide ? 'relative' : 'absolute',
-          top: wide ? 'auto' : '10px',
-          right: wide ? 'auto' : '10px',
-          minWidth: '20px',
-          height: '20px',
-          padding: '0 6px',
-          background: '#00FFD4',
-          color: 'black',
-          fontSize: '9px',
-          fontWeight: '700',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'monospace',
-        }}
-      >
         {badge}
-      </motion.span>
+      </span>
     )}
   </motion.button>
 );
 
-// HOLOGRAPHIC NEURAL HUB
+// Action card - wide format
+const ActionCard = ({ icon: Icon, title, subtitle, onClick, isNew }) => (
+  <motion.button
+    onClick={onClick}
+    whileHover={{ 
+      backgroundColor: 'rgba(255,255,255,0.05)',
+      borderColor: 'rgba(255,255,255,0.12)'
+    }}
+    whileTap={{ scale: 0.99 }}
+    style={{
+      padding: '24px',
+      background: 'rgba(255,255,255,0.02)',
+      border: '1px solid rgba(255,255,255,0.06)',
+      borderRadius: '20px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '20px',
+      cursor: 'pointer',
+      color: 'white',
+      textAlign: 'left',
+      position: 'relative',
+      fontFamily: 'inherit',
+      transition: 'all 0.2s ease',
+    }}
+  >
+    {isNew && (
+      <motion.div
+        animate={{ opacity: [0.3, 0.7, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '3px',
+          height: '40px',
+          background: 'white',
+          borderRadius: '0 2px 2px 0',
+          boxShadow: '0 0 15px rgba(255,255,255,0.5)',
+        }}
+      />
+    )}
+    
+    <div style={{
+      width: '56px',
+      height: '56px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'rgba(255,255,255,0.04)',
+      borderRadius: '16px',
+    }}>
+      <Icon size={24} strokeWidth={1.5} style={{ opacity: 0.6 }} />
+    </div>
+    
+    <div style={{ flex: 1 }}>
+      <div style={{ 
+        fontSize: '14px', 
+        fontWeight: '600',
+        letterSpacing: '0.3px',
+        marginBottom: '4px',
+        opacity: 0.9
+      }}>
+        {title}
+      </div>
+      <div style={{ 
+        fontSize: '12px', 
+        opacity: 0.4,
+      }}>
+        {subtitle}
+      </div>
+    </div>
+    
+    {isNew && (
+      <span style={{
+        padding: '6px 12px',
+        background: 'rgba(255,255,255,0.1)',
+        border: '1px solid rgba(255,255,255,0.15)',
+        borderRadius: '8px',
+        fontSize: '10px',
+        fontWeight: '600',
+        letterSpacing: '1px',
+        opacity: 0.8
+      }}>
+        NEW
+      </span>
+    )}
+  </motion.button>
+);
+
+// ACRYLIC GHOST Neural Hub
 export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -339,107 +282,91 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
             justifyContent: 'center',
           }}
         >
-          {/* Backdrop with heavy blur */}
-          <div 
+          {/* Backdrop - heavy blur */}
+          <motion.div 
             onClick={onClose}
+            initial={{ backdropFilter: 'blur(0px)' }}
+            animate={{ backdropFilter: 'blur(30px)' }}
+            exit={{ backdropFilter: 'blur(0px)' }}
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.8)',
-              backdropFilter: 'blur(25px)',
+              background: 'rgba(0, 0, 0, 0.7)',
             }}
           />
           
-          {/* HOLOGRAPHIC CONTAINER */}
+          {/* FROSTED ACRYLIC CONTAINER */}
           <motion.div
             ref={hubRef}
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+            exit={{ opacity: 0, scale: 0.98, y: 10 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             style={{
               position: 'relative',
-              width: '1150px',
-              height: '680px',
+              width: '1000px',
+              height: '620px',
               
-              // GLASS MATERIAL
-              background: 'linear-gradient(135deg, rgba(10,10,15,0.95) 0%, rgba(5,5,10,0.85) 100%)',
-              backdropFilter: 'blur(40px)',
+              // FROSTED GLASS MATERIAL
+              background: 'rgba(20, 20, 20, 0.8)',
+              backdropFilter: 'blur(60px)',
+              WebkitBackdropFilter: 'blur(60px)',
               
-              // GLOWING BORDER
-              border: '1px solid rgba(0,255,212,0.15)',
+              // ELEGANT BORDER
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '32px',
+              
+              // SOFT GLOW
               boxShadow: `
-                0 0 0 1px rgba(255,255,255,0.05),
-                0 0 60px -10px rgba(0,255,212,0.15),
-                0 30px 60px -20px rgba(0,0,0,0.7),
-                inset 0 1px 0 rgba(255,255,255,0.05)
+                0 0 0 1px rgba(255,255,255,0.03),
+                0 25px 80px -20px rgba(0,0,0,0.6),
+                0 0 60px -20px rgba(255,255,255,0.05)
               `,
               
               overflow: 'hidden',
               display: 'grid',
-              gridTemplateColumns: '320px 1fr',
-              fontFamily: '"SF Pro Display", -apple-system, sans-serif',
+              gridTemplateColumns: '340px 1fr',
+              fontFamily: '"SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif',
               color: 'white',
             }}
             data-testid="neural-hub"
           >
-            {/* Grid background */}
-            <GridPattern />
-            
-            {/* Scanline */}
-            <ScanlineOverlay />
-            
-            {/* Corner brackets with glow */}
-            <CornerBrackets />
-            
-            {/* Tech labels */}
-            <div style={{ position: 'absolute', top: '12px', left: '50px' }}>
-              <TechLabel glow>SYS.ID: 99402-ARCH</TechLabel>
-            </div>
-            <div style={{ position: 'absolute', top: '12px', right: '60px' }}>
-              <TechLabel>SYNC: STABLE</TechLabel>
-            </div>
-            <div style={{ position: 'absolute', bottom: '12px', left: '50px' }}>
-              <TechLabel>NEURAL.HUB v6.0</TechLabel>
-            </div>
-            <div style={{ position: 'absolute', bottom: '12px', right: '60px' }}>
-              <TechLabel glow>UPTIME: 403:27:14</TechLabel>
-            </div>
+            {/* Subtle grid */}
+            <SubtleGrid />
 
             {/* ==========================================
                 LEFT PANEL: IDENTITY
                 ========================================== */}
             <div style={{
-              padding: '50px 35px',
-              background: 'rgba(0,0,0,0.3)',
+              padding: '48px 40px',
+              background: 'rgba(0,0,0,0.2)',
               borderRight: '1px solid rgba(255,255,255,0.05)',
               display: 'flex',
               flexDirection: 'column',
             }}>
-              {/* REAL AVATAR with complex mask */}
+              {/* Avatar */}
               <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
                 alignItems: 'center',
-                marginBottom: '28px'
+                marginBottom: '32px'
               }}>
                 <motion.div
                   animate={{ 
                     boxShadow: [
-                      '0 0 30px rgba(0,255,212,0.2)',
-                      '0 0 50px rgba(0,255,212,0.35)',
-                      '0 0 30px rgba(0,255,212,0.2)'
+                      '0 0 30px rgba(255,255,255,0.1)',
+                      '0 0 50px rgba(255,255,255,0.15)',
+                      '0 0 30px rgba(255,255,255,0.1)'
                     ]
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                   style={{
-                    width: '130px',
-                    height: '130px',
-                    clipPath: 'polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px)',
-                    border: '2px solid rgba(0,255,212,0.4)',
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '28px',
+                    border: '2px solid rgba(255,255,255,0.15)',
                     overflow: 'hidden',
-                    marginBottom: '16px',
-                    position: 'relative',
+                    marginBottom: '20px',
                   }}
                 >
                   <img 
@@ -449,156 +376,157 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      filter: 'saturate(0.7) contrast(1.1)',
+                      filter: 'grayscale(30%) contrast(1.05)',
                     }}
                   />
-                  {/* Overlay gradient */}
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(180deg, transparent 60%, rgba(0,255,212,0.1) 100%)',
-                  }} />
                 </motion.div>
                 
-                {/* Name with GLOW */}
-                <motion.div 
-                  style={{ 
-                    fontSize: '18px', 
-                    fontWeight: '600',
-                    letterSpacing: '3px',
-                    marginBottom: '8px',
-                    textShadow: '0 0 20px rgba(255,255,255,0.4)',
-                  }}
-                >
+                {/* Name with subtle glow */}
+                <div style={{ 
+                  fontSize: '20px', 
+                  fontWeight: '600',
+                  letterSpacing: '1px',
+                  marginBottom: '8px',
+                  textShadow: '0 0 30px rgba(255,255,255,0.3)',
+                }}>
                   VOID_ARCHITECT
-                </motion.div>
+                </div>
                 
-                {/* Class with glow */}
+                {/* Level & Class */}
                 <div style={{ 
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  marginBottom: '12px'
+                  marginBottom: '8px'
                 }}>
-                  <motion.span 
-                    animate={{ textShadow: ['0 0 5px rgba(0,255,212,0.5)', '0 0 15px rgba(0,255,212,0.8)', '0 0 5px rgba(0,255,212,0.5)'] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    style={{
-                      fontSize: '10px',
-                      padding: '4px 12px',
-                      border: '1px solid rgba(0,255,212,0.4)',
-                      fontFamily: 'monospace',
-                      letterSpacing: '2px',
-                      color: '#00FFD4',
-                    }}
-                  >
-                    LVL.99
-                  </motion.span>
-                  <span style={{ 
-                    fontSize: '10px',
-                    opacity: 0.5,
-                    fontFamily: 'monospace',
-                    letterSpacing: '2px',
+                  <span style={{
+                    fontSize: '11px',
+                    padding: '5px 14px',
+                    background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '20px',
+                    fontWeight: '500',
+                    letterSpacing: '1px',
                   }}>
-                    [ ORIGIN ]
+                    LVL 99
+                  </span>
+                  <span style={{ 
+                    fontSize: '11px',
+                    opacity: 0.4,
+                    letterSpacing: '1px',
+                  }}>
+                    ORIGIN
                   </span>
                 </div>
                 
-                {/* QR and Barcode */}
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '14px',
+                {/* Member since */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '11px',
+                  opacity: 0.3,
                 }}>
-                  <FakeQR />
-                  <div>
-                    <Barcode />
-                    <TechLabel style={{ marginTop: '6px', display: 'block' }}>
-                      ID: 0xF7A9...2D4E
-                    </TechLabel>
-                  </div>
+                  <Clock size={12} />
+                  <span>Участник с 2024</span>
                 </div>
               </div>
               
               {/* Divider */}
               <div style={{ 
                 height: '1px', 
-                background: 'linear-gradient(90deg, transparent, rgba(0,255,212,0.2), transparent)',
-                margin: '16px 0',
+                background: 'rgba(255,255,255,0.06)',
+                margin: '8px 0 24px 0',
               }} />
               
-              {/* Stats */}
-              <div style={{ marginBottom: '20px' }}>
-                <TechLabel style={{ display: 'block', marginBottom: '14px' }} glow>
-                  SYSTEM.VITALS
-                </TechLabel>
-                <StatBar label="РЕЗОНАНС" value={4850} max={5000} isAccent={true} />
-                <StatBar label="ЭНТРОПИЯ" value={8} max={100} />
-                <StatBar label="ДОВЕРИЕ" value={99} max={100} />
+              {/* Stats - Human Friendly */}
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ 
+                  fontSize: '10px', 
+                  letterSpacing: '2px', 
+                  opacity: 0.3,
+                  marginBottom: '16px',
+                  fontWeight: '500'
+                }}>
+                  СТАТИСТИКА
+                </div>
+                <StatBar label="Резонанс" value={4850} max={5000} />
+                <StatBar label="Репутация" value={99} max={100} />
+                <StatBar label="Активность" value={92} max={100} />
               </div>
               
               {/* Achievements */}
               <div>
-                <TechLabel style={{ display: 'block', marginBottom: '12px' }}>
-                  ДОСТИЖЕНИЯ [24/24]
-                </TechLabel>
                 <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(5, 1fr)',
-                  gap: '6px'
+                  fontSize: '10px', 
+                  letterSpacing: '2px', 
+                  opacity: 0.3,
+                  marginBottom: '14px',
+                  fontWeight: '500'
                 }}>
-                  {[Shield, Trophy, Zap, Database, LayoutGrid].map((Icon, i) => (
+                  ДОСТИЖЕНИЯ
+                </div>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '8px',
+                  flexWrap: 'wrap'
+                }}>
+                  {[Star, Shield, Trophy, Gift, Target].map((Icon, i) => (
                     <motion.div 
                       key={i}
                       whileHover={{ 
-                        borderColor: 'rgba(0,255,212,0.4)',
-                        boxShadow: '0 0 10px rgba(0,255,212,0.2)'
+                        scale: 1.1,
+                        backgroundColor: 'rgba(255,255,255,0.08)'
                       }}
                       style={{
-                        aspectRatio: '1',
+                        width: '44px',
+                        height: '44px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        background: 'rgba(255,255,255,0.02)',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        borderRadius: '12px',
                         cursor: 'pointer',
-                        transition: 'all 0.2s ease',
                       }}
                     >
-                      <Icon size={14} strokeWidth={1} style={{ opacity: 0.5 }} />
+                      <Icon size={18} strokeWidth={1.5} style={{ opacity: 0.5 }} />
                     </motion.div>
                   ))}
+                </div>
+                <div style={{ 
+                  fontSize: '11px', 
+                  opacity: 0.3, 
+                  marginTop: '12px',
+                }}>
+                  24 из 24 получено
                 </div>
               </div>
               
               {/* Spacer */}
               <div style={{ flex: 1 }} />
               
-              {/* Disconnect */}
+              {/* Logout */}
               <motion.button
                 onClick={() => { logout(); onClose(); }}
-                whileHover={{ 
-                  backgroundColor: 'rgba(255,50,50,0.1)',
-                  borderColor: 'rgba(255,50,50,0.3)'
-                }}
+                whileHover={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
                 style={{
-                  padding: '12px',
+                  padding: '14px',
                   background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  color: 'rgba(255,255,255,0.35)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: '14px',
+                  color: 'rgba(255,255,255,0.4)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '10px',
                   cursor: 'pointer',
-                  fontSize: '10px',
-                  letterSpacing: '2px',
-                  fontFamily: 'monospace',
-                  transition: 'all 0.2s ease',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  letterSpacing: '0.5px',
                 }}
               >
-                <Eye size={14} strokeWidth={1} />
-                ОТКЛЮЧИТЬСЯ
+                Выйти
               </motion.button>
             </div>
             
@@ -606,7 +534,7 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                 RIGHT PANEL: OPERATIONS
                 ========================================== */}
             <div style={{
-              padding: '50px 35px',
+              padding: '48px 40px',
               display: 'flex',
               flexDirection: 'column',
             }}>
@@ -615,80 +543,85 @@ export const NeuralHub = ({ isOpen, onClose, triggerRef }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: '28px',
+                marginBottom: '32px',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Cpu size={14} strokeWidth={1} style={{ opacity: 0.5, color: '#00FFD4' }} />
-                  <TechLabel style={{ fontSize: '10px' }} glow>ОПЕРАЦИИ</TechLabel>
+                <div style={{ 
+                  fontSize: '10px', 
+                  letterSpacing: '2px', 
+                  opacity: 0.3,
+                  fontWeight: '500'
+                }}>
+                  БЫСТРЫЕ ДЕЙСТВИЯ
                 </div>
                 <motion.button
                   onClick={onClose}
-                  whileHover={{ 
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    borderColor: 'rgba(255,255,255,0.2)'
-                  }}
+                  whileHover={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
                   style={{
-                    background: 'transparent',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    width: '36px',
-                    height: '36px',
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    borderRadius: '12px',
+                    width: '40px',
+                    height: '40px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
                     color: 'white',
                     opacity: 0.5,
-                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <X size={16} strokeWidth={1} />
+                  <X size={18} strokeWidth={1.5} />
                 </motion.button>
               </div>
               
-              {/* BENTO GRID */}
+              {/* Action Cards */}
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '1fr 1fr', 
+                gap: '12px',
+                marginBottom: '28px'
+              }}>
+                <ActionCard 
+                  icon={Gift}
+                  title="Забрать награды"
+                  subtitle="3 новых предмета"
+                  onClick={() => handleNavigate('/rewards')}
+                  isNew={true}
+                />
+                <ActionCard 
+                  icon={Target}
+                  title="Ежедневные задания"
+                  subtitle="2 из 5 выполнено"
+                  onClick={() => handleNavigate('/daily')}
+                />
+              </div>
+              
+              {/* Navigation Label */}
+              <div style={{ 
+                fontSize: '10px', 
+                letterSpacing: '2px', 
+                opacity: 0.3,
+                marginBottom: '16px',
+                fontWeight: '500'
+              }}>
+                НАВИГАЦИЯ
+              </div>
+              
+              {/* Navigation Grid */}
               <div style={{ 
                 display: 'grid', 
                 gridTemplateColumns: 'repeat(4, 1fr)', 
-                gap: '3px',
-                flex: 1,
+                gap: '12px',
+                flex: 1
               }}>
-                <NavBlock 
-                  icon={Gift}
-                  label="ЗАБРАТЬ НАГРАДЫ"
-                  sublabel="3 предмета · DecryptionCube"
-                  onClick={() => handleNavigate('/rewards')}
-                  isActive={true}
-                  badge="NEW"
-                  wide
-                />
-                <NavBlock 
-                  icon={Target}
-                  label="ДЕЙЛИ ЛОГ"
-                  sublabel="2/5 выполнено"
-                  onClick={() => handleNavigate('/daily')}
-                  wide
-                />
-                
-                <NavBlock icon={User} label="ДОСЬЕ" onClick={() => handleNavigate('/profile')} />
-                <NavBlock icon={Bell} label="СИГНАЛЫ" badge="3" onClick={() => handleNavigate('/notifications')} />
-                <NavBlock icon={Mail} label="ПОЧТА" onClick={() => handleNavigate('/chat')} />
-                <NavBlock icon={Package} label="ИНВЕНТАРЬ" onClick={() => handleNavigate('/inventory')} />
-                <NavBlock icon={Trophy} label="РЕЙТИНГ" onClick={() => handleNavigate('/rating')} />
-                <NavBlock icon={Wallet} label="БАЛАНС" onClick={() => handleNavigate('/wallet')} />
-                <NavBlock icon={Shield} label="ДОВЕРИЕ" onClick={() => handleNavigate('/trust')} />
-                <NavBlock icon={Settings} label="СИСТЕМА" onClick={() => handleNavigate('/settings')} />
-              </div>
-              
-              {/* Footer */}
-              <div style={{
-                marginTop: '24px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-                <TechLabel>SESSION: 0x7F2A...9B3C</TechLabel>
-                <TechLabel glow>LATENCY: 12ms</TechLabel>
-                <TechLabel>REGION: EU-WEST</TechLabel>
+                <NavTile icon={User} label="Профиль" onClick={() => handleNavigate('/profile')} />
+                <NavTile icon={Bell} label="Уведомления" badge="3" onClick={() => handleNavigate('/notifications')} />
+                <NavTile icon={Mail} label="Сообщения" onClick={() => handleNavigate('/chat')} />
+                <NavTile icon={Package} label="Инвентарь" onClick={() => handleNavigate('/inventory')} />
+                <NavTile icon={Trophy} label="Рейтинг" onClick={() => handleNavigate('/rating')} />
+                <NavTile icon={Wallet} label="Баланс" onClick={() => handleNavigate('/wallet')} />
+                <NavTile icon={Shield} label="Доверие" onClick={() => handleNavigate('/trust')} />
+                <NavTile icon={Settings} label="Настройки" onClick={() => handleNavigate('/settings')} />
               </div>
             </div>
           </motion.div>
