@@ -43,9 +43,10 @@ const MindDashboard = React.lazy(() => import('./components/admin/MindDashboard'
 const SystemDemo = React.lazy(() => import('./components/demo/SystemDemo'));
 
 // Community / Social Core
-const CommunityHub = React.lazy(() => import('./pages/community/CommunityHub'));
-const NetworkPage = React.lazy(() => import('./pages/community/NetworkPage'));
-const ConsensusPage = React.lazy(() => import('./pages/community/ConsensusPage'));
+// Legacy pages removed - redirects in place
+// const CommunityHub = React.lazy(() => import('./pages/community/CommunityHub'));
+// const NetworkPage = React.lazy(() => import('./pages/community/NetworkPage'));
+// const ConsensusPage = React.lazy(() => import('./pages/community/ConsensusPage'));
 
 // New Social Engine Pages
 const CommunityPage = React.lazy(() => import('./components/CommunityPage'));
