@@ -252,7 +252,7 @@ const DotKoi = ({ mouseX, mouseY }) => {
           width={dot.size}
           height={dot.size}
           fill={dot.isEye ? '#333' : 'white'}
-          opacity={dot.isEye ? 0.8 : 0.15}
+          opacity={dot.isEye ? 0.8 : 0.2}
         />
       ))}
     </motion.svg>
@@ -328,7 +328,7 @@ const DotButterfly = ({ x, y, mouseX, mouseY }) => {
             width={dot.size}
             height={dot.size}
             fill="white"
-            opacity={dot.isBody ? 0.2 : 0.12}
+            opacity={dot.isBody ? 0.25 : 0.18}
           />
         ))}
       </g>
