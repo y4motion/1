@@ -1727,7 +1727,7 @@ SECRET_KEY=your_jwt_secret_key_here
 
 **Frontend (.env):**
 ```
-REACT_APP_BACKEND_URL=https://tech-aura.preview.emergentagent.com/api
+REACT_APP_BACKEND_URL=https://system-convergence.preview.emergentagent.com/api
 ```
 
 ### C. Запуск проекта

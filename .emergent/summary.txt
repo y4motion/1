@@ -1,75 +1,82 @@
-<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website called Ghost Protocol. The development has radically evolved from building a simple profile page to creating a full-fledged immersive user experience.
+<analysis>**original_problem_statement:** The user's goal is to build a hyper-stylized, atmospheric website called Ghost Protocol. The project has rapidly evolved through a series of ambitious, user-driven directives.
 
-The user rejected the initial Operator Dossier profile, demanding a more ambitious, game-like Digital Shrine. This led to the agent receiving and integrating complete, user-provided code for two major components:
-1.  ****: An immersive, full-screen profile overlay with a User Aura system, a Battlestation cover image, a giant overlapping avatar, and a multi-column layout for stats, feed, and inventory. This component was iteratively refined three times based on increasingly detailed user prompts.
-2.  ****: A unified, full-screen communication hub, similar to Discord or Telegram Web, designed to centralize all messaging functions within the application.
+Initial work focused on creating immersive profile () and messaging () experiences from user-provided code. This was followed by a GLOBAL UNBOXING refactor to make the entire application layout full-width.
 
-The latest and current request is a **GLOBAL UNBOXING**—a site-wide refactor to remove all fixed-width containers () and make every page layout fully immersive and full-width, like a desktop application.
+Subsequent requests included:
+1.  A Holographic Comms Link redesign for .
+2.  Implementing a synchronized, multi-level chat system between a mini-chat bar () and the full-screen messenger.
+3.  Building two new, feature-rich pages from scratch:  (The Neural Feed) for social content and  for community voting.
+4.  A full audit of all project systems, which uncovered a hidden, unintegrated RPG system and several deprecated components.
+
+The current and most recent directive is **SYSTEM CONVERGENCE,** which focuses on integrating the discovered RPG mechanics into the user profile and cleaning up the codebase by deleting obsolete files. The user has explicitly forbidden any changes to the Marketplace components for now.
 
 **User's preferred language**: Русский (Russian)
 
 **what currently exists?**
-- A React/FastAPI/MongoDB full-stack application.
-- : A complex, animated background providing a techwear aesthetic.
-- : A bento-grid dashboard.
-- : The main menu, now refactored to act as a launcher for the new  and  components.
-- : A new, user-designed, near-full-screen immersive profile component.
-- : A new, user-designed, full-screen unified messaging hub.
-- All interactive components are driven by extensive mock data hardcoded into them.
+- A full-stack application (React/FastAPI/MongoDB) with a completely full-width, immersive layout.
+- : An immersive user profile page.
+- : A globally-managed, holographic-style, full-screen messenger with a hierarchical structure for different chat types.
+- : The active, floating mini-chat bar that can expand into the full .
+-  (): A complex social feed page with a Masonry layout.
+-  (): A complex page for community voting on features and bug reports.
+- : A detailed audit document of all components, routes, and systems.
+- An unintegrated RPG system (, ) discovered during the audit.
+- All UI is driven by extensive mock data.
 
 **Last working item**:
-- **Last item agent was working:** The agent was executing the **GLOBAL UNBOXING** task. The user commanded a site-wide removal of all fixed-width containers (e.g., , ) to make the layout of all major pages (, , , ) full-width and immersive. The agent had identified the relevant page files and was about to begin the refactoring process.
+- **Last item agent was working:** The agent was executing the **SYSTEM CONVERGENCE** task. This task has two parts:
+    1.  **RPG Integration:** Integrating the visual logic from  (3D rotating class artifacts) and  (dynamic Trust Score aura with glitch effects) into the main user profile, .
+    2.  **Code Cleanup:** Deleting four specific deprecated or duplicate files.
 - **Status:** IN PROGRESS
 - **Agent Testing Done:** N
-- **Which testing method agent to use?** This is a large-scale UI refactor. After editing the files, the agent should use the  on each modified page (, , , ) to verify the layout has been unboxed. Following that, a comprehensive frontend regression test using  is recommended to catch any unexpected layout breaks.
+- **Which testing method agent to use?** Frontend testing. The agent should use the  to view the  page (wherever  is rendered) to verify that the new RPG visuals (3D artifact, Trust Score aura) are correctly integrated.
 - **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
-- **Issue 1: Complete GLOBAL UNBOXING (P0)**
-  - **Description:** This is the current, highest-priority task. The agent must remove fixed-width containers from all major pages to create a full-width, immersive experience.
-  - **Status:** IN PROGRESS
-- **Issue 2:  Overlay Behavior Verification (P1)**
-  - **Description:** The user reported that the  menu was incorrectly remaining open and overlaying the  and  components. The agent implemented a fix to close the hub when these components open. This fix needs explicit user verification.
-  - **Status:** USER VERIFICATION PENDING
-- **Issue 3: Review Widget Animation Verification (P2)**
-  - **Description:** An old task from a previous handoff. The user needs to confirm if the faster animation for the  is satisfactory.
-  - **Status:** USER VERIFICATION PENDING
-- **Issue 4: Video Autoplay in Hero Section (P2)**
+- **Issue 1: Video Autoplay in Hero Section (P2)**
   - **Description:** A known, deferred bug where the background video doesn't autoplay reliably.
   - **Status:** NOT STARTED
-- **Issue 5: Zen Mode Scroll Bug (P2)**
+- **Issue 2: Zen Mode Scroll Bug (P2)**
   - **Description:** An old, deferred bug where scrolling in Zen Mode can reveal hidden elements.
   - **Status:** NOT STARTED
 
 **In progress Task List**:
-- **Task 1: GLOBAL UNBOXING Refactor (P0)**
-  - **Where to resume:** The agent has identified the target files: , , , and . The next step is to use the  tool in parallel to remove , , and  classes, replacing them with  and appropriate side padding (e.g., ).
-  - **What will be achieved:** The application will have a full-width, app-like layout on all pages, fulfilling the user's GLOBAL UNBOXING directive.
+- **Task 1: Complete SYSTEM CONVERGENCE (P0)**
+  - **Where to resume:** The agent has reviewed the source files (, , ). The next step is to modify  to incorporate the JSX and logic for the 3D class artifact and the trust score visualization. Following the integration, the agent must delete the four specified files.
+  - **What will be achieved with this?** The user profile will become more visually rich and dynamic, reflecting the discovered RPG mechanics. The codebase will be cleaner and easier to maintain.
   - **Status:** IN PROGRESS
   - **Should Test frontend/backend/both after fix?** Frontend
 
 **Upcoming and Future Tasks**
 - **Upcoming Tasks:**
-    - **(P1) Implement Monetization Hooks:** Build the system for acquiring and applying profile customizations (themes, effects) mentioned in the Operator Dossier concept.
-    - **(P2) Implement Expandable :** A missed requirement from a previous session.
-    - **(P2) Phase 4: The Evolution (Interactivity):** Implement RPG-like mechanics:  (a lootbox system) and .
+    - **(P0) Finalize Cleanup & Redirects:** After deleting the old social components (, ), create redirects in  from the old routes (, ) to the new ones (, ).
+    - **(P1) Integrate :** Integrate the ready-but-unused  component into  and/or  to fulfill the user's request for system optimization.
+    - **(P1) The Armory (Marketplace Overhaul):** Begin work on the HOLOGRAPHIC SHOWROOM concept for the marketplace. This includes 3D levitating product cards, a Frequency Tuner filter panel, and a Quick View video preview. **Note:** The user has currently frozen work on the marketplace, so this should only be started after explicit user approval.
 - **Future Tasks:**
+    - Implement monetization hooks for profile customizations.
+    - Implement Expandable .
+    - Phase 4: The Evolution (Interactivity) - Implement  (lootbox system) and .
     - AI-powered web crawler for product prices.
     - Modals for creating new Posts and Ideas in the Social Core.
     - Alternate Payment Systems (Tinkoff + Cryptomus).
     - Full Voice & Screen Share capabilities for support chat.
 
 **Completed work in this session**
-- **Created :** Implemented a new immersive profile component from user-provided code.
-- **Iteratively Refactored :** Overwrote and improved the profile component three times based on user feedback, evolving it from a modal window to a full-width immersive page with a giant avatar.
-- **Created :** Implemented a unified, full-screen messaging hub from user-provided code.
-- **Integrated New Components:** Refactored  to launch  and , removing the old, basic Profile and Messages panels entirely.
-- **Fixed Menu Overlay Bug:** Corrected an issue where  would not close when opening the new full-screen profile or messenger components.
-- **Added Global CSS utility:** Added a  class to .
+- **GLOBAL UNBOXING:** Refactored the entire application to use a full-width layout, removing all fixed-width containers.
+- **GhostMessenger Redesign & Integration:**
+  - Redesigned the messenger into a Holographic Comms Link with a glass aesthetic.
+  - Re-architected the chat system by making  a global component in .
+  - Added an Expand button to the  mini-bar to open the full messenger.
+  - Implemented a hierarchical дом с комнатами (house with rooms) structure within  to categorize chats (Trade, Guilds, Global, Support).
+- **New Core Pages Created:**
+  - ** ():** A sophisticated social feed with a Masonry layout, complex interactions (Resonance, Echoes, Awards), and algorithmic tabs.
+  - ** ():** A community governance hub for voting on features, reporting bugs, and viewing a leaderboard.
+- **System Audit:**
+  - Performed a complete codebase audit and created .
+  - Discovered and documented a hidden RPG system (Classes & Trust Score visuals) and identified several deprecated/duplicate components.
 
 **Earlier issues found/mentioned but not fixed**
-- **Video Autoplay Issue:** The hero video often fails to load/play in the test environment.
-- **Zen Mode Scroll Bug:** Scrolling down the page in Zen Mode might reveal elements that are supposed to be hidden.
+- **Duplicate Social Routes:** The new social pages (, ) have been created, but the old routes (, ) still exist and need to be redirected.
 
 **Known issue recurrence from previous fork**
 - None.
@@ -78,58 +85,71 @@ The latest and current request is a **GLOBAL UNBOXING**—a site-wide refactor t
 
 
 **Key Technical Concepts**
-- **User-Provided Code Integration:** The agent's primary role shifted to integrating large, complex, and complete React components provided directly by the user.
-- **State Management for Overlays:** Using  to manage the visibility of multiple full-screen overlay components (, ) and coordinating their state with the parent menu () to ensure proper opening/closing behavior.
-- **Rapid Iterative Refinement:** The  component was completely redesigned three times in a single session based on highly prescriptive user feedback, demonstrating a workflow of rapid, user-directed evolution.
-- **Global Layout Refactoring:** The current task involves a site-wide architectural change to layout principles, moving from a conventional boxed web layout to a full-width, immersive application design.
+- **Global State via Custom Events:** Using  to trigger actions (like opening the global messenger) from decoupled components.
+- **System Auditing & Discovery:** Proactively analyzing the codebase to map all systems, which led to the discovery of unintegrated RPG features and technical debt.
+- **Complex UI from Prompts:** Rapidly building data-rich, functionally complex pages (, ) based on detailed user directives.
+- **Component Consolidation:** The process of identifying duplicate functionality ( vs. ) and centralizing logic ( becoming a global component).
 
 **key DB schema**
-- No changes were made to the database schema.
+- No changes made.
 
 **changes in tech stack**
 - None.
 
 **All files of reference**
-- : Created and overwritten multiple times. The core of the new profile experience.
-- : Created to serve as the unified chat hub.
-- : Heavily modified to integrate the new components and remove the old inline panels.
-- : Modified to add utility classes.
-- : Identified for the GLOBAL UNBOXING refactor.
-- : Identified for the GLOBAL UNBOXING refactor.
-- : Identified for the GLOBAL UNBOXING refactor.
-- : Identified for the GLOBAL UNBOXING refactor.
+- **Created/Updated:**
+  - : New social feed page.
+  - : New governance/voting page.
+  - : Full audit of all project systems.
+  - : Completely redesigned and restructured.
+  - : Modified to be the primary mini-chat and open the global messenger.
+  - : Updated with new routes and the global  wrapper.
+  - , , : Files involved in the current SYSTEM CONVERGENCE task.
+- **To be Deleted:**
+  - 
+  - 
+  - 
+  - 
 
 **Areas that need refactoring**:
-- The main technical debt is the boxed layout, which is currently being addressed by the GLOBAL UNBOXING task.
+- Implement redirects in  for deprecated social routes.
+- Integrate the unused  into the chat system.
+- The files marked for deletion need to be removed to clean the codebase.
 
 **key api endpoints**
 - No new API endpoints were created.
 
 **Critical Info for New Agent**
-- **You MUST respond in Russian.** The user provides highly detailed, prescriptive feedback in Russian.
-- **Your immediate task is the GLOBAL UNBOXING.** You must continue the work of removing all fixed-width containers (, ) from all major pages. The goal is a 100% width, immersive application layout.
-- **The user provides the code.** The user's vision is extremely specific. Expect to receive complete, complex React components to integrate, rather than designing them from scratch. Your job is to wire them up correctly.
-- **The Immersive App principle is law.** Avoid boxed layouts at all costs. All new UI must be designed to feel like a full-screen application (e.g., Photoshop, a game UI), not a traditional website.
-- After implementing the GLOBAL UNBOXING, you must take screenshots of each affected page to prove to the user that the layout has been expanded wall-to-wall.
+- **You MUST respond in Russian (Русский).** The user is highly communicative and provides detailed prompts in this language.
+- Your immediate task is **SYSTEM CONVERGENCE**:
+  1.  Integrate the RPG visuals from  and  into .
+  2.  Delete the four specified deprecated/duplicate files.
+- **DO NOT TOUCH THE MARKETPLACE.** The user has explicitly frozen any changes to  and related components. Await a direct command before proceeding with the Armory task.
+- The project contains a significant, unintegrated RPG system (Classes, Trust Score visuals) detailed in . Your current task is the first step in bringing it to life.
 
 **documents and test reports created in this job**
-- None.
+- : A comprehensive map of all components, systems, routes, and their relationships, including deprecated and unintegrated features.
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. **User:** Rejects the Operator Dossier, calling it a boring Web 2.0 admin panel. Provides a detailed prompt and complete code for a new  with a Triptych layout and Aura system.
-9.  **Agent:** Acknowledges and creates the new .
-8.  **User:** Sees the first version of  and criticizes it for being a character card floating in a void. Demands an IMMERSIVE PROFILE that is full-width (95vw) with a huge cover image and overlapping avatar. Provides a complete, rewritten code for .
-7.  **Agent:** Acknowledges and overwrites  with the new code.
-6.  **User:** Sees the second version and again criticizes the container disease. Demands a truly full-width profile (98vw), a GIGANTIC avatar (256px), and introduces a new architecture for a unified . Provides complete code for BOTH fixed components.
-5.  **Agent:** Acknowledges, overwrites  again, and creates .
-4.  **User:** Points out a bug: the main  menu stays open and overlays the new components.
-3.  **Agent:** Fixes the bug by making the  close when  or  open. Shows screenshots of both components working correctly.
-2.  **User:** Praises the fix but identifies a systemic problem: the entire site uses restrictive containers (). Issues a GLOBAL UNBOXING command to make all pages full-width.
-1.  **Agent:** Acknowledges the GLOBAL UNBOXING command and begins locating the files to be refactored. (Current state)
+10. **User:** Requests a complete audit of all project mechanics, features, and systems to get a full picture.
+9.  **Agent:** Scans the entire codebase, listing all components and files.
+8.  **Agent:** Creates  with a structured overview of all systems.
+7.  **User:** Asks the agent to investigate the components marked with UNKNOWN status in the audit.
+6.  **Agent:** Investigates the unknown components, discovering they are part of a hidden RPG system and are used in a demo page. Updates .
+5.  **User:** Provides the final SYSTEM CONVERGENCE prompt.
+    - **Goal:** Integrate the discovered RPG system and clean up obsolete files.
+    - **Task 1 (Merge):** Integrate  and  into .
+    - **Task 2 (Destroy):** Delete , , , and .
+    - **Crucial Constraint:** Explicitly forbids touching the Marketplace ().
+4.  **Agent:** Acknowledges the SYSTEM CONVERGENCE task and begins by reviewing the relevant files for integration. (Current state)
 
 **Project Health Check:**
-- **Broken:** The hero section background video often fails to autoplay.
-- **Mocked:** The entire UI, including the  dashboard,  profile, and  chat, is driven by static, hardcoded mock data within the components. No data is fetched from the backend.
+- **Broken:** The background video in the hero section often fails to autoplay.
+- **Mocked:** The entire application's data is hardcoded in the frontend components. No backend data is being fetched.
+- **Technical Debt:**
+  - Four components are marked for deletion.
+  - Old social page routes need to be redirected.
+  - An unintegrated component () exists.
 
 **3rd Party Integrations**
 - 
@@ -143,10 +163,11 @@ The latest and current request is a **GLOBAL UNBOXING**—a site-wide refactor t
 - **Testing agent used after significant changes:** NO
 - **Troubleshoot agent used after agent stuck in loop:** NO
 - **Test files created:** None
-- **Known regressions:** None identified.
+- **Known regressions:** None.
 
 **Credentials to test flow:**
 - N/A
 
 **What agent forgot to execute**
-- All older, lower-priority tasks (e.g.,  animation verification) were correctly deprioritized in favor of the user's high-urgency, iterative design commands. No tasks were forgotten; they were superseded.</analysis>
+- After creating the new social pages (, ), the agent did not implement redirects from the old, now-deprecated routes. This is a pending cleanup task.
+- The user's broader request for optimization implies integrating the identified , which has not yet been started.</analysis>
