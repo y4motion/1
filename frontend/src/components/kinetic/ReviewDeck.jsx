@@ -202,7 +202,7 @@ export const ReviewDeck = ({ reviews = MOCK_REVIEWS, products = MOCK_PRODUCTS, c
         data-testid="review-deck"
         onClick={handleWidgetClick}
         style={{ cursor: 'pointer' }}
-        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
       >
         {/* Header */}
         <div className="deck-header">
