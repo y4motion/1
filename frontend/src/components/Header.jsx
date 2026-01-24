@@ -139,17 +139,6 @@ const Header = () => {
         }
       }
 
-      // For LVL menu: check if click is outside both the button and the menu
-      if (showLVLMenu) {
-        const lvlMenuElement = document.querySelector('[data-lvl-menu="true"]');
-        const isClickInsideButton = lvlMenuRef.current && lvlMenuRef.current.contains(event.target);
-        const isClickInsideMenu = lvlMenuElement && lvlMenuElement.contains(event.target);
-
-        if (!isClickInsideButton && !isClickInsideMenu) {
-          setShowLVLMenu(false);
-        }
-      }
-
       // For user menu: similar logic
       if (showUserMenu) {
         const userMenuElement = document.querySelector('[data-user-menu="true"]');
@@ -167,7 +156,7 @@ const Header = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showLVLMenu, showUserMenu, showSettingsMenu]);
+  }, [showUserMenu, showSettingsMenu]);
 
   return (
     <>
